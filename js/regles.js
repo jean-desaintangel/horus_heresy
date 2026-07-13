@@ -464,6 +464,45 @@ const REGLES_DIVERSES = [
       "Une unité entièrement composée de figurines avec cette règle gagne un bonus de X pouces en Foncer, et de X au Jet de Charge.",
     exemple: "Des guerriers véloces qui couvrent le terrain plus vite que les autres.",
   },
+  {
+    nom: "Bouclier d'Abordage",
+    texte:
+      "Confère une Sauvegarde Invulnérable de 5+, le Trait Bouclier et le Sous-type Lourd.",
+    exemple:
+      "Une ligne de boucliers d'abordage forme un mur presque impénétrable en Zone Mortalis.",
+  },
+  {
+    nom: "Bouclier de Combat",
+    texte:
+      "Confère une Sauvegarde Invulnérable de 5+ contre les attaques de mêlée, et un bonus de +1 au Jet de Concentration en Défi.",
+    exemple:
+      "Pratique pour un champion qui aime les Défis : la sauvegarde encaisse les coups, le bonus aide à gagner l'Avantage.",
+  },
+  {
+    nom: "Champ de Diffraction Thermique",
+    texte:
+      "Réduit de 1 la Force de toute touche infligée par une arme ayant le trait Laser, Plasma, Fusion ou Flammes.",
+    exemple: "Un bouclier thermique dilue l'impact des armes à énergie les plus courantes.",
+  },
+  {
+    nom: "Cognis-signum",
+    texte:
+      "Au lieu de tirer, la figurine peut tenter un test d'Intelligence pour désigner une unité ennemie visible : la prochaine attaque de tir de la phase utilisant une arme Barrage (X) contre cette cible touche normalement, même sans ligne de vue.",
+    exemple:
+      "Un porteur de cognis-signum guide les tirs indirects de ses camarades avec une précision inégalée.",
+  },
+  {
+    nom: "Contrôleur de Cortex",
+    texte:
+      "Permet aux figurines de Type Automate de l'unité de déclarer des Réactions, ce qui leur est normalement interdit.",
+    exemple:
+      "Un opérateur relié directement à ses machines peut leur faire réagir à temps, comme s'il pensait à leur place.",
+  },
+  {
+    nom: "Cyber-familier",
+    texte: "Bonus de −2 au résultat des Tests d'Intelligence de la figurine.",
+    exemple: "Un servo-crâne chuchote des informations tactiques à l'oreille de son maître.",
+  },
 ];
 
 /* ----------------------------------------------------------
