@@ -22,47 +22,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     2. ACCORDÉONS (Cases Principales, etc.)
-     Chaque .accordeon-titre ouvre/ferme le .accordeon-contenu
-     qui le suit. On anime avec max-height.
+     2. PANNEAUX DÉPLIABLES (Accordéon + Timeline)
+
+     Les Cases Principales (armee.html) et la Timeline des phases
+     (tour.html) sont deux habillages différents du même
+     comportement : un bouton-titre qui révèle un bloc de contenu
+     en dessous de lui. On factorise donc la logique une seule
+     fois ci-dessous, et on l'applique aux deux composants avec
+     des sélecteurs différents plutôt que de dupliquer le code.
+
+     Technique d'ouverture : le CSS ne peut pas animer une
+     transition vers "height: auto", donc on anime "max-height"
+     à la place (voir css/style.css). Il faut alors une valeur en
+     pixels à viser : contenu.scrollHeight donne la hauteur réelle
+     du contenu, qu'on écrit directement dans le style de l'élément.
      ---------------------------------------------------------- */
-  document.querySelectorAll(".accordeon-titre").forEach((bouton) => {
-    bouton.addEventListener("click", () => {
-      const item = bouton.closest(".accordeon-item");
-      const contenu = item.querySelector(".accordeon-contenu");
-      const dejaOuvert = item.classList.contains("ouvert");
+  function activerPanneauxDepliables(selecteurBouton, selecteurItem, selecteurContenu) {
+    document.querySelectorAll(selecteurBouton).forEach((bouton) => {
+      bouton.addEventListener("click", () => {
+        const item = bouton.closest(selecteurItem);
+        const contenu = item.querySelector(selecteurContenu);
+        const dejaOuvert = item.classList.contains("ouvert");
 
-      if (dejaOuvert) {
-        item.classList.remove("ouvert");
-        contenu.style.maxHeight = null; // referme (max-height: 0 via CSS)
-      } else {
-        item.classList.add("ouvert");
-        // scrollHeight = hauteur réelle du contenu -> animation fluide
-        contenu.style.maxHeight = contenu.scrollHeight + "px";
-      }
-      bouton.setAttribute("aria-expanded", !dejaOuvert);
+        if (dejaOuvert) {
+          item.classList.remove("ouvert");
+          contenu.style.maxHeight = null; // referme (max-height: 0 via CSS)
+        } else {
+          item.classList.add("ouvert");
+          contenu.style.maxHeight = contenu.scrollHeight + "px";
+        }
+        bouton.setAttribute("aria-expanded", !dejaOuvert);
+      });
     });
-  });
+  }
 
-  /* ----------------------------------------------------------
-     3. TIMELINE INTERACTIVE (page tour.html)
-     Même principe que l'accordéon : clic sur le titre d'une
-     phase -> affichage des détails.
-     ---------------------------------------------------------- */
-  document.querySelectorAll(".timeline-titre").forEach((bouton) => {
-    bouton.addEventListener("click", () => {
-      const item = bouton.closest(".timeline-item");
-      const details = item.querySelector(".timeline-details");
-      const dejaOuvert = item.classList.contains("ouvert");
+  // Cases Principales (armee.html)
+  activerPanneauxDepliables(".accordeon-titre", ".accordeon-item", ".accordeon-contenu");
 
-      if (dejaOuvert) {
-        item.classList.remove("ouvert");
-        details.style.maxHeight = null;
-      } else {
-        item.classList.add("ouvert");
-        details.style.maxHeight = details.scrollHeight + "px";
-      }
-      bouton.setAttribute("aria-expanded", !dejaOuvert);
-    });
-  });
+  // Timeline des phases (tour.html)
+  activerPanneauxDepliables(".timeline-titre", ".timeline-item", ".timeline-details");
 });

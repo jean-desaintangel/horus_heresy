@@ -222,6 +222,11 @@ function construireTablePositionnement(idConteneur) {
    SURBRILLANCE LIGNE + COLONNE AU SURVOL
    La ligne est gérée en CSS (tr:hover). Pour la colonne,
    on ajoute une classe à toutes les cellules du même index.
+
+   Un seul écouteur par <table> (plutôt qu'un par <td>) suffit :
+   c'est de la "délégation d'événements". evenement.target est la
+   cellule réellement survolée ; .closest("td") la retrouve même
+   si le survol démarre sur un enfant de la cellule.
    ---------------------------------------------------------- */
 function activerSurbrillanceColonnes() {
   document.querySelectorAll("table").forEach((table) => {

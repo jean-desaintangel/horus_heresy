@@ -263,7 +263,12 @@ function afficherRegles(idConteneur, regles) {
    les règles dont le texte ne contient pas la saisie.
    ---------------------------------------------------------- */
 
-/** Retire les accents pour une recherche plus tolérante ("brèche" = "breche"). */
+/**
+ * Retire les accents pour une recherche plus tolérante ("brèche" = "breche").
+ * .normalize("NFD") décompose chaque lettre accentuée en deux caractères
+ * (ex : "è" devient "e" + un accent grave séparé) ; l'expression régulière
+ * supprime ensuite uniquement ces accents désormais isolés.
+ */
 function normaliser(texte) {
   return texte.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 }

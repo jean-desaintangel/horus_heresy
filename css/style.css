@@ -4,7 +4,14 @@
    Palette : parchemin #f4f1e8, bordeaux #8b0000, or #8a6a2c, gris acier #6b6b85
    ============================================================ */
 
-/* ---------- Variables globales ---------- */
+/* ---------- Variables globales ----------
+   Toute la palette et les réglages communs passent par ces
+   variables CSS : pour changer une couleur ou un arrondi sur
+   tout le site, on modifie une seule ligne ici plutôt que de
+   chercher chaque valeur dans le fichier.
+   Convention : le suffixe "-clair" désigne une variante plus
+   claire de la même couleur, utilisée pour les survols (:hover)
+   ou les accents secondaires. */
 :root {
   --noir: #f4f1e8; /* fond principal */
   --noir-fonce: #e8e2d0; /* fond nav / footer */
@@ -28,6 +35,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Cache visuellement un élément sans le retirer du DOM : le
+   texte reste lisible par les lecteurs d'écran (ex : le label
+   de la barre de recherche sur la page Règles spéciales), sans
+   prendre de place à l'affichage. Préférer cette classe à un
+   style en ligne pour garder toute la présentation dans le CSS. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 html {
@@ -67,6 +88,11 @@ img {
 
 /* ============================================================
    NAVIGATION FIXE
+   position: fixed la maintient à l'écran pendant le défilement ;
+   le fond semi-transparent + backdrop-filter donne un effet de
+   verre dépoli au-dessus du contenu qui défile dessous.
+   Le bouton .nav-burger et le repli mobile de .nav-menu sont
+   pilotés par js/main.js (section "MENU BURGER").
    ============================================================ */
 .nav {
   position: fixed;
@@ -270,12 +296,6 @@ strong {
   font-size: 1.1rem;
 }
 
-.hero .separateur {
-  color: var(--bordeaux-clair);
-  font-size: 1.6rem;
-  margin: 1rem 0;
-}
-
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -376,7 +396,10 @@ strong {
   border-width: 2px;
 }
 
-/* Tooltip descriptif */
+/* Tooltip descriptif : caché par défaut (opacity 0 + visibility
+   hidden, pas display:none, pour permettre la transition en
+   fondu) et révélé uniquement par les sélecteurs :hover/:focus
+   ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet. */
 .orga-boite .tooltip {
   visibility: hidden;
   opacity: 0;
@@ -425,8 +448,13 @@ strong {
 
 /* ============================================================
    TABLEAUX (rôles tactiques + tables de référence)
+   Les tables de tables.html sont générées par js/tables.js à
+   partir de tableaux JS (voir TABLE_CC, TABLE_BLESSURE...) : ce
+   fichier ne définit que leur apparence.
    ============================================================ */
 .table-scroll {
+  /* Empêche un tableau large de casser la mise en page sur
+     mobile : lui seul défile horizontalement, jamais la page. */
   overflow-x: auto;
   margin: 1rem 0;
 }
@@ -468,7 +496,12 @@ th.gauche {
   text-align: left;
 }
 
-/* Surbrillance ligne + colonne (la colonne est gérée en JS) */
+/* Surbrillance au survol d'une case des tables de référence.
+   La LIGNE est surlignée en CSS pur (tr:hover ne coûte rien).
+   La COLONNE ne peut pas se faire en CSS seul (il n'existe pas
+   de sélecteur "même index de colonne que la case survolée") :
+   js/tables.js écoute mouseover/mouseout et ajoute/retire les
+   classes .colonne-active et .case-active ci-dessous à la main. */
 tbody tr:hover td {
   background: rgba(139, 0, 0, 0.25);
 }
@@ -491,6 +524,10 @@ td.impossible {
 
 /* ============================================================
    ACCORDÉON (Cases Principales)
+   Le CSS gère uniquement l'apparence ouverte/fermée via la
+   classe .ouvert ; c'est js/main.js qui bascule cette classe au
+   clic et calcule la hauteur à ouvrir (voir la note sur
+   .accordeon-contenu juste en dessous).
    ============================================================ */
 .accordeon {
   border: 1px solid var(--acier);
@@ -531,6 +568,12 @@ td.impossible {
   transform: rotate(90deg);
 }
 
+/* Technique d'ouverture animée sans JS de mise en page :
+   height:auto ne peut pas être transitionné en CSS, donc on
+   anime max-height à la place. Il faut néanmoins connaître une
+   valeur en pixels à atteindre : c'est pour ça que main.js lit
+   contenu.scrollHeight (la hauteur réelle du contenu) et l'écrit
+   directement en style.maxHeight au moment de l'ouverture. */
 .accordeon-contenu {
   max-height: 0;
   overflow: hidden;
@@ -553,6 +596,10 @@ td.impossible {
 
 /* ============================================================
    TIMELINE VERTICALE (page tour)
+   Même principe d'ouverture/fermeture que l'Accordéon ci-dessus
+   (classe .ouvert + animation max-height), rejoué ici avec les
+   noms .timeline-item/.timeline-titre/.timeline-details : les
+   deux composants partagent la même fonction JS dans main.js.
    ============================================================ */
 .timeline {
   position: relative;
@@ -633,7 +680,17 @@ td.impossible {
   font-size: 0.95rem;
 }
 
-/* Étapes numérotées (séquence de tir) */
+/* Étapes numérotées (séquences de tir, de charge, de résolution...)
+   On désactive la numérotation native de <ol> (list-style: none)
+   pour dessiner nous-mêmes un rond numéroté via ::before, plus
+   proche de la maquette. Le numéro vient d'un compteur CSS :
+   counter-reset l'initialise à 0 sur le <ol>, et chaque <li>
+   l'incrémente puis l'affiche avec content: counter(etape).
+   Attention : counter-reset est posé sur la classe .etapes, donc
+   CHAQUE <ol class="etapes"> repart de 1 — deux listes d'étapes
+   sur une même page ne se suivent jamais automatiquement (l'attribut
+   HTML start="4" n'aurait aucun effet ici, puisque l'affichage
+   du numéro dépend du compteur CSS et non de l'ordre natif de <li>). */
 .etapes {
   list-style: none;
   margin-left: 0;
