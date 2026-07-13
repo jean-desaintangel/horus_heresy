@@ -56,6 +56,15 @@ html {
   scroll-padding-top: 90px;
 }
 
+@media (max-width: 760px) {
+  html {
+    /* Le menu replié rend la nav plus basse : moins d'espace à réserver
+       pour qu'un lien d'ancrage (#foncer, #reactions...) ne s'arrête pas
+       sous la barre fixe. */
+    scroll-padding-top: 70px;
+  }
+}
+
 body {
   font-family: "Lato", sans-serif;
   background: var(--noir);
@@ -180,7 +189,13 @@ img {
 /* ---------- Nav mobile ---------- */
 @media (max-width: 760px) {
   .nav-burger {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Cible tactile confortable (~44px) même si le glyphe ☰ est petit */
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
   }
   .nav-logo {
     font-size: 0.85rem;
@@ -195,6 +210,11 @@ img {
   .nav-menu.ouvert {
     display: flex;
   }
+  .nav-menu a {
+    /* Liens empilés en pleine largeur : autant agrandir la zone de tap */
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+  }
 }
 
 /* ============================================================
@@ -204,6 +224,14 @@ main {
   max-width: 1100px;
   margin: 0 auto;
   padding: 130px 1rem 3rem; /* espace pour la nav fixe (2 lignes) */
+}
+
+@media (max-width: 760px) {
+  main {
+    /* Menu replié = nav sur une seule ligne : inutile de réserver
+       autant de place qu'en version bureau (2 lignes toujours visibles). */
+    padding-top: 70px;
+  }
 }
 
 section {
@@ -457,6 +485,9 @@ strong {
      mobile : lui seul défile horizontalement, jamais la page. */
   overflow-x: auto;
   margin: 1rem 0;
+  /* -webkit-overflow-scrolling: touch aide encore certains anciens
+     navigateurs mobiles à défiler ce conteneur au doigt sans à-coups. */
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
@@ -466,6 +497,34 @@ table {
   background: var(--carte);
   border-radius: var(--radius);
   overflow: hidden;
+}
+
+/* Grandes matrices (CC, Blessure, CT) : la première colonne (l'en-tête de
+   ligne) reste figée au défilement horizontal, pour garder le repère
+   (ex : "Attaquant CC 8") visible même après avoir fait défiler la table
+   vers les colonnes de droite sur un petit écran. */
+.table-matrice {
+  /* table{overflow:hidden} (règle générique, pour les coins arrondis)
+     crée son propre contexte de clipping entre la case et .table-scroll :
+     ça empêche "position: sticky" de fonctionner sur th:first-child
+     ci-dessous. On accepte de perdre l'arrondi du coin sur ces tables
+     pour que la colonne figée fonctionne réellement au défilement. */
+  overflow: visible;
+}
+
+.table-matrice th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Les cases de ces tables réagissent au tap (voir js/tables.js) :
+   curseur adapté et suppression du flash bleu natif d'iOS/Android
+   au profit de notre propre surbrillance .case-active. */
+.table-matrice td {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 caption {

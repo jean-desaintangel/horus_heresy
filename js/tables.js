@@ -94,6 +94,7 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
   if (!conteneur) return;
 
   const table = document.createElement("table");
+  table.className = "table-matrice";
 
   // Caption (titre au-dessus de la table)
   const caption = document.createElement("caption");
@@ -148,6 +149,7 @@ function construireTableCT(idConteneur) {
   if (!conteneur) return;
 
   const table = document.createElement("table");
+  table.className = "table-matrice";
 
   const caption = document.createElement("caption");
   caption.textContent = "Jet de touche au tir (selon la CT du tireur)";
@@ -219,38 +221,88 @@ function construireTablePositionnement(idConteneur) {
 }
 
 /* ----------------------------------------------------------
-   SURBRILLANCE LIGNE + COLONNE AU SURVOL
-   La ligne est gérée en CSS (tr:hover). Pour la colonne,
-   on ajoute une classe à toutes les cellules du même index.
+   SURBRILLANCE LIGNE + COLONNE AU SURVOL / AU TOUCHER
+   La ligne est gérée en CSS (tr:hover, souris uniquement). Pour la
+   colonne, on ajoute une classe à toutes les cellules du même index.
 
    Un seul écouteur par <table> (plutôt qu'un par <td>) suffit :
    c'est de la "délégation d'événements". evenement.target est la
    cellule réellement survolée ; .closest("td") la retrouve même
    si le survol démarre sur un enfant de la cellule.
+
+   Sur téléphone il n'existe pas de survol : un écran tactile ne
+   déclenche ni mouseover ni mouseout de façon fiable — mais par
+   compatibilité, un tap déclenche quand même un mouseover juste avant
+   le click. On garde donc, en plus des classes CSS, une référence
+   explicite "celluleFigee" par table : c'est elle (et non l'état des
+   classes, qui peut déjà avoir été posé par ce mouseover fantôme) qui
+   fait foi pour savoir si un tap doit épingler ou désépingler une case.
+   Cela évite qu'un tap sur téléphone n'allume puis n'éteigne aussitôt
+   la surbrillance dans la même série d'événements.
+
+   Résultat : au clic (souris) comme au tap (tactile), la case touchée
+   reste surlignée jusqu'au prochain tap — pratique pour garder un
+   repère pendant qu'on lit le tableau en jouant. Un second tap sur la
+   même case, un tap sur une autre case, ou un tap en dehors du
+   tableau, la désépingle.
    ---------------------------------------------------------- */
+function surlignerColonne(table, cellule) {
+  const index = cellule.cellIndex;
+  table.querySelectorAll("tr").forEach((tr) => {
+    const c = tr.cells[index];
+    if (c) c.classList.add("colonne-active");
+  });
+  cellule.classList.add("case-active");
+}
+
+function effacerSurbrillance(table) {
+  table.querySelectorAll(".colonne-active, .case-active").forEach((c) => {
+    c.classList.remove("colonne-active", "case-active");
+  });
+}
+
 function activerSurbrillanceColonnes() {
+  // table -> cellule épinglée par un clic/tap (absente si aucune).
+  // Stockée en dehors de la boucle pour que le nettoyage "tap en
+  // dehors du tableau" ci-dessous puisse aussi oublier l'épingle,
+  // et pas seulement retirer les classes CSS.
+  const casesEpinglees = new Map();
+
   document.querySelectorAll("table").forEach((table) => {
+    // Aperçu en direct pendant le survol (souris uniquement, ignoré si
+    // une case est déjà épinglée pour ne pas la perturber).
     table.addEventListener("mouseover", (evenement) => {
+      if (casesEpinglees.get(table)) return;
       const cellule = evenement.target.closest("td");
       if (!cellule) return;
-
-      const index = cellule.cellIndex; // position de la colonne
-
-      // Surligne toutes les cellules de cette colonne (corps + en-tête)
-      table.querySelectorAll("tr").forEach((tr) => {
-        const c = tr.cells[index];
-        if (c) c.classList.add("colonne-active");
-      });
-
-      // La cellule exacte (croisement ligne/colonne) est mise en évidence
-      cellule.classList.add("case-active");
+      surlignerColonne(table, cellule);
     });
 
     table.addEventListener("mouseout", () => {
-      // On nettoie tout en quittant la cellule
-      table.querySelectorAll(".colonne-active, .case-active").forEach((c) => {
-        c.classList.remove("colonne-active", "case-active");
-      });
+      if (!casesEpinglees.get(table)) effacerSurbrillance(table);
+    });
+
+    // Souris ET tactile : un clic/tap épingle la surbrillance sur la case
+    table.addEventListener("click", (evenement) => {
+      const cellule = evenement.target.closest("td");
+      if (!cellule) return;
+
+      effacerSurbrillance(table);
+      if (casesEpinglees.get(table) === cellule) {
+        casesEpinglees.delete(table); // même case retouchée : on désépingle
+      } else {
+        casesEpinglees.set(table, cellule);
+        surlignerColonne(table, cellule);
+      }
+    });
+  });
+
+  // Un tap en dehors de toute table désépingle la surbrillance
+  document.addEventListener("click", (evenement) => {
+    if (evenement.target.closest("table")) return;
+    casesEpinglees.clear();
+    document.querySelectorAll(".colonne-active, .case-active").forEach((c) => {
+      c.classList.remove("colonne-active", "case-active");
     });
   });
 }

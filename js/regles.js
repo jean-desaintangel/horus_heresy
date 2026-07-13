@@ -21,8 +21,7 @@ const REGLES_ARMES = [
     nom: "Neutralisation (X)",
     texte:
       "Si l'arme inflige une touche, la cible fait un test de Sang-froid avec un malus de X. En cas d'échec, elle est Neutralisée.",
-    exemple:
-      "Une escouade Neutralisée ne peut plus tirer qu'au jugé.",
+    exemple: "Une escouade Neutralisée ne peut plus tirer qu'au jugé.",
   },
   {
     nom: "Fixation (X)",
@@ -76,7 +75,8 @@ const REGLES_ARMES = [
     nom: "Lacération (X)",
     texte:
       "Si le jet de blessure est supérieur ou égal à X : +1 dégât (sauf sur un jet de pénétration de blindage).",
-    exemple: "Lacération (5) : un jet de blessure de 5 ou 6 inflige un dégât supplémentaire.",
+    exemple:
+      "Lacération (5) : un jet de blessure de 5 ou 6 inflige un dégât supplémentaire.",
   },
   {
     nom: "Lourde (X)",
@@ -142,7 +142,8 @@ const REGLES_ARMES = [
     nom: "Combi",
     texte:
       "L'arme peut tirer avec plusieurs profils en même temps lors de la même Attaque de Tir.",
-    exemple: "Un combi-arme associe un bolter et une arme spéciale sur la même détente.",
+    exemple:
+      "Un combi-arme associe un bolter et une arme spéciale sur la même détente.",
   },
   {
     nom: "Déflagration (X)",
@@ -162,13 +163,15 @@ const REGLES_ARMES = [
     nom: "En Feu (X)",
     texte:
       "Si l'attaque blesse la cible, son unité est « en feu » : elle subit un malus supplémentaire de X à son Commandement pour les tests liés à ce Combat.",
-    exemple: "Une lame incandescente sème une panique durable dans les rangs touchés.",
+    exemple:
+      "Une lame incandescente sème une panique durable dans les rangs touchés.",
   },
   {
     nom: "Explosion (X)",
     texte:
       "Utilise un gabarit pour toucher plusieurs figurines d'un coup, avec un seul jet de touche pour tout le gabarit (à ne pas confondre avec Explose (X), qui décrit une figurine qui explose).",
-    exemple: "Un obus explosif frappe un groupe entier plutôt qu'une seule figurine.",
+    exemple:
+      "Un obus explosif frappe un groupe entier plutôt qu'une seule figurine.",
   },
   {
     nom: "Force (X)",
@@ -179,7 +182,8 @@ const REGLES_ARMES = [
   },
   {
     nom: "Limitée (X)",
-    texte: "L'arme ne peut servir à attaquer que X fois au total sur toute la bataille.",
+    texte:
+      "L'arme ne peut servir à attaquer que X fois au total sur toute la bataille.",
     exemple:
       "Une charge de démolition unique : mieux vaut viser juste, on ne pourra pas la réutiliser.",
   },
@@ -206,7 +210,8 @@ const REGLES_ARMES = [
     nom: "Sélecteur de Tir",
     texte:
       "Au début d'une Attaque de Tir, l'arme peut gagner Panique (1), Brèche (4+) ou Neutralisation (2) jusqu'à la fin de l'attaque.",
-    exemple: "Une arme à munitions interchangeables s'adapte à la cible du moment.",
+    exemple:
+      "Une arme à munitions interchangeables s'adapte à la cible du moment.",
   },
   {
     nom: "Souffle",
@@ -257,7 +262,8 @@ const REGLES_DIVERSES = [
     nom: "Explose (X)",
     texte:
       "Quand la figurine explose, toute unité à 6 pouces subit un nombre de jets de touche égal aux PV de base de la figurine qui explose (Force 8, Dégâts 1).",
-    exemple: "Rester à proximité d'un véhicule détruit expose aux dégâts de son explosion.",
+    exemple:
+      "Rester à proximité d'un véhicule détruit expose aux dégâts de son explosion.",
   },
   {
     nom: "Frappe en profondeur",
@@ -302,7 +308,8 @@ const REGLES_DIVERSES = [
     nom: "Marcheur",
     texte:
       "Tire avec toutes ses armes (sauf Volée). Compte comme ses PV de base pour la résolution de combat.",
-    exemple: "Un Dreadnought tire avec l'ensemble de son armement à chaque activation.",
+    exemple:
+      "Un Dreadnought tire avec l'ensemble de son armement à chaque activation.",
   },
   {
     nom: "Massif (X)",
@@ -367,12 +374,15 @@ const REGLES_DIVERSES = [
     nom: "Fauchage (X)",
     texte:
       "Si la figurine est en infériorité numérique en Combat, elle gagne un bonus de X Attaques.",
-    exemple: "Un guerrier acculé se bat avec une énergie décuplée face au nombre.",
+    exemple:
+      "Un guerrier acculé se bat avec une énergie décuplée face au nombre.",
   },
   {
     nom: "Guerrier Éternel (X)",
-    texte: "Réduit de X les Dégâts de chaque blessure non sauvegardée (minimum 1).",
-    exemple: "Certains guerriers encaissent des coups qui tueraient n'importe qui d'autre.",
+    texte:
+      "Réduit de X les Dégâts de chaque blessure non sauvegardée (minimum 1).",
+    exemple:
+      "Certains guerriers encaissent des coups qui tueraient n'importe qui d'autre.",
   },
   {
     nom: "Guerrier-artisan (X)",
@@ -392,13 +402,15 @@ const REGLES_DIVERSES = [
     nom: "Ligne (X)",
     texte:
       "L'unité contrôle mieux les objectifs : bonus de X Points de Victoire quand elle en contrôle un, et compte plus dans l'Effectif Tactique.",
-    exemple: "Une troupe de ligne, vigilante et fiable, tient durablement le terrain conquis.",
+    exemple:
+      "Une troupe de ligne, vigilante et fiable, tient durablement le terrain conquis.",
   },
   {
     nom: "Médic (X)",
     texte:
       "Détermine la difficulté des Jets de Rétablissement (le nombre à atteindre) pour cette unité, sans en accorder par elle-même.",
-    exemple: "Un apothicaire expérimenté rend les soins de terrain plus fiables.",
+    exemple:
+      "Un apothicaire expérimenté rend les soins de terrain plus fiables.",
   },
   {
     nom: "Négligence",
@@ -429,7 +441,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Protocoles de Tir (X)",
-    texte: "La figurine peut attaquer avec X armes de tir différentes au lieu d'une seule.",
+    texte:
+      "La figurine peut attaquer avec X armes de tir différentes au lieu d'une seule.",
     exemple:
       "Un système de ciblage avancé permet de faire feu avec plusieurs armes à la fois.",
   },
@@ -456,13 +469,15 @@ const REGLES_DIVERSES = [
   {
     nom: "Véhicule d'Assaut Orbital",
     texte: "Doit obligatoirement se déployer en Frappe en profondeur.",
-    exemple: "Un module de largage n'a qu'une utilité : livrer ses troupes depuis l'orbite.",
+    exemple:
+      "Un module de largage n'a qu'une utilité : livrer ses troupes depuis l'orbite.",
   },
   {
     nom: "Vif (X)",
     texte:
       "Une unité entièrement composée de figurines avec cette règle gagne un bonus de X pouces en Foncer, et de X au Jet de Charge.",
-    exemple: "Des guerriers véloces qui couvrent le terrain plus vite que les autres.",
+    exemple:
+      "Des guerriers véloces qui couvrent le terrain plus vite que les autres.",
   },
   {
     nom: "Bouclier d'Abordage",
@@ -482,7 +497,8 @@ const REGLES_DIVERSES = [
     nom: "Champ de Diffraction Thermique",
     texte:
       "Réduit de 1 la Force de toute touche infligée par une arme ayant le trait Laser, Plasma, Fusion ou Flammes.",
-    exemple: "Un bouclier thermique dilue l'impact des armes à énergie les plus courantes.",
+    exemple:
+      "Un bouclier thermique dilue l'impact des armes à énergie les plus courantes.",
   },
   {
     nom: "Cognis-signum",
@@ -501,7 +517,8 @@ const REGLES_DIVERSES = [
   {
     nom: "Cyber-familier",
     texte: "Bonus de −2 au résultat des Tests d'Intelligence de la figurine.",
-    exemple: "Un servo-crâne chuchote des informations tactiques à l'oreille de son maître.",
+    exemple:
+      "Un servo-crâne chuchote des informations tactiques à l'oreille de son maître.",
   },
 ];
 

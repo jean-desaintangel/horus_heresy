@@ -37,7 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
      pixels à viser : contenu.scrollHeight donne la hauteur réelle
      du contenu, qu'on écrit directement dans le style de l'élément.
      ---------------------------------------------------------- */
-  function activerPanneauxDepliables(selecteurBouton, selecteurItem, selecteurContenu) {
+  function activerPanneauxDepliables(
+    selecteurBouton,
+    selecteurItem,
+    selecteurContenu,
+  ) {
     document.querySelectorAll(selecteurBouton).forEach((bouton) => {
       bouton.addEventListener("click", () => {
         const item = bouton.closest(selecteurItem);
@@ -57,8 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Cases Principales (armee.html)
-  activerPanneauxDepliables(".accordeon-titre", ".accordeon-item", ".accordeon-contenu");
+  activerPanneauxDepliables(
+    ".accordeon-titre",
+    ".accordeon-item",
+    ".accordeon-contenu",
+  );
 
   // Timeline des phases (tour.html)
-  activerPanneauxDepliables(".timeline-titre", ".timeline-item", ".timeline-details");
+  activerPanneauxDepliables(
+    ".timeline-titre",
+    ".timeline-item",
+    ".timeline-details",
+  );
 });
