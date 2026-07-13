@@ -32,14 +32,14 @@
           ☰
         </button>
         <ul class="nav-menu">
-          <li><a href="pages/armee.html">Construction d’armée</a></li>
-          <li><a href="pages/tour.html">Déroulement d’un tour</a></li>
-          <li><a href="pages/mouvement.html">Mouvement</a></li>
-          <li><a href="pages/tir.html">Tir</a></li>
-          <li><a href="pages/assaut.html">Assaut</a></li>
-          <li><a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="pages/regles.html">Règles spéciales</a></li>
-          <li><a href="pages/tables.html">Tables de référence</a></li>
+          <li><a href="armee.html">Construction d’armée</a></li>
+          <li><a href="tour.html">Déroulement d’un tour</a></li>
+          <li><a href="mouvement.html">Mouvement</a></li>
+          <li><a href="tir.html">Tir</a></li>
+          <li><a href="assaut.html">Assaut</a></li>
+          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
+          <li><a href="regles.html">Règles spéciales</a></li>
+          <li><a href="tables.html">Tables de référence</a></li>
         </ul>
       </div>
     </header>
@@ -54,7 +54,18 @@
 
       <!-- ===================== SÉQUENCE DE TIR ===================== -->
       <section id="sequence">
-        <h2 class="section-titre">Résoudre une attaque de tir, pas à pas</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="sequence-corps"
+          >
+            <span>Résoudre une attaque de tir, pas à pas</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="sequence-corps">
         <p>
           Quand une unité tire, suis toujours ces 11 étapes dans l’ordre. La
           séquence devient rapidement un réflexe. Détail de chaque étape
@@ -107,11 +118,23 @@
             réaction « Médic ».
           </li>
         </ol>
+      </div>
       </section>
 
       <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
       <section id="cible">
-        <h2 class="section-titre">1. Choisir et vérifier la cible</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="cible-corps"
+          >
+            <span>1. Choisir et vérifier la cible</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="cible-corps">
         <div class="encadre">
           <p style="margin: 0">
             <strong>Une unité ne peut pas tirer si :</strong> elle a Foncé à la
@@ -138,13 +161,23 @@
             cette arme.
           </li>
         </ul>
+      </div>
       </section>
 
       <!-- ===================== GROUPES DE TIRS ===================== -->
       <section id="groupes">
         <h2 class="section-titre">
-          2. Déclarer les armes et les groupes de tirs
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="groupes-corps"
+          >
+            <span>2. Déclarer les armes et les groupes de tirs</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
         </h2>
+        <div class="section-corps" id="groupes-corps">
         <p>
           Le tireur déclare quelles armes de son unité participent au tir (une
           seule arme par figurine, sauf règle spéciale contraire), en respectant
@@ -163,11 +196,23 @@
           choisi par le joueur qui tire — étapes 3 à 6 ci-dessous, répétées pour
           chaque groupe.
         </p>
+      </div>
       </section>
 
       <!-- ===================== TOUCHE ===================== -->
       <section id="toucher">
-        <h2 class="section-titre">3. Faire les jets de touche</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="toucher-corps"
+          >
+            <span>3. Faire les jets de touche</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="toucher-corps">
         <p>
           On additionne la caractéristique de <strong>Puissance de feu</strong>
           de toutes les armes du groupe : ce total donne le nombre de jets de
@@ -184,11 +229,23 @@
             en marchant avec le trait Léger.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== BLESSURE ===================== -->
       <section id="blesser">
-        <h2 class="section-titre">4. Faire les jets de blessure</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="blesser-corps"
+          >
+            <span>4. Faire les jets de blessure</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="blesser-corps">
         <p>
           Chaque touche est ensuite convertie en un jet de blessure, en croisant
           la <strong>Force</strong> de l’arme avec l’<strong>Endurance</strong>
@@ -202,13 +259,23 @@
             compare la Force de l’arme au Blindage touché.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
       <section id="sauvegardes">
         <h2 class="section-titre">
-          5. Choisir la figurine cible, sauvegardes et mitigation
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="sauvegardes-corps"
+          >
+            <span>5. Choisir la figurine cible, sauvegardes et mitigation</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
         </h2>
+        <div class="section-corps" id="sauvegardes-corps">
         <ol class="etapes">
           <li>
             <strong>Choisir la figurine cible.</strong> Le joueur défenseur
@@ -244,11 +311,23 @@
             étape de la séquence, « Retirer les pertes ».
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== COUVERT ===================== -->
       <section id="couvert">
-        <h2 class="section-titre">Le couvert</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="couvert-corps"
+          >
+            <span>Le couvert</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="couvert-corps">
         <p>
           Une cible partiellement dissimulée par un décor bénéficie d’un jet de
           mitigation de dégâts de <strong>Dissimulation</strong>, dont la valeur
@@ -264,11 +343,23 @@
             <a href="statuts-reactions.html#reactions">Réactions</a>.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== RÉACTIONS DE TIR ===================== -->
       <section id="reactions-tir">
-        <h2 class="section-titre">Réactions déclenchées par un tir</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="reactions-tir-corps"
+          >
+            <span>Réactions déclenchées par un tir</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="reactions-tir-corps">
         <p>
           L’unité visée (si elle n’est pas <em>Sonnée</em>) peut répondre à
           l’attaque par l’une de ces réactions. Détail complet sur la page
@@ -319,11 +410,23 @@
             sauvegardée.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== MORAL ===================== -->
       <section id="moral">
-        <h2 class="section-titre">6. Sous-phase de Moral</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="moral-corps"
+          >
+            <span>6. Sous-phase de Moral</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="moral-corps">
         <p>
           Une fois tous les groupes de tirs résolus, les unités qui ont beaucoup
           souffert testent leur moral.
@@ -347,6 +450,7 @@
           Détail des statuts tactiques et de leurs effets sur la page
           <a href="statuts-reactions.html#statuts">Statuts tactiques</a>.
         </p>
+      </div>
       </section>
     </main>
 

@@ -32,14 +32,14 @@
           ☰
         </button>
         <ul class="nav-menu">
-          <li><a href="pages/armee.html">Construction d’armée</a></li>
-          <li><a href="pages/tour.html">Déroulement d’un tour</a></li>
-          <li><a href="pages/mouvement.html">Mouvement</a></li>
-          <li><a href="pages/tir.html">Tir</a></li>
-          <li><a href="pages/assaut.html">Assaut</a></li>
-          <li><a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="pages/regles.html">Règles spéciales</a></li>
-          <li><a href="pages/tables.html">Tables de référence</a></li>
+          <li><a href="armee.html">Construction d’armée</a></li>
+          <li><a href="tour.html">Déroulement d’un tour</a></li>
+          <li><a href="mouvement.html">Mouvement</a></li>
+          <li><a href="tir.html">Tir</a></li>
+          <li><a href="assaut.html">Assaut</a></li>
+          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
+          <li><a href="regles.html">Règles spéciales</a></li>
+          <li><a href="tables.html">Tables de référence</a></li>
         </ul>
       </div>
     </header>
@@ -56,7 +56,18 @@
 
       <!-- ===================== DÉCLARER UNE CHARGE ===================== -->
       <section id="declarer">
-        <h2 class="section-titre">Sous-phase de Charge : déclarer</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="declarer-corps"
+          >
+            <span>Sous-phase de Charge : déclarer</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="declarer-corps">
         <p>
           Une unité ne peut pas déclarer de Charge si : elle a Foncé pendant ce
           tour (voir <a href="mouvement.html#foncer">Foncer</a>) ; elle est déjà
@@ -77,13 +88,23 @@
           en compte peut charger normalement, mais sa Charge sera
           automatiquement <em>désordonnée</em> (voir plus bas).
         </p>
+      </div>
       </section>
 
       <!-- ===================== MISE EN PLACE ET VOLÉE ===================== -->
       <section id="mise-en-place">
         <h2 class="section-titre">
-          Mouvement de mise en place et attaque de volée
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="mise-en-place-corps"
+          >
+            <span>Mouvement de mise en place et attaque de volée</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
         </h2>
+        <div class="section-corps" id="mise-en-place-corps">
         <p>
           Avant le jet de charge, les figurines de l’unité chargeuse effectuent
           un court mouvement de mise en place vers la cible, dont la distance
@@ -112,11 +133,23 @@
             <a href="#reactions-assaut">Réactions</a> ci-dessous.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== JET DE CHARGE ===================== -->
       <section id="jet-de-charge">
-        <h2 class="section-titre">Le jet de Charge</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="jet-de-charge-corps"
+          >
+            <span>Le jet de Charge</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="jet-de-charge-corps">
         <p>
           Le joueur chargeur jette <strong>2D6</strong> et défausse le dé le
           plus bas : le résultat est la distance de charge disponible, en
@@ -149,11 +182,23 @@
             spéciale.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
       <section id="reactions-assaut">
-        <h2 class="section-titre">Réactions déclenchées par une charge</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="reactions-assaut-corps"
+          >
+            <span>Réactions déclenchées par une charge</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="reactions-assaut-corps">
         <p>
           L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut répondre par
           l’une de ces réactions. Détail complet sur la page
@@ -191,11 +236,23 @@
           ><span class="badge-phase">Assaut</span>
           <p>Un personnage lance un <a href="#defi">Défi</a>.</p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== DÉFI ===================== -->
       <section id="defi">
-        <h2 class="section-titre">Sous-phase de Défi</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="defi-corps"
+          >
+            <span>Sous-phase de Défi</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="defi-corps">
         <p>
           Un personnage engagé en mêlée (Type Parangon, ou Sous-type
           Officier/Champion) peut provoquer un ennemi en duel : Confrontation
@@ -204,11 +261,23 @@
           Détail complet des 4 étapes et des Postures de base sur la page
           <a href="tour.html#defi">Le Défi</a>.
         </p>
+      </div>
       </section>
 
       <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
       <section id="combat">
-        <h2 class="section-titre">Sous-phase de Combat</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="combat-corps"
+          >
+            <span>Sous-phase de Combat</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="combat-corps">
         <p>
           Dès qu’une figurine d’une unité est au contact socle à socle d’une
           figurine ennemie, les deux unités sont
@@ -252,11 +321,23 @@
             figurines suivantes (Initiative inférieure) ne frappent à leur tour.
           </li>
         </ol>
+      </div>
       </section>
 
       <!-- ===================== RÉSOLUTION ===================== -->
       <section id="resolution">
-        <h2 class="section-titre">Sous-phase de Résolution</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="resolution-corps"
+          >
+            <span>Sous-phase de Résolution</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="resolution-corps">
         <p>
           Une fois un round de Combat entièrement résolu, on détermine ce qu’il
           advient des deux camps en 4 étapes.
@@ -364,6 +445,7 @@
             Verrouillé en Combat et doit obligatoirement Consolider.
           </p>
         </div>
+      </div>
       </section>
     </main>
 

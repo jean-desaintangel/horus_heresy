@@ -32,14 +32,14 @@
           ☰
         </button>
         <ul class="nav-menu">
-          <li><a href="pages/armee.html">Construction d’armée</a></li>
-          <li><a href="pages/tour.html">Déroulement d’un tour</a></li>
-          <li><a href="pages/mouvement.html">Mouvement</a></li>
-          <li><a href="pages/tir.html">Tir</a></li>
-          <li><a href="pages/assaut.html">Assaut</a></li>
-          <li><a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="pages/regles.html">Règles spéciales</a></li>
-          <li><a href="pages/tables.html">Tables de référence</a></li>
+          <li><a href="armee.html">Construction d’armée</a></li>
+          <li><a href="tour.html">Déroulement d’un tour</a></li>
+          <li><a href="mouvement.html">Mouvement</a></li>
+          <li><a href="tir.html">Tir</a></li>
+          <li><a href="assaut.html">Assaut</a></li>
+          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
+          <li><a href="regles.html">Règles spéciales</a></li>
+          <li><a href="tables.html">Tables de référence</a></li>
         </ul>
       </div>
     </header>
@@ -59,7 +59,18 @@
 
       <!-- ===================== RÉSERVES ===================== -->
       <section id="reserves">
-        <h2 class="section-titre">Sous-phase de Réserves</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="reserves-corps"
+          >
+            <span>Sous-phase de Réserves</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="reserves-corps">
         <p>
           Une unité placée en réserve (volontairement, ou via une règle comme
           <a href="regles.html">Frappe en profondeur</a>) tente d’arriver sur le
@@ -96,11 +107,23 @@
             <a href="statuts-reactions.html#reactions">Réactions</a>.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== DÉPLACEMENT ===================== -->
       <section id="deplacement">
-        <h2 class="section-titre">Sous-phase de Déplacement</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="deplacement-corps"
+          >
+            <span>Sous-phase de Déplacement</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="deplacement-corps">
         <p>
           Chaque unité éligible peut déplacer ses figurines jusqu’à une distance
           égale à sa <strong>caractéristique de Mouvement</strong>, en pouces.
@@ -169,11 +192,23 @@
             </ul>
           </div>
         </div>
+      </div>
       </section>
 
       <!-- ===================== FONCER ===================== -->
       <section id="foncer">
-        <h2 class="section-titre">Foncer</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="foncer-corps"
+          >
+            <span>Foncer</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="foncer-corps">
         <p>
           Plutôt qu’un déplacement normal, une unité peut choisir de
           <strong>Foncer</strong> : elle se déplace alors d’une distance égale à
@@ -233,11 +268,23 @@
             </tbody>
           </table>
         </div>
+      </div>
       </section>
 
       <!-- ===================== RÉACTION SE REPOSITIONNER ===================== -->
       <section id="se-repositionner">
-        <h2 class="section-titre">Réaction adverse : Se repositionner</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="se-repositionner-corps"
+          >
+            <span>Réaction adverse : Se repositionner</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="se-repositionner-corps">
         <p>
           Pendant la Phase de Mouvement adverse, si une unité ennemie termine
           son mouvement à moins de 12 pouces de l’une de tes unités, celle-ci
@@ -253,11 +300,23 @@
             adverse.
           </p>
         </div>
+      </div>
       </section>
 
       <!-- ===================== DÉROUTE ===================== -->
       <section id="deroute">
-        <h2 class="section-titre">Sous-phase de Déroute</h2>
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="deroute-corps"
+          >
+            <span>Sous-phase de Déroute</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="deroute-corps">
         <p>
           Les unités qui ont le statut <em>En déroute</em> (voir les
           <a href="statuts-reactions.html#statuts">Statuts Tactiques</a>) sont
@@ -282,6 +341,7 @@
           réussi, l’unité reste en jeu, perd <em>En déroute</em> mais devient
           <em>Neutralisée</em>.
         </p>
+      </div>
       </section>
     </main>
 

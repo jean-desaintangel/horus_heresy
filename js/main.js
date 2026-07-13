@@ -73,4 +73,49 @@ document.addEventListener("DOMContentLoaded", () => {
     ".timeline-item",
     ".timeline-details",
   );
+
+  /* ----------------------------------------------------------
+     3. SECTIONS REPLIABLES (pages de détail : assaut, mouvement,
+     tir, statuts-reactions, tables)
+
+     Ici les sections sont FERMÉES par défaut (pas de classe
+     .ouvert dans le HTML ; .section-corps est à max-height: 0 via
+     le CSS tant que cette classe est absente). On ne calcule une
+     hauteur en pixels qu'au moment du clic : ça évite de figer au
+     chargement une hauteur qui serait fausse pour tables.html,
+     dont certains tableaux sont encore vides à cet instant
+     (remplis ensuite par tables.js). Une fois l'ouverture
+     terminée, on repasse en max-height: none pour que la section
+     reste libre de grandir (ex : redimensionnement de fenêtre).
+     ---------------------------------------------------------- */
+  document.querySelectorAll(".section-toggle").forEach((bouton) => {
+    bouton.addEventListener("click", () => {
+      const section = bouton.closest("section");
+      const corps = section.querySelector(":scope > .section-corps");
+      const ouverte = section.classList.contains("ouvert");
+
+      if (ouverte) {
+        corps.style.maxHeight = corps.scrollHeight + "px";
+        // Force le navigateur à prendre en compte la valeur ci-dessus
+        // avant de la faire retomber à 0, sinon les deux changements
+        // sont fusionnés et il n'y a pas d'animation.
+        corps.offsetHeight;
+        section.classList.remove("ouvert");
+        corps.style.maxHeight = "0px";
+      } else {
+        section.classList.add("ouvert");
+        corps.style.maxHeight = corps.scrollHeight + "px";
+        corps.addEventListener(
+          "transitionend",
+          () => {
+            if (section.classList.contains("ouvert")) {
+              corps.style.maxHeight = "none";
+            }
+          },
+          { once: true },
+        );
+      }
+      bouton.setAttribute("aria-expanded", String(!ouverte));
+    });
+  });
 });

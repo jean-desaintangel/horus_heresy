@@ -66,6 +66,9 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: "Lato", sans-serif;
   background: var(--noir);
   color: var(--texte);
@@ -232,6 +235,15 @@ main {
        autant de place qu'en version bureau (2 lignes toujours visibles). */
     padding-top: 70px;
   }
+}
+
+/* Page d'accueil : centre le hero (donc l'image) verticalement
+   entre le trait rouge de la nav et celui du footer. */
+main.main-accueil {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 section {
@@ -775,6 +787,49 @@ td.impossible {
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
   font-size: 0.95rem;
+}
+
+/* ============================================================
+   SECTIONS REPLIABLES (pages de détail : assaut, mouvement, tir,
+   statuts-reactions, tables)
+   Même principe que l'Accordéon/la Timeline ci-dessus : fermées
+   par défaut (max-height: 0 tant que la section n'a pas la classe
+   .ouvert). C'est main.js qui ajoute cette classe et calcule la
+   hauteur en pixels au clic, pour permettre l'animation.
+   ============================================================ */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.section-titre .chevron {
+  transition: transform var(--transition);
+  color: var(--bordeaux-clair);
+  flex-shrink: 0;
+}
+
+section.ouvert > .section-titre .chevron {
+  transform: rotate(90deg);
+}
+
+.section-corps {
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+section:not(.ouvert) > .section-corps {
+  max-height: 0;
 }
 
 /* Étapes numérotées (séquences de tir, de charge, de résolution...)
