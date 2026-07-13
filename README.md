@@ -6,7 +6,8 @@ Site statique non officiel servant de guide d'initiation au jeu de figurines **H
 
 - **Accueil** ([index.html](index.html)) — présentation et navigation vers les différentes sections.
 - **Construction d'armée** ([pages/armee.html](pages/armee.html)) — détachement principal de croisade, détachements auxiliaires et d'Apex, rôles tactiques, cases principales.
-- **Déroulement d'un tour** ([pages/tour.html](pages/tour.html)) — les 5 phases de jeu, résolution des tirs, statuts tactiques, réactions, défis.
+- **Déroulement d'un tour** ([pages/tour.html](pages/tour.html)) — les 5 phases de jeu et leurs sous-phases.
+- **Statuts & Réactions** ([pages/statuts-reactions.html](pages/statuts-reactions.html)) — les 4 statuts tactiques et la liste des réactions déclenchables.
 - **Tables de référence** ([pages/tables.html](pages/tables.html)) — jets de touche, jets de blessure, aptitude au tir, tir instinctif.
 - **Règles spéciales** ([pages/regles.html](pages/regles.html)) — glossaire des règles spéciales avec recherche instantanée.
 
@@ -17,6 +18,7 @@ index.html
 pages/
   armee.html
   tour.html
+  statuts-reactions.html
   tables.html
   regles.html
 css/

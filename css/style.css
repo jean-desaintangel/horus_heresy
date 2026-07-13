@@ -307,8 +307,17 @@ strong {
    PAGE ACCUEIL — HERO + CARTES
    ============================================================ */
 .hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
   text-align: center;
   padding: 3rem 1rem 2rem;
+}
+
+.hero-texte {
+  flex: 1 1 260px;
 }
 
 .hero h1 {
@@ -322,6 +331,35 @@ strong {
   color: var(--texte-doux);
   font-style: italic;
   font-size: 1.1rem;
+}
+
+/* Portrait d'ambiance : encadré à la manière d'un blason, avec
+   un léger vignettage intérieur pour fondre la photo (sombre et
+   contrastée) dans la palette parchemin du site plutôt que de la
+   plaquer telle quelle. */
+.hero-image {
+  flex: 0 1 300px;
+  position: relative;
+  border-radius: 12px;
+  border: 3px solid var(--or);
+  box-shadow: var(--ombre);
+  overflow: hidden;
+}
+
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9px;
+  border: 1px solid var(--bordeaux);
+  box-shadow: inset 0 0 40px 12px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
 .grille-cartes {

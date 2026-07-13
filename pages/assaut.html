@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
   </head>
   <body>
     <!-- ===================== NAVIGATION ===================== -->
@@ -31,14 +32,14 @@
           ☰
         </button>
         <ul class="nav-menu">
-          <li><a href="../index.html">Accueil</a></li>
-          <li><a href="armee.html">Construction d’armée</a></li>
-          <li><a href="tour.html">Déroulement d’un tour</a></li>
-          <li><a href="mouvement.html">Mouvement</a></li>
-          <li><a href="tir.html">Tir</a></li>
-          <li><a href="assaut.html" class="actif">Assaut</a></li>
-          <li><a href="tables.html">Tables de référence</a></li>
-          <li><a href="regles.html">Règles spéciales</a></li>
+          <li><a href="pages/armee.html">Construction d’armée</a></li>
+          <li><a href="pages/tour.html">Déroulement d’un tour</a></li>
+          <li><a href="pages/mouvement.html">Mouvement</a></li>
+          <li><a href="pages/tir.html">Tir</a></li>
+          <li><a href="pages/assaut.html">Assaut</a></li>
+          <li><a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a></li>
+          <li><a href="pages/regles.html">Règles spéciales</a></li>
+          <li><a href="pages/tables.html">Tables de référence</a></li>
         </ul>
       </div>
     </header>
@@ -86,10 +87,9 @@
         <p>
           Avant le jet de charge, les figurines de l’unité chargeuse effectuent
           un court mouvement de mise en place vers la cible, dont la distance
-          dépend de la somme <strong>Initiative + Mouvement</strong>
-          — la même table que le
-          <a href="tables.html#positionnement">positionnement en combat</a>.
+          dépend de la somme <strong>Initiative + Mouvement</strong> :
         </p>
+        <div id="table-positionnement"></div>
         <div class="encadre">
           <p style="margin: 0">
             <strong>Charge déjà réussie ?</strong> Si ce mouvement de mise en
@@ -157,7 +157,7 @@
         <p>
           L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut répondre par
           l’une de ces réactions. Détail complet sur la page
-          <a href="tour.html#reactions">Réactions</a>.
+          <a href="statuts-reactions.html#reactions">Réactions</a>.
         </p>
         <div class="reaction reaction-assaut">
           <span class="reaction-nom">Tir d’état d’alerte</span
@@ -221,8 +221,8 @@
             <strong>Mise au contact.</strong> Chaque figurine qui n’est pas
             encore au contact socle à socle s’en rapproche d’une distance égale
             à son <strong>Initiative</strong> actuelle (et non la table de
-            <a href="tables.html#positionnement">positionnement</a>, qui ne sert
-            que pour la mise en place de charge).
+            <a href="#mise-en-place">positionnement</a>, qui ne sert que pour la
+            mise en place de charge).
           </li>
           <li>
             <strong>Figurines engagées.</strong> Seules les figurines au contact
@@ -368,13 +368,13 @@
     </main>
 
     <footer>
-      <p>Guide non officiel réalisé par des fans, pour les nouveaux joueurs.</p>
       <p>
-        Horus Heresy est une marque de Games Workshop. Ce site ne contient aucun
-        matériel officiel.
+        Guide non officiel réalisé par des fans, Horus Heresy est une marque de
+        Games Workshop.
       </p>
     </footer>
 
     <script src="../js/main.js"></script>
+    <script src="../js/tables.js"></script>
   </body>
 </html>

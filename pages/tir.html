@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
   </head>
   <body>
     <!-- ===================== NAVIGATION ===================== -->
@@ -31,14 +32,14 @@
           ☰
         </button>
         <ul class="nav-menu">
-          <li><a href="../index.html">Accueil</a></li>
-          <li><a href="armee.html">Construction d’armée</a></li>
-          <li><a href="tour.html">Déroulement d’un tour</a></li>
-          <li><a href="mouvement.html">Mouvement</a></li>
-          <li><a href="tir.html" class="actif">Tir</a></li>
-          <li><a href="assaut.html">Assaut</a></li>
-          <li><a href="tables.html">Tables de référence</a></li>
-          <li><a href="regles.html">Règles spéciales</a></li>
+          <li><a href="pages/armee.html">Construction d’armée</a></li>
+          <li><a href="pages/tour.html">Déroulement d’un tour</a></li>
+          <li><a href="pages/mouvement.html">Mouvement</a></li>
+          <li><a href="pages/tir.html">Tir</a></li>
+          <li><a href="pages/assaut.html">Assaut</a></li>
+          <li><a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a></li>
+          <li><a href="pages/regles.html">Règles spéciales</a></li>
+          <li><a href="pages/tables.html">Tables de référence</a></li>
         </ul>
       </div>
     </header>
@@ -48,10 +49,65 @@
       <p>
         Après le Mouvement vient la Phase de Tir, découpée en une Sous-phase
         d’Attaque (une résolution par unité qui tire) puis une Sous-phase de
-        Moral. La séquence des 11 étapes est résumée sur la page
-        <a href="tour.html#tir">Déroulement d’un tour</a> ; on détaille ici
-        chaque étape.
+        Moral.
       </p>
+
+      <!-- ===================== SÉQUENCE DE TIR ===================== -->
+      <section id="sequence">
+        <h2 class="section-titre">Résoudre une attaque de tir, pas à pas</h2>
+        <p>
+          Quand une unité tire, suis toujours ces 11 étapes dans l’ordre. La
+          séquence devient rapidement un réflexe. Détail de chaque étape
+          ci-dessous.
+        </p>
+
+        <ol class="etapes">
+          <li><strong>Choisir l’unité cible.</strong></li>
+          <li>
+            <strong>Vérifier la cible.</strong> Portée et ligne de vue :
+            est-elle atteignable ?
+          </li>
+          <li>
+            <strong>Déclarer les armes.</strong> Quelles armes de l’unité
+            participent au tir.
+          </li>
+          <li>
+            <strong>Établir les groupes de tirs.</strong> On regroupe les armes
+            identiques pour aller plus vite.
+          </li>
+          <li>
+            <strong>Choisir un groupe de tirs à résoudre.</strong> On les traite
+            un par un.
+          </li>
+          <li>
+            <strong>Faire les jets de touche.</strong> Voir la
+            <a href="tables.html#ct">table CT</a>.
+          </li>
+          <li>
+            <strong>Faire les jets de blessure.</strong> Force de l’arme contre
+            Endurance de la cible.
+          </li>
+          <li>
+            <strong>Choisir la figurine cible.</strong> Le défenseur désigne qui
+            encaisse (sauf règle Précision).
+          </li>
+          <li>
+            <strong
+              >Faire les jets de sauvegarde et les jets de mitigation de
+              dégâts.</strong
+            >
+            Dernière chance de survie.
+          </li>
+          <li>
+            <strong>Choisir le groupe de tirs suivant.</strong> On répète les
+            étapes 6 à 9.
+          </li>
+          <li>
+            <strong>Retirer les pertes.</strong> C’est aussi le moment de la
+            réaction « Médic ».
+          </li>
+        </ol>
+      </section>
 
       <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
       <section id="cible">
@@ -122,10 +178,10 @@
         <div class="encadre-attention">
           <p style="margin: 0">
             <strong>Tir au jugé.</strong> Une unité <em>Neutralisée</em> (voir
-            <a href="tour.html#statuts">Statuts Tactiques</a>) doit utiliser la
-            ligne « Au jugé » de la table CT pour l’intégralité de ses tirs — de
-            même pour la réaction Interception, ou une arme tirée en marchant
-            avec le trait Léger.
+            <a href="statuts-reactions.html#statuts">Statuts Tactiques</a>) doit
+            utiliser la ligne « Au jugé » de la table CT pour l’intégralité de
+            ses tirs — de même pour la réaction Interception, ou une arme tirée
+            en marchant avec le trait Léger.
           </p>
         </div>
       </section>
@@ -205,7 +261,7 @@
             <strong>Tir d’état d’alerte :</strong> quand une unité chargée y
             réagit, l’attaquant ne bénéficie d’<strong>aucun</strong> jet de
             couvert ni de mitigation de Dissimulation. Détail sur la page
-            <a href="tour.html#reactions">Réactions</a>.
+            <a href="statuts-reactions.html#reactions">Réactions</a>.
           </p>
         </div>
       </section>
@@ -216,7 +272,7 @@
         <p>
           L’unité visée (si elle n’est pas <em>Sonnée</em>) peut répondre à
           l’attaque par l’une de ces réactions. Détail complet sur la page
-          <a href="tour.html#reactions">Réactions</a>.
+          <a href="statuts-reactions.html#reactions">Réactions</a>.
         </p>
         <div class="reaction reaction-tir">
           <span class="reaction-nom">Répliquer</span
@@ -289,16 +345,15 @@
         </p>
         <p>
           Détail des statuts tactiques et de leurs effets sur la page
-          <a href="tour.html#statuts">Déroulement d’un tour</a>.
+          <a href="statuts-reactions.html#statuts">Statuts tactiques</a>.
         </p>
       </section>
     </main>
 
     <footer>
-      <p>Guide non officiel réalisé par des fans, pour les nouveaux joueurs.</p>
       <p>
-        Horus Heresy est une marque de Games Workshop. Ce site ne contient aucun
-        matériel officiel.
+        Guide non officiel réalisé par des fans, Horus Heresy est une marque de
+        Games Workshop.
       </p>
     </footer>
 
