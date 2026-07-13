@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Déroulement d’un tour</title>
+    <meta
+      name="description"
+      content="Le tour de jeu Horus Heresy 3e édition : phases et sous-phases, résolution des tirs, statuts tactiques, réactions et Défis."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu">
+          <li><a href="../index.html">Accueil</a></li>
+          <li><a href="armee.html">Construction d’armée</a></li>
+          <li><a href="tour.html" class="actif">Déroulement d’un tour</a></li>
+          <li><a href="tables.html">Tables de référence</a></li>
+          <li><a href="regles.html">Règles spéciales</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <h1 class="section-titre" style="font-size: 2rem">
+        Déroulement d’un tour
+      </h1>
+      <p>
+        Un tour de jeu se découpe en <strong>5 phases</strong>, elles-mêmes
+        découpées en sous-phases.
+      </p>
+
+      <!-- ===================== TIMELINE DES PHASES ===================== -->
+      <section id="phases">
+        <h2 class="section-titre">La séquence du tour</h2>
+        <p>
+          <strong>Clique sur chaque phase</strong> pour afficher ses sous-phases
+          et leurs détails.
+        </p>
+
+        <div class="timeline">
+          <!-- Phase de Début -->
+          <div class="timeline-item">
+            <button class="timeline-titre" aria-expanded="false">
+              1. La Phase de Début <span class="chevron">❯</span>
+            </button>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <p>
+                  <strong>Sous-phase des Effets</strong> — on résout tout ce qui
+                  se déclenche « au début du tour » : règles spéciales,
+                  pouvoirs, effets persistants. Une phase courte, à ne pas
+                  oublier.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase de Mouvement -->
+          <div class="timeline-item">
+            <button class="timeline-titre" aria-expanded="false">
+              2. La Phase de Mouvement <span class="chevron">❯</span>
+            </button>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Sous-phase de Réserves</strong> — les unités gardées
+                    hors de la table (réserves, Frappe en profondeur…) tentent
+                    d’arriver en jeu.
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Déplacement</strong> — tu déplaces tes
+                    unités : marche normale, ou « Foncer » pour aller plus vite
+                    (au prix du tir et de la charge).
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Déroute</strong> — les unités
+                    <em>En déroute</em> battent en retraite vers ta zone de
+                    déploiement (voir les statuts plus bas).
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase de Tir -->
+          <div class="timeline-item">
+            <button class="timeline-titre" aria-expanded="false">
+              3. La Phase de Tir <span class="chevron">❯</span>
+            </button>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Sous-phase d’Attaque</strong> — tes unités tirent,
+                    une par une, en suivant la séquence de résolution détaillée
+                    ci-dessous.
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Moral</strong> — les unités qui ont
+                    beaucoup souffert testent leur moral ; en cas d’échec,
+                    bonjour les statuts tactiques.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase d'Assaut -->
+          <div class="timeline-item">
+            <button class="timeline-titre" aria-expanded="false">
+              4. La Phase d’Assaut <span class="chevron">❯</span>
+            </button>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Sous-phase de Charge</strong> — tes unités déclarent
+                    leurs charges et se jettent au contact (l’adversaire peut
+                    réagir : Tir d’état d’alerte, Se dérober…).
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Défi</strong> — les champions se
+                    provoquent en duel (voir la section « Le Défi » plus bas).
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Combat</strong> — tout le monde
+                    frappe, par ordre d’Initiative décroissante.
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Résolution</strong> — on compte les
+                    points de chaque camp : le perdant teste son moral et risque
+                    la déroute.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase de Fin -->
+          <div class="timeline-item">
+            <button class="timeline-titre" aria-expanded="false">
+              5. La Phase de Fin <span class="chevron">❯</span>
+            </button>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Sous-phase des Effets</strong> — on résout les
+                    effets « de fin de tour ».
+                  </li>
+                  <li>
+                    <strong>Sous-phase des Statuts</strong> — certains statuts
+                    tactiques expirent ou évoluent.
+                  </li>
+                  <li>
+                    <strong>Sous-phase de Victoire</strong> — on vérifie les
+                    objectifs et on marque les points de victoire.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== SÉQUENCE DE TIR ===================== -->
+      <section id="tir">
+        <h2 class="section-titre">Résoudre une attaque de tir, pas à pas</h2>
+        <p>
+          Quand une unité tire, suis toujours ces 11 étapes dans l’ordre. La
+          séquence devient rapidement un réflexe.
+        </p>
+
+        <ol class="etapes">
+          <li><strong>Choisir l’unité cible.</strong></li>
+          <li>
+            <strong>Vérifier la cible.</strong> Portée et ligne de vue :
+            est-elle atteignable ?
+          </li>
+          <li>
+            <strong>Déclarer les armes.</strong> Quelles armes de l’unité
+            participent au tir.
+          </li>
+          <li>
+            <strong>Établir les groupes de tirs.</strong> On regroupe les armes
+            identiques pour aller plus vite.
+          </li>
+          <li>
+            <strong>Choisir un groupe de tirs à résoudre.</strong> On les traite
+            un par un.
+          </li>
+          <li>
+            <strong>Faire les jets de touche.</strong> Voir la
+            <a href="tables.html">table CT</a>.
+          </li>
+          <li>
+            <strong>Faire les jets de blessure.</strong> Force de l’arme contre
+            Endurance de la cible.
+          </li>
+          <li>
+            <strong>Choisir la figurine cible.</strong> Le défenseur désigne qui
+            encaisse (sauf règle Précision).
+          </li>
+          <li>
+            <strong
+              >Faire les jets de sauvegarde et les jets de mitigation de
+              dégâts.</strong
+            >
+            Dernière chance de survie.
+          </li>
+          <li>
+            <strong>Choisir le groupe de tirs suivant.</strong> On répète les
+            étapes 6 à 9.
+          </li>
+          <li>
+            <strong>Retirer les pertes.</strong> C’est aussi le moment de la
+            réaction « Médic ».
+          </li>
+        </ol>
+      </section>
+
+      <!-- ===================== STATUTS TACTIQUES ===================== -->
+      <section id="statuts">
+        <h2 class="section-titre">Les Statuts Tactiques</h2>
+        <p>
+          Sous la pression du feu ennemi, tes unités peuvent gagner un
+          <strong>statut tactique</strong>, chacun avec un effet négatif. Voici
+          les 4 statuts et leurs effets :
+        </p>
+
+        <div class="grille-statuts">
+          <div class="carte-statut statut-fixe">
+            <h3>Fixé</h3>
+            <ul>
+              <li>
+                Ne peut ni se <strong>Déplacer</strong>, ni
+                <strong>Foncer</strong>, ni <strong>Charger</strong>, à aucune
+                phase.
+              </li>
+              <li>
+                Si en combat : mises au contact normales, mais impossible de
+                <strong>Poursuivre</strong> ou de se
+                <strong>Désengager</strong>.
+              </li>
+            </ul>
+          </div>
+
+          <div class="carte-statut statut-neutralise">
+            <h3>Neutralisée</h3>
+            <ul>
+              <li>
+                Doit faire <strong>au jugé</strong> l’intégralité de ses
+                attaques de tir (voir la ligne « Au jugé » de la
+                <a href="tables.html">table CT</a>).
+              </li>
+            </ul>
+          </div>
+
+          <div class="carte-statut statut-sonne">
+            <h3>Sonnée</h3>
+            <ul>
+              <li>
+                Ne peut déclarer <strong>aucune Réaction</strong>. L’unité
+                encaisse sans pouvoir répondre.
+              </li>
+            </ul>
+          </div>
+
+          <div class="carte-statut statut-deroute">
+            <h3>En déroute</h3>
+            <ul>
+              <li>
+                À la phase de Mouvement : doit
+                <strong>Battre en retraite</strong>.
+              </li>
+              <li>
+                Si elle atteint le bord de table : test de Commandement. Raté =
+                <strong>retirée comme perte</strong>. Réussi = perd « En déroute » et devient <strong>Neutralisée</strong>.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="encadre">
+          <p style="margin: 0">
+            <strong>Battre en retraite, comment ça marche ?</strong> L’unité se
+            déplace de sa valeur d’<strong>Initiative + 1D6</strong> pouces,
+            directement vers le point le plus proche de sa zone de déploiement
+            (ou du bord de table le plus proche s’il n’y a pas de zone), sans
+            s’approcher à moins de 1&nbsp;pouce de l’ennemi.
+          </p>
+        </div>
+
+        <div class="encadre-attention">
+          <p style="margin: 0">
+            <strong>Et la charge désordonnée ?</strong> Ce n’est pas un statut à
+            proprement parler, mais une charge « ratée » a des effets similaires : Initiative au combat à 1, l’unité ne contrôle ni ne conteste les
+            objectifs, et elle perd le bénéfice « À l’arrêt ».
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== RÉACTIONS ===================== -->
+      <section id="reactions">
+        <h2 class="section-titre">Les Réactions</h2>
+        <p>
+          Particularité importante à connaître : tu joues aussi
+          <strong>pendant le tour adverse</strong>. Quand l’ennemi agit, tes
+          unités peuvent déclarer une <strong>Réaction</strong>. Voici la liste,
+          classée par phase déclenchante (une unité <em>Sonnée</em> ne peut pas
+          réagir).
+        </p>
+
+        <h3 class="sous-titre">Pendant la Phase de Mouvement adverse</h3>
+        <div class="reaction reaction-mouvement">
+          <span class="reaction-nom">Se repositionner</span
+          ><span class="badge-phase">Mouvement</span>
+          <p>
+            Quand une unité ennemie arrive à 12 pouces : mouvement immédiat
+            d’une valeur égale à l’Initiative de l’unité. Utile pour se mettre à
+            l’abri ou améliorer son positionnement.
+          </p>
+        </div>
+
+        <h3 class="sous-titre">Pendant la Phase de Tir adverse</h3>
+        <div class="reaction reaction-tir">
+          <span class="reaction-nom">Répliquer</span
+          ><span class="badge-phase">Tir</span>
+          <p>
+            L’unité ciblée riposte en tirant à son tour — même les figurines qui
+            vont mourir participent.
+          </p>
+        </div>
+        <div class="reaction reaction-tir">
+          <span class="reaction-nom">Mur de bouclier</span
+          ><span class="badge-phase">Tir/Charge</span>
+          <p>
+            Quand l’adversaire choisit une arme pour tirer (ou pour l’attaque de
+            volée d’une charge), si la majorité des figurines de l’unité a le
+            trait <em>Bouclier</em> : <strong>+1 en Endurance</strong> pour la
+            durée de la phase.
+          </p>
+        </div>
+        <div class="reaction reaction-tir">
+          <span class="reaction-nom">Écran de fumée</span
+          ><span class="badge-phase">Tir</span>
+          <p>
+            Quand l’adversaire choisit une arme pour tirer, si la majorité des
+            figurines a le trait <em>Écran de fumée</em> : jet de mitigation de
+            dégâts de Dissimulation (5+) pendant la phase, contre les blessures,
+            les touches pénétrantes et les touches superficielles.
+          </p>
+        </div>
+        <div class="reaction reaction-tir">
+          <span class="reaction-nom">Médic</span
+          ><span class="badge-phase">Tir</span>
+          <p>
+            Au moment de retirer les pertes : un jet de rétablissement pour
+            chaque figurine ayant subi une blessure non sauvegardée (sauf les
+            figurines qui ont elles-mêmes « Médic »).
+          </p>
+        </div>
+
+        <h3 class="sous-titre">Pendant la Phase d’Assaut adverse</h3>
+        <div class="reaction reaction-assaut">
+          <span class="reaction-nom">Tir d’état d’alerte</span
+          ><span class="badge-phase">Assaut</span>
+          <p>
+            L’unité chargée tire normalement avec toutes ses armes sur l’unité
+            qui la charge. En revanche, aucun jet de couvert ni mitigation de
+            dégâts de Dissimulation pour l’attaquant.
+          </p>
+        </div>
+        <div class="reaction reaction-assaut">
+          <span class="reaction-nom">Se dérober</span
+          ><span class="badge-phase">Assaut</span>
+          <p>
+            Après l’attaque de volée de la charge : l’unité s’esquive avec un
+            mouvement d’une valeur égale à son Initiative.
+          </p>
+        </div>
+        <div class="reaction reaction-assaut">
+          <span class="reaction-nom">Intervention héroïque</span
+          ><span class="badge-phase">Assaut</span>
+          <p>Un personnage lance un Défi (voir la section suivante).</p>
+        </div>
+
+        <h3 class="sous-titre">Réactions spéciales</h3>
+        <div class="reaction reaction-special">
+          <span class="reaction-nom">Interception</span
+          ><span class="badge-phase">Réserves</span>
+          <p>
+            Tir au jugé sur une unité adverse qui vient d’entrer depuis la
+            réserve (un véhicule n’utilise que ses armes défensives).
+          </p>
+        </div>
+        <div class="reaction reaction-special">
+          <span class="reaction-nom">La mort ou la gloire</span
+          ><span class="badge-phase">Véhicule</span>
+          <p>
+            Pour stopper un véhicule qui « passe à travers » ton unité (socle à
+            socle) : une figurine (pas forcément au contact) tire OU frappe en
+            mêlée. Toutes ses attaques touchent automatiquement ; les jets de
+            blessure se font contre le blindage avant. Si le véhicule est
+            détruit ou Fixé : la figurine survit et le véhicule n’inflige aucune
+            touche par son passage. Sinon, elle est retirée comme perte.
+          </p>
+        </div>
+        <div class="reaction reaction-special">
+          <span class="reaction-nom">Annuler</span
+          ><span class="badge-phase">Psychique</span>
+          <p>
+            Quand on rate un test de résistance contre une malédiction psychique : une figurine avec le trait <em>Psyker</em> et une ligne de vue
+            vers l’unité cible (ou vers le focus de la malédiction) peut tenter
+            d’annuler. On soustrait la Volonté du focus à la Volonté de notre
+            figurine, puis on fait un test de Volonté avec le modificateur du
+            pouvoir. Réussi : la malédiction rate. Échec : elle se résout
+            normalement.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== LE DÉFI ===================== -->
+      <section id="defi">
+        <h2 class="section-titre">Le Défi : le duel des champions</h2>
+        <p>
+          Pendant la <strong>Sous-phase de Défi</strong> de la Phase d’Assaut,
+          un personnage peut provoquer un ennemi en duel. Les deux figurines
+          s’affrontent alors dans un mini-combat très cinématique, au cœur de la
+          mêlée. Un Défi se déroule en plusieurs étapes :
+        </p>
+
+        <ol class="etapes">
+          <li>
+            <strong>Étape de Confrontation</strong> — les duellistes se jaugent
+            et chacun choisit secrètement une <strong>Posture</strong> (voir
+            ci-dessous).
+          </li>
+          <li>
+            <strong>Étape de Concentration</strong> — chaque joueur fait son
+            <strong>Jet de Concentration</strong> (avec les bonus de Soutien
+            Extérieur de leurs camarades proches) ; le vainqueur prend l’<strong
+              >Avantage en Défi</strong
+            >.
+          </li>
+          <li>
+            <strong>Étape de Frappe</strong> — les coups pleuvent : on résout
+            les attaques des deux champions.
+          </li>
+          <li>
+            <strong>Étape de Gloire</strong> — on conclut le duel et ses
+            conséquences héroïques sur le combat en cours.
+          </li>
+        </ol>
+
+        <h3 class="sous-titre">Les Postures de base</h3>
+        <p>
+          Au début de chaque Défi, chaque duelliste choisit une Posture qui
+          modifie sa façon de combattre. Les 4 Postures de base sont accessibles
+          à tous :
+        </p>
+
+        <div class="grille-postures">
+          <div class="carte-posture">
+            <h4>Plastronner</h4>
+            <p>
+              Jette un dé de plus à l’Étape de Concentration et défausse le dé
+              au résultat le plus élevé. Tu ne gagnes aucun bonus de Soutien
+              Extérieur. En échange, à l’Étape de Frappe, tu gagnes autant
+              d’Attaques que le bonus de Soutien Extérieur auquel tu as renoncé.
+            </p>
+          </div>
+          <div class="carte-posture">
+            <h4>Grêle de Coups</h4>
+            <p>
+              +D3 Attaques, mais les Dégâts sont fixés à 1. Aucune règle
+              spéciale ne peut modifier cela, y compris Lacération ou Touche
+              Critique.
+            </p>
+          </div>
+          <div class="carte-posture">
+            <h4>Provoquer et Leurrer</h4>
+            <p>
+              Ta CC et tes Attaques sont réduites à celles de l’adversaire (ou
+              réduites de −1 si elles étaient déjà égales). En échange, chaque
+              fois que tu choisis cette Posture, tu gagnes +1 Point de
+              Résolution de Combat si tu remportes le Défi.
+            </p>
+          </div>
+          <div class="carte-posture">
+            <h4>Saisir l’Initiative</h4>
+            <p>
+              Jette un dé de plus à l’Étape de Concentration et défausse le dé
+              au résultat le plus bas.
+            </p>
+          </div>
+        </div>
+
+        <div class="encadre">
+          <p style="margin: 0">
+            <strong>Pour aller plus loin :</strong> chaque Légion (et même
+            certains personnages nommés, comme les Primarques) dispose de
+            Postures supplémentaires qui lui sont propres — « Le Courroux du
+            Lion » pour les Dark Angels, « Hurlement du Loup Funeste » pour les
+            Space Wolves. Ces Postures s’apprennent une fois les bases
+            maîtrisées.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Guide non officiel réalisé par des fans, pour les nouveaux joueurs.</p>
+      <p>
+        Horus Heresy est une marque de Games Workshop. Ce site ne contient aucun
+        matériel officiel.
+      </p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

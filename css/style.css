@@ -1,0 +1,862 @@
+/* ============================================================
+   GUIDE DU DÉBUTANT — HORUS HERESY 3e ÉDITION
+   Feuille de style principale (thème clair)
+   Palette : parchemin #f4f1e8, bordeaux #8b0000, or #8a6a2c, gris acier #6b6b85
+   ============================================================ */
+
+/* ---------- Variables globales ---------- */
+:root {
+  --noir: #f4f1e8; /* fond principal */
+  --noir-fonce: #e8e2d0; /* fond nav / footer */
+  --bordeaux: #8b0000; /* accent principal */
+  --bordeaux-clair: #a13030;
+  --or: #8a6a2c; /* titres, bordures précieuses */
+  --or-clair: #6b4f1f;
+  --acier: #6b6b85; /* bordures, éléments secondaires */
+  --acier-clair: #45455f;
+  --texte: #2c2a24; /* texte courant */
+  --texte-doux: #5c584c; /* texte secondaire */
+  --carte: #ffffff; /* fond des cartes */
+  --carte-hover: #efe9da;
+  --radius: 8px;
+  --ombre: 0 4px 14px rgba(0, 0, 0, 0.12);
+  --transition: 0.25s ease;
+}
+
+/* ---------- Reset minimal ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background: var(--noir);
+  color: var(--texte);
+  line-height: 1.7;
+  /* Texture subtile en dégradé pour éviter un fond trop plat */
+  background-image: radial-gradient(
+    circle at 20% 0%,
+    #ffffff 0%,
+    var(--noir) 60%
+  );
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Cinzel", serif;
+  color: var(--or);
+}
+
+a {
+  color: var(--or-clair);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ============================================================
+   NAVIGATION FIXE
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(248, 245, 238, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid var(--bordeaux);
+}
+
+.nav-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.nav-logo {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--or);
+  text-decoration: none;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.nav-logo span {
+  color: var(--bordeaux-clair);
+}
+
+/* Bouton burger : visible uniquement sur mobile */
+.nav-burger {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  color: var(--or);
+  font-size: 1.4rem;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 0.3rem;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 0.5rem 0.9rem;
+  color: var(--texte);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.nav-menu a:hover {
+  background: var(--acier);
+  color: #fff;
+}
+
+/* Page courante mise en évidence */
+.nav-menu a.actif {
+  background: var(--bordeaux);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ---------- Nav mobile ---------- */
+@media (max-width: 760px) {
+  .nav-burger {
+    display: block;
+  }
+  .nav-logo {
+    font-size: 0.85rem;
+    max-width: calc(100% - 4.5rem);
+  }
+  .nav-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    padding: 0.5rem 0;
+  }
+  .nav-menu.ouvert {
+    display: flex;
+  }
+}
+
+/* ============================================================
+   STRUCTURE GÉNÉRALE
+   ============================================================ */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 130px 1rem 3rem; /* espace pour la nav fixe (2 lignes) */
+}
+
+section {
+  margin-bottom: 3.5rem;
+}
+
+.section-titre {
+  font-size: 1.7rem;
+  border-bottom: 2px solid var(--bordeaux);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sous-titre {
+  font-size: 1.2rem;
+  color: var(--or-clair);
+  margin: 1.6rem 0 0.8rem;
+}
+
+p {
+  margin-bottom: 0.9rem;
+}
+
+ul,
+ol {
+  margin: 0 0 1rem 1.4rem;
+}
+
+li {
+  margin-bottom: 0.35rem;
+}
+
+strong {
+  color: var(--or-clair);
+}
+
+/* Encadré générique */
+.encadre {
+  background: var(--carte);
+  border-left: 4px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+}
+
+/* Encadré "astuce" mis en valeur (ex : Bénéfice Logistique) */
+.encadre-astuce {
+  background: linear-gradient(135deg, #fbf3df, #ffffff);
+  border: 2px solid var(--or);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--ombre);
+}
+
+.encadre-astuce h3 {
+  margin-bottom: 0.5rem;
+}
+
+/* Encadré "attention" */
+.encadre-attention {
+  background: #fbeae7;
+  border-left: 4px solid var(--bordeaux-clair);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+}
+
+/* ============================================================
+   PAGE ACCUEIL — HERO + CARTES
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  letter-spacing: 2px;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 0 18px rgba(139, 0, 0, 0.25);
+}
+
+.hero .devise {
+  color: var(--texte-doux);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.hero .separateur {
+  color: var(--bordeaux-clair);
+  font-size: 1.6rem;
+  margin: 1rem 0;
+}
+
+.grille-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+/* Carte cliquable (page d'accueil) */
+.carte-lien {
+  display: block;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  text-decoration: none;
+  color: var(--texte);
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.carte-lien:hover {
+  transform: translateY(-5px);
+  border-color: var(--or);
+  box-shadow: var(--ombre);
+}
+
+.carte-lien h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+
+.carte-lien p {
+  color: var(--texte-doux);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.carte-lien .appel {
+  display: inline-block;
+  margin-top: 0.8rem;
+  color: var(--bordeaux-clair);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   ORGANIGRAMME DE FORCE (page armée)
+   ============================================================ */
+.organigramme {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.orga-groupe {
+  border: 1px dashed var(--acier);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.orga-groupe > h4 {
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--acier-clair);
+  margin-bottom: 0.7rem;
+}
+
+.orga-cases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Une "boîte" de détachement avec tooltip au survol */
+.orga-boite {
+  position: relative;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: help;
+  transition:
+    border-color var(--transition),
+    background var(--transition);
+}
+
+.orga-boite:hover,
+.orga-boite:focus-within {
+  border-color: var(--or);
+  background: var(--carte-hover);
+}
+
+.orga-boite.principal {
+  border-color: var(--bordeaux-clair);
+  border-width: 2px;
+}
+
+/* Tooltip descriptif */
+.orga-boite .tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  background: var(--noir-fonce);
+  border: 1px solid var(--or);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--texte);
+  z-index: 50;
+  transition: opacity var(--transition);
+  box-shadow: var(--ombre);
+  pointer-events: none;
+}
+
+.orga-boite:hover .tooltip,
+.orga-boite:focus .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Sur mobile, le tooltip passe en bas d'écran pour rester lisible */
+@media (max-width: 600px) {
+  .orga-boite .tooltip {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    top: auto;
+    transform: none;
+    width: auto;
+  }
+}
+
+.orga-fleche {
+  text-align: center;
+  color: var(--bordeaux-clair);
+  font-size: 1.4rem;
+}
+
+/* ============================================================
+   TABLEAUX (rôles tactiques + tables de référence)
+   ============================================================ */
+.table-scroll {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  background: var(--carte);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-family: "Cinzel", serif;
+  color: var(--or);
+  font-size: 1.05rem;
+  padding: 0.5rem 0;
+}
+
+th,
+td {
+  border: 1px solid var(--acier);
+  padding: 0.45rem 0.6rem;
+  text-align: center;
+}
+
+th {
+  background: var(--noir-fonce);
+  color: var(--or);
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+}
+
+td.gauche,
+th.gauche {
+  text-align: left;
+}
+
+/* Surbrillance ligne + colonne (la colonne est gérée en JS) */
+tbody tr:hover td {
+  background: rgba(139, 0, 0, 0.25);
+}
+
+td.colonne-active,
+th.colonne-active {
+  background: rgba(201, 168, 76, 0.18);
+}
+
+td.case-active {
+  background: var(--bordeaux) !important;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Valeurs impossibles ( - ) grisées */
+td.impossible {
+  color: #555;
+}
+
+/* ============================================================
+   ACCORDÉON (Cases Principales)
+   ============================================================ */
+.accordeon {
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.accordeon-item + .accordeon-item {
+  border-top: 1px solid var(--acier);
+}
+
+.accordeon-titre {
+  width: 100%;
+  background: var(--carte);
+  color: var(--or-clair);
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  text-align: left;
+  padding: 0.9rem 1.1rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--transition);
+}
+
+.accordeon-titre:hover {
+  background: var(--carte-hover);
+}
+
+.accordeon-titre .chevron {
+  transition: transform var(--transition);
+  color: var(--bordeaux-clair);
+}
+
+.accordeon-item.ouvert .accordeon-titre .chevron {
+  transform: rotate(90deg);
+}
+
+.accordeon-contenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  background: var(--noir-fonce);
+}
+
+.accordeon-contenu-inner {
+  padding: 1rem 1.2rem;
+}
+
+.conseil-debutant {
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(201, 168, 76, 0.08);
+  border-left: 3px solid var(--or);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.92rem;
+}
+
+/* ============================================================
+   TIMELINE VERTICALE (page tour)
+   ============================================================ */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* La ligne verticale */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.55rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(var(--bordeaux), var(--acier));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Le point sur la ligne */
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -1.98rem;
+  top: 0.85rem;
+  width: 14px;
+  height: 14px;
+  background: var(--noir);
+  border: 3px solid var(--or);
+  border-radius: 50%;
+}
+
+.timeline-titre {
+  width: 100%;
+  text-align: left;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  color: var(--or);
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color var(--transition);
+}
+
+.timeline-titre:hover {
+  border-color: var(--or);
+}
+
+.timeline-titre .chevron {
+  transition: transform var(--transition);
+  color: var(--bordeaux-clair);
+}
+
+.timeline-item.ouvert .timeline-titre .chevron {
+  transform: rotate(90deg);
+}
+
+.timeline-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.timeline-details-inner {
+  padding: 0.9rem 1.1rem;
+  background: var(--noir-fonce);
+  border: 1px solid var(--acier);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  font-size: 0.95rem;
+}
+
+/* Étapes numérotées (séquence de tir) */
+.etapes {
+  list-style: none;
+  margin-left: 0;
+  counter-reset: etape;
+}
+
+.etapes li {
+  counter-increment: etape;
+  position: relative;
+  padding: 0.55rem 0.8rem 0.55rem 3rem;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  margin-bottom: 0.45rem;
+}
+
+.etapes li::before {
+  content: counter(etape);
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.7rem;
+  height: 1.7rem;
+  background: var(--bordeaux);
+  color: #fff;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   CARTES DE STATUTS TACTIQUES
+   ============================================================ */
+.grille-statuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.carte-statut {
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--acier);
+  background: var(--carte);
+  border-top: 5px solid var(--acier);
+}
+
+.carte-statut h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.carte-statut ul {
+  margin-bottom: 0;
+  font-size: 0.93rem;
+}
+
+/* Couleur par statut */
+.statut-fixe {
+  border-top-color: #c9a84c;
+}
+.statut-fixe h3 {
+  color: #8a6a2c;
+}
+.statut-neutralise {
+  border-top-color: #4a90d9;
+}
+.statut-neutralise h3 {
+  color: #1f5a96;
+}
+.statut-sonne {
+  border-top-color: #9b59b6;
+}
+.statut-sonne h3 {
+  color: #7d3fa0;
+}
+.statut-deroute {
+  border-top-color: #b22222;
+}
+.statut-deroute h3 {
+  color: #a13030;
+}
+
+/* ============================================================
+   RÉACTIONS (page tour)
+   ============================================================ */
+.reaction {
+  margin-bottom: 1rem;
+}
+
+.reaction-nom {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+/* Couleur du nom selon la phase déclenchante */
+.reaction-mouvement .reaction-nom {
+  color: #2f7d3a;
+}
+.reaction-tir .reaction-nom {
+  color: #1f5a96;
+}
+.reaction-assaut .reaction-nom {
+  color: #a8551f;
+}
+.reaction-special .reaction-nom {
+  color: #7d3fa0;
+}
+
+.badge-phase {
+  display: inline-block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid var(--acier);
+  border-radius: 20px;
+  padding: 0.05rem 0.6rem;
+  margin-left: 0.5rem;
+  color: var(--texte-doux);
+  vertical-align: middle;
+}
+
+/* ============================================================
+   RÈGLES SPÉCIALES (page règles) — recherche + liste
+   ============================================================ */
+.barre-recherche {
+  width: 100%;
+  padding: 0.8rem 1.1rem;
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  background: var(--carte);
+  border: 2px solid var(--acier);
+  border-radius: var(--radius);
+  color: var(--texte);
+  margin-bottom: 1.2rem;
+}
+
+.barre-recherche:focus {
+  outline: none;
+  border-color: var(--or);
+}
+
+.compteur-resultats {
+  color: var(--texte-doux);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.regle {
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.7rem;
+}
+
+.regle h3 {
+  font-size: 1.02rem;
+  margin-bottom: 0.3rem;
+  color: var(--or-clair);
+}
+
+.regle p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.regle .exemple {
+  margin-top: 0.45rem;
+  font-size: 0.88rem;
+  color: var(--texte-doux);
+  font-style: italic;
+}
+
+.regle.cachee {
+  display: none;
+}
+
+/* ============================================================
+   CARTES POSTURES DE DÉFI
+   ============================================================ */
+.grille-postures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.carte-posture {
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-top: 5px solid var(--bordeaux);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+
+.carte-posture h4 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.carte-posture p {
+  font-size: 0.92rem;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   PIED DE PAGE
+   ============================================================ */
+footer {
+  background: var(--noir-fonce);
+  border-top: 2px solid var(--bordeaux);
+  text-align: center;
+  padding: 1.4rem 1rem;
+  color: var(--texte-doux);
+  font-size: 0.85rem;
+}
+
+footer p {
+  margin: 0.2rem 0;
+}

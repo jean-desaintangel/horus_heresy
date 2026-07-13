@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Règles spéciales</title>
+    <meta
+      name="description"
+      content="Référence rapide des règles spéciales Horus Heresy 3e édition : règles d'armes (Sonner, Brèche, Fusion...) et règles diverses (Frappe en profondeur, Peur...), avec recherche instantanée."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d'initiation</span></a
+        >
+        <button
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu">
+          <li><a href="../index.html">Accueil</a></li>
+          <li><a href="armee.html">Construction d'armée</a></li>
+          <li><a href="tour.html">Déroulement d'un tour</a></li>
+          <li><a href="tables.html">Tables de référence</a></li>
+          <li><a href="regles.html" class="actif">Règles spéciales</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <h1 class="section-titre" style="font-size: 2rem">Règles spéciales</h1>
+      <p>
+        Référence rapide pour une règle rencontrée en cours de partie. Tape son
+        nom (ou un mot de sa description) dans la barre ci-dessous : la liste se
+        filtre instantanément.
+      </p>
+
+      <!-- Barre de recherche : le filtre est géré par js/regles.js -->
+      <label
+        for="recherche"
+        class="sr-only"
+        style="position: absolute; left: -9999px"
+        >Rechercher une règle</label
+      >
+      <input
+        type="text"
+        id="recherche"
+        class="barre-recherche"
+        placeholder="Rechercher une règle… (ex : fusion, peur, brèche)"
+        autocomplete="off"
+      />
+      <p class="compteur-resultats" id="compteur"></p>
+
+      <!-- ===================== RÈGLES D'ARMES ===================== -->
+      <section class="groupe-regles" id="armes">
+        <h2 class="section-titre">Règles d'armes</h2>
+        <p>
+          Ces règles figurent sur les profils d'armes. Le (X) est une valeur qui
+          varie selon l'arme : <em>Brèche (5)</em>, <em>Fusion (8)</em>, etc.
+        </p>
+        <!-- Les cartes de règles sont générées par js/regles.js -->
+        <div id="regles-armes"></div>
+      </section>
+
+      <!-- ===================== RÈGLES DIVERSES ===================== -->
+      <section class="groupe-regles" id="diverses">
+        <h2 class="section-titre">Règles diverses</h2>
+        <p>
+          Ces règles figurent sur les profils d'unités : traits de déplacement,
+          de moral, de déploiement…
+        </p>
+        <div id="regles-diverses"></div>
+      </section>
+
+      <div class="encadre">
+        <p style="margin: 0">
+          <strong>Rappel :</strong> ces résumés simplifiés dépannent en cours de
+          partie, mais en cas de litige, c'est le livre de règles qui fait
+          référence (ou l'arbitre, le cas échéant).
+        </p>
+      </div>
+    </main>
+
+    <footer>
+      <p>Guide non officiel réalisé par des fans, pour les nouveaux joueurs.</p>
+      <p>
+        Horus Heresy est une marque de Games Workshop. Ce site ne contient aucun
+        matériel officiel.
+      </p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/regles.js"></script>
+  </body>
+</html>
