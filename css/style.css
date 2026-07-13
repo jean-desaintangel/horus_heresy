@@ -51,6 +51,24 @@
   white-space: nowrap;
 }
 
+/* Lien d'évitement (accessibilité, WCAG 2.4.1 / RGAA 12.7) :
+   masqué hors écran, il devient visible quand il reçoit le focus
+   clavier (Tab en début de page) pour sauter directement au contenu. */
+.lien-evitement {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2000;
+  background: var(--bordeaux);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 var(--radius) 0;
+  text-decoration: none;
+}
+.lien-evitement:focus {
+  left: 0;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
@@ -496,7 +514,9 @@ strong {
   z-index: 50;
   transition: opacity var(--transition);
   box-shadow: var(--ombre);
-  pointer-events: none;
+  /* Accessibilité (WCAG 1.4.13) : le tooltip reste survolable pour que
+     l'utilisateur puisse amener le pointeur dessus sans le faire disparaître. */
+  pointer-events: auto;
 }
 
 .orga-boite:hover .tooltip,
@@ -595,7 +615,10 @@ td {
 
 th {
   background: var(--noir-fonce);
-  color: var(--or);
+  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : --or #8a6a2c sur --noir-fonce
+     #e8e2d0 ne donnait que 3.88:1, insuffisant pour ce texte < 18px.
+     --or-clair #6b4f1f atteint 5.7:1. */
+  color: var(--or-clair);
   font-family: "Cinzel", serif;
   font-size: 0.85rem;
 }
@@ -980,7 +1003,10 @@ section:not(.ouvert) > .section-corps {
   font-size: 1rem;
   font-family: "Lato", sans-serif;
   background: var(--carte);
-  border: 2px solid var(--acier);
+  /* Accessibilité (WCAG 1.4.11 / RGAA 3.3) : --acier #6b6b85 sur blanc
+     ne donnait que 2.9:1 pour la bordure du champ ; --acier-clair
+     #45455f atteint 8:1, l'unique repère visuel du champ reste perceptible. */
+  border: 2px solid var(--acier-clair);
   border-radius: var(--radius);
   color: var(--texte);
   margin-bottom: 1.2rem;

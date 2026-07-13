@@ -18,6 +18,7 @@
     <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
   </head>
   <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
     <!-- ===================== NAVIGATION ===================== -->
     <header class="nav">
       <div class="nav-inner">
@@ -31,9 +32,10 @@
         >
           ☰
         </button>
-        <ul class="nav-menu">
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu">
           <li><a href="armee.html">Construction d’armée</a></li>
-          <li><a href="tour.html">Tour</a></li>
+          <li><a href="tour.html" aria-current="page">Tour</a></li>
           <li><a href="mouvement.html">Mouvement</a></li>
           <li><a href="tir.html">Tir</a></li>
           <li><a href="assaut.html">Assaut</a></li>
@@ -41,10 +43,14 @@
           <li><a href="regles.html">Règles spéciales</a></li>
           <li><a href="tables.html">Tables de référence</a></li>
         </ul>
+        </nav>
       </div>
     </header>
 
-    <main>
+    <main id="contenu">
+      <h1 class="section-titre" style="font-size: 2rem">
+        Déroulement d’un tour
+      </h1>
       <!-- ===================== TIMELINE DES PHASES ===================== -->
       <section id="phases">
         <h2 class="section-titre">La séquence d'un tour</h2>
@@ -195,7 +201,7 @@
       <p class="footer-disclaimer">
         <strong>Guide non officiel réalisé par des fans bénévoles francophones.</strong>
         Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de
-        <a href="https://www.games-workshop.com" target="_blank" rel="noopener noreferrer">Games Workshop Ltd</a>.
+        <a href="https://www.games-workshop.com" target="_blank" rel="noopener noreferrer">Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a>.
         Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à leur statut n'est intentionné.
       </p>
     </footer>

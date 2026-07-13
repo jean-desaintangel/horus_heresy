@@ -18,8 +18,26 @@ document.addEventListener("DOMContentLoaded", () => {
       // Accessibilité : on informe les lecteurs d'écran de l'état du menu
       const ouvert = menu.classList.contains("ouvert");
       burger.setAttribute("aria-expanded", ouvert ? "true" : "false");
+      // Le libellé suit l'action réellement disponible (ouvrir / fermer)
+      burger.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
     });
   }
+
+  /* ----------------------------------------------------------
+     ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)
+     Une info-bulle .orga-boite s'affiche au survol/focus ; la touche
+     Échap doit permettre de la masquer sans quitter la page. On retire
+     le focus de la case active, ce qui referme le tooltip (piloté en CSS).
+     ---------------------------------------------------------- */
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Escape" &&
+      document.activeElement &&
+      document.activeElement.classList.contains("orga-boite")
+    ) {
+      document.activeElement.blur();
+    }
+  });
 
   /* ----------------------------------------------------------
      2. PANNEAUX DÉPLIABLES (Accordéon + Timeline)

@@ -111,6 +111,7 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
 
   VALEURS.forEach((v) => {
     const th = document.createElement("th");
+    th.scope = "col"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7) : association colonne
     th.textContent = v;
     ligneEntete.appendChild(th);
   });
@@ -124,6 +125,7 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
 
     // Première cellule = en-tête de ligne
     const th = document.createElement("th");
+    th.scope = "row"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7) : association ligne
     th.textContent = VALEURS[i];
     tr.appendChild(th);
 
@@ -163,6 +165,7 @@ function construireTableCT(idConteneur) {
   ligneEntete.appendChild(coin);
   COLONNES_CT.forEach((v) => {
     const th = document.createElement("th");
+    th.scope = "col"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7)
     th.textContent = v;
     ligneEntete.appendChild(th);
   });
@@ -176,6 +179,7 @@ function construireTableCT(idConteneur) {
     ligne.forEach((valeur, j) => {
       // La 1re cellule de chaque ligne est un libellé -> th
       const cellule = document.createElement(j === 0 ? "th" : "td");
+      if (j === 0) cellule.scope = "row"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7)
       cellule.textContent = valeur;
       if (valeur === "Éch.") cellule.classList.add("impossible");
       tr.appendChild(cellule);
@@ -203,7 +207,7 @@ function construireTablePositionnement(idConteneur) {
 
   const thead = document.createElement("thead");
   thead.innerHTML =
-    "<tr><th>Initiative + Mouvement</th><th>Positionnement</th></tr>";
+    '<tr><th scope="col">Initiative + Mouvement</th><th scope="col">Positionnement</th></tr>';
   table.appendChild(thead);
 
   const tbody = document.createElement("tbody");
