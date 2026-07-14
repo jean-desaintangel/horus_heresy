@@ -969,6 +969,27 @@ section:not(.ouvert) > .section-corps {
   color: #7d3fa0;
 }
 
+/* Réactions présentées en cartes (page statuts-reactions) */
+.grille-reactions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.carte-statut.reaction-mouvement {
+  border-top-color: #2f7d3a;
+}
+.carte-statut.reaction-tir {
+  border-top-color: #1f5a96;
+}
+.carte-statut.reaction-assaut {
+  border-top-color: #a8551f;
+}
+.carte-statut.reaction-special {
+  border-top-color: #7d3fa0;
+}
+
 .badge-phase {
   display: inline-block;
   font-size: 0.72rem;

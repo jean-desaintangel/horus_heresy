@@ -52,14 +52,9 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
         Statuts tactiques et Réactions
       </h1>
-      <p>
-        Deux mécaniques transversales, qui s’appliquent pendant tout le tour de
-        jeu (le tien comme celui de l’adversaire). Vue d’ensemble des phases sur
-        la page <a href="tour.html#phases">Déroulement d’un tour</a>.
-      </p>
 
       <!-- ===================== STATUTS TACTIQUES ===================== -->
       <section id="statuts">
@@ -75,11 +70,15 @@
           </button>
         </h2>
         <div class="section-corps" id="statuts-corps">
-          <p>
-            Sous la pression du feu ennemi, tes unités peuvent gagner un
-            <strong>statut tactique</strong>, chacun avec un effet négatif.
-            Voici les 4 statuts et leurs effets :
-          </p>
+          <div class="encadre-attention">
+            <p style="margin: 0">
+              Quelque soit le statut tactique, une unité aura les malus suivants :
+              <strong>charge désordonnée</strong> ;
+              <strong>initiative au combat à 1</strong> ;
+              <strong>ni contrôle ni conteste objectif</strong> et
+              <strong>pas le bénéfice « À l’arrêt »</strong>.
+            </p>
+          </div>
 
           <div class="grille-statuts">
             <div class="carte-statut statut-fixe">
@@ -91,7 +90,7 @@
                   phase.
                 </li>
                 <li>
-                  Si en combat : mises au contact normales, mais impossible de
+                  Si en combat : mises au contact normales, mais impossible de
                   <strong>Poursuivre</strong> ou de se
                   <strong>Désengager</strong>.
                 </li>
@@ -103,8 +102,7 @@
               <ul>
                 <li>
                   Doit faire <strong>au jugé</strong> l’intégralité de ses
-                  attaques de tir (voir la ligne « Au jugé » de la
-                  <a href="tables.html">table CT</a>).
+                  attaques de tir.
                 </li>
               </ul>
             </div>
@@ -123,14 +121,14 @@
               <h3>En déroute</h3>
               <ul>
                 <li>
-                  À la phase de Mouvement : doit
+                  À la phase de Mouvement : doit
                   <strong>Battre en retraite</strong>.
                 </li>
                 <li>
-                  Si elle atteint le bord de table : test de Commandement. Raté
+                  Si elle atteint le bord de table : test de Commandement. Raté
                   =
-                  <strong>retirée comme perte</strong>. Réussi = perd « En
-                  déroute » et devient <strong>Neutralisée</strong>.
+                  <strong>retirée comme perte</strong>. Réussi = perd « En
+                  déroute » et devient <strong>Neutralisée</strong>.
                 </li>
               </ul>
             </div>
@@ -152,132 +150,142 @@
           </button>
         </h2>
         <div class="section-corps" id="reactions-corps">
-          <p>
-            Particularité importante à connaître : tu joues aussi
-            <strong>pendant le tour adverse</strong>. Quand l’ennemi agit, tes
-            unités peuvent déclarer une <strong>Réaction</strong>. Voici la
-            liste, classée par phase déclenchante (une unité <em>Sonnée</em> ne
-            peut pas réagir).
-          </p>
-
           <h3 class="sous-titre">Pendant la Phase de Mouvement adverse</h3>
-          <div class="reaction reaction-mouvement">
-            <span class="reaction-nom">Se repositionner</span
-            ><span class="badge-phase">Mouvement</span>
-            <p>
-              Quand une unité ennemie arrive à 12 pouces : mouvement immédiat
-              d’une valeur égale à l’Initiative de l’unité. Utile pour se mettre
-              à l’abri ou améliorer son positionnement.
-            </p>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-mouvement">
+              <h3 class="reaction-nom">
+                Se repositionner<span class="badge-phase">Mouvement</span>
+              </h3>
+              <p>
+                Quand une unité ennemie arrive à 12 pouces : mouvement immédiat
+                d’une valeur égale à l’Initiative de l’unité. Utile pour se
+                mettre à l’abri ou améliorer son positionnement.
+              </p>
+            </div>
           </div>
 
           <h3 class="sous-titre">Pendant la Phase de Tir adverse</h3>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Répliquer</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              L’unité ciblée riposte en tirant à son tour — même les figurines
-              qui vont mourir participent.
-            </p>
-          </div>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Répliquer<span class="badge-phase">Tir</span>
+              </h3>
+              <p>
+                L’unité ciblée riposte en tirant à son tour — même les figurines
+                qui vont mourir participent.
+              </p>
+            </div>
 
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Mur de bouclier</span
-            ><span class="badge-phase">Tir/Charge</span>
-            <p>
-              Réaction Avancée des Legiones Astartes, coût 1 point d’Attribution
-              de Réactions. Se déclare au début de l’Étape 3 d’une Attaque de
-              Tir, ou de l’Étape 4 d’une Charge (Attaques de Volée), faite par
-              l’adversaire. Si la majorité des figurines de l’unité visée a le
-              trait
-              <em>Bouclier</em> : <strong>+1 en Endurance</strong> pour la durée
-              de la phase.
-            </p>
-          </div>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Écran de fumée</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              Réaction Avancée des Legiones Astartes, coût 1 point d’Attribution
-              de Réactions. Se déclare au début de l’Étape 3 d’une Attaque de
-              Tir faite par l’adversaire. Si la majorité des figurines de
-              l’unité visée a le trait <em>Écran de fumée</em> : jet de
-              mitigation de dégâts de Dissimulation (5+) pendant la phase,
-              contre les blessures, les touches pénétrantes et les touches
-              superficielles.
-            </p>
-          </div>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Médic</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              Réaction Avancée des Legiones Astartes, coût 1 point d’Attribution
-              de Réactions. Se déclare dès l’Étape 9 d’une Attaque de Tir visant
-              une unité qui inclut un Médic. Au moment de retirer les pertes
-              (Étape 11) : un jet de rétablissement pour chaque figurine ayant
-              subi une blessure non sauvegardée (sauf les figurines qui ont
-              elles-mêmes « Médic »).
-            </p>
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Mur de bouclier<span class="badge-phase">Tir/Charge</span>
+              </h3>
+              <p>
+                Réaction Avancée des Legiones Astartes, coût 1 point
+                d’Attribution de Réactions. Se déclare au début de l’Étape 3
+                d’une Attaque de Tir, ou de l’Étape 4 d’une Charge (Attaques de
+                Volée), faite par l’adversaire. Si la majorité des figurines de
+                l’unité visée a le trait
+                <em>Bouclier</em> : <strong>+1 en Endurance</strong> pour la
+                durée de la phase.
+              </p>
+            </div>
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Écran de fumée<span class="badge-phase">Tir</span>
+              </h3>
+              <p>
+                Réaction Avancée des Legiones Astartes, coût 1 point
+                d’Attribution de Réactions. Se déclare au début de l’Étape 3
+                d’une Attaque de Tir faite par l’adversaire. Si la majorité des
+                figurines de l’unité visée a le trait
+                <em>Écran de fumée</em> : jet de mitigation de dégâts de
+                Dissimulation (5+) pendant la phase, contre les blessures, les
+                touches pénétrantes et les touches superficielles.
+              </p>
+            </div>
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Médic<span class="badge-phase">Tir</span>
+              </h3>
+              <p>
+                Réaction Avancée des Legiones Astartes, coût 1 point
+                d’Attribution de Réactions. Se déclare dès l’Étape 9 d’une
+                Attaque de Tir visant une unité qui inclut un Médic. Au moment
+                de retirer les pertes (Étape 11) : un jet de rétablissement pour
+                chaque figurine ayant subi une blessure non sauvegardée (sauf
+                les figurines qui ont elles-mêmes « Médic »).
+              </p>
+            </div>
           </div>
 
           <h3 class="sous-titre">Pendant la Phase d’Assaut adverse</h3>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Tir d’état d’alerte</span
-            ><span class="badge-phase">Assaut</span>
-            <p>
-              L’unité chargée tire normalement avec toutes ses armes sur l’unité
-              qui la charge. En revanche, aucun jet de couvert ni mitigation de
-              dégâts de Dissimulation pour l’attaquant.
-            </p>
-          </div>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Se dérober</span
-            ><span class="badge-phase">Assaut</span>
-            <p>
-              Après l’attaque de volée de la charge : l’unité s’esquive avec un
-              mouvement d’une valeur égale à son Initiative.
-            </p>
-          </div>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Intervention héroïque</span
-            ><span class="badge-phase">Assaut</span>
-            <p>Un personnage lance un Défi (voir la section suivante).</p>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Tir d’état d’alerte<span class="badge-phase">Assaut</span>
+              </h3>
+              <p>
+                L’unité chargée tire normalement avec toutes ses armes sur
+                l’unité qui la charge. En revanche, aucun jet de couvert ni
+                mitigation de dégâts de Dissimulation pour l’attaquant.
+              </p>
+            </div>
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Se dérober<span class="badge-phase">Assaut</span>
+              </h3>
+              <p>
+                Après l’attaque de volée de la charge : l’unité s’esquive avec
+                un mouvement d’une valeur égale à son Initiative.
+              </p>
+            </div>
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Intervention héroïque<span class="badge-phase">Assaut</span>
+              </h3>
+              <p>Un personnage lance un Défi (voir la section suivante).</p>
+            </div>
           </div>
 
           <h3 class="sous-titre">Réactions spéciales</h3>
-          <div class="reaction reaction-special">
-            <span class="reaction-nom">Interception</span
-            ><span class="badge-phase">Réserves</span>
-            <p>
-              Tir au jugé sur une unité adverse qui vient d’entrer depuis la
-              réserve (un véhicule n’utilise que ses armes défensives).
-            </p>
-          </div>
-          <div class="reaction reaction-special">
-            <span class="reaction-nom">La mort ou la gloire</span
-            ><span class="badge-phase">Véhicule</span>
-            <p>
-              Pour stopper un véhicule qui « passe à travers » ton unité (socle
-              à socle) : une figurine (pas forcément au contact) tire OU frappe
-              en mêlée. Toutes ses attaques touchent automatiquement ; les jets
-              de blessure se font contre le blindage avant. Si le véhicule est
-              détruit ou Fixé : la figurine survit et le véhicule n’inflige
-              aucune touche par son passage. Sinon, elle est retirée comme
-              perte.
-            </p>
-          </div>
-          <div class="reaction reaction-special">
-            <span class="reaction-nom">Annuler</span
-            ><span class="badge-phase">Psychique</span>
-            <p>
-              Quand on rate un test de résistance contre une malédiction
-              psychique : une figurine avec le trait <em>Psyker</em> et une
-              ligne de vue vers l’unité cible (ou vers le focus de la
-              malédiction) peut tenter d’annuler. On soustrait la Volonté du
-              focus à la Volonté de notre figurine, puis on fait un test de
-              Volonté avec le modificateur du pouvoir. Réussi : la malédiction
-              rate. Échec : elle se résout normalement.
-            </p>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                Interception<span class="badge-phase">Réserves</span>
+              </h3>
+              <p>
+                Tir au jugé sur une unité adverse qui vient d’entrer depuis la
+                réserve (un véhicule n’utilise que ses armes défensives).
+              </p>
+            </div>
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                La mort ou la gloire<span class="badge-phase">Véhicule</span>
+              </h3>
+              <p>
+                Pour stopper un véhicule qui « passe à travers » ton unité
+                (socle à socle) : une figurine (pas forcément au contact) tire
+                OU frappe en mêlée. Toutes ses attaques touchent automatiquement ; les jets de blessure se font contre le blindage avant. Si le
+                véhicule est détruit ou Fixé : la figurine survit et le véhicule
+                n’inflige aucune touche par son passage. Sinon, elle est retirée
+                comme perte.
+              </p>
+            </div>
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                Annuler<span class="badge-phase">Psychique</span>
+              </h3>
+              <p>
+                Quand on rate un test de résistance contre une malédiction
+                psychique : une figurine avec le trait <em>Psyker</em> et une
+                ligne de vue vers l’unité cible (ou vers le focus de la
+                malédiction) peut tenter d’annuler. On soustrait la Volonté du
+                focus à la Volonté de notre figurine, puis on fait un test de
+                Volonté avec le modificateur du pouvoir. Réussi : la malédiction
+                rate. Échec : elle se résout normalement.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -289,15 +297,15 @@
           >Guide non officiel réalisé par des fans bénévoles
           francophones.</strong
         >
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
         sont des marques déposées de
         <a
           href="https://www.games-workshop.com"
           target="_blank"
           rel="noopener noreferrer"
           >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
-        >. Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à
-        leur statut n'est intentionné.
+        >. Ce site n’est ni affilié ni approuvé par Games Workshop. Aucun défi à
+        leur statut n’est intentionné.
       </p>
     </footer>
 
