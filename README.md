@@ -16,7 +16,7 @@ Site statique non officiel servant de guide d'initiation au jeu de figurines **H
 
 ## Structure du projet
 
-```
+```text
 index.html
 pages/
   armee.html
@@ -32,8 +32,8 @@ assets/
 css/
   style.css
 js/
-  main.js      # menu mobile, accordéons, timeline
-  tables.js    # logique des tables de référence
+  main.js      # menu mobile, accordéons, timeline, sections repliables
+  tables.js    # tables de référence (tables.html et tir.html)
   regles.js    # recherche/filtrage des règles spéciales
 ```
 
@@ -43,7 +43,7 @@ Site en HTML/CSS/JS vanilla, sans dépendance ni étape de build.
 
 Ouvrir simplement [index.html](index.html) dans un navigateur, ou servir le dossier avec un serveur statique, par exemple :
 
-```
+```bash
 npx serve .
 ```
 
