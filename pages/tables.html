@@ -6,7 +6,7 @@
     <title>Tables de référence</title>
     <meta
       name="description"
-      content="Tables de référence Horus Heresy 3e édition : jets de touche au corps-à-corps (CC), jets de blessure (Force vs Endurance) et capacité de tir (CT) avec tir au jugé."
+      content="Tables de référence Horus Heresy 3e édition : jets de touche au corps-à-corps (CC)."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -52,13 +52,6 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre" style="font-size: 2rem">Tables de référence</h1>
-      <p>
-        Les trois tables que tu consulteras à chaque partie.
-        <strong>Survole (ou touche) une case</strong>
-        pour mettre en surbrillance sa ligne et sa colonne.
-      </p>
-
       <!-- ===================== TABLE CC ===================== -->
       <section id="cc">
         <h2 class="section-titre">
@@ -81,64 +74,6 @@
           </p>
           <!-- La table est générée par js/tables.js -->
           <div id="table-cc"></div>
-        </div>
-      </section>
-
-      <!-- ===================== TABLE BLESSURE ===================== -->
-      <section id="blessure">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="blessure-corps"
-          >
-            <span>Blesser la cible</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="blessure-corps">
-          <p>
-            Croise la <strong>Force de la touche</strong> avec l'<strong
-              >Endurance de la cible</strong
-            >
-            . Un « − » signifie que la blessure est impossible.
-          </p>
-          <div id="table-blessure"></div>
-        </div>
-      </section>
-
-      <!-- ===================== TABLE CT ===================== -->
-      <section id="ct">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="ct-corps"
-          >
-            <span>Toucher au tir (CT)</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="ct-corps">
-          <p>
-            Le score à obtenir dépend de la
-            <strong>Capacité de Tir (CT)</strong> du tireur. La ligne
-            <strong>« Au jugé »</strong> s'applique aux tirs sans viser : unité
-            Neutralisée, réaction Interception, arme utilisée en marchant avec
-            le trait Léger, etc.
-          </p>
-          <div id="table-ct"></div>
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Légende :</strong> <strong>Auto</strong> = touche
-              automatique. <strong>Cr X+</strong> = la touche est presque
-              assurée (2+), et en cas d'échec le jet est relancé : la relance
-              réussit sur X+. <strong>Éch.</strong> = échec automatique, on ne
-              peut pas tirer au jugé avec CT 1.
-            </p>
-          </div>
         </div>
       </section>
     </main>
