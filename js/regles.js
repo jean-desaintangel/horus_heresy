@@ -603,7 +603,7 @@ function activerRecherche() {
       const total = document.querySelectorAll(".regle").length;
       compteur.textContent = requete
         ? visibles + " règle(s) trouvée(s) sur " + total
-        : total + " règles au total";
+        : "";
     }
   });
 }
@@ -615,11 +615,4 @@ document.addEventListener("DOMContentLoaded", () => {
   afficherRegles("regles-armes", REGLES_ARMES);
   afficherRegles("regles-diverses", REGLES_DIVERSES);
   activerRecherche();
-
-  // Affiche le total au chargement
-  const compteur = document.getElementById("compteur");
-  if (compteur) {
-    compteur.textContent =
-      document.querySelectorAll(".regle").length + " règles au total";
-  }
 });
