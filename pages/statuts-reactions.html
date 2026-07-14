@@ -8,14 +8,33 @@
       name="description"
       content="Statuts tactiques (Fixé, Neutralisée, Sonnée, En déroute) et Réactions Horus Heresy 3e édition : Se repositionner, Répliquer, Mur de bouclier, Écran de fumée, Médic, Tir d'état d'alerte, Se dérober, Intervention héroïque, Interception, La mort ou la gloire, Annuler."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Statuts et Réactions — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Statuts tactiques (Fixé, Neutralisée, Sonnée, En déroute) et Réactions Horus Heresy 3e édition."
+    />
+    <script src="../js/main.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -52,7 +71,7 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre titre-page">
         Statuts et Réactions
       </h1>
 
@@ -71,8 +90,8 @@
         </h2>
         <div class="section-corps" id="statuts-corps">
           <div class="encadre-attention">
-            <p style="margin: 0">
-              Quelque soit le statut tactique, une unité aura les malus
+            <p>
+              Quel que soit le statut tactique, une unité aura les malus
               suivants :
               <strong>charge désordonnée</strong> ;
               <strong>initiative au combat à 1</strong> ;
@@ -121,7 +140,7 @@
             <div class="carte-statut statut-deroute">
               <h3>En déroute</h3>
               <ul>
-                <li>Tout les malus des autres statuts.</li>
+                <li>Tous les malus des autres statuts.</li>
                 <li>
                   À la phase de Mouvement : doit
                   <strong>Battre en retraite</strong>.
@@ -311,7 +330,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
   </body>
 </html>

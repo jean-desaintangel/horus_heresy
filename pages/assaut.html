@@ -8,14 +8,34 @@
       name="description"
       content="Détail de la Phase d'Assaut Horus Heresy 3e édition : déclarer une charge, mouvement de mise en place et attaque de volée, jet de charge et charge désordonnée, Défi, sous-phase de Combat et Résolution."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="La Phase d’Assaut — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Détail de la Phase d'Assaut Horus Heresy 3e édition : déclarer une charge, jet de charge et charge désordonnée, Défi, sous-phase de Combat et Résolution."
+    />
+    <script src="../js/main.js" defer></script>
+    <script src="../js/tables.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -50,11 +70,11 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre titre-page">
         Phase d’assaut
       </h1>
       <div class="encadre-attention">
-        <p style="margin: 0">
+        <p>
           Une unité ne peut pas déclarer de Charge si : elle a Foncé pendant ce
           tour ; elle est déjà
           <em>Verrouillée en Combat</em> ; elle est embarquée à bord d’un
@@ -80,7 +100,7 @@
               </p>
 
               <div class="encadre-attention">
-                <p style="margin: 0">
+                <p>
                   <strong>Charge désordonnée.</strong> S’applique si l’unité
                   vient de débarquer ce tour, ou si elle compte des figurines
                   <em>Sonnées</em> ou <em>Neutralisées</em> : pas de mouvement
@@ -94,7 +114,7 @@
                 <!-- ===================== DECLARER LA CIBLE ===================== -->
                 <div class="timeline-item" id="declarer-cible">
                   <button class="timeline-titre" aria-expanded="false">
-                    1/2. Déclarer la cible et virifier la ligne de vue et la
+                    1/2. Déclarer la cible et vérifier la ligne de vue et la
                     portée de charge maximum
                     <span class="chevron">❯</span>
                   </button>
@@ -124,7 +144,7 @@
                       </p>
                       <div id="table-positionnement"></div>
                       <div class="encadre">
-                        <p style="margin: 0">
+                        <p>
                           <strong>Charge déjà réussie ?</strong> Si ce mouvement
                           de mise en place suffit à amener une figurine au
                           contact socle à socle de la cible, la Charge est
@@ -145,7 +165,7 @@
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
-                        Les deux unités, en commancant par l'unité assaillante,
+                        Les deux unités, en commençant par l’unité assaillante,
                         peuvent faire une
                         <strong>attaque de volée</strong> l’une contre l’autre :
                         seules les armes dotées du trait <em>Assaut</em> peuvent
@@ -223,7 +243,7 @@
                 <strong>2.</strong> Faire les mises en contact · <strong
                   >3.</strong
                 >
-                Déclarer les figurines engagées · <strong>4.</strong> Etablir
+                Déclarer les figurines engagées · <strong>4.</strong> Établir
                 les groupes de coups · <strong>5.</strong> Faire les jets de
                 touche · <strong>6.</strong> Faire les jets de Blessure
                 · <strong>7.</strong> Choisir un groupe de coups et la cible
@@ -235,7 +255,7 @@
               </p>
               <div class="timeline">
                 <!-- ===================== DECLARER LES COMBATTANTS ===================== -->
-                <div class="timeline-item" id="declarer-cible">
+                <div class="timeline-item" id="declarer-combattants">
                   <button class="timeline-titre" aria-expanded="false">
                     1/2. Déclarer les combattants et faire les mises en contact
                     <span class="chevron">❯</span>
@@ -246,8 +266,8 @@
                         Les figurines avec la plus haute
                         <strong>Initiative</strong> dans le combat se battent en
                         première, puis les suivantes par ordre décroissant. Les
-                        figurines doivent être mises en contact en se déplacant
-                        d'un nombre de pouces égal à leur initiative.
+                        figurines doivent être mises en contact en se déplaçant
+                        d’un nombre de pouces égal à leur Initiative.
                       </p>
                     </div>
                   </div>
@@ -256,7 +276,7 @@
                 <!-- ===================== ETABLIR LES GROUPES DE COUPS ===================== -->
                 <div class="timeline-item" id="groupes-de-coups">
                   <button class="timeline-titre" aria-expanded="false">
-                    4. Etablir les groupes de coups
+                    4. Établir les groupes de coups
                     <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
@@ -265,7 +285,7 @@
                         Le joueur déclare quelles armes de son unité participent
                         au combat (une seule arme par figurine). On les
                         rassemble ensuite en
-                        <strong>groupes de tirs</strong> : toutes les attaques
+                        <strong>groupes de coups</strong> : toutes les attaques
                         faites avec des armes du même nom forment un seul
                         groupe, résolu d’un bloc.
                       </p>
@@ -273,11 +293,12 @@
                         Deux exceptions obligent à créer des groupes séparés,
                         même pour la même arme : si l’arme a plusieurs profils
                         (on choisit alors lequel utiliser), ou si les figurines
-                        qui tirent n’ont pas toutes la même capacité de combat.
+                        qui combattent n’ont pas toutes la même Capacité de
+                        Combat.
                       </p>
                       <p>
                         Les groupes sont résolus <strong>un par un</strong>,
-                        dans l’ordre choisi par le joueur qui tire.
+                        dans l’ordre choisi par le joueur actif.
                       </p>
                     </div>
                   </div>
@@ -290,18 +311,14 @@
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
-                      <div class="section-corps" id="cc-corps">
-                        <p>
-                          Croise la
-                          <strong
-                            >Capacité de Combat (CC) de l’attaquant</strong
-                          >
-                          avec celle du <strong>défenseur</strong>. Le résultat
-                          est le score minimum à obtenir sur 1D6 pour toucher.
-                        </p>
-                        <!-- La table est générée par js/tables.js -->
-                        <div id="table-cc"></div>
-                      </div>
+                      <p>
+                        Croise la
+                        <strong>Capacité de Combat (CC) de l’attaquant</strong>
+                        avec celle du <strong>défenseur</strong>. Le résultat
+                        est le score minimum à obtenir sur 1D6 pour toucher.
+                      </p>
+                      <!-- La table est générée par js/tables.js -->
+                      <div id="table-cc"></div>
                     </div>
                   </div>
                 </div>
@@ -322,7 +339,7 @@
                       </p>
                       <div id="table-blessure"></div>
                       <div class="encadre">
-                        <p style="margin: 0">
+                        <p>
                           <strong>Cible Véhicule :</strong> pas de jet de
                           blessure. On fait à la place un
                           <strong>test de Pénétration de Blindage</strong>, qui
@@ -483,7 +500,7 @@
               </div>
 
               <div class="encadre">
-                <p style="margin: 0">
+                <p>
                   <strong>Massacre :</strong> si toutes les figurines d’un camp
                   sont retirées comme pertes pendant ce round, l’autre camp
                   n’est plus Verrouillé en Combat et doit Consolider.
@@ -556,12 +573,9 @@
           target="_blank"
           rel="noopener noreferrer"
           >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
-        >. Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à
-        leur statut n'est intentionné.
+        >. Ce site n’est ni affilié ni approuvé par Games Workshop. Aucun défi à
+        leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
-    <script src="../js/tables.js"></script>
   </body>
 </html>

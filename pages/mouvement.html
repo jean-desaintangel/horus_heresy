@@ -8,14 +8,33 @@
       name="description"
       content="Détail de la Phase de Mouvement Horus Heresy 3e édition : sous-phase de Réserves, déplacement normal et cohésion d'unité, terrain difficile et dangereux, Foncer, et sous-phase de Déroute."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="La Phase de Mouvement — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Détail de la Phase de Mouvement Horus Heresy 3e édition : sous-phase de Réserves, déplacement normal et cohésion d'unité, terrain difficile et dangereux, Foncer, et sous-phase de Déroute."
+    />
+    <script src="../js/main.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -50,7 +69,7 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre titre-page">
         Phase de mouvement
       </h1>
 
@@ -110,7 +129,7 @@
               </p>
 
               <div class="encadre-attention">
-                <p style="margin: 0">
+                <p>
                   <strong
                     >Une unité ne peut pas se déplacer normalement si :</strong
                   >
@@ -152,7 +171,7 @@
                 </li>
               </ul>
 
-              <h3 class="sous-titre">Terrain difficile et terrain dangereux</h3>
+              <h2 class="sous-titre">Terrain difficile et terrain dangereux</h2>
               <div class="grille-statuts">
                 <div class="carte-statut statut-fixe">
                   <h3>Terrain difficile</h3>
@@ -175,14 +194,14 @@
                 </div>
               </div>
 
-              <h3 class="sous-titre" id="foncer">Foncer</h3>
+              <h2 class="sous-titre" id="foncer">Foncer</h2>
               <p>
                 Plutôt qu’un déplacement normal, une unité peut choisir de
                 <strong>Foncer</strong> : elle se déplace alors d’une distance
                 égale à sa <strong>Mouvement + Initiative</strong>, en pouces.
               </p>
               <div class="encadre-attention">
-                <p style="margin: 0">
+                <p>
                   <strong>Le prix à payer :</strong> une unité qui a Foncé ne
                   peut <strong>ni tirer</strong> pendant la Phase de Tir,
                   <strong>ni se voir déclarer de Charge</strong> pendant la
@@ -244,7 +263,7 @@
                 sont forcées de fuir pendant cette dernière sous-phase.
               </p>
               <div class="encadre">
-                <p style="margin: 0">
+                <p>
                   <strong>Battre en retraite :</strong> on jette 1D6 que l’on
                   ajoute à l’Initiative pour connaître sa distance de retraite.
                   L’unité se déplace alors de cette distance, en ligne aussi
@@ -320,7 +339,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
   </body>
 </html>

@@ -1,7 +1,10 @@
 /* ============================================================
    regles.js — Règles spéciales (page regles.html)
-   Les règles sont encodées en JS, rendues dynamiquement,
-   et filtrées en temps réel par la barre de recherche.
+   Auteur : Jean · Modifié : 2026-07-14
+   Rôle   : encode les règles en JS, les rend dynamiquement et les
+   filtre en temps réel via la barre de recherche.
+   Dépend : aucun (vanilla JS) — stylé par css/style.css.
+   Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -571,9 +574,16 @@ function afficherRegles(idConteneur, regles) {
  * .normalize("NFD") décompose chaque lettre accentuée en deux caractères
  * (ex : "è" devient "e" + un accent grave séparé) ; l'expression régulière
  * supprime ensuite uniquement ces accents désormais isolés.
+ * ̀-ͯ = plage Unicode des diacritiques combinants, écrite en
+ * échappements plutôt qu'en caractères littéraux (invisibles à l'écran,
+ * fragiles au copier-coller : un éditeur peut les re-normaliser sans
+ * prévenir et casser silencieusement la regex).
  */
 function normaliser(texte) {
-  return texte.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  return texte
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
 function activerRecherche() {

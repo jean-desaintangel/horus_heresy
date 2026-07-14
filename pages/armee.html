@@ -8,14 +8,33 @@
       name="description"
       content="Construire une armée Horus Heresy 3e édition : Détachement Principal de Croisade, Détachements Auxiliaires, Apex, Rôles Tactiques et Cases Principales."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Construction d’armée — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Construire une armée Horus Heresy 3e édition : Détachement Principal de Croisade, Détachements Auxiliaires, Apex, Rôles Tactiques et Cases Principales."
+    />
+    <script src="../js/main.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -52,7 +71,7 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre titre-page">
         Construction d’armée
       </h1>
       <p>
@@ -156,7 +175,7 @@
               <div class="organigramme">
                 <!-- ===================== DÉTACHEMENT PRINCIPAL ===================== -->
                 <div class="orga-groupe">
-                  <h4>Point de départ obligatoire</h4>
+                  <h2>Point de départ obligatoire</h2>
                   <div class="orga-cases">
                     <div class="orga-boite principal" tabindex="0">
                       Détachement Principal de Croisade
@@ -169,11 +188,14 @@
                   </div>
                 </div>
 
-                <div class="orga-fleche">▼ débloque ▼</div>
+                <div class="orga-fleche">
+                  <span aria-hidden="true">▼</span> débloque
+                  <span aria-hidden="true">▼</span>
+                </div>
 
                 <!-- ===================== DÉTACHEMENTS ADDITIONNELS ===================== -->
                 <div class="orga-groupe">
-                  <h4>Détachements additionnels</h4>
+                  <h2>Détachements additionnels</h2>
                   <div class="orga-cases">
                     <div class="orga-boite" tabindex="0">
                       Seigneur de Guerre
@@ -205,12 +227,13 @@
                 </div>
 
                 <div class="orga-fleche">
-                  ▼ 1 par État-Major (2 avec « Officier de ligne (2) ») ▼
+                  <span aria-hidden="true">▼</span> 1 par État-Major (2 avec «
+                  Officier de ligne (2) ») <span aria-hidden="true">▼</span>
                 </div>
 
                 <!-- ===================== DÉTACHEMENTS AUXILIAIRES ===================== -->
                 <div class="orga-groupe">
-                  <h4>Détachements auxiliaires</h4>
+                  <h2>Détachements auxiliaires</h2>
                   <div class="orga-cases">
                     <div class="orga-boite" tabindex="0">
                       Poing Blindé
@@ -265,12 +288,13 @@
                 </div>
 
                 <div class="orga-fleche">
-                  ▼ 1 si tu as pris un Quartier Général ▼
+                  <span aria-hidden="true">▼</span> 1 si tu as pris un Quartier
+                  Général <span aria-hidden="true">▼</span>
                 </div>
 
                 <!-- ===================== DÉTACHEMENTS D’APEX ===================== -->
                 <div class="orga-groupe">
-                  <h4>Détachements d’Apex</h4>
+                  <h2>Détachements d’Apex</h2>
                   <div class="orga-cases">
                     <div class="orga-boite" tabindex="0">
                       Escorte de Combat
@@ -298,7 +322,7 @@
               </div>
 
               <div class="encadre">
-                <p style="margin: 0">
+                <p>
                   <strong>À retenir :</strong> une armée doit inclure 1
                   Détachement Principal. Elle peut toujours inclure n’importe
                   quel nombre de Détachements Alliés, jusqu’à 1 Détachement
@@ -623,7 +647,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
   </body>
 </html>

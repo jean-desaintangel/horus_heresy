@@ -8,15 +8,32 @@
       name="description"
       content="Guide d'initiation pour le jeu de figurines Horus Heresy 3e édition : construction d'armée, déroulement d'un tour, tables de référence et règles spéciales."
     />
-    <!-- Polices : Cinzel (titres) et Lato (texte) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices Cinzel (titres) et Lato (texte) auto-hébergées via
+         css/style.css : aucune requête vers Google Fonts, donc aucune
+         IP de visiteur transmise à un tiers (RGPD / CNIL). On précharge
+         la police du texte courant pour un premier rendu sans bascule. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" type="image/png" href="assets/img/eye-of-horus.png" />
+    <link rel="icon" type="image/png" href="assets/img/eye-of-horus-64.png" />
+    <!-- Métadonnées de partage (Open Graph) pour Discord, forums...
+         og:image exige une URL ABSOLUE : compléter avec le domaine
+         définitif au moment de la mise en ligne. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content="Horus Heresy — Guide d’initiation" />
+    <meta
+      property="og:description"
+      content="Guide non officiel pour Horus Heresy 3e édition : construction d'armée, phases de jeu, tables de référence et règles spéciales."
+    />
+    <!-- defer : téléchargé en parallèle du parsing, exécuté après le DOM.
+         L'ordre des balises est préservé entre scripts defer. -->
+    <script src="js/main.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -58,10 +75,18 @@
           <p class="devise">Horus Heresy 3<sup>e</sup> édition</p>
         </div>
         <div class="hero-image">
-          <img
-            src="assets/img/image.png"
-            alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
-          />
+          <!-- WebP (−93 % vs le PNG d'origine) avec repli JPEG.
+               width/height : le navigateur réserve l'espace avant le
+               chargement et évite le décalage de mise en page (CLS). -->
+          <picture>
+            <source srcset="assets/img/hero.webp" type="image/webp" />
+            <img
+              src="assets/img/hero.jpg"
+              width="800"
+              height="1219"
+              alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
+            />
+          </picture>
         </div>
       </section>
     </main>
@@ -84,7 +109,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="js/main.js"></script>
   </body>
 </html>

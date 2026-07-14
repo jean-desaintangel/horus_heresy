@@ -8,14 +8,33 @@
       name="description"
       content="Le tour de jeu Horus Heresy 3e édition : phases et sous-phases, résolution des tirs."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Déroulement d’un tour — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Le tour de jeu Horus Heresy 3e édition : phases et sous-phases, résolution des tirs."
+    />
+    <script src="../js/main.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -96,7 +115,7 @@
                     <a href="statuts-reactions.html#statuts">statuts</a>).
                   </li>
                 </ul>
-                <p style="margin: 0.6rem 0 0">
+                <p class="lien-detail">
                   <a href="mouvement.html">Détail de la Phase de Mouvement →</a>
                 </p>
               </div>
@@ -122,7 +141,7 @@
                     bonjour les statuts tactiques.
                   </li>
                 </ul>
-                <p style="margin: 0.6rem 0 0">
+                <p class="lien-detail">
                   <a href="tir.html">Détail de la Phase de Tir →</a>
                 </p>
               </div>
@@ -156,7 +175,7 @@
                     la déroute.
                   </li>
                 </ul>
-                <p style="margin: 0.6rem 0 0">
+                <p class="lien-detail">
                   <a href="assaut.html">Détail de la Phase d’Assaut →</a>
                 </p>
               </div>
@@ -208,7 +227,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
   </body>
 </html>

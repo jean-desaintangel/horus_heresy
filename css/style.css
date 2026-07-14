@@ -1,24 +1,75 @@
 /* ============================================================
    GUIDE DU DÉBUTANT — HORUS HERESY 3e ÉDITION
    Feuille de style principale (thème clair)
+   Auteur : Jean · Modifié : 2026-07-14
    Palette : parchemin #f4f1e8, bordeaux #8b0000, or #8a6a2c, gris acier #6b6b85
    ============================================================ */
+
+/* ---------- Polices auto-hébergées ----------
+   Cinzel (titres) et Lato (texte) sont servies depuis assets/fonts/
+   plutôt que depuis Google Fonts : aucune adresse IP de visiteur
+   n'est transmise à un tiers (RGPD / recommandations CNIL), et le
+   chargement ne dépend plus d'un domaine externe. Fichiers issus du
+   paquet npm @fontsource (sous-ensemble latin, format WOFF2).
+   font-display: swap affiche le texte immédiatement avec la police
+   système, remplacée sans clignotement une fois la police chargée. */
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/cinzel-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/cinzel-latin-700-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/lato-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Lato";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/lato-latin-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/lato-latin-700-normal.woff2") format("woff2");
+}
 
 /* ---------- Variables globales ----------
    Toute la palette et les réglages communs passent par ces
    variables CSS : pour changer une couleur ou un arrondi sur
    tout le site, on modifie une seule ligne ici plutôt que de
    chercher chaque valeur dans le fichier.
-   Convention : le suffixe "-clair" désigne une variante plus
-   claire de la même couleur, utilisée pour les survols (:hover)
-   ou les accents secondaires. */
+   Convention : les variables sont nommées par RÔLE (--fond,
+   --accent, --titre...) et non par couleur, pour que les noms
+   restent justes si la palette change (ex : futur thème sombre).
+   Le suffixe "-clair" (accent, acier) désigne la variante de
+   survol ; "-contraste" désigne une déclinaison assombrie pour
+   respecter les contrastes WCAG sur petits textes. */
 :root {
-  --noir: #f4f1e8; /* fond principal */
-  --noir-fonce: #e8e2d0; /* fond nav / footer */
-  --bordeaux: #8b0000; /* accent principal */
-  --bordeaux-clair: #a13030;
-  --or: #8a6a2c; /* titres, bordures précieuses */
-  --or-clair: #6b4f1f;
+  --fond: #f4f1e8; /* fond principal (parchemin) */
+  --fond-secondaire: #e8e2d0; /* fond nav / footer */
+  --accent: #8b0000; /* accent principal (bordeaux) */
+  --accent-clair: #a13030;
+  /* --titre (or) ≈ 4.3:1 sur --fond : réservé aux titres ≥ 18.66px
+     gras (texte large, seuil WCAG 3:1). Pour du texte courant,
+     utiliser --titre-contraste (≥ 4.5:1). */
+  --titre: #8a6a2c; /* titres, bordures précieuses */
+  --titre-contraste: #6b4f1f;
   --acier: #6b6b85; /* bordures, éléments secondaires */
   --acier-clair: #45455f;
   --texte: #2c2a24; /* texte courant */
@@ -59,7 +110,7 @@
   left: -9999px;
   top: 0;
   z-index: 2000;
-  background: var(--bordeaux);
+  background: var(--accent);
   color: #fff;
   padding: 0.6rem 1rem;
   border-radius: 0 0 var(--radius) 0;
@@ -69,17 +120,22 @@
   left: 0;
 }
 
+/* Approche MOBILE-FIRST : les styles de base décrivent le petit
+   écran (la cible principale du site, consulté en cours de partie),
+   et les media queries en min-width ENRICHISSENT pour les grands
+   écrans — plutôt que l'inverse. */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
+  /* Menu replié = nav basse : peu d'espace à réserver pour qu'un
+     lien d'ancrage (#foncer, #reactions...) ne s'arrête pas sous
+     la barre fixe. */
+  scroll-padding-top: 70px;
 }
 
-@media (max-width: 760px) {
+@media (min-width: 761px) {
   html {
-    /* Le menu replié rend la nav plus basse : moins d'espace à réserver
-       pour qu'un lien d'ancrage (#foncer, #reactions...) ne s'arrête pas
-       sous la barre fixe. */
-    scroll-padding-top: 70px;
+    /* Nav bureau sur 2 lignes (logo + menu) : plus de place à réserver. */
+    scroll-padding-top: 90px;
   }
 }
 
@@ -88,16 +144,25 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: "Lato", sans-serif;
-  background: var(--noir);
+  background: var(--fond);
   color: var(--texte);
   line-height: 1.7;
   /* Texture subtile en dégradé pour éviter un fond trop plat */
   background-image: radial-gradient(
     circle at 20% 0%,
     #ffffff 0%,
-    var(--noir) 60%
+    var(--fond) 60%
   );
-  background-attachment: fixed;
+}
+
+@media (min-width: 761px) {
+  body {
+    /* Fige le dégradé au défilement — réservé aux grands écrans :
+       iOS Safari l'ignore et Android le paie en repaints continus
+       à chaque scroll. Sans lui, le dégradé reste visible, il
+       défile simplement avec la page. */
+    background-attachment: fixed;
+  }
 }
 
 h1,
@@ -105,11 +170,11 @@ h2,
 h3,
 h4 {
   font-family: "Cinzel", serif;
-  color: var(--or);
+  color: var(--titre);
 }
 
 a {
-  color: var(--or-clair);
+  color: var(--titre-contraste);
 }
 
 img {
@@ -132,7 +197,7 @@ img {
   z-index: 1000;
   background: rgba(248, 245, 238, 0.92);
   backdrop-filter: blur(6px);
-  border-bottom: 2px solid var(--bordeaux);
+  border-bottom: 2px solid var(--accent);
 }
 
 .nav-inner {
@@ -149,46 +214,60 @@ img {
 .nav-logo {
   font-family: "Cinzel", serif;
   font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--or);
+  font-size: 0.85rem;
+  max-width: calc(100% - 4.5rem); /* laisse la place au bouton burger */
+  color: var(--titre);
   text-decoration: none;
   letter-spacing: 1px;
   text-align: center;
 }
 
 .nav-logo span {
-  color: var(--bordeaux-clair);
+  color: var(--accent-clair);
 }
 
-/* Bouton burger : visible uniquement sur mobile */
+/* Bouton burger (base mobile : visible) */
 .nav-burger {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Cible tactile confortable (~44px) même si le glyphe ☰ est petit */
+  min-width: 2.75rem;
+  min-height: 2.75rem;
   position: absolute;
   top: 0.5rem;
   right: 1rem;
   background: none;
   border: 1px solid var(--acier);
   border-radius: var(--radius);
-  color: var(--or);
+  color: var(--titre);
   font-size: 1.4rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0;
   cursor: pointer;
 }
 
+/* Base mobile : menu replié, liens empilés en pleine largeur.
+   La classe .ouvert est basculée par le bouton burger (js/main.js). */
 .nav-menu {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: none;
+  width: 100%;
+  flex-direction: column;
   list-style: none;
   gap: 0.3rem;
+  padding: 0.5rem 0;
+}
+
+.nav-menu.ouvert {
+  display: flex;
 }
 
 .nav-menu a {
   display: block;
-  padding: 0.5rem 0.9rem;
+  /* Liens empilés en pleine largeur : autant agrandir la zone de tap */
+  padding: 0.85rem 1rem;
   color: var(--texte);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   border-radius: var(--radius);
   transition:
     background var(--transition),
@@ -203,39 +282,31 @@ img {
 /* Page courante mise en évidence (aria-current="page" posé sur le lien
    de chaque page dans le HTML, pas de classe JS à maintenir) */
 .nav-menu a[aria-current="page"] {
-  background: var(--bordeaux);
+  background: var(--accent);
   color: #fff;
   font-weight: 700;
 }
 
-/* ---------- Nav mobile ---------- */
-@media (max-width: 760px) {
+/* ---------- Nav bureau : menu toujours déplié, burger masqué ---------- */
+@media (min-width: 761px) {
   .nav-burger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Cible tactile confortable (~44px) même si le glyphe ☰ est petit */
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    padding: 0;
+    display: none;
   }
   .nav-logo {
-    font-size: 0.85rem;
-    max-width: calc(100% - 4.5rem);
+    font-size: 1.1rem;
+    max-width: none;
   }
   .nav-menu {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    padding: 0.5rem 0;
-  }
-  .nav-menu.ouvert {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: auto;
+    padding: 0;
   }
   .nav-menu a {
-    /* Liens empilés en pleine largeur : autant agrandir la zone de tap */
-    padding: 0.85rem 1rem;
-    font-size: 1rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -246,7 +317,9 @@ main {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 130px 1rem 3rem; /* espace pour la nav fixe (2 lignes) */
+  /* Base mobile : menu replié = nav sur une seule ligne, peu d'espace
+     à réserver sous la barre fixe. */
+  padding: 70px 1rem 3rem;
   /* body est un conteneur flex : les marges auto pour centrer main font
      que son "width: auto" se calcule en shrink-to-fit, borné par la
      largeur minimale de son contenu (ex : une table large) — ça faisait
@@ -256,11 +329,10 @@ main {
   min-width: 0;
 }
 
-@media (max-width: 760px) {
+@media (min-width: 761px) {
   main {
-    /* Menu replié = nav sur une seule ligne : inutile de réserver
-       autant de place qu'en version bureau (2 lignes toujours visibles). */
-    padding-top: 70px;
+    /* Nav bureau toujours déployée sur 2 lignes (logo + menu). */
+    padding-top: 130px;
   }
 }
 
@@ -279,7 +351,7 @@ section {
 
 .section-titre {
   font-size: 1.7rem;
-  border-bottom: 2px solid var(--bordeaux);
+  border-bottom: 2px solid var(--accent);
   padding-bottom: 0.4rem;
   margin-bottom: 1.2rem;
   display: flex;
@@ -291,9 +363,15 @@ section {
   justify-content: center;
 }
 
+/* Titre principal des pages intérieures : remplace les anciens
+   style="font-size: 2rem" en ligne (la présentation reste dans le CSS). */
+.titre-page {
+  font-size: 2rem;
+}
+
 .sous-titre {
   font-size: 1.2rem;
-  color: var(--or-clair);
+  color: var(--titre-contraste);
   margin: 1.6rem 0 0.8rem;
 }
 
@@ -311,7 +389,7 @@ li {
 }
 
 strong {
-  color: var(--or-clair);
+  color: var(--titre-contraste);
 }
 
 /* Encadré générique */
@@ -326,10 +404,22 @@ strong {
 /* Encadré "attention" */
 .encadre-attention {
   background: #fbeae7;
-  border-left: 4px solid var(--bordeaux-clair);
+  border-left: 4px solid var(--accent-clair);
   border-radius: var(--radius);
   padding: 1rem 1.2rem;
   margin: 1.2rem 0;
+}
+
+/* Le dernier paragraphe d'un encadré ne doit pas creuser le padding :
+   remplace les anciens style="margin: 0" posés en ligne dans le HTML. */
+.encadre p:last-child,
+.encadre-attention p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lien "Détail de la phase →" en bas des items de la timeline (tour.html) */
+.lien-detail {
+  margin: 0.6rem 0 0;
 }
 
 /* ============================================================
@@ -370,7 +460,7 @@ strong {
   flex: 0 1 300px;
   position: relative;
   border-radius: 12px;
-  border: 3px solid var(--or);
+  border: 3px solid var(--titre);
   box-shadow: var(--ombre);
   overflow: hidden;
 }
@@ -386,7 +476,7 @@ strong {
   position: absolute;
   inset: 0;
   border-radius: 9px;
-  border: 1px solid var(--bordeaux);
+  border: 1px solid var(--accent);
   box-shadow: inset 0 0 40px 12px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
@@ -405,7 +495,7 @@ strong {
   padding: 1rem;
 }
 
-.orga-groupe > h4 {
+.orga-groupe > h2 {
   font-size: 0.95rem;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -435,12 +525,12 @@ strong {
 
 .orga-boite:hover,
 .orga-boite:focus-within {
-  border-color: var(--or);
+  border-color: var(--titre);
   background: var(--carte-hover);
 }
 
 .orga-boite.principal {
-  border-color: var(--bordeaux-clair);
+  border-color: var(--accent-clair);
   border-width: 2px;
 }
 
@@ -451,13 +541,14 @@ strong {
 .orga-boite .tooltip {
   visibility: hidden;
   opacity: 0;
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 260px;
-  background: var(--noir-fonce);
-  border: 1px solid var(--or);
+  /* Base mobile : la bulle s'affiche en bandeau fixé en bas d'écran,
+     là où une bulle flottante serait rognée ou cachée par le doigt. */
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  background: var(--fond-secondaire);
+  border: 1px solid var(--titre);
   border-radius: var(--radius);
   padding: 0.7rem 0.9rem;
   font-size: 0.85rem;
@@ -477,28 +568,27 @@ strong {
   opacity: 1;
 }
 
-/* Sur mobile, le tooltip passe en bas d'écran pour rester lisible */
-@media (max-width: 600px) {
+/* Grand écran : la bulle flotte au-dessus de sa case, centrée */
+@media (min-width: 601px) {
   .orga-boite .tooltip {
-    position: fixed;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    top: auto;
-    transform: none;
-    width: auto;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 260px;
   }
 }
 
 .orga-fleche {
   text-align: center;
-  color: var(--bordeaux-clair);
+  color: var(--accent-clair);
   font-size: 1.4rem;
 }
 
 /* ============================================================
    TABLEAUX (rôles tactiques + tables de référence)
-   Les tables de tables.html sont générées par js/tables.js à
+   Les tables de tir.html et assaut.html sont générées par js/tables.js à
    partir de tableaux JS (voir TABLE_CC, TABLE_BLESSURE...) : ce
    fichier ne définit que leur apparence.
    ============================================================ */
@@ -549,11 +639,26 @@ table {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Base mobile : cellules plus hautes pour que l'épinglage au doigt
+   (voir js/tables.js) approche les 44px recommandés (WCAG 2.5.8). */
+.table-matrice th,
+.table-matrice td {
+  padding: 0.7rem 0.6rem;
+}
+
+@media (min-width: 601px) {
+  .table-matrice th,
+  .table-matrice td {
+    /* À la souris, on peut resserrer pour afficher plus de colonnes. */
+    padding: 0.45rem 0.6rem;
+  }
+}
+
 caption {
   caption-side: top;
   text-align: left;
   font-family: "Cinzel", serif;
-  color: var(--or);
+  color: var(--titre);
   font-size: 1.05rem;
   padding: 0.5rem 0;
 }
@@ -566,11 +671,11 @@ td {
 }
 
 th {
-  background: var(--noir-fonce);
-  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : --or #8a6a2c sur --noir-fonce
+  background: var(--fond-secondaire);
+  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : --titre #8a6a2c sur --fond-secondaire
      #e8e2d0 ne donnait que 3.88:1, insuffisant pour ce texte < 18px.
-     --or-clair #6b4f1f atteint 5.7:1. */
-  color: var(--or-clair);
+     --titre-contraste #6b4f1f atteint 5.7:1. */
+  color: var(--titre-contraste);
   font-family: "Cinzel", serif;
   font-size: 0.85rem;
 }
@@ -596,14 +701,16 @@ th.colonne-active {
 }
 
 td.case-active {
-  background: var(--bordeaux) !important;
+  background: var(--accent) !important;
   color: #fff;
   font-weight: 700;
 }
 
-/* Valeurs impossibles ( - ) grisées */
+/* Valeurs impossibles ( - ) grisées.
+   #444 (et non #555) : le contraste reste ≥ 4.5:1 même quand la
+   ligne est assombrie par le survol (tbody tr:hover ci-dessous). */
 td.impossible {
-  color: #555;
+  color: #444;
 }
 
 /* ============================================================
@@ -626,7 +733,7 @@ td.impossible {
 .accordeon-titre {
   width: 100%;
   background: var(--carte);
-  color: var(--or-clair);
+  color: var(--titre-contraste);
   font-family: "Cinzel", serif;
   font-size: 1rem;
   text-align: left;
@@ -645,7 +752,7 @@ td.impossible {
 
 .accordeon-titre .chevron {
   transition: transform var(--transition);
-  color: var(--bordeaux-clair);
+  color: var(--accent-clair);
 }
 
 .accordeon-item.ouvert .accordeon-titre .chevron {
@@ -662,7 +769,7 @@ td.impossible {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.35s ease;
-  background: var(--noir-fonce);
+  background: var(--fond-secondaire);
 }
 
 .accordeon-contenu-inner {
@@ -673,7 +780,7 @@ td.impossible {
   margin-top: 0.6rem;
   padding: 0.6rem 0.9rem;
   background: rgba(201, 168, 76, 0.08);
-  border-left: 3px solid var(--or);
+  border-left: 3px solid var(--titre);
   border-radius: 0 var(--radius) var(--radius) 0;
   font-size: 0.92rem;
 }
@@ -698,7 +805,7 @@ td.impossible {
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(var(--bordeaux), var(--acier));
+  background: linear-gradient(var(--accent), var(--acier));
 }
 
 .timeline-item {
@@ -714,8 +821,8 @@ td.impossible {
   top: 0.85rem;
   width: 14px;
   height: 14px;
-  background: var(--noir);
-  border: 3px solid var(--or);
+  background: var(--fond);
+  border: 3px solid var(--titre);
   border-radius: 50%;
 }
 
@@ -725,7 +832,7 @@ td.impossible {
   background: var(--carte);
   border: 1px solid var(--acier);
   border-radius: var(--radius);
-  color: var(--or);
+  color: var(--titre);
   font-family: "Cinzel", serif;
   font-size: 1.05rem;
   padding: 0.8rem 1rem;
@@ -737,7 +844,7 @@ td.impossible {
 }
 
 .timeline-titre:hover {
-  border-color: var(--or);
+  border-color: var(--titre);
 }
 
 /* Mise en avant des sections "Réactions adverses" */
@@ -754,7 +861,7 @@ td.impossible {
 
 .timeline-titre .chevron {
   transition: transform var(--transition);
-  color: var(--bordeaux-clair);
+  color: var(--accent-clair);
 }
 
 .timeline-titre--reactions .chevron {
@@ -773,7 +880,7 @@ td.impossible {
 
 .timeline-details-inner {
   padding: 0.9rem 1.1rem;
-  background: var(--noir-fonce);
+  background: var(--fond-secondaire);
   border: 1px solid var(--acier);
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
@@ -806,7 +913,7 @@ td.impossible {
 
 .section-titre .chevron {
   transition: transform var(--transition);
-  color: var(--bordeaux-clair);
+  color: var(--accent-clair);
   flex-shrink: 0;
 }
 
@@ -858,7 +965,9 @@ section:not(.ouvert) > .section-corps {
   transform: translateY(-50%);
   width: 1.7rem;
   height: 1.7rem;
-  background: #b5726a;
+  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : #b5726a sur blanc ne donnait
+     que 3.76:1 pour ces numéros < 18.66px. #9c4f47 atteint ~4.7:1. */
+  background: #9c4f47;
   color: #fff;
   font-family: "Cinzel", serif;
   font-weight: 700;
@@ -1021,9 +1130,23 @@ section:not(.ouvert) > .section-corps {
   margin-bottom: 1.2rem;
 }
 
-.barre-recherche:focus {
-  outline: none;
-  border-color: var(--or);
+/* Accessibilité (WCAG 2.4.7 / 2.4.11 / RGAA 10.7) : indicateur de focus
+   net et contrasté. On remplace l'ancien outline: none (qui ne laissait
+   qu'un discret changement de couleur de bordure) par un contour visible. */
+.barre-recherche:focus,
+.barre-recherche:focus-visible {
+  outline: 3px solid var(--acier-clair);
+  outline-offset: 2px;
+  border-color: var(--titre);
+}
+
+/* Focus clavier homogène et bien visible sur TOUS les éléments
+   interactifs du site (liens, boutons, cases focalisables). */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--acier-clair);
+  outline-offset: 2px;
 }
 
 .compteur-resultats {
@@ -1043,7 +1166,7 @@ section:not(.ouvert) > .section-corps {
 .regle h3 {
   font-size: 1.02rem;
   margin-bottom: 0.3rem;
-  color: var(--or-clair);
+  color: var(--titre-contraste);
 }
 
 .regle p {
@@ -1079,7 +1202,7 @@ section:not(.ouvert) > .section-corps {
   padding: 1.1rem 1.2rem;
   border: 1px solid var(--acier);
   background: var(--carte);
-  border-top: 5px solid var(--or);
+  border-top: 5px solid var(--titre);
 }
 
 .carte-telechargement h3 {
@@ -1112,7 +1235,7 @@ section:not(.ouvert) > .section-corps {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  background: var(--bordeaux);
+  background: var(--accent);
   color: #fff;
   font-family: "Lato", sans-serif;
   font-weight: 700;
@@ -1125,7 +1248,7 @@ section:not(.ouvert) > .section-corps {
 
 .bouton-telecharger:hover,
 .bouton-telecharger:focus {
-  background: var(--bordeaux-clair);
+  background: var(--accent-clair);
 }
 
 .bouton-telecharger .taille {
@@ -1137,8 +1260,8 @@ section:not(.ouvert) > .section-corps {
    PIED DE PAGE
    ============================================================ */
 footer {
-  background: var(--noir-fonce);
-  border-top: 2px solid var(--bordeaux);
+  background: var(--fond-secondaire);
+  border-top: 2px solid var(--accent);
   text-align: center;
   padding: 1.4rem 1rem;
   color: var(--texte-doux);

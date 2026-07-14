@@ -1,7 +1,12 @@
 /* ============================================================
-   tables.js — Tables de référence (page tables.html)
-   Les données sont encodées en tableaux 2D, puis rendues
-   dynamiquement en HTML. Vanilla JS, aucune dépendance.
+   tables.js — Tables de référence (pages tir.html et assaut.html)
+   Auteur : Jean · Modifié : 2026-07-14
+   Rôle   : encode les tables 2D et les rend en HTML accessible
+   (caption, scope) avec surbrillance ligne/colonne au survol/tap.
+   Dépend : aucun (vanilla JS) — stylé par css/style.css.
+   Sécurité : tout le texte est injecté via textContent (jamais
+   innerHTML) — réflexe anti-XSS à conserver si les données
+   viennent un jour d'une source externe (API, JSON, URL).
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -79,7 +84,41 @@ const TABLE_POSITIONNEMENT = [
 
 /* ----------------------------------------------------------
    RENDU DES TABLES
+   Les trois constructeurs partagent la même mécanique (une table
+   avec caption, enrobée dans un conteneur .table-scroll) : elle est
+   factorisée dans creerTable() et insererDansScroll() pour ne pas
+   dupliquer ce code d'échafaudage trois fois.
    ---------------------------------------------------------- */
+
+/**
+ * Crée une <table> munie de son <caption>.
+ * @param {string} titre  - texte du caption (titre au-dessus de la table)
+ * @param {string} classe - classe CSS optionnelle de la table
+ * @returns {HTMLTableElement}
+ */
+function creerTable(titre, classe = "") {
+  const table = document.createElement("table");
+  if (classe) table.className = classe;
+  const caption = document.createElement("caption");
+  caption.textContent = titre;
+  table.appendChild(caption);
+  return table;
+}
+
+/**
+ * Enrobe la table dans un conteneur .table-scroll (défilement
+ * horizontal sur mobile) et l'insère dans le conteneur cible.
+ * @param {string} idConteneur - id de la div où insérer la table
+ * @param {HTMLTableElement} table
+ */
+function insererDansScroll(idConteneur, table) {
+  const conteneur = document.getElementById(idConteneur);
+  if (!conteneur) return;
+  const scroll = document.createElement("div");
+  scroll.className = "table-scroll";
+  scroll.appendChild(table);
+  conteneur.appendChild(scroll);
+}
 
 /**
  * Construit une table "matrice" (CC ou Blessure).
@@ -90,23 +129,16 @@ const TABLE_POSITIONNEMENT = [
  * @param {Array}  donnees     - tableau 2D des valeurs
  */
 function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
-  const conteneur = document.getElementById(idConteneur);
-  if (!conteneur) return;
-
-  const table = document.createElement("table");
-  table.className = "table-matrice";
-
-  // Caption (titre au-dessus de la table)
-  const caption = document.createElement("caption");
-  caption.textContent = titre;
-  table.appendChild(caption);
+  const table = creerTable(titre, "table-matrice");
 
   // --- En-tête : coin + valeurs de colonnes ---
   const thead = document.createElement("thead");
   const ligneEntete = document.createElement("tr");
 
   const coin = document.createElement("th");
-  coin.innerHTML = labelLigne + " \\ " + labelCol; // ex: "Attaquant \ Défenseur"
+  // textContent (et non innerHTML) : du texte brut n'a pas à passer
+  // par le parseur HTML — réflexe anti-XSS (voir l'en-tête du fichier).
+  coin.textContent = labelLigne + " \\ " + labelCol; // ex: "Attaquant \ Défenseur"
   ligneEntete.appendChild(coin);
 
   VALEURS.forEach((v) => {
@@ -139,23 +171,15 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
   });
   table.appendChild(tbody);
 
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-  scroll.appendChild(table);
-  conteneur.appendChild(scroll);
+  insererDansScroll(idConteneur, table);
 }
 
 /** Construit la table CT (2 lignes : normal / au jugé). */
 function construireTableCT(idConteneur) {
-  const conteneur = document.getElementById(idConteneur);
-  if (!conteneur) return;
-
-  const table = document.createElement("table");
-  table.className = "table-matrice";
-
-  const caption = document.createElement("caption");
-  caption.textContent = "Jet de touche au tir (selon la CT du tireur)";
-  table.appendChild(caption);
+  const table = creerTable(
+    "Jet de touche au tir (selon la CT du tireur)",
+    "table-matrice",
+  );
 
   // En-tête : CT de 10+ à 1
   const thead = document.createElement("thead");
@@ -188,40 +212,38 @@ function construireTableCT(idConteneur) {
   });
   table.appendChild(tbody);
 
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-  scroll.appendChild(table);
-  conteneur.appendChild(scroll);
+  insererDansScroll(idConteneur, table);
 }
 
 /** Construit la petite table de positionnement. */
 function construireTablePositionnement(idConteneur) {
-  const conteneur = document.getElementById(idConteneur);
-  if (!conteneur) return;
+  const table = creerTable("Mouvement de positionnement (mise au contact)");
 
-  const table = document.createElement("table");
-
-  const caption = document.createElement("caption");
-  caption.textContent = "Mouvement de positionnement (mise au contact)";
-  table.appendChild(caption);
-
+  // En-tête : deux colonnes fixes
   const thead = document.createElement("thead");
-  thead.innerHTML =
-    '<tr><th scope="col">Initiative + Mouvement</th><th scope="col">Positionnement</th></tr>';
+  const ligneEntete = document.createElement("tr");
+  ["Initiative + Mouvement", "Positionnement"].forEach((libelle) => {
+    const th = document.createElement("th");
+    th.scope = "col"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7)
+    th.textContent = libelle;
+    ligneEntete.appendChild(th);
+  });
+  thead.appendChild(ligneEntete);
   table.appendChild(thead);
 
   const tbody = document.createElement("tbody");
   TABLE_POSITIONNEMENT.forEach(([plage, distance]) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = "<td>" + plage + "</td><td>" + distance + "</td>";
+    [plage, distance].forEach((valeur) => {
+      const td = document.createElement("td");
+      td.textContent = valeur;
+      tr.appendChild(td);
+    });
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
 
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-  scroll.appendChild(table);
-  conteneur.appendChild(scroll);
+  insererDansScroll(idConteneur, table);
 }
 
 /* ----------------------------------------------------------

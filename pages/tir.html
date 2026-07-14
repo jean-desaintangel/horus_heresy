@@ -8,14 +8,34 @@
       name="description"
       content="Détail de la Phase de Tir Horus Heresy 3e édition : cible et ligne de vue, groupes de tirs, jets de touche et de blessure, couvert et mitigation de dégâts, dégâts multiples, sous-phase de Moral."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/eye-of-horus-64.png"
+    />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="La Phase de Tir — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Détail de la Phase de Tir Horus Heresy 3e édition : cible et ligne de vue, groupes de tirs, jets de touche et de blessure, couvert et mitigation de dégâts, sous-phase de Moral."
+    />
+    <script src="../js/main.js" defer></script>
+    <script src="../js/tables.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -50,11 +70,11 @@
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+      <h1 class="section-titre section-titre--centre titre-page">
         Phase de tir
       </h1>
       <div class="encadre-attention">
-        <p style="margin: 0">
+        <p>
           <strong>Une unité ne peut pas tirer si :</strong> elle a Foncé, est
           <em>Verrouillée en Combat</em> ou est embarquée à bord d’un transport.
         </p>
@@ -161,25 +181,26 @@
                         de jets de touche à effectuer. Le score à atteindre
                         dépend de la
                         <strong>Capacité de Tir</strong> majoritaire dans
-                        l’unité. Chaque succès est
-                        une touche.
+                        l’unité. Chaque succès est une touche.
                       </p>
                       <div id="table-ct"></div>
                       <div class="encadre">
-                        <p style="margin: 0">
-                          <strong>Légende :<strong> Cr X+</strong> : la touche
-                          est sur 2+, sur X+ elle compte comme Touche Critique.
-                          <strong>Éch.</strong> : échec automatique.
+                        <p>
+                          <strong>Légende :</strong> <strong>Cr X+</strong> : la
+                          touche est sur 2+, sur X+ elle compte comme Touche
+                          Critique. <strong>Éch.</strong> : échec automatique.
                         </p>
                       </div>
                       <div class="encadre-attention">
-                        <p style="margin: 0">
+                        <p>
                           Une unité
                           <em>Neutralisée</em> (voir
                           <a href="statuts-reactions.html#statuts"
                             >Statuts Tactiques</a
-                          >) doit utiliser la ligne « Au jugé »  pour l’intégralité de ses tirs — de même
-                          pour la réaction Interception, ou une arme tirée par une unité avec le trait Léger après avoir Foncé.
+                          >) doit utiliser la ligne « Au jugé » pour
+                          l’intégralité de ses tirs — de même pour la réaction
+                          Interception, ou une arme tirée par une unité avec le
+                          trait Léger après avoir Foncé.
                         </p>
                       </div>
                     </div>
@@ -202,7 +223,7 @@
                       </p>
                       <div id="table-blessure"></div>
                       <div class="encadre">
-                        <p style="margin: 0">
+                        <p>
                           <strong>Cible Véhicule :</strong> pas de jet de
                           blessure. On fait à la place un
                           <strong>test de Pénétration de Blindage</strong>, qui
@@ -225,8 +246,8 @@
                         <li>
                           <strong>Choisir la figurine cible.</strong> Le joueur
                           défenseur désigne quelle figurine de l’unité encaisse
-                          chaque blessure. Une figurine déjà
-                          blessée doit être choisie en priorité.
+                          chaque blessure. Une figurine déjà blessée doit être
+                          choisie en priorité.
                         </li>
                         <li>
                           <strong>Jet de sauvegarde.</strong> Une sauvegarde
@@ -244,7 +265,7 @@
                           <strong>Application des dégâts.</strong> Toute
                           blessure non évitée réduit les
                           <strong>Points de Vie</strong> de la figurine de la
-                          valeur de <strong>Dégâts</strong> de l’arme. À 0, elle 
+                          valeur de <strong>Dégâts</strong> de l’arme. À 0, elle
                           est mise de côté comme perte.
                         </li>
                       </ol>
@@ -261,12 +282,12 @@
                     <div class="timeline-details-inner">
                       <p>
                         Une cible partiellement dissimulée par un décor
-                        bénéficie d’un jet de couvert (non affecté par la PA), 
-                        dont la valeur dépend du type de couvert (léger : 6, 
+                        bénéficie d’un jet de couvert (non affecté par la PA),
+                        dont la valeur dépend du type de couvert (léger : 6,
                         moyen : 5, dense : 4).
                       </p>
                       <div class="encadre-attention">
-                        <p style="margin: 0">
+                        <p>
                           <strong>Tir d’état d’alerte :</strong> quand une unité
                           chargée y réagit, l’attaquant ne bénéficie d’<strong
                             >aucun</strong
@@ -324,7 +345,10 @@
 
         <!-- ===================== RÉACTIONS DE TIR ===================== -->
         <div class="timeline-item" id="reactions-tir">
-          <button class="timeline-titre timeline-titre--reactions" aria-expanded="false">
+          <button
+            class="timeline-titre timeline-titre--reactions"
+            aria-expanded="false"
+          >
             Réactions adverses <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
@@ -345,8 +369,8 @@
                   Réaction Avancée des Legiones Astartes, coût 1 point de
                   Réactions. Se déclare au début de l’Étape 3 d’une Attaque de
                   Tir (ou de l’Étape 4 d’une Charge), si la majorité de l’unité
-                  visée a le trait <em>Bouclier</em> :
-                  +1 en Endurance pour la durée de la phase.
+                  visée a le trait <em>Bouclier</em> : +1 en Endurance pour la
+                  durée de la phase.
                 </p>
               </div>
               <div class="reaction reaction-tir">
@@ -385,7 +409,7 @@
           >Guide non officiel réalisé par des fans bénévoles
           francophones.</strong
         >
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
         sont des marques déposées de
         <a
           href="https://www.games-workshop.com"
@@ -396,8 +420,5 @@
         leur statut n’est intentionné.
       </p>
     </footer>
-
-    <script src="../js/main.js"></script>
-    <script src="../js/tables.js"></script>
   </body>
 </html>

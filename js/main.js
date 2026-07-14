@@ -1,7 +1,8 @@
 /* ============================================================
    main.js — Scripts communs à toutes les pages
-   (menu mobile, accordéons, timeline)
-   Vanilla JS, aucune dépendance.
+   Auteur : Jean · Modifié : 2026-07-14
+   Rôle   : menu mobile, accordéons, timeline, sections repliables.
+   Dépend : aucun (vanilla JS) — stylé par css/style.css.
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.querySelector(".nav-menu");
 
   if (burger && menu) {
+    // Accessibilité (WCAG 4.1.2 / RGAA 7.1) : relier explicitement le bouton
+    // à la liste qu'il pilote via aria-controls.
+    if (!menu.id) menu.id = "nav-menu-principal";
+    burger.setAttribute("aria-controls", menu.id);
+
     burger.addEventListener("click", () => {
       menu.classList.toggle("ouvert");
       // Accessibilité : on informe les lecteurs d'écran de l'état du menu
@@ -24,10 +30,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
+     ACCESSIBILITÉ — chevrons purement décoratifs (WCAG 1.1.1 / RGAA 1.1)
+     Le glyphe « ❯ » ne porte aucune information : on le masque aux
+     technologies d'assistance pour éviter qu'il soit vocalisé.
+     ---------------------------------------------------------- */
+  document
+    .querySelectorAll(".chevron")
+    .forEach((c) => c.setAttribute("aria-hidden", "true"));
+
+  /* ----------------------------------------------------------
+     ACCESSIBILITÉ — info-bulles de l'organigramme (WCAG 1.3.1 / 4.1.2)
+     Chaque case .orga-boite est focalisable (tabindex="0" dans le HTML)
+     et révèle une description au focus. On associe la description à la
+     case via aria-describedby pour qu'un lecteur d'écran l'annonce.
+     Pas de role="button" : un « bouton » devrait réagir à Entrée/Espace
+     (WCAG 2.1.1) alors qu'ici la bulle s'affiche dès la prise de focus —
+     c'est le pattern « tooltip », pas « bouton ». Annoncer un bouton
+     inerte serait une promesse non tenue pour l'utilisateur d'AT.
+     ---------------------------------------------------------- */
+  document.querySelectorAll(".orga-boite").forEach((boite, i) => {
+    const bulle = boite.querySelector(".tooltip");
+    if (!bulle) return;
+    if (!bulle.id) bulle.id = "tooltip-orga-" + i;
+    bulle.setAttribute("role", "tooltip");
+    boite.setAttribute("aria-describedby", bulle.id);
+  });
+
+  /* ----------------------------------------------------------
      ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)
-     Une info-bulle .orga-boite s'affiche au survol/focus ; la touche
-     Échap doit permettre de la masquer sans quitter la page. On retire
-     le focus de la case active, ce qui referme le tooltip (piloté en CSS).
+     La touche Échap retire le focus de la case active, ce qui referme
+     la bulle (pilotée en CSS via :focus).
      ---------------------------------------------------------- */
   document.addEventListener("keydown", (e) => {
     if (
@@ -40,20 +72,43 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ----------------------------------------------------------
+     PRÉPARATION COMMUNE D'UN PANNEAU DÉPLIABLE
+     - type="button" (le bouton n'est pas un bouton de soumission) ;
+     - aria-controls : relie le bouton à son panneau (id généré si besoin) ;
+     - inert sur le panneau fermé : le retire du parcours clavier ET de
+       l'arbre d'accessibilité tant qu'il est masqué (WCAG 2.4.3 / 4.1.2 /
+       RGAA 12.8). Sans cela, les contrôles cachés (boutons imbriqués,
+       cases .orga-boite) restaient focalisables alors qu'invisibles.
+     ---------------------------------------------------------- */
+  let compteurPanneau = 0;
+  function preparerBouton(bouton, contenu, ouvert) {
+    if (bouton.tagName === "BUTTON" && !bouton.hasAttribute("type")) {
+      bouton.setAttribute("type", "button");
+    }
+    if (contenu) {
+      if (!contenu.id) contenu.id = "panneau-depliable-" + compteurPanneau++;
+      if (!bouton.hasAttribute("aria-controls")) {
+        bouton.setAttribute("aria-controls", contenu.id);
+      }
+      contenu.inert = !ouvert; // masqué => inerte pour le clavier et l'AT
+    }
+    bouton.setAttribute("aria-expanded", ouvert ? "true" : "false");
+  }
+
+  /* ----------------------------------------------------------
      2. PANNEAUX DÉPLIABLES (Accordéon + Timeline)
 
      Les Cases Principales (armee.html) et la Timeline des phases
-     (tour.html) sont deux habillages différents du même
-     comportement : un bouton-titre qui révèle un bloc de contenu
-     en dessous de lui. On factorise donc la logique une seule
-     fois ci-dessous, et on l'applique aux deux composants avec
-     des sélecteurs différents plutôt que de dupliquer le code.
+     (tour.html, tir.html, assaut.html, mouvement.html) sont deux
+     habillages différents du même comportement : un bouton-titre qui
+     révèle un bloc de contenu en dessous de lui. On factorise donc la
+     logique une seule fois ci-dessous, et on l'applique aux deux
+     composants avec des sélecteurs différents plutôt que de dupliquer
+     le code.
 
-     Technique d'ouverture : le CSS ne peut pas animer une
-     transition vers "height: auto", donc on anime "max-height"
-     à la place (voir css/style.css). Il faut alors une valeur en
-     pixels à viser : contenu.scrollHeight donne la hauteur réelle
-     du contenu, qu'on écrit directement dans le style de l'élément.
+     Technique d'ouverture : le CSS ne peut pas animer une transition
+     vers "height: auto", donc on anime "max-height" à la place (voir
+     css/style.css). contenu.scrollHeight donne la hauteur réelle à viser.
      ---------------------------------------------------------- */
   // Les deux familles de panneaux dépliables (Accordéon et Timeline)
   // peuvent s'imbriquer l'une dans l'autre (ex : l'Accordéon des Cases
@@ -67,33 +122,33 @@ document.addEventListener("DOMContentLoaded", () => {
     selecteurContenu,
   ) {
     document.querySelectorAll(selecteurBouton).forEach((bouton) => {
+      const item = bouton.closest(selecteurItem);
+      const contenu = item.querySelector(`:scope > ${selecteurContenu}`);
+
+      // État initial (fermé par défaut : pas de classe .ouvert dans le HTML)
+      preparerBouton(bouton, contenu, item.classList.contains("ouvert"));
+
       bouton.addEventListener("click", () => {
-        const item = bouton.closest(selecteurItem);
-        const contenu = item.querySelector(`:scope > ${selecteurContenu}`);
         const dejaOuvert = item.classList.contains("ouvert");
 
         if (dejaOuvert) {
           item.classList.remove("ouvert");
           contenu.style.maxHeight = null; // referme (max-height: 0 via CSS)
+          contenu.inert = true; // hors clavier + hors arbre a11y
         } else {
+          contenu.inert = false; // rendre focalisable AVANT de mesurer
           item.classList.add("ouvert");
           contenu.style.maxHeight = contenu.scrollHeight + "px";
         }
-        bouton.setAttribute("aria-expanded", !dejaOuvert);
+        bouton.setAttribute("aria-expanded", String(!dejaOuvert));
 
         // Panneau imbriqué (ex : sous-timeline dans un timeline-item, ou
         // l'Accordéon des Cases Principales dans un timeline-item) : son
         // propre contenu change de hauteur, mais un ancêtre déjà ouvert
-        // garde la hauteur figée au moment de SON ouverture. Tant que la
-        // transition max-height de "contenu" n'est pas terminée, sa
-        // hauteur réelle (scrollHeight) n'a pas encore atteint sa cible :
-        // on attend "transitionend" avant de remonter recalculer le
-        // max-height de chaque ancêtre ouvert, sinon le nouveau contenu se
-        // retrouve coupé (ou l'ancêtre garde un vide en trop). On remonte
-        // à travers les DEUX familles de panneaux (Accordéon et Timeline),
-        // pas seulement celle de "selecteurItem" : un ancêtre peut très
-        // bien appartenir à l'autre famille (Accordéon imbriqué dans une
-        // Timeline, par exemple).
+        // garde la hauteur figée au moment de SON ouverture. On attend
+        // "transitionend" avant de remonter recalculer le max-height de
+        // chaque ancêtre ouvert, sinon le nouveau contenu se retrouve
+        // coupé. On remonte à travers les DEUX familles de panneaux.
         contenu.addEventListener(
           "transitionend",
           () => {
@@ -122,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ".accordeon-contenu",
   );
 
-  // Timeline des phases (tour.html)
+  // Timeline des phases (tour.html, tir.html, assaut.html, mouvement.html)
   activerPanneauxDepliables(
     ".timeline-titre",
     ".timeline-item",
@@ -130,23 +185,25 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   /* ----------------------------------------------------------
-     3. SECTIONS REPLIABLES (pages de détail : assaut, mouvement,
-     tir, statuts-reactions, tables)
+     3. SECTIONS REPLIABLES (pages statuts-reactions, tables)
 
-     Ici les sections sont FERMÉES par défaut (pas de classe
-     .ouvert dans le HTML ; .section-corps est à max-height: 0 via
-     le CSS tant que cette classe est absente). On ne calcule une
-     hauteur en pixels qu'au moment du clic : ça évite de figer au
-     chargement une hauteur qui serait fausse pour tables.html,
-     dont certains tableaux sont encore vides à cet instant
-     (remplis ensuite par tables.js). Une fois l'ouverture
-     terminée, on repasse en max-height: none pour que la section
-     reste libre de grandir (ex : redimensionnement de fenêtre).
+     Ici les sections sont FERMÉES par défaut (pas de classe .ouvert
+     dans le HTML ; .section-corps est à max-height: 0 via le CSS tant
+     que cette classe est absente). On ne calcule une hauteur en pixels
+     qu'au moment du clic : ça évite de figer au chargement une hauteur
+     qui serait fausse pour les pages dont certains tableaux sont encore
+     vides à cet instant (remplis ensuite par tables.js). Une fois
+     l'ouverture terminée, on repasse en max-height: none pour que la
+     section reste libre de grandir (ex : redimensionnement de fenêtre).
      ---------------------------------------------------------- */
   document.querySelectorAll(".section-toggle").forEach((bouton) => {
+    const section = bouton.closest("section");
+    const corps = section.querySelector(":scope > .section-corps");
+
+    // État initial (fermé). Respecte l'aria-controls déjà présent dans le HTML.
+    preparerBouton(bouton, corps, section.classList.contains("ouvert"));
+
     bouton.addEventListener("click", () => {
-      const section = bouton.closest("section");
-      const corps = section.querySelector(":scope > .section-corps");
       const ouverte = section.classList.contains("ouvert");
 
       if (ouverte) {
@@ -157,7 +214,9 @@ document.addEventListener("DOMContentLoaded", () => {
         corps.offsetHeight;
         section.classList.remove("ouvert");
         corps.style.maxHeight = "0px";
+        corps.inert = true;
       } else {
+        corps.inert = false;
         section.classList.add("ouvert");
         corps.style.maxHeight = corps.scrollHeight + "px";
         corps.addEventListener(
