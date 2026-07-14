@@ -12,7 +12,8 @@ Site statique non officiel servant de guide d'initiation au jeu de figurines **H
 - **Phase d'Assaut** ([pages/assaut.html](pages/assaut.html)) — séquence de charge, combat et réactions de charge.
 - **Statuts & Réactions** ([pages/statuts-reactions.html](pages/statuts-reactions.html)) — les 4 statuts tactiques et la liste des réactions déclenchables.
 - **Règles spéciales** ([pages/regles.html](pages/regles.html)) — glossaire des règles spéciales avec recherche instantanée.
-- **Tables de référence** ([pages/tables.html](pages/tables.html)) — jets de touche, jets de blessure, aptitude au tir, tir instinctif.
+- **Tables de référence** ([pages/tables.html](pages/tables.html)) — jets de touche, jets de blessure, aptitude au tir, tir instinctif. (non liée depuis le menu de navigation)
+- **Pense-bête** ([pages/pense-bete.html](pages/pense-bete.html)) — fiches d'aide à télécharger (feuille d'aide des règles spéciales en Word/PowerPoint/Excel, posture de défi en PDF).
 
 ## Structure du projet
 
@@ -27,8 +28,10 @@ pages/
   statuts-reactions.html
   regles.html
   tables.html
+  pense-bete.html
 assets/
   img/         # logo, icône et illustrations
+  pense-bete/  # fiches téléchargeables (feuille d'aide, posture de défi)
 css/
   style.css
 js/

@@ -1063,6 +1063,77 @@ section:not(.ouvert) > .section-corps {
 }
 
 /* ============================================================
+   PENSE-BÊTE — fiches téléchargeables (page pense-bete)
+   ============================================================ */
+.grille-telechargements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.carte-telechargement {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--acier);
+  background: var(--carte);
+  border-top: 5px solid var(--or);
+}
+
+.carte-telechargement h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+.carte-telechargement p {
+  font-size: 0.93rem;
+  color: var(--texte-doux);
+  margin-bottom: 0.9rem;
+  flex-grow: 1;
+}
+
+.format-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid var(--acier);
+  border-radius: 20px;
+  padding: 0.05rem 0.6rem;
+  margin-bottom: 0.6rem;
+  color: var(--texte-doux);
+  align-self: flex-start;
+}
+
+.bouton-telecharger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--bordeaux);
+  color: #fff;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  padding: 0.55rem 1rem;
+  transition: background var(--transition);
+}
+
+.bouton-telecharger:hover,
+.bouton-telecharger:focus {
+  background: var(--bordeaux-clair);
+}
+
+.bouton-telecharger .taille {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* ============================================================
    PIED DE PAGE
    ============================================================ */
 footer {
