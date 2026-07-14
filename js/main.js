@@ -55,6 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
      pixels à viser : contenu.scrollHeight donne la hauteur réelle
      du contenu, qu'on écrit directement dans le style de l'élément.
      ---------------------------------------------------------- */
+  // Les deux familles de panneaux dépliables (Accordéon et Timeline)
+  // peuvent s'imbriquer l'une dans l'autre (ex : l'Accordéon des Cases
+  // Principales, dans armee.html, est niché dans un timeline-item) : le
+  // recalcul de hauteur des ancêtres doit donc reconnaître les deux.
+  const SELECTEUR_ITEM_DEPLIABLE = ".accordeon-item, .timeline-item";
+
   function activerPanneauxDepliables(
     selecteurBouton,
     selecteurItem,
@@ -75,25 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         bouton.setAttribute("aria-expanded", !dejaOuvert);
 
-        // Panneau imbriqué (ex : sous-timeline dans un timeline-item) :
-        // son propre contenu change de hauteur, mais un ancêtre déjà
-        // ouvert garde la hauteur figée au moment de SON ouverture. Tant
-        // que la transition max-height de "contenu" n'est pas terminée,
-        // sa hauteur réelle (scrollHeight) n'a pas encore atteint sa
-        // cible : on attend "transitionend" avant de remonter recalculer
-        // le max-height de chaque ancêtre ouvert, sinon le nouveau
-        // contenu se retrouve coupé (ou l'ancêtre garde un vide en trop).
+        // Panneau imbriqué (ex : sous-timeline dans un timeline-item, ou
+        // l'Accordéon des Cases Principales dans un timeline-item) : son
+        // propre contenu change de hauteur, mais un ancêtre déjà ouvert
+        // garde la hauteur figée au moment de SON ouverture. Tant que la
+        // transition max-height de "contenu" n'est pas terminée, sa
+        // hauteur réelle (scrollHeight) n'a pas encore atteint sa cible :
+        // on attend "transitionend" avant de remonter recalculer le
+        // max-height de chaque ancêtre ouvert, sinon le nouveau contenu se
+        // retrouve coupé (ou l'ancêtre garde un vide en trop). On remonte
+        // à travers les DEUX familles de panneaux (Accordéon et Timeline),
+        // pas seulement celle de "selecteurItem" : un ancêtre peut très
+        // bien appartenir à l'autre famille (Accordéon imbriqué dans une
+        // Timeline, par exemple).
         contenu.addEventListener(
           "transitionend",
           () => {
-            let ancetre = item.parentElement?.closest(selecteurItem);
+            let ancetre = item.parentElement?.closest(SELECTEUR_ITEM_DEPLIABLE);
             while (ancetre && ancetre.classList.contains("ouvert")) {
               const contenuAncetre = ancetre.querySelector(
-                `:scope > ${selecteurContenu}`,
+                ":scope > .accordeon-contenu, :scope > .timeline-details",
               );
               contenuAncetre.style.maxHeight =
                 contenuAncetre.scrollHeight + "px";
-              ancetre = ancetre.parentElement?.closest(selecteurItem);
+              ancetre = ancetre.parentElement?.closest(
+                SELECTEUR_ITEM_DEPLIABLE,
+              );
             }
           },
           { once: true },
