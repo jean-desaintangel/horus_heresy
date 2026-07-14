@@ -740,6 +740,18 @@ td.impossible {
   border-color: var(--or);
 }
 
+/* Mise en avant des sections "Réactions adverses" */
+.timeline-titre--reactions {
+  background: #fbeae7;
+  border: 1px solid var(--bordeaux-clair);
+  border-left: 4px solid var(--bordeaux);
+  color: var(--bordeaux-clair);
+}
+
+.timeline-titre--reactions:hover {
+  border-color: var(--bordeaux);
+}
+
 .timeline-titre .chevron {
   transition: transform var(--transition);
   color: var(--bordeaux-clair);

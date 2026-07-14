@@ -56,8 +56,7 @@
       <div class="encadre-attention">
         <p style="margin: 0">
           Une unité ne peut pas déclarer de Charge si : elle a Foncé pendant ce
-          tour (voir
-          <a href="mouvement.html#foncer">Foncer</a>) ; elle est déjà
+          tour ; elle est déjà
           <em>Verrouillée en Combat</em> ; elle est embarquée à bord d’un
           transport ; ou elle compte au moins une figurine <em>Fixée</em> ou
           <em>En déroute</em>.
@@ -65,7 +64,7 @@
       </div>
 
       <div class="timeline">
-        <!-- ===================== DÉCLARER UNE CHARGE ===================== -->
+        <!-- ===================== SOUS-PHASE DE CHARGE ===================== -->
         <div class="timeline-item" id="declarer">
           <button class="timeline-titre" aria-expanded="false">
             1. Sous-phase de Charge <span class="chevron">❯</span>
@@ -73,39 +72,54 @@
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
-                <strong>1.</strong> Déclarer la cible ··
+                <strong>1.</strong> Déclarer la cible ·
                 <strong>2.</strong> Vérifier la ligne de vue et la portée de
                 charge maximum · <strong>3.</strong> Faire le mouvement de
-                Positionnement · <strong>4.</strong> Faire les attaques de
-                volée · <strong>5.</strong> Faire le mouvement de Charge ·
-              </p>
-              <p>
-                On déclare alors la cible : une seule unité ennemie par Charge.
-                Plusieurs unités peuvent charger la même cible si elles la
-                déclarent l’une après l’autre. Il faut ensuite au moins une
-                figurine capable de tracer une ligne de vue vers la cible, à une
-                distance de <strong>12 pouces</strong> maximum — sinon, la
-                Charge échoue avant même le jet de dés.
-              </p>
-              <p class="conseil-debutant">
-                <strong>Et les statuts Sonnée / Neutralisée ?</strong> Une unité
-                qui en compte peut charger normalement, mais sa Charge sera
-                automatiquement <em>désordonnée</em> (voir plus bas).
+                Positionnement · <strong>4.</strong> Faire les attaques de volée
+                · <strong>5.</strong> Faire le mouvement de Charge
               </p>
 
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>Charge désordonnée.</strong> S’applique si l’unité
+                  vient de débarquer ce tour, ou si elle compte des figurines
+                  <em>Sonnées</em> ou <em>Neutralisées</em> : pas de mouvement
+                  de mise en place, pas d’attaque de volée (la cible, elle, peut
+                  toujours en faire une), et aucun bonus de charge réussie
+                  accordé par une règle spéciale.
+                </p>
+              </div>
+
               <div class="timeline">
-                <!-- ===================== MISE EN PLACE ET VOLÉE ===================== -->
-                <div class="timeline-item" id="mise-en-place">
+                <!-- ===================== DECLARER LA CIBLE ===================== -->
+                <div class="timeline-item" id="declarer-cible">
                   <button class="timeline-titre" aria-expanded="false">
-                    Mouvement de mise en place et attaque de volée
+                    1/2. Déclarer la cible et virifier la ligne de vue et la
+                    portée de charge maximum
                     <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
-                        Avant le jet de charge, les figurines de l’unité
-                        chargeuse effectuent un court mouvement de mise en place
-                        vers la cible, dont la distance dépend de la somme
+                        Il faut au moins une figurine capable de tracer une
+                        ligne de vue vers la cible, à une distance de
+                        <strong>12 pouces</strong> maximum.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== MOUVEMENT DE POSITIONNEMENT ===================== -->
+                <div class="timeline-item" id="mise-en-place">
+                  <button class="timeline-titre" aria-expanded="false">
+                    3. Faire le mouvement de Positionnement
+                    <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Avant le jet de charge, l’unité effectue un mouvement de
+                        positionnement, dont la distance dépend de la somme
                         <strong>Initiative + Mouvement</strong> :
                       </p>
                       <div id="table-positionnement"></div>
@@ -118,71 +132,59 @@
                           le jet de charge ci-dessous.
                         </p>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== ATTAQUE DE VOLÉE ===================== -->
+                <div class="timeline-item" id="attaque-de-volee">
+                  <button class="timeline-titre" aria-expanded="false">
+                    4. Faire les attaques de volée
+                    <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
                       <p>
-                        Sinon, les deux unités peuvent faire une
+                        Les deux unités, en commancant par l'unité assaillante,
+                        peuvent faire une
                         <strong>attaque de volée</strong> l’une contre l’autre :
                         seules les armes dotées du trait <em>Assaut</em> peuvent
                         tirer, et uniquement au jugé. Cette attaque ne peut
                         jamais infliger de statut tactique.
                       </p>
-                      <div class="encadre-attention">
-                        <p style="margin: 0">
-                          <strong>L’unité chargée peut réagir :</strong> Tir
-                          d’état d’alerte ou Mur de bouclier pendant l’attaque
-                          de volée, puis Se dérober juste après. Détail dans la
-                          section
-                          <a href="#reactions-assaut">Réactions</a>
-                          ci-dessous.
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- ===================== JET DE CHARGE ===================== -->
+                <!-- ===================== MOUVEMENT DE CHARGE ======================== -->
                 <div class="timeline-item" id="jet-de-charge">
                   <button class="timeline-titre" aria-expanded="false">
-                    Le jet de Charge <span class="chevron">❯</span>
+                    5. Faire le mouvement de Charge
+                    <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
                         Le joueur chargeur jette <strong>2D6</strong> et
                         défausse le dé le plus bas : le résultat est la distance
-                        de charge disponible, en pouces.
+                        de charge en pouces.
                       </p>
                       <ul>
                         <li>
                           <strong>Charge réussie.</strong> Si le résultat est
                           suffisant pour atteindre la cible, les figurines de
-                          l’unité chargeuse se déplacent (sans restriction de
-                          distance envers l’ennemi) jusqu’au contact socle à
-                          socle, en gardant la cohésion d’unité dans la mesure
-                          du possible. Au moins une figurine au contact = les
-                          deux unités sont
-                          <strong>Verrouillées en Combat</strong>.
+                          l’unité chargeuse se déplacent jusqu’au contact socle
+                          à socle. Au moins une figurine au contact = les deux
+                          unités sont <strong>Verrouillées en Combat</strong>.
                         </li>
                         <li>
                           <strong>Charge ratée.</strong> Si le résultat est
-                          insuffisant, il ne se passe
-                          <strong>aucun mouvement</strong> : l’unité chargeuse
-                          fait simplement un test de Sang-froid. Réussi, aucun
-                          autre effet ; raté, toutes ses figurines deviennent
-                          <em>Sonnées</em>.
+                          insuffisant, <strong>aucun mouvement</strong> :
+                          l’unité assaillante fait simplement un test de
+                          Sang-froid. Réussi, aucun autre effet ; raté, toutes
+                          ses figurines deviennent <em>Sonnées</em>.
                         </li>
                       </ul>
-
-                      <div class="encadre-attention">
-                        <p style="margin: 0">
-                          <strong>Charge désordonnée.</strong> S’applique si
-                          l’unité vient de débarquer ce tour, ou si elle compte
-                          des figurines <em>Sonnées</em> ou
-                          <em>Neutralisées</em> : pas de mouvement de mise en
-                          place, pas d’attaque de volée (la cible, elle, peut
-                          toujours en faire une), et aucun bonus de charge
-                          réussie accordé par une règle spéciale.
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -191,7 +193,7 @@
           </div>
         </div>
 
-        <!-- ===================== DÉFI ===================== -->
+        <!-- ===================== SOUS-PHASE DE DÉFI ===================== -->
         <div class="timeline-item" id="defi">
           <button class="timeline-titre" aria-expanded="false">
             2. Sous-phase de Défi <span class="chevron">❯</span>
@@ -219,9 +221,7 @@
               <p>
                 Dès qu’une figurine d’une unité est au contact socle à socle
                 d’une figurine ennemie, les deux unités sont
-                <strong>Verrouillées en Combat</strong>. Si plusieurs unités se
-                touchent en chaîne, elles forment toutes ensemble un seul et
-                même <strong>Combat</strong>, résolu d’un bloc.
+                <strong>Verrouillées en Combat</strong>.
               </p>
               <ol class="etapes">
                 <li>
@@ -266,7 +266,7 @@
           </div>
         </div>
 
-        <!-- ===================== RÉSOLUTION ===================== -->
+        <!-- ===================== SOUS-PHASE DE RÉSOLUTION ===================== -->
         <div class="timeline-item" id="resolution">
           <button class="timeline-titre" aria-expanded="false">
             4. Sous-phase de Résolution <span class="chevron">❯</span>
@@ -393,17 +393,15 @@
 
         <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
         <div class="timeline-item" id="reactions-assaut">
-          <button class="timeline-titre" aria-expanded="false">
+          <button
+            class="timeline-titre timeline-titre--reactions"
+            aria-expanded="false"
+          >
             Réactions adverses
             <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
-              <p>
-                L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut
-                répondre par l’une de ces réactions. Détail complet sur la page
-                <a href="statuts-reactions.html#reactions">Réactions</a>.
-              </p>
               <div class="reaction reaction-assaut">
                 <span class="reaction-nom">Tir d’état d’alerte</span
                 ><span class="badge-phase">Assaut</span>
