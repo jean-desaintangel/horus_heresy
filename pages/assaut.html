@@ -231,103 +231,137 @@
                   >9.</strong
                 >
                 Choisir le groupe de coups suivant · <strong>10.</strong>
-                Retirer les poertes .
+                Retirer les pertes.
               </p>
               <div class="timeline">
-                <!-- ===================== DECLARER LA CIBLE ===================== -->
+                <!-- ===================== DECLARER LES COMBATTANTS ===================== -->
                 <div class="timeline-item" id="declarer-cible">
                   <button class="timeline-titre" aria-expanded="false">
-                    1/2. Déclarer la cible et virifier la ligne de vue et la
-                    portée de charge maximum
+                    1/2. Déclarer les combattants et faire les mises en contact
                     <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
-                        Il faut au moins une figurine capable de tracer une
-                        ligne de vue vers la cible, à une distance de
-                        <strong>12 pouces</strong> maximum.
+                        Les figurines avec la plus haute
+                        <strong>Initiative</strong> dans le combat se battent en
+                        première, puis les suivantes par ordre décroissant. Les
+                        figurines doivent être mises en contact en se déplacant
+                        d'un nombre de pouces égal à leur initiative.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <!-- ===================== MOUVEMENT DE POSITIONNEMENT ===================== -->
-                <div class="timeline-item" id="mise-en-place">
+                <!-- ===================== ETABLIR LES GROUPES DE COUPS ===================== -->
+                <div class="timeline-item" id="groupes-de-coups">
                   <button class="timeline-titre" aria-expanded="false">
-                    3. Faire le mouvement de Positionnement
+                    4. Etablir les groupes de coups
                     <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
-                        Avant le jet de charge, l’unité effectue un mouvement de
-                        positionnement, dont la distance dépend de la somme
-                        <strong>Initiative + Mouvement</strong> :
+                        Le joueur déclare quelles armes de son unité participent
+                        au combat (une seule arme par figurine). On les
+                        rassemble ensuite en
+                        <strong>groupes de tirs</strong> : toutes les attaques
+                        faites avec des armes du même nom forment un seul
+                        groupe, résolu d’un bloc.
                       </p>
-                      <div id="table-positionnement"></div>
+                      <p>
+                        Deux exceptions obligent à créer des groupes séparés,
+                        même pour la même arme : si l’arme a plusieurs profils
+                        (on choisit alors lequel utiliser), ou si les figurines
+                        qui tirent n’ont pas toutes la même capacité de combat.
+                      </p>
+                      <p>
+                        Les groupes sont résolus <strong>un par un</strong>,
+                        dans l’ordre choisi par le joueur qui tire.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== TOUCHE ===================== -->
+                <div class="timeline-item" id="toucher">
+                  <button class="timeline-titre" aria-expanded="false">
+                    5. Faire les jets de touche <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <div class="section-corps" id="cc-corps">
+                        <p>
+                          Croise la
+                          <strong
+                            >Capacité de Combat (CC) de l’attaquant</strong
+                          >
+                          avec celle du <strong>défenseur</strong>. Le résultat
+                          est le score minimum à obtenir sur 1D6 pour toucher.
+                        </p>
+                        <!-- La table est générée par js/tables.js -->
+                        <div id="table-cc"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== BLESSURE ===================== -->
+                <div class="timeline-item" id="blesser">
+                  <button class="timeline-titre" aria-expanded="false">
+                    6. Faire les jets de blessure <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Chaque touche est ensuite convertie en un jet de
+                        blessure, en croisant la <strong>Force</strong> de
+                        l’arme avec l’<strong>Endurance</strong>
+                        de la cible — voir la table ci-dessous. Un « − »
+                        signifie que la blessure est impossible.
+                      </p>
+                      <div id="table-blessure"></div>
                       <div class="encadre">
                         <p style="margin: 0">
-                          <strong>Charge déjà réussie ?</strong> Si ce mouvement
-                          de mise en place suffit à amener une figurine au
-                          contact socle à socle de la cible, la Charge est
-                          immédiatement gagnée : on saute l’attaque de volée et
-                          le jet de charge ci-dessous.
+                          <strong>Cible Véhicule :</strong> pas de jet de
+                          blessure. On fait à la place un
+                          <strong>test de Pénétration de Blindage</strong>, qui
+                          compare la Force de l’arme au Blindage touché.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- ===================== ATTAQUE DE VOLÉE ===================== -->
-                <div class="timeline-item" id="attaque-de-volee">
+                <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
+                <div class="timeline-item" id="sauvegardes">
                   <button class="timeline-titre" aria-expanded="false">
-                    4. Faire les attaques de volée
+                    7/8. Choisir la cible et jets de sauvegarde.
                     <span class="chevron">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
-                      <p>
-                        Les deux unités, en commancant par l'unité assaillante,
-                        peuvent faire une
-                        <strong>attaque de volée</strong> l’une contre l’autre :
-                        seules les armes dotées du trait <em>Assaut</em> peuvent
-                        tirer, et uniquement au jugé. Cette attaque ne peut
-                        jamais infliger de statut tactique.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ===================== MOUVEMENT DE CHARGE ======================== -->
-                <div class="timeline-item" id="jet-de-charge">
-                  <button class="timeline-titre" aria-expanded="false">
-                    5. Faire le mouvement de Charge
-                    <span class="chevron">❯</span>
-                  </button>
-                  <div class="timeline-details">
-                    <div class="timeline-details-inner">
-                      <p>
-                        Le joueur chargeur jette <strong>2D6</strong> et
-                        défausse le dé le plus bas : le résultat est la distance
-                        de charge en pouces.
-                      </p>
-                      <ul>
+                      <ol class="etapes">
                         <li>
-                          <strong>Charge réussie.</strong> Si le résultat est
-                          suffisant pour atteindre la cible, les figurines de
-                          l’unité chargeuse se déplacent jusqu’au contact socle
-                          à socle. Au moins une figurine au contact = les deux
-                          unités sont <strong>Verrouillées en Combat</strong>.
+                          <strong>Choisir la figurine cible.</strong> Le joueur
+                          défenseur désigne quelle figurine de l’unité encaisse
+                          chaque blessure. Une figurine déjà blessée doit être
+                          choisie en priorité.
                         </li>
                         <li>
-                          <strong>Charge ratée.</strong> Si le résultat est
-                          insuffisant, <strong>aucun mouvement</strong> :
-                          l’unité assaillante fait simplement un test de
-                          Sang-froid. Réussi, aucun autre effet ; raté, toutes
-                          ses figurines deviennent <em>Sonnées</em>.
+                          <strong>Jet de sauvegarde.</strong> Une sauvegarde
+                          peut être tentée pour chaque blessure ou touche
+                          pénétrante ; en cas de réussite, elle est purement et
+                          simplement défaussée.
                         </li>
-                      </ul>
+                        <li>
+                          <strong>Application des dégâts.</strong> Toute
+                          blessure non évitée réduit les
+                          <strong>Points de Vie</strong> de la figurine de la
+                          valeur de <strong>Dégâts</strong> de l’arme. À 0, elle
+                          est mise de côté comme perte.
+                        </li>
+                      </ol>
                     </div>
                   </div>
                 </div>
