@@ -742,19 +742,23 @@ td.impossible {
 
 /* Mise en avant des sections "Réactions adverses" */
 .timeline-titre--reactions {
-  background: #fbeae7;
-  border: 1px solid var(--bordeaux-clair);
-  border-left: 4px solid var(--bordeaux);
-  color: var(--bordeaux-clair);
+  background: #ececed;
+  border: 1px solid var(--acier);
+  border-left: 4px solid var(--acier);
+  color: var(--acier-clair);
 }
 
 .timeline-titre--reactions:hover {
-  border-color: var(--bordeaux);
+  border-color: var(--acier-clair);
 }
 
 .timeline-titre .chevron {
   transition: transform var(--transition);
   color: var(--bordeaux-clair);
+}
+
+.timeline-titre--reactions .chevron {
+  color: var(--acier-clair);
 }
 
 .timeline-item.ouvert .timeline-titre .chevron {
