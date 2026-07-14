@@ -68,17 +68,11 @@
         <!-- ===================== SÉQUENCE DE TIR ===================== -->
         <div class="timeline-item" id="sequence">
           <button class="timeline-titre" aria-expanded="false">
-            Résoudre une attaque de tir, pas à pas
+            1. Sous-Phase d'Attaque
             <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
-              <p>
-                Quand une unité tire, suis toujours ces 11 étapes dans l’ordre.
-                La séquence devient rapidement un réflexe. Détail de chaque
-                étape ci-dessous.
-              </p>
-
               <ol class="etapes">
                 <li><strong>Choisir l’unité cible.</strong></li>
                 <li>
@@ -125,212 +119,214 @@
                   la réaction « Médic ».
                 </li>
               </ol>
-            </div>
-          </div>
-        </div>
 
-        <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
-        <div class="timeline-item" id="cible">
-          <button class="timeline-titre" aria-expanded="false">
-            1. Choisir et vérifier la cible <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                Une unité éligible tire sur
-                <strong>une seule unité ennemie</strong>, choisie parmi celles
-                visibles et atteignables — jamais une unité embarquée, en
-                réserve, ou déjà engagée en mêlée.
-              </p>
-              <ul>
-                <li>
-                  <strong>Ligne de vue.</strong> Au moins une figurine de
-                  l’unité tireuse doit pouvoir tracer une ligne de vue vers au
-                  moins une figurine de la cible.
-                </li>
-                <li>
-                  <strong>Portée.</strong> Une arme n’est « à portée » que si la
-                  distance entre le tireur et la figurine ciblée (via une ligne
-                  de vue valide) est inférieure ou égale à la
-                  <strong>Portée</strong> de cette arme.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+              <div class="timeline">
+                <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
+                <div class="timeline-item" id="cible">
+                  <button class="timeline-titre" aria-expanded="false">
+                    1. Choisir et vérifier la cible <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Une unité éligible tire sur
+                        <strong>une seule unité ennemie</strong>, choisie parmi celles
+                        visibles et atteignables — jamais une unité embarquée, en
+                        réserve, ou déjà engagée en mêlée.
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>Ligne de vue.</strong> Au moins une figurine de
+                          l’unité tireuse doit pouvoir tracer une ligne de vue vers au
+                          moins une figurine de la cible.
+                        </li>
+                        <li>
+                          <strong>Portée.</strong> Une arme n’est « à portée » que si la
+                          distance entre le tireur et la figurine ciblée (via une ligne
+                          de vue valide) est inférieure ou égale à la
+                          <strong>Portée</strong> de cette arme.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- ===================== GROUPES DE TIRS ===================== -->
-        <div class="timeline-item" id="groupes">
-          <button class="timeline-titre" aria-expanded="false">
-            2. Déclarer les armes et les groupes de tirs
-            <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                Le tireur déclare quelles armes de son unité participent au tir
-                (une seule arme par figurine, sauf règle spéciale contraire), en
-                respectant portée et ligne de vue pour chacune. On les rassemble
-                ensuite en
-                <strong>groupes de tirs</strong> : toutes les attaques faites
-                avec des armes du même nom forment un seul groupe, résolu d’un
-                bloc.
-              </p>
-              <p>
-                Deux exceptions obligent à créer des groupes séparés, même pour
-                la même arme : si l’arme a plusieurs profils (on choisit alors
-                lequel utiliser), ou si les figurines qui tirent n’ont pas
-                toutes la même Capacité de Tir.
-              </p>
-              <p>
-                Les groupes sont résolus <strong>un par un</strong>, dans
-                l’ordre choisi par le joueur qui tire — étapes 3 à 6 ci-dessous,
-                répétées pour chaque groupe.
-              </p>
-            </div>
-          </div>
-        </div>
+                <!-- ===================== GROUPES DE TIRS ===================== -->
+                <div class="timeline-item" id="groupes">
+                  <button class="timeline-titre" aria-expanded="false">
+                    2. Déclarer les armes et les groupes de tirs
+                    <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Le tireur déclare quelles armes de son unité participent au tir
+                        (une seule arme par figurine, sauf règle spéciale contraire), en
+                        respectant portée et ligne de vue pour chacune. On les rassemble
+                        ensuite en
+                        <strong>groupes de tirs</strong> : toutes les attaques faites
+                        avec des armes du même nom forment un seul groupe, résolu d’un
+                        bloc.
+                      </p>
+                      <p>
+                        Deux exceptions obligent à créer des groupes séparés, même pour
+                        la même arme : si l’arme a plusieurs profils (on choisit alors
+                        lequel utiliser), ou si les figurines qui tirent n’ont pas
+                        toutes la même Capacité de Tir.
+                      </p>
+                      <p>
+                        Les groupes sont résolus <strong>un par un</strong>, dans
+                        l’ordre choisi par le joueur qui tire — étapes 3 à 6 ci-dessous,
+                        répétées pour chaque groupe.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- ===================== TOUCHE ===================== -->
-        <div class="timeline-item" id="toucher">
-          <button class="timeline-titre" aria-expanded="false">
-            3. Faire les jets de touche <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                On additionne la caractéristique de
-                <strong>Puissance de feu</strong>
-                de toutes les armes du groupe : ce total donne le nombre de jets
-                de touche à effectuer. Le score à atteindre dépend de la
-                <strong>Capacité de Tir</strong> majoritaire dans l’unité — voir
-                la table ci-dessous. Chaque succès est une touche.
-              </p>
-              <div id="table-ct"></div>
-              <div class="encadre">
-                <p style="margin: 0">
-                  <strong>Légende :</strong> <strong>Auto</strong> = touche
-                  automatique. <strong>Cr X+</strong> = la touche est presque
-                  assurée (2+), et en cas d’échec le jet est relancé : la
-                  relance réussit sur X+. <strong>Éch.</strong> = échec
-                  automatique, on ne peut pas tirer au jugé avec CT 1.
-                </p>
-              </div>
-              <div class="encadre-attention">
-                <p style="margin: 0">
-                  <strong>Tir au jugé.</strong> Une unité
-                  <em>Neutralisée</em> (voir
-                  <a href="statuts-reactions.html#statuts">Statuts Tactiques</a
-                  >) doit utiliser la ligne « Au jugé » de la table ci-dessus
-                  pour l’intégralité de ses tirs — de même pour la réaction
-                  Interception, ou une arme tirée en marchant avec le trait
-                  Léger.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+                <!-- ===================== TOUCHE ===================== -->
+                <div class="timeline-item" id="toucher">
+                  <button class="timeline-titre" aria-expanded="false">
+                    3. Faire les jets de touche <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        On additionne la caractéristique de
+                        <strong>Puissance de feu</strong>
+                        de toutes les armes du groupe : ce total donne le nombre de jets
+                        de touche à effectuer. Le score à atteindre dépend de la
+                        <strong>Capacité de Tir</strong> majoritaire dans l’unité — voir
+                        la table ci-dessous. Chaque succès est une touche.
+                      </p>
+                      <div id="table-ct"></div>
+                      <div class="encadre">
+                        <p style="margin: 0">
+                          <strong>Légende :</strong> <strong>Auto</strong> = touche
+                          automatique. <strong>Cr X+</strong> = la touche est presque
+                          assurée (2+), et en cas d’échec le jet est relancé : la
+                          relance réussit sur X+. <strong>Éch.</strong> = échec
+                          automatique, on ne peut pas tirer au jugé avec CT 1.
+                        </p>
+                      </div>
+                      <div class="encadre-attention">
+                        <p style="margin: 0">
+                          <strong>Tir au jugé.</strong> Une unité
+                          <em>Neutralisée</em> (voir
+                          <a href="statuts-reactions.html#statuts">Statuts Tactiques</a
+                          >) doit utiliser la ligne « Au jugé » de la table ci-dessus
+                          pour l’intégralité de ses tirs — de même pour la réaction
+                          Interception, ou une arme tirée en marchant avec le trait
+                          Léger.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- ===================== BLESSURE ===================== -->
-        <div class="timeline-item" id="blesser">
-          <button class="timeline-titre" aria-expanded="false">
-            4. Faire les jets de blessure <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                Chaque touche est ensuite convertie en un jet de blessure, en
-                croisant la <strong>Force</strong> de l’arme avec l’<strong
-                  >Endurance</strong
-                >
-                de la cible — voir la table ci-dessous. Un « − » signifie que la
-                blessure est impossible.
-              </p>
-              <div id="table-blessure"></div>
-              <div class="encadre">
-                <p style="margin: 0">
-                  <strong>Cible Véhicule :</strong> pas de jet de blessure. On
-                  fait à la place un
-                  <strong>test de Pénétration de Blindage</strong>, qui compare
-                  la Force de l’arme au Blindage touché.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+                <!-- ===================== BLESSURE ===================== -->
+                <div class="timeline-item" id="blesser">
+                  <button class="timeline-titre" aria-expanded="false">
+                    4. Faire les jets de blessure <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Chaque touche est ensuite convertie en un jet de blessure, en
+                        croisant la <strong>Force</strong> de l’arme avec l’<strong
+                          >Endurance</strong
+                        >
+                        de la cible — voir la table ci-dessous. Un « − » signifie que la
+                        blessure est impossible.
+                      </p>
+                      <div id="table-blessure"></div>
+                      <div class="encadre">
+                        <p style="margin: 0">
+                          <strong>Cible Véhicule :</strong> pas de jet de blessure. On
+                          fait à la place un
+                          <strong>test de Pénétration de Blindage</strong>, qui compare
+                          la Force de l’arme au Blindage touché.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
-        <div class="timeline-item" id="sauvegardes">
-          <button class="timeline-titre" aria-expanded="false">
-            5. Choisir la figurine cible, sauvegardes et mitigation
-            <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <ol class="etapes">
-                <li>
-                  <strong>Choisir la figurine cible.</strong> Le joueur
-                  défenseur désigne quelle figurine de l’unité encaisse chaque
-                  blessure (sauf règle spéciale de type Précision qui force le
-                  choix de l’attaquant). Une figurine déjà blessée doit être
-                  choisie en priorité si elle est disponible — sauf un officier
-                  (Sous-type État-major), qui reste protégé tant qu’il reste
-                  d’autres figurines dans l’unité.
-                </li>
-                <li>
-                  <strong>Jet de sauvegarde.</strong> Une sauvegarde peut être
-                  tentée pour chaque blessure ou touche pénétrante ; en cas de
-                  réussite, elle est purement et simplement défaussée.
-                </li>
-                <li>
-                  <strong>Jet de mitigation de dégâts.</strong> Si la sauvegarde
-                  est ratée et qu’une mitigation est disponible (Dissimulation,
-                  Champ de force…), c’est la dernière chance de survie de la
-                  figurine.
-                </li>
-                <li>
-                  <strong>Application des dégâts.</strong> Toute blessure non
-                  évitée réduit les <strong>Points de Vie</strong> de la
-                  figurine de la valeur de <strong>Dégâts</strong> de l’arme. À
-                  0 ou moins, elle est mise de côté comme perte et l’excédent de
-                  blessures du même groupe de tirs passe à une autre figurine.
-                </li>
-              </ol>
-              <div class="encadre">
-                <p style="margin: 0">
-                  <strong>On ne retire rien tout de suite :</strong> les
-                  figurines perdues restent physiquement sur la table (elles
-                  comptent encore pour les lignes de vue et les distances)
-                  jusqu’à la toute dernière étape de la séquence, « Retirer les
-                  pertes ».
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+                <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
+                <div class="timeline-item" id="sauvegardes">
+                  <button class="timeline-titre" aria-expanded="false">
+                    5. Choisir la figurine cible, sauvegardes et mitigation
+                    <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <ol class="etapes">
+                        <li>
+                          <strong>Choisir la figurine cible.</strong> Le joueur
+                          défenseur désigne quelle figurine de l’unité encaisse chaque
+                          blessure (sauf règle spéciale de type Précision qui force le
+                          choix de l’attaquant). Une figurine déjà blessée doit être
+                          choisie en priorité si elle est disponible — sauf un officier
+                          (Sous-type État-major), qui reste protégé tant qu’il reste
+                          d’autres figurines dans l’unité.
+                        </li>
+                        <li>
+                          <strong>Jet de sauvegarde.</strong> Une sauvegarde peut être
+                          tentée pour chaque blessure ou touche pénétrante ; en cas de
+                          réussite, elle est purement et simplement défaussée.
+                        </li>
+                        <li>
+                          <strong>Jet de mitigation de dégâts.</strong> Si la sauvegarde
+                          est ratée et qu’une mitigation est disponible (Dissimulation,
+                          Champ de force…), c’est la dernière chance de survie de la
+                          figurine.
+                        </li>
+                        <li>
+                          <strong>Application des dégâts.</strong> Toute blessure non
+                          évitée réduit les <strong>Points de Vie</strong> de la
+                          figurine de la valeur de <strong>Dégâts</strong> de l’arme. À
+                          0 ou moins, elle est mise de côté comme perte et l’excédent de
+                          blessures du même groupe de tirs passe à une autre figurine.
+                        </li>
+                      </ol>
+                      <div class="encadre">
+                        <p style="margin: 0">
+                          <strong>On ne retire rien tout de suite :</strong> les
+                          figurines perdues restent physiquement sur la table (elles
+                          comptent encore pour les lignes de vue et les distances)
+                          jusqu’à la toute dernière étape de la séquence, « Retirer les
+                          pertes ».
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- ===================== COUVERT ===================== -->
-        <div class="timeline-item" id="couvert">
-          <button class="timeline-titre" aria-expanded="false">
-            Le couvert <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                Une cible partiellement dissimulée par un décor bénéficie d’un
-                jet de mitigation de dégâts de
-                <strong>Dissimulation</strong>, dont la valeur dépend du type de
-                couvert (léger, dense…). Comme toute mitigation, il s’applique
-                après une sauvegarde ratée.
-              </p>
-              <div class="encadre-attention">
-                <p style="margin: 0">
-                  <strong>Tir d’état d’alerte :</strong> quand une unité chargée
-                  y réagit, l’attaquant ne bénéficie d’<strong>aucun</strong>
-                  jet de couvert ni de mitigation de Dissimulation. Détail sur
-                  la page
-                  <a href="statuts-reactions.html#reactions">Réactions</a>.
-                </p>
+                <!-- ===================== COUVERT ===================== -->
+                <div class="timeline-item" id="couvert">
+                  <button class="timeline-titre" aria-expanded="false">
+                    Le couvert <span class="chevron">❯</span>
+                  </button>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Une cible partiellement dissimulée par un décor bénéficie d’un
+                        jet de mitigation de dégâts de
+                        <strong>Dissimulation</strong>, dont la valeur dépend du type de
+                        couvert (léger, dense…). Comme toute mitigation, il s’applique
+                        après une sauvegarde ratée.
+                      </p>
+                      <div class="encadre-attention">
+                        <p style="margin: 0">
+                          <strong>Tir d’état d’alerte :</strong> quand une unité chargée
+                          y réagit, l’attaquant ne bénéficie d’<strong>aucun</strong>
+                          jet de couvert ni de mitigation de Dissimulation. Détail sur
+                          la page
+                          <a href="statuts-reactions.html#reactions">Réactions</a>.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -339,7 +335,7 @@
         <!-- ===================== MORAL ===================== -->
         <div class="timeline-item" id="moral">
           <button class="timeline-titre" aria-expanded="false">
-            6. Sous-phase de Moral <span class="chevron">❯</span>
+            2. Sous-phase de Moral <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">

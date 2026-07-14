@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(selecteurBouton).forEach((bouton) => {
       bouton.addEventListener("click", () => {
         const item = bouton.closest(selecteurItem);
-        const contenu = item.querySelector(selecteurContenu);
+        const contenu = item.querySelector(`:scope > ${selecteurContenu}`);
         const dejaOuvert = item.classList.contains("ouvert");
 
         if (dejaOuvert) {
@@ -74,6 +74,30 @@ document.addEventListener("DOMContentLoaded", () => {
           contenu.style.maxHeight = contenu.scrollHeight + "px";
         }
         bouton.setAttribute("aria-expanded", !dejaOuvert);
+
+        // Panneau imbriqué (ex : sous-timeline dans un timeline-item) :
+        // son propre contenu change de hauteur, mais un ancêtre déjà
+        // ouvert garde la hauteur figée au moment de SON ouverture. Tant
+        // que la transition max-height de "contenu" n'est pas terminée,
+        // sa hauteur réelle (scrollHeight) n'a pas encore atteint sa
+        // cible : on attend "transitionend" avant de remonter recalculer
+        // le max-height de chaque ancêtre ouvert, sinon le nouveau
+        // contenu se retrouve coupé (ou l'ancêtre garde un vide en trop).
+        contenu.addEventListener(
+          "transitionend",
+          () => {
+            let ancetre = item.parentElement?.closest(selecteurItem);
+            while (ancetre && ancetre.classList.contains("ouvert")) {
+              const contenuAncetre = ancetre.querySelector(
+                `:scope > ${selecteurContenu}`,
+              );
+              contenuAncetre.style.maxHeight =
+                contenuAncetre.scrollHeight + "px";
+              ancetre = ancetre.parentElement?.closest(selecteurItem);
+            }
+          },
+          { once: true },
+        );
       });
     });
   }
