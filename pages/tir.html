@@ -34,434 +34,401 @@
         </button>
         <nav class="nav-principale" aria-label="Navigation principale">
           <ul class="nav-menu">
-          <li><a href="armee.html">Construction d’armée</a></li>
-          <li><a href="tour.html">Tour</a></li>
-          <li><a href="mouvement.html">Mouvement</a></li>
-          <li><a href="tir.html" aria-current="page">Tir</a></li>
-          <li><a href="assaut.html">Assaut</a></li>
-          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="regles.html">Règles spéciales</a></li>
-          <li><a href="tables.html">Tables de référence</a></li>
-        </ul>
+            <li><a href="armee.html">Construction d’armée</a></li>
+            <li><a href="tour.html">Tour</a></li>
+            <li><a href="mouvement.html">Mouvement</a></li>
+            <li><a href="tir.html" aria-current="page">Tir</a></li>
+            <li><a href="assaut.html">Assaut</a></li>
+            <li>
+              <a href="statuts-reactions.html">Statuts &amp; Réactions</a>
+            </li>
+            <li><a href="regles.html">Règles spéciales</a></li>
+            <li><a href="tables.html">Tables de référence</a></li>
+          </ul>
         </nav>
       </div>
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre" style="font-size: 2rem">La Phase de Tir</h1>
+      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+        La Phase de Tir
+      </h1>
       <p>
         Après le Mouvement vient la Phase de Tir, découpée en une Sous-phase
         d’Attaque (une résolution par unité qui tire) puis une Sous-phase de
         Moral.
       </p>
 
-      <!-- ===================== SÉQUENCE DE TIR ===================== -->
-      <section id="sequence">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="sequence-corps"
-          >
-            <span>Résoudre une attaque de tir, pas à pas</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+      <div class="timeline">
+        <!-- ===================== SÉQUENCE DE TIR ===================== -->
+        <div class="timeline-item" id="sequence">
+          <button class="timeline-titre" aria-expanded="false">
+            Résoudre une attaque de tir, pas à pas
+            <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="sequence-corps">
-          <p>
-            Quand une unité tire, suis toujours ces 11 étapes dans l’ordre. La
-            séquence devient rapidement un réflexe. Détail de chaque étape
-            ci-dessous.
-          </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Quand une unité tire, suis toujours ces 11 étapes dans
+                l’ordre. La séquence devient rapidement un réflexe. Détail de
+                chaque étape ci-dessous.
+              </p>
 
-          <ol class="etapes">
-            <li><strong>Choisir l’unité cible.</strong></li>
-            <li>
-              <strong>Vérifier la cible.</strong> Portée et ligne de vue :
-              est-elle atteignable ?
-            </li>
-            <li>
-              <strong>Déclarer les armes.</strong> Quelles armes de l’unité
-              participent au tir.
-            </li>
-            <li>
-              <strong>Établir les groupes de tirs.</strong> On regroupe les
-              armes identiques pour aller plus vite.
-            </li>
-            <li>
-              <strong>Choisir un groupe de tirs à résoudre.</strong> On les
-              traite un par un.
-            </li>
-            <li>
-              <strong>Faire les jets de touche.</strong> Voir la
-              <a href="tables.html#ct">table CT</a>.
-            </li>
-            <li>
-              <strong>Faire les jets de blessure.</strong> Force de l’arme
-              contre Endurance de la cible.
-            </li>
-            <li>
-              <strong>Choisir la figurine cible.</strong> Le défenseur désigne
-              qui encaisse (sauf règle Précision).
-            </li>
-            <li>
-              <strong
-                >Faire les jets de sauvegarde et les jets de mitigation de
-                dégâts.</strong
-              >
-              Dernière chance de survie.
-            </li>
-            <li>
-              <strong>Choisir le groupe de tirs suivant.</strong> On répète les
-              étapes 6 à 9.
-            </li>
-            <li>
-              <strong>Retirer les pertes.</strong> C’est aussi le moment de la
-              réaction « Médic ».
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
-      <section id="cible">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="cible-corps"
-          >
-            <span>1. Choisir et vérifier la cible</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="cible-corps">
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Une unité ne peut pas tirer si :</strong> elle a Foncé à
-              la Sous-phase de Déplacement de ce tour ; elle est
-              <em>Verrouillée en Combat</em> (elle frappe en mêlée à la place) ;
-              ou elle est embarquée à bord d’un transport.
-            </p>
-          </div>
-          <p>
-            Une unité éligible tire sur
-            <strong>une seule unité ennemie</strong>, choisie parmi celles
-            visibles et atteignables — jamais une unité embarquée, en réserve,
-            ou déjà engagée en mêlée.
-          </p>
-          <ul>
-            <li>
-              <strong>Ligne de vue.</strong> Au moins une figurine de l’unité
-              tireuse doit pouvoir tracer une ligne de vue vers au moins une
-              figurine de la cible.
-            </li>
-            <li>
-              <strong>Portée.</strong> Une arme n’est « à portée » que si la
-              distance entre le tireur et la figurine ciblée (via une ligne de
-              vue valide) est inférieure ou égale à la
-              <strong>Portée</strong> de cette arme.
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ===================== GROUPES DE TIRS ===================== -->
-      <section id="groupes">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="groupes-corps"
-          >
-            <span>2. Déclarer les armes et les groupes de tirs</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="groupes-corps">
-          <p>
-            Le tireur déclare quelles armes de son unité participent au tir (une
-            seule arme par figurine, sauf règle spéciale contraire), en
-            respectant portée et ligne de vue pour chacune. On les rassemble
-            ensuite en
-            <strong>groupes de tirs</strong> : toutes les attaques faites avec
-            des armes du même nom forment un seul groupe, résolu d’un bloc.
-          </p>
-          <p>
-            Deux exceptions obligent à créer des groupes séparés, même pour la
-            même arme : si l’arme a plusieurs profils (on choisit alors lequel
-            utiliser), ou si les figurines qui tirent n’ont pas toutes la même
-            Capacité de Tir.
-          </p>
-          <p>
-            Les groupes sont résolus <strong>un par un</strong>, dans l’ordre
-            choisi par le joueur qui tire — étapes 3 à 6 ci-dessous, répétées
-            pour chaque groupe.
-          </p>
-        </div>
-      </section>
-
-      <!-- ===================== TOUCHE ===================== -->
-      <section id="toucher">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="toucher-corps"
-          >
-            <span>3. Faire les jets de touche</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="toucher-corps">
-          <p>
-            On additionne la caractéristique de
-            <strong>Puissance de feu</strong>
-            de toutes les armes du groupe : ce total donne le nombre de jets de
-            touche à effectuer. Le score à atteindre dépend de la
-            <strong>Capacité de Tir</strong> majoritaire dans l’unité — voir la
-            <a href="tables.html#ct">table CT</a>. Chaque succès est une touche.
-          </p>
-          <div class="encadre-attention">
-            <p style="margin: 0">
-              <strong>Tir au jugé.</strong> Une unité <em>Neutralisée</em> (voir
-              <a href="statuts-reactions.html#statuts">Statuts Tactiques</a>)
-              doit utiliser la ligne « Au jugé » de la table CT pour
-              l’intégralité de ses tirs — de même pour la réaction Interception,
-              ou une arme tirée en marchant avec le trait Léger.
-            </p>
+              <ol class="etapes">
+                <li><strong>Choisir l’unité cible.</strong></li>
+                <li>
+                  <strong>Vérifier la cible.</strong> Portée et ligne de vue :
+                  est-elle atteignable ?
+                </li>
+                <li>
+                  <strong>Déclarer les armes.</strong> Quelles armes de
+                  l’unité participent au tir.
+                </li>
+                <li>
+                  <strong>Établir les groupes de tirs.</strong> On regroupe
+                  les armes identiques pour aller plus vite.
+                </li>
+                <li>
+                  <strong>Choisir un groupe de tirs à résoudre.</strong> On
+                  les traite un par un.
+                </li>
+                <li>
+                  <strong>Faire les jets de touche.</strong> Voir la
+                  <a href="tables.html#ct">table CT</a>.
+                </li>
+                <li>
+                  <strong>Faire les jets de blessure.</strong> Force de
+                  l’arme contre Endurance de la cible.
+                </li>
+                <li>
+                  <strong>Choisir la figurine cible.</strong> Le défenseur
+                  désigne qui encaisse (sauf règle Précision).
+                </li>
+                <li>
+                  <strong
+                    >Faire les jets de sauvegarde et les jets de mitigation
+                    de dégâts.</strong
+                  >
+                  Dernière chance de survie.
+                </li>
+                <li>
+                  <strong>Choisir le groupe de tirs suivant.</strong> On
+                  répète les étapes 6 à 9.
+                </li>
+                <li>
+                  <strong>Retirer les pertes.</strong> C’est aussi le moment
+                  de la réaction « Médic ».
+                </li>
+              </ol>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== BLESSURE ===================== -->
-      <section id="blesser">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="blesser-corps"
-          >
-            <span>4. Faire les jets de blessure</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
+        <div class="timeline-item" id="cible">
+          <button class="timeline-titre" aria-expanded="false">
+            1. Choisir et vérifier la cible <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="blesser-corps">
-          <p>
-            Chaque touche est ensuite convertie en un jet de blessure, en
-            croisant la <strong>Force</strong> de l’arme avec l’<strong
-              >Endurance</strong
-            >
-            de la cible — voir la
-            <a href="tables.html#blessure">table de blessure</a>.
-          </p>
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Cible Véhicule :</strong> pas de jet de blessure. On fait
-              à la place un <strong>test de Pénétration de Blindage</strong>,
-              qui compare la Force de l’arme au Blindage touché.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>Une unité ne peut pas tirer si :</strong> elle a
+                  Foncé à la Sous-phase de Déplacement de ce tour ; elle est
+                  <em>Verrouillée en Combat</em> (elle frappe en mêlée à la
+                  place) ; ou elle est embarquée à bord d’un transport.
+                </p>
+              </div>
+              <p>
+                Une unité éligible tire sur
+                <strong>une seule unité ennemie</strong>, choisie parmi
+                celles visibles et atteignables — jamais une unité embarquée,
+                en réserve, ou déjà engagée en mêlée.
+              </p>
+              <ul>
+                <li>
+                  <strong>Ligne de vue.</strong> Au moins une figurine de
+                  l’unité tireuse doit pouvoir tracer une ligne de vue vers
+                  au moins une figurine de la cible.
+                </li>
+                <li>
+                  <strong>Portée.</strong> Une arme n’est « à portée » que si
+                  la distance entre le tireur et la figurine ciblée (via une
+                  ligne de vue valide) est inférieure ou égale à la
+                  <strong>Portée</strong> de cette arme.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
-      <section id="sauvegardes">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="sauvegardes-corps"
-          >
-            <span>5. Choisir la figurine cible, sauvegardes et mitigation</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== GROUPES DE TIRS ===================== -->
+        <div class="timeline-item" id="groupes">
+          <button class="timeline-titre" aria-expanded="false">
+            2. Déclarer les armes et les groupes de tirs
+            <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="sauvegardes-corps">
-          <ol class="etapes">
-            <li>
-              <strong>Choisir la figurine cible.</strong> Le joueur défenseur
-              désigne quelle figurine de l’unité encaisse chaque blessure (sauf
-              règle spéciale de type Précision qui force le choix de
-              l’attaquant). Une figurine déjà blessée doit être choisie en
-              priorité si elle est disponible — sauf un officier (Sous-type
-              État-major), qui reste protégé tant qu’il reste d’autres figurines
-              dans l’unité.
-            </li>
-            <li>
-              <strong>Jet de sauvegarde.</strong> Une sauvegarde peut être
-              tentée pour chaque blessure ou touche pénétrante ; en cas de
-              réussite, elle est purement et simplement défaussée.
-            </li>
-            <li>
-              <strong>Jet de mitigation de dégâts.</strong> Si la sauvegarde est
-              ratée et qu’une mitigation est disponible (Dissimulation, Champ de
-              force…), c’est la dernière chance de survie de la figurine.
-            </li>
-            <li>
-              <strong>Application des dégâts.</strong> Toute blessure non évitée
-              réduit les <strong>Points de Vie</strong> de la figurine de la
-              valeur de <strong>Dégâts</strong> de l’arme. À 0 ou moins, elle
-              est mise de côté comme perte et l’excédent de blessures du même
-              groupe de tirs passe à une autre figurine.
-            </li>
-          </ol>
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>On ne retire rien tout de suite :</strong> les figurines
-              perdues restent physiquement sur la table (elles comptent encore
-              pour les lignes de vue et les distances) jusqu’à la toute dernière
-              étape de la séquence, « Retirer les pertes ».
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Le tireur déclare quelles armes de son unité participent au
+                tir (une seule arme par figurine, sauf règle spéciale
+                contraire), en respectant portée et ligne de vue pour
+                chacune. On les rassemble ensuite en
+                <strong>groupes de tirs</strong> : toutes les attaques faites
+                avec des armes du même nom forment un seul groupe, résolu
+                d’un bloc.
+              </p>
+              <p>
+                Deux exceptions obligent à créer des groupes séparés, même
+                pour la même arme : si l’arme a plusieurs profils (on choisit
+                alors lequel utiliser), ou si les figurines qui tirent n’ont
+                pas toutes la même Capacité de Tir.
+              </p>
+              <p>
+                Les groupes sont résolus <strong>un par un</strong>, dans
+                l’ordre choisi par le joueur qui tire — étapes 3 à 6
+                ci-dessous, répétées pour chaque groupe.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== COUVERT ===================== -->
-      <section id="couvert">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="couvert-corps"
-          >
-            <span>Le couvert</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== TOUCHE ===================== -->
+        <div class="timeline-item" id="toucher">
+          <button class="timeline-titre" aria-expanded="false">
+            3. Faire les jets de touche <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="couvert-corps">
-          <p>
-            Une cible partiellement dissimulée par un décor bénéficie d’un jet
-            de mitigation de dégâts de <strong>Dissimulation</strong>, dont la
-            valeur dépend du type de couvert (léger, dense…). Comme toute
-            mitigation, il s’applique après une sauvegarde ratée, contre les
-            blessures et les touches pénétrantes.
-          </p>
-          <div class="encadre-attention">
-            <p style="margin: 0">
-              <strong>Tir d’état d’alerte :</strong> quand une unité chargée y
-              réagit, l’attaquant ne bénéficie d’<strong>aucun</strong> jet de
-              couvert ni de mitigation de Dissimulation. Détail sur la page
-              <a href="statuts-reactions.html#reactions">Réactions</a>.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                On additionne la caractéristique de
+                <strong>Puissance de feu</strong>
+                de toutes les armes du groupe : ce total donne le nombre de
+                jets de touche à effectuer. Le score à atteindre dépend de la
+                <strong>Capacité de Tir</strong> majoritaire dans l’unité —
+                voir la <a href="tables.html#ct">table CT</a>. Chaque succès
+                est une touche.
+              </p>
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>Tir au jugé.</strong> Une unité
+                  <em>Neutralisée</em> (voir
+                  <a href="statuts-reactions.html#statuts"
+                    >Statuts Tactiques</a
+                  >)
+                  doit utiliser la ligne « Au jugé » de la table CT pour
+                  l’intégralité de ses tirs — de même pour la réaction
+                  Interception, ou une arme tirée en marchant avec le trait
+                  Léger.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== RÉACTIONS DE TIR ===================== -->
-      <section id="reactions-tir">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="reactions-tir-corps"
-          >
-            <span>Réactions déclenchées par un tir</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== BLESSURE ===================== -->
+        <div class="timeline-item" id="blesser">
+          <button class="timeline-titre" aria-expanded="false">
+            4. Faire les jets de blessure <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="reactions-tir-corps">
-          <p>
-            L’unité visée (si elle n’est pas <em>Sonnée</em>) peut répondre à
-            l’attaque par l’une de ces réactions. Détail complet sur la page
-            <a href="statuts-reactions.html#reactions">Réactions</a>.
-          </p>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Répliquer</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              L’unité ciblée riposte en tirant à son tour, même avec les
-              figurines qui vont mourir dans l’échange.
-            </p>
-          </div>
-
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Réactions Avancées des Legiones Astartes :</strong> Mur de
-              bouclier, Écran de fumée et Médic sont des Réactions Avancées.
-              Chacune coûte <strong>1 point</strong> de ton Attribution de
-              Réactions (une réserve limitée, propre à chaque Légion) à
-              déclarer.
-            </p>
-          </div>
-
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Mur de bouclier</span
-            ><span class="badge-phase">Tir/Charge</span>
-            <p>
-              Se déclare au début de l’Étape 3 d’une Attaque de Tir (ou de
-              l’Étape 4 d’une Charge). +1 en Endurance pour la phase, si la
-              majorité de l’unité a le trait <em>Bouclier</em>.
-            </p>
-          </div>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Écran de fumée</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              Se déclare au début de l’Étape 3 d’une Attaque de Tir. Jet de
-              mitigation de Dissimulation (5+) pendant la phase, si la majorité
-              de l’unité a le trait <em>Écran de fumée</em>.
-            </p>
-          </div>
-          <div class="reaction reaction-tir">
-            <span class="reaction-nom">Médic</span
-            ><span class="badge-phase">Tir</span>
-            <p>
-              Se déclare dès l’Étape 9. Au retrait des pertes (Étape 11) : un
-              jet de rétablissement pour chaque figurine ayant subi une blessure
-              non sauvegardée.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Chaque touche est ensuite convertie en un jet de blessure, en
+                croisant la <strong>Force</strong> de l’arme avec
+                l’<strong>Endurance</strong>
+                de la cible — voir la
+                <a href="tables.html#blessure">table de blessure</a>.
+              </p>
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>Cible Véhicule :</strong> pas de jet de blessure. On
+                  fait à la place un
+                  <strong>test de Pénétration de Blindage</strong>, qui
+                  compare la Force de l’arme au Blindage touché.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== MORAL ===================== -->
-      <section id="moral">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="moral-corps"
-          >
-            <span>6. Sous-phase de Moral</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
+        <div class="timeline-item" id="sauvegardes">
+          <button class="timeline-titre" aria-expanded="false">
+            5. Choisir la figurine cible, sauvegardes et mitigation
+            <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="moral-corps">
-          <p>
-            Une fois tous les groupes de tirs résolus, les unités qui ont
-            beaucoup souffert testent leur moral.
-          </p>
-          <ul>
-            <li>
-              <strong>Hors de cohésion.</strong> Test de Sang-froid ; en cas
-              d’échec, l’unité devient <em>Neutralisée</em>.
-            </li>
-            <li>
-              <strong>Panique.</strong> Si l’unité a perdu 25 % ou plus de ses
-              figurines pendant cette attaque de tir, test de Commandement ; en
-              cas d’échec, elle devient <em>En déroute</em>.
-            </li>
-          </ul>
-          <p>
-            Une unité ne subit jamais plus d’un test pour un même statut à cette
-            Sous-phase, même si plusieurs règles pourraient le déclencher.
-          </p>
-          <p>
-            Détail des statuts tactiques et de leurs effets sur la page
-            <a href="statuts-reactions.html#statuts">Statuts tactiques</a>.
-          </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ol class="etapes">
+                <li>
+                  <strong>Choisir la figurine cible.</strong> Le joueur
+                  défenseur désigne quelle figurine de l’unité encaisse
+                  chaque blessure (sauf règle spéciale de type Précision qui
+                  force le choix de l’attaquant). Une figurine déjà blessée
+                  doit être choisie en priorité si elle est disponible — sauf
+                  un officier (Sous-type État-major), qui reste protégé tant
+                  qu’il reste d’autres figurines dans l’unité.
+                </li>
+                <li>
+                  <strong>Jet de sauvegarde.</strong> Une sauvegarde peut
+                  être tentée pour chaque blessure ou touche pénétrante ; en
+                  cas de réussite, elle est purement et simplement défaussée.
+                </li>
+                <li>
+                  <strong>Jet de mitigation de dégâts.</strong> Si la
+                  sauvegarde est ratée et qu’une mitigation est disponible
+                  (Dissimulation, Champ de force…), c’est la dernière chance
+                  de survie de la figurine.
+                </li>
+                <li>
+                  <strong>Application des dégâts.</strong> Toute blessure non
+                  évitée réduit les <strong>Points de Vie</strong> de la
+                  figurine de la valeur de <strong>Dégâts</strong> de l’arme.
+                  À 0 ou moins, elle est mise de côté comme perte et
+                  l’excédent de blessures du même groupe de tirs passe à une
+                  autre figurine.
+                </li>
+              </ol>
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>On ne retire rien tout de suite :</strong> les
+                  figurines perdues restent physiquement sur la table (elles
+                  comptent encore pour les lignes de vue et les distances)
+                  jusqu’à la toute dernière étape de la séquence, « Retirer
+                  les pertes ».
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        <!-- ===================== COUVERT ===================== -->
+        <div class="timeline-item" id="couvert">
+          <button class="timeline-titre" aria-expanded="false">
+            Le couvert <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Une cible partiellement dissimulée par un décor bénéficie
+                d’un jet de mitigation de dégâts de
+                <strong>Dissimulation</strong>, dont la valeur dépend du type
+                de couvert (léger, dense…). Comme toute mitigation, il
+                s’applique après une sauvegarde ratée, contre les blessures
+                et les touches pénétrantes.
+              </p>
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>Tir d’état d’alerte :</strong> quand une unité
+                  chargée y réagit, l’attaquant ne bénéficie
+                  d’<strong>aucun</strong> jet de couvert ni de mitigation de
+                  Dissimulation. Détail sur la page
+                  <a href="statuts-reactions.html#reactions">Réactions</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS DE TIR ===================== -->
+        <div class="timeline-item" id="reactions-tir">
+          <button class="timeline-titre" aria-expanded="false">
+            Réactions déclenchées par un tir <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                L’unité visée (si elle n’est pas <em>Sonnée</em>) peut
+                répondre à l’attaque par l’une de ces réactions. Détail
+                complet sur la page
+                <a href="statuts-reactions.html#reactions">Réactions</a>.
+              </p>
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Répliquer</span
+                ><span class="badge-phase">Tir</span>
+                <p>
+                  L’unité ciblée riposte en tirant à son tour, même avec les
+                  figurines qui vont mourir dans l’échange.
+                </p>
+              </div>
+
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Mur de bouclier</span
+                ><span class="badge-phase">Tir/Charge</span>
+                <p>
+                  Réaction Avancée des Legiones Astartes, coût 1 point de
+                  Réactions. Se déclare au début de l’Étape 3 d’une Attaque de
+                  Tir (ou de l’Étape 4 d’une Charge), si la majorité de
+                  l’unité visée a le trait <em>Bouclier</em> :
+                  <strong>+1 en Endurance</strong> pour la durée de la phase.
+                </p>
+              </div>
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Écran de fumée</span
+                ><span class="badge-phase">Tir</span>
+                <p>
+                  Réaction Avancée des Legiones Astartes, coût 1 point de
+                  Réactions. Se déclare au début de l’Étape 3 d’une Attaque de
+                  Tir, si la majorité de l’unité visée a le trait
+                  <em>Écran de fumée</em> : jet de mitigation de
+                  Dissimulation (5+) pendant la phase, contre les blessures,
+                  les touches pénétrantes et les touches superficielles.
+                </p>
+              </div>
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Médic</span
+                ><span class="badge-phase">Tir</span>
+                <p>
+                  Réaction Avancée des Legiones Astartes, coût 1 point de
+                  Réactions. Se déclare dès l’Étape 9 d’une Attaque de Tir
+                  visant une unité qui inclut un Médic. Au retrait des pertes
+                  (Étape 11) : un jet de rétablissement pour chaque figurine
+                  ayant subi une blessure non sauvegardée (sauf les figurines
+                  qui ont elles-mêmes <em>Médic</em>).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== MORAL ===================== -->
+        <div class="timeline-item" id="moral">
+          <button class="timeline-titre" aria-expanded="false">
+            6. Sous-phase de Moral <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Une fois tous les groupes de tirs résolus, les unités qui ont
+                beaucoup souffert testent leur moral.
+              </p>
+              <ul>
+                <li>
+                  <strong>Hors de cohésion.</strong> Test de Sang-froid ; en
+                  cas d’échec, l’unité devient <em>Neutralisée</em>.
+                </li>
+                <li>
+                  <strong>Panique.</strong> Si l’unité a perdu 25 % ou plus de
+                  ses figurines pendant cette attaque de tir, test de
+                  Commandement ; en cas d’échec, elle devient
+                  <em>En déroute</em>.
+                </li>
+              </ul>
+              <p>
+                Une unité ne subit jamais plus d’un test pour un même statut
+                à cette Sous-phase, même si plusieurs règles pourraient le
+                déclencher.
+              </p>
+              <p>
+                Détail des statuts tactiques et de leurs effets sur la page
+                <a href="statuts-reactions.html#statuts">Statuts tactiques</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>

@@ -54,281 +54,268 @@
         La Phase de Mouvement
       </h1>
       <p>
-        Elle se découpe en trois sous-phases jouées dans l’ordre :
+        Elle se découpe en trois sous-phases jouées dans l’ordre :
         <strong>Réserves</strong>, <strong>Déplacement</strong> et
         <strong>Déroute</strong>.
       </p>
 
-      <!-- ===================== RÉSERVES ===================== -->
-      <section id="reserves">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="reserves-corps"
-          >
-            <span>1. Sous-phase de Réserves</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+      <div class="timeline">
+        <!-- ===================== RÉSERVES ===================== -->
+        <div class="timeline-item" id="reserves">
+          <button class="timeline-titre" aria-expanded="false">
+            1. Sous-phase de Réserves <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="reserves-corps">
-          <p>
-            Une unité placée en réserve tente d’arriver sur le champ de bataille
-            à chaque Sous-phase de Réserves de ton tour.
-          </p>
-          <ol class="etapes">
-            <li>
-              <strong>Test de Réserve.</strong> Jet de 1D6, réussi sur 3+.
-              Sinon, l’unité reste en réserve et retente sa chance au tour
-              suivant.
-            </li>
-            <li>
-              <strong>Entrée en jeu.</strong> Le test réussi, choisis un point
-              sur le bord de table dans ta zone de déploiement : la première
-              figurine y est placée, puis chaque autre figurine de l’unité entre
-              à son tour en restant en cohésion d’unité. Une figurine qui ne
-              peut pas y parvenir est retirée comme perte.
-            </li>
-            <li>
-              <strong>Pas de second mouvement.</strong> Une unité qui vient
-              d’arriver de cette façon ne se déplace pas une seconde fois
-              pendant la Sous-phase de Déplacement qui suit. Elle peut en
-              revanche tirer et charger normalement plus tard dans le tour —
-              sauf si elle a choisi de <a href="#foncer">Foncer</a> en entrant
-              en jeu, auquel cas les restrictions habituelles de Foncer
-              s’appliquent.
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ===================== DÉPLACEMENT ===================== -->
-      <section id="deplacement">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="deplacement-corps"
-          >
-            <span>2. Sous-phase de Déplacement</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="deplacement-corps">
-          <p>
-            Chaque unité éligible peut déplacer ses figurines jusqu’à une
-            distance égale à sa <strong>caractéristique de Mouvement</strong>,
-            en pouces. Une unité peut aussi choisir de ne pas bouger : elle
-            reste alors <strong>À l’arrêt</strong>, ce qui compte pour certaines
-            règles (une unité qui n’a fait que pivoter sur place est également
-            considérée À l’arrêt).
-          </p>
-
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong
-                >Une unité ne peut pas se déplacer normalement si :</strong
-              >
-              elle est entrée en jeu depuis les Réserves ce tour ; elle a le
-              statut <em>Fixée</em> ou <em>En déroute</em> (elle bouge alors en
-              Sous-phase de Déroute) ; elle est <em>Verrouillée en Combat</em> ;
-              ou si une de ses figurines a une caractéristique de Mouvement de
-              0.
-            </p>
-          </div>
-
-          <ul>
-            <li>
-              <strong>Cohésion d’unité.</strong> À la fin du mouvement, chaque
-              figurine doit rester à moins de <strong>2 pouces</strong> d’au
-              moins une autre figurine de son unité, dans la mesure du possible.
-              Si l’unité ne peut vraiment pas y parvenir, elle gagne
-              automatiquement le statut <em>Neutralisée</em>.
-            </li>
-            <li>
-              <strong>Distance de sécurité.</strong> Une figurine ne peut jamais
-              terminer son mouvement à moins d’<strong>1 pouce</strong> d’une
-              figurine ennemie (sauf mouvement de Charge, voir la page
-              <a href="assaut.html">Assaut</a>).
-            </li>
-            <li>
-              <strong>Décors infranchissables et bords de table.</strong> Une
-              figurine ne peut jamais terminer son mouvement sur un décor
-              infranchissable, sur une autre figurine, ou hors de la table.
-            </li>
-            <li>
-              <strong>Pivoter ne compte pas comme bouger.</strong> Une unité qui
-              ne fait que pivoter sur place, sans changer la position de ses
-              figurines, n’est pas considérée comme ayant « bougé » ce tour-ci
-              (important pour certaines règles spéciales et armes).
-            </li>
-          </ul>
-
-          <h3 class="sous-titre">Terrain difficile et terrain dangereux</h3>
-          <div class="grille-statuts">
-            <div class="carte-statut statut-fixe">
-              <h3>Terrain difficile</h3>
-              <ul>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Une unité placée en réserve tente d’arriver sur le champ de
+                bataille à chaque Sous-phase de Réserves de ton tour.
+              </p>
+              <ol class="etapes">
                 <li>
-                  Si la trajectoire d’une figurine traverse un décor difficile,
-                  son mouvement est réduit de <strong>2 pouces</strong> pour ce
-                  déplacement.
+                  <strong>Test de Réserve.</strong> Jet de 1D6, réussi sur 3+.
+                  Sinon, l’unité reste en réserve et retente sa chance au tour
+                  suivant.
                 </li>
-              </ul>
-            </div>
-            <div class="carte-statut statut-deroute">
-              <h3>Terrain dangereux</h3>
-              <ul>
                 <li>
-                  La figurine qui s’y déplace doit réussir un test ; en cas
-                  d’échec, elle est retirée comme perte.
+                  <strong>Entrée en jeu.</strong> Le test réussi, choisis un
+                  point sur le bord de table dans ta zone de déploiement : la
+                  première figurine y est placée, puis chaque autre figurine de
+                  l’unité entre à son tour en restant en cohésion d’unité. Une
+                  figurine qui ne peut pas y parvenir est retirée comme perte.
                 </li>
-              </ul>
+                <li>
+                  <strong>Pas de second mouvement.</strong> Une unité qui vient
+                  d’arriver de cette façon ne se déplace pas une seconde fois
+                  pendant la Sous-phase de Déplacement qui suit. Elle peut en
+                  revanche tirer et charger normalement plus tard dans le tour —
+                  sauf si elle a choisi de <a href="#foncer">Foncer</a> en
+                  entrant en jeu, auquel cas les restrictions habituelles de
+                  Foncer s’appliquent.
+                </li>
+              </ol>
             </div>
           </div>
-
-          <h3 class="sous-titre" id="foncer">Foncer</h3>
-          <p>
-            Plutôt qu’un déplacement normal, une unité peut choisir de
-            <strong>Foncer</strong> : elle se déplace alors d’une distance égale
-            à sa <strong>Mouvement + Initiative</strong>, en pouces.
-          </p>
-          <div class="encadre-attention">
-            <p style="margin: 0">
-              <strong>Le prix à payer :</strong> une unité qui a Foncé ne peut
-              <strong>ni tirer</strong> pendant la Phase de Tir,
-              <strong>ni se voir déclarer de Charge</strong> pendant la Phase
-              d’Assaut, ce même tour. Un choix tactique à ne pas prendre à la
-              légère.
-            </p>
-          </div>
-          <p>
-            On ne peut choisir de Foncer qu’au moment où l’on déplace l’unité en
-            Sous-phase de Déplacement (ou en Sous-phase de Réserves, en entrant
-            en jeu) : impossible d’en profiter pendant une Réaction.
-          </p>
-
-          <p class="conseil-debutant">
-            <strong>Astuce de placement :</strong> pas besoin d’être millimétré.
-            S’il est difficile de poser une figurine exactement là où le
-            mouvement l’amène, place-la simplement à un endroit stable de la
-            table, tant que les deux joueurs sont d’accord sur sa position
-            « réelle ».
-          </p>
-
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th class="gauche">Type de mouvement</th>
-                  <th class="gauche">Distance</th>
-                  <th>Tir ensuite ?</th>
-                  <th>Charge ensuite ?</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="gauche">Déplacement normal</td>
-                  <td class="gauche">Mouvement</td>
-                  <td>Oui</td>
-                  <td>Oui</td>
-                </tr>
-                <tr>
-                  <td class="gauche">Foncer</td>
-                  <td class="gauche">Mouvement + Initiative</td>
-                  <td>Non</td>
-                  <td>Non</td>
-                </tr>
-                <tr>
-                  <td class="gauche">Sortie de réserve</td>
-                  <td class="gauche">Placée en zone de déploiement</td>
-                  <td>Oui</td>
-                  <td>Oui</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
-      </section>
 
-      <!-- ===================== DÉROUTE ===================== -->
-      <section id="deroute">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="deroute-corps"
-          >
-            <span>3.Sous-phase de Déroute</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== DÉPLACEMENT ===================== -->
+        <div class="timeline-item" id="deplacement">
+          <button class="timeline-titre" aria-expanded="false">
+            2. Sous-phase de Déplacement <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="deroute-corps">
-          <p>
-            Les unités qui ont le statut <em>En déroute</em> (voir les
-            <a href="statuts-reactions.html#statuts">Statuts Tactiques</a>) sont
-            forcées de fuir pendant cette dernière sous-phase.
-          </p>
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Battre en retraite :</strong> on jette 1D6 pour l’unité,
-              et on l’ajoute à l’Initiative pour connaître sa distance de
-              retraite. L’unité se déplace alors de cette distance, en ligne
-              aussi directe que possible vers le point le plus proche de sa zone
-              de déploiement (ou du bord de table le plus proche s’il n’y en a
-              pas), en contournant les obstacles si besoin, sans jamais
-              s’approcher à moins de 1 pouce d’une figurine ennemie.
-            </p>
-          </div>
-          <p>
-            Dès qu’une figurine de l’unité atteint le bord de table dans sa zone
-            de déploiement : test de Commandement. Raté, toutes ses figurines
-            sont <strong>retirées comme pertes</strong> ; réussi, l’unité reste
-            en jeu, perd <em>En déroute</em> mais devient <em>Neutralisée</em>.
-          </p>
-        </div>
-      </section>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Chaque unité éligible peut déplacer ses figurines jusqu’à une
+                distance égale à sa
+                <strong>caractéristique de Mouvement</strong>, en pouces. Une
+                unité peut aussi choisir de ne pas bouger : elle reste alors
+                <strong>À l’arrêt</strong>, ce qui compte pour certaines règles
+                (une unité qui n’a fait que pivoter sur place est également
+                considérée À l’arrêt).
+              </p>
 
-      <!-- ===================== RÉACTIONS ADVERSES ===================== -->
-      <section id="reactions">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="reactions-corps"
-          >
-            <span>Réactions adverses</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong
+                    >Une unité ne peut pas se déplacer normalement si :</strong
+                  >
+                  elle est entrée en jeu depuis les Réserves ce tour ; elle a le
+                  statut <em>Fixée</em> ou <em>En déroute</em> (elle bouge alors
+                  en Sous-phase de Déroute) ; elle est
+                  <em>Verrouillée en Combat</em> ; ou si une de ses figurines a
+                  une caractéristique de Mouvement de 0.
+                </p>
+              </div>
+
+              <ul>
+                <li>
+                  <strong>Cohésion d’unité.</strong> À la fin du mouvement,
+                  chaque figurine doit rester à moins de
+                  <strong>2 pouces</strong> d’au moins une autre figurine de son
+                  unité, dans la mesure du possible. Si l’unité ne peut vraiment
+                  pas y parvenir, elle gagne automatiquement le statut
+                  <em>Neutralisée</em>.
+                </li>
+                <li>
+                  <strong>Distance de sécurité.</strong> Une figurine ne peut
+                  jamais terminer son mouvement à moins d’<strong
+                    >1 pouce</strong
+                  >
+                  d’une figurine ennemie (sauf mouvement de Charge, voir la page
+                  <a href="assaut.html">Assaut</a>).
+                </li>
+                <li>
+                  <strong>Décors infranchissables et bords de table.</strong>
+                  Une figurine ne peut jamais terminer son mouvement sur un
+                  décor infranchissable, sur une autre figurine, ou hors de la
+                  table.
+                </li>
+                <li>
+                  <strong>Pivoter ne compte pas comme bouger.</strong> Une unité
+                  qui ne fait que pivoter sur place, sans changer la position de
+                  ses figurines, n’est pas considérée comme ayant « bougé » ce
+                  tour-ci (important pour certaines règles spéciales et armes).
+                </li>
+              </ul>
+
+              <h3 class="sous-titre">Terrain difficile et terrain dangereux</h3>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Terrain difficile</h3>
+                  <ul>
+                    <li>
+                      Si la trajectoire d’une figurine traverse un décor
+                      difficile, son mouvement est réduit de
+                      <strong>2 pouces</strong> pour ce déplacement.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Terrain dangereux</h3>
+                  <ul>
+                    <li>
+                      La figurine qui s’y déplace doit réussir un test ; en cas
+                      d’échec, elle est retirée comme perte.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h3 class="sous-titre" id="foncer">Foncer</h3>
+              <p>
+                Plutôt qu’un déplacement normal, une unité peut choisir de
+                <strong>Foncer</strong> : elle se déplace alors d’une distance
+                égale à sa <strong>Mouvement + Initiative</strong>, en pouces.
+              </p>
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>Le prix à payer :</strong> une unité qui a Foncé ne
+                  peut <strong>ni tirer</strong> pendant la Phase de Tir,
+                  <strong>ni se voir déclarer de Charge</strong> pendant la
+                  Phase d’Assaut, ce même tour. Un choix tactique à ne pas
+                  prendre à la légère.
+                </p>
+              </div>
+              <p>
+                On ne peut choisir de Foncer qu’au moment où l’on déplace
+                l’unité en Sous-phase de Déplacement (ou en Sous-phase de
+                Réserves, en entrant en jeu) : impossible d’en profiter pendant
+                une Réaction.
+              </p>
+
+              <p class="conseil-debutant">
+                <strong>Astuce de placement :</strong> pas besoin d’être
+                millimétré. S’il est difficile de poser une figurine exactement
+                là où le mouvement l’amène, place-la simplement à un endroit
+                stable de la table, tant que les deux joueurs sont d’accord sur
+                sa position « réelle ».
+              </p>
+
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="gauche">Type de mouvement</th>
+                      <th class="gauche">Distance</th>
+                      <th>Tir ensuite ?</th>
+                      <th>Charge ensuite ?</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Déplacement normal</td>
+                      <td class="gauche">Mouvement</td>
+                      <td>Oui</td>
+                      <td>Oui</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Foncer</td>
+                      <td class="gauche">Mouvement + Initiative</td>
+                      <td>Non</td>
+                      <td>Non</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Sortie de réserve</td>
+                      <td class="gauche">Placée en zone de déploiement</td>
+                      <td>Oui</td>
+                      <td>Oui</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== DÉROUTE ===================== -->
+        <div class="timeline-item" id="deroute">
+          <button class="timeline-titre" aria-expanded="false">
+            3. Sous-phase de Déroute <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="reactions-corps">
-          <div class="reaction reaction-mouvement">
-            <span class="reaction-nom">Se repositionner</span
-            ><span class="badge-phase">Mouvement</span>
-            <p>
-              Pendant la Phase de Mouvement adverse, si une unité ennemie
-              termine son mouvement à moins de 12 pouces de l’une de tes unités,
-              celle-ci peut faire un mouvement d’une valeur égale à l’Initiative
-              de l’unité, vers l’ennemi ou en s’en éloignant, au choix.
-            </p>
-          </div>
-
-          <div class="reaction reaction-special">
-            <span class="reaction-nom">Interception</span
-            ><span class="badge-phase">Réserves</span>
-            <p>
-              Pendant ta Sous-phase de Réserves, si une unité entre en jeu, une
-              unité ennemie proche peut tirer au jugé sur l’unité qui vient
-              d’entrer (les véhicules ne tirent alors qu’avec leurs armes
-              défensives).
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Les unités qui ont le statut <em>En déroute</em> (voir les
+                <a href="statuts-reactions.html#statuts">Statuts Tactiques</a>)
+                sont forcées de fuir pendant cette dernière sous-phase.
+              </p>
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>Battre en retraite :</strong> on jette 1D6 pour
+                  l’unité, et on l’ajoute à l’Initiative pour connaître sa
+                  distance de retraite. L’unité se déplace alors de cette
+                  distance, en ligne aussi directe que possible vers le point le
+                  plus proche de sa zone de déploiement (ou du bord de table le
+                  plus proche s’il n’y en a pas), en contournant les obstacles
+                  si besoin, sans jamais s’approcher à moins de 1 pouce d’une
+                  figurine ennemie.
+                </p>
+              </div>
+              <p>
+                Dès qu’une figurine de l’unité atteint le bord de table dans sa
+                zone de déploiement : test de Commandement. Raté, toutes ses
+                figurines sont <strong>retirées comme pertes</strong> ; réussi,
+                l’unité reste en jeu, perd <em>En déroute</em> mais devient
+                <em>Neutralisée</em>.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
+
+        <!-- ===================== RÉACTIONS ADVERSES ===================== -->
+        <div class="timeline-item" id="reactions">
+          <button class="timeline-titre" aria-expanded="false">
+            Réactions adverses <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="reaction reaction-mouvement">
+                <span class="reaction-nom">Se repositionner</span
+                ><span class="badge-phase">Mouvement</span>
+                <p>
+                  Pendant la Phase de Mouvement adverse, si une unité ennemie
+                  termine son mouvement à moins de 12 pouces de l’une de tes
+                  unités, celle-ci peut faire un mouvement d’une valeur égale à
+                  l’Initiative de l’unité, vers l’ennemi ou en s’en éloignant,
+                  au choix.
+                </p>
+              </div>
+
+              <div class="reaction reaction-special">
+                <span class="reaction-nom">Interception</span
+                ><span class="badge-phase">Réserves</span>
+                <p>
+                  Pendant ta Sous-phase de Réserves, si une unité entre en jeu,
+                  une unité ennemie proche peut tirer au jugé sur l’unité qui
+                  vient d’entrer (les véhicules ne tirent alors qu’avec leurs
+                  armes défensives).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>
@@ -337,7 +324,7 @@
           >Guide non officiel réalisé par des fans bénévoles
           francophones.</strong
         >
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
         sont des marques déposées de
         <a
           href="https://www.games-workshop.com"

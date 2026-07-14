@@ -34,21 +34,25 @@
         </button>
         <nav class="nav-principale" aria-label="Navigation principale">
           <ul class="nav-menu">
-          <li><a href="armee.html">Construction d’armée</a></li>
-          <li><a href="tour.html">Tour</a></li>
-          <li><a href="mouvement.html">Mouvement</a></li>
-          <li><a href="tir.html">Tir</a></li>
-          <li><a href="assaut.html" aria-current="page">Assaut</a></li>
-          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="regles.html">Règles spéciales</a></li>
-          <li><a href="tables.html">Tables de référence</a></li>
-        </ul>
+            <li><a href="armee.html">Construction d’armée</a></li>
+            <li><a href="tour.html">Tour</a></li>
+            <li><a href="mouvement.html">Mouvement</a></li>
+            <li><a href="tir.html">Tir</a></li>
+            <li><a href="assaut.html" aria-current="page">Assaut</a></li>
+            <li>
+              <a href="statuts-reactions.html">Statuts &amp; Réactions</a>
+            </li>
+            <li><a href="regles.html">Règles spéciales</a></li>
+            <li><a href="tables.html">Tables de référence</a></li>
+          </ul>
         </nav>
       </div>
     </header>
 
     <main id="contenu">
-      <h1 class="section-titre" style="font-size: 2rem">La Phase d’Assaut</h1>
+      <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
+        La Phase d’Assaut
+      </h1>
       <p>
         Dernière phase active du tour, en 4 sous-phases :
         <strong>Charge</strong>, <strong>Défi</strong>,
@@ -57,413 +61,394 @@
         chaque sous-phase en détail.
       </p>
 
-      <!-- ===================== DÉCLARER UNE CHARGE ===================== -->
-      <section id="declarer">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="declarer-corps"
-          >
-            <span>Sous-phase de Charge : déclarer</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+      <div class="timeline">
+        <!-- ===================== DÉCLARER UNE CHARGE ===================== -->
+        <div class="timeline-item" id="declarer">
+          <button class="timeline-titre" aria-expanded="false">
+            Sous-phase de Charge : déclarer <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="declarer-corps">
-          <p>
-            Une unité ne peut pas déclarer de Charge si : elle a Foncé pendant
-            ce tour (voir <a href="mouvement.html#foncer">Foncer</a>) ; elle est
-            déjà <em>Verrouillée en Combat</em> ; elle est embarquée à bord d’un
-            transport ; ou elle compte au moins une figurine <em>Fixée</em> ou
-            <em>En déroute</em>.
-          </p>
-          <p>
-            On déclare alors la cible : une seule unité ennemie par Charge.
-            Plusieurs unités peuvent charger la même cible si elles la déclarent
-            l’une après l’autre. Il faut ensuite au moins une figurine capable
-            de tracer une ligne de vue vers la cible, à une distance de
-            <strong>12 pouces</strong> maximum — sinon, la Charge échoue avant
-            même le jet de dés.
-          </p>
-          <p class="conseil-debutant">
-            <strong>Et les statuts Sonnée / Neutralisée ?</strong> Une unité qui
-            en compte peut charger normalement, mais sa Charge sera
-            automatiquement <em>désordonnée</em> (voir plus bas).
-          </p>
-        </div>
-      </section>
-
-      <!-- ===================== MISE EN PLACE ET VOLÉE ===================== -->
-      <section id="mise-en-place">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="mise-en-place-corps"
-          >
-            <span>Mouvement de mise en place et attaque de volée</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="mise-en-place-corps">
-          <p>
-            Avant le jet de charge, les figurines de l’unité chargeuse
-            effectuent un court mouvement de mise en place vers la cible, dont
-            la distance dépend de la somme
-            <strong>Initiative + Mouvement</strong> :
-          </p>
-          <div id="table-positionnement"></div>
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Charge déjà réussie ?</strong> Si ce mouvement de mise en
-              place suffit à amener une figurine au contact socle à socle de la
-              cible, la Charge est immédiatement gagnée : on saute l’attaque de
-              volée et le jet de charge ci-dessous.
-            </p>
-          </div>
-          <p>
-            Sinon, les deux unités peuvent faire une
-            <strong>attaque de volée</strong> l’une contre l’autre : seules les
-            armes dotées du trait <em>Assaut</em> peuvent tirer, et uniquement
-            au jugé. Cette attaque ne peut jamais infliger de statut tactique.
-          </p>
-          <div class="encadre-attention">
-            <p style="margin: 0">
-              <strong>L’unité chargée peut réagir :</strong> Tir d’état d’alerte
-              ou Mur de bouclier pendant l’attaque de volée, puis Se dérober
-              juste après. Détail dans la section
-              <a href="#reactions-assaut">Réactions</a> ci-dessous.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Une unité ne peut pas déclarer de Charge si : elle a Foncé
+                pendant ce tour (voir
+                <a href="mouvement.html#foncer">Foncer</a>) ; elle est déjà
+                <em>Verrouillée en Combat</em> ; elle est embarquée à bord d’un
+                transport ; ou elle compte au moins une figurine
+                <em>Fixée</em> ou <em>En déroute</em>.
+              </p>
+              <p>
+                On déclare alors la cible : une seule unité ennemie par Charge.
+                Plusieurs unités peuvent charger la même cible si elles la
+                déclarent l’une après l’autre. Il faut ensuite au moins une
+                figurine capable de tracer une ligne de vue vers la cible, à une
+                distance de <strong>12 pouces</strong> maximum — sinon, la
+                Charge échoue avant même le jet de dés.
+              </p>
+              <p class="conseil-debutant">
+                <strong>Et les statuts Sonnée / Neutralisée ?</strong> Une unité
+                qui en compte peut charger normalement, mais sa Charge sera
+                automatiquement <em>désordonnée</em> (voir plus bas).
+              </p>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== JET DE CHARGE ===================== -->
-      <section id="jet-de-charge">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="jet-de-charge-corps"
-          >
-            <span>Le jet de Charge</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== MISE EN PLACE ET VOLÉE ===================== -->
+        <div class="timeline-item" id="mise-en-place">
+          <button class="timeline-titre" aria-expanded="false">
+            Mouvement de mise en place et attaque de volée
+            <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="jet-de-charge-corps">
-          <p>
-            Le joueur chargeur jette <strong>2D6</strong> et défausse le dé le
-            plus bas : le résultat est la distance de charge disponible, en
-            pouces.
-          </p>
-          <ul>
-            <li>
-              <strong>Charge réussie.</strong> Si le résultat est suffisant pour
-              atteindre la cible, les figurines de l’unité chargeuse se
-              déplacent (sans restriction de distance envers l’ennemi) jusqu’au
-              contact socle à socle, en gardant la cohésion d’unité dans la
-              mesure du possible. Au moins une figurine au contact = les deux
-              unités sont <strong>Verrouillées en Combat</strong>.
-            </li>
-            <li>
-              <strong>Charge ratée.</strong> Si le résultat est insuffisant, il
-              ne se passe <strong>aucun mouvement</strong> : l’unité chargeuse
-              fait simplement un test de Sang-froid. Réussi, aucun autre effet ;
-              raté, toutes ses figurines deviennent <em>Sonnées</em>.
-            </li>
-          </ul>
-
-          <div class="encadre-attention">
-            <p style="margin: 0">
-              <strong>Charge désordonnée.</strong> S’applique si l’unité vient
-              de débarquer ce tour, ou si elle compte des figurines
-              <em>Sonnées</em> ou <em>Neutralisées</em> : pas de mouvement de
-              mise en place, pas d’attaque de volée (la cible, elle, peut
-              toujours en faire une), et aucun bonus de charge réussie accordé
-              par une règle spéciale.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Avant le jet de charge, les figurines de l’unité chargeuse
+                effectuent un court mouvement de mise en place vers la cible,
+                dont la distance dépend de la somme
+                <strong>Initiative + Mouvement</strong> :
+              </p>
+              <div id="table-positionnement"></div>
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>Charge déjà réussie ?</strong> Si ce mouvement de mise
+                  en place suffit à amener une figurine au contact socle à socle
+                  de la cible, la Charge est immédiatement gagnée : on saute
+                  l’attaque de volée et le jet de charge ci-dessous.
+                </p>
+              </div>
+              <p>
+                Sinon, les deux unités peuvent faire une
+                <strong>attaque de volée</strong> l’une contre l’autre : seules
+                les armes dotées du trait <em>Assaut</em> peuvent tirer, et
+                uniquement au jugé. Cette attaque ne peut jamais infliger de
+                statut tactique.
+              </p>
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>L’unité chargée peut réagir :</strong> Tir d’état
+                  d’alerte ou Mur de bouclier pendant l’attaque de volée, puis
+                  Se dérober juste après. Détail dans la section
+                  <a href="#reactions-assaut">Réactions</a> ci-dessous.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
-      <section id="reactions-assaut">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="reactions-assaut-corps"
-          >
-            <span>Réactions déclenchées par une charge</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== JET DE CHARGE ===================== -->
+        <div class="timeline-item" id="jet-de-charge">
+          <button class="timeline-titre" aria-expanded="false">
+            Le jet de Charge <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="reactions-assaut-corps">
-          <p>
-            L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut répondre
-            par l’une de ces réactions. Détail complet sur la page
-            <a href="statuts-reactions.html#reactions">Réactions</a>.
-          </p>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Tir d’état d’alerte</span
-            ><span class="badge-phase">Assaut</span>
-            <p>
-              Se déclare à l’attaque de volée : l’unité chargée tire normalement
-              avec toutes ses armes sur l’unité qui la charge, mais sans aucun
-              jet de couvert ni mitigation de Dissimulation pour l’attaquant.
-            </p>
-          </div>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Mur de bouclier</span
-            ><span class="badge-phase">Tir/Charge</span>
-            <p>
-              Réaction Avancée des Legiones Astartes, coût 1 point de Réactions.
-              Se déclare au début de l’Étape 4 (Attaques de Volée) : +1 en
-              Endurance pour la phase si la majorité de l’unité a le trait
-              Bouclier.
-            </p>
-          </div>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Se dérober</span
-            ><span class="badge-phase">Assaut</span>
-            <p>
-              Après l’attaque de volée : mouvement d’esquive d’une valeur égale
-              à l’Initiative de l’unité.
-            </p>
-          </div>
-          <div class="reaction reaction-assaut">
-            <span class="reaction-nom">Intervention héroïque</span
-            ><span class="badge-phase">Assaut</span>
-            <p>Un personnage lance un <a href="#defi">Défi</a>.</p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Le joueur chargeur jette <strong>2D6</strong> et défausse le dé
+                le plus bas : le résultat est la distance de charge disponible,
+                en pouces.
+              </p>
+              <ul>
+                <li>
+                  <strong>Charge réussie.</strong> Si le résultat est suffisant
+                  pour atteindre la cible, les figurines de l’unité chargeuse se
+                  déplacent (sans restriction de distance envers l’ennemi)
+                  jusqu’au contact socle à socle, en gardant la cohésion d’unité
+                  dans la mesure du possible. Au moins une figurine au contact =
+                  les deux unités sont <strong>Verrouillées en Combat</strong>.
+                </li>
+                <li>
+                  <strong>Charge ratée.</strong> Si le résultat est insuffisant,
+                  il ne se passe <strong>aucun mouvement</strong> : l’unité
+                  chargeuse fait simplement un test de Sang-froid. Réussi, aucun
+                  autre effet ; raté, toutes ses figurines deviennent
+                  <em>Sonnées</em>.
+                </li>
+              </ul>
+
+              <div class="encadre-attention">
+                <p style="margin: 0">
+                  <strong>Charge désordonnée.</strong> S’applique si l’unité
+                  vient de débarquer ce tour, ou si elle compte des figurines
+                  <em>Sonnées</em> ou <em>Neutralisées</em> : pas de mouvement
+                  de mise en place, pas d’attaque de volée (la cible, elle, peut
+                  toujours en faire une), et aucun bonus de charge réussie
+                  accordé par une règle spéciale.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ===================== DÉFI ===================== -->
-      <section id="defi">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="defi-corps"
-          >
-            <span>Sous-phase de Défi</span>
-            <span class="chevron" aria-hidden="true">❯</span>
+        <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
+        <div class="timeline-item" id="reactions-assaut">
+          <button class="timeline-titre" aria-expanded="false">
+            Réactions déclenchées par une charge
+            <span class="chevron">❯</span>
           </button>
-        </h2>
-        <div class="section-corps" id="defi-corps">
-          <p>
-            Un personnage engagé en mêlée (Type Parangon, ou Sous-type
-            Officier/Champion) peut provoquer un ennemi en duel : Confrontation
-            (choix d’une Posture), Concentration (jet d’Avantage), Frappe
-            (résolution des attaques) puis Gloire (conséquences sur le combat).
-            Détail complet des 4 étapes et des Postures de base sur la page
-            <a href="tour.html#defi">Le Défi</a>.
-          </p>
-        </div>
-      </section>
-
-      <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
-      <section id="combat">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="combat-corps"
-          >
-            <span>Sous-phase de Combat</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="combat-corps">
-          <p>
-            Dès qu’une figurine d’une unité est au contact socle à socle d’une
-            figurine ennemie, les deux unités sont
-            <strong>Verrouillées en Combat</strong>. Si plusieurs unités se
-            touchent en chaîne, elles forment toutes ensemble un seul et même
-            <strong>Combat</strong>, résolu d’un bloc.
-          </p>
-          <ol class="etapes">
-            <li>
-              <strong>Mise au contact.</strong> Chaque figurine qui n’est pas
-              encore au contact socle à socle s’en rapproche d’une distance
-              égale à son <strong>Initiative</strong> actuelle (et non la table
-              de <a href="#mise-en-place">positionnement</a>, qui ne sert que
-              pour la mise en place de charge).
-            </li>
-            <li>
-              <strong>Figurines engagées.</strong> Seules les figurines au
-              contact socle à socle avec un ennemi — ou à moins de 2 pouces
-              d’une figurine amie elle-même au contact — participent aux frappes
-              de ce round.
-            </li>
-            <li>
-              <strong>Ordre d’Initiative.</strong> Chaque figurine déclare son
-              arme de mêlée (une seule, ou l’arme de corps à corps basique si
-              elle n’en a pas) : son <strong>Initiative de combat</strong> est
-              son Initiative modifiée par cette arme. Les figurines frappent par
-              rang décroissant, les plus rapides en premier — sauf qu’une
-              figurine touchée par un statut tactique quelconque (Sonnée,
-              Neutralisée…) frappe toujours en dernier, au rang d’Initiative 1,
-              quelle que soit son Initiative réelle.
-            </li>
-            <li>
-              <strong>Résolution des attaques.</strong> Chaque figurine fait un
-              nombre d’attaques égal à sa caractéristique d’Attaques ; jets de
-              touche au <a href="tables.html#cc">CC</a>, jets de
-              <a href="tables.html#blessure">blessure</a>, puis sauvegardes et
-              mitigations comme au tir.
-            </li>
-            <li>
-              <strong>Retirer les pertes au fil de l’eau.</strong> Une figurine
-              réduite à 0 Point de Vie est retirée immédiatement, avant que les
-              figurines suivantes (Initiative inférieure) ne frappent à leur
-              tour.
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ===================== RÉSOLUTION ===================== -->
-      <section id="resolution">
-        <h2 class="section-titre">
-          <button
-            type="button"
-            class="section-toggle"
-            aria-expanded="false"
-            aria-controls="resolution-corps"
-          >
-            <span>Sous-phase de Résolution</span>
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
-        </h2>
-        <div class="section-corps" id="resolution-corps">
-          <p>
-            Une fois un round de Combat entièrement résolu, on détermine ce
-            qu’il advient des deux camps en 4 étapes.
-          </p>
-          <ol class="etapes">
-            <li>
-              <strong>Totaliser les Points de Résolution de Combat.</strong>
-              Chaque joueur fait un seul total (même s’il contrôle plusieurs
-              unités dans ce Combat) : 1 point par figurine ennemie retirée
-              comme perte à cette Sous-phase de Combat, +1 point pour le joueur
-              qui contrôle le plus de figurines dans le Combat, plus les points
-              éventuels d’un <a href="tour.html#defi">Défi</a> remporté ou d’une
-              règle spéciale.
-            </li>
-            <li>
-              <strong>Déclarer le vainqueur.</strong> Le total le plus haut
-              l’emporte ; en cas d’égalité, personne ne gagne ni ne perd le
-              Combat.
-            </li>
-            <li>
-              <strong>Test de Panique du vaincu.</strong> Le joueur vaincu fait
-              un test de Commandement, avec un malus égal à l’écart de points
-              entre les deux camps. Raté, toutes les figurines qu’il contrôle
-              dans ce Combat deviennent <em>En déroute</em> ; réussi, aucun
-              effet.
-            </li>
-            <li>
-              <strong>Répercussions.</strong> Chaque joueur choisit une option
-              par unité impliquée (le vaincu choisit en premier) — voir le
-              tableau ci-dessous.
-            </li>
-          </ol>
-
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th class="gauche">Option</th>
-                  <th class="gauche">Qui peut la choisir</th>
-                  <th class="gauche">Effet</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="gauche"><strong>Tenir</strong></td>
-                  <td class="gauche">N’importe quelle unité</td>
-                  <td class="gauche">
-                    Mise au contact immédiate ; reste Verrouillée en Combat.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="gauche"><strong>Se désengager</strong></td>
-                  <td class="gauche">Unité du camp vaincu uniquement</td>
-                  <td class="gauche">
-                    Mouvement égal au Mouvement de la figurine, en s’éloignant
-                    de tous les ennemis du Combat.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="gauche"><strong>Battre en retraite</strong></td>
-                  <td class="gauche">
-                    Obligatoire si une figurine est <em>En déroute</em>
-                  </td>
-                  <td class="gauche">
-                    Voir
-                    <a href="mouvement.html#deroute">Battre en retraite</a>.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="gauche"><strong>Fusiller</strong></td>
-                  <td class="gauche">
-                    Camp vainqueur, si l’ennemi a tout battu en retraite
-                  </td>
-                  <td class="gauche">
-                    Attaque de volée (armes à trait Assaut) sur l’unité qui
-                    fuit.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="gauche"><strong>Poursuivre</strong></td>
-                  <td class="gauche">
-                    Camp vainqueur, si l’ennemi a tout battu en retraite
-                  </td>
-                  <td class="gauche">
-                    Mouvement d’Initiative + 1D6 vers l’ennemi en fuite ; au
-                    contact, la Charge est réussie et le Combat reprend.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="gauche"><strong>Consolider</strong></td>
-                  <td class="gauche">
-                    Camp vainqueur, si l’ennemi a tout battu en retraite ou
-                    s’est désengagé
-                  </td>
-                  <td class="gauche">
-                    Mouvement égal à l’Initiative, vers l’ennemi le plus proche
-                    ou un objectif.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="encadre">
-            <p style="margin: 0">
-              <strong>Massacre :</strong> si toutes les figurines d’un camp sont
-              retirées comme pertes pendant ce round, l’autre camp n’est plus
-              Verrouillé en Combat et doit obligatoirement Consolider.
-            </p>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut
+                répondre par l’une de ces réactions. Détail complet sur la page
+                <a href="statuts-reactions.html#reactions">Réactions</a>.
+              </p>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Tir d’état d’alerte</span
+                ><span class="badge-phase">Assaut</span>
+                <p>
+                  Se déclare à l’attaque de volée : l’unité chargée tire
+                  normalement avec toutes ses armes sur l’unité qui la charge,
+                  mais sans aucun jet de couvert ni mitigation de Dissimulation
+                  pour l’attaquant.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Mur de bouclier</span
+                ><span class="badge-phase">Tir/Charge</span>
+                <p>
+                  Réaction Avancée des Legiones Astartes, coût 1 point de
+                  Réactions. Se déclare au début de l’Étape 4 (Attaques de
+                  Volée) : +1 en Endurance pour la phase si la majorité de
+                  l’unité a le trait Bouclier.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Se dérober</span
+                ><span class="badge-phase">Assaut</span>
+                <p>
+                  Après l’attaque de volée : mouvement d’esquive d’une valeur
+                  égale à l’Initiative de l’unité.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Intervention héroïque</span
+                ><span class="badge-phase">Assaut</span>
+                <p>Un personnage lance un <a href="#defi">Défi</a>.</p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+
+        <!-- ===================== DÉFI ===================== -->
+        <div class="timeline-item" id="defi">
+          <button class="timeline-titre" aria-expanded="false">
+            Sous-phase de Défi <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Un personnage engagé en mêlée (Type Parangon, ou Sous-type
+                Officier/Champion) peut provoquer un ennemi en duel :
+                Confrontation (choix d’une Posture), Concentration (jet
+                d’Avantage), Frappe (résolution des attaques) puis Gloire
+                (conséquences sur le combat). Détail complet des 4 étapes et des
+                Postures de base sur la page
+                <a href="tour.html#defi">Le Défi</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
+        <div class="timeline-item" id="combat">
+          <button class="timeline-titre" aria-expanded="false">
+            Sous-phase de Combat <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Dès qu’une figurine d’une unité est au contact socle à socle
+                d’une figurine ennemie, les deux unités sont
+                <strong>Verrouillées en Combat</strong>. Si plusieurs unités se
+                touchent en chaîne, elles forment toutes ensemble un seul et
+                même <strong>Combat</strong>, résolu d’un bloc.
+              </p>
+              <ol class="etapes">
+                <li>
+                  <strong>Mise au contact.</strong> Chaque figurine qui n’est
+                  pas encore au contact socle à socle s’en rapproche d’une
+                  distance égale à son <strong>Initiative</strong> actuelle (et
+                  non la table de <a href="#mise-en-place">positionnement</a>,
+                  qui ne sert que pour la mise en place de charge).
+                </li>
+                <li>
+                  <strong>Figurines engagées.</strong> Seules les figurines au
+                  contact socle à socle avec un ennemi — ou à moins de 2 pouces
+                  d’une figurine amie elle-même au contact — participent aux
+                  frappes de ce round.
+                </li>
+                <li>
+                  <strong>Ordre d’Initiative.</strong> Chaque figurine déclare
+                  son arme de mêlée (une seule, ou l’arme de corps à corps
+                  basique si elle n’en a pas) : son
+                  <strong>Initiative de combat</strong> est son Initiative
+                  modifiée par cette arme. Les figurines frappent par rang
+                  décroissant, les plus rapides en premier — sauf qu’une
+                  figurine touchée par un statut tactique quelconque (Sonnée,
+                  Neutralisée…) frappe toujours en dernier, au rang d’Initiative
+                  1, quelle que soit son Initiative réelle.
+                </li>
+                <li>
+                  <strong>Résolution des attaques.</strong> Chaque figurine fait
+                  un nombre d’attaques égal à sa caractéristique d’Attaques ;
+                  jets de touche au <a href="tables.html#cc">CC</a>, jets de
+                  <a href="tables.html#blessure">blessure</a>, puis sauvegardes
+                  et mitigations comme au tir.
+                </li>
+                <li>
+                  <strong>Retirer les pertes au fil de l’eau.</strong> Une
+                  figurine réduite à 0 Point de Vie est retirée immédiatement,
+                  avant que les figurines suivantes (Initiative inférieure) ne
+                  frappent à leur tour.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉSOLUTION ===================== -->
+        <div class="timeline-item" id="resolution">
+          <button class="timeline-titre" aria-expanded="false">
+            Sous-phase de Résolution <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Une fois un round de Combat entièrement résolu, on détermine ce
+                qu’il advient des deux camps en 4 étapes.
+              </p>
+              <ol class="etapes">
+                <li>
+                  <strong>Totaliser les Points de Résolution de Combat.</strong>
+                  Chaque joueur fait un seul total (même s’il contrôle plusieurs
+                  unités dans ce Combat) : 1 point par figurine ennemie retirée
+                  comme perte à cette Sous-phase de Combat, +1 point pour le
+                  joueur qui contrôle le plus de figurines dans le Combat, plus
+                  les points éventuels d’un
+                  <a href="tour.html#defi">Défi</a> remporté ou d’une règle
+                  spéciale.
+                </li>
+                <li>
+                  <strong>Déclarer le vainqueur.</strong> Le total le plus haut
+                  l’emporte ; en cas d’égalité, personne ne gagne ni ne perd le
+                  Combat.
+                </li>
+                <li>
+                  <strong>Test de Panique du vaincu.</strong> Le joueur vaincu
+                  fait un test de Commandement, avec un malus égal à l’écart de
+                  points entre les deux camps. Raté, toutes les figurines qu’il
+                  contrôle dans ce Combat deviennent <em>En déroute</em> ;
+                  réussi, aucun effet.
+                </li>
+                <li>
+                  <strong>Répercussions.</strong> Chaque joueur choisit une
+                  option par unité impliquée (le vaincu choisit en premier) —
+                  voir le tableau ci-dessous.
+                </li>
+              </ol>
+
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="gauche">Option</th>
+                      <th class="gauche">Qui peut la choisir</th>
+                      <th class="gauche">Effet</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche"><strong>Tenir</strong></td>
+                      <td class="gauche">N’importe quelle unité</td>
+                      <td class="gauche">
+                        Mise au contact immédiate ; reste Verrouillée en Combat.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Se désengager</strong></td>
+                      <td class="gauche">Unité du camp vaincu uniquement</td>
+                      <td class="gauche">
+                        Mouvement égal au Mouvement de la figurine, en
+                        s’éloignant de tous les ennemis du Combat.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">
+                        <strong>Battre en retraite</strong>
+                      </td>
+                      <td class="gauche">
+                        Obligatoire si une figurine est <em>En déroute</em>
+                      </td>
+                      <td class="gauche">
+                        Voir
+                        <a href="mouvement.html#deroute">Battre en retraite</a>.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Fusiller</strong></td>
+                      <td class="gauche">
+                        Camp vainqueur, si l’ennemi a tout battu en retraite
+                      </td>
+                      <td class="gauche">
+                        Attaque de volée (armes à trait Assaut) sur l’unité qui
+                        fuit.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Poursuivre</strong></td>
+                      <td class="gauche">
+                        Camp vainqueur, si l’ennemi a tout battu en retraite
+                      </td>
+                      <td class="gauche">
+                        Mouvement d’Initiative + 1D6 vers l’ennemi en fuite ; au
+                        contact, la Charge est réussie et le Combat reprend.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Consolider</strong></td>
+                      <td class="gauche">
+                        Camp vainqueur, si l’ennemi a tout battu en retraite ou
+                        s’est désengagé
+                      </td>
+                      <td class="gauche">
+                        Mouvement égal à l’Initiative, vers l’ennemi le plus
+                        proche ou un objectif.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="encadre">
+                <p style="margin: 0">
+                  <strong>Massacre :</strong> si toutes les figurines d’un camp
+                  sont retirées comme pertes pendant ce round, l’autre camp
+                  n’est plus Verrouillé en Combat et doit obligatoirement
+                  Consolider.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>
       <p class="footer-disclaimer">
-        <strong>Guide non officiel réalisé par des fans bénévoles francophones.</strong>
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de
-        <a href="https://www.games-workshop.com" target="_blank" rel="noopener noreferrer">Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a>.
-        Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à leur statut n'est intentionné.
+        <strong
+          >Guide non officiel réalisé par des fans bénévoles
+          francophones.</strong
+        >
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        sont des marques déposées de
+        <a
+          href="https://www.games-workshop.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
+        >. Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à
+        leur statut n'est intentionné.
       </p>
     </footer>
 
