@@ -894,7 +894,7 @@ section:not(.ouvert) > .section-corps {
   transform: translateY(-50%);
   width: 1.7rem;
   height: 1.7rem;
-  background: var(--bordeaux);
+  background: #b5726a;
   color: #fff;
   font-family: "Cinzel", serif;
   font-weight: 700;
