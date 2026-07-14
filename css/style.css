@@ -278,6 +278,10 @@ section {
   gap: 0.6rem;
 }
 
+.section-titre--centre {
+  justify-content: center;
+}
+
 .sous-titre {
   font-size: 1.2rem;
   color: var(--or-clair);

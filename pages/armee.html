@@ -34,28 +34,30 @@
         </button>
         <nav class="nav-principale" aria-label="Navigation principale">
           <ul class="nav-menu">
-          <li><a href="armee.html" aria-current="page">Construction d’armée</a></li>
-          <li><a href="tour.html">Tour</a></li>
-          <li><a href="mouvement.html">Mouvement</a></li>
-          <li><a href="tir.html">Tir</a></li>
-          <li><a href="assaut.html">Assaut</a></li>
-          <li><a href="statuts-reactions.html">Statuts &amp; Réactions</a></li>
-          <li><a href="regles.html">Règles spéciales</a></li>
-          <li><a href="tables.html">Tables de référence</a></li>
-        </ul>
+            <li>
+              <a href="armee.html" aria-current="page">Construction d’armée</a>
+            </li>
+            <li><a href="tour.html">Tour</a></li>
+            <li><a href="mouvement.html">Mouvement</a></li>
+            <li><a href="tir.html">Tir</a></li>
+            <li><a href="assaut.html">Assaut</a></li>
+            <li>
+              <a href="statuts-reactions.html">Statuts &amp; Réactions</a>
+            </li>
+            <li><a href="regles.html">Règles spéciales</a></li>
+            <li><a href="tables.html">Tables de référence</a></li>
+          </ul>
         </nav>
       </div>
     </header>
 
     <main id="contenu">
       <h1 class="section-titre" style="font-size: 2rem">
-        Construire ton armée
+        Construction d’armée
       </h1>
       <p>
-        Construire une armée réglementaire semble complexe la première fois,
-        mais le principe est simple. Tout part d’un
-        <strong>Détachement Principal de Croisade</strong>, auquel tu ajoutes
-        ensuite d’autres détachements.
+        Tout part d’un <strong>Détachement Principal de Croisade</strong>,
+        auquel il faut ajouter ensuite d’autres détachements.
       </p>
 
       <!-- ===================== ÉTAPE 1 : DÉTACHEMENT PRINCIPAL ===================== -->
@@ -67,15 +69,15 @@
             aria-expanded="false"
             aria-controls="principal-corps"
           >
-            <span>1. Le Détachement Principal de Croisade</span>
+            <span>1. Détachement Principal de Croisade</span>
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
         <div class="section-corps" id="principal-corps">
           <p>
-            C’est le <strong>seul détachement obligatoire</strong> de ton armée.
-            Tu peux y mettre uniquement ce que tu souhaites : rien à l’intérieur
-            n’est imposé. Il est simplement <em>plafonné</em>, au maximum :
+            C’est le <strong>seul détachement obligatoire</strong>. Tu y mets
+            uniquement ce que tu souhaites : rien à l’intérieur n’est imposé. Il
+            est simplement <em>plafonné</em>, au maximum :
           </p>
           <ul>
             <li>
@@ -111,7 +113,7 @@
             aria-expanded="false"
             aria-controls="auxiliaires-corps"
           >
-            <span>2. Les Détachements Auxiliaires et d’Apex</span>
+            <span>2. Détachements Auxiliaires et d’Apex</span>
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
@@ -156,16 +158,14 @@
             aria-expanded="false"
             aria-controls="organigramme-corps"
           >
-            <span>L’Organigramme de Force de Croisade</span>
+            <span>Organigramme de Force de Croisade</span>
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
         <div class="section-corps" id="organigramme-corps">
           <p>
-            Voici l’organigramme complet.
             <strong>Survole (ou touche) chaque case</strong> pour afficher sa
-            description. Les futures publications ajouteront d’autres
-            détachements, mais ceux-ci sont les Détachements de Base.
+            description.
           </p>
 
           <div class="organigramme">
@@ -176,9 +176,8 @@
                 <div class="orga-boite principal" tabindex="0">
                   Détachement Principal de Croisade
                   <span class="tooltip">
-                    Le cœur de ton armée, obligatoire. Maximum : 1 Quartier
-                    Général, 3 États-Majors, 4 Troupes, 4 Transports. Rien n’est
-                    imposé à l’intérieur.
+                    Obligatoire. Maximum : 1 Quartier Général, 3 États-Majors, 4
+                    Troupes, 4 Transports. Rien n’est imposé à l’intérieur.
                   </span>
                 </div>
               </div>
@@ -337,9 +336,9 @@
         </h2>
         <div class="section-corps" id="roles-corps">
           <p>
-            Chaque unité du jeu possède un <strong>Rôle Tactique</strong> :
-            c’est sa « catégorie » dans l’organigramme. Une case « Troupes » ne
-            peut accueillir qu’une unité de Rôle Tactique Troupes, etc.
+            Chaque unité du jeu possède un <strong>Rôle Tactique</strong> : une
+            case « Troupes » ne peut accueillir qu’une unité de Rôle Tactique
+            Troupes, etc.
           </p>
 
           <div class="table-scroll">
@@ -354,9 +353,9 @@
                 <tr>
                   <td class="gauche"><strong>Seigneur de Guerre</strong></td>
                   <td class="gauche">
-                    Les 18 Primarques et une poignée de puissants guerriers.
-                    Aucune armée ne peut dépenser plus de 25 % de sa limite de
-                    points pour Seigneur de Guerre + Seigneur des Batailles.
+                    Les primarques et une poignée de puissants guerriers. On ne
+                    peut dépenser plus de 25 % de sa limite de points pour
+                    Seigneur de Guerre + Seigneur des Batailles.
                   </td>
                 </tr>
                 <tr>
@@ -475,17 +474,15 @@
           <p>
             Certaines cases de l’organigramme portent un symbole spécial : ce
             sont les
-            <strong>Cases Principales</strong>. Elles conservent leur Rôle
-            Tactique normal, mais si elles sont
-            <strong>occupées par une unité</strong>, elles octroient un
-            bénéfice : un <strong>Avantage Principal</strong> au choix parmi les
-            5 ci-dessous. Ce sont surtout des améliorations de caractéristiques…
-            sauf une, très forte pour structurer ta liste.
+            <strong>Cases Principales</strong>. Elles octroient un bénéfice : un
+            <strong>Avantage Principal</strong> au choix parmi les 5 ci-dessous.
+            Ce sont surtout des améliorations de caractéristiques… sauf une,
+            très forte pour structurer ta liste.
           </p>
           <p>
             <em>Cas particulier :</em> si l’unité choisie inclut des figurines
-            de Sous-type <strong>Unique</strong>, le seul Avantage Principal
-            disponible est Bénéfice Logistique.
+            de Sous-type <strong>Unique</strong>, les seuls Avantages Principaux
+            disponibles sont Affectation Spéciale et Bénéfice Logistique.
           </p>
 
           <!-- Accordéon des 5 avantages -->
@@ -620,32 +617,25 @@
               </div>
             </div>
           </div>
-
-          <!-- Encadré astuce mis en valeur -->
-          <div class="encadre-astuce">
-            <h3>À noter : le Bénéfice Logistique</h3>
-            <p>
-              Le Bénéfice Logistique permet d’ajouter une case — donc une unité
-              — au Détachement concerné. Cette unité supplémentaire peut être de
-              <strong>n’importe quel type</strong>, sauf Quartier Général,
-              État-Major ou Primarque.
-            </p>
-            <p style="margin: 0">
-              Concrètement : pour intégrer un Dreadnought ou une unité d’Élite
-              dans ton armée sans passer par le détachement correspondant,
-              occupe une Case Principale et choisis Bénéfice Logistique.
-            </p>
-          </div>
         </div>
       </section>
     </main>
 
     <footer>
       <p class="footer-disclaimer">
-        <strong>Guide non officiel réalisé par des fans bénévoles francophones.</strong>
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de
-        <a href="https://www.games-workshop.com" target="_blank" rel="noopener noreferrer">Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a>.
-        Ce site n'est ni affilié ni approuvé par Games Workshop. Aucun défi à leur statut n'est intentionné.
+        <strong
+          >Guide non officiel réalisé par des fans bénévoles
+          francophones.</strong
+        >
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        sont des marques déposées de
+        <a
+          href="https://www.games-workshop.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
+        >. Ce site n’est ni affilié ni approuvé par Games Workshop. Aucun défi à
+        leur statut n’est intentionné.
       </p>
     </footer>
 
