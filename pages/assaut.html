@@ -53,19 +53,12 @@
       <h1 class="section-titre section-titre--centre" style="font-size: 2rem">
         La Phase d’Assaut
       </h1>
-      <p>
-        Dernière phase active du tour, en 4 sous-phases :
-        <strong>Charge</strong>, <strong>Défi</strong>,
-        <strong>Combat</strong> et <strong>Résolution</strong>. Vue d’ensemble
-        sur la page <a href="tour.html#phases">Déroulement d’un tour</a> ; ici,
-        chaque sous-phase en détail.
-      </p>
 
       <div class="timeline">
         <!-- ===================== DÉCLARER UNE CHARGE ===================== -->
         <div class="timeline-item" id="declarer">
           <button class="timeline-titre" aria-expanded="false">
-            Sous-phase de Charge : déclarer <span class="chevron">❯</span>
+            1. Sous-phase de Charge : déclarer <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -180,60 +173,10 @@
           </div>
         </div>
 
-        <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
-        <div class="timeline-item" id="reactions-assaut">
-          <button class="timeline-titre" aria-expanded="false">
-            Réactions déclenchées par une charge
-            <span class="chevron">❯</span>
-          </button>
-          <div class="timeline-details">
-            <div class="timeline-details-inner">
-              <p>
-                L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut
-                répondre par l’une de ces réactions. Détail complet sur la page
-                <a href="statuts-reactions.html#reactions">Réactions</a>.
-              </p>
-              <div class="reaction reaction-assaut">
-                <span class="reaction-nom">Tir d’état d’alerte</span
-                ><span class="badge-phase">Assaut</span>
-                <p>
-                  Se déclare à l’attaque de volée : l’unité chargée tire
-                  normalement avec toutes ses armes sur l’unité qui la charge,
-                  mais sans aucun jet de couvert ni mitigation de Dissimulation
-                  pour l’attaquant.
-                </p>
-              </div>
-              <div class="reaction reaction-assaut">
-                <span class="reaction-nom">Mur de bouclier</span
-                ><span class="badge-phase">Tir/Charge</span>
-                <p>
-                  Réaction Avancée des Legiones Astartes, coût 1 point de
-                  Réactions. Se déclare au début de l’Étape 4 (Attaques de
-                  Volée) : +1 en Endurance pour la phase si la majorité de
-                  l’unité a le trait Bouclier.
-                </p>
-              </div>
-              <div class="reaction reaction-assaut">
-                <span class="reaction-nom">Se dérober</span
-                ><span class="badge-phase">Assaut</span>
-                <p>
-                  Après l’attaque de volée : mouvement d’esquive d’une valeur
-                  égale à l’Initiative de l’unité.
-                </p>
-              </div>
-              <div class="reaction reaction-assaut">
-                <span class="reaction-nom">Intervention héroïque</span
-                ><span class="badge-phase">Assaut</span>
-                <p>Un personnage lance un <a href="#defi">Défi</a>.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- ===================== DÉFI ===================== -->
         <div class="timeline-item" id="defi">
           <button class="timeline-titre" aria-expanded="false">
-            Sous-phase de Défi <span class="chevron">❯</span>
+            2. Sous-phase de Défi <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -242,9 +185,7 @@
                 Officier/Champion) peut provoquer un ennemi en duel :
                 Confrontation (choix d’une Posture), Concentration (jet
                 d’Avantage), Frappe (résolution des attaques) puis Gloire
-                (conséquences sur le combat). Détail complet des 4 étapes et des
-                Postures de base sur la page
-                <a href="tour.html#defi">Le Défi</a>.
+                (conséquences sur le combat).
               </p>
             </div>
           </div>
@@ -253,7 +194,7 @@
         <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
         <div class="timeline-item" id="combat">
           <button class="timeline-titre" aria-expanded="false">
-            Sous-phase de Combat <span class="chevron">❯</span>
+            3. Sous-phase de Combat <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -293,8 +234,8 @@
                   <strong>Résolution des attaques.</strong> Chaque figurine fait
                   un nombre d’attaques égal à sa caractéristique d’Attaques ;
                   jets de touche au <a href="tables.html#cc">CC</a>, jets de
-                  <a href="tir.html#blesser">blessure</a>, puis sauvegardes
-                  et mitigations comme au tir.
+                  <a href="tir.html#blesser">blessure</a>, puis sauvegardes et
+                  mitigations comme au tir.
                 </li>
                 <li>
                   <strong>Retirer les pertes au fil de l’eau.</strong> Une
@@ -310,7 +251,7 @@
         <!-- ===================== RÉSOLUTION ===================== -->
         <div class="timeline-item" id="resolution">
           <button class="timeline-titre" aria-expanded="false">
-            Sous-phase de Résolution <span class="chevron">❯</span>
+            4. Sous-phase de Résolution <span class="chevron">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -427,6 +368,56 @@
                   n’est plus Verrouillé en Combat et doit obligatoirement
                   Consolider.
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
+        <div class="timeline-item" id="reactions-assaut">
+          <button class="timeline-titre" aria-expanded="false">
+            Réactions adverses
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                L’unité chargée (si elle n’est pas <em>Sonnée</em>) peut
+                répondre par l’une de ces réactions. Détail complet sur la page
+                <a href="statuts-reactions.html#reactions">Réactions</a>.
+              </p>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Tir d’état d’alerte</span
+                ><span class="badge-phase">Assaut</span>
+                <p>
+                  Se déclare à l’attaque de volée : l’unité chargée tire
+                  normalement avec toutes ses armes sur l’unité qui la charge,
+                  mais sans aucun jet de couvert ni mitigation de Dissimulation
+                  pour l’attaquant.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Mur de bouclier</span
+                ><span class="badge-phase">Tir/Charge</span>
+                <p>
+                  Réaction Avancée des Legiones Astartes, coût 1 point de
+                  Réactions. Se déclare au début de l’Étape 4 (Attaques de
+                  Volée) : +1 en Endurance pour la phase si la majorité de
+                  l’unité a le trait Bouclier.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Se dérober</span
+                ><span class="badge-phase">Assaut</span>
+                <p>
+                  Après l’attaque de volée : mouvement d’esquive d’une valeur
+                  égale à l’Initiative de l’unité.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Intervention héroïque</span
+                ><span class="badge-phase">Assaut</span>
+                <p>Un personnage lance un <a href="#defi">Défi</a>.</p>
               </div>
             </div>
           </div>
