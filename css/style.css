@@ -978,26 +978,6 @@ section:not(.ouvert) > .section-corps {
   font-size: 0.9rem;
 }
 
-/* Variante "bloc unique" : les étapes restent numérotées 1..n mais
-   sont réunies dans un seul cadre (une bordure commune, un
-   séparateur fin entre chaque ligne) au lieu d'une carte par étape. */
-.etapes--bloc-unique {
-  border: 1px solid var(--acier);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.etapes--bloc-unique li {
-  border: none;
-  border-radius: 0;
-  margin-bottom: 0;
-  border-bottom: 1px solid var(--acier);
-}
-
-.etapes--bloc-unique li:last-child {
-  border-bottom: none;
-}
-
 /* ============================================================
    CARTES DE STATUTS TACTIQUES
    ============================================================ */
@@ -1217,26 +1197,13 @@ button:focus-visible,
   flex-grow: 1;
 }
 
-.format-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid var(--acier);
-  border-radius: 20px;
-  padding: 0.05rem 0.6rem;
-  margin-bottom: 0.6rem;
-  color: var(--texte-doux);
-  align-self: flex-start;
-}
-
 .bouton-telecharger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  background: var(--accent);
-  color: #fff;
+  background: #ececed;
+  color: var(--acier-clair);
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 0.92rem;
@@ -1248,7 +1215,7 @@ button:focus-visible,
 
 .bouton-telecharger:hover,
 .bouton-telecharger:focus {
-  background: var(--accent-clair);
+  background: #dcdcde;
 }
 
 .bouton-telecharger .taille {
