@@ -3,8 +3,11 @@
    Auteur : Jean · Créé : 2026-07-15
    Rôle   : encode les tables d'armes du livre de règles, les rend
    dynamiquement (une table HTML par catégorie) et les filtre en
-   temps réel via la barre de recherche (nom, règles, traits).
-   Dépend : aucun (vanilla JS) — stylé par css/style.css.
+   temps réel via la barre de recherche (nom de l'arme uniquement). Chaque
+   règle spéciale de la colonne « Règles spéciales » est doublée
+   d'une info-bulle reprenant sa définition (voir page regles.html).
+   Dépend : js/regles-data.js (texte des règles, chargé avant ce
+   script) — stylé par css/style.css.
    Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    Transcription manuelle depuis le livre de règles : en cas de
    doute, c'est toujours le livre qui fait référence (voir encadré
@@ -21,8 +24,6 @@ const ENTETES_TIR = ["P", "PF", "FT", "PA", "D"];
 const ARMES_TIR = [
   {
     titre: "Pièce d'Artillerie",
-    intro:
-      "Fonctionnant en général sur les mêmes principes que l'armement à bolts ou auto, ces armes sont traitées à part en vertu de leur calibre démesuré, d'où découle le format prodigieux des pièces elles-mêmes, telles qu'elles ont servi à abattre les forteresses de quiconque s'opposait à l'Empereur. Prévues pour traiter des cibles à des portées extrêmes et pour venir à bout des ennemis que leur armure et leur résilience intrinsèques rendent à l'épreuve de tirs moins puissants, ces pièces lourdes recourent à des charges explosives énormes ou à une technologie perce-blindage avancée pour se donner le potentiel que les autres armes n'égalent pas.",
     armes: [
       {
         nom: "Canon Demolisher",
@@ -73,8 +74,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Pistolet Archéotech",
-    intro:
-      "Malgré le renouveau de la puissance humaine dans la galaxie que la Grande Croisade a suscité, les arts et la grandeur passée du genre humain relèvent en grande part de la mythologie, hormis quelques reliques qui ont bravé les ténèbres étouffantes de l'Antique Nuit. Ces reliques comptent notamment des armes de poing dont l'élégance le dispute à la puissance de feu.",
     armes: [
       {
         nom: "Pistolet archéotech",
@@ -86,8 +85,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Auto",
-    intro:
-      "Une arme auto propulse un projectile plein au moyen d'une déflagration chimique. On ne rencontre presque plus chez les Legiones Astartes de vieux fusils automatiques, mais les autocanons demeurent en service de par la fiabilité que confère leur simplicité, et cette catégorie comprend aussi des instruments plus sophistiqués comme les canons d'assaut et les canons accélérateurs magnétiques.",
     armes: [
       {
         nom: "Fusil à pompe Astartes",
@@ -213,8 +210,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Bolts",
-    intro:
-      "Branche de l'armement devenue commune chez les Legiones Astartes, les armes à bolts tirent une munition autopropulsée sans étui munie d'un détonateur réagissant à la masse de la cible, largement capable d'éviscérer la plupart des adversaires. Leur succès fut tel qu'elles supplantèrent leurs homologues plus complexes de facture martienne qui régnaient jadis sur les arsenaux des Legiones Astartes.",
     armes: [
       {
         nom: "Pistolet bolter",
@@ -286,8 +281,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Combinées",
-    intro:
-      "Cette innovation terrienne d'antan associe un bolter à une autre arme secondaire de sorte à conférer aux formations de guerriers d'élite un surcroît de puissance de feu au moment décisif de la bataille. Chaque Arme Combinée est faite de deux composants : un bolter en guise de composant Principal, et un composant Secondaire (lance-flammes, fuseur, fusil à plasma, chargeur volkite, lance-grenades à Krak, désintégrateur ou fusil à gravitons).",
     armes: [
       {
         nom: "Combi-arme — Bolter (Principal)",
@@ -342,8 +335,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Conversion",
-    intro:
-      "Ces armes à énergie ésotériques tirent un faisceau qui provoque une implosion subatomique dans la cible, le faisceau gagnant en puissance avec la distance jusqu'à atteindre son seuil d'instabilité final. Très ardues à utiliser, elles servent surtout à des opérateurs spécialisés (Techmarines, Destructors du Mechanicum) pour ouvrir des brèches lors d'un siège ou d'un abordage d'astronef. La colonne « P » indique la tranche de distance à laquelle correspond chaque profil.",
     armes: [
       {
         nom: "Canon à conversion (< 15 pas)",
@@ -397,8 +388,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Désintégratrices",
-    intro:
-      "Ces armes terriennes brutales dissocient les molécules de la cible, qui vole tout simplement en éclats qu'elle soit faite de chair ou de céramite. Courantes pendant l'Antique Nuit, ces armes étaient appréciées aussi bien pour leur impact psychologique que pour l'efficacité de leurs décharges foudroyantes.",
     armes: [
       {
         nom: "Pistolet désintégrateur",
@@ -440,8 +429,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Gravitons",
-    intro:
-      "Domaine mal connu même chez les technoprêtres de Mars, les armes dites « à gravitons » forment une famille de projecteurs si sophistiqués que les quelques exemplaires encore en service sont des reliques d'un âge perdu. À pleine puissance, elles peuvent broyer les organes et briser les os à l'intérieur même d'une armure, mais leur fonction première est d'entraver les actions de l'ennemi et d'endommager les machineries sans provoquer d'explosions secondaires.",
     armes: [
       {
         nom: "Fusil à gravitons",
@@ -481,8 +468,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Flammes",
-    intro:
-      "Le feu est une des plus anciennes armes en usage chez les Legiones Astartes, car il a toujours été radical contre les créatures qui rôdent dans le noir. De nombreuses Légions jugent le pouvoir purificateur des flammes crucial pour leur arsenal, et l'aptitude de ces armes à chasser l'ennemi de ses positions retranchées a fait basculer plus d'une bataille.",
     armes: [
       {
         nom: "Lance-flammes léger",
@@ -524,8 +509,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Laser",
-    intro:
-      "Dans l'Imperium, le terme « laser » s'applique à une gamme d'armes à particules aussi simples que l'omniprésent canon laser, ou aussi complexes et meurtrières que le canon à onde neutronique. De par leur aptitude à projeter une grande quantité d'énergie, on les rencontre souvent sous forme d'armes antichars chez les Legiones Astartes.",
     armes: [
       {
         nom: "Canon laser",
@@ -598,8 +581,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Fusion",
-    intro:
-      "Capables de focaliser des micro-ondes en faisceaux qui liquéfient les meilleurs blindages, les plus terribles armes antichars accessibles aux guerriers de l'Empereur comptent parmi les armes à fusion, en service chez les Legiones Astartes dès leur fondation.",
     armes: [
       {
         nom: "Fuseur",
@@ -665,8 +646,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Missiles",
-    intro:
-      "Des missiles aux roquettes explosives, les Legiones Astartes font usage d'un éventail de munitions à moteur-fusée, le plus souvent avec l'humble lance-missiles d'infanterie, mais il existe aussi des lanceurs montés sur véhicule servant de pièces d'artillerie ou antiaériennes.",
     armes: [
       {
         nom: "Lance-missiles — Frag",
@@ -822,8 +801,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Particules",
-    intro:
-      "Le flux de particules puissamment chargées que ces armes projettent érode l'ennemi atome par atome.",
     armes: [
       {
         nom: "Lacérateur à particules",
@@ -841,8 +818,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Phosphex",
-    intro:
-      "Le phosphex est un composé corrosif, toxique et incendiaire rare qui présente un danger drastique pour toute forme de vie. Au contact de l'air, il forme un brouillard fluide qui se consume dans d'étranges flammes blanc vert que le moindre mouvement attire ; rien ne peut les éteindre hormis le vide complet. Les Légions de Space Marines la conservent dans leurs arsenaux en dernier recours.",
     armes: [
       {
         nom: "Bombe à phosphex",
@@ -861,8 +836,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes à Plasma",
-    intro:
-      "Ces armes que seuls les technoprêtres de Mars maîtrisent déchaînent des projectiles de plasma porté à une température suffocante pour fondre les armures aussi facilement que la chair. Confiné dans des bouteilles magnétiques capricieuses, le plasma qui alimente ces armes est aussi dangereux pour l'utilisateur que pour l'ennemi : les fuites, voire les explosions, ne sont pas rares. La plupart des armes à plasma proposent deux profils : Tir soutenu (plus sûr) et Tir maximal (plus puissant, mais Surcharge).",
     armes: [
       {
         nom: "Pistolet à plasma — Tir soutenu",
@@ -1006,8 +979,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Rad",
-    intro:
-      "En dotation uniquement contre les xénoformes les plus dangereuses, les grenades et ogives dites « Rad » émettent en détonant un flux de radiations brèves et intenses dont les retombées contaminent les abords immédiats. Outre les dégâts directs, on peut s'en servir en bombardement de zone afin d'affaiblir une cible pour la rendre vulnérable à d'autres attaques.",
     armes: [
       {
         nom: "Grenades Rad",
@@ -1019,8 +990,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Soniques",
-    intro:
-      "Au moyen de puissantes ondes sonores concentrées, les armes soniques pilonnent brutalement leurs victimes jusqu'à la reddition, en fracturant les plaques d'armure, en brisant les os et en réduisant les organes en bouillie.",
     armes: [
       {
         nom: "Résonateur à commotion",
@@ -1032,8 +1001,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Volkites",
-    intro:
-      "Le terme « volkite » est un obscur vocable martien qui recouvre diverses armes à rayon dont l'origine remonte à l'Ère des Luttes. Douées d'une puissance meurtrière considérable, les armes volkites étaient difficiles à manufacturer, même pour les forges du Mechanicum les mieux pourvues ; leur usage avait décliné au moment où survint l'Hérésie d'Horus, au profit du bolter terrien plus pratique et polyvalent.",
     armes: [
       {
         nom: "Serpentine volkite",
@@ -1117,8 +1084,6 @@ const ARMES_TIR = [
   },
   {
     titre: "Armes Exotiques et Diverses (Tir)",
-    intro:
-      "Les Legiones Astartes emploient aussi diverses armes qui ne relèvent pas d'une catégorie en particulier.",
     armes: [
       {
         nom: "Harnais à grenades",
@@ -1159,8 +1124,6 @@ const ENTETES_MELEE = ["MI", "MA", "MF", "PA", "D"];
 const ARMES_MELEE = [
   {
     titre: "Armes Tronçonneuses",
-    intro:
-      "Ces armes féroces remontent aux tréfonds sanglants des guerres d'Unification de Terra, et se caractérisent par leur tranchant fait d'une série de dents acérées bruyamment mises en mouvement par un puissant moteur intégré à leur épaisse poignée. Aptes à déchiqueter aussi bien les armures que les chairs entre les mains d'utilisateurs compétents, et pratiquement inutilisables par d'autres.",
     armes: [
       {
         nom: "Épée tronçonneuse",
@@ -1214,8 +1177,6 @@ const ARMES_MELEE = [
   },
   {
     titre: "Armes Charnabales",
-    intro:
-      "On peut faire remonter l'origine de ces armes élégantes et meurtrières aux sociétés duellistes, aux sectes d'assassins et à la pratique de la vendetta au sein des anciennes Cours de Terra à l'Ère des Luttes, et leur létalité est question de prestesse et de dextérité davantage que de force brute.",
     armes: [
       {
         nom: "Sabre charnabal",
@@ -1233,8 +1194,6 @@ const ARMES_MELEE = [
   },
   {
     titre: "Armes de Force",
-    intro:
-      "Incrustées de circuits conducteurs psychiques et forgées dans des alliages rares, ces armes ressemblent trompeusement à de banales armes de mêlée. Elles permettent à quiconque sait manier la puissance du Warp de canaliser ses pouvoirs psychiques pour infliger de terribles blessures. Si une Figurine a une arme de force dans son Équipement, vous pouvez la doter d'un des choix suivants.",
     armes: [
       {
         nom: "Épée de force",
@@ -1264,8 +1223,6 @@ const ARMES_MELEE = [
   },
   {
     titre: "Armes Énergétiques",
-    intro:
-      "Ces armes de mêlée sont auréolées d'un champ de disruption qui leur permet de fendre les armures comme du papier et de sectionner sans peine la chair et l'os. Ardues à maîtriser, coûteuses à produire et à entretenir, elles sont réservées aux meilleurs guerriers des Legiones Astartes. Si une Figurine a une arme énergétique dans son Équipement, vous pouvez la doter d'un des choix suivants.",
     armes: [
       {
         nom: "Épée énergétique",
@@ -1355,8 +1312,6 @@ const ARMES_MELEE = [
   },
   {
     titre: "Armes de Parangon",
-    intro:
-      "Qu'il s'agisse d'armes forgées par des artistes accomplis ou de reliques irremplaçables de l'antique grandeur du Moyen-Âge Technologique, les lames de parangon sont peu nombreuses et peuvent prendre diverses formes. Quelle que soit leur forme, elles sont inestimables aux yeux des guerriers de l'Imperium.",
     armes: [
       {
         nom: "Lame de parangon",
@@ -1368,8 +1323,6 @@ const ARMES_MELEE = [
   },
   {
     titre: "Armes Exotiques et Diverses (Mêlée)",
-    intro:
-      "Les Legiones Astartes emploient aussi diverses armes qui ne relèvent pas d'une catégorie en particulier.",
     armes: [
       {
         nom: "Découpeur laser¹",
@@ -1440,12 +1393,43 @@ function normaliserArme(texte) {
     .toLowerCase();
 }
 
+/* ----------------------------------------------------------
+   DÉFINITIONS DES RÈGLES SPÉCIALES (pour les info-bulles)
+   Les intitulés des tables d'armes portent une valeur concrète
+   (ex : "Brèche (5+)") alors que REGLES_ARMES/REGLES_DIVERSES (voir
+   js/regles-data.js) les nomment avec un "(X)" générique : on indexe
+   donc par nom de base, sans parenthèse.
+   ---------------------------------------------------------- */
+const DEFINITIONS_REGLES = new Map();
+[...REGLES_ARMES, ...REGLES_DIVERSES].forEach((regle) => {
+  const base = normaliserArme(regle.nom.replace(/\s*\([^)]*\)\s*$/, ""));
+  DEFINITIONS_REGLES.set(base, regle.texte);
+});
+
+/**
+ * Retrouve la définition d'une règle à partir de son intitulé tel
+ * qu'utilisé dans une table d'armes (ex : "Brèche (5+)"). En repli, on
+ * retire un "e" final du nom de base pour absorber les rares accords
+ * grammaticaux (ex : "Empoisonnée" dans les tables d'armes vs
+ * "Empoisonné" dans le lexique des règles).
+ * @param {string} intitule
+ * @returns {string|null}
+ */
+function trouverDefinitionRegle(intitule) {
+  const base = normaliserArme(intitule.replace(/\s*\([^)]*\)\s*$/, ""));
+  if (DEFINITIONS_REGLES.has(base)) return DEFINITIONS_REGLES.get(base);
+  if (base.endsWith("e") && DEFINITIONS_REGLES.has(base.slice(0, -1))) {
+    return DEFINITIONS_REGLES.get(base.slice(0, -1));
+  }
+  return null;
+}
+
 /**
  * Construit la table HTML d'une catégorie d'armes et l'insère dans le
- * conteneur cible, précédée de son titre (h3) et de son texte d'intro.
+ * conteneur cible, précédée de son titre (h3).
  * @param {string} idConteneur - id de la div où insérer la catégorie
  * @param {Array}  entetes     - libellés des colonnes de stats (ex: ["P","PF","FT","PA","D"])
- * @param {Object} categorie   - { titre, intro, armes, note }
+ * @param {Object} categorie   - { titre, armes, note }
  */
 function construireCategorieArmes(idConteneur, entetes, categorie) {
   const conteneur = document.getElementById(idConteneur);
@@ -1457,13 +1441,6 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   const h3 = document.createElement("h3");
   h3.textContent = categorie.titre;
   section.appendChild(h3);
-
-  if (categorie.intro) {
-    const intro = document.createElement("p");
-    intro.className = "arme-intro";
-    intro.textContent = categorie.intro;
-    section.appendChild(intro);
-  }
 
   const table = document.createElement("table");
   const caption = document.createElement("caption");
@@ -1507,9 +1484,7 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   const tbody = document.createElement("tbody");
   categorie.armes.forEach((arme) => {
     const tr = document.createElement("tr");
-    tr.dataset.recherche = normaliserArme(
-      [arme.nom, arme.regles, arme.traits].join(" "),
-    );
+    tr.dataset.recherche = normaliserArme(arme.nom);
 
     const thNomArme = document.createElement("th");
     thNomArme.scope = "row";
@@ -1525,7 +1500,32 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
 
     const tdRegles = document.createElement("td");
     tdRegles.className = "gauche";
-    tdRegles.textContent = arme.regles || "-";
+    if (arme.regles && arme.regles !== "-") {
+      arme.regles.split(",").forEach((token, i) => {
+        const intitule = token.trim();
+        if (i > 0) tdRegles.appendChild(document.createTextNode(", "));
+
+        const definition = trouverDefinitionRegle(intitule);
+        if (!definition) {
+          tdRegles.appendChild(document.createTextNode(intitule));
+          return;
+        }
+
+        const tag = document.createElement("span");
+        tag.className = "regle-tag";
+        tag.tabIndex = 0;
+        tag.textContent = intitule;
+
+        const bulle = document.createElement("span");
+        bulle.className = "tooltip";
+        bulle.textContent = definition;
+        tag.appendChild(bulle);
+
+        tdRegles.appendChild(tag);
+      });
+    } else {
+      tdRegles.textContent = "-";
+    }
     tr.appendChild(tdRegles);
 
     const tdTraits = document.createElement("td");
@@ -1612,4 +1612,9 @@ document.addEventListener("DOMContentLoaded", () => {
   afficherArmes("armes-tir", ENTETES_TIR, ARMES_TIR);
   afficherArmes("armes-melee", ENTETES_MELEE, ARMES_MELEE);
   activerRechercheArmes();
+
+  // Les .regle-tag viennent d'être créées ci-dessus : on relance le
+  // câblage d'accessibilité des info-bulles (voir js/main.js), dont le
+  // propre passage au DOMContentLoaded a déjà eu lieu à ce stade.
+  if (window.cablerInfoBulles) window.cablerInfoBulles();
 });

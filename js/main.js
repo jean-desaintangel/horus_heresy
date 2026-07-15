@@ -1,9 +1,39 @@
 /* ============================================================
    main.js — Scripts communs à toutes les pages
-   Auteur : Jean · Modifié : 2026-07-14
+   Auteur : Jean · Modifié : 2026-07-15
    Rôle   : menu mobile, accordéons, timeline, sections repliables.
    Dépend : aucun (vanilla JS) — stylé par css/style.css.
    ============================================================ */
+
+/* ----------------------------------------------------------
+   ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
+   Chaque case .orga-boite (organigramme, armee.html) et chaque
+   .regle-tag (règles spéciales des tables d'armes, armes.html) est
+   focalisable (tabindex="0") et révèle une description au focus. On
+   associe la description à son déclencheur via aria-describedby pour
+   qu'un lecteur d'écran l'annonce.
+   Pas de role="button" : un « bouton » devrait réagir à Entrée/Espace
+   (WCAG 2.1.1) alors qu'ici la bulle s'affiche dès la prise de focus —
+   c'est le pattern « tooltip », pas « bouton ». Annoncer un bouton
+   inerte serait une promesse non tenue pour l'utilisateur d'AT.
+   Exposée sur window : js/armes.js construit ses .regle-tag après le
+   DOMContentLoaded de ce fichier (scripts chargés en defer, exécutés
+   dans l'ordre du document) et doit pouvoir relancer le câblage une
+   fois ses éléments en place.
+   ---------------------------------------------------------- */
+let compteurInfoBulle = 0;
+function cablerInfoBulles(racine) {
+  (racine || document)
+    .querySelectorAll(".orga-boite, .regle-tag")
+    .forEach((declencheur) => {
+      const bulle = declencheur.querySelector(".tooltip");
+      if (!bulle) return;
+      if (!bulle.id) bulle.id = "tooltip-" + compteurInfoBulle++;
+      bulle.setAttribute("role", "tooltip");
+      declencheur.setAttribute("aria-describedby", bulle.id);
+    });
+}
+window.cablerInfoBulles = cablerInfoBulles;
 
 document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
@@ -38,23 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".chevron")
     .forEach((c) => c.setAttribute("aria-hidden", "true"));
 
-  /* ----------------------------------------------------------
-     ACCESSIBILITÉ — info-bulles de l'organigramme (WCAG 1.3.1 / 4.1.2)
-     Chaque case .orga-boite est focalisable (tabindex="0" dans le HTML)
-     et révèle une description au focus. On associe la description à la
-     case via aria-describedby pour qu'un lecteur d'écran l'annonce.
-     Pas de role="button" : un « bouton » devrait réagir à Entrée/Espace
-     (WCAG 2.1.1) alors qu'ici la bulle s'affiche dès la prise de focus —
-     c'est le pattern « tooltip », pas « bouton ». Annoncer un bouton
-     inerte serait une promesse non tenue pour l'utilisateur d'AT.
-     ---------------------------------------------------------- */
-  document.querySelectorAll(".orga-boite").forEach((boite, i) => {
-    const bulle = boite.querySelector(".tooltip");
-    if (!bulle) return;
-    if (!bulle.id) bulle.id = "tooltip-orga-" + i;
-    bulle.setAttribute("role", "tooltip");
-    boite.setAttribute("aria-describedby", bulle.id);
-  });
+  // Câblage initial : couvre les .orga-boite/.regle-tag déjà présentes
+  // dans le HTML au chargement (voir définition de cablerInfoBulles
+  // plus haut dans ce fichier).
+  cablerInfoBulles();
 
   /* ----------------------------------------------------------
      ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)
@@ -65,7 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       e.key === "Escape" &&
       document.activeElement &&
-      document.activeElement.classList.contains("orga-boite")
+      (document.activeElement.classList.contains("orga-boite") ||
+        document.activeElement.classList.contains("regle-tag"))
     ) {
       document.activeElement.blur();
     }

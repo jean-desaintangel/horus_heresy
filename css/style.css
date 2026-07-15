@@ -537,8 +537,11 @@ strong {
 /* Tooltip descriptif : caché par défaut (opacity 0 + visibility
    hidden, pas display:none, pour permettre la transition en
    fondu) et révélé uniquement par les sélecteurs :hover/:focus
-   ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet. */
-.orga-boite .tooltip {
+   ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet.
+   Partagé par .orga-boite (organigramme, armee.html) et .regle-tag
+   (règles spéciales des tables d'armes, armes.html). */
+.orga-boite .tooltip,
+.regle-tag .tooltip {
   visibility: hidden;
   opacity: 0;
   /* Base mobile : la bulle s'affiche en bandeau fixé en bas d'écran,
@@ -563,14 +566,17 @@ strong {
 }
 
 .orga-boite:hover .tooltip,
-.orga-boite:focus .tooltip {
+.orga-boite:focus .tooltip,
+.regle-tag:hover .tooltip,
+.regle-tag:focus .tooltip {
   visibility: visible;
   opacity: 1;
 }
 
 /* Grand écran : la bulle flotte au-dessus de sa case, centrée */
 @media (min-width: 601px) {
-  .orga-boite .tooltip {
+  .orga-boite .tooltip,
+  .regle-tag .tooltip {
     position: absolute;
     bottom: calc(100% + 8px);
     left: 50%;
@@ -578,6 +584,22 @@ strong {
     transform: translateX(-50%);
     width: 260px;
   }
+}
+
+/* Règle spéciale inline (tables d'armes) avec la même info-bulle que
+   .orga-boite, mais habillée pour tenir dans le texte d'une cellule
+   de tableau plutôt que comme une boîte à part entière. */
+.regle-tag {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--acier-clair);
+  transition: color var(--transition);
+}
+
+.regle-tag:hover,
+.regle-tag:focus-within {
+  color: var(--titre);
+  border-bottom-color: var(--titre);
 }
 
 .orga-fleche {
@@ -1174,12 +1196,6 @@ button:focus-visible,
   border-bottom: 1px solid var(--acier);
   padding-bottom: 0.3rem;
   margin-bottom: 0.5rem;
-}
-
-.arme-intro {
-  font-size: 0.92rem;
-  color: var(--texte-doux);
-  margin-bottom: 0.7rem;
 }
 
 .arme-note {
