@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Règles spéciales</title>
+    <title>Arsenal des Légions Astartes</title>
     <meta
       name="description"
-      content="Référence rapide des règles spéciales Horus Heresy 3e édition : règles d'armes (Sonner, Brèche, Fusion...) et règles diverses (Frappe en profondeur, Peur...), avec recherche instantanée."
+      content="Arsenal des Légions Astartes pour Horus Heresy 3e édition : toutes les armes de tir et de mêlée (portée, profils, règles spéciales, traits), avec recherche instantanée."
     />
     <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
          vers Google Fonts) ; préchargement de la police du texte courant. -->
@@ -24,14 +24,14 @@
     <meta property="og:locale" content="fr_FR" />
     <meta
       property="og:title"
-      content="Règles spéciales — Horus Heresy, guide d’initiation"
+      content="Arsenal des Légions Astartes — Horus Heresy, guide d’initiation"
     />
     <meta
       property="og:description"
-      content="Référence rapide des règles spéciales Horus Heresy 3e édition, avec recherche instantanée."
+      content="Toutes les armes de tir et de mêlée d'Horus Heresy 3e édition, avec recherche instantanée."
     />
     <script src="../js/main.js" defer></script>
-    <script src="../js/regles.js" defer></script>
+    <script src="../js/armes.js" defer></script>
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -58,10 +58,8 @@
             <li>
               <a href="statuts-reactions.html">Statuts &amp; Réactions</a>
             </li>
-            <li>
-              <a href="regles.html" aria-current="page">Règles spéciales</a>
-            </li>
-            <li><a href="armes.html">Armes</a></li>
+            <li><a href="regles.html">Règles spéciales</a></li>
+            <li><a href="armes.html" aria-current="page">Armes</a></li>
             <li><a href="telechargement.html">Téléchargements</a></li>
           </ul>
         </nav>
@@ -70,16 +68,16 @@
 
     <main id="contenu">
       <h1 class="section-titre section-titre--centre titre-page">
-        Règles spéciales
+        Arsenal des Légions Astartes
       </h1>
 
-      <!-- Barre de recherche : le filtre est géré par js/regles.js -->
-      <label for="recherche" class="sr-only">Rechercher une règle</label>
+      <!-- Barre de recherche : le filtre est géré par js/armes.js -->
+      <label for="recherche" class="sr-only">Rechercher une arme</label>
       <input
         type="text"
         id="recherche"
         class="barre-recherche"
-        placeholder="Rechercher une règle… (ex : fusion, peur, brèche)"
+        placeholder="Rechercher une arme… (ex : bolter, plasma, tronçonneuse)"
         autocomplete="off"
       />
       <p
@@ -92,27 +90,35 @@
 
       <div class="encadre">
         <p>
-          <strong>Rappel :</strong> ces résumés sont simplifiés mais c’est le
-          livre de règles qui fait référence.
+          <strong>Rappel :</strong> ces tables sont une retranscription
+          manuelle, mais c’est le livre de règles qui fait référence en cas de
+          doute.
+        </p>
+        <p>
+          Certains profils d’arme sont signalés par un <strong>*</strong>.
+          Quand le Joueur en Contrôle choisit cette arme pour attaquer, il ne
+          peut utiliser ces profils que s’il a sélectionné l’option
+          d’Équipement ad hoc dans l’entrée d’Unité de la figurine qui
+          attaque.
         </p>
       </div>
 
-      <!-- ===================== RÈGLES D’ARMES =====================
+      <!-- ===================== ARMES DE TIR =====================
            Les h2 rétablissent la hiérarchie de titres (h1 > h2 > h3 :
-           les cartes générées par js/regles.js sont des h3) et donnent
-           un intitulé perceptible à chaque section. Le filtre de
-           recherche masque le groupe entier (titre compris) quand
-           aucune règle ne correspond. -->
-      <section class="groupe-regles" id="armes">
-        <h2 class="section-titre">Règles d’armes</h2>
-        <!-- Les cartes de règles sont générées par js/regles.js -->
-        <div id="regles-armes"></div>
+           les catégories générées par js/armes.js sont des h3) et
+           donnent un intitulé perceptible à chaque grande section. Le
+           filtre de recherche masque la section entière (titre compris)
+           quand aucune arme ne correspond. -->
+      <section class="groupe-regles" id="tir">
+        <h2 class="section-titre">Armes de Tir</h2>
+        <!-- Les catégories et leurs tables sont générées par js/armes.js -->
+        <div id="armes-tir"></div>
       </section>
 
-      <!-- ===================== RÈGLES DIVERSES ===================== -->
-      <section class="groupe-regles" id="diverses">
-        <h2 class="section-titre">Règles diverses</h2>
-        <div id="regles-diverses"></div>
+      <!-- ===================== ARMES DE MÊLÉE ===================== -->
+      <section class="groupe-regles" id="melee">
+        <h2 class="section-titre">Armes de Mêlée</h2>
+        <div id="armes-melee"></div>
       </section>
     </main>
 
@@ -122,7 +128,7 @@
           >Guide non officiel réalisé par des fans bénévoles
           francophones.</strong
         >
-        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
         sont des marques déposées de
         <a
           href="https://www.games-workshop.com"
