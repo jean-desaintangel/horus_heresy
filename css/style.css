@@ -1154,13 +1154,6 @@ button:focus-visible,
   font-size: 0.95rem;
 }
 
-.regle .exemple {
-  margin-top: 0.45rem;
-  font-size: 0.88rem;
-  color: var(--texte-doux);
-  font-style: italic;
-}
-
 .regle.cachee {
   display: none;
 }
