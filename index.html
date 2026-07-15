@@ -20,7 +20,7 @@
       crossorigin
     />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" type="image/png" href="assets/img/eye-of-horus-64.png" />
+    <link rel="icon" type="image/png" href="assets/img/eye-of-horus.png" />
     <!-- Métadonnées de partage (Open Graph) pour Discord, forums...
          og:image exige une URL ABSOLUE : compléter avec le domaine
          définitif au moment de la mise en ligne. -->
@@ -61,7 +61,7 @@
               <a href="pages/statuts-reactions.html">Statuts &amp; Réactions</a>
             </li>
             <li><a href="pages/regles.html">Règles spéciales</a></li>
-            <li><a href="pages/pense-bete.html">Pense-bête</a></li>
+            <li><a href="pages/telechargement.html">Téléchargements</a></li>
           </ul>
         </nav>
       </div>
@@ -75,18 +75,15 @@
           <p class="devise">Horus Heresy 3<sup>e</sup> édition</p>
         </div>
         <div class="hero-image">
-          <!-- WebP (−93 % vs le PNG d'origine) avec repli JPEG.
+          <!-- WebP (−93 % vs le PNG d'origine).
                width/height : le navigateur réserve l'espace avant le
                chargement et évite le décalage de mise en page (CLS). -->
-          <picture>
-            <source srcset="assets/img/hero.webp" type="image/webp" />
-            <img
-              src="assets/img/hero.jpg"
-              width="800"
-              height="1219"
-              alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
-            />
-          </picture>
+          <img
+            src="assets/img/hero.webp"
+            width="800"
+            height="1219"
+            alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
+          />
         </div>
       </section>
     </main>
