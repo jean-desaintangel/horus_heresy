@@ -1155,18 +1155,20 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
-     UNITÉS — ÉTAT-MAJOR (ESCOUADES D'ÉTAT-MAJOR)
-     Escouades d'accompagnement (Champion + Élus/Vétérans), à ne
-     pas confondre avec les personnages seuls ci-dessus. Le
-     Centurion et les deux Prétoriennes partagent le même gabarit
-     d'options (bolter / pistolet bolter / mêlée du champion) via
-     `optionsEscouadeEtatMajorVeteran`, complété par les options
-     propres à chaque escouade (étendard, équipement de Légion…).
+     UNITÉS — SUITE (ESCOUADES D'ÉTAT-MAJOR)
+     Catégorie de Force Organisationnelle "Suite" : escouades
+     d'accompagnement (Champion + Élus/Vétérans), à ne pas
+     confondre avec les personnages seuls de la catégorie
+     "État-major" ci-dessus. Le Centurion et les deux Prétoriennes
+     partagent le même gabarit d'options (bolter / pistolet bolter
+     / mêlée du champion) via `optionsEscouadeEtatMajorVeteran`,
+     complété par les options propres à chaque escouade (étendard,
+     équipement de Légion…).
      ---------------------------------------------------------- */
   {
     id: "escouade-etat-major-cataphractii",
     nom: "Escouade d'État-Major Terminator Cataphractii",
-    categorie: "État-major",
+    categorie: "Suite",
     cout: 140,
     composition: "1 Champion Élu Cataphractii, 2 Élus Cataphractii",
     effectif: { base: 3, max: 12, cout: 40 },
@@ -1233,7 +1235,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-tartaros",
     nom: "Escouade d'État-Major Terminator Tartaros",
-    categorie: "État-major",
+    categorie: "Suite",
     cout: 140,
     composition: "1 Champion Élu Tartaros, 2 Élus Tartaros",
     effectif: { base: 3, max: 10, cout: 40 },
@@ -1300,7 +1302,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-centurion",
     nom: "Escouade d'État-Major de Centurion",
-    categorie: "État-major",
+    categorie: "Suite",
     cout: 85,
     composition: "1 Champion Vétéran, 4 Vétérans",
     effectif: { base: 5, max: 10, cout: 15 },
@@ -1365,7 +1367,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-pretorienne-reacteurs",
     nom: "Escouade d'État-Major Prétorienne à Réacteurs",
-    categorie: "État-major",
+    categorie: "Suite",
     cout: 160,
     composition: "1 Champion Élu à Réacteurs, 4 Élus à Réacteurs",
     effectif: { base: 5, max: 10, cout: 25 },
@@ -1396,7 +1398,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-pretorienne",
     nom: "Escouade d'État-Major Prétorienne",
-    categorie: "État-major",
+    categorie: "Suite",
     cout: 130,
     composition: "1 Champion Élu, 4 Élu",
     effectif: { base: 5, max: 10, cout: 20 },
