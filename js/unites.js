@@ -319,6 +319,100 @@ function construireLigneFiche(titre, elements) {
   return p;
 }
 
+/* ----------------------------------------------------------
+   CARACTÉRISTIQUES D'ARMES (js/armes-data.js) — affichées en
+   info-bulle sur le nom de l'arme dans la ligne "Équipement" de
+   la fiche récap, avec le même mécanisme que les tags de règles
+   de la page Arsenal (.regle-tag / .tooltip, voir css/style.css
+   et js/main.js::cablerInfoBulles).
+   Correspondance par sous-chaîne (insensible à la casse, nom le
+   plus long d'abord pour préférer « Bolter lourd » à « Bolter ») :
+   certains noms d'armes propres aux véhicules ne correspondent pas
+   exactement à l'Arsenal (pluriels, montage spécifique) — dans ce
+   cas le texte reste affiché tel quel, sans info-bulle.
+   ---------------------------------------------------------- */
+let indexArmes = null;
+
+function construireIndexArmes() {
+  const index = [];
+  const ajouter = (categories, entetes) => {
+    for (const categorie of categories) {
+      for (const arme of categorie.armes) {
+        index.push({ nom: arme.nom, entetes, stats: arme.stats, regles: arme.regles, traits: arme.traits });
+      }
+    }
+  };
+  if (typeof ARMES_TIR !== "undefined") ajouter(ARMES_TIR, ENTETES_TIR);
+  if (typeof ARMES_MELEE !== "undefined") ajouter(ARMES_MELEE, ENTETES_MELEE);
+  index.sort((a, b) => b.nom.length - a.nom.length);
+  return index;
+}
+
+// Cherche l'arme de l'Arsenal la plus pertinente apparaissant dans
+// `texte` : l'occurrence la plus à gauche l'emporte (le nom de l'arme
+// réellement équipée vient toujours avant tout texte parenthétique
+// du type « (à la place de… ) »), et à position égale, le nom le plus
+// long l'emporte (« Bolter lourd » plutôt que « Bolter »).
+// Retourne { avant, trouve, apres, arme } (segments pour reconstruire
+// le texte autour du nom d'arme) ou null si aucune arme ne correspond.
+function trouverArmeDansTexte(texte) {
+  if (!indexArmes) indexArmes = construireIndexArmes();
+  const brut = texte.toLowerCase();
+  let meilleur = null;
+  for (const arme of indexArmes) {
+    const i = brut.indexOf(arme.nom.toLowerCase());
+    if (i === -1) continue;
+    if (!meilleur || i < meilleur.i || (i === meilleur.i && arme.nom.length > meilleur.arme.nom.length)) {
+      meilleur = { i, arme };
+    }
+  }
+  if (!meilleur) return null;
+  const { i, arme } = meilleur;
+  return {
+    avant: texte.slice(0, i),
+    trouve: texte.slice(i, i + arme.nom.length),
+    apres: texte.slice(i + arme.nom.length),
+    arme,
+  };
+}
+
+// Texte de l'info-bulle : caractéristiques (colonnes de l'Arsenal)
+// puis règles spéciales et traits, si renseignés.
+function texteInfoBulleArme(arme) {
+  let texte = arme.entetes.map((entete, i) => entete + " " + arme.stats[i]).join(" · ");
+  if (arme.regles && arme.regles !== "-") texte += " — Règles : " + arme.regles;
+  if (arme.traits && arme.traits !== "-") texte += " (" + arme.traits + ")";
+  return texte;
+}
+
+// Ajoute `texte` à `conteneur`, en habillant le nom de l'arme reconnue
+// (s'il y en a une) d'un .regle-tag portant ses caractéristiques.
+function ajouterElementEquipement(conteneur, texte) {
+  const correspondance = trouverArmeDansTexte(texte);
+  if (!correspondance) {
+    conteneur.appendChild(document.createTextNode(texte));
+    return;
+  }
+  conteneur.appendChild(document.createTextNode(correspondance.avant));
+  const tag = el("span", "regle-tag", correspondance.trouve);
+  tag.tabIndex = 0;
+  tag.appendChild(el("span", "tooltip", texteInfoBulleArme(correspondance.arme)));
+  conteneur.appendChild(tag);
+  conteneur.appendChild(document.createTextNode(correspondance.apres));
+}
+
+// Comme construireLigneFiche, mais réservée à la ligne "Équipement" :
+// habille chaque nom d'arme reconnu d'une info-bulle (voir ci-dessus).
+function construireLigneEquipement(titre, elements) {
+  const p = el("p", "fiche-ligne");
+  p.appendChild(el("strong", null, titre + " : "));
+  elements.forEach((element, i) => {
+    if (i > 0) p.appendChild(document.createTextNode(" · "));
+    ajouterElementEquipement(p, element);
+  });
+  return p;
+}
+
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
 function construireFiche(unite, instance) {
   const fiche = el("div", "unite-fiche");
@@ -333,7 +427,7 @@ function construireFiche(unite, instance) {
     );
   }
   fiche.appendChild(
-    construireLigneFiche(unite.equipementLibelle || "Équipement", equipementFinal(unite, instance)),
+    construireLigneEquipement(unite.equipementLibelle || "Équipement", equipementFinal(unite, instance)),
   );
   fiche.appendChild(construireLigneFiche("Traits", unite.traits));
   fiche.appendChild(construireLigneFiche("Règles spéciales", variante.regles));
@@ -404,6 +498,9 @@ function actualiserCarte(carte, unite, instance) {
   const ancienneFiche = carte.querySelector(".unite-fiche");
   ancienneFiche.replaceWith(construireFiche(unite, instance));
   carte.querySelector(".unite-points").textContent = coutInstance(unite, instance) + " pts";
+  // Les .regle-tag des caractéristiques d'armes viennent d'être créés :
+  // on relance le câblage d'accessibilité des info-bulles (voir js/main.js).
+  if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
 
   // 4. Total général + sauvegarde.
   actualiserTotal();
