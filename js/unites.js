@@ -33,6 +33,26 @@ const CLE_STOCKAGE = "hh-fiche-unites";
 const ENTETES_PROFIL = ["M", "CC", "CT", "F", "E", "PV", "I", "A", "Cd", "Sf", "Vo", "Int", "Sv", "Inv"];
 const ENTETES_VEHICULE = ["M", "CT", "Blindage Avant", "Flanc", "Arrière", "PC", "Capacité de Transport"];
 
+// Ordre d'affichage des catégories dans le menu de sélection,
+// indépendant de leur ordre d'apparition dans UNITES. Une catégorie
+// absente de cette liste est simplement affichée après les autres.
+const ORDRE_CATEGORIES = [
+  "Quartier Général",
+  "État-major",
+  "Suite",
+  "Elite",
+  "Assaut Lourd",
+  "Troupes",
+  "Appui",
+  "Engins de Guerre",
+  "Transports",
+  "Transports Lourds",
+  "Reco",
+  "Attaque Rapide",
+  "Blindés",
+  "Seigneur de Bataille",
+];
+
 /* ----------------------------------------------------------
    OUTILS DONNÉES
    ---------------------------------------------------------- */
@@ -612,8 +632,12 @@ function initialiser() {
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
 
-  // Menu de sélection groupé par catégorie (QG / État-major).
-  const categories = [...new Set(UNITES.map((u) => u.categorie))];
+  // Menu de sélection groupé par catégorie, trié selon ORDRE_CATEGORIES.
+  const categories = [...new Set(UNITES.map((u) => u.categorie))].sort((a, b) => {
+    const ia = ORDRE_CATEGORIES.indexOf(a);
+    const ib = ORDRE_CATEGORIES.indexOf(b);
+    return (ia === -1 ? ORDRE_CATEGORIES.length : ia) - (ib === -1 ? ORDRE_CATEGORIES.length : ib);
+  });
   for (const categorie of categories) {
     const groupe = document.createElement("optgroup");
     groupe.label = categorie;
