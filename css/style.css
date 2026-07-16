@@ -239,7 +239,7 @@ img {
   top: 0.5rem;
   right: 1rem;
   background: none;
-  border: 1px solid var(--acier);
+  border: none;
   border-radius: var(--radius);
   color: var(--titre);
   font-size: 1.4rem;
@@ -1338,4 +1338,301 @@ footer {
 
 footer p {
   margin: 0.2rem 0;
+}
+
+/* ============================================================
+   FICHES D'UNITÉS — configurateur (page unites.html)
+   Générées par js/unites.js à partir de js/unites-data.js :
+   une carte par unité ajoutée (formulaire d'options + fiche
+   récap), total général recalculé en direct, et impression
+   possible (voir le bloc @media print en fin de section).
+   ============================================================ */
+.unites-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.unites-selection label {
+  font-weight: 700;
+}
+
+.unites-selection select {
+  flex: 1 1 260px;
+  max-width: 100%;
+  padding: 0.55rem 0.7rem;
+  font-family: "Lato", sans-serif;
+  font-size: 0.95rem;
+  background: var(--carte);
+  color: var(--texte);
+  border: 2px solid var(--acier-clair);
+  border-radius: var(--radius);
+}
+
+/* Boutons d'action de la page (ajout, impression, vidage). */
+.bouton-principal,
+.bouton-secondaire {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border-radius: var(--radius);
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.bouton-principal {
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+}
+
+.bouton-principal:hover,
+.bouton-principal:focus-visible {
+  background: var(--accent-clair);
+  border-color: var(--accent-clair);
+}
+
+.bouton-secondaire {
+  background: var(--carte);
+  color: var(--texte-doux);
+  border: 1px solid var(--acier);
+}
+
+.bouton-secondaire:hover,
+.bouton-secondaire:focus-visible {
+  border-color: var(--titre);
+  color: var(--titre-contraste);
+}
+
+/* Barre « total + actions » : le total reste lisible d'un coup
+   d'œil pendant que l'on configure les unités. */
+.unites-barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.2rem;
+  background: var(--fond-secondaire);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.unites-barre p {
+  margin: 0;
+  font-weight: 700;
+  color: var(--titre-contraste);
+}
+
+.unites-barre-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ---------- Carte d'unité ---------- */
+.unite-carte {
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-top: 5px solid var(--titre);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.4rem;
+  box-shadow: var(--ombre);
+}
+
+.unite-carte-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.unite-carte-entete h3 {
+  font-size: 1.25rem;
+  color: var(--titre-contraste);
+  flex-grow: 1;
+}
+
+/* Badge de coût : mis à jour en direct par js/unites.js. */
+.unite-points {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+}
+
+.unite-retirer {
+  font-family: "Lato", sans-serif;
+  font-size: 0.85rem;
+  background: var(--carte);
+  color: var(--texte-doux);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.unite-retirer:hover,
+.unite-retirer:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.unite-composition {
+  font-size: 0.88rem;
+  color: var(--texte-doux);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+
+/* ---------- Formulaire de configuration ---------- */
+.unite-config fieldset {
+  border: 1px dashed var(--acier);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.unite-config legend {
+  font-weight: 700;
+  color: var(--titre-contraste);
+  padding: 0 0.4rem;
+}
+
+.option-ligne {
+  display: block;
+  margin: 0.45rem 0;
+  font-size: 0.93rem;
+}
+
+.option-ligne label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.option-ligne select {
+  width: 100%;
+  max-width: 34rem;
+  padding: 0.4rem 0.6rem;
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  background: var(--carte);
+  color: var(--texte);
+  border: 1px solid var(--acier-clair);
+  border-radius: var(--radius);
+}
+
+/* Champ grisé = option impossible dans la configuration actuelle
+   (ex : baïonnette alors que le bolter a été remplacé). */
+.unite-config select:disabled,
+.unite-config input:disabled,
+.unite-config input:disabled + * {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.option-multi-titre {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.option-multi-case {
+  display: block;
+  margin: 0.25rem 0 0.25rem 1rem;
+}
+
+/* Champs numériques (effectif d'escouade, échanges « par tranche
+   de cinq figurines ») : compacts, alignés sous leur libellé. */
+.unite-config input[type="number"] {
+  width: 5.5rem;
+  padding: 0.35rem 0.5rem;
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  background: var(--carte);
+  color: var(--texte);
+  border: 1px solid var(--acier-clair);
+  border-radius: var(--radius);
+}
+
+.unite-config input[type="checkbox"],
+.unite-config input[type="radio"] {
+  width: 1.05rem;
+  height: 1.05rem;
+  cursor: pointer;
+  vertical-align: -0.15rem;
+}
+
+/* ---------- Fiche récap ---------- */
+.unite-fiche {
+  border-top: 1px solid var(--acier);
+  padding-top: 0.7rem;
+}
+
+.unite-fiche .table-scroll {
+  margin: 0.4rem 0 0.8rem;
+}
+
+.table-profil th,
+.table-profil td {
+  padding: 0.45rem 0.55rem;
+  text-align: center;
+  border: 1px solid var(--fond-secondaire);
+}
+
+.table-profil th {
+  background: var(--fond-secondaire);
+  color: var(--titre-contraste);
+}
+
+.fiche-ligne {
+  font-size: 0.93rem;
+  margin-bottom: 0.35rem;
+}
+
+/* ---------- Impression de la fiche récap ----------
+   À l'impression (bouton « Imprimer » ou Ctrl+P), on ne garde
+   que l'essentiel : les fiches et le total. La navigation, les
+   formulaires de configuration et les boutons disparaissent. */
+@media print {
+  .nav,
+  footer,
+  .encadre,
+  .lien-evitement,
+  .unites-selection,
+  .unites-barre-actions,
+  .unite-config,
+  .unite-retirer {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .unites-barre {
+    border: none;
+    padding: 0;
+  }
+
+  .unite-carte {
+    box-shadow: none;
+    border: 1px solid #000;
+    break-inside: avoid;
+    margin-bottom: 0.8rem;
+  }
 }

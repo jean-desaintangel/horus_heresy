@@ -1,0 +1,2276 @@
+/* ============================================================
+   unites-data.js — Données des unités QG / État-major
+   Auteur : Jean · Créé : 2026-07-16
+   Rôle   : encode les fiches d'unités du livre d'armée des
+   Legiones Astartes (Quartier Général et État-major) ainsi que
+   les Listes d'Équipement (p. 21). Aucune logique de rendu :
+   les données sont consommées par js/unites.js (page unites.html).
+   Dépend : aucun (vanilla JS). Doit être chargé avant js/unites.js.
+   Transcription manuelle depuis le livre d'armée : en cas de
+   doute, c'est toujours le livre qui fait référence.
+   ============================================================
+
+   MODÈLE DE DONNÉES (pour les étudiants) :
+
+   Une unité = {
+     id          : identifiant unique (sert aux ancres et au DOM),
+     nom         : nom affiché,
+     categorie   : "Quartier Général" ou "État-major",
+     cout        : coût de base en Points,
+     composition : rappel de la composition d'unité,
+     traits      : liste de chaînes,
+     equipement  : équipement de départ (liste de chaînes),
+     variantes   : [{ nom, cout, profil, regles, type }, ...]
+                   (au moins 1 ; ex : Praetor / Praetor à Réacteurs),
+     options     : liste d'options (voir ci-dessous).
+   }
+
+   Un profil = { M, CC, CT, F, E, PV, I, A, Cd, Sf, Vo, Int, Sv, Inv }
+   Un profil de véhicule = { M, CT, avant, flanc, arriere, PC, transport }
+
+   Types d'options :
+   - "choix" : menu déroulant. `remplace` = équipement retiré quand
+     un choix (autre que « conserver ») est sélectionné. Chaque choix
+     = { nom, cout } (+ éventuellement `remplace` propre au choix).
+     `ajoute: true` = le choix s'ajoute sans rien remplacer.
+   - "case"  : case à cocher simple. { cout, ajoute }.
+   - "paire" : case à cocher qui remplace PLUSIEURS équipements
+     à la fois (ex : paire de griffes Lightning). { cout, ajoute,
+     remplaceListe: [...] }.
+   - "multi" : plusieurs cases à cocher, limitées à `max` choix
+     (ex : Disciplines Psychiques de l'Archiviste).
+   Champs communs facultatifs :
+   - variantesExclues : indices de variantes qui n'ont PAS accès
+     à l'option (ex : cyber-familier interdit aux Réacteurs).
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   LISTES D'ÉQUIPEMENT (p. 21)
+   Réutilisées par plusieurs unités via leurs options.
+   ---------------------------------------------------------- */
+const LISTES_EQUIPEMENT = {
+  officier: {
+    nom: "Équipement d'Officier de Légion",
+    items: [
+      { nom: "Pistolet bolter", cout: 0 },
+      { nom: "Épée tronçonneuse", cout: 0 },
+      { nom: "Bolter", cout: 0 },
+      { nom: "Serpentine volkite", cout: 5 },
+      { nom: "Lance-flammes léger", cout: 5 },
+      { nom: "Pistolet à plasma", cout: 5 },
+      { nom: "Pistolet désintégrateur", cout: 5 },
+      { nom: "Hache tronçonneuse", cout: 0 },
+      { nom: "Sabre charnabal", cout: 5 },
+      { nom: "Arme énergétique", cout: 10 },
+      { nom: "Gantelet énergétique", cout: 15 },
+      { nom: "Griffe Lightning", cout: 10 },
+      { nom: "Marteau Thunder", cout: 15 },
+      { nom: "Bouclier de combat", cout: 0 },
+      { nom: "Bouclier d'abordage", cout: 5 },
+    ],
+  },
+  meleeTerminator: {
+    nom: "Armes de Mêlée de Terminator de Légion",
+    items: [
+      { nom: "Griffe Lightning", cout: 5 },
+      { nom: "Gantelet énergétique", cout: 10 },
+      { nom: "Poing tronçonneur", cout: 10 },
+      { nom: "Marteau Thunder", cout: 10 },
+    ],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion",
+    items: [
+      { nom: "Épée tronçonneuse", cout: 0 },
+      { nom: "Hache tronçonneuse", cout: 0 },
+      { nom: "Sabre charnabal", cout: 5 },
+      { nom: "Arme énergétique", cout: 10 },
+      { nom: "Marteau Thunder", cout: 15 },
+      { nom: "Gantelet énergétique", cout: 15 },
+      { nom: "Griffe Lightning", cout: 10 },
+    ],
+  },
+  pistolets: {
+    nom: "Pistolets de Légion",
+    items: [
+      { nom: "Pistolet à plasma", cout: 5 },
+      { nom: "Lance-flammes léger", cout: 5 },
+      { nom: "Serpentine volkite", cout: 5 },
+    ],
+  },
+  combinees: {
+    nom: "Armes Combinées de Légion",
+    items: [
+      { nom: "Combi-bolter", cout: 5 },
+      { nom: "Combi-lance-flammes", cout: 10 },
+      { nom: "Combi-fuseur", cout: 10 },
+      { nom: "Combi-plasma", cout: 10 },
+      { nom: "Combi-volkite", cout: 10 },
+      { nom: "Combi-lance-grenades", cout: 10 },
+      { nom: "Combi-désintégrateur", cout: 10 },
+      { nom: "Combi-grav", cout: 10 },
+    ],
+  },
+  speciales: {
+    nom: "Armes Spéciales de Légion",
+    items: [
+      { nom: "Lance-flammes", cout: 5 },
+      { nom: "Fusil à plasma", cout: 10 },
+      { nom: "Fuseur", cout: 15 },
+      { nom: "Chargeur volkite", cout: 5 },
+      { nom: "Arquebuse volkite", cout: 10 },
+      { nom: "Canon rotor", cout: 10 },
+    ],
+  },
+  lourdes: {
+    nom: "Armes Lourdes de Légion",
+    items: [
+      { nom: "Bolter lourd", cout: 10 },
+      { nom: "Lance-flammes lourd", cout: 10 },
+      { nom: "Autocanon", cout: 20 },
+      { nom: "Lance-missiles", cout: 15 },
+      { nom: "Multi-fuseur", cout: 25 },
+      { nom: "Canon à plasma", cout: 20 },
+      { nom: "Couleuvrine volkite", cout: 15 },
+      { nom: "Canon laser", cout: 25 },
+    ],
+  },
+  pivot: {
+    nom: "Armes sur Pivot de Légion",
+    items: [
+      { nom: "Combi-bolter sur Pivot", cout: 5 },
+      { nom: "Combi-lance-flammes sur Pivot", cout: 10 },
+      { nom: "Combi-plasma sur Pivot", cout: 10 },
+      { nom: "Combi-fuseur sur Pivot", cout: 10 },
+      { nom: "Combi-volkite sur Pivot", cout: 10 },
+      { nom: "Lanceur Havoc sur Pivot", cout: 5 },
+      { nom: "Bolter lourd sur Pivot", cout: 10 },
+      { nom: "Lance-flammes lourd sur Pivot", cout: 10 },
+      { nom: "Multi-fuseur sur Pivot", cout: 25 },
+    ],
+  },
+};
+
+/* ----------------------------------------------------------
+   PETITES FABRIQUES (évitent le copier-coller)
+   ---------------------------------------------------------- */
+
+// Copie les items d'une ou plusieurs listes d'équipement en un
+// tableau de choix pour une option "choix".
+function depuisListes(...listes) {
+  const choix = [];
+  for (const liste of listes) {
+    for (const item of liste.items) {
+      choix.push({ nom: item.nom + " (liste " + liste.nom + ")", cout: item.cout });
+    }
+  }
+  return choix;
+}
+
+// Option récurrente : bombes à fusion (+5 Points).
+function optionBombesFusion() {
+  return {
+    type: "case",
+    id: "bombes-fusion",
+    libelle: "Bombes à fusion",
+    cout: 5,
+    ajoute: "Bombes à fusion",
+  };
+}
+
+// Option récurrente : baïonnette (uniquement si le bolter est conservé).
+function optionBaionnette() {
+  return {
+    type: "choix",
+    id: "baionnette",
+    libelle: "Baïonnette (uniquement si la Figurine a un bolter)",
+    requiertEquip: "Bolter",
+    ajoute: true,
+    choix: [
+      { nom: "Aucune", cout: 0 },
+      { nom: "Baïonnette", cout: 1 },
+      { nom: "Baïonnette tronçonneuse", cout: 2 },
+    ],
+  };
+}
+
+/* ----------------------------------------------------------
+   UNITÉS — QUARTIER GÉNÉRAL
+   ---------------------------------------------------------- */
+const UNITES = [
+  {
+    id: "praetor",
+    nom: "Praetor",
+    categorie: "Quartier Général",
+    cout: 120,
+    composition: "1 Praetor",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Maître de la Légion"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Praetor",
+        cout: 0,
+        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 4, PV: 4, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+      {
+        nom: "Praetor à Réacteurs",
+        cout: 20,
+        profil: { M: 12, CC: 6, CT: 5, F: 4, E: 4, PV: 4, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        regles: ["Massif (2)", "Frappe en Profondeur"],
+        type: "Infanterie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Remplacer le bolter",
+        remplace: "Bolter",
+        choix: [
+          { nom: "— Conserver le bolter —", cout: 0 },
+          { nom: "Lame de parangon", cout: 15 },
+          { nom: "Pistolet archéotech", cout: 15 },
+          { nom: "Fusil à pompe Astartes", cout: 2 },
+          { nom: "Chargeur volkite", cout: 2 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier, LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          { nom: "Lame de parangon", cout: 15 },
+          { nom: "Pistolet archéotech", cout: 15 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        cout: 20,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Bolter", "Pistolet bolter"],
+      },
+      optionBombesFusion(),
+      optionBaionnette(),
+      {
+        type: "case",
+        id: "cyber-familier",
+        libelle: "Cyber-familier (interdit au Praetor à Réacteurs)",
+        cout: 10,
+        ajoute: "Cyber-familier",
+        variantesExclues: [1],
+      },
+    ],
+  },
+
+  {
+    id: "praetor-terminator",
+    nom: "Praetor en Armure Terminator",
+    categorie: "Quartier Général",
+    cout: 145,
+    composition: "1 Praetor Cataphractii",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Maître de la Légion"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Praetor Cataphractii",
+        cout: 0,
+        profil: { M: 6, CC: 6, CT: 5, F: 4, E: 5, PV: 5, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique"],
+        type: "Infanterie (État-major, Lourd)",
+      },
+      {
+        nom: "Praetor Tartaros",
+        cout: 10,
+        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 5, PV: 5, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        regles: ["Massif (2)", "Avance Implacable"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "combi-bolter",
+        libelle: "Remplacer le combi-bolter",
+        remplace: "Combi-bolter",
+        choix: [
+          { nom: "— Conserver le combi-bolter —", cout: 0 },
+          { nom: "Chargeur volkite", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-energetique",
+        libelle: "Remplacer l'arme énergétique",
+        remplace: "Arme énergétique",
+        choix: [
+          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          { nom: "Lame de parangon", cout: 15 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle: "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
+        cout: 5,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+      },
+    ],
+  },
+
+  {
+    id: "praetor-saturnine",
+    nom: "Praetor en Armure Terminator Saturnine",
+    categorie: "Quartier Général",
+    cout: 200,
+    composition: "1 Praetor Saturnine",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Maître de la Légion"],
+    equipement: [
+      "Hache de guerre Saturnine",
+      "Poing disrupteur Saturnine",
+      "Champ de diffraction thermique",
+    ],
+    variantes: [
+      {
+        nom: "Praetor Saturnine",
+        cout: 0,
+        profil: { M: 5, CC: 6, CT: 5, F: 4, E: 6, PV: 6, I: 4, A: 4, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        regles: ["Massif (4)", "Avance Implacable", "Lent et Méthodique"],
+        type: "Infanterie (État-major, Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "marteau",
+        libelle: "Marteau commotionneur Saturnine (remplace la hache OU le poing)",
+        choix: [
+          { nom: "— Aucun remplacement —", cout: 0 },
+          {
+            nom: "Marteau commotionneur Saturnine (remplace la hache de guerre)",
+            cout: 10,
+            remplace: "Hache de guerre Saturnine",
+          },
+          {
+            nom: "Marteau commotionneur Saturnine (remplace le poing disrupteur)",
+            cout: 10,
+            remplace: "Poing disrupteur Saturnine",
+          },
+        ],
+      },
+      {
+        type: "case",
+        id: "eclateur",
+        libelle: "Éclateur à plasma",
+        cout: 10,
+        ajoute: "Éclateur à plasma",
+      },
+      {
+        type: "case",
+        id: "transpondeur",
+        libelle:
+          "Transpondeur de téléportation Saturnine (donne Frappe en Profondeur)",
+        cout: 60,
+        ajoute: "Transpondeur de téléportation Saturnine",
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — ÉTAT-MAJOR
+     ---------------------------------------------------------- */
+  {
+    id: "centurion",
+    nom: "Centurion",
+    categorie: "État-major",
+    cout: 80,
+    composition: "1 Centurion",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Centurion",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Officier de Ligne (2)"],
+        type: "Infanterie (État-major)",
+      },
+      {
+        nom: "Centurion à Réacteurs",
+        cout: 20,
+        profil: { M: 12, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Officier de Ligne (2)", "Massif (2)", "Frappe en Profondeur"],
+        type: "Infanterie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Remplacer le bolter",
+        remplace: "Bolter",
+        choix: [
+          { nom: "— Conserver le bolter —", cout: 0 },
+          { nom: "Fusil à pompe Astartes", cout: 2 },
+          { nom: "Chargeur volkite", cout: 2 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier, LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        cout: 20,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Bolter", "Pistolet bolter"],
+      },
+      optionBombesFusion(),
+      optionBaionnette(),
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Vexillum (interdit au Centurion à Réacteurs)",
+        cout: 10,
+        ajoute: "Vexillum",
+        variantesExclues: [1],
+      },
+      {
+        type: "case",
+        id: "cyber-familier",
+        libelle: "Cyber-familier (interdit au Centurion à Réacteurs)",
+        cout: 10,
+        ajoute: "Cyber-familier",
+        variantesExclues: [1],
+      },
+    ],
+  },
+
+  {
+    id: "centurion-terminator",
+    nom: "Centurion en Armure Terminator",
+    categorie: "État-major",
+    cout: 100,
+    composition: "1 Centurion Cataphractii",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Centurion Cataphractii",
+        cout: 0,
+        profil: { M: 6, CC: 5, CT: 5, F: 4, E: 5, PV: 4, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "4+" },
+        regles: ["Officier de Ligne (2)", "Massif (2)", "Avance Implacable", "Lent et Méthodique"],
+        type: "Infanterie (État-major, Lourd)",
+      },
+      {
+        nom: "Centurion Tartaros",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 5, PV: 4, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Officier de Ligne (2)", "Massif (2)", "Avance Implacable"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "combi-bolter",
+        libelle: "Remplacer le combi-bolter",
+        remplace: "Combi-bolter",
+        choix: [
+          { nom: "— Conserver le combi-bolter —", cout: 0 },
+          { nom: "Chargeur volkite", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-energetique",
+        libelle: "Remplacer l'arme énergétique",
+        remplace: "Arme énergétique",
+        choix: [
+          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle: "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
+        cout: 5,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+      },
+    ],
+  },
+
+  {
+    id: "optae",
+    nom: "Optae",
+    categorie: "État-major",
+    cout: 50,
+    composition: "1 Optae",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Optae",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "3+", Inv: "—" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+      {
+        nom: "Optae à Réacteurs",
+        cout: 20,
+        profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "3+", Inv: "—" },
+        regles: ["Massif (2)", "Frappe en Profondeur"],
+        type: "Infanterie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Remplacer le bolter",
+        remplace: "Bolter",
+        choix: [
+          { nom: "— Conserver le bolter —", cout: 0 },
+          { nom: "Fusil à pompe Astartes", cout: 2 },
+          { nom: "Chargeur volkite", cout: 2 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          { nom: "Pistolet désintégrateur", cout: 5 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        cout: 20,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Bolter", "Pistolet bolter"],
+      },
+      optionBombesFusion(),
+      optionBaionnette(),
+    ],
+  },
+
+  {
+    id: "rhino-damocles",
+    nom: "Rhino d'État-major Damocles",
+    categorie: "État-major",
+    cout: 120,
+    composition: "1 Rhino d'État-major Damocles",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    /* Le livre liste « Deux bolters sur Pivot » : on l'éclate en
+       deux lignes pour pouvoir les remplacer indépendamment. */
+    equipement: ["Bolter sur Pivot n°1", "Bolter sur Pivot n°2", "Relais vox d'état-major"],
+    notes: "Un Point d'Accès sur chaque Flanc et à l'Arrière.",
+    variantes: [
+      {
+        nom: "Rhino d'État-major Damocles",
+        cout: 0,
+        profilVehicule: { M: 12, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: 6 },
+        regles: ["Transport Léger", "Autoréparation (5+)", "Véhicule d'État-major Mobile"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      /* Le livre autorise : chaque bolter sur Pivot → combi-bolter
+         sur Pivot (+5), et UN SEUL des deux bolters → un objet de la
+         liste des Armes sur Pivot. On modélise donc : pivot n°1 =
+         liste complète, pivot n°2 = combi-bolter uniquement. */
+      {
+        type: "choix",
+        id: "pivot-1",
+        libelle: "Remplacer le premier bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°1",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot-2",
+        libelle: "Remplacer le second bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°2",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          { nom: "Combi-bolter sur Pivot", cout: 5 },
+        ],
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 10,
+        ajoute: "Missile traqueur de Coque (Avant)",
+      },
+    ],
+  },
+
+  {
+    id: "archiviste",
+    nom: "Archiviste",
+    categorie: "État-major",
+    cout: 85,
+    composition: "1 Archiviste",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Psyker"],
+    equipement: ["Arme de force", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Archiviste",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 8, Sf: 7, Vo: 9, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Biomancie", cout: 20 },
+          { nom: "Pyromancie", cout: 10 },
+          { nom: "Télékinésie", cout: 20 },
+          { nom: "Divination", cout: 20 },
+          { nom: "Thaumaturgie", cout: 0 },
+          { nom: "Télépathie", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "champion",
+    nom: "Champion de Légion",
+    categorie: "État-major",
+    cout: 105,
+    composition: "1 Champion de Légion",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Lame de parangon", "Serpentine volkite", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Champion de Légion",
+        cout: 0,
+        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 5, Cd: 8, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Ne Jamais Céder"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "serpentine",
+        libelle: "Remplacer la serpentine volkite",
+        remplace: "Serpentine volkite",
+        choix: [
+          { nom: "— Conserver la serpentine volkite —", cout: 0 },
+          { nom: "Combi-fuseur", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "vigilator",
+    nom: "Vigilator",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Vigilator",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Fusil Némésis", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Vigilator",
+        cout: 0,
+        profil: { M: 7, CC: 4, CT: 7, F: 4, E: 4, PV: 3, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Infiltration (9)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "esoteriste",
+    nom: "Ésotériste",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Ésotériste",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Psyker", "Anathemata"],
+    equipement: ["Arme de force", "Pistolet archéotech", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Ésotériste",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 7, Sf: 8, Vo: 10, Int: 8, Sv: "2+", Inv: "5+" },
+        // Connaît d'office la Discipline Psychique Anathemata :
+        // Peur (1), Arme Psychique « Dards du Néant », et selon le
+        // Trait : Réaction « Sceller le Voile » (Loyaliste) ou
+        // Pouvoir « Déchirer le Voile » (Renégat).
+        regles: ["Discipline Anathemata"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "maitre-signaux",
+    nom: "Maître des Signaux",
+    categorie: "État-major",
+    cout: 115,
+    composition: "1 Maître des Signaux",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Grenades Frag", "Grenades Krak", "Relais vox d'état-major"],
+    variantes: [
+      {
+        nom: "Maître des Signaux",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 8, Sf: 7, Vo: 7, Int: 10, Sv: "2+", Inv: "5+" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "praevius",
+    nom: "Praevius",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Praevius",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Contrôleur de cortex",
+      "Cyber-familier",
+    ],
+    variantes: [
+      {
+        nom: "Praevius",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 9, Sv: "2+", Inv: "5+" },
+        regles: ["Guerrier-artisan (1)", "Insensible à la Douleur (5+)", "Maître des Automates"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "moritat",
+    nom: "Moritat",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Moritat",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Deux serpentines volkites suralimentées",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Grenades Rad",
+    ],
+    variantes: [
+      {
+        nom: "Moritat",
+        cout: 0,
+        profil: { M: 12, CC: 4, CT: 6, F: 4, E: 4, PV: 3, I: 5, A: 3, Cd: 8, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Massif (2)", "Frappe en Profondeur", "Orage de Feu"],
+        type: "Infanterie (Spécialiste, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "serpentines",
+        libelle: "Remplacer les deux serpentines volkites suralimentées",
+        remplace: "Deux serpentines volkites suralimentées",
+        choix: [
+          { nom: "— Conserver les serpentines volkites —", cout: 0 },
+          { nom: "Deux pistolets à plasma suralimentés", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "briseur-siege",
+    nom: "Briseur de Siège",
+    categorie: "État-major",
+    cout: 115,
+    composition: "1 Briseur de Siège",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Pistolet bolter",
+      "Marteau Thunder",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Bombes à phosphex",
+      "Cognis-signum",
+      "Scanner augure",
+    ],
+    variantes: [
+      {
+        nom: "Briseur de Siège",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major, Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          { nom: "Pistolet désintégrateur", cout: 5 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "superviseur",
+    nom: "Superviseur",
+    categorie: "État-major",
+    cout: 85,
+    composition: "1 Superviseur",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Fouet énergétique", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Superviseur",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Peur (1)", "Maître des Auxilia"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "fouet",
+        libelle: "Remplacer le fouet énergétique",
+        remplace: "Fouet énergétique",
+        choix: [
+          { nom: "— Conserver le fouet énergétique —", cout: 0 },
+          { nom: "Masse énergétique", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Vexillum",
+        cout: 10,
+        ajoute: "Vexillum",
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "heraut",
+    nom: "Héraut",
+    categorie: "État-major",
+    cout: 100,
+    composition: "1 Héraut",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Arme énergétique",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Icône du Primarque",
+    ],
+    variantes: [
+      {
+        nom: "Héraut",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        regles: ["Peur (1)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-energetique",
+        libelle: "Remplacer l'arme énergétique",
+        remplace: "Arme énergétique",
+        choix: [
+          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          { nom: "Gantelet énergétique", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "chapelain",
+    nom: "Chapelain",
+    categorie: "État-major",
+    cout: 80,
+    composition: "1 Chapelain",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Crozius Arcanum", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Chapelain",
+        cout: 0,
+        profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 10, Vo: 8, Int: 7, Sv: "2+", Inv: "5+" },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — ASSAUT LOURD (escouades Terminator)
+     « Toute Figurine peut échanger… » est modélisé en champs
+     quantité : le budget (groupe "tir" / "melee") est la taille
+     de l'unité (parTranche: 1).
+     ---------------------------------------------------------- */
+  {
+    id: "terminators-cataphractii",
+    nom: "Escouade Terminator Cataphractii",
+    categorie: "Assaut Lourd",
+    cout: 150,
+    composition: "1 Sergent Terminator Cataphractii, 4 Terminators Cataphractii",
+    effectif: { base: 5, max: 12, cout: 30 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Chargeur volkite", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Escouade Terminator Cataphractii",
+        cout: 0,
+        profils: [
+          { nom: "Terminator Cataphractii", profil: { M: 6, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          { nom: "Sergent Terminator Cataphractii", profil: { M: 6, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+        ],
+        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique", "Avant-garde (3)"],
+        type: "Sergent : Infanterie (Sergent, Lourd) · Terminator : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "combi-bolters",
+        libelle: "Figurines échangeant leur chargeur volkite contre un combi-bolter",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Combi-bolter (à la place du chargeur volkite)",
+      },
+      {
+        type: "quantite",
+        id: "armes-combinees",
+        libelle:
+          "Figurines prenant une Arme Combinée de Légion au choix (combi-lance-flammes, combi-fuseur, combi-plasma…)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
+      },
+      {
+        type: "quantite",
+        id: "griffes-l",
+        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Griffe Lightning",
+      },
+      {
+        type: "quantite",
+        id: "gantelets",
+        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Gantelet énergétique",
+      },
+      {
+        type: "quantite",
+        id: "poings-t",
+        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Poing tronçonneur",
+      },
+      {
+        type: "quantite",
+        id: "marteaux",
+        libelle: "Figurines : marteau Thunder (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Marteau Thunder",
+      },
+      {
+        type: "quantite",
+        id: "paires-griffes",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "harnais",
+        libelle: "Sergent : harnais à grenades",
+        cout: 5,
+        ajoute: "Sergent : harnais à grenades",
+      },
+      {
+        type: "quantite",
+        id: "lance-flammes-lourds",
+        libelle: "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Lance-flammes lourd (à la place du chargeur volkite)",
+      },
+      {
+        type: "quantite",
+        id: "autocanons-reaper",
+        libelle: "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
+        cout: 15,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Autocanon Reaper (à la place du chargeur volkite)",
+      },
+      {
+        type: "quantite",
+        id: "eclateurs",
+        libelle: "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Éclateur à plasma (à la place du chargeur volkite)",
+      },
+    ],
+  },
+
+  {
+    id: "terminators-tartaros",
+    nom: "Escouade Terminator Tartaros",
+    categorie: "Assaut Lourd",
+    cout: 150,
+    composition: "1 Sergent Terminator Tartaros, 4 Terminators Tartaros",
+    effectif: { base: 5, max: 10, cout: 30 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Escouade Terminator Tartaros",
+        cout: 0,
+        profils: [
+          { nom: "Terminator Tartaros", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+          { nom: "Sergent Terminator Tartaros", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+        ],
+        regles: ["Massif (2)", "Avance Implacable", "Avant-garde (3)"],
+        type: "Sergent : Infanterie (Sergent) · Terminator : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "chargeurs-volkites",
+        libelle: "Figurines échangeant leur combi-bolter contre un chargeur volkite",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Chargeur volkite (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "armes-combinees",
+        libelle:
+          "Figurines prenant une Arme Combinée de Légion au choix (combi-lance-flammes, combi-fuseur, combi-plasma…)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "griffes-l",
+        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Griffe Lightning",
+      },
+      {
+        type: "quantite",
+        id: "gantelets",
+        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Gantelet énergétique",
+      },
+      {
+        type: "quantite",
+        id: "poings-t",
+        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Poing tronçonneur",
+      },
+      {
+        type: "quantite",
+        id: "marteaux",
+        libelle: "Figurines : marteau Thunder (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Marteau Thunder",
+      },
+      {
+        type: "quantite",
+        id: "paires-griffes",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "harnais",
+        libelle: "Sergent : harnais à grenades",
+        cout: 5,
+        ajoute: "Sergent : harnais à grenades",
+      },
+      {
+        type: "quantite",
+        id: "lance-flammes-lourds",
+        libelle: "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "autocanons-reaper",
+        libelle: "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
+        cout: 15,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Autocanon Reaper (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "eclateurs",
+        libelle: "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "lourde",
+        ajoute: "Éclateur à plasma (à la place du combi-bolter)",
+      },
+    ],
+  },
+
+  {
+    id: "terminators-saturnine",
+    nom: "Escouade Terminator Saturnine",
+    categorie: "Assaut Lourd",
+    cout: 200,
+    composition: "1 Sergent Terminator Saturnine, 2 Terminators Saturnine",
+    effectif: { base: 3, max: 6, cout: 60 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Bombarde à plasma",
+      "Poing disrupteur Saturnine",
+      "Auspex de ciblage Occulix",
+      "Champ de diffraction thermique",
+    ],
+    variantes: [
+      {
+        nom: "Escouade Terminator Saturnine",
+        cout: 0,
+        profils: [
+          { nom: "Terminator Saturnine", profil: { M: 5, CC: 4, CT: 4, F: 4, E: 6, PV: 3, I: 3, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          { nom: "Sergent Terminator Saturnine", profil: { M: 5, CC: 4, CT: 4, F: 4, E: 6, PV: 3, I: 3, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+        ],
+        regles: ["Massif (4)", "Explose (6+)", "Avance Implacable", "Lent et Méthodique"],
+        type: "Sergent : Infanterie (Sergent, Lourd) · Terminator : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "bombardes-poing",
+        libelle: "Figurines : bombarde à plasma à la place du poing disrupteur (gratuit)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "poing",
+        ajoute: "Bombarde à plasma (à la place du poing disrupteur)",
+      },
+      {
+        type: "quantite",
+        id: "desintegrateurs-poing",
+        libelle: "Figurines : désintégrateur lourd jumelé à la place du poing disrupteur",
+        cout: 10,
+        parTranche: 1,
+        groupe: "poing",
+        ajoute: "Désintégrateur lourd jumelé (à la place du poing disrupteur)",
+      },
+      {
+        type: "quantite",
+        id: "desintegrateurs-bombarde",
+        libelle: "Figurines : désintégrateur lourd jumelé à la place de la bombarde à plasma",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Désintégrateur lourd jumelé (à la place de la bombarde à plasma)",
+      },
+      {
+        type: "quantite",
+        id: "lacerateurs",
+        libelle: "Figurines avec poing disrupteur : lacérateur à particules",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Lacérateur à particules",
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — TROUPES (escouades à effectif variable)
+     Les options du Sergent sont en `ajoute: true` : l'équipement
+     de base listé est celui de CHAQUE figurine, la fiche précise
+     donc « Sergent : ... » pour ses échanges personnels.
+     ---------------------------------------------------------- */
+  {
+    id: "escouade-tactique",
+    nom: "Escouade Tactique",
+    categorie: "Troupes",
+    cout: 100,
+    composition: "1 Sergent, 9 Légionnaires",
+    effectif: { base: 10, max: 20, cout: 10 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade Tactique",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Fureur de la Légion", "Ligne (2)"],
+        type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-bolter",
+        libelle: "Sergent : remplacer son bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet",
+        libelle: "Sergent : remplacer son pistolet bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent : bombes à fusion",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Légionnaire : vexillum",
+        cout: 10,
+        ajoute: "Vexillum (un Légionnaire)",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "baionnettes",
+        libelle: "Toute l'unité : baïonnettes (figurines avec bolter)",
+        ajoute: true,
+        parFigurine: true,
+        prefixeFiche: "Toute l'unité : ",
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          { nom: "Baïonnettes", cout: 1 },
+          { nom: "Baïonnettes tronçonneuses", cout: 2 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "escouade-nettoyeuse",
+    nom: "Escouade Nettoyeuse",
+    categorie: "Troupes",
+    cout: 100,
+    composition: "1 Sergent Nettoyeur, 9 Légionnaires Nettoyeurs",
+    effectif: { base: 10, max: 20, cout: 10 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade Nettoyeuse",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire Nettoyeur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent Nettoyeur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Ligne (2)"],
+        type: "Sergent Nettoyeur : Infanterie (Sergent) · Légionnaire Nettoyeur : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-epee",
+        libelle: "Sergent : remplacer son épée tronçonneuse",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet",
+        libelle: "Sergent : remplacer son pistolet bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "sergent-griffes",
+        libelle:
+          "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse)",
+        cout: 10,
+        ajoute: "Sergent : paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent : bombes à fusion",
+      },
+      /* « Par tranche de cinq Figurines, UN Légionnaire Nettoyeur
+         peut échanger son épée tronçonneuse contre un des choix
+         suivants » : les trois options ci-dessous partagent donc
+         le même budget (groupe "epee"). */
+      {
+        type: "quantite",
+        id: "epees-lourdes",
+        libelle: "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "epee",
+        ajoute: "Épée tronçonneuse lourde (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "armes-energetiques",
+        libelle: "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "epee",
+        ajoute: "Arme énergétique (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "sabres",
+        libelle: "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "epee",
+        ajoute: "Sabre charnabal (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "pistolets-legion",
+        libelle:
+          "Légionnaires : pistolet de la liste des Pistolets de Légion (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        ajoute: "Pistolet de Légion (Légionnaire)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Légionnaire : vexillum",
+        cout: 10,
+        ajoute: "Vexillum (un Légionnaire)",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "escouade-assaut",
+    nom: "Escouade d'Assaut",
+    categorie: "Troupes",
+    cout: 140,
+    composition: "1 Sergent d'Assaut, 9 Légionnaires d'Assaut",
+    effectif: { base: 10, max: 20, cout: 12 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade d'Assaut",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire d'Assaut", profil: { M: 12, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent d'Assaut", profil: { M: 12, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Massif (2)", "Frappe en Profondeur", "Avant-garde (2)"],
+        type: "Sergent d'Assaut : Infanterie (Sergent, Antigrav) · Légionnaire d'Assaut : Infanterie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-epee",
+        libelle: "Sergent : remplacer son épée tronçonneuse",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet",
+        libelle: "Sergent : remplacer son pistolet bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Pistolet désintégrateur", cout: 5 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "sergent-griffes",
+        libelle:
+          "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse)",
+        cout: 10,
+        ajoute: "Sergent : paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent : bombes à fusion",
+      },
+      /* Budget partagé (groupe "melee") : par tranche de cinq
+         figurines, UN Légionnaire d'Assaut prend un de ces choix. */
+      {
+        type: "quantite",
+        id: "armes-energetiques",
+        libelle: "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "melee",
+        ajoute: "Arme énergétique (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "sabres",
+        libelle: "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "melee",
+        ajoute: "Sabre charnabal (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "epees-lourdes",
+        libelle: "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        groupe: "melee",
+        ajoute: "Épée tronçonneuse lourde (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "haches-lourdes",
+        libelle: "Légionnaires : hache tronçonneuse lourde (2 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        parTrancheMax: 2,
+        ajoute: "Hache tronçonneuse lourde (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "pistolets-legion",
+        libelle:
+          "Légionnaires : pistolet de la liste des Pistolets de Légion (1 par tranche de 5 figurines)",
+        cout: 5,
+        parTranche: 5,
+        ajoute: "Pistolet de Légion (Légionnaire)",
+      },
+      {
+        type: "case",
+        id: "haches",
+        libelle: "Toute l'unité : haches tronçonneuses au lieu des épées tronçonneuses",
+        cout: 0,
+        ajoute: "Haches tronçonneuses (toute l'unité, remplacent les épées)",
+      },
+      {
+        type: "case",
+        id: "boucliers",
+        libelle: "Toute l'unité : boucliers de combat au lieu des pistolets bolters",
+        cout: 2,
+        parFigurine: true,
+        ajoute: "Boucliers de combat (toute l'unité, remplacent les pistolets bolters)",
+      },
+    ],
+  },
+
+  {
+    id: "escouade-brecheuse",
+    nom: "Escouade Brécheuse",
+    categorie: "Troupes",
+    cout: 140,
+    composition: "1 Sergent Brécheur, 9 Légionnaires Brécheurs",
+    effectif: { base: 10, max: 20, cout: 12 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Bolter",
+      "Pistolet bolter",
+      "Bouclier d'abordage",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Escouade Brécheuse",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire Brécheur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "5+" } },
+          { nom: "Sergent Brécheur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "5+" } },
+        ],
+        regles: ["Ligne (1)"],
+        type: "Sergent Brécheur : Infanterie (Sergent, Lourd) · Légionnaire Brécheur : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-bolter",
+        libelle: "Sergent : remplacer son bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet",
+        libelle: "Sergent : remplacer son pistolet bolter",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent : bombes à fusion",
+      },
+      /* Budget partagé (groupe "bolter") : par tranche de cinq
+         figurines, UN Légionnaire Brécheur échange son bolter. */
+      {
+        type: "quantite",
+        id: "fusils-gravitons",
+        libelle: "Légionnaires : fusil à gravitons (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "bolter",
+        ajoute: "Fusil à gravitons (Légionnaire)",
+      },
+      {
+        type: "quantite",
+        id: "decoupeurs-laser",
+        libelle: "Légionnaires : découpeur laser (1 par tranche de 5 figurines)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "bolter",
+        ajoute: "Découpeur laser (Légionnaire)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Légionnaire : vexillum",
+        cout: 10,
+        ajoute: "Vexillum (un Légionnaire)",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — ENGINS DE GUERRE (Dreadnoughts)
+     Les bras à choisir sont modélisés comme équipement de base
+     (le choix gratuit du livre) + un menu de remplacement par
+     bras ; les « paires » à prix spécial du livre sont des
+     options de type "paire" qui remplacent les deux bras.
+     ---------------------------------------------------------- */
+  {
+    id: "dreadnought-contemptor",
+    nom: "Dreadnought Contemptor",
+    categorie: "Engins de Guerre",
+    cout: 150,
+    composition: "1 Dreadnought Contemptor",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+    variantes: [
+      {
+        nom: "Dreadnought Contemptor",
+        cout: 0,
+        profil: { M: 8, CC: 4, CT: 4, F: 7, E: 7, PV: 6, I: 4, A: 4, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        regles: ["Massif (6)", "Explose (5+)", "Avance Implacable"],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Bras n°1",
+        remplace: "Canon à bolts Gravis (bras n°1)",
+        choix: [
+          { nom: "— Canon à bolts Gravis (gratuit) —", cout: 0 },
+          { nom: "Poing énergétique Gravis et combi-bolter", cout: 5 },
+          { nom: "Poing tronçonneur Gravis et combi-bolter", cout: 5 },
+          { nom: "Canon à fusion Gravis", cout: 15 },
+          { nom: "Autocanon Gravis", cout: 10 },
+          { nom: "Canon à plasma Gravis", cout: 10 },
+          { nom: "Canon à conversion", cout: 20 },
+          { nom: "Couleuvrine volkite jumelée", cout: 15 },
+          { nom: "Canon d'assaut Kheres", cout: 15 },
+          { nom: "Canon laser jumelé", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Bras n°2",
+        remplace: "Canon à bolts Gravis (bras n°2)",
+        choix: [
+          { nom: "— Canon à bolts Gravis (gratuit) —", cout: 0 },
+          { nom: "Poing énergétique Gravis et combi-bolter", cout: 5 },
+          { nom: "Poing tronçonneur Gravis et combi-bolter", cout: 5 },
+          { nom: "Canon à fusion Gravis", cout: 15 },
+          { nom: "Autocanon Gravis", cout: 10 },
+          { nom: "Canon à plasma Gravis", cout: 10 },
+          { nom: "Canon à conversion", cout: 20 },
+          { nom: "Couleuvrine volkite jumelée", cout: 15 },
+          { nom: "Canon d'assaut Kheres", cout: 15 },
+          { nom: "Canon laser jumelé", cout: 15 },
+        ],
+      },
+      {
+        type: "paire",
+        id: "paire-poings-energetiques",
+        libelle: "Paire de poings énergétiques Gravis et deux combi-bolters (les deux bras)",
+        cout: 5,
+        ajoute: "Paire de poings énergétiques Gravis et deux combi-bolters",
+        remplaceListe: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+      },
+      {
+        type: "paire",
+        id: "paire-poings-tronconneurs",
+        libelle: "Paire de poings tronçonneurs Gravis et deux combi-bolters (les deux bras)",
+        cout: 5,
+        ajoute: "Paire de poings tronçonneurs Gravis et deux combi-bolters",
+        remplaceListe: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+      },
+      /* Échanges de combi-bolters : uniquement si un bras au moins
+         porte un combi-bolter (poings). */
+      {
+        type: "choix",
+        id: "combi-1",
+        libelle: "Remplacer un combi-bolter (si un poing en est équipé)",
+        ajoute: true,
+        requiertEquip: "combi-bolter",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Lance-flammes lourd (à la place d'un combi-bolter)", cout: 5 },
+          { nom: "Éclateur à plasma (à la place d'un combi-bolter)", cout: 10 },
+          { nom: "Fusil à gravitons (à la place d'un combi-bolter)", cout: 10 },
+          { nom: "Fuseur (à la place d'un combi-bolter)", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "combi-2",
+        libelle: "Remplacer le second combi-bolter (si présent)",
+        ajoute: true,
+        requiertEquip: "deux combi-bolters",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Lance-flammes lourd (à la place d'un combi-bolter)", cout: 5 },
+          { nom: "Éclateur à plasma (à la place d'un combi-bolter)", cout: 10 },
+          { nom: "Fusil à gravitons (à la place d'un combi-bolter)", cout: 10 },
+          { nom: "Fuseur (à la place d'un combi-bolter)", cout: 15 },
+        ],
+      },
+      {
+        type: "case",
+        id: "lanceur-havoc",
+        libelle: "Lanceur Havoc",
+        cout: 5,
+        ajoute: "Lanceur Havoc",
+      },
+    ],
+  },
+
+  {
+    id: "dreadnought-deredeo",
+    nom: "Dreadnought Deredeo",
+    categorie: "Engins de Guerre",
+    cout: 190,
+    composition: "1 Dreadnought Deredeo",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Batterie d'autocanons Anvilus", "Bolter lourd jumelé", "Lance-missiles Aiolos"],
+    variantes: [
+      {
+        nom: "Dreadnought Deredeo",
+        cout: 0,
+        profil: { M: 7, CC: 4, CT: 4, F: 6, E: 7, PV: 6, I: 4, A: 2, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        regles: ["Massif (7)", "Explose (5+)"],
+        type: "Marcheur (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "batterie",
+        libelle: "Remplacer la batterie d'autocanons Anvilus",
+        remplace: "Batterie d'autocanons Anvilus",
+        choix: [
+          { nom: "— Conserver la batterie d'autocanons Anvilus —", cout: 0 },
+          { nom: "Canonnade à plasma Hellfire", cout: 15 },
+          { nom: "Batterie laser lourde Arachnus", cout: 25 },
+          { nom: "Fauconneau volkite", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "missiles",
+        libelle: "Remplacer le lance-missiles Aiolos",
+        remplace: "Lance-missiles Aiolos",
+        choix: [
+          { nom: "— Conserver le lance-missiles Aiolos —", cout: 0 },
+          { nom: "Quatre missiles antiaériens Boreas", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bolter-lourd",
+        libelle: "Remplacer le bolter lourd jumelé",
+        remplace: "Bolter lourd jumelé",
+        choix: [
+          { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
+          { nom: "Lance-flammes lourd jumelé", cout: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "dreadnought-leviathan",
+    nom: "Dreadnought Leviathan",
+    categorie: "Engins de Guerre",
+    cout: 220,
+    composition: "1 Dreadnought Leviathan",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Pince de siège Leviathan et fuseur (bras n°1)",
+      "Pince de siège Leviathan et fuseur (bras n°2)",
+      "Deux lance-flammes lourds",
+    ],
+    variantes: [
+      {
+        nom: "Dreadnought Leviathan",
+        cout: 0,
+        profil: { M: 6, CC: 4, CT: 4, F: 8, E: 8, PV: 7, I: 4, A: 4, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        regles: ["Massif (7)", "Explose (5+)", "Avance Implacable"],
+        type: "Marcheur (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Bras n°1",
+        remplace: "Pince de siège Leviathan et fuseur (bras n°1)",
+        choix: [
+          { nom: "— Pince de siège Leviathan et fuseur (gratuit) —", cout: 0 },
+          { nom: "Trépan de siège Leviathan et fuseur", cout: 5 },
+          { nom: "Bombarde à graviflux", cout: 10 },
+          { nom: "Quadritube Leviathan", cout: 15 },
+          { nom: "Lance à fusion cyclonique", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Bras n°2",
+        remplace: "Pince de siège Leviathan et fuseur (bras n°2)",
+        choix: [
+          { nom: "— Pince de siège Leviathan et fuseur (gratuit) —", cout: 0 },
+          { nom: "Trépan de siège Leviathan et fuseur", cout: 5 },
+          { nom: "Bombarde à graviflux", cout: 10 },
+          { nom: "Quadritube Leviathan", cout: 15 },
+          { nom: "Lance à fusion cyclonique", cout: 20 },
+        ],
+      },
+      {
+        type: "paire",
+        id: "paire-pinces",
+        libelle: "Paire de pinces de siège Leviathan et deux fuseurs (les deux bras)",
+        cout: 5,
+        ajoute: "Paire de pinces de siège Leviathan et deux fuseurs",
+        remplaceListe: [
+          "Pince de siège Leviathan et fuseur (bras n°1)",
+          "Pince de siège Leviathan et fuseur (bras n°2)",
+        ],
+      },
+      {
+        type: "paire",
+        id: "paire-trepans",
+        libelle: "Paire de trépans de siège Leviathan et deux fuseurs (les deux bras)",
+        cout: 5,
+        ajoute: "Paire de trépans de siège Leviathan et deux fuseurs",
+        remplaceListe: [
+          "Pince de siège Leviathan et fuseur (bras n°1)",
+          "Pince de siège Leviathan et fuseur (bras n°2)",
+        ],
+      },
+      {
+        type: "choix",
+        id: "lance-flammes",
+        libelle: "Remplacer les deux lance-flammes lourds",
+        remplace: "Deux lance-flammes lourds",
+        choix: [
+          { nom: "— Conserver les deux lance-flammes lourds —", cout: 0 },
+          { nom: "Deux arquebuses volkites jumelées", cout: 15 },
+        ],
+      },
+      {
+        type: "case",
+        id: "dechargeur",
+        libelle: "Déchargeur à phosphex",
+        cout: 20,
+        ajoute: "Déchargeur à phosphex",
+      },
+    ],
+  },
+
+  {
+    id: "dreadnought-saturnine",
+    nom: "Dreadnought Saturnine",
+    categorie: "Engins de Guerre",
+    cout: 340,
+    composition: "1 Dreadnought Saturnine",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Canon désintégrateur",
+      "Bombarde à plasma lourde",
+      "Deux incinérateurs photoniques",
+      "Champ de diffraction thermique",
+    ],
+    variantes: [
+      {
+        nom: "Dreadnought Saturnine",
+        cout: 0,
+        profil: { M: 6, CC: 4, CT: 4, F: 8, E: 8, PV: 8, I: 3, A: 2, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "4+" },
+        regles: ["Massif (8)", "Explose (4+)"],
+        type: "Marcheur (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bombarde",
+        libelle: "Remplacer la bombarde à plasma lourde",
+        remplace: "Bombarde à plasma lourde",
+        choix: [
+          { nom: "— Conserver la bombarde à plasma lourde —", cout: 0 },
+          { nom: "Canon désintégrateur", cout: 10 },
+          { nom: "Canon à inversion", cout: 10 },
+          { nom: "Pulvériseur à gravitons", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "canon",
+        libelle: "Remplacer le canon désintégrateur",
+        remplace: "Canon désintégrateur",
+        choix: [
+          { nom: "— Conserver le canon désintégrateur —", cout: 0 },
+          { nom: "Bombarde à plasma lourde", cout: 0 },
+          { nom: "Canon à inversion", cout: 0 },
+          { nom: "Pulvériseur à gravitons", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "incinerateurs",
+        libelle: "Remplacer les deux incinérateurs photoniques",
+        remplace: "Deux incinérateurs photoniques",
+        choix: [
+          { nom: "— Conserver les deux incinérateurs photoniques —", cout: 0 },
+          { nom: "Deux résonateurs à commotion", cout: 10 },
+          { nom: "Deux lacérateurs à particules lourds", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — TRANSPORTS
+     ---------------------------------------------------------- */
+  {
+    id: "rhino",
+    nom: "Rhino",
+    categorie: "Transports",
+    cout: 60,
+    composition: "1 Rhino",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    /* « Deux bolters sur Pivot » éclatés en deux lignes pour les
+       remplacer indépendamment (comme le Rhino Damocles). */
+    equipement: ["Bolter sur Pivot n°1", "Bolter sur Pivot n°2"],
+    notes: "Un Point d'Accès sur chaque Flanc et à l'Arrière.",
+    variantes: [
+      {
+        nom: "Rhino",
+        cout: 0,
+        profilVehicule: { M: 12, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: 12 },
+        regles: ["Transport Léger", "Autoréparation (4+)"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      /* Chaque bolter → combi-bolter (+5) ; UN SEUL des deux peut
+         prendre la liste des Armes sur Pivot (pivot n°1 ici). */
+      {
+        type: "choix",
+        id: "pivot-1",
+        libelle: "Remplacer le premier bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°1",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot-2",
+        libelle: "Remplacer le second bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°2",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          { nom: "Combi-bolter sur Pivot", cout: 5 },
+        ],
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 10,
+        ajoute: "Missile traqueur de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "lame",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+    ],
+  },
+
+  {
+    id: "module-largage",
+    nom: "Module de Largage",
+    categorie: "Transports",
+    cout: 50,
+    composition: "1 Module de Largage",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Combi-bolter sur Pivot"],
+    notes: "Des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Module de Largage",
+        cout: 0,
+        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 4, transport: 10 },
+        regles: ["Transport Léger", "Véhicule d'Assaut Orbital", "Ouverture à l'Impact"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "termite",
+    nom: "Termite",
+    categorie: "Transports",
+    cout: 80,
+    composition: "1 Termite",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Deux combi-bolters sur Pivot", "Découpeurs à fusion d'Axe Central"],
+    notes: "Un Point d'Accès sur chaque Flanc.",
+    variantes: [
+      {
+        nom: "Termite",
+        cout: 0,
+        profilVehicule: { M: 6, CT: 4, avant: 12, flanc: 12, arriere: 10, PC: 5, transport: 12 },
+        regles: ["Transport Léger", "Frappe en Profondeur"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "combi-bolters",
+        libelle: "Remplacer les deux combi-bolters sur Pivot",
+        remplace: "Deux combi-bolters sur Pivot",
+        choix: [
+          { nom: "— Conserver les deux combi-bolters sur Pivot —", cout: 0 },
+          { nom: "Deux chargeurs volkites jumelés sur Pivot", cout: 10 },
+          { nom: "Deux lance-flammes lourds sur Pivot", cout: 5 },
+        ],
+      },
+    ],
+  },
+];
