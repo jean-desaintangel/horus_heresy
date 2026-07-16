@@ -89,6 +89,20 @@
         aria-atomic="true"
       ></p>
 
+      <!-- Sélection des armes jouées : chaque ligne de table porte une
+           case à cocher (voir js/armes.js), mémorisée dans le
+           navigateur. Cette case permet de n'afficher que les armes
+           sélectionnées. -->
+      <div class="armes-controles">
+        <label class="armes-filtre-selection" for="filtre-selection">
+          <input type="checkbox" id="filtre-selection" />
+          N’afficher que les armes sélectionnées
+        </label>
+        <button type="button" id="reinitialiser-selection" class="armes-bouton-reset">
+          Tout décocher
+        </button>
+      </div>
+
       <div class="encadre">
         <p>
           <strong>Rappel :</strong> ces tables sont une retranscription

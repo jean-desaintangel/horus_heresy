@@ -1210,6 +1210,59 @@ button:focus-visible,
   display: none;
 }
 
+.armes-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.armes-filtre-selection {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.armes-filtre-selection input {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+}
+
+.armes-bouton-reset {
+  font-family: "Lato", sans-serif;
+  font-size: 0.88rem;
+  background: var(--carte);
+  color: var(--texte-doux);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.armes-bouton-reset:hover,
+.armes-bouton-reset:focus-visible {
+  border-color: var(--titre);
+  color: var(--titre-contraste);
+}
+
+.col-selection {
+  width: 2.2rem;
+  text-align: center;
+}
+
+.col-selection input[type="checkbox"] {
+  width: 1.05rem;
+  height: 1.05rem;
+  cursor: pointer;
+}
+
 /* ============================================================
    PENSE-BÊTE — fiches téléchargeables (page pense-bete)
    ============================================================ */

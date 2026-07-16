@@ -1379,6 +1379,36 @@ const ARMES_MELEE = [
 ];
 
 /* ----------------------------------------------------------
+   SÉLECTION DES ARMES JOUÉES
+   Mémorisée dans le navigateur (localStorage) pour que le joueur
+   retrouve sa sélection d'une visite à l'autre.
+   ---------------------------------------------------------- */
+const CLE_SELECTION_ARMES = "hh-armes-selection";
+
+/** Ensemble des clés d'armes cochées (idConteneur::titreCategorie::nom). */
+let selectionArmes = new Set();
+
+function chargerSelectionArmes() {
+  try {
+    const brut = localStorage.getItem(CLE_SELECTION_ARMES);
+    return brut ? new Set(JSON.parse(brut)) : new Set();
+  } catch (erreur) {
+    return new Set();
+  }
+}
+
+function sauvegarderSelectionArmes() {
+  try {
+    localStorage.setItem(
+      CLE_SELECTION_ARMES,
+      JSON.stringify([...selectionArmes]),
+    );
+  } catch (erreur) {
+    /* stockage indisponible (navigation privée, quota…) : on ignore */
+  }
+}
+
+/* ----------------------------------------------------------
    RENDU DES TABLES D'ARMES
    ---------------------------------------------------------- */
 
@@ -1452,6 +1482,15 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   const thead = document.createElement("thead");
   const trEntete = document.createElement("tr");
 
+  const thSelection = document.createElement("th");
+  thSelection.scope = "col";
+  thSelection.className = "col-selection";
+  const libelleSelection = document.createElement("span");
+  libelleSelection.className = "sr-only";
+  libelleSelection.textContent = "Jouée";
+  thSelection.appendChild(libelleSelection);
+  trEntete.appendChild(thSelection);
+
   const thNom = document.createElement("th");
   thNom.scope = "col";
   thNom.className = "gauche";
@@ -1485,6 +1524,23 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   categorie.armes.forEach((arme) => {
     const tr = document.createElement("tr");
     tr.dataset.recherche = normaliserArme(arme.nom);
+
+    const tdSelection = document.createElement("td");
+    tdSelection.className = "col-selection";
+    const caseSelection = document.createElement("input");
+    caseSelection.type = "checkbox";
+    caseSelection.className = "case-selection";
+    const cleSelection = idConteneur + "::" + categorie.titre + "::" + arme.nom;
+    caseSelection.checked = selectionArmes.has(cleSelection);
+    caseSelection.setAttribute("aria-label", "Jouée : " + arme.nom);
+    caseSelection.addEventListener("change", () => {
+      if (caseSelection.checked) selectionArmes.add(cleSelection);
+      else selectionArmes.delete(cleSelection);
+      sauvegarderSelectionArmes();
+      appliquerFiltresArmes();
+    });
+    tdSelection.appendChild(caseSelection);
+    tr.appendChild(tdSelection);
 
     const thNomArme = document.createElement("th");
     thNomArme.scope = "row";
@@ -1560,58 +1616,93 @@ function afficherArmes(idConteneur, entetes, categories) {
 }
 
 /* ----------------------------------------------------------
-   FILTRE EN TEMPS RÉEL
-   Filtre chaque ligne d'arme, puis masque une catégorie entière
-   (titre + intro + table) si plus aucune de ses armes ne
-   correspond, puis masque une grande section (Tir/Mêlée) si plus
-   aucune de ses catégories n'est visible.
+   FILTRES (recherche + sélection) EN TEMPS RÉEL
+   Filtre chaque ligne d'arme selon la recherche textuelle et,
+   si activée, la case « N'afficher que les armes sélectionnées »,
+   puis masque une catégorie entière (titre + intro + table) si
+   plus aucune de ses armes ne correspond, puis masque une grande
+   section (Tir/Mêlée) si plus aucune de ses catégories n'est
+   visible.
    ---------------------------------------------------------- */
-function activerRechercheArmes() {
+function appliquerFiltresArmes() {
   const champ = document.getElementById("recherche");
   const compteur = document.getElementById("compteur");
-  if (!champ) return;
+  const filtreSelection = document.getElementById("filtre-selection");
+  const requete = champ ? normaliserArme(champ.value.trim()) : "";
+  const seulementSelection = filtreSelection ? filtreSelection.checked : false;
+  let visibles = 0;
 
-  champ.addEventListener("input", () => {
-    const requete = normaliserArme(champ.value.trim());
-    let visibles = 0;
+  document.querySelectorAll(".groupe-armes tbody tr").forEach((ligne) => {
+    const correspondRecherche = ligne.dataset.recherche.includes(requete);
+    const estSelectionnee = ligne.querySelector(".case-selection").checked;
+    const correspond =
+      correspondRecherche && (!seulementSelection || estSelectionnee);
+    ligne.classList.toggle("cachee", !correspond);
+    if (correspond) visibles++;
+  });
 
-    document.querySelectorAll(".groupe-armes tbody tr").forEach((ligne) => {
-      const correspond = ligne.dataset.recherche.includes(requete);
-      ligne.classList.toggle("cachee", !correspond);
-      if (correspond) visibles++;
-    });
+  document.querySelectorAll(".groupe-armes").forEach((groupe) => {
+    const resteVisible =
+      groupe.querySelector("tbody tr:not(.cachee)") !== null;
+    groupe.style.display = resteVisible ? "" : "none";
+  });
 
-    document.querySelectorAll(".groupe-armes").forEach((groupe) => {
-      const resteVisible =
-        groupe.querySelector("tbody tr:not(.cachee)") !== null;
-      groupe.style.display = resteVisible ? "" : "none";
-    });
+  // Une grande section (Armes de Tir / Armes de Mêlée) disparaît si
+  // aucune de ses catégories (.groupe-armes) n'est restée visible.
+  document.querySelectorAll(".groupe-regles").forEach((section) => {
+    const auMoinsUnGroupeVisible = Array.from(
+      section.querySelectorAll(".groupe-armes"),
+    ).some((groupe) => groupe.style.display !== "none");
+    section.style.display = auMoinsUnGroupeVisible ? "" : "none";
+  });
 
-    // Une grande section (Armes de Tir / Armes de Mêlée) disparaît si
-    // aucune de ses catégories (.groupe-armes) n'est restée visible.
-    document.querySelectorAll(".groupe-regles").forEach((section) => {
-      const auMoinsUnGroupeVisible = Array.from(
-        section.querySelectorAll(".groupe-armes"),
-      ).some((groupe) => groupe.style.display !== "none");
-      section.style.display = auMoinsUnGroupeVisible ? "" : "none";
-    });
-
-    if (compteur) {
-      const total = document.querySelectorAll(".groupe-armes tbody tr").length;
-      compteur.textContent = requete
+  if (compteur) {
+    const total = document.querySelectorAll(".groupe-armes tbody tr").length;
+    compteur.textContent =
+      requete || seulementSelection
         ? visibles + " arme(s) trouvée(s) sur " + total
         : "";
-    }
-  });
+  }
+}
+
+function activerRechercheArmes() {
+  const champ = document.getElementById("recherche");
+  if (!champ) return;
+  champ.addEventListener("input", appliquerFiltresArmes);
+}
+
+/** Câble la case « N'afficher que les armes sélectionnées » et le
+ * bouton « Tout décocher ». */
+function activerControlesSelectionArmes() {
+  const filtreSelection = document.getElementById("filtre-selection");
+  if (filtreSelection) {
+    filtreSelection.addEventListener("change", appliquerFiltresArmes);
+  }
+
+  const reinitialiser = document.getElementById("reinitialiser-selection");
+  if (reinitialiser) {
+    reinitialiser.addEventListener("click", () => {
+      selectionArmes.clear();
+      sauvegarderSelectionArmes();
+      document
+        .querySelectorAll(".case-selection")
+        .forEach((caseACocher) => (caseACocher.checked = false));
+      appliquerFiltresArmes();
+    });
+  }
 }
 
 /* ----------------------------------------------------------
    INITIALISATION
    ---------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
+  selectionArmes = chargerSelectionArmes();
+
   afficherArmes("armes-tir", ENTETES_TIR, ARMES_TIR);
   afficherArmes("armes-melee", ENTETES_MELEE, ARMES_MELEE);
   activerRechercheArmes();
+  activerControlesSelectionArmes();
+  appliquerFiltresArmes();
 
   // Les .regle-tag viennent d'être créées ci-dessus : on relance le
   // câblage d'accessibilité des info-bulles (voir js/main.js), dont le
