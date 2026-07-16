@@ -39,7 +39,7 @@ const ENTETES_VEHICULE = ["M", "CT", "Blindage Avant", "Flanc", "Arrière", "PC"
 const ORDRE_CATEGORIES = [
   "Quartier Général",
   "État-major",
-  "Suite",
+  "Suites",
   "Elite",
   "Assaut Lourd",
   "Troupes",
@@ -50,7 +50,7 @@ const ORDRE_CATEGORIES = [
   "Reco",
   "Attaque Rapide",
   "Blindés",
-  "Seigneur de Bataille",
+  "Seigneurs des Batailles",
 ];
 
 /* ----------------------------------------------------------

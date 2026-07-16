@@ -1228,8 +1228,8 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
-     UNITÉS — SUITE (ESCOUADES D'ÉTAT-MAJOR)
-     Catégorie de Force Organisationnelle "Suite" : escouades
+     UNITÉS — SUITES (ESCOUADES D'ÉTAT-MAJOR)
+     Catégorie de Force Organisationnelle "Suites" : escouades
      d'accompagnement (Champion + Élus/Vétérans), à ne pas
      confondre avec les personnages seuls de la catégorie
      "État-major" ci-dessus. Le Centurion et les deux Prétoriennes
@@ -1241,7 +1241,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-cataphractii",
     nom: "Escouade d'État-Major Terminator Cataphractii",
-    categorie: "Suite",
+    categorie: "Suites",
     cout: 140,
     composition: "1 Champion Élu Cataphractii, 2 Élus Cataphractii",
     effectif: { base: 3, max: 12, cout: 40 },
@@ -1308,7 +1308,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-tartaros",
     nom: "Escouade d'État-Major Terminator Tartaros",
-    categorie: "Suite",
+    categorie: "Suites",
     cout: 140,
     composition: "1 Champion Élu Tartaros, 2 Élus Tartaros",
     effectif: { base: 3, max: 10, cout: 40 },
@@ -1375,7 +1375,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-centurion",
     nom: "Escouade d'État-Major de Centurion",
-    categorie: "Suite",
+    categorie: "Suites",
     cout: 85,
     composition: "1 Champion Vétéran, 4 Vétérans",
     effectif: { base: 5, max: 10, cout: 15 },
@@ -1440,7 +1440,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-pretorienne-reacteurs",
     nom: "Escouade d'État-Major Prétorienne à Réacteurs",
-    categorie: "Suite",
+    categorie: "Suites",
     cout: 160,
     composition: "1 Champion Élu à Réacteurs, 4 Élus à Réacteurs",
     effectif: { base: 5, max: 10, cout: 25 },
@@ -1471,7 +1471,7 @@ const UNITES = [
   {
     id: "escouade-etat-major-pretorienne",
     nom: "Escouade d'État-Major Prétorienne",
-    categorie: "Suite",
+    categorie: "Suites",
     cout: 130,
     composition: "1 Champion Élu, 4 Élu",
     effectif: { base: 5, max: 10, cout: 20 },
@@ -4552,7 +4552,7 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
-     UNITÉS — SEIGNEUR DE BATAILLE (véhicules Super-lourds)
+     UNITÉS — SEIGNEURS DES BATAILLES (véhicules Super-lourds)
      Note de transcription : l'option « Cette Figurine peut
      échanger [...] contre un objet de la liste des Armes
      Latérales de Légion » (Mastodon, Typhon, Cerberus) n'a pas pu
@@ -4562,7 +4562,7 @@ const UNITES = [
   {
     id: "mastodon",
     nom: "Transport d'Assaut Super-lourd Mastodon",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 600,
     composition: "1 Transport d'Assaut Super-lourd Mastodon",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4585,7 +4585,7 @@ const UNITES = [
   {
     id: "stormbird-sokar",
     nom: "Stormbird Sokar",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 850,
     composition: "1 Stormbird Sokar",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
@@ -4633,7 +4633,7 @@ const UNITES = [
   {
     id: "escorteur-thunderhawk",
     nom: "Escorteur Thunderhawk",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 685,
     composition: "1 Escorteur Thunderhawk",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4660,7 +4660,7 @@ const UNITES = [
   {
     id: "falchion",
     nom: "Chasseur de Chars Super-lourd Falchion",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 650,
     composition: "1 Chasseur de Chars Super-lourd Falchion",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4693,7 +4693,7 @@ const UNITES = [
   {
     id: "fellblade",
     nom: "Char de Combat Super-lourd Fellblade",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 650,
     composition: "1 Char de Combat Super-lourd Fellblade",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4741,7 +4741,7 @@ const UNITES = [
   {
     id: "glaive",
     nom: "Char à Arme Spéciale Super-lourd Glaive",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 650,
     composition: "1 Char à Arme Spéciale Super-lourd Glaive",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4788,7 +4788,7 @@ const UNITES = [
   {
     id: "typhon",
     nom: "Char de Siège Lourd Typhon",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 400,
     composition: "1 Char de Siège Lourd Typhon",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
@@ -4811,7 +4811,7 @@ const UNITES = [
   {
     id: "cerberus",
     nom: "Chasseur de Chars Lourd Cerberus",
-    categorie: "Seigneur de Bataille",
+    categorie: "Seigneurs des Batailles",
     cout: 400,
     composition: "1 Chasseur de Chars Lourd Cerberus",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
