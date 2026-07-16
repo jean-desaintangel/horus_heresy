@@ -3430,6 +3430,153 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉS — TRANSPORTS LOURDS
+     ---------------------------------------------------------- */
+  {
+    id: "kharybdis",
+    nom: "Griffe d'Assaut Kharybdis",
+    categorie: "Transports Lourds",
+    cout: 235,
+    composition: "1 Griffe d'Assaut Kharybdis",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Lance-missiles Kharybdis de Tourelle"],
+    notes: "Cette Figurine a des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Griffe d'Assaut Kharybdis",
+        cout: 0,
+        profilVehicule: { M: 14, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 8, transport: 22 },
+        regles: ["Transport par Largage Lourd"],
+        type: "Véhicule (Aéronef, Transport)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "dreadclaw",
+    nom: "Module de Largage Dreadclaw",
+    categorie: "Transports Lourds",
+    cout: 115,
+    composition: "1 Module de Largage Dreadclaw",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Aucun"],
+    notes: "Cette Figurine a des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Module de Largage Dreadclaw",
+        cout: 0,
+        profilVehicule: { M: 15, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: 12 },
+        regles: ["Transport par Largage"],
+        type: "Véhicule (Aéronef, Transport)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "module-largage-dreadnought",
+    nom: "Module de Largage à Dreadnought",
+    categorie: "Transports Lourds",
+    cout: 100,
+    composition: "1 Module de Largage à Dreadnought",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Aucun"],
+    notes: "Cette Figurine a des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Module de Largage à Dreadnought",
+        cout: 0,
+        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: 7 },
+        regles: ["Transport à Dreadnought", "Véhicule d'Assaut Orbital", "Ouverture à l'Impact"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "spartan",
+    nom: "Spartan",
+    categorie: "Transports Lourds",
+    cout: 400,
+    composition: "1 Spartan",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Deux affûts de canons laser Latéraux", "Bolter lourd jumelé de Coque (Avant)"],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
+    variantes: [
+      {
+        nom: "Spartan",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 10, transport: 26 },
+        regles: ["Véhicule d'Assaut", "Autoréparation (4+)"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "affuts-lateraux",
+        libelle: "Remplacer les deux affûts de canons laser Latéraux",
+        remplace: "Deux affûts de canons laser Latéraux",
+        choix: [
+          { nom: "— Conserver les affûts de canons laser Latéraux —", cout: 0 },
+          { nom: "Deux destructeurs laser Latéraux", cout: 0 },
+          { nom: "Deux batteries de bolters lourds Gravis Latérales", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bolter-lourd-avant",
+        libelle: "Remplacer le bolter lourd jumelé de Coque (Avant)",
+        remplace: "Bolter lourd jumelé de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
+          { nom: "Lance-flammes lourd jumelé de Coque (Avant)", cout: 0 },
+          { nom: "Canon laser jumelé de Coque (Avant)", cout: 10 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsMissileEtProjecteurs(),
+    ],
+  },
+
+  {
+    id: "porteur-land-raider",
+    nom: "Porteur Land Raider",
+    categorie: "Transports Lourds",
+    cout: 265,
+    composition: "1 Porteur Land Raider",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Deux canons laser jumelés Latéraux", "Bolter lourd jumelé de Coque (Avant)"],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
+    variantes: [
+      {
+        nom: "Porteur Land Raider",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 8, transport: 12 },
+        regles: ["Véhicule d'Assaut", "Autoréparation (5+)"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter-lourd-avant",
+        libelle: "Remplacer le bolter lourd jumelé de Coque (Avant)",
+        remplace: "Bolter lourd jumelé de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
+          { nom: "Lance-flammes lourd jumelé de Coque (Avant)", cout: 0 },
+          { nom: "Canon laser jumelé de Coque (Avant)", cout: 10 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsMissileEtProjecteurs(),
+    ],
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — SEIGNEUR DE BATAILLE (véhicules Super-lourds)
      Note de transcription : l'option « Cette Figurine peut
      échanger [...] contre un objet de la liste des Armes
