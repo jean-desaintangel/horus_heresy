@@ -126,16 +126,17 @@
    écrans — plutôt que l'inverse. */
 html {
   scroll-behavior: smooth;
-  /* Menu replié = nav basse : peu d'espace à réserver pour qu'un
-     lien d'ancrage (#foncer, #reactions...) ne s'arrête pas sous
-     la barre fixe. */
-  scroll-padding-top: 70px;
+  /* --nav-height est mesurée en JS (js/main.js) sur la hauteur réelle de
+     .nav, car le logo peut passer sur 2 lignes (police système agrandie,
+     réglages d'accessibilité...) : une valeur fixe en dur sous-estime
+     alors la barre et le bouton burger déborde sur le contenu. La valeur
+     en dur ci-dessous ne sert que de repli avant l'exécution du JS. */
+  scroll-padding-top: var(--nav-height, 70px);
 }
 
 @media (min-width: 761px) {
   html {
-    /* Nav bureau sur 2 lignes (logo + menu) : plus de place à réserver. */
-    scroll-padding-top: 90px;
+    scroll-padding-top: var(--nav-height, 90px);
   }
 }
 
@@ -317,9 +318,12 @@ main {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  /* Base mobile : menu replié = nav sur une seule ligne, peu d'espace
-     à réserver sous la barre fixe. */
-  padding: 70px 1rem 3rem;
+  /* padding-top : voir --nav-height plus haut (mesurée en JS, la barre
+     n'a pas une hauteur fixe garantie). */
+  padding-top: var(--nav-height, 70px);
+  padding-right: 1rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
   /* body est un conteneur flex : les marges auto pour centrer main font
      que son "width: auto" se calcule en shrink-to-fit, borné par la
      largeur minimale de son contenu (ex : une table large) — ça faisait
@@ -331,8 +335,7 @@ main {
 
 @media (min-width: 761px) {
   main {
-    /* Nav bureau toujours déployée sur 2 lignes (logo + menu). */
-    padding-top: 130px;
+    padding-top: var(--nav-height, 130px);
   }
 }
 

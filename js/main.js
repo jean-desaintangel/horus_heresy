@@ -60,6 +60,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
+     1bis. HAUTEUR RÉELLE DE LA NAV (--nav-height)
+     .nav est en position: fixed, donc main réserve un padding-top
+     pour ne pas passer dessous. Une valeur fixe en CSS suppose que
+     le logo tient sur une seule ligne (mobile) ou deux (bureau) —
+     faux si le texte s'agrandit (réglages d'accessibilité, zoom du
+     navigateur) et passe sur une ligne de plus : la barre déborde
+     alors sur le contenu, avec le bouton burger qui chevauche le
+     texte en dessous. On mesure donc la hauteur réelle et on la
+     publie en variable CSS, consommée par main/html (voir
+     css/style.css).
+     On ignore les mesures pendant que le menu mobile est déplié :
+     replié, il recouvre déjà le contenu en overlay (comportement
+     voulu), pas la peine de repousser tout le reste de la page.
+     ---------------------------------------------------------- */
+  const nav = document.querySelector(".nav");
+  if (nav) {
+    const majHauteurNav = () => {
+      if (menu && menu.classList.contains("ouvert")) return;
+      document.documentElement.style.setProperty(
+        "--nav-height",
+        `${nav.offsetHeight}px`,
+      );
+    };
+    majHauteurNav();
+    // Recalcule aussi au chargement de la police Cinzel (le logo change
+    // de largeur une fois la police web appliquée) et à tout redimen-
+    // sionnement/rotation de l'écran.
+    new ResizeObserver(majHauteurNav).observe(nav);
+  }
+
+  /* ----------------------------------------------------------
      ACCESSIBILITÉ — chevrons purement décoratifs (WCAG 1.1.1 / RGAA 1.1)
      Le glyphe « ❯ » ne porte aucune information : on le masque aux
      technologies d'assistance pour éviter qu'il soit vocalisé.
