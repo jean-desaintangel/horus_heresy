@@ -167,6 +167,127 @@ function depuisListes(...listes) {
   return choix;
 }
 
+// Identifiant DOM-safe à partir d'un nom (accents décomposés puis
+// balayés par le filtre [^a-z0-9], comme le reste des caractères
+// non ASCII : le résultat n'a pas besoin d'être joli, juste unique).
+function slug(texte) {
+  return texte
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+// Copie les items d'une liste d'équipement en un tableau d'options
+// "quantite" partageant un même `groupe` : utile quand « Toute
+// Figurine peut échanger… » vise plusieurs armes de prix différents
+// (à la différence de `depuisListes`, qui suppose un choix unique
+// par Figurine dans un menu déroulant).
+function quantiteDepuisListe(liste, { groupe, parTranche = 1, remplace = "" } = {}) {
+  return liste.items.map((item) => ({
+    type: "quantite",
+    id: groupe + "-" + slug(item.nom),
+    libelle: "Figurines : " + item.nom + (remplace ? " (à la place " + remplace + ")" : ""),
+    cout: item.cout,
+    parTranche,
+    groupe,
+    ajoute: item.nom + (remplace ? " (à la place " + remplace + ")" : ""),
+  }));
+}
+
+/* Options communes aux escouades d'état-major "Champion + Élus /
+   Vétérans" (Centurion, Prétorienne, Prétorienne à Réacteurs) : le
+   livre leur donne mot pour mot les mêmes échanges de bolter /
+   pistolet bolter et la même mêlée pour le champion ; seules les
+   dernières lignes (étendard, équipement de Légion) diffèrent
+   d'une escouade à l'autre — elles sont passées en arguments
+   supplémentaires. */
+function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
+  return [
+    {
+      type: "quantite",
+      id: "fusil-pompe",
+      libelle: "Figurines : fusil à pompe Astartes (à la place du bolter)",
+      cout: 2,
+      parTranche: 1,
+      groupe: "tir",
+      ajoute: "Fusil à pompe Astartes (à la place du bolter)",
+    },
+    {
+      type: "quantite",
+      id: "fusil-desintegrateur",
+      libelle: "Figurines : fusil désintégrateur (à la place du bolter)",
+      cout: 5,
+      parTranche: 1,
+      groupe: "tir",
+      ajoute: "Fusil désintégrateur (à la place du bolter)",
+    },
+    {
+      type: "quantite",
+      id: "chargeur-volkite",
+      libelle: "Figurines : chargeur volkite (à la place du bolter)",
+      cout: 2,
+      parTranche: 1,
+      groupe: "tir",
+      ajoute: "Chargeur volkite (à la place du bolter)",
+    },
+    ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, { groupe: "tir", remplace: "du bolter" }),
+    ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+      groupe: "tir",
+      remplace: "du bolter, liste Sergent",
+    }),
+    {
+      type: "quantite",
+      id: "bouclier-combat",
+      libelle:
+        "Figurines ayant échangé leur bolter contre une Arme de Mêlée de Sergent de Légion : bouclier de combat (à la place du pistolet bolter)",
+      cout: 2,
+      parTranche: 1,
+      groupe: "pistolet",
+      requiertEquip: "liste Sergent",
+      ajoute: "Bouclier de combat (à la place du pistolet bolter)",
+    },
+    {
+      type: "quantite",
+      id: "pistolets-legion",
+      libelle: "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
+      cout: 5,
+      parTranche: 1,
+      groupe: "pistolet",
+      ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
+    },
+    {
+      type: "case",
+      id: "champion-pistolet-desintegrateur",
+      libelle: libelleChampion + " : pistolet désintégrateur (à la place du pistolet bolter)",
+      cout: 5,
+      ajoute: libelleChampion + " : pistolet désintégrateur",
+    },
+    {
+      type: "quantite",
+      id: "paires-griffes",
+      libelle: "Figurines : paire de griffes Lightning (remplace bolter ET pistolet bolter)",
+      cout: 10,
+      parTranche: 1,
+      ajoute: "Paire de griffes Lightning",
+    },
+    {
+      type: "choix",
+      id: "baionnettes",
+      libelle: "Toute l'unité : baïonnettes (figurines avec bolter)",
+      ajoute: true,
+      parFigurine: true,
+      prefixeFiche: "Toute l'unité : ",
+      choix: [
+        { nom: "— Aucune —", cout: 0 },
+        { nom: "Baïonnette", cout: 1 },
+        { nom: "Baïonnette tronçonneuse", cout: 2 },
+      ],
+    },
+    ...dernieresOptions,
+  ];
+}
+
 // Option récurrente : bombes à fusion (+5 Points).
 function optionBombesFusion() {
   return {
@@ -1031,6 +1152,276 @@ const UNITES = [
       },
       optionBombesFusion(),
     ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — ÉTAT-MAJOR (ESCOUADES D'ÉTAT-MAJOR)
+     Escouades d'accompagnement (Champion + Élus/Vétérans), à ne
+     pas confondre avec les personnages seuls ci-dessus. Le
+     Centurion et les deux Prétoriennes partagent le même gabarit
+     d'options (bolter / pistolet bolter / mêlée du champion) via
+     `optionsEscouadeEtatMajorVeteran`, complété par les options
+     propres à chaque escouade (étendard, équipement de Légion…).
+     ---------------------------------------------------------- */
+  {
+    id: "escouade-etat-major-cataphractii",
+    nom: "Escouade d'État-Major Terminator Cataphractii",
+    categorie: "État-major",
+    cout: 140,
+    composition: "1 Champion Élu Cataphractii, 2 Élus Cataphractii",
+    effectif: { base: 3, max: 12, cout: 40 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Chargeur volkite", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Escouade d'État-Major Terminator Cataphractii",
+        cout: 0,
+        profils: [
+          { nom: "Élu Cataphractii", profil: { M: 6, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          { nom: "Champion Élu Cataphractii", profil: { M: 6, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+        ],
+        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique"],
+        type: "Champion Élu Cataphractii : Infanterie (Champion, Sergent, Lourd) · Élu Cataphractii : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "combi-bolter",
+        libelle: "Figurines échangeant leur chargeur volkite contre un combi-bolter",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Combi-bolter (à la place du chargeur volkite)",
+      },
+      {
+        type: "quantite",
+        id: "armes-combinees",
+        libelle: "Figurines prenant une Arme Combinée de Légion au choix",
+        cout: 10,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, { groupe: "melee", remplace: "de l'arme énergétique" }),
+      {
+        type: "quantite",
+        id: "paires-griffes",
+        libelle: "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "harnais",
+        libelle: "Champion Élu Cataphractii : harnais à grenades",
+        cout: 5,
+        ajoute: "Champion Élu Cataphractii : harnais à grenades",
+      },
+      {
+        type: "case",
+        id: "etendard",
+        libelle: "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
+        cout: 20,
+        ajoute: "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
+      },
+    ],
+  },
+
+  {
+    id: "escouade-etat-major-tartaros",
+    nom: "Escouade d'État-Major Terminator Tartaros",
+    categorie: "État-major",
+    cout: 140,
+    composition: "1 Champion Élu Tartaros, 2 Élus Tartaros",
+    effectif: { base: 3, max: 10, cout: 40 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
+    variantes: [
+      {
+        nom: "Escouade d'État-Major Terminator Tartaros",
+        cout: 0,
+        profils: [
+          { nom: "Élu Tartaros", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+          { nom: "Champion Élu Tartaros", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+        ],
+        regles: ["Massif (2)", "Avance Implacable"],
+        type: "Champion Élu Tartaros : Infanterie (Champion, Sergent) · Élu Tartaros : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "chargeur-volkite",
+        libelle: "Figurines échangeant leur combi-bolter contre un chargeur volkite",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Chargeur volkite (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "armes-combinees",
+        libelle: "Figurines prenant une Arme Combinée de Légion au choix",
+        cout: 10,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, { groupe: "melee", remplace: "de l'arme énergétique" }),
+      {
+        type: "quantite",
+        id: "paires-griffes",
+        libelle: "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Paire de griffes Lightning",
+      },
+      {
+        type: "case",
+        id: "harnais",
+        libelle: "Champion Élu Tartaros : harnais à grenades",
+        cout: 5,
+        ajoute: "Champion Élu Tartaros : harnais à grenades",
+      },
+      {
+        type: "case",
+        id: "etendard",
+        libelle: "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
+        cout: 20,
+        ajoute: "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
+      },
+    ],
+  },
+
+  {
+    id: "escouade-etat-major-centurion",
+    nom: "Escouade d'État-Major de Centurion",
+    categorie: "État-major",
+    cout: 85,
+    composition: "1 Champion Vétéran, 4 Vétérans",
+    effectif: { base: 5, max: 10, cout: 15 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade d'État-Major de Centurion",
+        cout: 0,
+        profils: [
+          { nom: "Vétéran", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Champion Vétéran", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Aucune"],
+        type: "Champion Vétéran : Infanterie (Champion, Sergent) · Vétéran : Infanterie",
+      },
+    ],
+    options: optionsEscouadeEtatMajorVeteran(
+      "Champion Vétéran",
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
+      {
+        type: "choix",
+        id: "etendard-veteran",
+        libelle: "Un Vétéran : vexillum ou étendard de compagnie",
+        ajoute: true,
+        prefixeFiche: "Un Vétéran : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Vexillum", cout: 10 },
+          { nom: "Étendard de Compagnie", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Vétéran, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Vétéran : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Vétéran)",
+        ajoute: true,
+        prefixeFiche: "Vétéran : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ),
+  },
+
+  {
+    id: "escouade-etat-major-pretorienne-reacteurs",
+    nom: "Escouade d'État-Major Prétorienne à Réacteurs",
+    categorie: "État-major",
+    cout: 160,
+    composition: "1 Champion Élu à Réacteurs, 4 Élus à Réacteurs",
+    effectif: { base: 5, max: 10, cout: 25 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade d'État-Major Prétorienne à Réacteurs",
+        cout: 0,
+        profils: [
+          { nom: "Élu à Réacteurs", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+          { nom: "Champion Élu à Réacteurs", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+        ],
+        regles: ["Massif (2)", "Frappe en Profondeur"],
+        type: "Champion Élu à Réacteurs : Infanterie (Champion, Antigrav, Sergent) · Élu à Réacteurs : Infanterie (Antigrav)",
+      },
+    ],
+    options: optionsEscouadeEtatMajorVeteran("Champion Élu à Réacteurs", {
+      type: "case",
+      id: "etendard-legion",
+      libelle: "Un Élu à Réacteurs : étendard de Légion",
+      cout: 20,
+      ajoute: "Un Élu à Réacteurs : étendard de Légion",
+    }),
+  },
+
+  {
+    id: "escouade-etat-major-pretorienne",
+    nom: "Escouade d'État-Major Prétorienne",
+    categorie: "État-major",
+    cout: 130,
+    composition: "1 Champion Élu, 4 Élu",
+    effectif: { base: 5, max: 10, cout: 20 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade d'État-Major Prétorienne",
+        cout: 0,
+        profils: [
+          { nom: "Élu", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+          { nom: "Champion Élu", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+        ],
+        regles: ["Aucune"],
+        type: "Champion Élu : Infanterie (Champion, Sergent) · Élu : Infanterie",
+      },
+    ],
+    options: optionsEscouadeEtatMajorVeteran("Champion Élu", {
+      type: "case",
+      id: "etendard-legion",
+      libelle: "Un Élu : étendard de Légion",
+      cout: 20,
+      ajoute: "Un Élu : étendard de Légion",
+    }),
   },
 
   /* ----------------------------------------------------------
