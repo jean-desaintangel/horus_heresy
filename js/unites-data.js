@@ -340,17 +340,52 @@ function optionsMissileEtProjecteurs() {
 // Idem, complété par l'objet de la liste des Armes sur Pivot de
 // Légion que partagent Falchion, Fellblade, Glaive, Typhon et
 // Cerberus.
+function optionPivotLegion() {
+  return {
+    type: "choix",
+    id: "pivot",
+    libelle: "Objet de la liste des Armes sur Pivot de Légion",
+    ajoute: true,
+    choix: [{ nom: "— Aucun —", cout: 0 }, ...depuisListes(LISTES_EQUIPEMENT.pivot)],
+  };
+}
+
 function optionsVehiculeSuperLourdPivot() {
-  return [
+  return [optionPivotLegion(), ...optionsMissileEtProjecteurs()];
+}
+
+/* Fin de fiche récurrente des véhicules Blindés (Arquitor, Scorpius,
+   Vindicator, Kratos, Sicaran, Sicaran Venator, Predator) : missile
+   traqueur (position variable selon le châssis — Coque (Avant) ou
+   Tourelle), Projecteurs, et Lame de bulldozer (absente sur certains
+   châssis, voir chaque fiche). */
+function optionsFinBlinde({ missile = "Coque (Avant)", bulldozer = true } = {}) {
+  const options = [
     {
-      type: "choix",
-      id: "pivot",
-      libelle: "Objet de la liste des Armes sur Pivot de Légion",
-      ajoute: true,
-      choix: [{ nom: "— Aucun —", cout: 0 }, ...depuisListes(LISTES_EQUIPEMENT.pivot)],
+      type: "case",
+      id: "missile-traqueur",
+      libelle: "Missile traqueur de " + missile,
+      cout: 5,
+      ajoute: "Missile traqueur de " + missile,
     },
-    ...optionsMissileEtProjecteurs(),
+    {
+      type: "case",
+      id: "projecteurs",
+      libelle: "Projecteurs",
+      cout: 5,
+      ajoute: "Projecteurs",
+    },
   ];
+  if (bulldozer) {
+    options.push({
+      type: "case",
+      id: "lame-bulldozer",
+      libelle: "Lame de bulldozer",
+      cout: 5,
+      ajoute: "Lame de bulldozer",
+    });
+  }
+  return options;
 }
 
 /* ----------------------------------------------------------
@@ -2667,6 +2702,286 @@ const UNITES = [
       },
     ],
     options: [],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — BLINDÉS
+     Note de transcription : l'option « Cette Figurine peut
+     échanger [...] contre un objet de la liste des Armes Latérales
+     de Légion » (Arquitor, Kratos, Sicaran Venator, Sicaran,
+     Predator) n'a pas pu être transcrite — le contenu de cette
+     liste d'équipement n'a pas encore été fourni (même liste que
+     pour les Seigneurs de Bataille, voir la note dans cette
+     section-là). Le reste de chaque fiche est complet.
+     ---------------------------------------------------------- */
+  {
+    id: "arquitor",
+    nom: "Bombarde Arquitor",
+    categorie: "Blindés",
+    cout: 150,
+    composition: "1 Bombarde Arquitor",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Bombarde Morbus d'Axe Central", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Bombarde Arquitor",
+        cout: 0,
+        profilVehicule: { M: 8, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 6, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "obus-phosphex",
+        libelle:
+          "Obus à phosphex (nécessite un Briseur de Siège du même Trait de Faction dans l'Armée)",
+        cout: 20,
+        ajoute: "Obus à phosphex",
+      },
+      {
+        type: "choix",
+        id: "bombarde-morbus",
+        libelle: "Remplacer la bombarde Morbus d'Axe Central",
+        remplace: "Bombarde Morbus d'Axe Central",
+        choix: [
+          { nom: "— Conserver la bombarde Morbus —", cout: 0 },
+          { nom: "Canon à charge-graviton d'Axe Central", cout: 15 },
+          { nom: "Système de roquettes Spicula d'Axe Central", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bolters-lateraux",
+        libelle: "Remplacer les deux bolters lourds Latéraux",
+        remplace: "Deux bolters lourds Latéraux",
+        choix: [
+          { nom: "— Conserver les bolters lourds Latéraux —", cout: 0 },
+          { nom: "Deux autocanons Latéraux", cout: 10 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsFinBlinde({ bulldozer: false }),
+    ],
+  },
+
+  {
+    id: "scorpius",
+    nom: "Char Lance-missiles Scorpius",
+    categorie: "Blindés",
+    cout: 120,
+    composition: "1 Char Lance-missiles Scorpius",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Lance-missiles Scorpius de Tourelle", "Bolter sur Pivot n°1", "Bolter sur Pivot n°2"],
+    variantes: [
+      {
+        nom: "Char Lance-missiles Scorpius",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pivot-1",
+        libelle: "Remplacer un bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°1",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      ...optionsFinBlinde(),
+    ],
+  },
+
+  {
+    id: "vindicator",
+    nom: "Char de Siège Vindicator",
+    categorie: "Blindés",
+    cout: 140,
+    composition: "1 Char de Siège Vindicator",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Canon Demolisher d'Axe Central", "Combi-bolter de Coque (Avant)"],
+    variantes: [
+      {
+        nom: "Char de Siège Vindicator",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 13, flanc: 13, arriere: 10, PC: 6, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canon-demolisher",
+        libelle: "Remplacer le canon Demolisher d'Axe Central",
+        remplace: "Canon Demolisher d'Axe Central",
+        choix: [
+          { nom: "— Conserver le canon Demolisher —", cout: 0 },
+          { nom: "Magnadestructeur laser d'Axe Central", cout: 20 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsFinBlinde(),
+    ],
+  },
+
+  {
+    id: "kratos",
+    nom: "Char d'Assaut Kratos",
+    categorie: "Blindés",
+    cout: 280,
+    composition: "1 Char d'Assaut Kratos",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Obusier Kratos de Tourelle",
+      "Autocanon coaxial (obusier Kratos)",
+      "Deux bolters lourds de Coque (Avant)",
+      "Deux bolters lourds Latéraux",
+    ],
+    variantes: [
+      {
+        nom: "Char d'Assaut Kratos",
+        cout: 0,
+        profilVehicule: { M: 8, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 10, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule (Stable)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "obus-bruleurs",
+        libelle: "Obusier Kratos de Tourelle : obus brûleurs",
+        cout: 10,
+        ajoute: "Obus brûleurs",
+      },
+      {
+        type: "choix",
+        id: "obusier-kratos",
+        libelle: "Remplacer l'obusier Kratos de Tourelle",
+        remplace: "Obusier Kratos de Tourelle",
+        choix: [
+          { nom: "— Conserver l'obusier Kratos —", cout: 0 },
+          { nom: "Cardanelle volkite de Tourelle", cout: 0 },
+          { nom: "Fuseur-éclateur de Tourelle", cout: 30 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bolters-avant",
+        libelle: "Remplacer les deux bolters lourds de Coque (Avant)",
+        remplace: "Deux bolters lourds de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver les bolters lourds de Coque (Avant) —", cout: 0 },
+          { nom: "Deux arquebuses volkites de Coque (Avant)", cout: 5 },
+          { nom: "Deux autocanons de Coque (Avant)", cout: 10 },
+          { nom: "Deux canons laser de Coque (Avant)", cout: 25 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsFinBlinde({ missile: "Tourelle" }),
+    ],
+  },
+
+  {
+    id: "sicaran-venator",
+    nom: "Sicaran Venator",
+    categorie: "Blindés",
+    cout: 170,
+    composition: "1 Sicaran Venator",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Laser à neutrons d'Axe Central", "Bolter lourd de Tourelle", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Sicaran Venator",
+        cout: 0,
+        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 12, PC: 6, transport: "—" },
+        regles: ["Explose (5+)"],
+        type: "Véhicule",
+      },
+    ],
+    options: [optionPivotLegion(), ...optionsFinBlinde({ bulldozer: false })],
+  },
+
+  {
+    id: "sicaran",
+    nom: "Sicaran",
+    categorie: "Blindés",
+    cout: 160,
+    composition: "1 Sicaran",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Autocanon accélérateur jumelé de Tourelle", "Bolter lourd de Coque (Avant)", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Sicaran",
+        cout: 0,
+        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 12, PC: 6, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "autocanon",
+        libelle: "Remplacer l'autocanon accélérateur jumelé de Tourelle",
+        remplace: "Autocanon accélérateur jumelé de Tourelle",
+        choix: [
+          { nom: "— Conserver l'autocanon accélérateur jumelé —", cout: 0 },
+          { nom: "Lance-missiles Arcus de Tourelle", cout: 40 },
+          { nom: "Canon rotatif Punisher de Tourelle", cout: 10 },
+          { nom: "Affût à plasma Omega de Tourelle", cout: 25 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsFinBlinde({ missile: "Tourelle", bulldozer: false }),
+    ],
+  },
+
+  {
+    id: "predator",
+    nom: "Predator",
+    categorie: "Blindés",
+    cout: 100,
+    composition: "1 Predator",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Canon Predator de Tourelle", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Predator",
+        cout: 0,
+        profilVehicule: { M: 12, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canon-predator",
+        libelle: "Remplacer le canon Predator de Tourelle",
+        remplace: "Canon Predator de Tourelle",
+        choix: [
+          { nom: "— Conserver le canon Predator —", cout: 0 },
+          { nom: "Canon Flamestorm de Tourelle", cout: 0 },
+          { nom: "Destructeur à plasma Executioner de Tourelle", cout: 25 },
+          { nom: "Canon à conversion lourd de Tourelle", cout: 30 },
+          { nom: "Magnacanon à fusion de Tourelle", cout: 20 },
+          { nom: "Canon à gravitons de Tourelle", cout: 20 },
+          { nom: "Macro-sacre volkite de Tourelle", cout: 5 },
+          { nom: "Éclateur à neutrons de Tourelle", cout: 15 },
+          { nom: "Canon laser jumelé de Tourelle", cout: 10 },
+        ],
+      },
+      optionPivotLegion(),
+      ...optionsFinBlinde({ missile: "Tourelle" }),
+    ],
   },
 
   /* ----------------------------------------------------------
