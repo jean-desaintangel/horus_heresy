@@ -315,6 +315,44 @@ function optionBaionnette() {
   };
 }
 
+// Options récurrentes des véhicules Super-lourds (Seigneur de
+// Bataille) : missile traqueur de Coque (Avant) et Projecteurs,
+// chacun indépendant.
+function optionsMissileEtProjecteurs() {
+  return [
+    {
+      type: "case",
+      id: "missile-traqueur",
+      libelle: "Missile traqueur de Coque (Avant)",
+      cout: 5,
+      ajoute: "Missile traqueur de Coque (Avant)",
+    },
+    {
+      type: "case",
+      id: "projecteurs",
+      libelle: "Projecteurs",
+      cout: 5,
+      ajoute: "Projecteurs",
+    },
+  ];
+}
+
+// Idem, complété par l'objet de la liste des Armes sur Pivot de
+// Légion que partagent Falchion, Fellblade, Glaive, Typhon et
+// Cerberus.
+function optionsVehiculeSuperLourdPivot() {
+  return [
+    {
+      type: "choix",
+      id: "pivot",
+      libelle: "Objet de la liste des Armes sur Pivot de Légion",
+      ajoute: true,
+      choix: [{ nom: "— Aucun —", cout: 0 }, ...depuisListes(LISTES_EQUIPEMENT.pivot)],
+    },
+    ...optionsMissileEtProjecteurs(),
+  ];
+}
+
 /* ----------------------------------------------------------
    UNITÉS — QUARTIER GÉNÉRAL
    ---------------------------------------------------------- */
@@ -3074,5 +3112,285 @@ const UNITES = [
         ],
       },
     ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS — SEIGNEUR DE BATAILLE (véhicules Super-lourds)
+     Note de transcription : l'option « Cette Figurine peut
+     échanger [...] contre un objet de la liste des Armes
+     Latérales de Légion » (Mastodon, Typhon, Cerberus) n'a pas pu
+     être transcrite — le contenu de cette liste d'équipement n'a
+     pas encore été fourni. Le reste de chaque fiche est complet.
+     ---------------------------------------------------------- */
+  {
+    id: "mastodon",
+    nom: "Transport d'Assaut Super-lourd Mastodon",
+    categorie: "Seigneur de Bataille",
+    cout: 600,
+    composition: "1 Transport d'Assaut Super-lourd Mastodon",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Affût à fusion de siège d'Axe Central", "Batterie Skyreaper de Tourelle"],
+    notes: "Cette Figurine a un Point d'Accès à l'Arrière et un Point d'Accès à l'Avant.",
+    variantes: [
+      {
+        nom: "Transport d'Assaut Super-lourd Mastodon",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 20, transport: 42 },
+        regles: ["Véhicule d'Assaut", "Baie de Transport Mastodon", "Boucliers Void (2)"],
+        type: "Véhicule (Transport, Super-lourd)",
+      },
+    ],
+    // "Doit être dotée de deux objets de la liste des Armes Latérales
+    // de Légion" (obligatoire) : voir la note de transcription ci-dessus.
+    options: [...optionsMissileEtProjecteurs()],
+  },
+
+  {
+    id: "stormbird-sokar",
+    nom: "Stormbird Sokar",
+    categorie: "Seigneur de Bataille",
+    cout: 850,
+    composition: "1 Stormbird Sokar",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Deux canons laser jumelés de Coque (Gauche)",
+      "Deux canons laser jumelés de Coque (Droite)",
+      "Deux bolters lourds jumelés de Tourelle",
+      "Bolter lourd jumelé de Coque (Arrière)",
+      "Six missiles Hellstrike d'Axe Central",
+    ],
+    notes: "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Stormbird Sokar",
+        cout: 0,
+        profilVehicule: { M: 16, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 22, transport: 52 },
+        regles: ["Baie de Transport Stormbird", "Boucliers Void (2)"],
+        type: "Véhicule (Transport, Super-lourd, Aéronef)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canons-gauche",
+        libelle: "Remplacer gratuitement tout canon laser jumelé de Coque (Gauche)",
+        remplace: "Deux canons laser jumelés de Coque (Gauche)",
+        choix: [
+          { nom: "— Conserver les canons laser jumelés (Gauche) —", cout: 0 },
+          { nom: "Batterie de bolters lourds Gravis de Coque (Gauche)", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "canons-droite",
+        libelle: "Remplacer gratuitement tout canon laser jumelé de Coque (Droite)",
+        remplace: "Deux canons laser jumelés de Coque (Droite)",
+        choix: [
+          { nom: "— Conserver les canons laser jumelés (Droite) —", cout: 0 },
+          { nom: "Batterie de bolters lourds Gravis de Coque (Droite)", cout: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "escorteur-thunderhawk",
+    nom: "Escorteur Thunderhawk",
+    categorie: "Seigneur de Bataille",
+    cout: 685,
+    composition: "1 Escorteur Thunderhawk",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Destructeur turbo-laser d'Axe Central",
+      "Deux bolters lourds jumelés de Tourelle",
+      "Deux bolters lourds jumelés Latéraux",
+      "Deux canons laser de Coque (Avant)",
+      "Six missiles Hellstrike d'Axe Central",
+    ],
+    notes: "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
+    variantes: [
+      {
+        nom: "Escorteur Thunderhawk",
+        cout: 0,
+        profilVehicule: { M: 18, CT: 4, avant: 13, flanc: 13, arriere: 13, PC: 18, transport: 32 },
+        regles: ["Baie de Transport Thunderhawk"],
+        type: "Véhicule (Transport, Super-lourd, Aéronef)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "falchion",
+    nom: "Chasseur de Chars Super-lourd Falchion",
+    categorie: "Seigneur de Bataille",
+    cout: 650,
+    composition: "1 Chasseur de Chars Super-lourd Falchion",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Canon à onde neutronique d'Axe Central", "Deux affûts de canons laser Latéraux"],
+    variantes: [
+      {
+        nom: "Chasseur de Chars Super-lourd Falchion",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "affuts-lateraux",
+        libelle: "Remplacer les deux affûts de canons laser Latéraux",
+        remplace: "Deux affûts de canons laser Latéraux",
+        choix: [
+          { nom: "— Conserver les affûts de canons laser Latéraux —", cout: 0 },
+          { nom: "Deux destructeurs laser Latéraux", cout: 0 },
+          { nom: "Deux batteries de bolters lourds Gravis Latérales", cout: 0 },
+        ],
+      },
+      ...optionsVehiculeSuperLourdPivot(),
+    ],
+  },
+
+  {
+    id: "fellblade",
+    nom: "Char de Combat Super-lourd Fellblade",
+    categorie: "Seigneur de Bataille",
+    cout: 650,
+    composition: "1 Char de Combat Super-lourd Fellblade",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Canon accélérateur Fellblade de Tourelle",
+      "Bolter lourd jumelé de Coque (Avant)",
+      "Canon Demolisher de Coque (Avant)",
+      "Deux affûts de canons laser Latéraux",
+    ],
+    variantes: [
+      {
+        nom: "Char de Combat Super-lourd Fellblade",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter-lourd-avant",
+        libelle: "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
+        remplace: "Bolter lourd jumelé de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
+          { nom: "Lance-flammes lourd jumelé de Coque (Avant)", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "affuts-lateraux",
+        libelle: "Remplacer les deux affûts de canons laser Latéraux",
+        remplace: "Deux affûts de canons laser Latéraux",
+        choix: [
+          { nom: "— Conserver les affûts de canons laser Latéraux —", cout: 0 },
+          { nom: "Deux destructeurs laser Latéraux", cout: 0 },
+          { nom: "Deux batteries de bolters lourds Gravis Latérales", cout: 0 },
+        ],
+      },
+      ...optionsVehiculeSuperLourdPivot(),
+    ],
+  },
+
+  {
+    id: "glaive",
+    nom: "Char à Arme Spéciale Super-lourd Glaive",
+    categorie: "Seigneur de Bataille",
+    cout: 650,
+    composition: "1 Char à Arme Spéciale Super-lourd Glaive",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Carronade volkite de Tourelle",
+      "Bolter lourd jumelé de Coque (Avant)",
+      "Deux affûts de canons laser Latéraux",
+    ],
+    variantes: [
+      {
+        nom: "Char à Arme Spéciale Super-lourd Glaive",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        regles: ["Aucune"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter-lourd-avant",
+        libelle: "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
+        remplace: "Bolter lourd jumelé de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
+          { nom: "Lance-flammes lourd jumelé de Coque (Avant)", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "affuts-lateraux",
+        libelle: "Remplacer les deux affûts de canons laser Latéraux",
+        remplace: "Deux affûts de canons laser Latéraux",
+        choix: [
+          { nom: "— Conserver les affûts de canons laser Latéraux —", cout: 0 },
+          { nom: "Deux destructeurs laser Latéraux", cout: 0 },
+          { nom: "Deux batteries de bolters lourds Gravis Latérales", cout: 0 },
+        ],
+      },
+      ...optionsVehiculeSuperLourdPivot(),
+    ],
+  },
+
+  {
+    id: "typhon",
+    nom: "Char de Siège Lourd Typhon",
+    categorie: "Seigneur de Bataille",
+    cout: 400,
+    composition: "1 Char de Siège Lourd Typhon",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Canon de siège Dreadhammer d'Axe Central", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Char de Siège Lourd Typhon",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 13, PC: 12, transport: "—" },
+        regles: ["Explose (5+)"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    // "Peut échanger ses deux bolters lourds Latéraux contre un objet
+    // de la liste des Armes Latérales de Légion" : voir la note de
+    // transcription en tête de section.
+    options: [...optionsVehiculeSuperLourdPivot()],
+  },
+
+  {
+    id: "cerberus",
+    nom: "Chasseur de Chars Lourd Cerberus",
+    categorie: "Seigneur de Bataille",
+    cout: 400,
+    composition: "1 Chasseur de Chars Lourd Cerberus",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Batterie laser à neutrons d'Axe Central", "Deux bolters lourds Latéraux"],
+    variantes: [
+      {
+        nom: "Chasseur de Chars Lourd Cerberus",
+        cout: 0,
+        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 13, PC: 12, transport: "—" },
+        regles: ["Explose (4+)"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    // "Peut échanger ses deux bolters lourds Latéraux contre un objet
+    // de la liste des Armes Latérales de Légion" : voir la note de
+    // transcription en tête de section.
+    options: [...optionsVehiculeSuperLourdPivot()],
   },
 ];
