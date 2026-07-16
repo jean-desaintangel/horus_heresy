@@ -2705,6 +2705,288 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉS — RECO
+     ---------------------------------------------------------- */
+  {
+    id: "land-raider-explorator",
+    nom: "Land Raider Explorator",
+    categorie: "Reco",
+    cout: 220,
+    composition: "1 Land Raider Explorator",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Deux canons laser jumelés Latéraux", "Lame de bulldozer"],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
+    variantes: [
+      {
+        nom: "Land Raider Explorator",
+        cout: 0,
+        profilVehicule: { M: 12, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 8, transport: 10 },
+        regles: ["Autoréparation (5+)", "Attaque de Flanc"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      optionPivotLegion(),
+      {
+        type: "choix",
+        id: "avant",
+        libelle: "Doter la Figurine d'une arme de Coque (Avant)",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          { nom: "Canon laser jumelé de Coque (Avant)", cout: 20 },
+          { nom: "Bolter lourd jumelé de Coque (Avant)", cout: 10 },
+          { nom: "Lance-flammes lourd jumelé de Coque (Avant)", cout: 10 },
+        ],
+      },
+      ...optionsMissileEtProjecteurs(),
+    ],
+  },
+
+  {
+    id: "escadron-motards",
+    nom: "Escadron de Motards",
+    categorie: "Reco",
+    cout: 85,
+    composition: "1 Sergent Motard, 2 Motards",
+    effectif: { base: 3, max: 10, cout: 20 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Bolter jumelé", "Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escadron de Motards",
+        cout: 0,
+        profils: [
+          { nom: "Motard", profil: { M: 14, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 6, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent Motard", profil: { M: 14, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 8, Sf: 8, Vo: 7, Int: 6, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Massif (2)", "Avant-garde (1)", "Orage de Feu", "Avance Implacable", "Attaque de Flanc"],
+        type: "Sergent Motard : Cavalerie (Sergent) · Motard : Cavalerie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Motard, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Motard : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Motard)",
+        ajoute: true,
+        prefixeFiche: "Motard : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-epee",
+        libelle: "Sergent Motard : remplacer son épée tronçonneuse",
+        ajoute: true,
+        prefixeFiche: "Sergent Motard : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "quantite",
+        id: "pistolets-legion",
+        libelle: "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
+      },
+      {
+        type: "quantite",
+        id: "fusils-plasma",
+        libelle: "Toute l'unité : fusil à plasma jumelé (à la place du bolter jumelé)",
+        cout: 15,
+        parTranche: 1,
+        ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
+      },
+      {
+        type: "quantite",
+        id: "fusils-pompe",
+        libelle: "Figurines échangeant gratuitement leur épée tronçonneuse contre un fusil à pompe Astartes",
+        cout: 0,
+        parTranche: 1,
+        ajoute: "Fusil à pompe Astartes (à la place de l'épée tronçonneuse)",
+      },
+    ],
+  },
+
+  {
+    id: "sabre",
+    nom: "Sabre",
+    categorie: "Reco",
+    cout: 80,
+    composition: "1 Sabre",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Autocanon court Anvilus d'Axe Central", "Bolter lourd de Coque (Avant)"],
+    variantes: [
+      {
+        nom: "Sabre",
+        cout: 0,
+        profilVehicule: { M: 16, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 4, transport: "—" },
+        regles: ["Attaque de Flanc"],
+        type: "Véhicule (Rapide)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "anvilus",
+        libelle: "Remplacer l'autocanon court Anvilus d'Axe Central",
+        remplace: "Autocanon court Anvilus d'Axe Central",
+        choix: [
+          { nom: "— Conserver l'autocanon court Anvilus —", cout: 0 },
+          { nom: "Éclateur à neutrons d'Axe Central", cout: 10 },
+          { nom: "Sacre volkite d'Axe Central", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bolter-lourd-avant",
+        libelle: "Remplacer le bolter lourd de Coque (Avant)",
+        remplace: "Bolter lourd de Coque (Avant)",
+        choix: [
+          { nom: "— Conserver le bolter lourd —", cout: 0 },
+          { nom: "Multi-fuseur de Coque (Avant)", cout: 25 },
+          { nom: "Couleuvrine volkite de Coque (Avant)", cout: 15 },
+          { nom: "Lance-flammes lourd de Coque (Avant)", cout: 0 },
+        ],
+      },
+      optionPivotLegion(),
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "quantite",
+        id: "missiles-sabre",
+        libelle: "Missiles Sabre de Coque (Avant) (jusqu'à quatre)",
+        cout: 5,
+        max: 4,
+        ajoute: "Missile Sabre de Coque (Avant)",
+      },
+    ],
+  },
+
+  {
+    id: "escouade-reconnaissance",
+    nom: "Escouade de Reconnaissance",
+    categorie: "Reco",
+    cout: 110,
+    composition: "1 Sergent Reco, 4 Légionnaires Reco",
+    effectif: { base: 5, max: 10, cout: 17 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: ["Fusil à pompe Astartes", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade de Reconnaissance",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire Reco", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent Reco", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Infiltration (9)", "Mouvement à Couvert", "Unité d'Appui (2)"],
+        type: "Sergent Reco : Infanterie (Sergent, Tirailleurs) · Légionnaire Reco : Infanterie (Tirailleurs)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-fusil",
+        libelle: "Sergent Reco : remplacer son fusil à pompe Astartes",
+        ajoute: true,
+        prefixeFiche: "Sergent Reco : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet-melee",
+        libelle: "Sergent Reco : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
+        ajoute: true,
+        prefixeFiche: "Sergent Reco : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "choix",
+        id: "sergent-pistolet-legion",
+        libelle: "Sergent Reco : remplacer son pistolet bolter (Pistolets de Légion)",
+        ajoute: true,
+        prefixeFiche: "Sergent Reco : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire Reco, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire Reco : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire Reco)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire Reco : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "quantite",
+        id: "bolters-nemesis",
+        libelle: "Figurines : bolter Némésis (à la place du fusil à pompe Astartes)",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Bolter Némésis (à la place du fusil à pompe Astartes)",
+      },
+      {
+        type: "case",
+        id: "bombes-fusion",
+        libelle: "Sergent Reco : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent Reco : bombes à fusion",
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — BLINDÉS
      Note de transcription : l'option « Cette Figurine peut
      échanger [...] contre un objet de la liste des Armes Latérales
