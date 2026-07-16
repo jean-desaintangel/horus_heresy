@@ -2296,6 +2296,365 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉS — APPUI
+     ---------------------------------------------------------- */
+  {
+    id: "araknae",
+    nom: "Plate-forme d'Accélérateur Quadritube Araknae",
+    categorie: "Appui",
+    cout: 125,
+    composition: "1 Plate-forme d'Accélérateur Quadritube Araknae",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Autocanon accélérateur quadritube de Tourelle", "Pavois atomantique"],
+    variantes: [
+      {
+        nom: "Plate-forme d'Accélérateur Quadritube Araknae",
+        cout: 0,
+        profilVehicule: { M: "—", CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: "—" },
+        regles: ["Emplacement d'Arme", "Explose (4+)"],
+        type: "Véhicule",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "module-largage-deathstorm",
+    nom: "Module de Largage Deathstorm",
+    categorie: "Appui",
+    cout: 90,
+    composition: "1 Module de Largage Deathstorm",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Lance-missiles Deathstorm de Tourelle"],
+    variantes: [
+      {
+        nom: "Module de Largage Deathstorm",
+        cout: 0,
+        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 4, transport: "—" },
+        regles: ["Ouverture à l'Impact", "Véhicule d'Assaut Orbital", "Déluge de Mort"],
+        type: "Véhicule",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "techmarine",
+    nom: "Techmarine",
+    categorie: "Appui",
+    cout: 50,
+    composition: "1 Techmarine",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Hache énergétique", "Servobras", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Techmarine",
+        cout: 0,
+        profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 8, Sv: "2+", Inv: "—" },
+        regles: ["Guerrier-artisan (2)"],
+        type: "Infanterie (Spécialiste)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      optionBombesFusion(),
+      {
+        type: "case",
+        id: "cyber-familier",
+        libelle: "Cyber-familier",
+        cout: 10,
+        ajoute: "Cyber-familier",
+      },
+    ],
+  },
+
+  {
+    id: "apothicaire",
+    nom: "Apothicaire",
+    categorie: "Appui",
+    cout: 30,
+    composition: "1 Apothicaire",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Narthecium", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Apothicaire",
+        cout: 0,
+        profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 8, Sv: "3+", Inv: "—" },
+        regles: ["Médic (4+)"],
+        type: "Infanterie (Spécialiste)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "epee",
+        libelle: "Remplacer l'épée tronçonneuse",
+        remplace: "Épée tronçonneuse",
+        choix: [
+          { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "batterie-rapier",
+    nom: "Batterie de Rapier",
+    categorie: "Appui",
+    cout: 40,
+    composition: "1 Équipage de Rapier (2 Légionnaires, 1 Châssis Rapier)",
+    effectif: {
+      base: 1,
+      max: 4,
+      cout: 40,
+      libelle: "Nombre d'Équipages de Rapier (+40 pts par Équipage au-delà de 1)",
+      suffixe: "équipages de Rapier",
+    },
+    equipementLibelle: "Équipement (par Équipage de Rapier)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Légionnaire : Bolter",
+      "Légionnaire : Pistolet bolter",
+      "Légionnaire : Grenades Frag",
+      "Légionnaire : Grenades Krak",
+      "Châssis Rapier : Batterie de bolters lourds Gravis",
+    ],
+    variantes: [
+      {
+        nom: "Batterie de Rapier",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Châssis Rapier", profil: { M: 7, CC: 1, CT: 4, F: 4, E: 6, PV: 2, I: 2, A: 1, Cd: 1, Sf: 1, Vo: 1, Int: 1, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Équipage de Rapier", "Massif (3) (Châssis Rapier seulement)", "Lent et Méthodique", "Unité d'Appui (1)"],
+        type: "Légionnaire : Infanterie (Sergent) · Châssis Rapier : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "destructeur-laser",
+        libelle: "Châssis Rapier : destructeur laser (à la place de la batterie de bolters lourds Gravis)",
+        cout: 25,
+        parTranche: 1,
+        groupe: "arme-rapier",
+        ajoute: "Destructeur laser (à la place de la batterie de bolters lourds Gravis)",
+      },
+      {
+        type: "quantite",
+        id: "canon-gravitons",
+        libelle: "Châssis Rapier : canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "arme-rapier",
+        ajoute: "Canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
+      },
+      {
+        type: "quantite",
+        id: "lanceur-quadruple",
+        libelle: "Châssis Rapier : lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "arme-rapier",
+        ajoute: "Lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
+      },
+      {
+        type: "quantite",
+        id: "phosphex",
+        libelle:
+          "Châssis Rapier avec lanceur quadruple : cartouches à phosphex (nécessite un Briseur de Siège du même Trait de Faction dans l'Armée)",
+        cout: 15,
+        parTranche: 1,
+        requiertEquip: "Lanceur quadruple",
+        ajoute: "Cartouches à phosphex",
+      },
+    ],
+  },
+
+  {
+    id: "escouade-soutien",
+    nom: "Escouade de Soutien",
+    categorie: "Appui",
+    cout: 50,
+    composition: "1 Sergent, 4 Légionnaires",
+    effectif: { base: 5, max: 10, cout: 10 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade de Soutien",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Unité d'Appui (1)"],
+        type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-lourde",
+        libelle: "Toute l'unité : objet de la liste des Armes Lourdes de Légion (même objet pour toutes les Figurines)",
+        ajoute: true,
+        obligatoire: true,
+        parFigurine: true,
+        choix: [...depuisListes(LISTES_EQUIPEMENT.lourdes)],
+      },
+      {
+        type: "choix",
+        id: "sergent-melee",
+        libelle: "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Légionnaire : vexillum",
+        cout: 10,
+        ajoute: "Un Légionnaire : vexillum",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "escouade-appui-tactique",
+    nom: "Escouade d'Appui Tactique",
+    categorie: "Appui",
+    cout: 40,
+    composition: "1 Sergent, 4 Légionnaires",
+    effectif: { base: 5, max: 10, cout: 8 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: ["Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Escouade d'Appui Tactique",
+        cout: 0,
+        profils: [
+          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+        ],
+        regles: ["Aucune"],
+        type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-speciale",
+        libelle: "Toute l'unité : objet de la liste des Armes Spéciales de Légion (même objet pour toutes les Figurines)",
+        ajoute: true,
+        obligatoire: true,
+        parFigurine: true,
+        choix: [...depuisListes(LISTES_EQUIPEMENT.speciales)],
+      },
+      {
+        type: "choix",
+        id: "sergent-melee",
+        libelle: "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        ajoute: true,
+        prefixeFiche: "Sergent : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent : bombes à fusion",
+        cout: 10,
+        ajoute: "Sergent : bombes à fusion",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Légionnaire : vexillum",
+        cout: 10,
+        ajoute: "Un Légionnaire : vexillum",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Légionnaire)",
+        ajoute: true,
+        prefixeFiche: "Légionnaire : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — ELITE
      ---------------------------------------------------------- */
   {
