@@ -7,9 +7,10 @@
    uniquement). Chaque règle spéciale de la colonne « Règles
    spéciales » est doublée d'une info-bulle reprenant sa définition
    (voir page regles.html).
-   Dépend : js/armes-data.js (données ENTETES_TIR/ARMES_TIR/
-   ENTETES_MELEE/ARMES_MELEE, chargé avant ce script) et
-   js/regles-data.js (texte des règles) — stylé par css/style.css.
+   Dépend : js/main.js (normaliserTexte, trouverDefinitionRegle),
+   js/armes-data.js (données ENTETES_TIR/ARMES_TIR/ENTETES_MELEE/
+   ARMES_MELEE) et js/regles-data.js (texte des règles), chargés
+   avant ce script — stylé par css/style.css.
    Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    ============================================================ */
 
@@ -45,49 +46,10 @@ function sauvegarderSelectionArmes() {
 
 /* ----------------------------------------------------------
    RENDU DES TABLES D'ARMES
+   La normalisation de texte (normaliserTexte) et la recherche de
+   définition d'une règle spéciale (trouverDefinitionRegle) sont
+   partagées avec les autres pages : voir js/main.js.
    ---------------------------------------------------------- */
-
-/**
- * Retire les accents pour une recherche plus tolérante ("brèche" = "breche").
- * Voir la même fonction dans js/regles.js pour le détail de la technique.
- */
-function normaliserArme(texte) {
-  return texte
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase();
-}
-
-/* ----------------------------------------------------------
-   DÉFINITIONS DES RÈGLES SPÉCIALES (pour les info-bulles)
-   Les intitulés des tables d'armes portent une valeur concrète
-   (ex : "Brèche (5+)") alors que REGLES_ARMES/REGLES_DIVERSES (voir
-   js/regles-data.js) les nomment avec un "(X)" générique : on indexe
-   donc par nom de base, sans parenthèse.
-   ---------------------------------------------------------- */
-const DEFINITIONS_REGLES = new Map();
-[...REGLES_ARMES, ...REGLES_DIVERSES].forEach((regle) => {
-  const base = normaliserArme(regle.nom.replace(/\s*\([^)]*\)\s*$/, ""));
-  DEFINITIONS_REGLES.set(base, regle.texte);
-});
-
-/**
- * Retrouve la définition d'une règle à partir de son intitulé tel
- * qu'utilisé dans une table d'armes (ex : "Brèche (5+)"). En repli, on
- * retire un "e" final du nom de base pour absorber les rares accords
- * grammaticaux (ex : "Empoisonnée" dans les tables d'armes vs
- * "Empoisonné" dans le lexique des règles).
- * @param {string} intitule
- * @returns {string|null}
- */
-function trouverDefinitionRegle(intitule) {
-  const base = normaliserArme(intitule.replace(/\s*\([^)]*\)\s*$/, ""));
-  if (DEFINITIONS_REGLES.has(base)) return DEFINITIONS_REGLES.get(base);
-  if (base.endsWith("e") && DEFINITIONS_REGLES.has(base.slice(0, -1))) {
-    return DEFINITIONS_REGLES.get(base.slice(0, -1));
-  }
-  return null;
-}
 
 /**
  * Construit la table HTML d'une catégorie d'armes et l'insère dans le
@@ -158,7 +120,7 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   const tbody = document.createElement("tbody");
   categorie.armes.forEach((arme) => {
     const tr = document.createElement("tr");
-    tr.dataset.recherche = normaliserArme(arme.nom);
+    tr.dataset.recherche = normaliserTexte(arme.nom);
 
     const tdSelection = document.createElement("td");
     tdSelection.className = "col-selection";
@@ -263,7 +225,7 @@ function appliquerFiltresArmes() {
   const champ = document.getElementById("recherche");
   const compteur = document.getElementById("compteur");
   const filtreSelection = document.getElementById("filtre-selection");
-  const requete = champ ? normaliserArme(champ.value.trim()) : "";
+  const requete = champ ? normaliserTexte(champ.value.trim()) : "";
   const seulementSelection = filtreSelection ? filtreSelection.checked : false;
   let visibles = 0;
 
@@ -277,8 +239,7 @@ function appliquerFiltresArmes() {
   });
 
   document.querySelectorAll(".groupe-armes").forEach((groupe) => {
-    const resteVisible =
-      groupe.querySelector("tbody tr:not(.cachee)") !== null;
+    const resteVisible = groupe.querySelector("tbody tr:not(.cachee)") !== null;
     groupe.style.display = resteVisible ? "" : "none";
   });
 

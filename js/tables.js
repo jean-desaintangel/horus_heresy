@@ -324,12 +324,12 @@ function activerSurbrillanceColonnes() {
   });
 
   // Un tap en dehors de toute table désépingle la surbrillance
+  // (on réutilise effacerSurbrillance plutôt que de redupliquer le
+  // retrait des classes).
   document.addEventListener("click", (evenement) => {
     if (evenement.target.closest("table")) return;
     casesEpinglees.clear();
-    document.querySelectorAll(".colonne-active, .case-active").forEach((c) => {
-      c.classList.remove("colonne-active", "case-active");
-    });
+    document.querySelectorAll("table").forEach(effacerSurbrillance);
   });
 }
 

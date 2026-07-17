@@ -1,61 +1,118 @@
 # Horus Heresy · Guide d'initiation
 
-Site statique non officiel servant de guide d'initiation au jeu de figurines **Horus Heresy** (3e édition). Pensé pour être consulté sur téléphone pendant une partie.
+Site statique **non officiel** servant de guide d'initiation au jeu de figurines **Warhammer : The Horus Heresy** (3ᵉ édition), en français. Pensé pour être consulté **sur téléphone pendant une partie** : règles résumées, tables de référence interactives et configurateur de liste d'armée.
 
-## Contenu
+## Aperçu
 
-- **Accueil** ([index.html](index.html)) — présentation et navigation vers les différentes sections.
-- **Construction d'armée** ([pages/armee.html](pages/armee.html)) — détachement principal de croisade, détachements auxiliaires et d'Apex, rôles tactiques, cases principales.
-- **Déroulement d'un tour** ([pages/tour.html](pages/tour.html)) — les 5 phases de jeu et leurs sous-phases.
-- **Phase de Mouvement** ([pages/mouvement.html](pages/mouvement.html)) — types de mouvement et règles associées.
-- **Phase de Tir** ([pages/tir.html](pages/tir.html)) — séquence de tir et aptitude au tir.
-- **Phase d'Assaut** ([pages/assaut.html](pages/assaut.html)) — séquence de charge, combat et réactions de charge.
-- **Statuts & Réactions** ([pages/statuts-reactions.html](pages/statuts-reactions.html)) — les 4 statuts tactiques et la liste des réactions déclenchables.
-- **Règles spéciales** ([pages/regles.html](pages/regles.html)) — glossaire des règles spéciales avec recherche instantanée.
-- **Pense-bête** ([pages/pense-bete.html](pages/pense-bete.html)) — fiches d'aide à télécharger (feuille d'aide des règles spéciales en Word/PowerPoint/Excel, posture de défi en PDF).
+<!-- TODO : remplacer par une vraie capture d'écran du site
+     (ex : docs/screenshot.png, prise sur mobile ET bureau) -->
+![Page d'accueil du guide](assets/img/hero.webp)
 
-## Structure du projet
+## Démo en ligne
+
+👉 **[jean-desaintangel.github.io/horus_heresy](https://jean-desaintangel.github.io/horus_heresy/)**
+
+## Fonctionnalités principales
+
+- **Règles résumées par phase** : construction d'armée, tour de jeu, mouvement, tir, assaut, statuts & réactions.
+- **Tables de référence interactives** (CC, Blessure, CT) : surbrillance ligne/colonne au survol, épinglage d'une case au tap sur mobile, première colonne figée au défilement horizontal.
+- **Glossaire des règles spéciales** avec recherche instantanée (insensible aux accents).
+- **Arsenal** : tables d'armes filtrables, avec info-bulle de définition sur chaque règle spéciale.
+- **Configurateur d'unités** : composez votre liste (variantes, options d'armement), coût en points recalculé en direct, fiche récap imprimable, sauvegarde locale (`localStorage`).
+- **Téléchargements** : aides de jeu maison et documents communautaires.
+- **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier.
+- **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée.
+
+## Arborescence du projet
 
 ```text
-index.html
-pages/
-  armee.html
-  tour.html
-  mouvement.html
-  tir.html
-  assaut.html
-  statuts-reactions.html
-  regles.html
-  pense-bete.html
-assets/
-  img/         # logo, icônes et illustrations (hero.webp + hero.jpg en repli)
-  fonts/       # Cinzel et Lato auto-hébergées (WOFF2, sous-ensemble latin)
-  pense-bete/  # fiches téléchargeables (feuille d'aide, posture de défi)
-css/
-  style.css    # mobile-first ; variables de couleurs nommées par rôle
-js/
-  main.js      # menu mobile, accordéons, timeline, sections repliables
-  tables.js    # tables de référence (tir.html et assaut.html)
-  regles.js    # recherche/filtrage des règles spéciales
+horus_heresy/
+├── index.html               # Page d'accueil (hero + navigation)
+├── pages/                   # Pages secondaires (une par section)
+│   ├── armee.html           # Construction d'armée (détachements, rôles)
+│   ├── tour.html            # Les 5 phases d'un tour de jeu (timeline)
+│   ├── mouvement.html       # Phase de Mouvement
+│   ├── tir.html             # Phase de Tir + tables de référence
+│   ├── assaut.html          # Phase d'Assaut + tables de référence
+│   ├── statuts-reactions.html # Statuts tactiques et réactions
+│   ├── regles.html          # Glossaire des règles spéciales (recherche)
+│   ├── armes.html           # Arsenal : tables d'armes filtrables
+│   ├── unites.html          # Configurateur de liste d'armée
+│   └── telechargement.html  # Documents à télécharger
+├── css/
+│   └── style.css            # Feuille de style unique, mobile-first,
+│                            # variables CSS nommées par rôle
+├── js/                      # JavaScript vanilla, sans dépendance
+│   ├── main.js              # Commun : menu burger, accordéons,
+│   │                        # timeline, sections repliables, tooltips
+│   ├── tables.js            # Tables de référence 2D (tir, assaut)
+│   ├── regles.js            # Rendu + recherche des règles spéciales
+│   ├── regles-data.js       # Données : textes des règles spéciales
+│   ├── armes.js             # Rendu + filtrage des tables d'armes
+│   ├── armes-data.js        # Données : caractéristiques des armes
+│   ├── unites.js            # Logique du configurateur d'unités
+│   └── unites-data.js       # Données : fiches d'unités + équipements
+└── assets/
+    ├── fonts/               # Cinzel & Lato auto-hébergées (WOFF2)
+    ├── img/                 # Favicon, illustration d'accueil
+    └── documents/           # Fichiers proposés au téléchargement
 ```
 
-Site en HTML/CSS/JS vanilla, sans dépendance ni étape de build.
+**Convention** : les fichiers `*-data.js` ne contiennent **que des données** (transcriptions des livres) ; la logique de rendu vit dans le fichier du même nom sans suffixe. Pour corriger une valeur de jeu, on ne touche donc qu'aux `-data.js`.
+
+## Technologies utilisées
+
+- **HTML5 / CSS3 / JavaScript vanilla** — aucun framework, aucune dépendance, aucune étape de build.
+- **Mobile-first** : les styles de base ciblent le petit écran, les media queries `min-width` enrichissent pour le bureau.
+- **Sécurité** : tout le texte est injecté via `textContent` (jamais `innerHTML`) — réflexe anti-XSS.
+- Hébergement : **GitHub Pages**.
+
+## Installation locale
+
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/jean-desaintangel/horus_heresy.git
+cd horus_heresy
+
+# 2a. Ouvrir directement index.html dans un navigateur (aucun serveur requis)
+# ou
+# 2b. Servir le dossier avec un serveur statique :
+npx serve .
+# puis ouvrir http://localhost:3000
+```
+
+Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci-dessous).
 
 ## Choix techniques assumés
 
-- **Polices auto-hébergées** (`assets/fonts/`, fichiers issus du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / recommandations CNIL) et chargement plus rapide.
-- **Nav et footer dupliqués dans chaque page** : dette assumée pour rester en statique pur, consultable en `file://` sans serveur ni étape de build (une inclusion via `fetch()` échouerait en `file://` à cause de CORS). Toute modification du menu doit donc être répercutée sur les 9 pages.
-- **Pas de Content-Security-Policy en `<meta>`** pour la même raison : la source `'self'` est inopérante en `file://`. À configurer via les en-têtes HTTP de l'hébergeur au moment de la mise en ligne (`default-src 'self'`).
-- **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter avec le domaine définitif à la mise en ligne.
+- **Polices auto-hébergées** (`assets/fonts/`, issues du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / CNIL) et chargement plus rapide.
+- **Nav et footer dupliqués dans chaque page** : dette assumée pour rester en statique pur consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute modification du menu doit être répercutée sur les **11 pages**.
+- **Pas de Content-Security-Policy en `<meta>`** : la source `'self'` est inopérante en `file://`. GitHub Pages ne permettant pas de définir des en-têtes HTTP personnalisés, une CSP devra attendre un éventuel changement d'hébergeur.
+- **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter maintenant que le domaine est connu.
 
-## Lancer le site en local
+## Contribuer / s'approprier le code
 
-Ouvrir simplement [index.html](index.html) dans un navigateur, ou servir le dossier avec un serveur statique, par exemple :
+Les contributions sont bienvenues : correction d'une valeur de jeu, faute d'orthographe, nouvelle unité dans le configurateur, amélioration d'accessibilité…
 
-```bash
-npx serve .
-```
+1. **Forkez** le dépôt (bouton *Fork* en haut de la page GitHub).
+2. Créez une branche : `git checkout -b correction-profil-praetor`.
+3. Faites vos modifications (les fichiers `js/*-data.js` sont le point d'entrée le plus fréquent).
+4. Ouvrez une **Pull Request** en décrivant le changement et, pour une valeur de jeu, la **page du livre** qui fait référence.
 
-## Avertissement
+Vous voulez adapter le site pour une autre communauté (autre langue, autre système de jeu) ? Forkez et faites-vous plaisir — c'est prévu pour. Voir [CONTRIBUTING.md](CONTRIBUTING.md) pour les détails.
 
-Guide non officiel réalisé par des fans, pour les nouveaux joueurs. Horus Heresy est une marque de Games Workshop. Ce site ne contient aucun matériel officiel.
+## Licence
+
+Le **code** (HTML, CSS, JS) est sous licence **[MIT](LICENSE)** : vous pouvez le copier, le modifier et le redistribuer librement, y compris commercialement, à condition de conserver la mention de copyright. C'est la licence la plus simple et la plus permissive pour encourager les forks.
+
+⚠️ **La licence MIT ne couvre que le code.** Les noms, l'univers et les valeurs de jeu de *Warhammer : The Horus Heresy* restent la propriété intellectuelle de **Games Workshop Ltd**. Les documents du dossier `assets/documents/` conservent la licence de leurs auteurs respectifs.
+
+## Contact / crédits
+
+- **Auteur** : Jean — [ouvrir une issue](https://github.com/jean-desaintangel/horus_heresy/issues) pour toute question ou suggestion.
+- **Communauté** : groupe Facebook [Horus Heresy France](https://www.facebook.com/groups/1881902328756053).
+- Merci à **Sgt Furius** pour la fiche « Postures de défi ».
+
+---
+
+*Guide non officiel réalisé par des fans bénévoles francophones. Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de Games Workshop Ltd. Ce site n'est ni affilié ni approuvé par Games Workshop.*

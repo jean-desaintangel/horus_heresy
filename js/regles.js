@@ -1,11 +1,12 @@
 /* ============================================================
    regles.js — Règles spéciales (page regles.html)
-   Auteur : Jean · Modifié : 2026-07-15
+   Auteur : Jean · Modifié : 2026-07-17
    Rôle   : rend dynamiquement les règles (REGLES_ARMES,
    REGLES_DIVERSES) et les filtre en temps réel via la barre de
    recherche.
-   Dépend : js/regles-data.js (données { nom, texte }, chargé avant
-   ce script) — stylé par css/style.css.
+   Dépend : js/main.js (normaliserTexte) et js/regles-data.js
+   (données { nom, texte }), chargés avant ce script — stylé par
+   css/style.css.
    Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    ============================================================ */
 
@@ -44,36 +45,21 @@ function afficherRegles(idConteneur, regles) {
    FILTRE EN TEMPS RÉEL
    À chaque frappe dans la barre de recherche, on masque
    les règles dont le texte ne contient pas la saisie.
+   La normalisation (accents, casse) est assurée par
+   normaliserTexte, partagée par toutes les barres de recherche
+   du site (voir js/main.js).
    ---------------------------------------------------------- */
-
-/**
- * Retire les accents pour une recherche plus tolérante ("brèche" = "breche").
- * .normalize("NFD") décompose chaque lettre accentuée en deux caractères
- * (ex : "è" devient "e" + un accent grave séparé) ; l'expression régulière
- * supprime ensuite uniquement ces accents désormais isolés.
- * ̀-ͯ = plage Unicode des diacritiques combinants, écrite en
- * échappements plutôt qu'en caractères littéraux (invisibles à l'écran,
- * fragiles au copier-coller : un éditeur peut les re-normaliser sans
- * prévenir et casser silencieusement la regex).
- */
-function normaliser(texte) {
-  return texte
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-}
-
 function activerRecherche() {
   const champ = document.getElementById("recherche");
   const compteur = document.getElementById("compteur");
   if (!champ) return;
 
   champ.addEventListener("input", () => {
-    const requete = normaliser(champ.value.trim());
+    const requete = normaliserTexte(champ.value.trim());
     let visibles = 0;
 
     document.querySelectorAll(".regle").forEach((regle) => {
-      const contenu = normaliser(regle.dataset.recherche);
+      const contenu = normaliserTexte(regle.dataset.recherche);
       const correspond = contenu.includes(requete);
       regle.classList.toggle("cachee", !correspond);
       if (correspond) visibles++;

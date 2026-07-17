@@ -8,7 +8,14 @@
    fiche récap (profil, équipement final, règles) est générée
    pour chaque unité, et la liste est imprimable (Ctrl+P ou
    bouton dédié — voir les styles @media print de css/style.css).
-   Dépend : js/unites-data.js (chargé avant ce script).
+   Depuis 2026-07-17, chaque unité ajoutée doit occuper une Case
+   de l'Organigramme de Force (règles de Sélection d'Armée,
+   p. 282-285) : la structure de l'armée et sa validation sont
+   déléguées à js/organigramme.js (API window.Organigramme).
+   Dépend : js/main.js (normaliserTexte, el, trouverDefinitionRegle),
+   js/regles-data.js, js/armes-data.js, js/unites-data.js,
+   js/organigramme-data.js et js/organigramme.js (chargés avant ce
+   script).
    Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    Persistance : la liste est mémorisée dans localStorage pour
    survivre au rechargement de la page (aucune donnée envoyée
@@ -26,12 +33,38 @@
    ---------------------------------------------------------- */
 let armee = [];
 let compteurUid = 0;
+// Vrai une fois window.Organigramme initialisé : évite d'actualiser
+// l'organigramme pendant la restauration initiale des cartes.
+let orgaPret = false;
 
 const CLE_STOCKAGE = "hh-fiche-unites";
 
 // En-têtes du profil d'infanterie et du profil de véhicule.
-const ENTETES_PROFIL = ["M", "CC", "CT", "F", "E", "PV", "I", "A", "Cd", "Sf", "Vo", "Int", "Sv", "Inv"];
-const ENTETES_VEHICULE = ["M", "CT", "Blindage Avant", "Flanc", "Arrière", "PC", "Capacité de Transport"];
+const ENTETES_PROFIL = [
+  "M",
+  "CC",
+  "CT",
+  "F",
+  "E",
+  "PV",
+  "I",
+  "A",
+  "Cd",
+  "Sf",
+  "Vo",
+  "Int",
+  "Sv",
+  "Inv",
+];
+const ENTETES_VEHICULE = [
+  "M",
+  "CT",
+  "Blindage Avant",
+  "Flanc",
+  "Arrière",
+  "PC",
+  "Capacité de Transport",
+];
 
 // Ordre d'affichage des catégories dans le menu de sélection,
 // indépendant de leur ordre d'apparition dans UNITES. Une catégorie
@@ -62,8 +95,9 @@ function trouverUnite(id) {
   return UNITES.find((u) => u.id === id);
 }
 
-// Retire " (liste Pistolets de Légion)" etc. du nom d'un choix :
-// l'origine de l'objet est utile dans le menu, pas sur la fiche.
+// Retire " (liste Pistolets de Légion)" etc. du nom d'un choix : sert
+// à la fois aux menus déroulants (construireConfig) et à la fiche
+// récap, aucun des deux ne gagnant à afficher la liste d'origine.
 function nomCourt(nom) {
   return nom.replace(/\s*\(liste [^)]*\)$/, "");
 }
@@ -85,7 +119,10 @@ function valeursParDefaut(unite) {
    `parTrancheMax`) par tranche de 5 figurines dans l'unité. */
 function budgetQuantite(unite, instance, opt) {
   if (opt.parTranche) {
-    return Math.floor((instance.effectif || 1) / opt.parTranche) * (opt.parTrancheMax || 1);
+    return (
+      Math.floor((instance.effectif || 1) / opt.parTranche) *
+      (opt.parTrancheMax || 1)
+    );
   }
   return opt.max || 0;
 }
@@ -106,7 +143,9 @@ function quantiteUtilisee(unite, instance, opt) {
 
 // Une option est-elle accessible à la variante choisie ?
 function optionPermise(opt, instance) {
-  return !(opt.variantesExclues && opt.variantesExclues.includes(instance.variante));
+  return !(
+    opt.variantesExclues && opt.variantesExclues.includes(instance.variante)
+  );
 }
 
 /* Équipement final d'une instance : équipement de départ, puis
@@ -161,9 +200,22 @@ function optionRealisable(unite, instance, opt) {
   const equipSansElle = equipementFinal(unite, instance, opt.id);
   // requiertEquip est comparé en « contient » : "combi-bolter"
   // reconnaît aussi "Poing énergétique Gravis et combi-bolter".
-  if (opt.requiertEquip && !equipSansElle.some((e) => e.includes(opt.requiertEquip))) return false;
-  if (opt.type === "choix" && opt.remplace && !equipSansElle.includes(opt.remplace)) return false;
-  if (opt.type === "paire" && !opt.remplaceListe.every((e) => equipSansElle.includes(e))) return false;
+  if (
+    opt.requiertEquip &&
+    !equipSansElle.some((e) => e.includes(opt.requiertEquip))
+  )
+    return false;
+  if (
+    opt.type === "choix" &&
+    opt.remplace &&
+    !equipSansElle.includes(opt.remplace)
+  )
+    return false;
+  if (
+    opt.type === "paire" &&
+    !opt.remplaceListe.every((e) => equipSansElle.includes(e))
+  )
+    return false;
   return true;
 }
 
@@ -179,10 +231,12 @@ function coutInstance(unite, instance) {
   for (const opt of unite.options) {
     if (!optionPermise(opt, instance)) continue;
     const val = instance.valeurs[opt.id];
-    if (opt.type === "choix") total += opt.choix[val].cout * (opt.parFigurine ? nbFigurines : 1);
+    if (opt.type === "choix")
+      total += opt.choix[val].cout * (opt.parFigurine ? nbFigurines : 1);
     else if ((opt.type === "case" || opt.type === "paire") && val)
       total += opt.cout * (opt.parFigurine ? nbFigurines : 1);
-    else if (opt.type === "multi") for (const i of val) total += opt.choix[i].cout;
+    else if (opt.type === "multi")
+      for (const i of val) total += opt.choix[i].cout;
     else if (opt.type === "quantite") total += val * opt.cout;
   }
   return total;
@@ -190,7 +244,10 @@ function coutInstance(unite, instance) {
 
 // Coût total de la liste.
 function coutArmee() {
-  return armee.reduce((somme, inst) => somme + coutInstance(trouverUnite(inst.uniteId), inst), 0);
+  return armee.reduce(
+    (somme, inst) => somme + coutInstance(trouverUnite(inst.uniteId), inst),
+    0,
+  );
 }
 
 /* ----------------------------------------------------------
@@ -215,23 +272,46 @@ function restaurer() {
     for (const entree of donnees) {
       const unite = trouverUnite(entree.uniteId);
       if (!unite) continue;
+      // uid stable d'une session à l'autre : l'organigramme
+      // (js/organigramme.js) référence les unités par cet uid dans
+      // sa propre sauvegarde. On refuse les doublons (données
+      // altérées) en retombant sur un uid neuf.
+      let uid =
+        Number.isInteger(entree.uid) && entree.uid > 0
+          ? entree.uid
+          : ++compteurUid;
+      if (armee.some((i) => i.uid === uid)) uid = ++compteurUid;
+      compteurUid = Math.max(compteurUid, uid);
       const instance = {
-        uid: ++compteurUid,
+        uid,
         uniteId: unite.id,
-        variante: Number.isInteger(entree.variante) && unite.variantes[entree.variante] ? entree.variante : 0,
+        variante:
+          Number.isInteger(entree.variante) && unite.variantes[entree.variante]
+            ? entree.variante
+            : 0,
         effectif: unite.effectif
           ? Number.isInteger(entree.effectif)
-            ? Math.min(unite.effectif.max, Math.max(unite.effectif.base, entree.effectif))
+            ? Math.min(
+                unite.effectif.max,
+                Math.max(unite.effectif.base, entree.effectif),
+              )
             : unite.effectif.base
           : null,
         valeurs: valeursParDefaut(unite),
       };
       for (const opt of unite.options) {
         const v = entree.valeurs ? entree.valeurs[opt.id] : undefined;
-        if (opt.type === "choix" && Number.isInteger(v) && opt.choix[v]) instance.valeurs[opt.id] = v;
-        else if ((opt.type === "case" || opt.type === "paire") && typeof v === "boolean") instance.valeurs[opt.id] = v;
+        if (opt.type === "choix" && Number.isInteger(v) && opt.choix[v])
+          instance.valeurs[opt.id] = v;
+        else if (
+          (opt.type === "case" || opt.type === "paire") &&
+          typeof v === "boolean"
+        )
+          instance.valeurs[opt.id] = v;
         else if (opt.type === "multi" && Array.isArray(v))
-          instance.valeurs[opt.id] = v.filter((i) => Number.isInteger(i) && opt.choix[i]).slice(0, opt.max);
+          instance.valeurs[opt.id] = v
+            .filter((i) => Number.isInteger(i) && opt.choix[i])
+            .slice(0, opt.max);
         else if (opt.type === "quantite" && Number.isInteger(v) && v >= 0)
           instance.valeurs[opt.id] = v; // ramené au budget par actualiserCarte
       }
@@ -243,14 +323,9 @@ function restaurer() {
 }
 
 /* ----------------------------------------------------------
-   RENDU — petites fabriques DOM (textContent uniquement)
+   RENDU — la fabrique DOM el() (textContent uniquement, anti-XSS)
+   est partagée avec js/organigramme.js : voir js/main.js.
    ---------------------------------------------------------- */
-function el(balise, classe, texte) {
-  const noeud = document.createElement(balise);
-  if (classe) noeud.className = classe;
-  if (texte !== undefined) noeud.textContent = texte;
-  return noeud;
-}
 
 // Libellé d'un coût : "Gratuit", "+5 pts"…
 function libelleCout(cout) {
@@ -276,7 +351,12 @@ function construireTableProfil(unite, instance) {
   if (variante.profilVehicule) {
     const p = variante.profilVehicule;
     entetes = ENTETES_VEHICULE;
-    lignes = [{ libelle: null, valeurs: [p.M, p.CT, p.avant, p.flanc, p.arriere, p.PC, p.transport] }];
+    lignes = [
+      {
+        libelle: null,
+        valeurs: [p.M, p.CT, p.avant, p.flanc, p.arriere, p.PC, p.transport],
+      },
+    ];
   } else if (variante.profils) {
     entetes = [""].concat(ENTETES_PROFIL);
     lignes = variante.profils.map((p) => ({
@@ -285,7 +365,9 @@ function construireTableProfil(unite, instance) {
     }));
   } else {
     entetes = ENTETES_PROFIL;
-    lignes = [{ libelle: null, valeurs: ENTETES_PROFIL.map((c) => variante.profil[c]) }];
+    lignes = [
+      { libelle: null, valeurs: ENTETES_PROFIL.map((c) => variante.profil[c]) },
+    ];
   }
   for (const titre of entetes) {
     const th = document.createElement("th");
@@ -320,25 +402,83 @@ function construireLigneFiche(titre, elements) {
 }
 
 /* ----------------------------------------------------------
-   CARACTÉRISTIQUES D'ARMES (js/armes-data.js) — affichées en
-   info-bulle sur le nom de l'arme dans la ligne "Équipement" de
-   la fiche récap, avec le même mécanisme que les tags de règles
-   de la page Arsenal (.regle-tag / .tooltip, voir css/style.css
-   et js/main.js::cablerInfoBulles).
+   RÈGLES SPÉCIALES ET TRAITS D'UNITÉS (js/regles-data.js) — les
+   lignes "Règles spéciales" et "Traits" de la fiche récap habillent
+   chaque entrée reconnue d'une info-bulle reprenant sa définition,
+   exactement comme la colonne "Règles spéciales" des tables d'armes
+   (page armes.html). La recherche de définition
+   (trouverDefinitionRegle) est partagée : voir js/main.js. Certaines
+   entrées n'ont pas de définition connue (ex : "Aucune", ou des
+   traits encore non documentés comme "Psyker") — le texte reste
+   alors affiché tel quel, sans info-bulle.
+   ---------------------------------------------------------- */
+
+// Comme construireLigneFiche, mais pour une liste de règles/traits :
+// habille chaque entrée reconnue d'un .regle-tag portant sa définition
+// (voir ci-dessus). Utilisée pour les lignes "Règles spéciales" et
+// "Traits" de la fiche récap.
+function construireLigneRegles(titre, regles) {
+  const p = el("p", "fiche-ligne");
+  p.appendChild(el("strong", null, titre + " : "));
+  regles.forEach((regle, i) => {
+    if (i > 0) p.appendChild(document.createTextNode(" · "));
+    const definition = trouverDefinitionRegle(regle);
+    if (!definition) {
+      p.appendChild(document.createTextNode(regle));
+      return;
+    }
+    const tag = el("span", "regle-tag", regle);
+    tag.tabIndex = 0;
+    tag.appendChild(el("span", "tooltip", definition));
+    p.appendChild(tag);
+  });
+  return p;
+}
+
+/* ----------------------------------------------------------
+   CARACTÉRISTIQUES D'ARMES (js/armes-data.js) — affichées sur la
+   fiche récap sous forme de table (une par jeu d'en-têtes rencontré :
+   Tir ENTETES_TIR / Mêlée ENTETES_MELEE), au même titre que la table
+   de profil de l'unité : ainsi visibles à l'impression, contrairement
+   à une info-bulle qui n'apparaît qu'au survol.
    Correspondance par sous-chaîne (insensible à la casse, nom le
    plus long d'abord pour préférer « Bolter lourd » à « Bolter ») :
    certains noms d'armes propres aux véhicules ne correspondent pas
    exactement à l'Arsenal (pluriels, montage spécifique) — dans ce
-   cas le texte reste affiché tel quel, sans info-bulle.
+   cas l'arme n'apparaît simplement dans aucune table.
    ---------------------------------------------------------- */
 let indexArmes = null;
+
+// Échappe les caractères spéciaux d'une regex (certains noms d'armes
+// portent des parenthèses, astérisques ou points, ex : « Obus à
+// phosphex* », « Canon à conversion (< 15 pas) »).
+function echapperRegex(texte) {
+  return texte.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Motif de recherche tolérant au pluriel français régulier : les
+// options d'équipement écrivent souvent « Deux couleuvrines volkites
+// Latérales », qui doit tout de même reconnaître l'arme « Couleuvrine
+// volkite » de l'Arsenal. Chaque espace du nom devient "s? " dans le
+// motif (un « s » optionnel avant l'espace), et un « s » final
+// optionnel est toléré après le dernier mot.
+function construireRegexArme(nomMinuscule) {
+  return new RegExp(echapperRegex(nomMinuscule).split(" ").join("s? ") + "s?");
+}
 
 function construireIndexArmes() {
   const index = [];
   const ajouter = (categories, entetes) => {
     for (const categorie of categories) {
       for (const arme of categorie.armes) {
-        index.push({ nom: arme.nom, entetes, stats: arme.stats, regles: arme.regles, traits: arme.traits });
+        index.push({
+          nom: arme.nom,
+          entetes,
+          stats: arme.stats,
+          regles: arme.regles,
+          traits: arme.traits,
+          regex: construireRegexArme(arme.nom.toLowerCase()),
+        });
       }
     }
   };
@@ -360,57 +500,160 @@ function trouverArmeDansTexte(texte) {
   const brut = texte.toLowerCase();
   let meilleur = null;
   for (const arme of indexArmes) {
-    const i = brut.indexOf(arme.nom.toLowerCase());
-    if (i === -1) continue;
-    if (!meilleur || i < meilleur.i || (i === meilleur.i && arme.nom.length > meilleur.arme.nom.length)) {
-      meilleur = { i, arme };
+    const correspondance = arme.regex.exec(brut);
+    if (!correspondance) continue;
+    const i = correspondance.index;
+    if (
+      !meilleur ||
+      i < meilleur.i ||
+      (i === meilleur.i && arme.nom.length > meilleur.arme.nom.length)
+    ) {
+      meilleur = { i, longueur: correspondance[0].length, arme };
     }
   }
   if (!meilleur) return null;
-  const { i, arme } = meilleur;
+  const { i, longueur, arme } = meilleur;
   return {
     avant: texte.slice(0, i),
-    trouve: texte.slice(i, i + arme.nom.length),
-    apres: texte.slice(i + arme.nom.length),
+    trouve: texte.slice(i, i + longueur),
+    apres: texte.slice(i + longueur),
     arme,
   };
 }
 
-// Texte de l'info-bulle : caractéristiques (colonnes de l'Arsenal)
-// puis règles spéciales et traits, si renseignés.
-function texteInfoBulleArme(arme) {
-  let texte = arme.entetes.map((entete, i) => entete + " " + arme.stats[i]).join(" · ");
-  if (arme.regles && arme.regles !== "-") texte += " — Règles : " + arme.regles;
-  if (arme.traits && arme.traits !== "-") texte += " (" + arme.traits + ")";
-  return texte;
-}
-
-// Ajoute `texte` à `conteneur`, en habillant le nom de l'arme reconnue
-// (s'il y en a une) d'un .regle-tag portant ses caractéristiques.
-function ajouterElementEquipement(conteneur, texte) {
-  const correspondance = trouverArmeDansTexte(texte);
-  if (!correspondance) {
-    conteneur.appendChild(document.createTextNode(texte));
-    return;
+// Cellule "Règles spéciales" d'une ligne d'arme : chaque règle est
+// séparée par une virgule et habillée d'un .regle-tag portant sa
+// définition (voir trouverDefinitionRegle dans js/main.js), exactement
+// comme la colonne "Règles spéciales" des tables d'armes de l'Arsenal
+// (page armes.html, voir construireCategorieArmes dans js/armes.js).
+function construireCelluleReglesArme(regles) {
+  const td = el("td", "gauche");
+  if (!regles || regles === "-") {
+    td.textContent = "-";
+    return td;
   }
-  conteneur.appendChild(document.createTextNode(correspondance.avant));
-  const tag = el("span", "regle-tag", correspondance.trouve);
-  tag.tabIndex = 0;
-  tag.appendChild(el("span", "tooltip", texteInfoBulleArme(correspondance.arme)));
-  conteneur.appendChild(tag);
-  conteneur.appendChild(document.createTextNode(correspondance.apres));
+  regles.split(",").forEach((token, i) => {
+    const intitule = token.trim();
+    if (i > 0) td.appendChild(document.createTextNode(", "));
+    const definition = trouverDefinitionRegle(intitule);
+    if (!definition) {
+      td.appendChild(document.createTextNode(intitule));
+      return;
+    }
+    const tag = el("span", "regle-tag", intitule);
+    tag.tabIndex = 0;
+    tag.appendChild(el("span", "tooltip", definition));
+    td.appendChild(tag);
+  });
+  return td;
 }
 
-// Comme construireLigneFiche, mais réservée à la ligne "Équipement" :
-// habille chaque nom d'arme reconnu d'une info-bulle (voir ci-dessus).
-function construireLigneEquipement(titre, elements) {
-  const p = el("p", "fiche-ligne");
-  p.appendChild(el("strong", null, titre + " : "));
-  elements.forEach((element, i) => {
-    if (i > 0) p.appendChild(document.createTextNode(" · "));
-    ajouterElementEquipement(p, element);
+// Table des caractéristiques d'un groupe d'armes partageant le même
+// jeu d'en-têtes (Tir ou Mêlée), sur le modèle de construireTableProfil.
+function construireTableArmes(entetes, armes) {
+  const conteneur = el("div", "table-scroll");
+  const table = el("table", "table-profil table-armes");
+  const enTete = document.createElement("thead");
+  const corps = document.createElement("tbody");
+  const ligneTitres = document.createElement("tr");
+
+  const thArme = document.createElement("th");
+  thArme.scope = "col";
+  thArme.className = "gauche";
+  thArme.textContent = "Arme";
+  ligneTitres.appendChild(thArme);
+  for (const titre of entetes.concat(["Règles spéciales", "Traits"])) {
+    const th = document.createElement("th");
+    th.scope = "col";
+    if (titre === "Règles spéciales" || titre === "Traits")
+      th.className = "gauche";
+    th.textContent = titre;
+    ligneTitres.appendChild(th);
+  }
+  enTete.appendChild(ligneTitres);
+  table.appendChild(enTete);
+
+  for (const arme of armes) {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.scope = "row";
+    th.className = "gauche";
+    th.textContent = arme.nom;
+    tr.appendChild(th);
+    for (const valeur of arme.stats) tr.appendChild(el("td", null, valeur));
+    tr.appendChild(construireCelluleReglesArme(arme.regles));
+    tr.appendChild(
+      el(
+        "td",
+        "gauche",
+        arme.traits && arme.traits !== "-" ? arme.traits : "-",
+      ),
+    );
+    corps.appendChild(tr);
+  }
+  table.appendChild(corps);
+  conteneur.appendChild(table);
+  return conteneur;
+}
+
+// Repère, dans l'équipement final, les armes reconnues dans l'Arsenal
+// (sans doublon, dans l'ordre d'apparition) et construit une table de
+// caractéristiques par jeu d'en-têtes rencontré (Tir / Mêlée).
+function construireTablesArmes(equipement) {
+  const fragment = document.createDocumentFragment();
+  const armesTrouvees = [];
+  const noms = new Set();
+  for (const texte of equipement) {
+    const correspondance = trouverArmeDansTexte(texte);
+    if (correspondance && !noms.has(correspondance.arme.nom)) {
+      noms.add(correspondance.arme.nom);
+      armesTrouvees.push(correspondance.arme);
+    }
+  }
+
+  const groupes = [];
+  for (const arme of armesTrouvees) {
+    let groupe = groupes.find((g) => g.entetes === arme.entetes);
+    if (!groupe) {
+      groupe = { entetes: arme.entetes, armes: [] };
+      groupes.push(groupe);
+    }
+    groupe.armes.push(arme);
+  }
+  for (const groupe of groupes) {
+    fragment.appendChild(construireTableArmes(groupe.entetes, groupe.armes));
+  }
+  return fragment;
+}
+
+// Bloc « Définitions », réservé à l'impression (voir .unite-fiche-
+// definitions dans css/style.css) : reprend en texte visible la
+// définition de chaque règle spéciale et trait de la fiche (unité et
+// armes), autrement accessible seulement en info-bulle au survol/
+// focus — donc invisible sur une fiche imprimée. Repère les .regle-
+// tag déjà posés par construireLigneRegles/construireCelluleReglesArme
+// plutôt que de refaire la recherche de définition.
+function construireDefinitions(fiche) {
+  const definitions = new Map();
+  fiche.querySelectorAll(".regle-tag").forEach((tag) => {
+    const bulle = tag.querySelector(".tooltip");
+    if (!bulle || !tag.firstChild) return;
+    const nom = tag.firstChild.textContent;
+    if (!definitions.has(nom)) definitions.set(nom, bulle.textContent);
   });
-  return p;
+  if (definitions.size === 0) return null;
+
+  const bloc = el("div", "unite-fiche-definitions");
+  bloc.appendChild(el("p", "unite-definitions-titre", "Définitions"));
+  const liste = document.createElement("ul");
+  for (const [nom, texte] of definitions) {
+    const li = document.createElement("li");
+    li.appendChild(el("strong", null, nom + " — "));
+    li.appendChild(document.createTextNode(texte));
+    liste.appendChild(li);
+  }
+  bloc.appendChild(liste);
+  return bloc;
 }
 
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
@@ -426,13 +669,27 @@ function construireFiche(unite, instance) {
       ]),
     );
   }
+  const equipement = equipementFinal(unite, instance);
   fiche.appendChild(
-    construireLigneEquipement(unite.equipementLibelle || "Équipement", equipementFinal(unite, instance)),
+    construireLigneFiche(unite.equipementLibelle || "Équipement", equipement),
   );
-  fiche.appendChild(construireLigneFiche("Traits", unite.traits));
-  fiche.appendChild(construireLigneFiche("Règles spéciales", variante.regles));
+  fiche.appendChild(construireTablesArmes(equipement));
+  // [Allégeance] et [Legiones Astartes] sont communs à toutes les
+  // unités de la Légion : ne pas les afficher sur la fiche évite de
+  // les y répéter systématiquement. La ligne disparaît s'il ne reste
+  // aucun trait propre à l'unité.
+  const traitsAffiches = unite.traits.filter(
+    (trait) => trait !== "[Allégeance]" && trait !== "[Legiones Astartes]",
+  );
+  if (traitsAffiches.length > 0) {
+    fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
+  }
+  fiche.appendChild(construireLigneRegles("Règles spéciales", variante.regles));
   fiche.appendChild(construireLigneFiche("Type", [variante.type]));
-  if (unite.notes) fiche.appendChild(construireLigneFiche("Notes", [unite.notes]));
+  if (unite.notes)
+    fiche.appendChild(construireLigneFiche("Notes", [unite.notes]));
+  const definitions = construireDefinitions(fiche);
+  if (definitions) fiche.appendChild(definitions);
   return fiche;
 }
 
@@ -455,9 +712,13 @@ function actualiserCarte(carte, unite, instance) {
   for (const opt of unite.options) {
     if (opt.type !== "quantite") continue;
     const debordement =
-      quantiteUtilisee(unite, instance, opt) - budgetQuantite(unite, instance, opt);
+      quantiteUtilisee(unite, instance, opt) -
+      budgetQuantite(unite, instance, opt);
     if (debordement > 0) {
-      instance.valeurs[opt.id] = Math.max(0, instance.valeurs[opt.id] - debordement);
+      instance.valeurs[opt.id] = Math.max(
+        0,
+        instance.valeurs[opt.id] - debordement,
+      );
     }
   }
 
@@ -488,7 +749,9 @@ function actualiserCarte(carte, unite, instance) {
       champ.max = String(instance.valeurs[opt.id] + Math.max(0, dispo));
       champ.disabled = !realisable || budget === 0;
     } else {
-      const caseACocher = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
+      const caseACocher = carte.querySelector(
+        "#opt-" + instance.uid + "-" + opt.id,
+      );
       caseACocher.checked = instance.valeurs[opt.id];
       caseACocher.disabled = !realisable;
     }
@@ -497,9 +760,10 @@ function actualiserCarte(carte, unite, instance) {
   // 3. Fiche récap et coût de l'unité.
   const ancienneFiche = carte.querySelector(".unite-fiche");
   ancienneFiche.replaceWith(construireFiche(unite, instance));
-  carte.querySelector(".unite-points").textContent = coutInstance(unite, instance) + " pts";
-  // Les .regle-tag des caractéristiques d'armes viennent d'être créés :
-  // on relance le câblage d'accessibilité des info-bulles (voir js/main.js).
+  carte.querySelector(".unite-points").textContent =
+    coutInstance(unite, instance) + " pts";
+  // Les .regle-tag des règles spéciales viennent d'être créées : on
+  // relance le câblage d'accessibilité des info-bulles (voir js/main.js).
   if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
 
   // 4. Total général + sauvegarde.
@@ -566,7 +830,9 @@ function construireConfig(carte, unite, instance) {
       label.appendChild(radio);
       label.appendChild(
         document.createTextNode(
-          " " + variante.nom + (variante.cout > 0 ? " (+" + variante.cout + " pts)" : ""),
+          " " +
+            variante.nom +
+            (variante.cout > 0 ? " (+" + variante.cout + " pts)" : ""),
         ),
       );
       groupe.appendChild(label);
@@ -591,8 +857,8 @@ function construireConfig(carte, unite, instance) {
           optionHtml.value = String(indice);
           optionHtml.textContent =
             indice === 0 && !opt.obligatoire
-              ? choix.nom
-              : choix.nom +
+              ? nomCourt(choix.nom)
+              : nomCourt(choix.nom) +
                 " — " +
                 libelleCout(choix.cout) +
                 (opt.parFigurine && choix.cout > 0 ? "/figurine" : "");
@@ -621,7 +887,11 @@ function construireConfig(carte, unite, instance) {
             actualiserCarte(carte, unite, instance);
           });
           label.appendChild(caseACocher);
-          label.appendChild(document.createTextNode(" " + choix.nom + " — " + libelleCout(choix.cout)));
+          label.appendChild(
+            document.createTextNode(
+              " " + choix.nom + " — " + libelleCout(choix.cout),
+            ),
+          );
           sousGroupe.appendChild(label);
         });
         groupe.appendChild(sousGroupe);
@@ -685,22 +955,54 @@ function construireCarte(instance) {
   // --- En-tête : nom, coût, bouton retirer ---
   const entete = el("header", "unite-carte-entete");
   const titre = el("h3", null, unite.nom);
-  const points = el("span", "unite-points", coutInstance(unite, instance) + " pts");
+  const points = el(
+    "span",
+    "unite-points",
+    coutInstance(unite, instance) + " pts",
+  );
   const retirer = el("button", "unite-retirer", "Retirer");
   retirer.type = "button";
   retirer.setAttribute("aria-label", "Retirer " + unite.nom + " de la liste");
   retirer.addEventListener("click", () => {
     armee = armee.filter((i) => i.uid !== instance.uid);
     carte.remove();
-    actualiserTotal();
     sauvegarder();
+    // Libère la Case de l'Organigramme de Force qu'occupait l'unité
+    // (et revalide les déblocages : un détachement débloqué par cette
+    // unité devient invalide et est signalé — voir validerArmee).
+    Organigramme.libererEtActualiser(instance.uid);
+    actualiserTotal();
   });
   entete.appendChild(titre);
   entete.appendChild(points);
   entete.appendChild(retirer);
   carte.appendChild(entete);
 
-  carte.appendChild(el("p", "unite-composition", "Composition d'unité : " + unite.composition));
+  // --- Case occupée dans l'Organigramme de Force (p. 282) ---
+  // Le menu permet d'annuler/modifier le placement sans casser la
+  // cohérence : les options sont recalculées par actualiserSelectsCases.
+  const affectation = el("div", "unite-affectation");
+  const labelCase = el("label", null, "Case occupée ");
+  const selectCase = document.createElement("select");
+  selectCase.className = "unite-case-select";
+  selectCase.id = "case-" + instance.uid;
+  labelCase.htmlFor = selectCase.id;
+  selectCase.addEventListener("change", () => {
+    const [detUid, indice] = selectCase.value.split(":").map(Number);
+    if (
+      !selectCase.value ||
+      !Organigramme.assigner(instance.uid, detUid, indice)
+    ) {
+      actualiserSelectsCases(); // placement refusé : on resynchronise
+    }
+  });
+  affectation.appendChild(labelCase);
+  affectation.appendChild(selectCase);
+  carte.appendChild(affectation);
+
+  carte.appendChild(
+    el("p", "unite-composition", "Composition d'unité : " + unite.composition),
+  );
   carte.appendChild(construireConfig(carte, unite, instance));
   carte.appendChild(construireFiche(unite, instance));
 
@@ -713,43 +1015,328 @@ function construireCarte(instance) {
 /* ----------------------------------------------------------
    TOTAL GÉNÉRAL + INITIALISATION
    ---------------------------------------------------------- */
-function actualiserTotal() {
+
+// Met à jour le SEUL texte du total (« 3 unités — Total : 450 Points »).
+// Factorisé : utilisé par actualiserTotal (avec revalidation de
+// l'organigramme) et par retirerInstance (sans revalidation, car c'est
+// l'organigramme lui-même qui pilote alors la suppression).
+function majTexteTotal() {
   const total = document.getElementById("total-armee");
   const nb = armee.length;
   total.textContent =
     nb === 0
       ? "Aucune unité dans la liste."
-      : nb + (nb > 1 ? " unités" : " unité") + " — Total : " + coutArmee() + " Points";
+      : nb +
+        (nb > 1 ? " unités" : " unité") +
+        " — Total : " +
+        coutArmee() +
+        " Points";
+}
+
+function actualiserTotal() {
+  majTexteTotal();
+  // Les points conditionnent les quotas (25 % Seigneurs, 50 % Alliés,
+  // limite de la partie) : on fait revalider l'organigramme. Le garde
+  // orgaPret évite l'appel pendant la restauration initiale.
+  if (orgaPret) Organigramme.actualiser();
+}
+
+/* ----------------------------------------------------------
+   AFFECTATION AUX CASES DE L'ORGANIGRAMME
+   Chaque carte porte un menu « Case » listant sa case actuelle et
+   toutes les cases libres compatibles (Rôle Tactique identique, ou
+   Case Principale d'État-major via Affectation Spéciale pour un QG
+   — la compatibilité est calculée par js/organigramme.js). Une
+   unité sans case (ancienne liste restaurée, détachement supprimé)
+   est signalée en erreur : les règles imposent qu'une unité occupe
+   une Case de l'Organigramme de Force (p. 282).
+   ---------------------------------------------------------- */
+function actualiserSelectsCases() {
+  for (const instance of armee) {
+    const carte = document.getElementById("unite-" + instance.uid);
+    if (!carte) continue;
+    const select = carte.querySelector(".unite-case-select");
+    if (!select) continue;
+    const unite = trouverUnite(instance.uniteId);
+    const actuelle = Organigramme.assignationDe(instance.uid);
+    select.replaceChildren();
+    if (!actuelle) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "⚠ Non placée — choisir une case";
+      select.appendChild(opt);
+    }
+    if (actuelle) {
+      const opt = document.createElement("option");
+      opt.value = actuelle.detUid + ":" + actuelle.indice;
+      opt.textContent = actuelle.libelle;
+      select.appendChild(opt);
+    }
+    for (const libre of Organigramme.casesLibresPour(unite)) {
+      const opt = document.createElement("option");
+      opt.value = libre.detUid + ":" + libre.indice;
+      opt.textContent = libre.libelle;
+      select.appendChild(opt);
+    }
+    select.value = actuelle ? actuelle.detUid + ":" + actuelle.indice : "";
+    // Alerte visuelle : carte sans case = liste non conforme.
+    carte.classList.toggle("unite-carte--sans-case", !actuelle);
+  }
+}
+
+// Retrait d'une instance à la demande de l'organigramme (suppression
+// d'un détachement contenant des unités). Ne ré-actualise PAS
+// l'organigramme : c'est lui qui pilote et actualisera ensuite.
+function retirerInstance(uid) {
+  armee = armee.filter((i) => i.uid !== uid);
+  const carte = document.getElementById("unite-" + uid);
+  if (carte) carte.remove();
+  majTexteTotal();
+  sauvegarder();
+}
+
+/* Combobox « Unité à ajouter » : un champ de recherche filtre, au fil
+   de la frappe, une liste déroulante d'unités groupées par catégorie
+   (remplace un <select> à <optgroup>, dont le texte n'est pas
+   filtrable). Retourne un accesseur donnant l'unité actuellement
+   retenue (dernière choisie via clic/Entrée), utilisé par le bouton
+   « Ajouter à la liste ». */
+function initialiserChoixUnite() {
+  const champ = document.getElementById("choix-unite");
+  const bouton = document.getElementById("choix-unite-bouton");
+  const liste = document.getElementById("choix-unite-liste");
+
+  // Catégories triées selon ORDRE_CATEGORIES (même ordre que l'ancien
+  // menu à <optgroup>).
+  const categories = [...new Set(UNITES.map((u) => u.categorie))].sort(
+    (a, b) => {
+      const ia = ORDRE_CATEGORIES.indexOf(a);
+      const ib = ORDRE_CATEGORIES.indexOf(b);
+      return (
+        (ia === -1 ? ORDRE_CATEGORIES.length : ia) -
+        (ib === -1 ? ORDRE_CATEGORIES.length : ib)
+      );
+    },
+  );
+
+  // Liste plate, dans l'ordre d'affichage : un en-tête { groupe }
+  // suivi des unités { unite } de cette catégorie.
+  const entrees = [];
+  for (const categorie of categories) {
+    entrees.push({ groupe: categorie });
+    for (const unite of UNITES.filter((u) => u.categorie === categorie)) {
+      entrees.push({ unite });
+    }
+  }
+
+  const libelle = (unite) => unite.nom + " — " + unite.cout + " pts";
+  const idOption = (unite) => "choix-unite-option-" + unite.id;
+
+  const premiereUnite = entrees.find((e) => e.unite);
+  let uniteId = premiereUnite ? premiereUnite.unite.id : null;
+  let visibles = entrees; // sous-ensemble d'`entrees` correspondant à la recherche courante
+  let indiceActif = -1; // indice dans les options visibles (hors en-têtes)
+
+  // La normalisation (accents, casse) est assurée par normaliserTexte,
+  // partagée par toutes les barres de recherche du site (js/main.js).
+  function filtrer(requete) {
+    const q = normaliserTexte(requete.trim());
+    if (!q) return entrees;
+    const resultat = [];
+    let groupeCourant = null;
+    let groupeAjoute = false;
+    for (const entree of entrees) {
+      if (entree.groupe) {
+        groupeCourant = entree;
+        groupeAjoute = false;
+        continue;
+      }
+      if (!normaliserTexte(entree.unite.nom).includes(q)) continue;
+      if (!groupeAjoute) {
+        resultat.push(groupeCourant);
+        groupeAjoute = true;
+      }
+      resultat.push(entree);
+    }
+    return resultat;
+  }
+
+  const options = () => visibles.filter((e) => e.unite);
+
+  function rendre() {
+    liste.replaceChildren();
+    if (visibles.length === 0) {
+      liste.appendChild(
+        el("li", "unite-combobox-vide", "Aucune unité trouvée."),
+      );
+      return;
+    }
+    for (const entree of visibles) {
+      if (entree.groupe) {
+        const li = el("li", "unite-combobox-groupe", entree.groupe);
+        li.setAttribute("role", "presentation");
+        liste.appendChild(li);
+        continue;
+      }
+      const li = el("li", "unite-combobox-option", libelle(entree.unite));
+      li.id = idOption(entree.unite);
+      li.setAttribute("role", "option");
+      li.dataset.uniteId = entree.unite.id;
+      li.setAttribute("aria-selected", String(entree.unite.id === uniteId));
+      liste.appendChild(li);
+    }
+  }
+
+  function surligner(indice) {
+    const actif = liste.querySelector(".unite-combobox-actif");
+    if (actif) actif.classList.remove("unite-combobox-actif");
+    indiceActif = indice;
+    const opts = options();
+    if (indice < 0 || indice >= opts.length) {
+      champ.removeAttribute("aria-activedescendant");
+      return;
+    }
+    const li = document.getElementById(idOption(opts[indice].unite));
+    if (!li) return;
+    li.classList.add("unite-combobox-actif");
+    champ.setAttribute("aria-activedescendant", li.id);
+    li.scrollIntoView({ block: "nearest" });
+  }
+
+  function fermer() {
+    liste.hidden = true;
+    champ.setAttribute("aria-expanded", "false");
+    champ.removeAttribute("aria-activedescendant");
+    indiceActif = -1;
+  }
+
+  function ouvrir(requete) {
+    visibles = filtrer(requete);
+    rendre();
+    liste.hidden = false;
+    champ.setAttribute("aria-expanded", "true");
+    surligner(-1);
+  }
+
+  function choisir(unite) {
+    uniteId = unite.id;
+    champ.value = libelle(unite);
+    fermer();
+  }
+
+  champ.addEventListener("input", () => ouvrir(champ.value));
+  // Le champ garde le libellé du dernier choix confirmé (voir plus
+  // bas) : au focus, on affiche la liste complète plutôt que de la
+  // filtrer par ce texte déjà tapé, et on le sélectionne pour qu'une
+  // frappe immédiate le remplace au lieu de s'y ajouter — sinon la
+  // « liste déroulante » ne montrerait quasiment plus rien à l'ouverture.
+  champ.addEventListener("focus", () => {
+    ouvrir("");
+    champ.select();
+  });
+  // Un clic alors que le champ a déjà le focus (ex : liste refermée
+  // par Échap) ne redéclenche pas l'évènement focus : on la rouvre
+  // aussi sur click pour que cliquer dans le champ rouvre toujours
+  // la liste, comme un <select>.
+  champ.addEventListener("click", () => {
+    if (liste.hidden) ouvrir("");
+  });
+
+  champ.addEventListener("keydown", (evenement) => {
+    if (evenement.key === "ArrowDown") {
+      evenement.preventDefault();
+      if (liste.hidden) ouvrir(champ.value);
+      else surligner(Math.min(indiceActif + 1, options().length - 1));
+    } else if (evenement.key === "ArrowUp") {
+      evenement.preventDefault();
+      if (liste.hidden) ouvrir(champ.value);
+      else surligner(Math.max(indiceActif - 1, 0));
+    } else if (evenement.key === "Enter") {
+      if (liste.hidden) return;
+      evenement.preventDefault();
+      const opts = options();
+      const cible =
+        indiceActif >= 0
+          ? opts[indiceActif]
+          : opts.length === 1
+            ? opts[0]
+            : null;
+      if (cible) choisir(cible.unite);
+    } else if (evenement.key === "Escape") {
+      fermer();
+    }
+  });
+
+  // Sélection à la souris/tactile : mousedown (déclenché avant le
+  // blur du champ) plutôt que click, pour que la liste ne se
+  // referme pas avant d'avoir pu lire l'option ciblée.
+  liste.addEventListener("mousedown", (evenement) => {
+    const li = evenement.target.closest("[role='option']");
+    if (!li) return;
+    evenement.preventDefault();
+    const unite = trouverUnite(li.dataset.uniteId);
+    if (unite) choisir(unite);
+  });
+
+  // Bouton « flèche » : bascule la liste complète, comme la flèche
+  // d'un <select>. mousedown + preventDefault (plutôt que click) pour
+  // ne pas voler le focus du champ.
+  bouton.addEventListener("mousedown", (evenement) => {
+    evenement.preventDefault();
+    if (liste.hidden) {
+      ouvrir("");
+      champ.select();
+    } else {
+      fermer();
+    }
+    champ.focus();
+  });
+
+  // Clic en dehors du champ, du bouton et de la liste : on referme, et
+  // si le texte tapé ne correspond plus à un choix confirmé, on
+  // revient à son libellé (comme un <select>, qui ne peut pas rester
+  // sur une saisie invalide).
+  document.addEventListener("click", (evenement) => {
+    if (
+      evenement.target === champ ||
+      evenement.target === bouton ||
+      liste.contains(evenement.target)
+    )
+      return;
+    fermer();
+    const unite = trouverUnite(uniteId);
+    if (unite) champ.value = libelle(unite);
+  });
+
+  if (premiereUnite) champ.value = libelle(premiereUnite.unite);
+
+  return () => trouverUnite(uniteId);
 }
 
 function initialiser() {
-  const selection = document.getElementById("choix-unite");
+  const uniteChoisie = initialiserChoixUnite();
   const boutonAjouter = document.getElementById("ajouter-unite");
   const boutonImprimer = document.getElementById("imprimer-liste");
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
-
-  // Menu de sélection groupé par catégorie, trié selon ORDRE_CATEGORIES.
-  const categories = [...new Set(UNITES.map((u) => u.categorie))].sort((a, b) => {
-    const ia = ORDRE_CATEGORIES.indexOf(a);
-    const ib = ORDRE_CATEGORIES.indexOf(b);
-    return (ia === -1 ? ORDRE_CATEGORIES.length : ia) - (ib === -1 ? ORDRE_CATEGORIES.length : ib);
-  });
-  for (const categorie of categories) {
-    const groupe = document.createElement("optgroup");
-    groupe.label = categorie;
-    for (const unite of UNITES.filter((u) => u.categorie === categorie)) {
-      const optionHtml = document.createElement("option");
-      optionHtml.value = unite.id;
-      optionHtml.textContent = unite.nom + " — " + unite.cout + " pts";
-      groupe.appendChild(optionHtml);
-    }
-    selection.appendChild(groupe);
-  }
+  const messageAjout = document.getElementById("ajout-message");
 
   boutonAjouter.addEventListener("click", () => {
-    const unite = trouverUnite(selection.value);
+    const unite = uniteChoisie();
     if (!unite) return;
+    // Règle p. 282 : une unité doit occuper une Case de l'Organigramme
+    // de Force dont le Rôle Tactique correspond au sien. Sans case
+    // libre compatible, l'ajout est refusé et on explique comment
+    // débloquer un détachement adapté (exigence UX).
+    const libres = Organigramme.casesLibresPour(unite);
+    if (libres.length === 0) {
+      messageAjout.textContent = Organigramme.suggestionPourRole(
+        unite.categorie,
+      );
+      messageAjout.hidden = false;
+      return;
+    }
+    messageAjout.hidden = true;
     const instance = {
       uid: ++compteurUid,
       uniteId: unite.id,
@@ -759,6 +1346,9 @@ function initialiser() {
     };
     armee.push(instance);
     listeCartes.appendChild(construireCarte(instance));
+    // Placement automatique dans la première case libre compatible ;
+    // modifiable ensuite via le menu « Case occupée » de la carte.
+    Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
   });
 
   boutonImprimer.addEventListener("click", () => window.print());
@@ -766,15 +1356,31 @@ function initialiser() {
   boutonVider.addEventListener("click", () => {
     armee = [];
     listeCartes.replaceChildren();
-    actualiserTotal();
     sauvegarder();
+    // Libère toutes les Cases de l'organigramme (la structure des
+    // détachements, elle, est conservée).
+    Organigramme.toutLiberer();
+    actualiserTotal();
   });
 
-  // Restaure une éventuelle liste mémorisée.
+  // Restaure une éventuelle liste mémorisée, puis branche
+  // l'organigramme : il restaure sa propre structure, réconcilie les
+  // références (unités disparues, anciennes listes sans organigramme)
+  // et nous prévient à chaque changement via surChangement.
   restaurer();
-  for (const instance of armee) listeCartes.appendChild(construireCarte(instance));
+  for (const instance of armee)
+    listeCartes.appendChild(construireCarte(instance));
+  Organigramme.initialiser({
+    getArmee: () => armee,
+    trouverUnite,
+    coutInstance,
+    retirerInstance,
+    surChangement: actualiserSelectsCases,
+  });
+  orgaPret = true;
   actualiserTotal();
 }
 
-// main.js et unites-data.js sont chargés avant (defer) : le DOM est prêt.
+// main.js, unites-data.js, organigramme-data.js et organigramme.js
+// sont chargés avant (defer) : le DOM est prêt.
 initialiser();

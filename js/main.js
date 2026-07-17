@@ -1,9 +1,99 @@
 /* ============================================================
    main.js — Scripts communs à toutes les pages
-   Auteur : Jean · Modifié : 2026-07-15
-   Rôle   : menu mobile, accordéons, timeline, sections repliables.
+   Auteur : Jean · Modifié : 2026-07-17
+   Rôle   : menu mobile, accordéons, timeline, sections repliables,
+   et utilitaires partagés par les autres scripts (normalisation de
+   texte, fabrique DOM, définitions des règles spéciales).
    Dépend : aucun (vanilla JS) — stylé par css/style.css.
+   Chargé en defer AVANT les autres scripts : ses fonctions globales
+   sont donc disponibles pour js/regles.js, js/armes.js,
+   js/organigramme.js et js/unites.js.
    ============================================================ */
+
+/* ----------------------------------------------------------
+   UTILITAIRES PARTAGÉS
+   Regroupés ici (fichier chargé sur toutes les pages) plutôt que
+   copiés dans chaque script : une seule implémentation à maintenir,
+   un seul endroit où corriger un bug.
+   ---------------------------------------------------------- */
+
+/**
+ * Retire les accents pour une recherche plus tolérante
+ * ("brèche" = "breche") et passe en minuscules.
+ * .normalize("NFD") décompose chaque lettre accentuée en deux
+ * caractères (ex : "è" devient "e" + un accent grave séparé) ;
+ * \p{Diacritic} supprime ensuite uniquement ces accents isolés.
+ * Utilisée par les barres de recherche (regles.js, armes.js,
+ * unites.js) et par l'index des définitions ci-dessous.
+ * @param {string} texte
+ * @returns {string}
+ */
+function normaliserTexte(texte) {
+  return texte
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+}
+
+/**
+ * Fabrique DOM minimaliste : crée un élément avec classe et texte
+ * optionnels. textContent uniquement (jamais innerHTML) : le texte
+ * n'est pas interprété comme du HTML — réflexe anti-XSS.
+ * Utilisée par js/organigramme.js et js/unites.js.
+ * @param {string} balise - nom de la balise (ex : "p", "span")
+ * @param {string} [classe] - classe(s) CSS
+ * @param {string} [texte]  - contenu textuel
+ * @returns {HTMLElement}
+ */
+function el(balise, classe, texte) {
+  const noeud = document.createElement(balise);
+  if (classe) noeud.className = classe;
+  if (texte !== undefined) noeud.textContent = texte;
+  return noeud;
+}
+
+/* Index des définitions de règles spéciales (REGLES_ARMES +
+   REGLES_DIVERSES, voir js/regles-data.js), indexées par nom de
+   base sans le "(X)" final : les tables d'armes et les fiches
+   d'unités portent une valeur concrète (ex : "Brèche (5+)") alors
+   que le lexique les nomme avec un "(X)" générique.
+   Construit PARESSEUSEMENT au premier appel : main.js est aussi
+   chargé sur des pages sans regles-data.js, où REGLES_ARMES
+   n'existe pas — l'index n'y est simplement jamais construit. */
+let indexDefinitionsRegles = null;
+
+/**
+ * Retrouve la définition d'une règle spéciale ou d'un trait à partir
+ * de son intitulé concret (ex : "Brèche (5+)" → texte de "Brèche (X)").
+ * En repli, on retire un "e" final du nom de base pour absorber les
+ * rares accords grammaticaux (ex : "Empoisonnée" dans les tables
+ * d'armes vs "Empoisonné" dans le lexique des règles).
+ * Utilisée par js/armes.js (info-bulles de l'Arsenal) et
+ * js/unites.js (info-bulles des fiches récap).
+ * @param {string} intitule
+ * @returns {string|null} définition, ou null si inconnue
+ */
+function trouverDefinitionRegle(intitule) {
+  if (!indexDefinitionsRegles) {
+    if (
+      typeof REGLES_ARMES === "undefined" ||
+      typeof REGLES_DIVERSES === "undefined"
+    ) {
+      return null; // page sans js/regles-data.js
+    }
+    indexDefinitionsRegles = new Map();
+    [...REGLES_ARMES, ...REGLES_DIVERSES].forEach((regle) => {
+      const base = normaliserTexte(regle.nom.replace(/\s*\([^)]*\)\s*$/, ""));
+      indexDefinitionsRegles.set(base, regle.texte);
+    });
+  }
+  const base = normaliserTexte(intitule.replace(/\s*\([^)]*\)\s*$/, ""));
+  if (indexDefinitionsRegles.has(base)) return indexDefinitionsRegles.get(base);
+  if (base.endsWith("e") && indexDefinitionsRegles.has(base.slice(0, -1))) {
+    return indexDefinitionsRegles.get(base.slice(0, -1));
+  }
+  return null;
+}
 
 /* ----------------------------------------------------------
    ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
@@ -24,7 +114,7 @@
 let compteurInfoBulle = 0;
 function cablerInfoBulles(racine) {
   (racine || document)
-    .querySelectorAll(".orga-boite, .regle-tag")
+    .querySelectorAll(".orga-boite, .regle-tag, .orga-badge")
     .forEach((declencheur) => {
       const bulle = declencheur.querySelector(".tooltip");
       if (!bulle) return;
@@ -55,7 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const ouvert = menu.classList.contains("ouvert");
       burger.setAttribute("aria-expanded", ouvert ? "true" : "false");
       // Le libellé suit l'action réellement disponible (ouvrir / fermer)
-      burger.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
+      burger.setAttribute(
+        "aria-label",
+        ouvert ? "Fermer le menu" : "Ouvrir le menu",
+      );
     });
   }
 
@@ -114,7 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
       e.key === "Escape" &&
       document.activeElement &&
       (document.activeElement.classList.contains("orga-boite") ||
-        document.activeElement.classList.contains("regle-tag"))
+        document.activeElement.classList.contains("regle-tag") ||
+        document.activeElement.classList.contains("orga-badge"))
     ) {
       document.activeElement.blur();
     }

@@ -149,6 +149,15 @@ const LISTES_EQUIPEMENT = {
       { nom: "Multi-fuseur sur Pivot", cout: 25 },
     ],
   },
+  laterales: {
+    nom: "Armes Latérales de Légion",
+    items: [
+      { nom: "Deux bolters lourds Latéraux", cout: 0 },
+      { nom: "Deux lance-flammes lourds Latéraux", cout: 0 },
+      { nom: "Deux canons laser Latéraux", cout: 20 },
+      { nom: "Deux couleuvrines volkites Latérales", cout: 10 },
+    ],
+  },
 };
 
 /* ----------------------------------------------------------
@@ -161,7 +170,10 @@ function depuisListes(...listes) {
   const choix = [];
   for (const liste of listes) {
     for (const item of liste.items) {
-      choix.push({ nom: item.nom + " (liste " + liste.nom + ")", cout: item.cout });
+      choix.push({
+        nom: item.nom + " (liste " + liste.nom + ")",
+        cout: item.cout,
+      });
     }
   }
   return choix;
@@ -183,11 +195,17 @@ function slug(texte) {
 // Figurine peut échanger… » vise plusieurs armes de prix différents
 // (à la différence de `depuisListes`, qui suppose un choix unique
 // par Figurine dans un menu déroulant).
-function quantiteDepuisListe(liste, { groupe, parTranche = 1, remplace = "" } = {}) {
+function quantiteDepuisListe(
+  liste,
+  { groupe, parTranche = 1, remplace = "" } = {},
+) {
   return liste.items.map((item) => ({
     type: "quantite",
     id: groupe + "-" + slug(item.nom),
-    libelle: "Figurines : " + item.nom + (remplace ? " (à la place " + remplace + ")" : ""),
+    libelle:
+      "Figurines : " +
+      item.nom +
+      (remplace ? " (à la place " + remplace + ")" : ""),
     cout: item.cout,
     parTranche,
     groupe,
@@ -231,7 +249,10 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       groupe: "tir",
       ajoute: "Chargeur volkite (à la place du bolter)",
     },
-    ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, { groupe: "tir", remplace: "du bolter" }),
+    ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+      groupe: "tir",
+      remplace: "du bolter",
+    }),
     ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
       groupe: "tir",
       remplace: "du bolter, liste Sergent",
@@ -250,7 +271,8 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
     {
       type: "quantite",
       id: "pistolets-legion",
-      libelle: "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
+      libelle:
+        "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
       cout: 5,
       parTranche: 1,
       groupe: "pistolet",
@@ -259,14 +281,17 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
     {
       type: "case",
       id: "champion-pistolet-desintegrateur",
-      libelle: libelleChampion + " : pistolet désintégrateur (à la place du pistolet bolter)",
+      libelle:
+        libelleChampion +
+        " : pistolet désintégrateur (à la place du pistolet bolter)",
       cout: 5,
       ajoute: libelleChampion + " : pistolet désintégrateur",
     },
     {
       type: "quantite",
       id: "paires-griffes",
-      libelle: "Figurines : paire de griffes Lightning (remplace bolter ET pistolet bolter)",
+      libelle:
+        "Figurines : paire de griffes Lightning (remplace bolter ET pistolet bolter)",
       cout: 10,
       parTranche: 1,
       ajoute: "Paire de griffes Lightning",
@@ -346,7 +371,10 @@ function optionPivotLegion() {
     id: "pivot",
     libelle: "Objet de la liste des Armes sur Pivot de Légion",
     ajoute: true,
-    choix: [{ nom: "— Aucun —", cout: 0 }, ...depuisListes(LISTES_EQUIPEMENT.pivot)],
+    choix: [
+      { nom: "— Aucun —", cout: 0 },
+      ...depuisListes(LISTES_EQUIPEMENT.pivot),
+    ],
   };
 }
 
@@ -354,12 +382,38 @@ function optionsVehiculeSuperLourdPivot() {
   return [optionPivotLegion(), ...optionsMissileEtProjecteurs()];
 }
 
+/* Remplace les deux bolters lourds Latéraux (équipement de départ
+   standard des Blindés et de certains Seigneurs des Batailles) par un
+   objet de la liste des Armes Latérales de Légion. On exclut de cette
+   liste « Deux bolters lourds Latéraux » lui-même : il est déjà
+   l'option « conserver » par défaut. `extra` : choix propres à
+   l'unité, en plus de la liste générique (ex : Arquitor, qui propose
+   aussi des autocanons Latéraux hors liste). */
+function optionLaterauxLegion(...extra) {
+  return {
+    type: "choix",
+    id: "bolters-lateraux",
+    libelle: "Remplacer les deux bolters lourds Latéraux",
+    remplace: "Deux bolters lourds Latéraux",
+    choix: [
+      { nom: "— Conserver les bolters lourds Latéraux —", cout: 0 },
+      ...extra,
+      ...depuisListes(LISTES_EQUIPEMENT.laterales).filter(
+        (item) => !item.nom.startsWith("Deux bolters lourds Latéraux"),
+      ),
+    ],
+  };
+}
+
 /* Fin de fiche récurrente des véhicules Blindés (Arquitor, Scorpius,
    Vindicator, Kratos, Sicaran, Sicaran Venator, Predator) : missile
    traqueur (position variable selon le châssis — Coque (Avant) ou
    Tourelle), Projecteurs, et Lame de bulldozer (absente sur certains
    châssis, voir chaque fiche). */
-function optionsFinBlinde({ missile = "Coque (Avant)", bulldozer = true } = {}) {
+function optionsFinBlinde({
+  missile = "Coque (Avant)",
+  bulldozer = true,
+} = {}) {
   const options = [
     {
       type: "case",
@@ -404,14 +458,44 @@ const UNITES = [
       {
         nom: "Praetor",
         cout: 0,
-        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 4, PV: 4, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major)",
       },
       {
         nom: "Praetor à Réacteurs",
         cout: 20,
-        profil: { M: 12, CC: 6, CT: 5, F: 4, E: 4, PV: 4, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Massif (2)", "Frappe en Profondeur"],
         type: "Infanterie (État-major, Antigrav)",
       },
@@ -428,7 +512,10 @@ const UNITES = [
           { nom: "Pistolet archéotech", cout: 15 },
           { nom: "Fusil à pompe Astartes", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
-          ...depuisListes(LISTES_EQUIPEMENT.officier, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.officier,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -446,7 +533,8 @@ const UNITES = [
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        libelle:
+          "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
         cout: 20,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Bolter", "Pistolet bolter"],
@@ -476,14 +564,44 @@ const UNITES = [
       {
         nom: "Praetor Cataphractii",
         cout: 0,
-        profil: { M: 6, CC: 6, CT: 5, F: 4, E: 5, PV: 5, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 6,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 5,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique"],
         type: "Infanterie (État-major, Lourd)",
       },
       {
         nom: "Praetor Tartaros",
         cout: 10,
-        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 5, PV: 5, I: 5, A: 5, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 5,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Massif (2)", "Avance Implacable"],
         type: "Infanterie (État-major)",
       },
@@ -514,7 +632,8 @@ const UNITES = [
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
+        libelle:
+          "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Combi-bolter", "Arme énergétique"],
@@ -538,7 +657,22 @@ const UNITES = [
       {
         nom: "Praetor Saturnine",
         cout: 0,
-        profil: { M: 5, CC: 6, CT: 5, F: 4, E: 6, PV: 6, I: 4, A: 4, Cd: 10, Sf: 9, Vo: 9, Int: 9, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 5,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 6,
+          PV: 6,
+          I: 4,
+          A: 4,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Massif (4)", "Avance Implacable", "Lent et Méthodique"],
         type: "Infanterie (État-major, Lourd)",
       },
@@ -547,7 +681,8 @@ const UNITES = [
       {
         type: "choix",
         id: "marteau",
-        libelle: "Marteau commotionneur Saturnine (remplace la hache OU le poing)",
+        libelle:
+          "Marteau commotionneur Saturnine (remplace la hache OU le poing)",
         choix: [
           { nom: "— Aucun remplacement —", cout: 0 },
           {
@@ -595,14 +730,44 @@ const UNITES = [
       {
         nom: "Centurion",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Officier de Ligne (2)"],
         type: "Infanterie (État-major)",
       },
       {
         nom: "Centurion à Réacteurs",
         cout: 20,
-        profil: { M: 12, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 12,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Officier de Ligne (2)", "Massif (2)", "Frappe en Profondeur"],
         type: "Infanterie (État-major, Antigrav)",
       },
@@ -617,7 +782,10 @@ const UNITES = [
           { nom: "— Conserver le bolter —", cout: 0 },
           { nom: "Fusil à pompe Astartes", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
-          ...depuisListes(LISTES_EQUIPEMENT.officier, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.officier,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -633,7 +801,8 @@ const UNITES = [
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        libelle:
+          "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
         cout: 20,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Bolter", "Pistolet bolter"],
@@ -671,14 +840,49 @@ const UNITES = [
       {
         nom: "Centurion Cataphractii",
         cout: 0,
-        profil: { M: 6, CC: 5, CT: 5, F: 4, E: 5, PV: 4, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "4+" },
-        regles: ["Officier de Ligne (2)", "Massif (2)", "Avance Implacable", "Lent et Méthodique"],
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Officier de Ligne (2)",
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+        ],
         type: "Infanterie (État-major, Lourd)",
       },
       {
         nom: "Centurion Tartaros",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 5, PV: 4, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Officier de Ligne (2)", "Massif (2)", "Avance Implacable"],
         type: "Infanterie (État-major)",
       },
@@ -708,7 +912,8 @@ const UNITES = [
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
+        libelle:
+          "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Combi-bolter", "Arme énergétique"],
@@ -728,14 +933,44 @@ const UNITES = [
       {
         nom: "Optae",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "3+", Inv: "—" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "3+",
+          Inv: "—",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major)",
       },
       {
         nom: "Optae à Réacteurs",
         cout: 20,
-        profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "3+", Inv: "—" },
+        profil: {
+          M: 12,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "3+",
+          Inv: "—",
+        },
         regles: ["Massif (2)", "Frappe en Profondeur"],
         type: "Infanterie (État-major, Antigrav)",
       },
@@ -750,7 +985,10 @@ const UNITES = [
           { nom: "— Conserver le bolter —", cout: 0 },
           { nom: "Fusil à pompe Astartes", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -761,13 +999,17 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           { nom: "Pistolet désintégrateur", cout: 5 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.pistolets,
+          ),
         ],
       },
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        libelle:
+          "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
         cout: 20,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Bolter", "Pistolet bolter"],
@@ -786,14 +1028,30 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
     /* Le livre liste « Deux bolters sur Pivot » : on l'éclate en
        deux lignes pour pouvoir les remplacer indépendamment. */
-    equipement: ["Bolter sur Pivot n°1", "Bolter sur Pivot n°2", "Relais vox d'état-major"],
+    equipement: [
+      "Bolter sur Pivot n°1",
+      "Bolter sur Pivot n°2",
+      "Relais vox d'état-major",
+    ],
     notes: "Un Point d'Accès sur chaque Flanc et à l'Arrière.",
     variantes: [
       {
         nom: "Rhino d'État-major Damocles",
         cout: 0,
-        profilVehicule: { M: 12, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: 6 },
-        regles: ["Transport Léger", "Autoréparation (5+)", "Véhicule d'État-major Mobile"],
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 5,
+          transport: 6,
+        },
+        regles: [
+          "Transport Léger",
+          "Autoréparation (5+)",
+          "Véhicule d'État-major Mobile",
+        ],
         type: "Véhicule (Transport)",
       },
     ],
@@ -846,12 +1104,32 @@ const UNITES = [
     cout: 85,
     composition: "1 Archiviste",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Psyker"],
-    equipement: ["Arme de force", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Arme de force",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Archiviste",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 8, Sf: 7, Vo: 9, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 8,
+          Sf: 7,
+          Vo: 9,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major)",
       },
@@ -892,12 +1170,32 @@ const UNITES = [
     cout: 105,
     composition: "1 Champion de Légion",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Lame de parangon", "Serpentine volkite", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lame de parangon",
+      "Serpentine volkite",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Champion de Légion",
         cout: 0,
-        profil: { M: 7, CC: 6, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 5, Cd: 8, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 5,
+          Cd: 8,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Ne Jamais Céder"],
         type: "Infanterie (État-major)",
       },
@@ -924,12 +1222,32 @@ const UNITES = [
     cout: 95,
     composition: "1 Vigilator",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Fusil Némésis", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Fusil Némésis",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Vigilator",
         cout: 0,
-        profil: { M: 7, CC: 4, CT: 7, F: 4, E: 4, PV: 3, I: 5, A: 3, Cd: 9, Sf: 8, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 7,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Infiltration (9)"],
         type: "Infanterie (État-major)",
       },
@@ -944,12 +1262,32 @@ const UNITES = [
     cout: 95,
     composition: "1 Ésotériste",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Psyker", "Anathemata"],
-    equipement: ["Arme de force", "Pistolet archéotech", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Arme de force",
+      "Pistolet archéotech",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Ésotériste",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 7, Sf: 8, Vo: 10, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 7,
+          Sf: 8,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         // Connaît d'office la Discipline Psychique Anathemata :
         // Peur (1), Arme Psychique « Dards du Néant », et selon le
         // Trait : Réaction « Sceller le Voile » (Loyaliste) ou
@@ -968,12 +1306,32 @@ const UNITES = [
     cout: 115,
     composition: "1 Maître des Signaux",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Grenades Frag", "Grenades Krak", "Relais vox d'état-major"],
+    equipement: [
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Relais vox d'état-major",
+    ],
     variantes: [
       {
         nom: "Maître des Signaux",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 8, Sf: 7, Vo: 7, Int: 10, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 8,
+          Sf: 7,
+          Vo: 7,
+          Int: 10,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major)",
       },
@@ -1010,8 +1368,27 @@ const UNITES = [
       {
         nom: "Praevius",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 8, Vo: 8, Int: 9, Sv: "2+", Inv: "5+" },
-        regles: ["Guerrier-artisan (1)", "Insensible à la Douleur (5+)", "Maître des Automates"],
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 9,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Guerrier-artisan (1)",
+          "Insensible à la Douleur (5+)",
+          "Maître des Automates",
+        ],
         type: "Infanterie (État-major)",
       },
     ],
@@ -1047,7 +1424,22 @@ const UNITES = [
       {
         nom: "Moritat",
         cout: 0,
-        profil: { M: 12, CC: 4, CT: 6, F: 4, E: 4, PV: 3, I: 5, A: 3, Cd: 8, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 12,
+          CC: 4,
+          CT: 6,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 8,
+          Sf: 9,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Massif (2)", "Frappe en Profondeur", "Orage de Feu"],
         type: "Infanterie (Spécialiste, Antigrav)",
       },
@@ -1087,7 +1479,22 @@ const UNITES = [
       {
         nom: "Briseur de Siège",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major, Lourd)",
       },
@@ -1115,12 +1522,32 @@ const UNITES = [
     cout: 85,
     composition: "1 Superviseur",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Fouet énergétique", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Fouet énergétique",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Superviseur",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Peur (1)", "Maître des Auxilia"],
         type: "Infanterie (État-major)",
       },
@@ -1175,7 +1602,22 @@ const UNITES = [
       {
         nom: "Héraut",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 5, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 9, Vo: 8, Int: 8, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Peur (1)"],
         type: "Infanterie (État-major)",
       },
@@ -1202,12 +1644,32 @@ const UNITES = [
     cout: 80,
     composition: "1 Chapelain",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Crozius Arcanum", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Crozius Arcanum",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Chapelain",
         cout: 0,
-        profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 3, I: 5, A: 4, Cd: 9, Sf: 10, Vo: 8, Int: 7, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 10,
+          Vo: 8,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Aucune"],
         type: "Infanterie (État-major)",
       },
@@ -1253,8 +1715,44 @@ const UNITES = [
         nom: "Escouade d'État-Major Terminator Cataphractii",
         cout: 0,
         profils: [
-          { nom: "Élu Cataphractii", profil: { M: 6, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
-          { nom: "Champion Élu Cataphractii", profil: { M: 6, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          {
+            nom: "Élu Cataphractii",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Champion Élu Cataphractii",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 4,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
         ],
         regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique"],
         type: "Champion Élu Cataphractii : Infanterie (Champion, Sergent, Lourd) · Élu Cataphractii : Infanterie (Lourd)",
@@ -1264,7 +1762,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "combi-bolter",
-        libelle: "Figurines échangeant leur chargeur volkite contre un combi-bolter",
+        libelle:
+          "Figurines échangeant leur chargeur volkite contre un combi-bolter",
         cout: 0,
         parTranche: 1,
         groupe: "tir",
@@ -1279,11 +1778,15 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, { groupe: "melee", remplace: "de l'arme énergétique" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
+        groupe: "melee",
+        remplace: "de l'arme énergétique",
+      }),
       {
         type: "quantite",
         id: "paires-griffes",
-        libelle: "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
         ajoute: "Paire de griffes Lightning",
@@ -1298,9 +1801,11 @@ const UNITES = [
       {
         type: "case",
         id: "etendard",
-        libelle: "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
+        libelle:
+          "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
         cout: 20,
-        ajoute: "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
+        ajoute:
+          "Un Élu Cataphractii : étendard de Légion (à la place du chargeur volkite)",
       },
     ],
   },
@@ -1320,8 +1825,44 @@ const UNITES = [
         nom: "Escouade d'État-Major Terminator Tartaros",
         cout: 0,
         profils: [
-          { nom: "Élu Tartaros", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
-          { nom: "Champion Élu Tartaros", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+          {
+            nom: "Élu Tartaros",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Champion Élu Tartaros",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 4,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
         ],
         regles: ["Massif (2)", "Avance Implacable"],
         type: "Champion Élu Tartaros : Infanterie (Champion, Sergent) · Élu Tartaros : Infanterie",
@@ -1331,7 +1872,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "chargeur-volkite",
-        libelle: "Figurines échangeant leur combi-bolter contre un chargeur volkite",
+        libelle:
+          "Figurines échangeant leur combi-bolter contre un chargeur volkite",
         cout: 0,
         parTranche: 1,
         groupe: "tir",
@@ -1346,11 +1888,15 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, { groupe: "melee", remplace: "de l'arme énergétique" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
+        groupe: "melee",
+        remplace: "de l'arme énergétique",
+      }),
       {
         type: "quantite",
         id: "paires-griffes",
-        libelle: "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
         cout: 10,
         parTranche: 1,
         ajoute: "Paire de griffes Lightning",
@@ -1365,9 +1911,11 @@ const UNITES = [
       {
         type: "case",
         id: "etendard",
-        libelle: "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
+        libelle:
+          "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
         cout: 20,
-        ajoute: "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
+        ajoute:
+          "Un Élu Tartaros : étendard de Légion (à la place du combi-bolter)",
       },
     ],
   },
@@ -1387,8 +1935,44 @@ const UNITES = [
         nom: "Escouade d'État-Major de Centurion",
         cout: 0,
         profils: [
-          { nom: "Vétéran", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Champion Vétéran", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Vétéran",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Champion Vétéran",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Aucune"],
         type: "Champion Vétéran : Infanterie (Champion, Sergent) · Vétéran : Infanterie",
@@ -1396,8 +1980,16 @@ const UNITES = [
     ],
     options: optionsEscouadeEtatMajorVeteran(
       "Champion Vétéran",
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        groupe: "lourde",
+        parTranche: 5,
+        remplace: "du bolter",
+      }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
+        groupe: "lourde",
+        parTranche: 5,
+        remplace: "du bolter",
+      }),
       {
         type: "choix",
         id: "etendard-veteran",
@@ -1452,8 +2044,44 @@ const UNITES = [
         nom: "Escouade d'État-Major Prétorienne à Réacteurs",
         cout: 0,
         profils: [
-          { nom: "Élu à Réacteurs", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
-          { nom: "Champion Élu à Réacteurs", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+          {
+            nom: "Élu à Réacteurs",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Champion Élu à Réacteurs",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 4,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Massif (2)", "Frappe en Profondeur"],
         type: "Champion Élu à Réacteurs : Infanterie (Champion, Antigrav, Sergent) · Élu à Réacteurs : Infanterie (Antigrav)",
@@ -1483,8 +2111,44 @@ const UNITES = [
         nom: "Escouade d'État-Major Prétorienne",
         cout: 0,
         profils: [
-          { nom: "Élu", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
-          { nom: "Champion Élu", profil: { M: 7, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 4, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "—" } },
+          {
+            nom: "Élu",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Champion Élu",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 4,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Aucune"],
         type: "Champion Élu : Infanterie (Champion, Sergent) · Élu : Infanterie",
@@ -1510,7 +2174,8 @@ const UNITES = [
     nom: "Escouade Terminator Cataphractii",
     categorie: "Assaut Lourd",
     cout: 150,
-    composition: "1 Sergent Terminator Cataphractii, 4 Terminators Cataphractii",
+    composition:
+      "1 Sergent Terminator Cataphractii, 4 Terminators Cataphractii",
     effectif: { base: 5, max: 12, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
@@ -1520,10 +2185,51 @@ const UNITES = [
         nom: "Escouade Terminator Cataphractii",
         cout: 0,
         profils: [
-          { nom: "Terminator Cataphractii", profil: { M: 6, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
-          { nom: "Sergent Terminator Cataphractii", profil: { M: 6, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          {
+            nom: "Terminator Cataphractii",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Sergent Terminator Cataphractii",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
         ],
-        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique", "Avant-garde (3)"],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Avant-garde (3)",
+        ],
         type: "Sergent : Infanterie (Sergent, Lourd) · Terminator : Infanterie (Lourd)",
       },
     ],
@@ -1531,7 +2237,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "combi-bolters",
-        libelle: "Figurines échangeant leur chargeur volkite contre un combi-bolter",
+        libelle:
+          "Figurines échangeant leur chargeur volkite contre un combi-bolter",
         cout: 0,
         parTranche: 1,
         groupe: "tir",
@@ -1550,7 +2257,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "griffes-l",
-        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : griffe Lightning (à la place de l'arme énergétique)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -1559,7 +2267,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelets",
-        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1568,7 +2277,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poings-t",
-        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1577,7 +2287,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteaux",
-        libelle: "Figurines : marteau Thunder (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : marteau Thunder (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1602,7 +2313,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourds",
-        libelle: "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "lourde",
@@ -1611,7 +2323,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "autocanons-reaper",
-        libelle: "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
         cout: 15,
         parTranche: 5,
         groupe: "lourde",
@@ -1620,7 +2333,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "eclateurs",
-        libelle: "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "lourde",
@@ -1644,8 +2358,44 @@ const UNITES = [
         nom: "Escouade Terminator Tartaros",
         cout: 0,
         profils: [
-          { nom: "Terminator Tartaros", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
-          { nom: "Sergent Terminator Tartaros", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 5, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "5+" } },
+          {
+            nom: "Terminator Tartaros",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Sergent Terminator Tartaros",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
         ],
         regles: ["Massif (2)", "Avance Implacable", "Avant-garde (3)"],
         type: "Sergent : Infanterie (Sergent) · Terminator : Infanterie",
@@ -1655,7 +2405,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "chargeurs-volkites",
-        libelle: "Figurines échangeant leur combi-bolter contre un chargeur volkite",
+        libelle:
+          "Figurines échangeant leur combi-bolter contre un chargeur volkite",
         cout: 0,
         parTranche: 1,
         groupe: "tir",
@@ -1674,7 +2425,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "griffes-l",
-        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : griffe Lightning (à la place de l'arme énergétique)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -1683,7 +2435,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelets",
-        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1692,7 +2445,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poings-t",
-        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1701,7 +2455,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteaux",
-        libelle: "Figurines : marteau Thunder (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : marteau Thunder (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -1726,7 +2481,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourds",
-        libelle: "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : lance-flammes lourd (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "lourde",
@@ -1735,7 +2491,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "autocanons-reaper",
-        libelle: "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : autocanon Reaper (1 par tranche de 5 figurines)",
         cout: 15,
         parTranche: 5,
         groupe: "lourde",
@@ -1744,7 +2501,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "eclateurs",
-        libelle: "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
+        libelle:
+          "Terminators : éclateur à plasma (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "lourde",
@@ -1773,10 +2531,51 @@ const UNITES = [
         nom: "Escouade Terminator Saturnine",
         cout: 0,
         profils: [
-          { nom: "Terminator Saturnine", profil: { M: 5, CC: 4, CT: 4, F: 4, E: 6, PV: 3, I: 3, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
-          { nom: "Sergent Terminator Saturnine", profil: { M: 5, CC: 4, CT: 4, F: 4, E: 6, PV: 3, I: 3, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "2+", Inv: "4+" } },
+          {
+            nom: "Terminator Saturnine",
+            profil: {
+              M: 5,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Sergent Terminator Saturnine",
+            profil: {
+              M: 5,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
         ],
-        regles: ["Massif (4)", "Explose (6+)", "Avance Implacable", "Lent et Méthodique"],
+        regles: [
+          "Massif (4)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+        ],
         type: "Sergent : Infanterie (Sergent, Lourd) · Terminator : Infanterie (Lourd)",
       },
     ],
@@ -1784,7 +2583,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "bombardes-poing",
-        libelle: "Figurines : bombarde à plasma à la place du poing disrupteur (gratuit)",
+        libelle:
+          "Figurines : bombarde à plasma à la place du poing disrupteur (gratuit)",
         cout: 0,
         parTranche: 1,
         groupe: "poing",
@@ -1793,7 +2593,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "desintegrateurs-poing",
-        libelle: "Figurines : désintégrateur lourd jumelé à la place du poing disrupteur",
+        libelle:
+          "Figurines : désintégrateur lourd jumelé à la place du poing disrupteur",
         cout: 10,
         parTranche: 1,
         groupe: "poing",
@@ -1802,10 +2603,12 @@ const UNITES = [
       {
         type: "quantite",
         id: "desintegrateurs-bombarde",
-        libelle: "Figurines : désintégrateur lourd jumelé à la place de la bombarde à plasma",
+        libelle:
+          "Figurines : désintégrateur lourd jumelé à la place de la bombarde à plasma",
         cout: 10,
         parTranche: 1,
-        ajoute: "Désintégrateur lourd jumelé (à la place de la bombarde à plasma)",
+        ajoute:
+          "Désintégrateur lourd jumelé (à la place de la bombarde à plasma)",
       },
       {
         type: "quantite",
@@ -1839,8 +2642,44 @@ const UNITES = [
         nom: "Escouade Tactique",
         cout: 0,
         profils: [
-          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Fureur de la Légion", "Ligne (2)"],
         type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
@@ -1855,7 +2694,10 @@ const UNITES = [
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -1866,7 +2708,10 @@ const UNITES = [
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.pistolets,
+          ),
         ],
       },
       {
@@ -1886,7 +2731,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire : ",
         choix: [
@@ -1932,14 +2778,55 @@ const UNITES = [
     effectif: { base: 10, max: 20, cout: 10 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade Nettoyeuse",
         cout: 0,
         profils: [
-          { nom: "Légionnaire Nettoyeur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Nettoyeur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire Nettoyeur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Nettoyeur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Ligne (2)"],
         type: "Sergent Nettoyeur : Infanterie (Sergent) · Légionnaire Nettoyeur : Infanterie",
@@ -1965,7 +2852,10 @@ const UNITES = [
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.pistolets,
+          ),
         ],
       },
       {
@@ -1990,7 +2880,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "epees-lourdes",
-        libelle: "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "epee",
@@ -1999,7 +2890,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "armes-energetiques",
-        libelle: "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "epee",
@@ -2008,7 +2900,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "sabres",
-        libelle: "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "epee",
@@ -2033,7 +2926,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire : ",
         choix: [
@@ -2066,14 +2960,55 @@ const UNITES = [
     effectif: { base: 10, max: 20, cout: 12 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade d'Assaut",
         cout: 0,
         profils: [
-          { nom: "Légionnaire d'Assaut", profil: { M: 12, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent d'Assaut", profil: { M: 12, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 2, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire d'Assaut",
+            profil: {
+              M: 12,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent d'Assaut",
+            profil: {
+              M: 12,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Massif (2)", "Frappe en Profondeur", "Avant-garde (2)"],
         type: "Sergent d'Assaut : Infanterie (Sergent, Antigrav) · Légionnaire d'Assaut : Infanterie (Antigrav)",
@@ -2100,7 +3035,10 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           { nom: "Pistolet désintégrateur", cout: 5 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.pistolets,
+          ),
         ],
       },
       {
@@ -2123,7 +3061,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "armes-energetiques",
-        libelle: "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : arme énergétique (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "melee",
@@ -2132,7 +3071,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "sabres",
-        libelle: "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : sabre charnabal (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "melee",
@@ -2141,7 +3081,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "epees-lourdes",
-        libelle: "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : épée tronçonneuse lourde (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         groupe: "melee",
@@ -2150,7 +3091,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "haches-lourdes",
-        libelle: "Légionnaires : hache tronçonneuse lourde (2 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : hache tronçonneuse lourde (2 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         parTrancheMax: 2,
@@ -2168,17 +3110,20 @@ const UNITES = [
       {
         type: "case",
         id: "haches",
-        libelle: "Toute l'unité : haches tronçonneuses au lieu des épées tronçonneuses",
+        libelle:
+          "Toute l'unité : haches tronçonneuses au lieu des épées tronçonneuses",
         cout: 0,
         ajoute: "Haches tronçonneuses (toute l'unité, remplacent les épées)",
       },
       {
         type: "case",
         id: "boucliers",
-        libelle: "Toute l'unité : boucliers de combat au lieu des pistolets bolters",
+        libelle:
+          "Toute l'unité : boucliers de combat au lieu des pistolets bolters",
         cout: 2,
         parFigurine: true,
-        ajoute: "Boucliers de combat (toute l'unité, remplacent les pistolets bolters)",
+        ajoute:
+          "Boucliers de combat (toute l'unité, remplacent les pistolets bolters)",
       },
     ],
   },
@@ -2204,8 +3149,44 @@ const UNITES = [
         nom: "Escouade Brécheuse",
         cout: 0,
         profils: [
-          { nom: "Légionnaire Brécheur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "5+" } },
-          { nom: "Sergent Brécheur", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "5+" } },
+          {
+            nom: "Légionnaire Brécheur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Sergent Brécheur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "5+",
+            },
+          },
         ],
         regles: ["Ligne (1)"],
         type: "Sergent Brécheur : Infanterie (Sergent, Lourd) · Légionnaire Brécheur : Infanterie (Lourd)",
@@ -2220,7 +3201,10 @@ const UNITES = [
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.meleeSergent,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -2246,7 +3230,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusils-gravitons",
-        libelle: "Légionnaires : fusil à gravitons (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : fusil à gravitons (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "bolter",
@@ -2255,7 +3240,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "decoupeurs-laser",
-        libelle: "Légionnaires : découpeur laser (1 par tranche de 5 figurines)",
+        libelle:
+          "Légionnaires : découpeur laser (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "bolter",
@@ -2271,7 +3257,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire : ",
         choix: [
@@ -2305,12 +3292,23 @@ const UNITES = [
     cout: 125,
     composition: "1 Plate-forme d'Accélérateur Quadritube Araknae",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Autocanon accélérateur quadritube de Tourelle", "Pavois atomantique"],
+    equipement: [
+      "Autocanon accélérateur quadritube de Tourelle",
+      "Pavois atomantique",
+    ],
     variantes: [
       {
         nom: "Plate-forme d'Accélérateur Quadritube Araknae",
         cout: 0,
-        profilVehicule: { M: "—", CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: "—",
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Emplacement d'Arme", "Explose (4+)"],
         type: "Véhicule",
       },
@@ -2330,8 +3328,20 @@ const UNITES = [
       {
         nom: "Module de Largage Deathstorm",
         cout: 0,
-        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 4, transport: "—" },
-        regles: ["Ouverture à l'Impact", "Véhicule d'Assaut Orbital", "Déluge de Mort"],
+        profilVehicule: {
+          M: "—",
+          CT: 2,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 4,
+          transport: "—",
+        },
+        regles: [
+          "Ouverture à l'Impact",
+          "Véhicule d'Assaut Orbital",
+          "Déluge de Mort",
+        ],
         type: "Véhicule",
       },
     ],
@@ -2345,12 +3355,33 @@ const UNITES = [
     cout: 50,
     composition: "1 Techmarine",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Hache énergétique", "Servobras", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Hache énergétique",
+      "Servobras",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Techmarine",
         cout: 0,
-        profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 8, Sv: "2+", Inv: "—" },
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 4,
+          A: 2,
+          Cd: 7,
+          Sf: 7,
+          Vo: 7,
+          Int: 8,
+          Sv: "2+",
+          Inv: "—",
+        },
         regles: ["Guerrier-artisan (2)"],
         type: "Infanterie (Spécialiste)",
       },
@@ -2384,12 +3415,33 @@ const UNITES = [
     cout: 30,
     composition: "1 Apothicaire",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Narthecium", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Narthecium",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Apothicaire",
         cout: 0,
-        profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 7, Sf: 7, Vo: 7, Int: 8, Sv: "3+", Inv: "—" },
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 4,
+          A: 2,
+          Cd: 7,
+          Sf: 7,
+          Vo: 7,
+          Int: 8,
+          Sv: "3+",
+          Inv: "—",
+        },
         regles: ["Médic (4+)"],
         type: "Infanterie (Spécialiste)",
       },
@@ -2428,7 +3480,8 @@ const UNITES = [
       base: 1,
       max: 4,
       cout: 40,
-      libelle: "Nombre d'Équipages de Rapier (+40 pts par Équipage au-delà de 1)",
+      libelle:
+        "Nombre d'Équipages de Rapier (+40 pts par Équipage au-delà de 1)",
       suffixe: "équipages de Rapier",
     },
     equipementLibelle: "Équipement (par Équipage de Rapier)",
@@ -2445,10 +3498,51 @@ const UNITES = [
         nom: "Batterie de Rapier",
         cout: 0,
         profils: [
-          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Châssis Rapier", profil: { M: 7, CC: 1, CT: 4, F: 4, E: 6, PV: 2, I: 2, A: 1, Cd: 1, Sf: 1, Vo: 1, Int: 1, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Châssis Rapier",
+            profil: {
+              M: 7,
+              CC: 1,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 2,
+              I: 2,
+              A: 1,
+              Cd: 1,
+              Sf: 1,
+              Vo: 1,
+              Int: 1,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
-        regles: ["Équipage de Rapier", "Massif (3) (Châssis Rapier seulement)", "Lent et Méthodique", "Unité d'Appui (1)"],
+        regles: [
+          "Équipage de Rapier",
+          "Massif (3) (Châssis Rapier seulement)",
+          "Lent et Méthodique",
+          "Unité d'Appui (1)",
+        ],
         type: "Légionnaire : Infanterie (Sergent) · Châssis Rapier : Infanterie",
       },
     ],
@@ -2456,29 +3550,35 @@ const UNITES = [
       {
         type: "quantite",
         id: "destructeur-laser",
-        libelle: "Châssis Rapier : destructeur laser (à la place de la batterie de bolters lourds Gravis)",
+        libelle:
+          "Châssis Rapier : destructeur laser (à la place de la batterie de bolters lourds Gravis)",
         cout: 25,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute: "Destructeur laser (à la place de la batterie de bolters lourds Gravis)",
+        ajoute:
+          "Destructeur laser (à la place de la batterie de bolters lourds Gravis)",
       },
       {
         type: "quantite",
         id: "canon-gravitons",
-        libelle: "Châssis Rapier : canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
+        libelle:
+          "Châssis Rapier : canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
         cout: 20,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute: "Canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
+        ajoute:
+          "Canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
       },
       {
         type: "quantite",
         id: "lanceur-quadruple",
-        libelle: "Châssis Rapier : lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
+        libelle:
+          "Châssis Rapier : lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
         cout: 20,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute: "Lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
+        ajoute:
+          "Lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
       },
       {
         type: "quantite",
@@ -2508,8 +3608,44 @@ const UNITES = [
         nom: "Escouade de Soutien",
         cout: 0,
         profils: [
-          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Unité d'Appui (1)"],
         type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
@@ -2519,7 +3655,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-lourde",
-        libelle: "Toute l'unité : objet de la liste des Armes Lourdes de Légion (même objet pour toutes les Figurines)",
+        libelle:
+          "Toute l'unité : objet de la liste des Armes Lourdes de Légion (même objet pour toutes les Figurines)",
         ajoute: true,
         obligatoire: true,
         parFigurine: true,
@@ -2528,7 +3665,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-melee",
-        libelle: "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
         ajoute: true,
         prefixeFiche: "Sergent : ",
         choix: [
@@ -2546,7 +3684,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire : ",
         choix: [
@@ -2585,8 +3724,44 @@ const UNITES = [
         nom: "Escouade d'Appui Tactique",
         cout: 0,
         profils: [
-          { nom: "Légionnaire", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Aucune"],
         type: "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie",
@@ -2596,7 +3771,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-speciale",
-        libelle: "Toute l'unité : objet de la liste des Armes Spéciales de Légion (même objet pour toutes les Figurines)",
+        libelle:
+          "Toute l'unité : objet de la liste des Armes Spéciales de Légion (même objet pour toutes les Figurines)",
         ajoute: true,
         obligatoire: true,
         parFigurine: true,
@@ -2605,7 +3781,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-melee",
-        libelle: "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Sergent : objet de la liste des Armes de Mêlée de Sergent de Légion",
         ajoute: true,
         prefixeFiche: "Sergent : ",
         choix: [
@@ -2630,7 +3807,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire : ",
         choix: [
@@ -2666,21 +3844,65 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 18 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Bolter Kraken", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Bolter Kraken",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade Traqueuse",
         cout: 0,
         profils: [
-          { nom: "Traqueur", profil: { M: 7, CC: 4, CT: 5, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Traqueur", profil: { M: 7, CC: 4, CT: 5, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Traqueur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Traqueur",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Infiltration (9)"],
         type: "Sergent Traqueur : Infanterie (Sergent, Tirailleurs) · Traqueur : Infanterie (Tirailleurs)",
       },
     ],
     options: [
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, { groupe: "tir", remplace: "du bolter Kraken" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        groupe: "tir",
+        remplace: "du bolter Kraken",
+      }),
       {
         type: "choix",
         id: "sergent-bolter",
@@ -2695,7 +3917,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-pistolet-melee",
-        libelle: "Sergent Traqueur : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
+        libelle:
+          "Sergent Traqueur : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
         ajoute: true,
         prefixeFiche: "Sergent Traqueur : ",
         choix: [
@@ -2770,31 +3993,79 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 22 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Vétérans d'Assaut",
         cout: 0,
         profils: [
-          { nom: "Vétéran d'Assaut", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Vétéran d'Assaut", profil: { M: 12, CC: 5, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 3, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Vétéran d'Assaut",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Vétéran d'Assaut",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Massif (2)", "Frappe en Profondeur", "Avant-garde (3)"],
         type: "Sergent Vétéran d'Assaut : Infanterie (Sergent, Antigrav) · Vétéran d'Assaut : Infanterie (Antigrav)",
       },
     ],
     options: [
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, { groupe: "melee", remplace: "de l'épée tronçonneuse" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        groupe: "melee",
+        remplace: "de l'épée tronçonneuse",
+      }),
       {
         type: "quantite",
         id: "bouclier-combat",
-        libelle: "Figurines : bouclier de combat (à la place du pistolet bolter)",
+        libelle:
+          "Figurines : bouclier de combat (à la place du pistolet bolter)",
         cout: 2,
         parTranche: 1,
         groupe: "pistolet",
         ajoute: "Bouclier de combat (à la place du pistolet bolter)",
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, { groupe: "pistolet", remplace: "du pistolet bolter" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        groupe: "pistolet",
+        remplace: "du pistolet bolter",
+      }),
       {
         type: "case",
         id: "sergent-pistolet-desintegrateur",
@@ -2812,7 +4083,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "pistolets-desintegrateurs-tranche",
-        libelle: "Vétérans d'Assaut : pistolet désintégrateur (1 par tranche de 5 figurines)",
+        libelle:
+          "Vétérans d'Assaut : pistolet désintégrateur (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         ajoute: "Pistolet désintégrateur (à la place du pistolet bolter)",
@@ -2820,7 +4092,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "paires-griffes",
-        libelle: "Figurines : paire de griffes Lightning (remplace pistolet bolter ET épée tronçonneuse)",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace pistolet bolter ET épée tronçonneuse)",
         cout: 10,
         parTranche: 1,
         ajoute: "Paire de griffes Lightning",
@@ -2828,7 +4101,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "haches-lourdes",
-        libelle: "Vétérans d'Assaut : hache tronçonneuse lourde (2 par tranche de 5 figurines)",
+        libelle:
+          "Vétérans d'Assaut : hache tronçonneuse lourde (2 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         parTrancheMax: 2,
@@ -2838,7 +4112,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "epees-lourdes",
-        libelle: "Vétérans d'Assaut : épée tronçonneuse lourde (2 par tranche de 5 figurines)",
+        libelle:
+          "Vétérans d'Assaut : épée tronçonneuse lourde (2 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
         parTrancheMax: 2,
@@ -2863,8 +4138,44 @@ const UNITES = [
         nom: "Escouade de Vétérans Tactiques",
         cout: 0,
         profils: [
-          { nom: "Vétéran", profil: { M: 7, CC: 4, CT: 5, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Vétéran", profil: { M: 7, CC: 4, CT: 5, F: 4, E: 4, PV: 2, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Vétéran",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Vétéran",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Ligne (1)"],
         type: "Sergent Vétéran : Infanterie (Sergent) · Vétéran : Infanterie",
@@ -2898,13 +4209,25 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Chargeur volkite (à la place du bolter)",
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, { groupe: "tir", remplace: "du bolter" }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, { groupe: "lourde", parTranche: 5, remplace: "du bolter" }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        groupe: "tir",
+        remplace: "du bolter",
+      }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        groupe: "lourde",
+        parTranche: 5,
+        remplace: "du bolter",
+      }),
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
+        groupe: "lourde",
+        parTranche: 5,
+        remplace: "du bolter",
+      }),
       {
         type: "quantite",
         id: "eclateur-desintegrateur",
-        libelle: "Vétérans : éclateur désintégrateur (1 par tranche de 5 figurines)",
+        libelle:
+          "Vétérans : éclateur désintégrateur (1 par tranche de 5 figurines)",
         cout: 10,
         parTranche: 5,
         groupe: "lourde",
@@ -2913,7 +4236,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "desintegrateur-lourd",
-        libelle: "Vétérans : désintégrateur lourd (1 par tranche de 5 figurines)",
+        libelle:
+          "Vétérans : désintégrateur lourd (1 par tranche de 5 figurines)",
         cout: 15,
         parTranche: 5,
         groupe: "lourde",
@@ -2933,7 +4257,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-pistolet-melee",
-        libelle: "Sergent Vétéran : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
+        libelle:
+          "Sergent Vétéran : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
         ajoute: true,
         prefixeFiche: "Sergent Vétéran : ",
         choix: [
@@ -3011,7 +4336,22 @@ const UNITES = [
       {
         nom: "Escadron de Land Speeders",
         cout: 0,
-        profil: { M: 16, CC: 4, CT: 4, F: 4, E: 5, PV: 3, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" },
+        profil: {
+          M: 16,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 5,
+          PV: 3,
+          I: 4,
+          A: 2,
+          Cd: 8,
+          Sf: 8,
+          Vo: 7,
+          Int: 7,
+          Sv: "3+",
+          Inv: "—",
+        },
         regles: ["Massif (4)", "Frappe en Profondeur", "Protocoles de Tir (2)"],
         type: "Cavalerie (Tirailleurs, Antigrav)",
       },
@@ -3074,7 +4414,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "scanner-lance-flammes",
-        libelle: "Figurines : lance-flammes lourd (à la place du scanner augure)",
+        libelle:
+          "Figurines : lance-flammes lourd (à la place du scanner augure)",
         cout: 0,
         parTranche: 1,
         groupe: "scanner-augure",
@@ -3110,7 +4451,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "scanner-couleuvrine",
-        libelle: "Figurines : couleuvrine volkite (à la place du scanner augure)",
+        libelle:
+          "Figurines : couleuvrine volkite (à la place du scanner augure)",
         cout: 20,
         parTranche: 1,
         groupe: "scanner-augure",
@@ -3160,7 +4502,22 @@ const UNITES = [
       {
         nom: "Escadron de Javelin",
         cout: 0,
-        profil: { M: 14, CC: 4, CT: 4, F: 4, E: 6, PV: 4, I: 4, A: 2, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" },
+        profil: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 6,
+          PV: 4,
+          I: 4,
+          A: 2,
+          Cd: 8,
+          Sf: 8,
+          Vo: 7,
+          Int: 7,
+          Sv: "3+",
+          Inv: "—",
+        },
         regles: ["Massif (5)", "Frappe en Profondeur", "Protocoles de Tir (3)"],
         type: "Cavalerie (Tirailleurs, Antigrav)",
       },
@@ -3169,16 +4526,19 @@ const UNITES = [
       {
         type: "quantite",
         id: "cyclone-lance-flammes",
-        libelle: "Figurines : deux lance-flammes lourds (à la place du lance-missiles Cyclone)",
+        libelle:
+          "Figurines : deux lance-flammes lourds (à la place du lance-missiles Cyclone)",
         cout: 0,
         parTranche: 1,
         groupe: "cyclone",
-        ajoute: "Deux lance-flammes lourds (à la place du lance-missiles Cyclone)",
+        ajoute:
+          "Deux lance-flammes lourds (à la place du lance-missiles Cyclone)",
       },
       {
         type: "quantite",
         id: "cyclone-bolters",
-        libelle: "Figurines : deux bolters lourds (à la place du lance-missiles Cyclone)",
+        libelle:
+          "Figurines : deux bolters lourds (à la place du lance-missiles Cyclone)",
         cout: 0,
         parTranche: 1,
         groupe: "cyclone",
@@ -3187,7 +4547,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "cyclone-canons-laser",
-        libelle: "Figurines : deux canons laser (à la place du lance-missiles Cyclone)",
+        libelle:
+          "Figurines : deux canons laser (à la place du lance-missiles Cyclone)",
         cout: 5,
         parTranche: 1,
         groupe: "cyclone",
@@ -3196,11 +4557,13 @@ const UNITES = [
       {
         type: "quantite",
         id: "cyclone-couleuvrines",
-        libelle: "Figurines : deux couleuvrines volkites (à la place du lance-missiles Cyclone)",
+        libelle:
+          "Figurines : deux couleuvrines volkites (à la place du lance-missiles Cyclone)",
         cout: 5,
         parTranche: 1,
         groupe: "cyclone",
-        ajoute: "Deux couleuvrines volkites (à la place du lance-missiles Cyclone)",
+        ajoute:
+          "Deux couleuvrines volkites (à la place du lance-missiles Cyclone)",
       },
     ],
   },
@@ -3214,14 +4577,56 @@ const UNITES = [
     effectif: { base: 3, max: 10, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Pistolet bolter", "Épée tronçonneuse", "Bolter lourd", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Bolter lourd",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escadron de Motojets Scimitar",
         cout: 0,
         profils: [
-          { nom: "Veneur Scimitar", profil: { M: 16, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Scimitar", profil: { M: 16, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 8, Sf: 8, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Veneur Scimitar",
+            profil: {
+              M: 16,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Scimitar",
+            profil: {
+              M: 16,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
         regles: ["Massif (3)", "Frappe en Profondeur"],
         type: "Sergent Scimitar : Cavalerie (Sergent, Antigrav) · Veneur Scimitar : Cavalerie (Antigrav)",
@@ -3249,7 +4654,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "pistolets-legion",
-        libelle: "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
+        libelle:
+          "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
         cout: 5,
         parTranche: 1,
         ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
@@ -3300,7 +4706,15 @@ const UNITES = [
       {
         nom: "Fire Raptor",
         cout: 0,
-        profilVehicule: { M: 18, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 18,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Stable, Aéronef)",
       },
@@ -3309,7 +4723,8 @@ const UNITES = [
       {
         type: "choix",
         id: "batteries-laterales",
-        libelle: "Remplacer les deux batteries de bolters lourds Gravis Latérales",
+        libelle:
+          "Remplacer les deux batteries de bolters lourds Gravis Latérales",
         remplace: "Deux batteries de bolters lourds Gravis Latérales",
         choix: [
           { nom: "— Conserver les bolters lourds Gravis Latérales —", cout: 0 },
@@ -3346,7 +4761,15 @@ const UNITES = [
       {
         nom: "Storm Eagle",
         cout: 0,
-        profilVehicule: { M: 18, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 6, transport: 16 },
+        profilVehicule: {
+          M: 18,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 6,
+          transport: 16,
+        },
         regles: ["Véhicule d'Assaut"],
         type: "Véhicule (Stable, Transport, Aéronef)",
       },
@@ -3384,12 +4807,23 @@ const UNITES = [
     cout: 120,
     composition: "1 Intercepteur Xiphon",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Intercepteur"],
-    equipement: ["Deux canons laser jumelés d'Axe Central", "Lance-missiles rotatif d'Axe Central"],
+    equipement: [
+      "Deux canons laser jumelés d'Axe Central",
+      "Lance-missiles rotatif d'Axe Central",
+    ],
     variantes: [
       {
         nom: "Intercepteur Xiphon",
         cout: 0,
-        profilVehicule: { M: 20, CT: 4, avant: 11, flanc: 11, arriere: 11, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 20,
+          CT: 4,
+          avant: 11,
+          flanc: 11,
+          arriere: 11,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Aéronef)",
       },
@@ -3413,7 +4847,15 @@ const UNITES = [
       {
         nom: "Land Raider Explorator",
         cout: 0,
-        profilVehicule: { M: 12, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 8, transport: 10 },
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 8,
+          transport: 10,
+        },
         regles: ["Autoréparation (5+)", "Attaque de Flanc"],
         type: "Véhicule (Transport)",
       },
@@ -3445,16 +4887,64 @@ const UNITES = [
     effectif: { base: 3, max: 10, cout: 20 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Bolter jumelé", "Pistolet bolter", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Bolter jumelé",
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escadron de Motards",
         cout: 0,
         profils: [
-          { nom: "Motard", profil: { M: 14, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 7, Sf: 8, Vo: 7, Int: 6, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Motard", profil: { M: 14, CC: 4, CT: 4, F: 4, E: 4, PV: 2, I: 4, A: 1, Cd: 8, Sf: 8, Vo: 7, Int: 6, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Motard",
+            profil: {
+              M: 14,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 8,
+              Vo: 7,
+              Int: 6,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Motard",
+            profil: {
+              M: 14,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 6,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
-        regles: ["Massif (2)", "Avant-garde (1)", "Orage de Feu", "Avance Implacable", "Attaque de Flanc"],
+        regles: [
+          "Massif (2)",
+          "Avant-garde (1)",
+          "Orage de Feu",
+          "Avance Implacable",
+          "Attaque de Flanc",
+        ],
         type: "Sergent Motard : Cavalerie (Sergent) · Motard : Cavalerie",
       },
     ],
@@ -3497,7 +4987,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "pistolets-legion",
-        libelle: "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
+        libelle:
+          "Figurines prenant un objet de la liste des Pistolets de Légion (à la place du pistolet bolter)",
         cout: 5,
         parTranche: 1,
         ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
@@ -3505,7 +4996,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusils-plasma",
-        libelle: "Toute l'unité : fusil à plasma jumelé (à la place du bolter jumelé)",
+        libelle:
+          "Toute l'unité : fusil à plasma jumelé (à la place du bolter jumelé)",
         cout: 15,
         parTranche: 1,
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
@@ -3513,7 +5005,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusils-pompe",
-        libelle: "Figurines échangeant gratuitement leur épée tronçonneuse contre un fusil à pompe Astartes",
+        libelle:
+          "Figurines échangeant gratuitement leur épée tronçonneuse contre un fusil à pompe Astartes",
         cout: 0,
         parTranche: 1,
         ajoute: "Fusil à pompe Astartes (à la place de l'épée tronçonneuse)",
@@ -3528,12 +5021,23 @@ const UNITES = [
     cout: 80,
     composition: "1 Sabre",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Autocanon court Anvilus d'Axe Central", "Bolter lourd de Coque (Avant)"],
+    equipement: [
+      "Autocanon court Anvilus d'Axe Central",
+      "Bolter lourd de Coque (Avant)",
+    ],
     variantes: [
       {
         nom: "Sabre",
         cout: 0,
-        profilVehicule: { M: 16, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 4, transport: "—" },
+        profilVehicule: {
+          M: 16,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 4,
+          transport: "—",
+        },
         regles: ["Attaque de Flanc"],
         type: "Véhicule (Rapide)",
       },
@@ -3590,16 +5094,61 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 17 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Fusil à pompe Astartes", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Fusil à pompe Astartes",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Reconnaissance",
         cout: 0,
         profils: [
-          { nom: "Légionnaire Reco", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 7, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
-          { nom: "Sergent Reco", profil: { M: 7, CC: 4, CT: 4, F: 4, E: 4, PV: 1, I: 4, A: 1, Cd: 8, Sf: 7, Vo: 7, Int: 7, Sv: "3+", Inv: "—" } },
+          {
+            nom: "Légionnaire Reco",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Reco",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
-        regles: ["Infiltration (9)", "Mouvement à Couvert", "Unité d'Appui (2)"],
+        regles: [
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Unité d'Appui (2)",
+        ],
         type: "Sergent Reco : Infanterie (Sergent, Tirailleurs) · Légionnaire Reco : Infanterie (Tirailleurs)",
       },
     ],
@@ -3618,7 +5167,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-pistolet-melee",
-        libelle: "Sergent Reco : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
+        libelle:
+          "Sergent Reco : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
         ajoute: true,
         prefixeFiche: "Sergent Reco : ",
         choix: [
@@ -3629,7 +5179,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-pistolet-legion",
-        libelle: "Sergent Reco : remplacer son pistolet bolter (Pistolets de Légion)",
+        libelle:
+          "Sergent Reco : remplacer son pistolet bolter (Pistolets de Légion)",
         ajoute: true,
         prefixeFiche: "Sergent Reco : ",
         choix: [
@@ -3640,7 +5191,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Légionnaire Reco, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Légionnaire Reco, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Légionnaire Reco : ",
         choix: [
@@ -3664,7 +5216,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "bolters-nemesis",
-        libelle: "Figurines : bolter Némésis (à la place du fusil à pompe Astartes)",
+        libelle:
+          "Figurines : bolter Némésis (à la place du fusil à pompe Astartes)",
         cout: 5,
         parTranche: 1,
         ajoute: "Bolter Némésis (à la place du fusil à pompe Astartes)",
@@ -3681,13 +5234,10 @@ const UNITES = [
 
   /* ----------------------------------------------------------
      UNITÉS — BLINDÉS
-     Note de transcription : l'option « Cette Figurine peut
-     échanger [...] contre un objet de la liste des Armes Latérales
-     de Légion » (Arquitor, Kratos, Sicaran Venator, Sicaran,
-     Predator) n'a pas pu être transcrite — le contenu de cette
-     liste d'équipement n'a pas encore été fourni (même liste que
-     pour les Seigneurs de Bataille, voir la note dans cette
-     section-là). Le reste de chaque fiche est complet.
+     Arquitor, Kratos, Sicaran Venator, Sicaran et Predator peuvent
+     tous échanger leurs deux bolters lourds Latéraux contre un objet
+     de la liste des Armes Latérales de Légion (p. 21) : voir
+     optionLaterauxLegion.
      ---------------------------------------------------------- */
   {
     id: "arquitor",
@@ -3696,12 +5246,23 @@ const UNITES = [
     cout: 150,
     composition: "1 Bombarde Arquitor",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Bombarde Morbus d'Axe Central", "Deux bolters lourds Latéraux"],
+    equipement: [
+      "Bombarde Morbus d'Axe Central",
+      "Deux bolters lourds Latéraux",
+    ],
     variantes: [
       {
         nom: "Bombarde Arquitor",
         cout: 0,
-        profilVehicule: { M: 8, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 8,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule",
       },
@@ -3726,16 +5287,7 @@ const UNITES = [
           { nom: "Système de roquettes Spicula d'Axe Central", cout: 15 },
         ],
       },
-      {
-        type: "choix",
-        id: "bolters-lateraux",
-        libelle: "Remplacer les deux bolters lourds Latéraux",
-        remplace: "Deux bolters lourds Latéraux",
-        choix: [
-          { nom: "— Conserver les bolters lourds Latéraux —", cout: 0 },
-          { nom: "Deux autocanons Latéraux", cout: 10 },
-        ],
-      },
+      optionLaterauxLegion({ nom: "Deux autocanons Latéraux", cout: 10 }),
       optionPivotLegion(),
       ...optionsFinBlinde({ bulldozer: false }),
     ],
@@ -3748,12 +5300,24 @@ const UNITES = [
     cout: 120,
     composition: "1 Char Lance-missiles Scorpius",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Lance-missiles Scorpius de Tourelle", "Bolter sur Pivot n°1", "Bolter sur Pivot n°2"],
+    equipement: [
+      "Lance-missiles Scorpius de Tourelle",
+      "Bolter sur Pivot n°1",
+      "Bolter sur Pivot n°2",
+    ],
     variantes: [
       {
         nom: "Char Lance-missiles Scorpius",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule",
       },
@@ -3780,12 +5344,23 @@ const UNITES = [
     cout: 140,
     composition: "1 Char de Siège Vindicator",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Canon Demolisher d'Axe Central", "Combi-bolter de Coque (Avant)"],
+    equipement: [
+      "Canon Demolisher d'Axe Central",
+      "Combi-bolter de Coque (Avant)",
+    ],
     variantes: [
       {
         nom: "Char de Siège Vindicator",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 13, flanc: 13, arriere: 10, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 13,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule",
       },
@@ -3823,7 +5398,15 @@ const UNITES = [
       {
         nom: "Char d'Assaut Kratos",
         cout: 0,
-        profilVehicule: { M: 8, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 10, transport: "—" },
+        profilVehicule: {
+          M: 8,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 10,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Stable)",
       },
@@ -3859,6 +5442,7 @@ const UNITES = [
           { nom: "Deux canons laser de Coque (Avant)", cout: 25 },
         ],
       },
+      optionLaterauxLegion(),
       optionPivotLegion(),
       ...optionsFinBlinde({ missile: "Tourelle" }),
     ],
@@ -3871,17 +5455,33 @@ const UNITES = [
     cout: 170,
     composition: "1 Sicaran Venator",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Laser à neutrons d'Axe Central", "Bolter lourd de Tourelle", "Deux bolters lourds Latéraux"],
+    equipement: [
+      "Laser à neutrons d'Axe Central",
+      "Bolter lourd de Tourelle",
+      "Deux bolters lourds Latéraux",
+    ],
     variantes: [
       {
         nom: "Sicaran Venator",
         cout: 0,
-        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 12, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 12,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Explose (5+)"],
         type: "Véhicule",
       },
     ],
-    options: [optionPivotLegion(), ...optionsFinBlinde({ bulldozer: false })],
+    options: [
+      optionLaterauxLegion(),
+      optionPivotLegion(),
+      ...optionsFinBlinde({ bulldozer: false }),
+    ],
   },
 
   {
@@ -3891,12 +5491,24 @@ const UNITES = [
     cout: 160,
     composition: "1 Sicaran",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Autocanon accélérateur jumelé de Tourelle", "Bolter lourd de Coque (Avant)", "Deux bolters lourds Latéraux"],
+    equipement: [
+      "Autocanon accélérateur jumelé de Tourelle",
+      "Bolter lourd de Coque (Avant)",
+      "Deux bolters lourds Latéraux",
+    ],
     variantes: [
       {
         nom: "Sicaran",
         cout: 0,
-        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 12, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 12,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule",
       },
@@ -3914,6 +5526,7 @@ const UNITES = [
           { nom: "Affût à plasma Omega de Tourelle", cout: 25 },
         ],
       },
+      optionLaterauxLegion(),
       optionPivotLegion(),
       ...optionsFinBlinde({ missile: "Tourelle", bulldozer: false }),
     ],
@@ -3931,7 +5544,15 @@ const UNITES = [
       {
         nom: "Predator",
         cout: 0,
-        profilVehicule: { M: 12, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule",
       },
@@ -3954,8 +5575,72 @@ const UNITES = [
           { nom: "Canon laser jumelé de Tourelle", cout: 10 },
         ],
       },
+      optionLaterauxLegion(),
       optionPivotLegion(),
       ...optionsFinBlinde({ missile: "Tourelle" }),
+    ],
+  },
+
+  /* Char Lance-missiles Whirlwind — Addendum au Liber (ajouté à la
+     Liste d'Armée des Legiones Astartes après la publication du
+     livre d'armée principal). */
+  {
+    id: "whirlwind",
+    nom: "Char Lance-missiles Whirlwind",
+    categorie: "Blindés",
+    cout: 100,
+    composition: "1 Whirlwind",
+    // L'Addendum précise que les Fumigènes donnent le Trait Écran de
+    // Fumée, mais son propre encadré TRAITS ne liste que ces deux-là
+    // (contrairement aux autres Blindés, qui l'ont directement en
+    // Trait sans lister de Fumigènes en Équipement) : transcription
+    // fidèle du livre malgré l'incohérence apparente.
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    /* Le livre liste « Deux bolters sur Pivot » : on l'éclate en deux
+       lignes pour pouvoir en remplacer un (voir l'option "pivot-1"),
+       comme le Scorpius. */
+    equipement: [
+      "Lance-missiles Whirlwind de Tourelle",
+      "Bolter sur Pivot n°1",
+      "Bolter sur Pivot n°2",
+      "Fumigènes",
+    ],
+    variantes: [
+      {
+        nom: "Char Lance-missiles Whirlwind",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
+        regles: ["Aucune"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "missiles-pyrax",
+        libelle: "Lance-missiles Whirlwind de Tourelle : missiles Pyrax",
+        cout: 10,
+        ajoute: "Missiles Pyrax",
+      },
+      {
+        type: "choix",
+        id: "pivot-1",
+        libelle: "Remplacer un bolter sur Pivot",
+        remplace: "Bolter sur Pivot n°1",
+        choix: [
+          { nom: "— Conserver le bolter sur Pivot —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      ...optionsFinBlinde(),
     ],
   },
 
@@ -3973,12 +5658,30 @@ const UNITES = [
     cout: 150,
     composition: "1 Dreadnought Contemptor",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+    equipement: [
+      "Canon à bolts Gravis (bras n°1)",
+      "Canon à bolts Gravis (bras n°2)",
+    ],
     variantes: [
       {
         nom: "Dreadnought Contemptor",
         cout: 0,
-        profil: { M: 8, CC: 4, CT: 4, F: 7, E: 7, PV: 6, I: 4, A: 4, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 8,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 4,
+          Cd: 12,
+          Sf: 10,
+          Vo: 7,
+          Int: 5,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Massif (6)", "Explose (5+)", "Avance Implacable"],
         type: "Marcheur",
       },
@@ -4023,18 +5726,26 @@ const UNITES = [
       {
         type: "paire",
         id: "paire-poings-energetiques",
-        libelle: "Paire de poings énergétiques Gravis et deux combi-bolters (les deux bras)",
+        libelle:
+          "Paire de poings énergétiques Gravis et deux combi-bolters (les deux bras)",
         cout: 5,
         ajoute: "Paire de poings énergétiques Gravis et deux combi-bolters",
-        remplaceListe: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+        remplaceListe: [
+          "Canon à bolts Gravis (bras n°1)",
+          "Canon à bolts Gravis (bras n°2)",
+        ],
       },
       {
         type: "paire",
         id: "paire-poings-tronconneurs",
-        libelle: "Paire de poings tronçonneurs Gravis et deux combi-bolters (les deux bras)",
+        libelle:
+          "Paire de poings tronçonneurs Gravis et deux combi-bolters (les deux bras)",
         cout: 5,
         ajoute: "Paire de poings tronçonneurs Gravis et deux combi-bolters",
-        remplaceListe: ["Canon à bolts Gravis (bras n°1)", "Canon à bolts Gravis (bras n°2)"],
+        remplaceListe: [
+          "Canon à bolts Gravis (bras n°1)",
+          "Canon à bolts Gravis (bras n°2)",
+        ],
       },
       /* Échanges de combi-bolters : uniquement si un bras au moins
          porte un combi-bolter (poings). */
@@ -4046,7 +5757,10 @@ const UNITES = [
         requiertEquip: "combi-bolter",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          { nom: "Lance-flammes lourd (à la place d'un combi-bolter)", cout: 5 },
+          {
+            nom: "Lance-flammes lourd (à la place d'un combi-bolter)",
+            cout: 5,
+          },
           { nom: "Éclateur à plasma (à la place d'un combi-bolter)", cout: 10 },
           { nom: "Fusil à gravitons (à la place d'un combi-bolter)", cout: 10 },
           { nom: "Fuseur (à la place d'un combi-bolter)", cout: 15 },
@@ -4060,7 +5774,10 @@ const UNITES = [
         requiertEquip: "deux combi-bolters",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          { nom: "Lance-flammes lourd (à la place d'un combi-bolter)", cout: 5 },
+          {
+            nom: "Lance-flammes lourd (à la place d'un combi-bolter)",
+            cout: 5,
+          },
           { nom: "Éclateur à plasma (à la place d'un combi-bolter)", cout: 10 },
           { nom: "Fusil à gravitons (à la place d'un combi-bolter)", cout: 10 },
           { nom: "Fuseur (à la place d'un combi-bolter)", cout: 15 },
@@ -4083,12 +5800,31 @@ const UNITES = [
     cout: 190,
     composition: "1 Dreadnought Deredeo",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Batterie d'autocanons Anvilus", "Bolter lourd jumelé", "Lance-missiles Aiolos"],
+    equipement: [
+      "Batterie d'autocanons Anvilus",
+      "Bolter lourd jumelé",
+      "Lance-missiles Aiolos",
+    ],
     variantes: [
       {
         nom: "Dreadnought Deredeo",
         cout: 0,
-        profil: { M: 7, CC: 4, CT: 4, F: 6, E: 7, PV: 6, I: 4, A: 2, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 6,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 2,
+          Cd: 12,
+          Sf: 10,
+          Vo: 7,
+          Int: 5,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Massif (7)", "Explose (5+)"],
         type: "Marcheur (Lourd)",
       },
@@ -4145,7 +5881,22 @@ const UNITES = [
       {
         nom: "Dreadnought Leviathan",
         cout: 0,
-        profil: { M: 6, CC: 4, CT: 4, F: 8, E: 8, PV: 7, I: 4, A: 4, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "5+" },
+        profil: {
+          M: 6,
+          CC: 4,
+          CT: 4,
+          F: 8,
+          E: 8,
+          PV: 7,
+          I: 4,
+          A: 4,
+          Cd: 12,
+          Sf: 10,
+          Vo: 7,
+          Int: 5,
+          Sv: "2+",
+          Inv: "5+",
+        },
         regles: ["Massif (7)", "Explose (5+)", "Avance Implacable"],
         type: "Marcheur (Lourd)",
       },
@@ -4180,7 +5931,8 @@ const UNITES = [
       {
         type: "paire",
         id: "paire-pinces",
-        libelle: "Paire de pinces de siège Leviathan et deux fuseurs (les deux bras)",
+        libelle:
+          "Paire de pinces de siège Leviathan et deux fuseurs (les deux bras)",
         cout: 5,
         ajoute: "Paire de pinces de siège Leviathan et deux fuseurs",
         remplaceListe: [
@@ -4191,7 +5943,8 @@ const UNITES = [
       {
         type: "paire",
         id: "paire-trepans",
-        libelle: "Paire de trépans de siège Leviathan et deux fuseurs (les deux bras)",
+        libelle:
+          "Paire de trépans de siège Leviathan et deux fuseurs (les deux bras)",
         cout: 5,
         ajoute: "Paire de trépans de siège Leviathan et deux fuseurs",
         remplaceListe: [
@@ -4236,7 +5989,22 @@ const UNITES = [
       {
         nom: "Dreadnought Saturnine",
         cout: 0,
-        profil: { M: 6, CC: 4, CT: 4, F: 8, E: 8, PV: 8, I: 3, A: 2, Cd: 12, Sf: 10, Vo: 7, Int: 5, Sv: "2+", Inv: "4+" },
+        profil: {
+          M: 6,
+          CC: 4,
+          CT: 4,
+          F: 8,
+          E: 8,
+          PV: 8,
+          I: 3,
+          A: 2,
+          Cd: 12,
+          Sf: 10,
+          Vo: 7,
+          Int: 5,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: ["Massif (8)", "Explose (4+)"],
         type: "Marcheur (Lourd)",
       },
@@ -4298,7 +6066,15 @@ const UNITES = [
       {
         nom: "Rhino",
         cout: 0,
-        profilVehicule: { M: 12, CT: 4, avant: 12, flanc: 11, arriere: 10, PC: 5, transport: 12 },
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 5,
+          transport: 12,
+        },
         regles: ["Transport Léger", "Autoréparation (4+)"],
         type: "Véhicule (Transport)",
       },
@@ -4363,8 +6139,20 @@ const UNITES = [
       {
         nom: "Module de Largage",
         cout: 0,
-        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 4, transport: 10 },
-        regles: ["Transport Léger", "Véhicule d'Assaut Orbital", "Ouverture à l'Impact"],
+        profilVehicule: {
+          M: "—",
+          CT: 2,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 4,
+          transport: 10,
+        },
+        regles: [
+          "Transport Léger",
+          "Véhicule d'Assaut Orbital",
+          "Ouverture à l'Impact",
+        ],
         type: "Véhicule (Transport)",
       },
     ],
@@ -4378,13 +6166,24 @@ const UNITES = [
     cout: 80,
     composition: "1 Termite",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Deux combi-bolters sur Pivot", "Découpeurs à fusion d'Axe Central"],
+    equipement: [
+      "Deux combi-bolters sur Pivot",
+      "Découpeurs à fusion d'Axe Central",
+    ],
     notes: "Un Point d'Accès sur chaque Flanc.",
     variantes: [
       {
         nom: "Termite",
         cout: 0,
-        profilVehicule: { M: 6, CT: 4, avant: 12, flanc: 12, arriere: 10, PC: 5, transport: 12 },
+        profilVehicule: {
+          M: 6,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: 12,
+        },
         regles: ["Transport Léger", "Frappe en Profondeur"],
         type: "Véhicule (Transport)",
       },
@@ -4420,7 +6219,15 @@ const UNITES = [
       {
         nom: "Griffe d'Assaut Kharybdis",
         cout: 0,
-        profilVehicule: { M: 14, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 8, transport: 22 },
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 8,
+          transport: 22,
+        },
         regles: ["Transport par Largage Lourd"],
         type: "Véhicule (Aéronef, Transport)",
       },
@@ -4441,7 +6248,15 @@ const UNITES = [
       {
         nom: "Module de Largage Dreadclaw",
         cout: 0,
-        profilVehicule: { M: 15, CT: 4, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: 12 },
+        profilVehicule: {
+          M: 15,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 5,
+          transport: 12,
+        },
         regles: ["Transport par Largage"],
         type: "Véhicule (Aéronef, Transport)",
       },
@@ -4462,8 +6277,20 @@ const UNITES = [
       {
         nom: "Module de Largage à Dreadnought",
         cout: 0,
-        profilVehicule: { M: "—", CT: 2, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: 7 },
-        regles: ["Transport à Dreadnought", "Véhicule d'Assaut Orbital", "Ouverture à l'Impact"],
+        profilVehicule: {
+          M: "—",
+          CT: 2,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 5,
+          transport: 7,
+        },
+        regles: [
+          "Transport à Dreadnought",
+          "Véhicule d'Assaut Orbital",
+          "Ouverture à l'Impact",
+        ],
         type: "Véhicule (Transport)",
       },
     ],
@@ -4477,13 +6304,24 @@ const UNITES = [
     cout: 400,
     composition: "1 Spartan",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Deux affûts de canons laser Latéraux", "Bolter lourd jumelé de Coque (Avant)"],
+    equipement: [
+      "Deux affûts de canons laser Latéraux",
+      "Bolter lourd jumelé de Coque (Avant)",
+    ],
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
     variantes: [
       {
         nom: "Spartan",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 10, transport: 26 },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 10,
+          transport: 26,
+        },
         regles: ["Véhicule d'Assaut", "Autoréparation (4+)"],
         type: "Véhicule (Transport)",
       },
@@ -4523,13 +6361,24 @@ const UNITES = [
     cout: 265,
     composition: "1 Porteur Land Raider",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Deux canons laser jumelés Latéraux", "Bolter lourd jumelé de Coque (Avant)"],
+    equipement: [
+      "Deux canons laser jumelés Latéraux",
+      "Bolter lourd jumelé de Coque (Avant)",
+    ],
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
     variantes: [
       {
         nom: "Porteur Land Raider",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 8, transport: 12 },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 8,
+          transport: 12,
+        },
         regles: ["Véhicule d'Assaut", "Autoréparation (5+)"],
         type: "Véhicule (Transport)",
       },
@@ -4553,11 +6402,9 @@ const UNITES = [
 
   /* ----------------------------------------------------------
      UNITÉS — SEIGNEURS DES BATAILLES (véhicules Super-lourds)
-     Note de transcription : l'option « Cette Figurine peut
-     échanger [...] contre un objet de la liste des Armes
-     Latérales de Légion » (Mastodon, Typhon, Cerberus) n'a pas pu
-     être transcrite — le contenu de cette liste d'équipement n'a
-     pas encore été fourni. Le reste de chaque fiche est complet.
+     Typhon et Cerberus échangent leurs deux bolters lourds Latéraux
+     comme les Blindés (voir optionLaterauxLegion, section Blindés
+     ci-dessus). Le Mastodon reste incomplet : voir sa note.
      ---------------------------------------------------------- */
   {
     id: "mastodon",
@@ -4566,19 +6413,40 @@ const UNITES = [
     cout: 600,
     composition: "1 Transport d'Assaut Super-lourd Mastodon",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Affût à fusion de siège d'Axe Central", "Batterie Skyreaper de Tourelle"],
-    notes: "Cette Figurine a un Point d'Accès à l'Arrière et un Point d'Accès à l'Avant.",
+    equipement: [
+      "Affût à fusion de siège d'Axe Central",
+      "Batterie Skyreaper de Tourelle",
+    ],
+    notes:
+      "Cette Figurine a un Point d'Accès à l'Arrière et un Point d'Accès à l'Avant.",
     variantes: [
       {
         nom: "Transport d'Assaut Super-lourd Mastodon",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 20, transport: 42 },
-        regles: ["Véhicule d'Assaut", "Baie de Transport Mastodon", "Boucliers Void (2)"],
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 20,
+          transport: 42,
+        },
+        regles: [
+          "Véhicule d'Assaut",
+          "Baie de Transport Mastodon",
+          "Boucliers Void (2)",
+        ],
         type: "Véhicule (Transport, Super-lourd)",
       },
     ],
     // "Doit être dotée de deux objets de la liste des Armes Latérales
-    // de Légion" (obligatoire) : voir la note de transcription ci-dessus.
+    // de Légion" : contrairement aux Blindés (qui échangent un
+    // équipement de départ existant, voir optionLaterauxLegion), le
+    // Mastodon n'a PAS de bolters lourds Latéraux dans son équipement
+    // de départ — ce sont deux emplacements obligatoires à pourvoir
+    // indépendamment. Pas encore modélisé (option "quantite"/"multi"
+    // à choix multiples avec doublons autorisés, à confirmer).
     options: [...optionsMissileEtProjecteurs()],
   },
 
@@ -4596,12 +6464,21 @@ const UNITES = [
       "Bolter lourd jumelé de Coque (Arrière)",
       "Six missiles Hellstrike d'Axe Central",
     ],
-    notes: "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
+    notes:
+      "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
     variantes: [
       {
         nom: "Stormbird Sokar",
         cout: 0,
-        profilVehicule: { M: 16, CT: 4, avant: 14, flanc: 14, arriere: 14, PC: 22, transport: 52 },
+        profilVehicule: {
+          M: 16,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 22,
+          transport: 52,
+        },
         regles: ["Baie de Transport Stormbird", "Boucliers Void (2)"],
         type: "Véhicule (Transport, Super-lourd, Aéronef)",
       },
@@ -4610,21 +6487,29 @@ const UNITES = [
       {
         type: "choix",
         id: "canons-gauche",
-        libelle: "Remplacer gratuitement tout canon laser jumelé de Coque (Gauche)",
+        libelle:
+          "Remplacer gratuitement tout canon laser jumelé de Coque (Gauche)",
         remplace: "Deux canons laser jumelés de Coque (Gauche)",
         choix: [
           { nom: "— Conserver les canons laser jumelés (Gauche) —", cout: 0 },
-          { nom: "Batterie de bolters lourds Gravis de Coque (Gauche)", cout: 0 },
+          {
+            nom: "Batterie de bolters lourds Gravis de Coque (Gauche)",
+            cout: 0,
+          },
         ],
       },
       {
         type: "choix",
         id: "canons-droite",
-        libelle: "Remplacer gratuitement tout canon laser jumelé de Coque (Droite)",
+        libelle:
+          "Remplacer gratuitement tout canon laser jumelé de Coque (Droite)",
         remplace: "Deux canons laser jumelés de Coque (Droite)",
         choix: [
           { nom: "— Conserver les canons laser jumelés (Droite) —", cout: 0 },
-          { nom: "Batterie de bolters lourds Gravis de Coque (Droite)", cout: 0 },
+          {
+            nom: "Batterie de bolters lourds Gravis de Coque (Droite)",
+            cout: 0,
+          },
         ],
       },
     ],
@@ -4644,12 +6529,21 @@ const UNITES = [
       "Deux canons laser de Coque (Avant)",
       "Six missiles Hellstrike d'Axe Central",
     ],
-    notes: "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
+    notes:
+      "Si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
     variantes: [
       {
         nom: "Escorteur Thunderhawk",
         cout: 0,
-        profilVehicule: { M: 18, CT: 4, avant: 13, flanc: 13, arriere: 13, PC: 18, transport: 32 },
+        profilVehicule: {
+          M: 18,
+          CT: 4,
+          avant: 13,
+          flanc: 13,
+          arriere: 13,
+          PC: 18,
+          transport: 32,
+        },
         regles: ["Baie de Transport Thunderhawk"],
         type: "Véhicule (Transport, Super-lourd, Aéronef)",
       },
@@ -4664,12 +6558,23 @@ const UNITES = [
     cout: 650,
     composition: "1 Chasseur de Chars Super-lourd Falchion",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Canon à onde neutronique d'Axe Central", "Deux affûts de canons laser Latéraux"],
+    equipement: [
+      "Canon à onde neutronique d'Axe Central",
+      "Deux affûts de canons laser Latéraux",
+    ],
     variantes: [
       {
         nom: "Chasseur de Chars Super-lourd Falchion",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 18,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Super-lourd)",
       },
@@ -4707,7 +6612,15 @@ const UNITES = [
       {
         nom: "Char de Combat Super-lourd Fellblade",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 18,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Super-lourd)",
       },
@@ -4716,7 +6629,8 @@ const UNITES = [
       {
         type: "choix",
         id: "bolter-lourd-avant",
-        libelle: "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
+        libelle:
+          "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
         remplace: "Bolter lourd jumelé de Coque (Avant)",
         choix: [
           { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
@@ -4754,7 +6668,15 @@ const UNITES = [
       {
         nom: "Char à Arme Spéciale Super-lourd Glaive",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 12, PC: 18, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 18,
+          transport: "—",
+        },
         regles: ["Aucune"],
         type: "Véhicule (Super-lourd)",
       },
@@ -4763,7 +6685,8 @@ const UNITES = [
       {
         type: "choix",
         id: "bolter-lourd-avant",
-        libelle: "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
+        libelle:
+          "Remplacer gratuitement le bolter lourd jumelé de Coque (Avant)",
         remplace: "Bolter lourd jumelé de Coque (Avant)",
         choix: [
           { nom: "— Conserver le bolter lourd jumelé —", cout: 0 },
@@ -4792,20 +6715,28 @@ const UNITES = [
     cout: 400,
     composition: "1 Char de Siège Lourd Typhon",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Canon de siège Dreadhammer d'Axe Central", "Deux bolters lourds Latéraux"],
+    equipement: [
+      "Canon de siège Dreadhammer d'Axe Central",
+      "Deux bolters lourds Latéraux",
+    ],
     variantes: [
       {
         nom: "Char de Siège Lourd Typhon",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 13, PC: 12, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 13,
+          PC: 12,
+          transport: "—",
+        },
         regles: ["Explose (5+)"],
         type: "Véhicule (Super-lourd)",
       },
     ],
-    // "Peut échanger ses deux bolters lourds Latéraux contre un objet
-    // de la liste des Armes Latérales de Légion" : voir la note de
-    // transcription en tête de section.
-    options: [...optionsVehiculeSuperLourdPivot()],
+    options: [optionLaterauxLegion(), ...optionsVehiculeSuperLourdPivot()],
   },
 
   {
@@ -4815,19 +6746,27 @@ const UNITES = [
     cout: 400,
     composition: "1 Chasseur de Chars Lourd Cerberus",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Batterie laser à neutrons d'Axe Central", "Deux bolters lourds Latéraux"],
+    equipement: [
+      "Batterie laser à neutrons d'Axe Central",
+      "Deux bolters lourds Latéraux",
+    ],
     variantes: [
       {
         nom: "Chasseur de Chars Lourd Cerberus",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 14, arriere: 13, PC: 12, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 13,
+          PC: 12,
+          transport: "—",
+        },
         regles: ["Explose (4+)"],
         type: "Véhicule (Super-lourd)",
       },
     ],
-    // "Peut échanger ses deux bolters lourds Latéraux contre un objet
-    // de la liste des Armes Latérales de Légion" : voir la note de
-    // transcription en tête de section.
-    options: [...optionsVehiculeSuperLourdPivot()],
+    options: [optionLaterauxLegion(), ...optionsVehiculeSuperLourdPivot()],
   },
 ];

@@ -201,6 +201,11 @@ const REGLES_DIVERSES = [
       "Arrivée aux tours 2, 3 ou 4, maximum 1 unité par tour. Placement à plus de 1 pouce de tout, l'unité groupée à 6 pouces autour de la première figurine. Elle ne peut ensuite ni se déplacer ni charger ce tour-là.",
   },
   {
+    nom: "Fureur de la Légion",
+    texte:
+      "Quand une Figurine de cette Unité fait une Attaque de Tir avec un bolter, le bolter gagne la Règle Spéciale Lourde (PF) jusqu'à ce que l'Attaque de Tir soit complètement résolue.",
+  },
+  {
     nom: "Haine (X)",
     texte: "+1 au jet de blessure au combat contre les cibles de type X.",
   },
@@ -293,6 +298,10 @@ const REGLES_DIVERSES = [
     nom: "Ligne (X)",
     texte:
       "L'unité contrôle mieux les objectifs : bonus de X Points de Victoire quand elle en contrôle un, et compte plus dans l'Effectif Tactique.",
+  },
+  {
+    nom: "Maître de la Légion",
+    texte: "Donne une réaction supplémentaire.",
   },
   {
     nom: "Médic (X)",

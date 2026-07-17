@@ -6,8 +6,8 @@
    consommées par js/armes.js (page armes.html) pour construire les
    tables de l'Arsenal, et par js/unites.js (page unites.html) pour
    afficher les caractéristiques de chaque arme sur la fiche récap
-   d'une unité (via une info-bulle sur le nom de l'arme, correspon-
-   dance par nom — voir extraireArmeEquipement dans unites.js).
+   d'une unité, sous forme de table (correspondance par nom — voir
+   trouverArmeDansTexte dans unites.js).
    Doit être chargé avant js/armes.js et js/unites.js.
    Transcription manuelle depuis le livre de règles : en cas de
    doute, c'est toujours le livre qui fait référence.
@@ -27,27 +27,27 @@ const ARMES_TIR = [
       {
         nom: "Canon Demolisher",
         stats: ["24", "1", "12", "3", "3"],
-        regles: "Explosion (3\"), Brèche (5+), Artillerie (D), Sonner (1)",
+        regles: 'Explosion (3"), Brèche (5+), Artillerie (D), Sonner (1)',
         traits: "-",
       },
       {
         nom: "Bombarde Morbus — Obus HE",
         stats: ["36", "1", "9", "4", "1"],
         regles:
-          "Artillerie (D), Explosion (5\"), Barrage (2), Brèche (6+), Fixation (1)",
+          'Artillerie (D), Explosion (5"), Barrage (2), Brèche (6+), Fixation (1)',
         traits: "-",
       },
       {
         nom: "Bombarde Morbus — Obus à phosphex*",
         stats: ["24", "1", "5", "3", "1"],
         regles:
-          "Explosion (5\"), Barrage (1), Panique (3), Empoisonnée (3+), Brèche (5+)",
+          'Explosion (5"), Barrage (1), Panique (3), Empoisonnée (3+), Brèche (5+)',
         traits: "Phosphex",
       },
       {
         nom: "Lanceur quadruple — Frag",
         stats: ["60", "1", "5", "5", "1"],
-        regles: "Lourde (PF), Explosion (5\"), Barrage (2)",
+        regles: 'Lourde (PF), Explosion (5"), Barrage (2)',
         traits: "-",
       },
       {
@@ -60,13 +60,13 @@ const ARMES_TIR = [
         nom: "Lanceur quadruple — Cartouches à phosphex*",
         stats: ["24", "1", "5", "3", "1"],
         regles:
-          "Explosion (3\"), Barrage (1), Panique (3), Empoisonnée (3+), Brèche (5+)",
+          'Explosion (3"), Barrage (1), Panique (3), Empoisonnée (3+), Brèche (5+)',
         traits: "Phosphex",
       },
       {
         nom: "Canon de siège Dreadhammer",
         stats: ["24", "1", "12", "3", "3"],
-        regles: "Artillerie (D), Explosion (5\"), Brèche (5+), Sonner (1)",
+        regles: 'Artillerie (D), Explosion (5"), Brèche (5+), Sonner (1)',
         traits: "-",
       },
     ],
@@ -154,13 +154,13 @@ const ARMES_TIR = [
       {
         nom: "Canon accélérateur Fellblade — Obus HE",
         stats: ["100", "1", "8", "3", "2"],
-        regles: "Explosion (5\"), Sonner (2)",
+        regles: 'Explosion (5"), Sonner (2)',
         traits: "Auto",
       },
       {
         nom: "Canon accélérateur Fellblade — Obus AE",
         stats: ["100", "1", "12", "2", "3"],
-        regles: "Explosion (3\"), Artillerie (D)",
+        regles: 'Explosion (3"), Artillerie (D)',
         traits: "Auto",
       },
       {
@@ -190,7 +190,7 @@ const ARMES_TIR = [
       {
         nom: "Obusier Kratos — Obus HE",
         stats: ["36", "1", "8", "4", "1"],
-        regles: "Artillerie (D), Explosion (5\"), Sonner (1)",
+        regles: 'Artillerie (D), Explosion (5"), Sonner (1)',
         traits: "Auto",
       },
       {
@@ -244,6 +244,12 @@ const ARMES_TIR = [
         nom: "Bolter Némésis",
         stats: ["48", "1", "4", "5", "1"],
         regles: "Lourde (FT), Brèche (5+), Fixation (1), Précision (4+)",
+        traits: "Bolts",
+      },
+      {
+        nom: "Fusil Némésis",
+        stats: ["48", "1", "6", "3", "1"],
+        regles: "Lourde (D), Brèche (5+), Fixation (1), Précision (4+)",
         traits: "Bolts",
       },
       {
@@ -327,7 +333,7 @@ const ARMES_TIR = [
         nom: "Combi-grav — Fusil à gravitons (Secondaire)",
         stats: ["18", "1", "6", "4", "1"],
         regles:
-          "Explosion (3\"), Brèche (6+), Choc (Fixée), Fixation (1), Limitée (1), Combi",
+          'Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (1), Limitée (1), Combi',
         traits: "Gravitons",
       },
     ],
@@ -338,49 +344,49 @@ const ARMES_TIR = [
       {
         nom: "Canon à conversion (< 15 pas)",
         stats: ["<15", "1", "6", "4", "1"],
-        regles: "Lourde (FT), Explosion (3\")",
+        regles: 'Lourde (FT), Explosion (3")',
         traits: "Conversion",
       },
       {
         nom: "Canon à conversion (15-30 pas)",
         stats: ["15-30", "1", "7", "3", "2"],
-        regles: "Lourde (FT), Explosion (3\")",
+        regles: 'Lourde (FT), Explosion (3")',
         traits: "Conversion",
       },
       {
         nom: "Canon à conversion (> 30-45 pas)",
         stats: [">30-45", "1", "8", "2", "3"],
-        regles: "Lourde (FT), Explosion (3\")",
+        regles: 'Lourde (FT), Explosion (3")',
         traits: "Conversion",
       },
       {
         nom: "Canon à conversion lourd (< 15 pas)",
         stats: ["<15", "1", "6", "4", "1"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
       {
         nom: "Canon à conversion lourd (15-30 pas)",
         stats: ["15-30", "1", "7", "3", "2"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
       {
         nom: "Canon à conversion lourd (> 30-45 pas)",
         stats: [">30-45", "1", "8", "2", "3"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
       {
         nom: "Canon à inversion (< 15 pas)",
         stats: ["<15", "1", "8", "2", "3"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
       {
         nom: "Canon à inversion (15-30 pas)",
         stats: ["15-30", "1", "7", "3", "2"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
     ],
@@ -432,35 +438,35 @@ const ARMES_TIR = [
       {
         nom: "Fusil à gravitons",
         stats: ["18", "1", "6", "4", "1"],
-        regles: "Explosion (3\"), Brèche (6+), Choc (Fixée), Fixation (1)",
+        regles: 'Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (1)',
         traits: "Gravitons",
       },
       {
         nom: "Canon à gravitons",
         stats: ["36", "1", "8", "3", "1"],
         regles:
-          "Lourde (D), Explosion (3\"), Brèche (6+), Choc (Fixée), Fixation (2)",
+          'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (2)',
         traits: "Gravitons",
       },
       {
         nom: "Canon à charge-graviton",
         stats: ["24", "1", "9", "3", "2"],
         regles:
-          "Lourde (D), Explosion (5\"), Barrage (1), Brèche (6+), Choc (Fixée), Fixation (3)",
+          'Lourde (D), Explosion (5"), Barrage (1), Brèche (6+), Choc (Fixée), Fixation (3)',
         traits: "Gravitons",
       },
       {
         nom: "Bombarde à graviflux",
         stats: ["18", "1", "7", "4", "1"],
         regles:
-          "Lourde (D), Explosion (5\"), Brèche (6+), Choc (Fixée), Fixation (2)",
+          'Lourde (D), Explosion (5"), Brèche (6+), Choc (Fixée), Fixation (2)',
         traits: "Gravitons",
       },
       {
         nom: "Pulvériseur à gravitons",
         stats: ["18", "1", "9", "3", "3"],
         regles:
-          "Lourde (D), Explosion (3\"), Brèche (6+), Choc (Fixée), Fixation (3)",
+          'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (3)',
         traits: "Gravitons",
       },
     ],
@@ -573,7 +579,7 @@ const ARMES_TIR = [
       {
         nom: "Destructeur turbo-laser",
         stats: ["96", "1", "12", "2", "6"],
-        regles: "Explosion (3\"), Fléau des Blindages",
+        regles: 'Explosion (3"), Fléau des Blindages',
         traits: "Laser",
       },
     ],
@@ -626,13 +632,13 @@ const ARMES_TIR = [
       {
         nom: "Découpeurs à fusion",
         stats: ["6", "1", "8", "2", "3"],
-        regles: "Lourde (FT), Explosion (5\"), Fusion (6)",
+        regles: 'Lourde (FT), Explosion (5"), Fusion (6)',
         traits: "Fusion",
       },
       {
         nom: "Fuseur-éclateur",
         stats: ["36", "2", "9", "2", "4"],
-        regles: "Lourde (FT), Explosion (3\"), Fusion (3)",
+        regles: 'Lourde (FT), Explosion (3"), Fusion (3)',
         traits: "Fusion",
       },
       {
@@ -649,7 +655,7 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles — Frag",
         stats: ["48", "1", "4", "6", "1"],
-        regles: "Lourde (FT), Explosion (3\")",
+        regles: 'Lourde (FT), Explosion (3")',
         traits: "Missile",
       },
       {
@@ -667,13 +673,13 @@ const ARMES_TIR = [
       {
         nom: "Lanceur Vengeance",
         stats: ["48", "1", "7", "4", "1"],
-        regles: "Explosion (5\")",
+        regles: 'Explosion (5")',
         traits: "Missile",
       },
       {
         nom: "Lanceur Havoc",
         stats: ["48", "1", "5", "5", "1"],
-        regles: "Explosion (3\"), Sonner (1)",
+        regles: 'Explosion (3"), Sonner (1)',
         traits: "Missile",
       },
       {
@@ -715,7 +721,7 @@ const ARMES_TIR = [
       {
         nom: "Roquette Tempest",
         stats: ["48", "1", "7", "4", "3"],
-        regles: "Lourde (PF), Explosion (3\"), Barrage (1)",
+        regles: 'Lourde (PF), Explosion (3"), Barrage (1)',
         traits: "Missile",
       },
       {
@@ -727,7 +733,7 @@ const ARMES_TIR = [
       {
         nom: "Missile antiaérien Boreas",
         stats: ["48", "1", "8", "2", "3"],
-        regles: "Explosion (7\"), Barrage (2), Neutralisation (1)",
+        regles: 'Explosion (7"), Barrage (2), Neutralisation (1)',
         traits: "Missile",
       },
       {
@@ -745,7 +751,7 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles Arcus — Ogives Skyspear",
         stats: ["36", "3", "8", "2", "2"],
-        regles: "Explosion (5\"), Panique (1)",
+        regles: 'Explosion (5"), Panique (1)',
         traits: "Missile",
       },
       {
@@ -757,7 +763,7 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles Arcus — Ogives à flux de neutrons",
         stats: ["36", "3", "7", "4", "1"],
-        regles: "Lourde (FT), Explosion (5\")",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Missile",
       },
       {
@@ -775,13 +781,25 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles Cyclone — Flak",
         stats: ["48", "2", "8", "4", "1"],
-        regles: "Lourde (PF), Explosion (3\"), Barrage (2)",
+        regles: 'Lourde (PF), Explosion (3"), Barrage (2)',
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Scorpius",
         stats: ["48", "1", "8", "4", "1"],
         regles: "Brèche (5+)",
+        traits: "Missile",
+      },
+      {
+        nom: "Lance-missiles Whirlwind — Missiles HE",
+        stats: ["48", "1", "6", "4", "1"],
+        regles: 'Explosion (5"), Sonner (1), Barrage (1)',
+        traits: "Missile",
+      },
+      {
+        nom: "Lance-missiles Whirlwind — Missiles Pyrax*",
+        stats: ["48", "1", "5", "5", "1"],
+        regles: 'Explosion (5"), Panique (1), Barrage (1)',
         traits: "Missile",
       },
       {
@@ -793,7 +811,7 @@ const ARMES_TIR = [
       {
         nom: "Missile Frag Orias",
         stats: ["48", "1", "6", "5", "1"],
-        regles: "Barrage (3), Explosion (5\"), Limitée (1)",
+        regles: 'Barrage (3), Explosion (5"), Limitée (1)',
         traits: "Missile",
       },
     ],
@@ -821,14 +839,14 @@ const ARMES_TIR = [
       {
         nom: "Bombe à phosphex",
         stats: ["6", "1", "5", "3", "1"],
-        regles: "Explosion (3\"), Empoisonnée (3+), Panique (3), Brèche (5+)",
+        regles: 'Explosion (3"), Empoisonnée (3+), Panique (3), Brèche (5+)',
         traits: "Phosphex",
       },
       {
         nom: "Déchargeur à phosphex",
         stats: ["18", "1", "5", "3", "1"],
         regles:
-          "Explosion (3\"), Limitée (3), Empoisonnée (3+), Panique (3), Brèche (5+)",
+          'Explosion (3"), Limitée (3), Empoisonnée (3+), Panique (3), Brèche (5+)',
         traits: "Phosphex",
       },
     ],
@@ -881,49 +899,49 @@ const ARMES_TIR = [
       {
         nom: "Bombarde à plasma — Tir soutenu",
         stats: ["24", "1", "6", "4", "1"],
-        regles: "Explosion (3\"), Barrage (1), Brèche (6+)",
+        regles: 'Explosion (3"), Barrage (1), Brèche (6+)',
         traits: "Plasma",
       },
       {
         nom: "Bombarde à plasma — Tir maximal",
         stats: ["24", "1", "7", "4", "1"],
-        regles: "Explosion (3\"), Barrage (1), Brèche (5+), Surcharge (2)",
+        regles: 'Explosion (3"), Barrage (1), Brèche (5+), Surcharge (2)',
         traits: "Plasma",
       },
       {
         nom: "Bombarde à plasma lourde — Tir soutenu",
         stats: ["36", "1", "7", "4", "2"],
-        regles: "Explosion (5\"), Barrage (1), Brèche (6+)",
+        regles: 'Explosion (5"), Barrage (1), Brèche (6+)',
         traits: "Plasma",
       },
       {
         nom: "Bombarde à plasma lourde — Tir maximal",
         stats: ["36", "1", "8", "4", "2"],
-        regles: "Explosion (5\"), Barrage (1), Brèche (5+), Surcharge (2)",
+        regles: 'Explosion (5"), Barrage (1), Brèche (5+), Surcharge (2)',
         traits: "Plasma",
       },
       {
         nom: "Canon à plasma — Tir soutenu",
         stats: ["36", "1", "6", "4", "1"],
-        regles: "Lourde (FT), Explosion (3\"), Brèche (6+)",
+        regles: 'Lourde (FT), Explosion (3"), Brèche (6+)',
         traits: "Plasma",
       },
       {
         nom: "Canon à plasma — Tir maximal",
         stats: ["36", "1", "6", "4", "1"],
-        regles: "Lourde (FT), Explosion (3\"), Brèche (5+), Surcharge (2)",
+        regles: 'Lourde (FT), Explosion (3"), Brèche (5+), Surcharge (2)',
         traits: "Plasma",
       },
       {
         nom: "Canon à plasma Gravis — Tir soutenu",
         stats: ["36", "1", "7", "4", "1"],
-        regles: "Lourde (FT), Explosion (5\"), Brèche (6+)",
+        regles: 'Lourde (FT), Explosion (5"), Brèche (6+)',
         traits: "Plasma",
       },
       {
         nom: "Canon à plasma Gravis — Tir maximal",
         stats: ["36", "1", "7", "4", "2"],
-        regles: "Lourde (FT), Explosion (5\"), Brèche (5+), Surcharge (1)",
+        regles: 'Lourde (FT), Explosion (5"), Brèche (5+), Surcharge (1)',
         traits: "Plasma",
       },
       {
@@ -941,13 +959,13 @@ const ARMES_TIR = [
       {
         nom: "Destructeur à plasma Executioner — Tir soutenu",
         stats: ["36", "1", "8", "4", "1"],
-        regles: "Explosion (5\"), Brèche (5+)",
+        regles: 'Explosion (5"), Brèche (5+)',
         traits: "Plasma",
       },
       {
         nom: "Destructeur à plasma Executioner — Tir maximal",
         stats: ["36", "1", "8", "4", "2"],
-        regles: "Explosion (5\"), Brèche (4+), Surcharge (1)",
+        regles: 'Explosion (5"), Brèche (4+), Surcharge (1)',
         traits: "Plasma",
       },
       {
@@ -959,7 +977,7 @@ const ARMES_TIR = [
       {
         nom: "Canonnade à plasma Hellfire — Tir maximal",
         stats: ["36", "1", "7", "4", "2"],
-        regles: "Lourde (FT), Explosion (5\"), Brèche (4+), Surcharge (1)",
+        regles: 'Lourde (FT), Explosion (5"), Brèche (4+), Surcharge (1)',
         traits: "Plasma",
       },
       {
@@ -971,7 +989,7 @@ const ARMES_TIR = [
       {
         nom: "Affût à plasma Omega — Tir maximal",
         stats: ["36", "1", "8", "4", "2"],
-        regles: "Explosion (5\"), Brèche (4+), Surcharge (1)",
+        regles: 'Explosion (5"), Brèche (4+), Surcharge (1)',
         traits: "Plasma",
       },
     ],
@@ -1087,8 +1105,14 @@ const ARMES_TIR = [
       {
         nom: "Harnais à grenades",
         stats: ["6", "1", "5", "6", "1"],
-        regles: "Explosion (3\"), Limitée (1)",
+        regles: 'Explosion (3"), Limitée (1)',
         traits: "-",
+      },
+      {
+        nom: "Grenades Frag",
+        stats: ["6", "1", "3", "6", "1"],
+        regles: 'Explosion (3")',
+        traits: "Assaut",
       },
       {
         nom: "Lance-grenades — Frag",
@@ -1099,7 +1123,7 @@ const ARMES_TIR = [
       {
         nom: "Lance-grenades — Krak",
         stats: ["24", "1", "6", "4", "2"],
-        regles: "Explosion (3\")",
+        regles: 'Explosion (3")',
         traits: "-",
       },
       {
@@ -1109,8 +1133,7 @@ const ARMES_TIR = [
         traits: "-",
       },
     ],
-    note:
-      "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
 ];
 
@@ -1372,7 +1395,6 @@ const ARMES_MELEE = [
         traits: "Baïonnette",
       },
     ],
-    note:
-      "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
   },
 ];

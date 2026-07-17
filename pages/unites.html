@@ -31,8 +31,14 @@
       content="Choisissez vos unités et leurs armes : le coût total en Points est calculé automatiquement, et la fiche récap est imprimable."
     />
     <script src="../js/main.js" defer></script>
+    <script src="../js/regles-data.js" defer></script>
     <script src="../js/armes-data.js" defer></script>
     <script src="../js/unites-data.js" defer></script>
+    <!-- Assistant de Sélection d'Armée (règles p. 282-285) : les
+         données puis la logique de l'Organigramme de Force doivent
+         être chargées avant js/unites.js, qui les consomme. -->
+    <script src="../js/organigramme-data.js" defer></script>
+    <script src="../js/organigramme.js" defer></script>
     <script src="../js/unites.js" defer></script>
   </head>
   <body>
@@ -78,28 +84,96 @@
 
       <div class="encadre">
         <p>
-          Choisissez une unité (QG, État-major, Troupes, Engins de Guerre et
-          Transports des Legiones Astartes), puis son effectif, sa variante et
-          ses options d’armement : le coût en
-          Points de l’unité et le total de la liste sont recalculés
-          automatiquement. La liste est mémorisée dans votre navigateur et
-          <strong>imprimable</strong> pour l’emporter à la table de jeu.
+          Composez votre liste en suivant les règles de
+          <strong>Sélection d’Armée</strong> : chaque unité ajoutée occupe une
+          <strong>Case de l’Organigramme de Force</strong> correspondant à son
+          Rôle Tactique, et remplir des Cases de Quartier Général ou
+          d’État-major débloque de nouveaux détachements. Le coût en Points, les
+          quotas (25&nbsp;% Seigneurs, limite de la partie) et la validité de la
+          structure sont recalculés automatiquement. La liste est mémorisée dans
+          votre navigateur et <strong>imprimable</strong> pour l’emporter à la
+          table de jeu.
         </p>
         <p>
           <strong>Rappel :</strong> ces fiches sont une retranscription
-          manuelle, mais c’est le livre d’armée qui fait référence en cas de
-          doute.
+          manuelle, mais c’est le livre de règles et le livre d’armée qui font
+          référence en cas de doute.
         </p>
       </div>
+
+      <!-- ===================== PARAMÈTRES DE LA PARTIE =====================
+           Limite de Points et Allégeance (Vrais Croyants). Contenu
+           généré par js/organigramme.js (construireParametres). -->
+      <section aria-label="Paramètres de la partie">
+        <div id="orga-parametres"></div>
+      </section>
+
+      <!-- ===================== POINTS + VALIDATION =====================
+           Barre de progression des points, compteurs de détachements
+           disponibles et messages d'erreur de règles (aria-live :
+           annoncés par les lecteurs d'écran). Généré par
+           js/organigramme.js (construireBarre). -->
+      <section aria-label="Points et validation des règles">
+        <div id="orga-barre" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- ===================== ORGANIGRAMME DE FORCE =====================
+           L'arbre des détachements (Principal → Auxiliaires / Apex /
+           Additionnels) et le panneau d'ajout, avec boutons grisés +
+           explication quand une règle empêche la sélection. Généré par
+           js/organigramme.js (construireDetachementDOM /
+           construireAjoutDetachements). -->
+      <section aria-label="Organigramme de Force de Croisade">
+        <h2 class="section-titre">Organigramme de Force</h2>
+        <div id="orga-arbre"></div>
+        <h3 class="orga-ajout-titre">Ajouter un détachement</h3>
+        <div id="orga-ajout"></div>
+      </section>
 
       <!-- ===================== SÉLECTION ===================== -->
       <section class="unites-selection" aria-label="Ajouter une unité">
         <label for="choix-unite">Unité à ajouter</label>
-        <!-- Les <optgroup> (QG / État-major) sont générés par js/unites.js -->
-        <select id="choix-unite"></select>
+        <!-- Champ de recherche + liste déroulante filtrée (remplace un
+             <select> à <optgroup>) : gérés par js/unites.js, voir
+             initialiserChoixUnite. -->
+        <div class="unite-combobox">
+          <input
+            type="text"
+            id="choix-unite"
+            class="unite-combobox-champ"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="choix-unite-liste"
+            aria-autocomplete="list"
+            autocomplete="off"
+            placeholder="Rechercher une unité… (ex : praetor, tactique, rhino)"
+          />
+          <button
+            type="button"
+            id="choix-unite-bouton"
+            class="unite-combobox-bouton"
+            aria-label="Afficher toutes les unités"
+          >
+            ▾
+          </button>
+          <ul
+            id="choix-unite-liste"
+            class="unite-combobox-liste"
+            role="listbox"
+            hidden
+          ></ul>
+        </div>
         <button type="button" id="ajouter-unite" class="bouton-principal">
           Ajouter à la liste
         </button>
+        <!-- Message d'aide quand aucune Case libre ne correspond au
+             Rôle Tactique de l'unité (rempli par js/unites.js). -->
+        <p
+          id="ajout-message"
+          class="orga-ajout-message"
+          role="status"
+          hidden
+        ></p>
       </section>
 
       <!-- ===================== TOTAL + ACTIONS ===================== -->
@@ -126,6 +200,16 @@
            Tout est généré par js/unites.js à partir de
            js/unites-data.js. À l'impression, seules les fiches
            restent visibles (voir @media print dans css/style.css). -->
+      <!-- ===================== RÉSUMÉ DE LA LISTE =====================
+           Structure de l'armée (détachements, cases, avantages, points)
+           affichée à l'écran et reprise en tête de l'impression.
+           Générée par js/organigramme.js (construireResume). -->
+      <section
+        id="orga-resume"
+        class="orga-resume"
+        aria-label="Résumé de la liste d'armée"
+      ></section>
+
       <div id="liste-unites"></div>
     </main>
 

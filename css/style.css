@@ -541,10 +541,12 @@ strong {
    hidden, pas display:none, pour permettre la transition en
    fondu) et révélé uniquement par les sélecteurs :hover/:focus
    ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet.
-   Partagé par .orga-boite (organigramme, armee.html) et .regle-tag
-   (règles spéciales des tables d'armes, armes.html). */
+   Partagé par .orga-boite (organigramme, armee.html), .regle-tag
+   (règles spéciales des tables d'armes, armes.html) et .orga-badge
+   (badges de Rôles Tactiques du constructeur d'armée, unites.html). */
 .orga-boite .tooltip,
-.regle-tag .tooltip {
+.regle-tag .tooltip,
+.orga-badge .tooltip {
   visibility: hidden;
   opacity: 0;
   /* Base mobile : la bulle s'affiche en bandeau fixé en bas d'écran,
@@ -571,7 +573,9 @@ strong {
 .orga-boite:hover .tooltip,
 .orga-boite:focus .tooltip,
 .regle-tag:hover .tooltip,
-.regle-tag:focus .tooltip {
+.regle-tag:focus .tooltip,
+.orga-badge:hover .tooltip,
+.orga-badge:focus .tooltip {
   visibility: visible;
   opacity: 1;
 }
@@ -579,7 +583,8 @@ strong {
 /* Grand écran : la bulle flotte au-dessus de sa case, centrée */
 @media (min-width: 601px) {
   .orga-boite .tooltip,
-  .regle-tag .tooltip {
+  .regle-tag .tooltip,
+  .orga-badge .tooltip {
     position: absolute;
     bottom: calc(100% + 8px);
     left: 50%;
@@ -733,7 +738,7 @@ td.case-active {
 
 /* Valeurs impossibles ( - ) grisées.
    #444 (et non #555) : le contraste reste ≥ 4.5:1 même quand la
-   ligne est assombrie par le survol (tbody tr:hover ci-dessous). */
+   ligne est assombrie par le survol (tbody tr:hover ci-dessus). */
 td.impossible {
   color: #444;
 }
@@ -1267,7 +1272,7 @@ button:focus-visible,
 }
 
 /* ============================================================
-   PENSE-BÊTE — fiches téléchargeables (page pense-bete)
+   TÉLÉCHARGEMENTS — fiches téléchargeables (page telechargement.html)
    ============================================================ */
 .grille-telechargements {
   display: grid;
@@ -1359,16 +1364,103 @@ footer p {
   font-weight: 700;
 }
 
-.unites-selection select {
+/* Combobox « Unité à ajouter » (champ de recherche + liste
+   déroulante filtrée, voir initialiserChoixUnite dans js/unites.js) :
+   remplace un <select> à <optgroup>, dont le contenu texte n'est pas
+   filtrable au clavier. */
+.unite-combobox {
+  position: relative;
   flex: 1 1 260px;
   max-width: 100%;
-  padding: 0.55rem 0.7rem;
+}
+
+.unite-combobox-champ {
+  width: 100%;
+  padding: 0.55rem 2.2rem 0.55rem 0.7rem;
   font-family: "Lato", sans-serif;
   font-size: 0.95rem;
   background: var(--carte);
   color: var(--texte);
   border: 2px solid var(--acier-clair);
   border-radius: var(--radius);
+}
+
+.unite-combobox-champ:focus,
+.unite-combobox-champ:focus-visible {
+  outline: 3px solid var(--acier-clair);
+  outline-offset: 2px;
+  border-color: var(--titre);
+}
+
+/* Bouton « flèche » : rouvre la liste complète en un clic (ex : après
+   un Échap), voir initialiserChoixUnite dans js/unites.js. Le champ
+   reste utilisable sans lui (focus, clic, ou simplement taper). */
+.unite-combobox-bouton {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--texte-doux);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.unite-combobox-bouton:hover {
+  color: var(--titre);
+  background: var(--carte-hover);
+}
+
+.unite-combobox-liste {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.3rem 0;
+  list-style: none;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre);
+}
+
+.unite-combobox-liste[hidden] {
+  display: none;
+}
+
+.unite-combobox-groupe {
+  padding: 0.35rem 0.8rem 0.15rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--texte-doux);
+}
+
+.unite-combobox-option {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.unite-combobox-option:hover,
+.unite-combobox-option.unite-combobox-actif {
+  background: var(--carte-hover);
+}
+
+.unite-combobox-vide {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--texte-doux);
 }
 
 /* Boutons d'action de la page (ajout, impression, vidage). */
@@ -1604,6 +1696,35 @@ footer p {
   margin-bottom: 0.35rem;
 }
 
+/* Bloc « Définitions » : reprend en texte visible la définition de
+   chaque règle spéciale / trait de la fiche (voir construireDefinitions
+   dans js/unites.js). Masqué à l'écran, où l'info-bulle (.regle-tag /
+   .tooltip) suffit ; réservé à l'impression, qui ne peut pas montrer
+   un contenu révélé au survol — voir @media print ci-dessous. */
+.unite-fiche-definitions {
+  display: none;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--acier);
+}
+
+.unite-definitions-titre {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.unite-fiche-definitions ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.unite-fiche-definitions li {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+
 /* ---------- Impression de la fiche récap ----------
    À l'impression (bouton « Imprimer » ou Ctrl+P), on ne garde
    que l'essentiel : les fiches et le total. La navigation, les
@@ -1634,5 +1755,383 @@ footer p {
     border: 1px solid #000;
     break-inside: avoid;
     margin-bottom: 0.8rem;
+  }
+
+  .unite-fiche-definitions {
+    display: block;
+  }
+}
+
+/* ============================================================
+   ASSISTANT DE SÉLECTION D'ARMÉE (page unites.html)
+   Organigramme de Force, badges de Rôles Tactiques, jauge de
+   points, validation et résumé — voir js/organigramme.js.
+   ============================================================ */
+
+/* ---------- Paramètres de la partie ---------- */
+.orga-parametres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
+  align-items: center;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.orga-parametres label {
+  font-weight: 700;
+}
+
+.orga-parametres input,
+.orga-parametres select {
+  margin-left: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--fond);
+  font: inherit;
+}
+
+.orga-parametres input {
+  width: 6.5rem;
+}
+
+/* ---------- Jauge de points + compteurs ---------- */
+.orga-total {
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.orga-jauge {
+  height: 0.8rem;
+  background: var(--fond-secondaire);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.orga-jauge-remplissage {
+  height: 100%;
+  background: var(--titre);
+  transition: width var(--transition);
+}
+
+/* Alerte visuelle : la jauge vire à l'accent (bordeaux) quand la
+   Limite de Points est dépassée. */
+.orga-jauge--depassement {
+  background: var(--accent);
+}
+
+/* ---------- Messages de validation ---------- */
+.orga-erreurs {
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: #fbeeee;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.orga-erreurs-titre {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.orga-erreurs ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.orga-erreurs li {
+  margin-bottom: 0.25rem;
+}
+
+.orga-valide {
+  color: #2e6b2e;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* ---------- Cartes de détachements (arbre) ---------- */
+.orga-detachement {
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  /* le liseré gauche code la famille du détachement (voir plus bas) */
+  border-left: 5px solid var(--acier);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.orga-detachement--principal {
+  border-left-color: var(--accent);
+}
+
+.orga-detachement--apex {
+  border-left-color: var(--titre);
+}
+
+.orga-detachement--additionnel {
+  border-left-color: var(--acier-clair);
+}
+
+.orga-detachement-entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.orga-detachement-entete h3 {
+  color: var(--titre-contraste);
+}
+
+/* ---------- Cases d'un détachement ---------- */
+.orga-cases-liste {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.5rem;
+}
+
+.orga-case {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  border: 1px dashed var(--acier);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.6rem;
+  background: var(--fond);
+}
+
+.orga-case--occupee {
+  border-style: solid;
+  background: var(--carte-hover);
+}
+
+.orga-case-contenu {
+  flex: 1;
+  min-width: 0;
+}
+
+.orga-case-role {
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+  margin-bottom: 0.15rem;
+}
+
+.orga-case-unite a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.orga-case-unite a:hover,
+.orga-case-unite a:focus {
+  text-decoration: underline;
+}
+
+.orga-case-libre {
+  color: var(--texte-doux);
+  font-style: italic;
+}
+
+.orga-case-avantage-label {
+  display: block;
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+}
+
+.orga-case-avantage-label select {
+  display: block;
+  width: 100%;
+  margin-top: 0.15rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.orga-case-avantage-texte {
+  font-size: 0.78rem;
+  color: var(--texte-doux);
+  margin-top: 0.25rem;
+}
+
+/* ---------- Badges de Rôles Tactiques ----------
+   Équivalents textuels des icônes du livre (p. 285) : cercle
+   uni pour une case normale, liseré étoilé (pointillés + ✶)
+   pour une Case Principale (p. 283). */
+.orga-badge {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid var(--acier-clair);
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte);
+  background: var(--carte);
+  cursor: help;
+}
+
+.orga-badge--principale {
+  border-style: dotted;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.orga-badge--principale::after {
+  content: "✶";
+  position: absolute;
+  top: -0.55rem;
+  right: -0.35rem;
+  font-size: 0.7rem;
+  color: var(--accent);
+}
+
+/* ---------- Panneau « Ajouter un détachement » ---------- */
+.orga-ajout-titre {
+  margin: 0.8rem 0 0.4rem;
+  color: var(--titre-contraste);
+}
+
+.orga-ajout-groupe {
+  margin-bottom: 0.7rem;
+}
+
+.orga-ajout-groupe h4 {
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+  margin-bottom: 0.3rem;
+}
+
+.orga-ajout-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.orga-ajout-bouton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Enveloppe d'un bouton grisé : porte l'info-bulle expliquant
+   pourquoi la règle interdit ce détachement (le title d'un bouton
+   disabled n'est pas accessible au clavier ni au tactile). */
+.orga-ajout-grise {
+  border-bottom: none;
+  display: inline-block;
+}
+
+.orga-ajout-message {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--titre);
+  border-radius: var(--radius);
+  background: var(--fond-secondaire);
+}
+
+/* ---------- Carte d'unité : affectation à une case ---------- */
+.unite-affectation {
+  padding: 0.4rem 1rem;
+  background: var(--fond-secondaire);
+  font-size: 0.9rem;
+}
+
+.unite-affectation label {
+  font-weight: 700;
+}
+
+.unite-case-select {
+  margin-left: 0.4rem;
+  max-width: 100%;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+/* Unité sans case (ancienne liste, détachement supprimé) : liste
+   non conforme aux règles → alerte visuelle sur la carte. */
+.unite-carte--sans-case {
+  border: 2px solid var(--accent);
+}
+
+.unite-carte--sans-case .unite-affectation {
+  background: #fbeeee;
+  color: var(--accent);
+}
+
+/* ---------- Résumé de la liste ---------- */
+.orga-resume {
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+}
+
+.orga-resume-entete {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.orga-resume-detachement {
+  margin-bottom: 0.6rem;
+}
+
+.orga-resume-detachement h3 {
+  font-size: 0.95rem;
+  color: var(--titre-contraste);
+}
+
+.orga-resume-detachement ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
+}
+
+/* ---------- Impression ----------
+   La fiche imprimée s'ouvre sur le résumé de la structure d'armée
+   (détachements, cases, avantages, points) suivi des fiches
+   d'unités ; l'éditeur d'organigramme, les paramètres et les
+   sélecteurs disparaissent. */
+@media print {
+  #orga-parametres,
+  #orga-barre,
+  #orga-arbre,
+  #orga-ajout,
+  .orga-ajout-titre,
+  .orga-ajout-message,
+  .unite-affectation,
+  section[aria-label="Organigramme de Force de Croisade"] {
+    display: none !important;
+  }
+
+  .orga-resume {
+    border: 1px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .unite-carte--sans-case {
+    border: 2px dashed #000; /* signale aussi à l'impression */
   }
 }
