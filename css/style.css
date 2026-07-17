@@ -1970,6 +1970,19 @@ footer p {
   font-size: 0.82rem;
 }
 
+.orga-case-role-select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.15rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
 .orga-case-avantage-texte {
   font-size: 0.78rem;
   color: var(--texte-doux);

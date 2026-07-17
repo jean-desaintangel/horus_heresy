@@ -809,7 +809,7 @@ const Organigramme = (() => {
     labelAllegeance.htmlFor = selectAllegeance.id;
     for (const [valeur, texte] of [
       ["loyaliste", "Loyaliste"],
-      ["renegat", "Renégate (Légions Corrompues)"],
+      ["renegat", "Traitre"],
     ]) {
       const opt = document.createElement("option");
       opt.value = valeur;
@@ -897,12 +897,12 @@ const Organigramme = (() => {
     );
 
     const entete = el("header", "orga-detachement-entete");
-    const titre = el("h3", null, type.nom);
-    const info = el("span", "regle-tag", "ℹ");
-    info.tabIndex = 0;
-    info.appendChild(el("span", "tooltip", type.texte));
-    titre.appendChild(document.createTextNode(" "));
-    titre.appendChild(info);
+    const titre = el("h3");
+    const nomEtInfo = el("span", "regle-tag");
+    nomEtInfo.tabIndex = 0;
+    nomEtInfo.appendChild(document.createTextNode(type.nom));
+    nomEtInfo.appendChild(el("span", "tooltip", type.texte));
+    titre.appendChild(nomEtInfo);
     entete.appendChild(titre);
 
     if (type.famille !== "principal") {
@@ -952,6 +952,7 @@ const Organigramme = (() => {
       // Tactique (tout sauf QG, État-major, Seigneurs — p. 283).
       if (caseOrga.extra) {
         const selectRole = document.createElement("select");
+        selectRole.className = "orga-case-role-select";
         selectRole.setAttribute(
           "aria-label",
           "Rôle Tactique de la case ajoutée",
@@ -1095,7 +1096,7 @@ const Organigramme = (() => {
         "Limite : " +
           etat.limite +
           " pts · Allégeance : " +
-          (etat.allegeance === "renegat" ? "Renégate" : "Loyaliste") +
+          (etat.allegeance === "renegat" ? "Traitre" : "Loyaliste") +
           " · Total : " +
           coutTotalArmee() +
           " pts",
@@ -1114,6 +1115,7 @@ const Organigramme = (() => {
       const liste = document.createElement("ul");
       for (const caseOrga of det.cases) {
         const occ = occupant(caseOrga);
+        if (!occ) continue; // case libre : pas d'intérêt dans le résumé
         const role = ROLES_TACTIQUES[caseOrga.role];
         const avantage = avantageParId(caseOrga.avantage);
         liste.appendChild(
@@ -1123,12 +1125,10 @@ const Organigramme = (() => {
             (role ? role.livre : "Rôle à choisir") +
               (caseOrga.principale ? " ★" : "") +
               " : " +
-              (occ
-                ? occ.unite.nom +
-                  " — " +
-                  coutInstanceParUid(occ.instance.uid) +
-                  " pts"
-                : "case libre") +
+              occ.unite.nom +
+              " — " +
+              coutInstanceParUid(occ.instance.uid) +
+              " pts" +
               (caseOrga.avantage !== "aucun" && avantage
                 ? " · Avantage : " + avantage.nom
                 : ""),
