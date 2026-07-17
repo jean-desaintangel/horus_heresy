@@ -2078,10 +2078,22 @@ footer p {
   margin-bottom: 0.7rem;
 }
 
-.orga-ajout-groupe h4 {
+.orga-ajout-groupe summary {
   font-size: 0.9rem;
+  font-weight: 700;
   color: var(--texte-doux);
   margin-bottom: 0.3rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.orga-ajout-groupe summary:hover,
+.orga-ajout-groupe summary:focus-visible {
+  color: var(--accent);
+}
+
+.orga-ajout-groupe .orga-ajout-boutons {
+  margin-top: 0.3rem;
 }
 
 .orga-ajout-boutons {

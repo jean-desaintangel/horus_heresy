@@ -585,6 +585,15 @@ const Organigramme = (() => {
         raison =
           "Réservé aux armées d'Allégeance Renégate (Légions Corrompues).";
       } else if (
+        avantage.unParDetachement &&
+        caseOrga.avantage !== avantage.id &&
+        det.cases.some((c) => c !== caseOrga && c.avantage === avantage.id)
+      ) {
+        raison =
+          "« " +
+          avantage.nom +
+          " » déjà choisi ailleurs dans ce détachement (une seule fois par détachement).";
+      } else if (
         avantage.id === "affectation-speciale" &&
         occ &&
         occ.unite.categorie === "Quartier Général"
@@ -1038,7 +1047,16 @@ const Organigramme = (() => {
 
   // Panneau « Ajouter un détachement » : boutons groupés par famille,
   // grisés avec explication quand la règle l'interdit (exigence UX).
+  // Chaque groupe est repliable (<details>) pour alléger la vue quand
+  // une famille compte beaucoup de types (Auxiliaires) ; l'état
+  // replié/déplié de chaque groupe est relu avant la reconstruction
+  // (appelée à chaque interaction via actualiser) pour ne pas se
+  // refermer tout seul à chaque clic — replié par défaut.
   function construireAjoutDetachements(conteneur) {
+    const etatsOuverts = {};
+    conteneur.querySelectorAll("details.orga-ajout-groupe").forEach((d) => {
+      etatsOuverts[d.dataset.famille] = d.open;
+    });
     conteneur.replaceChildren();
     const familles = [
       ["additionnel", "Détachements additionnels"],
@@ -1046,8 +1064,12 @@ const Organigramme = (() => {
       ["apex", "Détachements d'Apex"],
     ];
     for (const [famille, titreFamille] of familles) {
-      const groupe = el("div", "orga-ajout-groupe");
-      groupe.appendChild(el("h4", null, titreFamille));
+      const groupe = document.createElement("details");
+      groupe.className = "orga-ajout-groupe";
+      groupe.dataset.famille = famille;
+      groupe.open =
+        famille in etatsOuverts ? etatsOuverts[famille] : false;
+      groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of TYPES_DETACHEMENTS.filter(
         (t) => t.famille === famille,

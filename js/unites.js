@@ -6,8 +6,10 @@
    ses options d'armement ; le coût en Points de chaque unité et
    le total de la liste sont recalculés à chaque changement. Une
    fiche récap (profil, équipement final, règles) est générée
-   pour chaque unité, et la liste est imprimable (Ctrl+P ou
-   bouton dédié — voir les styles @media print de css/style.css).
+   pour chaque unité ; la liste est imprimable (Ctrl+P — voir les
+   styles @media print de css/style.css) et téléchargeable en
+   texte brut (bouton « Télécharger armée », modifiable ensuite
+   dans n'importe quel éditeur de texte).
    Depuis 2026-07-17, chaque unité ajoutée doit occuper une Case
    de l'Organigramme de Force (règles de Sélection d'Armée,
    p. 282-285) : la structure de l'armée et sa validation sont
@@ -1114,6 +1116,134 @@ function retirerInstance(uid) {
   sauvegarder();
 }
 
+/* ----------------------------------------------------------
+   TÉLÉCHARGEMENT DE LA LISTE (texte brut)
+   Plutôt que de rejouer toute la logique de coût/équipement, on
+   relit directement le DOM déjà construit (cartes + résumé de
+   l'organigramme) : ainsi le fichier reste toujours identique à
+   l'écran/l'impression, sans double maintenance. .textContent
+   fonctionne même sur une fiche repliée (display:none n'empêche
+   pas la lecture du texte, contrairement à .innerText).
+   ---------------------------------------------------------- */
+
+// .textContent d'un élément, sans le texte des info-bulles (.tooltip)
+// qu'il contient : un .regle-tag porte à la fois son libellé visible
+// et, en enfant caché (visibility:hidden, pas display:none), la
+// définition de la règle — .textContent lit les deux à la suite sans
+// séparateur ("Maître de la LégionDonne une réaction…"). Utilisée
+// partout où une règle/trait peut apparaître (lignes et tables de la
+// fiche récap) ; le bloc « Définitions » reprend déjà ces définitions
+// proprement mises en forme.
+function texteSansInfobulles(element) {
+  const clone = element.cloneNode(true);
+  clone.querySelectorAll(".tooltip").forEach((bulle) => bulle.remove());
+  return clone.textContent.trim();
+}
+
+// Une table de profil ou d'armes → lignes "cellule | cellule | …".
+function texteTable(table) {
+  const lignes = [];
+  const entetes = Array.from(table.querySelectorAll("thead th")).map((th) =>
+    th.textContent.trim(),
+  );
+  lignes.push(entetes.join(" | "));
+  for (const tr of table.querySelectorAll("tbody tr")) {
+    const cellules = Array.from(tr.children).map(texteSansInfobulles);
+    lignes.push(cellules.join(" | "));
+  }
+  return lignes;
+}
+
+// Contenu de .unite-fiche (profil, équipement, armes, règles…), dans
+// l'ordre d'affichage.
+function texteFiche(fiche) {
+  const lignes = [];
+  for (const enfant of fiche.children) {
+    if (enfant.classList.contains("table-scroll")) {
+      const table = enfant.querySelector("table");
+      if (table) lignes.push(...texteTable(table), "");
+    } else if (enfant.classList.contains("fiche-ligne")) {
+      lignes.push(texteSansInfobulles(enfant));
+    } else if (enfant.classList.contains("unite-fiche-definitions")) {
+      lignes.push(enfant.querySelector(".unite-definitions-titre").textContent.trim());
+      for (const li of enfant.querySelectorAll("li")) {
+        lignes.push("- " + li.textContent.trim());
+      }
+    }
+  }
+  return lignes;
+}
+
+// Une carte d'unité entière : en-tête, case occupée, composition,
+// puis la fiche récap.
+function texteCarte(carte) {
+  const lignes = [];
+  const nom = carte.querySelector(".unite-carte-entete h3").textContent.trim();
+  const points = carte.querySelector(".unite-points").textContent.trim();
+  lignes.push("== " + nom + " — " + points + " ==");
+  const composition = carte.querySelector(".unite-composition");
+  if (composition) lignes.push(composition.textContent.trim());
+  const caseSelect = carte.querySelector(".unite-case-select");
+  const optionActuelle = caseSelect && caseSelect.selectedOptions[0];
+  if (optionActuelle && optionActuelle.value) {
+    lignes.push("Case occupée : " + optionActuelle.textContent.trim());
+  }
+  lignes.push("");
+  const fiche = carte.querySelector(".unite-fiche");
+  if (fiche) lignes.push(...texteFiche(fiche));
+  return lignes;
+}
+
+// Résumé de la structure d'armée (#orga-resume, voir construireResume
+// dans js/organigramme.js) : limite/allégeance/total, puis un bloc par
+// détachement listant ses Cases occupées.
+function texteResume(conteneur) {
+  const lignes = [];
+  const titre = conteneur.querySelector("h2");
+  if (titre) lignes.push(titre.textContent.trim().toUpperCase());
+  const entete = conteneur.querySelector(".orga-resume-entete");
+  if (entete) lignes.push(entete.textContent.trim());
+  lignes.push("");
+  for (const bloc of conteneur.querySelectorAll(".orga-resume-detachement")) {
+    const h3 = bloc.querySelector("h3");
+    if (h3) lignes.push(h3.textContent.trim());
+    for (const li of bloc.querySelectorAll("li")) {
+      lignes.push("  - " + li.textContent.trim());
+    }
+    lignes.push("");
+  }
+  return lignes;
+}
+
+// Assemble le fichier .txt complet : total, structure de l'armée,
+// puis une section par unité.
+function texteArmee() {
+  const lignes = ["LISTE D'ARMÉE — HORUS HERESY", ""];
+  const total = document.getElementById("total-armee");
+  if (total) lignes.push(total.textContent.trim(), "");
+  const resume = document.getElementById("orga-resume");
+  if (resume && resume.textContent.trim())
+    lignes.push(...texteResume(resume));
+  for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
+    lignes.push(...texteCarte(carte), "", "----------------------------------------", "");
+  }
+  return lignes.join("\n");
+}
+
+// Déclenche le téléchargement d'un fichier texte via une URL blob
+// éphémère (révoquée juste après le clic simulé).
+function telechargerTexte(nomFichier, contenu) {
+  const blob = new Blob([contenu], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const lien = document.createElement("a");
+  lien.href = url;
+  lien.download = nomFichier;
+  document.body.appendChild(lien);
+  lien.click();
+  lien.remove();
+  URL.revokeObjectURL(url);
+}
+
 /* Combobox « Unité à ajouter » : un champ de recherche filtre, au fil
    de la frappe, une liste déroulante d'unités groupées par catégorie
    (remplace un <select> à <optgroup>, dont le texte n'est pas
@@ -1335,7 +1465,7 @@ function initialiserChoixUnite() {
 function initialiser() {
   const uniteChoisie = initialiserChoixUnite();
   const boutonAjouter = document.getElementById("ajouter-unite");
-  const boutonImprimer = document.getElementById("imprimer-liste");
+  const boutonTelecharger = document.getElementById("telecharger-armee");
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
   const messageAjout = document.getElementById("ajout-message");
@@ -1370,7 +1500,10 @@ function initialiser() {
     Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
   });
 
-  boutonImprimer.addEventListener("click", () => window.print());
+  boutonTelecharger.addEventListener("click", () => {
+    const date = new Date().toISOString().slice(0, 10);
+    telechargerTexte("armee-horus-heresy-" + date + ".txt", texteArmee());
+  });
 
   boutonVider.addEventListener("click", () => {
     armee = [];
