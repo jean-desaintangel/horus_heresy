@@ -973,10 +973,29 @@ function construireCarte(instance) {
     Organigramme.libererEtActualiser(instance.uid);
     actualiserTotal();
   });
+
+  // Repli/dépli : la fiche démarre repliée (seul l'en-tête est visible)
+  // pour faciliter le survol de longues listes ; un clic déplie la
+  // configuration et la fiche récap. Ignoré à l'impression (voir CSS).
+  const bascule = el("button", "unite-bascule", "▸ Détails");
+  bascule.type = "button";
+  bascule.setAttribute("aria-expanded", "false");
+  bascule.setAttribute("aria-label", "Déplier la fiche de " + unite.nom);
+  bascule.addEventListener("click", () => {
+    const repliee = carte.classList.toggle("unite-carte--repliee");
+    bascule.textContent = repliee ? "▸ Détails" : "▾ Réduire";
+    bascule.setAttribute("aria-expanded", String(!repliee));
+    bascule.setAttribute(
+      "aria-label",
+      (repliee ? "Déplier" : "Replier") + " la fiche de " + unite.nom,
+    );
+  });
   entete.appendChild(titre);
   entete.appendChild(points);
+  entete.appendChild(bascule);
   entete.appendChild(retirer);
   carte.appendChild(entete);
+  carte.classList.add("unite-carte--repliee");
 
   // --- Case occupée dans l'Organigramme de Force (p. 282) ---
   // Le menu permet d'annuler/modifier le placement sans casser la

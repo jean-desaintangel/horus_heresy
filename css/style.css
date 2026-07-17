@@ -1594,6 +1594,41 @@ footer p {
   color: var(--accent);
 }
 
+/* Repli/dépli d'une fiche (voir construireCarte dans js/unites.js) :
+   même gabarit que .unite-retirer, mais colorée comme un bouton
+   secondaire pour signaler une action de confort plutôt que de
+   suppression. */
+.unite-bascule {
+  font-family: "Lato", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--carte);
+  color: var(--titre-contraste);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.unite-bascule:hover,
+.unite-bascule:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Fiche repliée : seul l'en-tête (nom, coût, boutons) reste visible
+   à l'écran. Toujours dépliée à l'impression (voir @media print
+   plus bas), où la fiche récap est le contenu recherché. */
+.unite-carte--repliee .unite-composition,
+.unite-carte--repliee .unite-affectation,
+.unite-carte--repliee .unite-config,
+.unite-carte--repliee .unite-fiche {
+  display: none;
+}
+
 .unite-composition {
   font-size: 0.88rem;
   color: var(--texte-doux);
@@ -1746,7 +1781,8 @@ footer p {
   .unites-selection,
   .unites-barre-actions,
   .unite-config,
-  .unite-retirer {
+  .unite-retirer,
+  .unite-bascule {
     display: none !important;
   }
 
@@ -1764,6 +1800,13 @@ footer p {
     border: 1px solid #000;
     break-inside: avoid;
     margin-bottom: 0.8rem;
+  }
+
+  /* Une fiche repliée à l'écran reste entièrement visible sur
+     l'impression : c'est justement le contenu recherché. */
+  .unite-carte--repliee .unite-composition,
+  .unite-carte--repliee .unite-fiche {
+    display: block;
   }
 
   .unite-fiche-definitions {
