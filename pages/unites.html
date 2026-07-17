@@ -42,6 +42,118 @@
     <script src="../js/unites.js" defer></script>
   </head>
   <body>
+    <!-- ===================== BLASONS DE LÉGION (skins, js/organigramme.js) =====================
+         Sprite d'icônes ligne (currentColor) : chaque <symbol> est réutilisé via <use>,
+         posé et coloré par js/organigramme.js selon la Légion choisie dans les paramètres
+         de la partie (voir css/style.css .legion-icon). Caché à l'écran, jamais affiché
+         directement — sert uniquement de réservoir de symboles. -->
+    <svg style="display: none">
+      <defs>
+        <style>
+          .legion-stroke {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+          }
+        </style>
+      </defs>
+
+      <symbol id="icon-dark-angels" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M12 4v14M8 8h8M9 18h6" />
+      </symbol>
+
+      <symbol id="icon-white-scars" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M13 3 8 12h4l-2 9 6-10h-4z" />
+      </symbol>
+
+      <symbol id="icon-space-wolves" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M6 8 9 5l3 2 3-2 3 3-1 5-5 6-5-6z" />
+      </symbol>
+
+      <symbol id="icon-imperial-fists" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M8 8v4m3-5v5m3-4v4m2 0H8m1 0v5h6v-5" />
+      </symbol>
+
+      <symbol id="icon-blood-angels" viewBox="0 0 24 24">
+        <path
+          class="legion-stroke"
+          d="M12 4c-2 3-4 5-4 8a4 4 0 0 0 8 0c0-3-2-5-4-8z"
+        />
+        <path class="legion-stroke" d="M6 10c1.5 0 2.5 1 3 2M18 10c-1.5 0-2.5 1-3 2" />
+      </symbol>
+
+      <symbol id="icon-iron-hands" viewBox="0 0 24 24">
+        <circle class="legion-stroke" cx="12" cy="12" r="4" />
+        <path
+          class="legion-stroke"
+          d="M12 4v2M12 18v2M4 12h2M18 12h2M6.5 6.5l1.4 1.4M16.1 16.1l1.4 1.4M17.5 6.5l-1.4 1.4M7.9 16.1l-1.4 1.4"
+        />
+      </symbol>
+
+      <symbol id="icon-ultramarines" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M7 6v8a5 5 0 0 0 10 0V6" />
+      </symbol>
+
+      <symbol id="icon-salamanders" viewBox="0 0 24 24">
+        <path
+          class="legion-stroke"
+          d="M12 4c-2.5 2.5-4 4.7-4 7a4 4 0 0 0 8 0c0-1.6-.7-3-2-4.5"
+        />
+        <path class="legion-stroke" d="M10 15c.8-.2 1.4-.8 1.7-1.6" />
+      </symbol>
+
+      <symbol id="icon-raven-guard" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M5 12 11 7h6l-3 3 5 2-5 1-2 4-2-3H7z" />
+      </symbol>
+
+      <symbol id="icon-emperors-children" viewBox="0 0 24 24">
+        <circle class="legion-stroke" cx="12" cy="8" r="2.5" />
+        <circle class="legion-stroke" cx="8" cy="15.5" r="2" />
+        <circle class="legion-stroke" cx="16" cy="15.5" r="2" />
+      </symbol>
+
+      <symbol id="icon-iron-warriors" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M5 7l7 7 7-7M5 12l7 7 7-7" />
+      </symbol>
+
+      <symbol id="icon-night-lords" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M4 12 8 7l4 3 4-3 4 5-3 5h-3l-2-2-2 2H7z" />
+      </symbol>
+
+      <symbol id="icon-world-eaters" viewBox="0 0 24 24">
+        <circle class="legion-stroke" cx="12" cy="12" r="5.5" />
+        <path class="legion-stroke" d="M9 9.5h.01M15 9.5h.01M9.5 15h5" />
+      </symbol>
+
+      <symbol id="icon-death-guard" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M9 8a3 3 0 0 1 6 0v4a3 3 0 0 1-6 0z" />
+        <path class="legion-stroke" d="M10 16h4M12 16v3" />
+      </symbol>
+
+      <symbol id="icon-thousand-sons" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M5 12s2.5-4 7-4 7 4 7 4-2.5 4-7 4-7-4-7-4z" />
+        <circle class="legion-stroke" cx="12" cy="12" r="1.8" />
+      </symbol>
+
+      <symbol id="icon-sons-of-horus" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M6 12s2-4 6-4 6 4 6 4-2 4-6 4-6-4-6-4z" />
+        <circle class="legion-stroke" cx="12" cy="12" r="1.5" />
+        <path class="legion-stroke" d="M7 6c1.5-1.3 3.1-2 5-2" />
+      </symbol>
+
+      <symbol id="icon-word-bearers" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M6 6h5v12H6zM13 6h5v12h-5z" />
+        <path class="legion-stroke" d="M11 7c1 .8 2 .8 3 0" />
+      </symbol>
+
+      <symbol id="icon-alpha-legion" viewBox="0 0 24 24">
+        <path class="legion-stroke" d="M12 5 7 19M12 5l5 14M9 14h6" />
+      </symbol>
+    </svg>
+
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
     <!-- ===================== NAVIGATION ===================== -->
     <header class="nav">

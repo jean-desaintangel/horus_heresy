@@ -1858,6 +1858,346 @@ footer p {
   width: 6.5rem;
 }
 
+/* ---------- Bandeau de contexte historique (skin de Légion) ---------- */
+.legion-banniere {
+  margin: -0.4rem 0 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--titre);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--carte);
+  color: var(--texte-doux);
+  font-size: 0.95rem;
+}
+
+.legion-banniere strong {
+  font-family: "Cinzel", serif;
+  color: var(--accent);
+}
+
+.legion-banniere em {
+  display: block;
+  margin-top: 0.25rem;
+  font-style: italic;
+  color: var(--texte-doux);
+}
+
+/* ---------- Skins de Légion ----------
+   Posés sur <body> par js/organigramme.js (construireParametres) selon
+   la Légion choisie dans les paramètres de la partie. Chaque skin ne
+   fait que recolorer les variables CSS déjà utilisées partout
+   (--accent, --accent-clair, --fond-secondaire, --carte-hover) : le
+   blason (voir .legion-icon plus haut) suit --accent via currentColor,
+   sans variable dédiée. Boutons, bordures, badges, jauge… s'adaptent
+   sans règle par composant. Les règles partagées ci-dessous (double
+   filet, liserés…) s'appliquent à N'IMPORTE QUEL skin-legion-* posé
+   sur <body>, pour ne pas dupliquer la mise en forme à chaque nouvelle
+   Légion.
+   --titre/--titre-contraste (or) restent VOLONTAIREMENT inchangés
+   pour toutes les Légions : leur contraste WCAG (~4.3:1 / ~7:1 sur
+   --fond) est calibré pour le thème par défaut, et l'or sert de
+   liseré héraldique commun à toutes les livrées. */
+
+/* Blason de Légion : <svg><use> posé par js/organigramme.js
+   (creerIconeLegion), référençant un <symbol> du sprite ligne posé en
+   tête de pages/unites.html (currentColor, voir sa balise <style>
+   .legion-stroke). --accent fournit la couleur : un seul sprite sert
+   les 18 Légions, sans variante par couleur à maintenir. */
+.legion-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  color: var(--accent);
+}
+
+/* Version agrandie posée devant le titre de page (h1.titre-page). */
+.legion-icon--titre {
+  width: 1.4em;
+  height: 1.4em;
+  flex-basis: auto;
+  margin-right: 0.5rem;
+  vertical-align: -0.3em;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.35));
+}
+
+/* Bandeau de contexte : blason + nom de Légion alignés (voir
+   .legion-banniere strong dans js/organigramme.js). */
+.legion-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Double filet (accent + or) sous les titres de section : évoque les
+   liserés d'héraldique de Légion plutôt qu'un simple trait plein. */
+body[class*="skin-legion-"] .section-titre {
+  border-bottom: 3px solid var(--accent);
+  box-shadow: 0 3px 0 0 var(--titre);
+  margin-bottom: 1.4rem;
+}
+
+/* Cartes et encadrés : liseré d'or en tête, dans l'esprit d'une
+   bordure d'autel ou d'un parchemin de croisade illuminé (.unite-carte
+   porte déjà ce liseré par défaut, voir plus bas). */
+body[class*="skin-legion-"] .orga-parametres,
+body[class*="skin-legion-"] .orga-resume {
+  border-top: 3px solid var(--titre);
+}
+
+body[class*="skin-legion-"] .encadre {
+  border-left-color: var(--accent);
+}
+
+/* Badges de Rôles Tactiques : liseré d'or plutôt que gris-acier. */
+body[class*="skin-legion-"] .orga-badge {
+  border-color: var(--titre);
+}
+
+/* Bouton principal : corps de la couleur de Légion, liseré d'or (au
+   lieu du même ton en double), comme une pièce d'armure héraldique. */
+body[class*="skin-legion-"] .bouton-principal {
+  border-color: var(--titre);
+}
+
+body[class*="skin-legion-"] .bouton-principal:hover,
+body[class*="skin-legion-"] .bouton-principal:focus-visible {
+  border-color: var(--titre-contraste);
+}
+
+/* IX — Blood Angels (Primarque Sanguinius, monde natal Baal) : rouge
+   sang à liserés d'or, vignette évoquant les soleils jumeaux de Baal. */
+body.skin-legion-ix {
+  --accent: #7a0c0c;
+  --accent-clair: #b3281c;
+  --fond-secondaire: #ecd9c9;
+  --carte-hover: #f5e6da;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(122, 12, 12, 0.1) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* IV — Iron Warriors (Primarque Perturabo, monde natal Olympia) :
+   gris fer, blason en double chevron (marques de siège). */
+body.skin-legion-iv {
+  --accent: #4a4a4a;
+  --accent-clair: #5f5f5f;
+  --fond-secondaire: #e6e2d8;
+  --carte-hover: #efece4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(74, 74, 74, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* VIII — Night Lords (Primarque Konrad Curze, monde natal Nostramo) :
+   noir nocturne, blason à la silhouette anguleuse (terreur nocturne). */
+body.skin-legion-viii {
+  --accent: #10151f;
+  --accent-clair: #2b3550;
+  --fond-secondaire: #dfe1e8;
+  --carte-hover: #eceef2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(16, 21, 31, 0.14) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(138, 143, 156, 0.1) 0%, transparent 50%);
+}
+
+/* V — White Scars (Primarque Jaghatai Khan, monde natal Chogoris) :
+   rouge vermillon, blason en éclair (vitesse, charge à moto). */
+body.skin-legion-v {
+  --accent: #a3341c;
+  --accent-clair: #b8481f;
+  --fond-secondaire: #f0e9df;
+  --carte-hover: #f7f1e7;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(163, 52, 28, 0.1) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XII — World Eaters (Primarque Angron) : brun-rouille et bronze,
+   blason en masque de rage (Clous du Boucher, fureur au combat). */
+body.skin-legion-xii {
+  --accent: #8a3a12;
+  --accent-clair: #a04a19;
+  --fond-secondaire: #ecdfd0;
+  --carte-hover: #f3e8da;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(138, 58, 18, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XIX — Raven Guard (Primarque Corvus Corax, monde natal Deliverance) :
+   noir mat, blason en silhouette ailée (guerre furtive et embuscades). */
+body.skin-legion-xix {
+  --accent: #1c1c22;
+  --accent-clair: #3a3a46;
+  --fond-secondaire: #e2e2e6;
+  --carte-hover: #ececef;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(28, 28, 34, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* I — Dark Angels (Primarque Lion El'Jonson, monde natal Caliban) :
+   vert forêt, blason en épée stylisée (ordres chevaleresques, secrets). */
+body.skin-legion-i {
+  --accent: #1f3a24;
+  --accent-clair: #2f5a38;
+  --fond-secondaire: #dde5dc;
+  --carte-hover: #e8eee7;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(31, 58, 36, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* III — Emperor's Children (Primarque Fulgrim, monde natal Chemos) :
+   pourpre profond, blason en triade géométrique (quête de perfection). */
+body.skin-legion-iii {
+  --accent: #4a1a5c;
+  --accent-clair: #6b2b82;
+  --fond-secondaire: #e8dfe8;
+  --carte-hover: #f0e9f0;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(74, 26, 92, 0.1) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* VI — Space Wolves (Primarque Leman Russ, monde natal Fenris) :
+   gris-bleu acier, blason en tête de loup stylisée (chasse en meute). */
+body.skin-legion-vi {
+  --accent: #33454e;
+  --accent-clair: #4a626e;
+  --fond-secondaire: #dde6ea;
+  --carte-hover: #e8eff2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(51, 69, 78, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* VII — Imperial Fists (Primarque Rogal Dorn, monde natal Terra/Inwit) :
+   bronze sombre, blason en muraille crénelée (défense inébranlable). */
+body.skin-legion-vii {
+  --accent: #5c4712;
+  --accent-clair: #7a5f1c;
+  --fond-secondaire: #ece0c4;
+  --carte-hover: #f3ead4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(92, 71, 18, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* X — Iron Hands (Primarque Ferrus Manus, monde natal Medusa) :
+   noir-rouille, blason en rouage mécanique (culte de la Machine). */
+body.skin-legion-x {
+  --accent: #2a1414;
+  --accent-clair: #4a2020;
+  --fond-secondaire: #e0dcdc;
+  --carte-hover: #e8e4e4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(42, 20, 20, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XIII — Ultramarines (Primarque Roboute Guilliman, monde natal
+   Macragge) : bleu roi, blason en arc stylisé (discipline, Codex Astartes). */
+body.skin-legion-xiii {
+  --accent: #1c3a6e;
+  --accent-clair: #2f5490;
+  --fond-secondaire: #dde3ee;
+  --carte-hover: #e8ecf4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(28, 58, 110, 0.1) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XIV — Death Guard (Primarque Mortarion, monde natal Barbarus) :
+   vert marécage, blason en cloche stylisée (endurance et longue patience). */
+body.skin-legion-xiv {
+  --accent: #3a4a2e;
+  --accent-clair: #52683f;
+  --fond-secondaire: #e2e6d8;
+  --carte-hover: #eaeee2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(58, 74, 46, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XV — Thousand Sons (Primarque Magnus le Rouge, monde natal
+   Prospero) : bleu cobalt, blason en œil (sorcellerie et savoir). */
+body.skin-legion-xv {
+  --accent: #1c2f5c;
+  --accent-clair: #2f4a82;
+  --fond-secondaire: #e0dfee;
+  --carte-hover: #e8e7f4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(28, 47, 92, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XVI — Sons of Horus (Primarque Horus Lupercal, monde natal
+   Cthonia) : bronze sombre, blason en œil stylisé (le Warmaster). */
+body.skin-legion-xvi {
+  --accent: #3a3020;
+  --accent-clair: #5c4c30;
+  --fond-secondaire: #e6ddc9;
+  --carte-hover: #efe8d8;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(58, 48, 32, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XVII — Word Bearers (Primarque Lorgar, monde natal Colchis) :
+   marron profond, blason en livre ouvert (Écritures de Colchis, zèle). */
+body.skin-legion-xvii {
+  --accent: #4a1c1c;
+  --accent-clair: #6b2e2e;
+  --fond-secondaire: #ecdcd6;
+  --carte-hover: #f2e6e1;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(74, 28, 28, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XVIII — Salamanders (Primarque Vulkan, monde natal Nocturne) :
+   vert bronze, blason en flamme stylisée (forge de Nocturne). */
+body.skin-legion-xviii {
+  --accent: #2a3a24;
+  --accent-clair: #435c37;
+  --fond-secondaire: #e6e0cf;
+  --carte-hover: #efe9dc;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(42, 58, 36, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
+/* XX — Alpha Legion (Primarques Alpharius et Omegon, monde natal
+   inconnu) : sarcelle sombre, blason en « A » stylisé (infiltration, ruse). */
+body.skin-legion-xx {
+  --accent: #123a3c;
+  --accent-clair: #1f5a5c;
+  --fond-secondaire: #d8e6e6;
+  --carte-hover: #e2eeee;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(circle at 100% 100%, rgba(18, 58, 60, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+}
+
 /* ---------- Jauge de points + compteurs ---------- */
 .orga-total {
   font-weight: 700;

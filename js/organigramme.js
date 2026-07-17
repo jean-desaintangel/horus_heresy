@@ -61,6 +61,202 @@ const Organigramme = (() => {
     ["XIX", "XIX – Raven Guard"],
     ["XX", "XX – Alpha Legion"],
   ];
+
+  /* Skins thématiques (page unites.html) : quand une Légion listée ici
+     est choisie, une classe est posée sur <body> (voir appliquerSkin
+     Legion) — la palette de couleurs de tout le site (variables CSS
+     --accent, --titre…, voir css/style.css) se recolore en
+     conséquence, et un bandeau de contexte historique s'affiche sous
+     les paramètres de la partie. Légions sans entrée ici : skin par
+     défaut inchangé. */
+  const SKINS_LEGION = {
+    I: {
+      classe: "skin-legion-i",
+      icone: "dark-angels",
+      nom: "Dark Angels",
+      primarque: "Lion El'Jonson",
+      monde: "Caliban",
+      devise:
+        "Chevaliers de Caliban, les fils du Lion gardent un secret plus lourd que leurs épées : celui des Frères Déchus qu'ils traquent sans repos.",
+    },
+    III: {
+      classe: "skin-legion-iii",
+      icone: "emperors-children",
+      nom: "Emperor's Children",
+      primarque: "Fulgrim",
+      monde: "Chemos",
+      devise:
+        "Nés dans les brumes toxiques de Chemos, les fils de Fulgrim ne recherchent qu'une chose : la perfection absolue, jusqu'à l'obsession.",
+    },
+    IV: {
+      classe: "skin-legion-iv",
+      icone: "iron-warriors",
+      nom: "Iron Warriors",
+      primarque: "Perturabo",
+      monde: "Olympia",
+      devise:
+        "Rancuniers et increvables, les fils de Perturabo ne connaissent que la guerre de siège : pierre après pierre, bastion après bastion, jusqu'à la victoire.",
+    },
+    V: {
+      classe: "skin-legion-v",
+      icone: "white-scars",
+      nom: "White Scars",
+      primarque: "Jaghatai Khan",
+      monde: "Chogoris",
+      devise:
+        "Cavaliers de Chogoris, les fils de Jaghatai Khan frappent à la vitesse du vent et ne laissent à l'ennemi que la poussière de leur passage.",
+    },
+    VI: {
+      classe: "skin-legion-vi",
+      icone: "space-wolves",
+      nom: "Space Wolves",
+      primarque: "Leman Russ",
+      monde: "Fenris",
+      devise:
+        "Nés dans la glace de Fenris, les fils de Leman Russ chassent en meute et ne connaissent d'autre loi que celle du loup.",
+    },
+    VII: {
+      classe: "skin-legion-vii",
+      icone: "imperial-fists",
+      nom: "Imperial Fists",
+      primarque: "Rogal Dorn",
+      monde: "Terra (Inwit)",
+      devise:
+        "Bâtisseurs increvables, les fils de Rogal Dorn tiennent leurs murs jusqu'au dernier homme : reculer n'est pas un mot qu'ils connaissent.",
+    },
+    VIII: {
+      classe: "skin-legion-viii",
+      icone: "night-lords",
+      nom: "Night Lords",
+      primarque: "Konrad Curze",
+      monde: "Nostramo",
+      devise:
+        "Nés dans l'ombre de Nostramo, les fils de Konrad Curze sèment une terreur si totale que la résistance meurt avant le premier coup.",
+    },
+    IX: {
+      classe: "skin-legion-ix",
+      icone: "blood-angels",
+      nom: "Blood Angels",
+      primarque: "Sanguinius",
+      monde: "Baal",
+      devise:
+        "Hantée par la Soif Rouge et la Rage Noire, la IXe Légion mène la charge avec une noblesse et une fureur qui n'appartiennent qu'à elle.",
+    },
+    X: {
+      classe: "skin-legion-x",
+      icone: "iron-hands",
+      nom: "Iron Hands",
+      primarque: "Ferrus Manus",
+      monde: "Medusa",
+      devise:
+        "Sur Médusa, la chair est faiblesse : les fils de Ferrus Manus remplacent leurs membres par l'acier et ne pleurent jamais leurs pertes.",
+    },
+    XII: {
+      classe: "skin-legion-xii",
+      icone: "world-eaters",
+      nom: "World Eaters",
+      primarque: "Angron",
+      monde: "—",
+      devise:
+        "Rongés par les Clous du Boucher, les fils d'Angron ne connaissent plus la retraite : seule la rage guide leurs haches jusqu'au dernier ennemi debout.",
+    },
+    XIII: {
+      classe: "skin-legion-xiii",
+      icone: "ultramarines",
+      nom: "Ultramarines",
+      primarque: "Roboute Guilliman",
+      monde: "Macragge",
+      devise:
+        "Fils de Guilliman, les Ultramarines incarnent la discipline et la civilisation : chaque bataille suit un plan, chaque plan sert l'Imperium.",
+    },
+    XIV: {
+      classe: "skin-legion-xiv",
+      icone: "death-guard",
+      nom: "Death Guard",
+      primarque: "Mortarion",
+      monde: "Barbarus",
+      devise:
+        "Endurcis par les miasmes de Barbarus, les fils de Mortarion refusent de tomber : leur endurance est aussi implacable que la faux qu'ils portent.",
+    },
+    XV: {
+      classe: "skin-legion-xv",
+      icone: "thousand-sons",
+      nom: "Thousand Sons",
+      primarque: "Magnus le Rouge",
+      monde: "Prospero",
+      devise:
+        "Érudits de Prospero, les fils de Magnus le Rouge manient les arcanes psychiques avec une soif de savoir qui n'a d'égale que leur puissance.",
+    },
+    XVI: {
+      classe: "skin-legion-xvi",
+      icone: "sons-of-horus",
+      nom: "Sons of Horus",
+      primarque: "Horus Lupercal",
+      monde: "Cthonia",
+      devise:
+        "Fils de Cthonia, les Sons of Horus suivent leur Primarque en toute chose — et c'est cette loyauté sans faille qui, un jour maudit, embrasa la galaxie.",
+    },
+    XVII: {
+      classe: "skin-legion-xvii",
+      icone: "word-bearers",
+      nom: "Word Bearers",
+      primarque: "Lorgar",
+      monde: "Colchis",
+      devise:
+        "Nés dans la foi de Colchis, les fils de Lorgar ne se battent pas seulement pour l'Empereur : ils cherchent un dieu à vénérer, et ne s'arrêteront devant rien pour le trouver.",
+    },
+    XVIII: {
+      classe: "skin-legion-xviii",
+      icone: "salamanders",
+      nom: "Salamanders",
+      primarque: "Vulkan",
+      monde: "Nocturne",
+      devise:
+        "Forgés dans les volcans de Nocturne, les fils de Vulkan protègent l'humanité comme un père protège ses enfants — et frappent comme le marteau frappe l'enclume.",
+    },
+    XIX: {
+      classe: "skin-legion-xix",
+      icone: "raven-guard",
+      nom: "Raven Guard",
+      primarque: "Corvus Corax",
+      monde: "Deliverance",
+      devise:
+        "Fils de Corvus Corax, les Raven Guard frappent depuis l'ombre de Deliverance et disparaissent avant que l'ennemi ait pu riposter.",
+    },
+    XX: {
+      classe: "skin-legion-xx",
+      icone: "alpha-legion",
+      nom: "Alpha Legion",
+      primarque: "Alpharius et Omegon",
+      monde: "—",
+      devise:
+        "Légion de l'ombre aux mille visages, les fils d'Alpharius et Omegon frappent partout à la fois : couper une tête n'a jamais suffi à tuer l'hydre.",
+    },
+  };
+
+  const ESPACE_NOM_SVG = "http://www.w3.org/2000/svg";
+
+  /* Icône <svg><use> pointant vers le sprite de symboles posé dans
+     pages/unites.html (<symbol id="icon-...">). Colorée via
+     currentColor (voir .legion-stroke du sprite et .legion-icon de
+     css/style.css) : elle suit automatiquement --accent du skin actif,
+     sans variante par couleur à maintenir. document.createElementNS
+     est indispensable ici — document.createElement("svg") ne produit
+     pas un élément SVG utilisable. */
+  function creerIconeLegion(id, classeSupplementaire) {
+    const svg = document.createElementNS(ESPACE_NOM_SVG, "svg");
+    svg.setAttribute(
+      "class",
+      classeSupplementaire ? "legion-icon " + classeSupplementaire : "legion-icon",
+    );
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    const use = document.createElementNS(ESPACE_NOM_SVG, "use");
+    use.setAttribute("href", "#icon-" + id);
+    svg.appendChild(use);
+    return svg;
+  }
+
   let compteurDet = 0;
   let hooks = null; // fournis par js/unites.js (voir initialiser)
 
@@ -949,6 +1145,43 @@ const Organigramme = (() => {
     ligne.appendChild(selectLegion);
 
     conteneur.appendChild(ligne);
+
+    // Skin thématique : recolore tout le site (variables CSS), pose le
+    // blason (sprite <symbol> de pages/unites.html) sur le titre de
+    // page et ajoute un bandeau de contexte historique sous les
+    // paramètres.
+    for (const info of Object.values(SKINS_LEGION)) {
+      document.body.classList.remove(info.classe);
+    }
+    const skin = SKINS_LEGION[etat.legion];
+    const titre = document.querySelector("h1.titre-page");
+    if (titre) {
+      const ancienneIcone = titre.querySelector(".legion-icon");
+      if (ancienneIcone) ancienneIcone.remove();
+      if (skin) {
+        titre.insertBefore(
+          creerIconeLegion(skin.icone, "legion-icon--titre"),
+          titre.firstChild,
+        );
+      }
+    }
+    if (skin) {
+      document.body.classList.add(skin.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item");
+      entete.appendChild(creerIconeLegion(skin.icone));
+      entete.appendChild(
+        document.createTextNode(etat.legion + " – " + skin.nom),
+      );
+      banniere.appendChild(entete);
+      banniere.appendChild(
+        document.createTextNode(
+          " · Primarque : " + skin.primarque + " · Monde Natal : " + skin.monde,
+        ),
+      );
+      if (skin.devise) banniere.appendChild(el("em", null, skin.devise));
+      conteneur.appendChild(banniere);
+    }
   }
 
   /* Barre de points + compteurs + erreurs (aria-live : les lecteurs
