@@ -182,10 +182,22 @@ const Organigramme = (() => {
         if (caseOrga.uniteUid !== null) return;
         if (caseOrga.extra && !caseOrga.role) return; // rôle pas encore choisi
         if (!caseAccepte(det, caseOrga, unite)) return;
+        // Une unité de Quartier Général visant une Case Principale
+        // d'État-major n'y est légale que via l'Avantage Principal
+        // « Affectation Spéciale » (voir assigner et caseAccepte) : on
+        // l'indique dans le libellé du sélecteur « Case » pour que ce
+        // placement — et son effet (pas de détachement débloqué) —
+        // soit visible avant même de le choisir.
+        const viaAffectationSpeciale =
+          unite.categorie === "Quartier Général" && caseOrga.role === "État-major";
         resultat.push({
           detUid: det.uid,
           indice,
-          libelle: libelleCase(det, indice),
+          libelle:
+            libelleCase(det, indice) +
+            (viaAffectationSpeciale
+              ? " — via Affectation Spéciale (aucun détachement débloqué)"
+              : ""),
         });
       });
     }
@@ -632,6 +644,17 @@ const Organigramme = (() => {
         raison = "Exige une figurine de Sous-type État-major.";
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
+      } else if (
+        avantage.id === "affectation-speciale" &&
+        occ &&
+        occ.unite.categorie !== "Quartier Général"
+      ) {
+        // Cet avantage n'a d'effet que pour une unité de Quartier
+        // Général logée en Case d'État-major (voir assigner) : le
+        // proposer pour une unité d'État-major normale n'aurait aucun
+        // sens et lui ferait perdre son crédit de déblocage pour rien.
+        raison =
+          "Réservé aux unités de Quartier Général placées sur une Case d'État-major (voir « Case » sur leur carte).";
       } else if (avantage.renegat && etat.allegeance !== "renegat") {
         raison =
           "Réservé aux armées d'Allégeance Renégate (Légions Corrompues).";
