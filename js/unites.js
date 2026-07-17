@@ -904,7 +904,10 @@ function construireConfig(carte, unite, instance) {
         const label = el(
           "label",
           null,
-          opt.libelle + " — " + libelleCout(opt.cout) + " par figurine",
+          opt.libelle +
+            " — " +
+            libelleCout(opt.cout) +
+            (opt.cout > 0 ? " par figurine" : ""),
         );
         const champ = document.createElement("input");
         champ.type = "number";

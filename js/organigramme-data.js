@@ -150,8 +150,10 @@ function _caseOrga(role, principale = false) {
 const TYPES_DETACHEMENTS = [
   /* ---------- Détachement Principal (p. 282) ----------
      Obligatoire et unique : 1 QG, 3 État-major, 4 Troupes,
-     4 Transports. Les cases QG, État-major et Troupes sont des
-     Cases Principales (symbole étoilé sur l'organigramme p. 282). */
+     4 Transports. Une seule Case d'État-major et une seule Case de
+     Troupes sont des Cases Principales (symbole étoilé sur
+     l'organigramme p. 282) ; la Case de Quartier Général n'en est
+     jamais une. */
   {
     id: "principal",
     nom: "Détachement Principal de Croisade",
@@ -160,14 +162,14 @@ const TYPES_DETACHEMENTS = [
     texte:
       "Obligatoire et unique. Chaque Case de Quartier Général remplie débloque 1 Détachement Auxiliaire OU d'Apex ; chaque Case d'État-major remplie débloque 1 Détachement Auxiliaire.",
     cases: [
-      _caseOrga("Quartier Général", true),
+      _caseOrga("Quartier Général"),
       _caseOrga("État-major", true),
-      _caseOrga("État-major", true),
-      _caseOrga("État-major", true),
+      _caseOrga("État-major"),
+      _caseOrga("État-major"),
       _caseOrga("Troupes", true),
-      _caseOrga("Troupes", true),
-      _caseOrga("Troupes", true),
-      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
       _caseOrga("Transports"),
       _caseOrga("Transports"),
       _caseOrga("Transports"),
@@ -320,10 +322,7 @@ const TYPES_DETACHEMENTS = [
     famille: "apex",
     texte:
       "Des officiers supplémentaires (Quartier Général). Chaque Case de Quartier Général remplie dans ce détachement débloque à son tour 1 Détachement Auxiliaire ou d'Apex.",
-    cases: [
-      _caseOrga("Quartier Général", true),
-      _caseOrga("Quartier Général", true),
-    ],
+    cases: [_caseOrga("Quartier Général", true), _caseOrga("Quartier Général")],
   },
   {
     id: "avant-garde",
