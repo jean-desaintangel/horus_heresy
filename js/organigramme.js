@@ -208,12 +208,25 @@ const Organigramme = (() => {
   }
 
   // Libère la case occupée par cette instance (retrait / déplacement).
+  // Si la case libérée portait l'avantage « Bénéfice Logistique », la
+  // case supplémentaire qu'il avait ajoutée n'a plus lieu d'être : on la
+  // retire (en repoussant d'abord l'éventuelle unité qui l'occupait,
+  // comme pour la suppression d'un détachement entier).
   function liberer(uniteUid) {
     for (const det of etat.detachements) {
       for (const caseOrga of det.cases) {
         if (caseOrga.uniteUid === uniteUid) {
+          const avaitLogistique = caseOrga.avantage === "benefice-logistique";
           caseOrga.uniteUid = null;
           caseOrga.avantage = "aucun";
+          if (avaitLogistique) {
+            const extraIdx = det.cases.findIndex((c) => c.extra);
+            if (extraIdx !== -1) {
+              const extra = det.cases[extraIdx];
+              if (extra.uniteUid !== null) hooks.retirerInstance(extra.uniteUid);
+              det.cases.splice(extraIdx, 1);
+            }
+          }
         }
       }
     }
@@ -746,6 +759,18 @@ const Organigramme = (() => {
         vus.add(caseOrga.uniteUid);
       }
     }
+    // Case supplémentaire de Bénéfice Logistique devenue orpheline
+    // (données anciennes/altérées où plus aucune case du détachement
+    // ne porte cet avantage) : on la retire, comme le fait déjà
+    // `liberer` pour les cas normaux.
+    for (const det of etat.detachements) {
+      const extraIdx = det.cases.findIndex((c) => c.extra);
+      if (extraIdx === -1) continue;
+      const encoreAccorde = det.cases.some(
+        (c) => !c.extra && c.avantage === "benefice-logistique",
+      );
+      if (!encoreAccorde) det.cases.splice(extraIdx, 1);
+    }
     // Migration d'une liste créée avant l'organigramme : on tente de
     // placer chaque unité non assignée dans une case libre compatible.
     for (const instance of hooks.getArmee()) {
@@ -1216,13 +1241,15 @@ const Organigramme = (() => {
       actualiser();
     },
     // « Vider la liste » : libère toutes les cases (les détachements
-    // et avantages restent : c'est la liste d'unités qui est vidée).
+    // restent, mais leurs cases supplémentaires de Bénéfice Logistique
+    // n'ont plus lieu d'être puisque plus aucune case n'est occupée).
     toutLiberer() {
       for (const det of etat.detachements) {
         for (const caseOrga of det.cases) {
           caseOrga.uniteUid = null;
           caseOrga.avantage = "aucun";
         }
+        det.cases = det.cases.filter((c) => !c.extra);
       }
       actualiser();
     },
