@@ -116,6 +116,35 @@ const ARMES_TIR = [
         traits: "Auto",
       },
       {
+        // Arsenal des Blood Angels : option pour Vétérans Tactiques,
+        // Escouade d'État-major de Centurion, Terminator Cataphractii,
+        // Predator, Dreadnought Leviathan ayant le Trait Blood Angels
+        // (voir aussi le Dreadnought Contemptor-Incaendius et les
+        // Paladins Écarlates, unités réservées à cette Légion).
+        nom: "Canon d'assaut Iliastus — Tir soutenu",
+        stats: ["24", "3", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus — Tir maximal",
+        stats: ["24", "5", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus jumelé — Tir soutenu",
+        stats: ["24", "6", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus jumelé — Tir maximal",
+        stats: ["24", "8", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
+        traits: "Auto",
+      },
+      {
         nom: "Autocanon Gravis",
         stats: ["48", "3", "8", "4", "2"],
         regles: "Brèche (6+), Lourde (PF)",
@@ -281,6 +310,13 @@ const ARMES_TIR = [
         stats: ["36", "10", "6", "3", "1"],
         regles: "Neutralisation (2)",
         traits: "Bolts",
+      },
+      {
+        // Arme de la Keshig d'Or (White Scars).
+        nom: "Disperse-bolts",
+        stats: ["Souffle", "1", "5", "4", "1"],
+        regles: "Souffle, Lacération (6+), Fixation (1)",
+        traits: "Bolts, Assaut",
       },
     ],
   },
@@ -592,6 +628,22 @@ const ARMES_TIR = [
         stats: ["12", "1", "8", "2", "3"],
         regles: "Fusion (6)",
         traits: "Fusion",
+      },
+      {
+        // Arsenal des Blood Angels : échange contre un pistolet à
+        // plasma pour toute Figurine ayant le Trait Blood Angels,
+        // +5 Points par Figurine.
+        nom: "Pistolet Inferno",
+        stats: ["6", "1", "8", "2", "1"],
+        regles: "Pistolet, Fusion (3)",
+        traits: "Assaut, Fusion",
+      },
+      {
+        // Arme de personnage (Sanguinius, Primarque des Blood Angels).
+        nom: "Infernus",
+        stats: ["18", "2", "8", "2", "3"],
+        regles: "Fusion (12), Limitée (1)",
+        traits: "Fusion, Assaut",
       },
       {
         nom: "Multi-fuseur",
@@ -1032,6 +1084,13 @@ const ARMES_TIR = [
         traits: "Assaut, Volkite",
       },
       {
+        // Arme de personnage (Dominion Zephon, Blood Angels).
+        nom: "Lamentation et Chagrin",
+        stats: ["10", "6", "5", "5", "1"],
+        regles: "Déflagration (5), Sonner (1)",
+        traits: "Assaut, Volkite",
+      },
+      {
         nom: "Chargeur volkite",
         stats: ["15", "2", "5", "5", "1"],
         regles: "Déflagration (5)",
@@ -1127,10 +1186,47 @@ const ARMES_TIR = [
         traits: "-",
       },
       {
+        // Arme des Larmes de l'Ange (Blood Angels).
+        nom: "Lance-grenades Erelim",
+        stats: ["18", "2", "4", "4", "1"],
+        regles: "Empoisonnée (2+), Phage (E)",
+        traits: "Missile, Rad",
+      },
+      {
         nom: "Découpeur laser¹",
         stats: ["8", "1", "10", "2", "2"],
         regles: "Artillerie (D), Fléau des Blindages",
         traits: "-",
+      },
+      {
+        // Arme de personnage (Kaedes Nex, Raven Guard) : profil de Tir,
+        // voir aussi son profil de Mêlée dans Armes de Mêlée ci-dessous.
+        nom: "Canons de poing Fulcrum (Tir)",
+        stats: ["12", "5", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Sonner (0)",
+        traits: "Assaut, Auto",
+      },
+      {
+        // Arme de personnage (Corvus Corax, Primarque de la Raven Guard).
+        nom: "Colère et Justice",
+        stats: ["14", "6", "5", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Assaut",
+      },
+      {
+        // Arme Psychique (Devin de l'Orage, Discipline Appel de l'Orage,
+        // White Scars).
+        nom: "Foudre Invisible",
+        stats: ["36", "1", "4", "4", "1"],
+        regles: 'Explosion (5"), Barrage (2), Sonner (2), Force (FT)',
+        traits: "Psychique",
+      },
+      {
+        // Arme de personnage (Jaghatai Khan, Primarque des White Scars).
+        nom: "Voix de l'Orage",
+        stats: ["12", "2", "6", "4", "2"],
+        regles: "Brèche (5+), Déflagration (6), Sonner (1)",
+        traits: "Assaut",
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
@@ -1330,6 +1426,107 @@ const ARMES_MELEE = [
         regles: "-",
         traits: "Énergétique",
       },
+      {
+        // Arsenal de la Raven Guard : échange gratuit contre une griffe
+        // Lightning pour toute Figurine de Sous-type État-major ayant le
+        // Trait Raven Guard.
+        nom: "Serre de Corbeau",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Impact (MI), Vulnérante (6+), Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Paire de Serres de Corbeau",
+        stats: ["1", "+2", "F", "3", "1"],
+        regles: "Impact (MI), Vulnérante (6+), Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des White Scars : échange contre une arme énergétique
+        // pour toute Figurine de Sous-type État-major ayant le Trait
+        // White Scars, +10 Points par Figurine.
+        nom: "Vouge énergétique",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Impact (PA), Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de la Keshig d'Or (White Scars).
+        nom: "Lance Énergétique Kontos",
+        stats: ["+4", "1", "+5", "3", "2"],
+        regles: "Impact (PA), Fléau des Blindages",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Hibou Khan, White Scars).
+        nom: "Le Souffle de la Tempête",
+        stats: ["+1", "A", "+2", "3", "1"],
+        regles: "Touche Critique (6+), Brèche (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Qin Xa, White Scars).
+        nom: "Les Queues du Dragon",
+        stats: ["1", "A", "+1", "2", "1"],
+        regles: "Touche Critique (5+), Précision (3+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme du Dreadnought Contemptor-Incaendius (Blood Angels).
+        nom: "Paire de Serres de Perdition",
+        stats: ["1", "+2", "F", "2", "2"],
+        regles: "En Feu (2)",
+        traits: "Énergétique, Flammes",
+      },
+      {
+        // Arme de personnage (Aster Crohne, Blood Angels).
+        nom: "Hache Saiphaine",
+        stats: ["1", "+1", "+1", "3", "1"],
+        regles: "Brèche (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Dominion Zephon, Blood Angels).
+        nom: "Le Spiritum Sanguis",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Fauchage (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Raldoron, Blood Angels).
+        nom: "La Lame de Guerre Carmin",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Impact (MA), Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Blood Angels : échange contre une épée/hache/
+        // lance/masse énergétique pour toute Figurine de Sous-type
+        // État-major, Champion ou Sergent ayant le Trait Blood Angels,
+        // +5 Points par Figurine.
+        nom: "Lame de Perdition",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (6+), En Feu (1)",
+        traits: "Énergétique, Flammes",
+      },
+      {
+        nom: "Hache de Perdition",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+), En Feu (1)",
+        traits: "Énergétique, Flammes",
+      },
+      {
+        nom: "Masse de Perdition",
+        stats: ["-1", "A", "+2", "3", "1"],
+        regles: "Brèche (6+), En Feu (1)",
+        traits: "Énergétique, Flammes",
+      },
+      {
+        nom: "Lance de Perdition",
+        stats: ["+1", "A", "F", "3", "1"],
+        regles: "Précision (6+), En Feu (1)",
+        traits: "Énergétique, Flammes",
+      },
     ],
   },
   {
@@ -1341,6 +1538,45 @@ const ARMES_MELEE = [
         regles: "Touche Critique (6+)",
         traits: "-",
       },
+      {
+        // Arme de personnage (Corvus Corax, Primarque de la Raven Guard).
+        nom: "Talionis",
+        stats: ["+4", "3", "F", "3", "2"],
+        regles: "Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Les Serres Corvidées",
+        stats: ["+1", "+2", "F", "2", "1"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Jaghatai Khan, Primarque des White Scars).
+        nom: "Le Dao du Tigre Blanc",
+        stats: ["+2", "A", "F", "2", "2"],
+        regles: "Impact (MA), Atout du Duelliste (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Sanguinius, Primarque des Blood Angels).
+        nom: "La Lame Carmin",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Touche Critique (5+), Impact (MA)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance de Telesto",
+        stats: ["-1", "-2", "+3", "2", "2"],
+        regles: "Fléau des Blindages, Choc (Neutralisée)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lame d'Argent Lunaire",
+        stats: ["1", "A", "F", "3", "2"],
+        regles: "Atout du Duelliste (1)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -1350,6 +1586,14 @@ const ARMES_MELEE = [
         nom: "Découpeur laser¹",
         stats: ["-3", "1", "12", "2", "4"],
         regles: "-",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Kaedes Nex, Raven Guard) : profil de
+        // Mêlée, voir aussi son profil de Tir dans Armes de Tir.
+        nom: "Canons de poing Fulcrum (Mêlée)",
+        stats: ["1", "+1", "6", "2", "1"],
+        regles: "Lacération (5+)",
         traits: "-",
       },
       {

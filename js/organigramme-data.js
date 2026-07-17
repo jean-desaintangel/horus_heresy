@@ -191,10 +191,6 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Suites"),
       _caseOrga("Transports Lourds"),
     ],
-    // Choix assumé (réponse de Jean) : pas encore d'unités Seigneur
-    // de Guerre (Primarques…) dans unites-data.js → proposé mais grisé.
-    indisponible:
-      "Aucune unité de Rôle Tactique « Seigneur de Guerre » (Primarques…) n'est encore transcrite dans les fiches du site.",
   },
   {
     id: "seigneur-batailles",

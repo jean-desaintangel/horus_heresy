@@ -716,6 +716,99 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
+     `legion: "V"` : n'apparaît dans le sélecteur « Unité à ajouter »
+     (js/unites.js, initialiserChoixUnite) que si cette Légion est
+     choisie dans les paramètres de la partie (js/organigramme.js).
+     ---------------------------------------------------------- */
+  {
+    id: "qin-xa",
+    nom: "Qin Xa",
+    categorie: "Quartier Général",
+    cout: 210,
+    composition: "1 Qin Xa",
+    notes: "Maître de la Keshig, Élu du Khagan.",
+    traits: ["Loyaliste", "White Scars", "Maître de la Légion"],
+    equipement: ["Les Queues du Dragon"],
+    variantes: [
+      {
+        nom: "Qin Xa",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 4,
+          F: 4,
+          E: 5,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Massif (2)", "Élu du Khagan"],
+        type: "Infanterie (Unique, État-major)",
+      },
+    ],
+    options: [],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
+     `legion: "IX"` : n'apparaît dans le sélecteur « Unité à ajouter »
+     (js/unites.js, initialiserChoixUnite) que si cette Légion est
+     choisie dans les paramètres de la partie (js/organigramme.js).
+     ---------------------------------------------------------- */
+  {
+    id: "raldoron",
+    nom: "Maître de Chapitre Raldoron",
+    categorie: "Quartier Général",
+    cout: 180,
+    composition: "1 Raldoron",
+    notes:
+      "Premier Capitaine des Blood Angels, L'Archein de Sagesse, L'Ange Tranquille.",
+    traits: ["Loyaliste", "Blood Angels", "Maître de la Légion"],
+    equipement: [
+      "La Lame de Guerre Carmin",
+      "Combi-lance-flammes",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Raldoron",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 7,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Archein de Sagesse"],
+        type: "Infanterie (Unique, État-major)",
+      },
+    ],
+    options: [],
+    legion: "IX",
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — ÉTAT-MAJOR
      ---------------------------------------------------------- */
   {
@@ -1690,6 +1783,272 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA XIXe LÉGION (RAVEN GUARD)
+     `legion: "XIX"` : n'apparaît dans le sélecteur « Unité à ajouter »
+     (js/unites.js, initialiserChoixUnite) que si cette Légion est
+     choisie dans les paramètres de la partie (js/organigramme.js).
+     ---------------------------------------------------------- */
+  {
+    id: "kaedes-nex",
+    nom: "Kaedes Nex",
+    categorie: "État-major",
+    cout: 165,
+    composition: "1 Kaedes Nex",
+    notes:
+      "Le Veneur du Corbeau, « La Corneille Sanglante ». Infanterie (Unique, Spécialiste) : p. 283, seul l'Avantage Principal Bénéfice Logistique lui est accessible s'il occupe une Case Principale.",
+    traits: ["Loyaliste", "Raven Guard"],
+    equipement: [
+      "Canons de poing Fulcrum (Tir)",
+      "Canons de poing Fulcrum (Mêlée)",
+      "Caméléolin",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Bombes à fusion",
+    ],
+    variantes: [
+      {
+        nom: "Kaedes Nex",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 6,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "3+",
+          Inv: "5+",
+        },
+        regles: [
+          "Infiltration (8)",
+          "La Corneille Sanglante",
+          "Précision (5+)",
+        ],
+        type: "Infanterie (Unique, Spécialiste)",
+      },
+    ],
+    options: [],
+    legion: "XIX",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS RÉSERVÉES À LA Ve LÉGION (WHITE SCARS)
+     Voir la note sur Qin Xa, catégorie Quartier Général ci-dessus.
+     ---------------------------------------------------------- */
+  {
+    id: "hibou-khan",
+    nom: "Hibou Khan",
+    categorie: "État-major",
+    cout: 165,
+    composition: "1 Hibou Khan",
+    notes: "Le Khan Proscrit, Sagyar Mazan, Chercheur d'Expiation.",
+    traits: ["Loyaliste", "White Scars"],
+    equipement: [
+      "Le Souffle de la Tempête",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Hibou Khan",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Officier de Ligne (2)",
+          "Chercheur d'Expiation",
+          "Sacrifiable (2)",
+        ],
+        type: "Infanterie (Unique, État-major)",
+      },
+    ],
+    options: [],
+    legion: "V",
+  },
+
+  {
+    id: "devin-de-lorage",
+    nom: "Devin de l'Orage",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Devin de l'Orage",
+    traits: ["[Allégeance]", "White Scars", "Psyker"],
+    equipement: [
+      "Bâton de force",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Devin de l'Orage",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 8,
+          Sf: 7,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Aucune"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Appel de l'Orage", cout: 10 },
+          { nom: "Divination", cout: 10 },
+          { nom: "Thaumaturgie", cout: 20 },
+          { nom: "Télépathie", cout: 0 },
+        ],
+      },
+    ],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS RÉSERVÉES À LA IXe LÉGION (BLOOD ANGELS)
+     Voir la note sur Raldoron, catégorie Quartier Général ci-dessus.
+     ---------------------------------------------------------- */
+  {
+    id: "aster-crohne",
+    nom: "Aster Crohne",
+    categorie: "État-major",
+    cout: 155,
+    composition: "1 Aster Crohne",
+    notes: "Capitaine de la 94e Compagnie, Le Tisseur de Suaire.",
+    traits: ["Loyaliste", "Blood Angels"],
+    equipement: [
+      "Deux lance-flammes légers",
+      "Hache saiphaine",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Grenades Rad",
+    ],
+    variantes: [
+      {
+        nom: "Aster Crohne",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Officier de Ligne (2)", "Le Fantôme de Saiph"],
+        type: "Infanterie (Unique, État-major)",
+      },
+    ],
+    options: [],
+    legion: "IX",
+  },
+
+  {
+    id: "dominion-zephon",
+    nom: "Dominion Zephon",
+    categorie: "État-major",
+    cout: 185,
+    composition: "1 Dominion Zephon",
+    notes:
+      "Le Porteur de Tourments, L'Exilé, Le Deux Fois Né, Exarque de l'Ost Supérieur.",
+    traits: ["Loyaliste", "Blood Angels"],
+    equipement: [
+      "Lamentation et Chagrin",
+      "Le Spiritum Sanguis",
+      "Grenades Rad",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Dominion Zephon",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Officier de Ligne (2)",
+          "Massif (2)",
+          "Frappe en Profondeur",
+          "Guerrier Éternel (1)",
+        ],
+        type: "Infanterie (Unique, État-major, Antigrav)",
+      },
+    ],
+    options: [],
+    legion: "IX",
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — SUITES (ESCOUADES D'ÉTAT-MAJOR)
      Catégorie de Force Organisationnelle "Suites" : escouades
      d'accompagnement (Champion + Élus/Vétérans), à ne pas
@@ -2619,6 +2978,145 @@ const UNITES = [
         ajoute: "Lacérateur à particules",
       },
     ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
+     Voir la note sur Qin Xa, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "keshig-ebene",
+    nom: "Keshig d'Ébène",
+    categorie: "Assaut Lourd",
+    cout: 200,
+    composition: "5 Kharash",
+    effectif: { base: 5, max: 10, cout: 35 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "White Scars"],
+    notes:
+      "Affectation rituelle offrant une chance de rédemption aux White Scars déshonorés : les Kharash sont déployés en première ligne lors des sièges et autres conflits à haute intensité.",
+    equipement: ["Vouge énergétique"],
+    variantes: [
+      {
+        nom: "Keshig d'Ébène",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 5,
+          PV: 2,
+          I: 4,
+          A: 3,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (2)",
+          "Avant-garde (3)",
+          "Insensible à la Douleur (6+)",
+          "Sacrifiable (2)",
+        ],
+        type: "Infanterie",
+      },
+    ],
+    options: [],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
+     Voir la note sur Raldoron, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "larmes-de-lange",
+    nom: "Les Larmes de l'Ange",
+    categorie: "Assaut Lourd",
+    cout: 150,
+    composition: "1 Archi-Erelim, 4 Erelim",
+    effectif: { base: 5, max: 10, cout: 20 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Blood Angels"],
+    notes:
+      "Les Larmes de l'Ange, Masques d'Argent et Mains de la Justice, jouent chez les Blood Angels le rôle des Destructeurs des autres Légions : ils se rendent au combat sous le commandement direct de Sanguinius.",
+    equipement: [
+      "Deux serpentines volkites",
+      "Grenades Rad",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Les Larmes de l'Ange",
+        cout: 0,
+        profils: [
+          {
+            nom: "Erelim",
+            profil: {
+              M: 12,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Archi-Erelim",
+            profil: {
+              M: 12,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: [
+          "Frappe en Profondeur",
+          "Massif (2)",
+          "Avant-garde (3)",
+          "Âpre Devoir",
+          "Orage de Feu",
+        ],
+        type: "Archi-Erelim : Infanterie (Sergent, Antigrav) · Erelim : Infanterie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "lance-grenades",
+        libelle:
+          "Figurines : lance-grenades Erelim à la place des deux serpentines volkites",
+        cout: 10,
+        parTranche: 1,
+        ajoute:
+          "Lance-grenades Erelim (à la place des deux serpentines volkites)",
+      },
+    ],
+    legion: "IX",
   },
 
   /* ----------------------------------------------------------
@@ -3833,6 +4331,57 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
+     Voir la note sur Qin Xa, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "speeder-kyzagan",
+    nom: "Speeder d'Assaut Kyzagan",
+    categorie: "Appui",
+    cout: 105,
+    composition: "1 Kyzagan",
+    notes:
+      "Plate-forme d'armes lourdes rapide adaptée de la plate-forme Javelin, conservant une puissance de feu similaire aux Predator ou aux Sicaran.",
+    traits: ["[Allégeance]", "White Scars"],
+    equipement: ["Canon d'assaut Kheres", "Deux autocanons Reaper"],
+    variantes: [
+      {
+        nom: "Kyzagan",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 7,
+          PV: 4,
+          I: 4,
+          A: 2,
+          Cd: 8,
+          Sf: 8,
+          Vo: 7,
+          Int: 7,
+          Sv: "3+",
+          Inv: "—",
+        },
+        regles: ["Massif (5)", "Frappe en Profondeur", "Protocoles de Tir (3)"],
+        type: "Cavalerie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "missiles-traqueurs",
+        libelle: "Missiles traqueurs",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur",
+      },
+    ],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — ELITE
      ---------------------------------------------------------- */
   {
@@ -4311,6 +4860,381 @@ const UNITES = [
       },
       optionBaionnette(),
     ],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS RÉSERVÉES À LA XIXe LÉGION (RAVEN GUARD)
+     `legion: "XIX"` : voir la note sur Kaedes Nex, catégorie
+     État-major ci-dessus.
+     ---------------------------------------------------------- */
+  {
+    id: "escouade-mor-deythan",
+    nom: "Escouade de Mor Deythan",
+    categorie: "Elite",
+    cout: 175,
+    composition: "1 Ombre Mor Deythan, 4 Mor Deythan",
+    effectif: { base: 5, max: 10, cout: 30 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Raven Guard"],
+    notes:
+      "« Maîtres des Ombres » : corps restreint d'escouades d'infiltration de la Raven Guard, expertes dans l'art de se déplacer à travers les ombres sans être vues.",
+    equipement: [
+      "Bolter Némésis",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Caméléolin",
+    ],
+    variantes: [
+      {
+        nom: "Escouade de Mor Deythan",
+        cout: 0,
+        profils: [
+          {
+            nom: "Mor Deythan",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Ombre Mor Deythan",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 5,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 1,
+              Cd: 9,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: [
+          "Infiltration (8)",
+          "Frappe Fatale",
+          "Mouvement à Couvert",
+          "Unité d'Appui (1)",
+        ],
+        type: "Ombre Mor Deythan : Infanterie (Sergent, Tirailleurs) · Mor Deythan : Infanterie (Tirailleurs)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-principale",
+        libelle: "Toute l'unité : remplacer le bolter Némésis",
+        remplace: "Bolter Némésis",
+        choix: [
+          { nom: "— Conserver le bolter Némésis —", cout: 0 },
+          { nom: "Fusil à pompe Astartes", cout: 0 },
+        ],
+      },
+    ],
+    legion: "XIX",
+  },
+
+  {
+    id: "escouade-furies-noires",
+    nom: "Escouade de Furies Noires",
+    categorie: "Elite",
+    cout: 175,
+    composition: "1 Sélecteur des Morts, 4 Furies Noires",
+    effectif: { base: 5, max: 10, cout: 30 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Raven Guard"],
+    notes:
+      "Escouades d'assaut employées par la Raven Guard pour exécuter des frappes de décapitation sur des officiers ennemis désignés, au cœur du champ de bataille.",
+    equipement: [
+      "Paire de Serres de Corbeau",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Réacteurs modèle Corvidé",
+    ],
+    variantes: [
+      {
+        nom: "Escouade de Furies Noires",
+        cout: 0,
+        profils: [
+          {
+            nom: "Furie Noire",
+            profil: {
+              M: 14,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sélecteur des Morts",
+            profil: {
+              M: 14,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 9,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Massif (3)", "Frappe en Profondeur", "Précision (6+)"],
+        type: "Sélecteur des Morts : Infanterie (Sergent, Antigrav) · Furie Noire : Infanterie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "selecteur-supplementaire",
+        libelle:
+          "Remplacer une Furie Noire par un Sélecteur des Morts (nécessite 10 Figurines)",
+        cout: 5,
+        ajoute: "Une Furie Noire remplacée par un Sélecteur des Morts",
+      },
+      {
+        type: "case",
+        id: "selecteur-bombes",
+        libelle: "Sélecteur des Morts : bombes à fusion",
+        cout: 10,
+        ajoute: "Sélecteur des Morts : bombes à fusion",
+      },
+    ],
+    legion: "XIX",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
+     Voir la note sur Qin Xa, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "keshig-or",
+    nom: "Keshig d'Or",
+    categorie: "Elite",
+    cout: 140,
+    composition: "1 Champion de la Keshig, 2 Cavaliers de la Keshig",
+    effectif: { base: 3, max: 6, cout: 40 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "White Scars"],
+    notes:
+      "Escouades de motojets d'assaut lourdes, briseurs de ligne et forces d'assaut par excellence : elles remplissent des rôles que d'autres Légions attribuent à des blindés ou des Terminators.",
+    equipement: [
+      "Lance énergétique Kontos",
+      "Épée énergétique",
+      "Pistolet bolter",
+      "Disperse-bolts",
+    ],
+    variantes: [
+      {
+        nom: "Keshig d'Or",
+        cout: 0,
+        profils: [
+          {
+            nom: "Cavalier de la Keshig",
+            profil: {
+              M: 16,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Champion de la Keshig",
+            profil: {
+              M: 16,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 9,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Frappe en Profondeur", "Massif (3)"],
+        type: "Champion de la Keshig : Cavalerie (Sergent, Antigrav) · Cavalier de la Keshig : Cavalerie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "champion-melee",
+        libelle: "Champion de la Keshig : remplacer son épée énergétique",
+        ajoute: true,
+        prefixeFiche: "Champion de la Keshig : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Hache énergétique", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "cavaliers-melee",
+        libelle: "Tout Cavalier de la Keshig : remplacer son épée énergétique",
+        ajoute: true,
+        parFigurine: true,
+        prefixeFiche: "Cavalier de la Keshig : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Hache énergétique", cout: 0 },
+        ],
+      },
+    ],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
+     Voir la note sur Raldoron, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "paladins-ecarlates",
+    nom: "Paladins Écarlates",
+    categorie: "Elite",
+    cout: 225,
+    composition: "1 Exemple Écarlate, 4 Paladins Écarlates",
+    effectif: { base: 5, max: 10, cout: 40 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Blood Angels"],
+    notes:
+      "Un des Ordres Guerriers de la Première Sphère : les gardiens des édifices du Primarque, un rempart face à l'ennemi et un bouclier pour les fils de Sanguinius.",
+    equipement: ["Épée énergétique et bouclier énergétique modèle Coriolis"],
+    variantes: [
+      {
+        nom: "Paladins Écarlates",
+        cout: 0,
+        profils: [
+          {
+            nom: "Paladin Écarlate",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Exemple Écarlate",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 9,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Ligne (1)",
+          "Frappe en Profondeur",
+          "Le Sang Perdure",
+        ],
+        type: "Exemple Écarlate : Infanterie (Sergent, Lourd) · Paladin Écarlate : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "exemple-arme",
+        libelle:
+          "Exemple Écarlate : échanger son épée énergétique et son bouclier énergétique modèle Coriolis",
+        remplace: "Épée énergétique et bouclier énergétique modèle Coriolis",
+        prefixeFiche: "Exemple Écarlate : ",
+        choix: [
+          { nom: "— Conserver l'équipement —", cout: 0 },
+          { nom: "Lame de Perdition", cout: 0 },
+          { nom: "Hache de Perdition", cout: 0 },
+          { nom: "Masse de Perdition", cout: 0 },
+          { nom: "Lance de Perdition", cout: 0 },
+        ],
+      },
+      {
+        type: "quantite",
+        id: "iliastus",
+        libelle:
+          "Par tranche de cinq Figurines : canon d'assaut Iliastus à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate)",
+        cout: 10,
+        parTranche: 5,
+        ajoute:
+          "Canon d'assaut Iliastus — Tir soutenu (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate)",
+      },
+    ],
+    legion: "IX",
   },
 
   /* ----------------------------------------------------------
@@ -6049,6 +6973,65 @@ const UNITES = [
   },
 
   /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
+     Voir la note sur Raldoron, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "dreadnought-contemptor-incaendius",
+    nom: "Dreadnought Contemptor-Incaendius",
+    categorie: "Engins de Guerre",
+    cout: 200,
+    composition: "1 Contemptor-Incaendius",
+    traits: ["[Allégeance]", "Blood Angels"],
+    notes:
+      "Châssis de Dreadnought Contemptor fabriqué exclusivement pour la IXe Légion : un accélérateur externe dorsal ralentit sa chute depuis l'orbite basse ou lui permet un grand bond.",
+    equipement: ["Paire de Serres de Perdition", "Deux lance-flammes lourds"],
+    variantes: [
+      {
+        nom: "Contemptor-Incaendius",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 4,
+          Cd: 12,
+          Sf: 10,
+          Vo: 7,
+          Int: 5,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (7)",
+          "Explose (4+)",
+          "Propulseur Incaendius",
+          "Frappe en Profondeur",
+        ],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "armes-principales",
+        libelle: "Remplacer les deux lance-flammes lourds",
+        remplace: "Deux lance-flammes lourds",
+        choix: [
+          { nom: "— Conserver les deux lance-flammes lourds —", cout: 0 },
+          { nom: "Deux fuseurs", cout: 20 },
+          { nom: "Deux canons d'assaut Iliastus — Tir soutenu", cout: 30 },
+        ],
+      },
+    ],
+    legion: "IX",
+  },
+
+  /* ----------------------------------------------------------
      UNITÉS — TRANSPORTS
      ---------------------------------------------------------- */
   {
@@ -6768,5 +7751,183 @@ const UNITES = [
       },
     ],
     options: [optionLaterauxLegion(), ...optionsVehiculeSuperLourdPivot()],
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA XIXe LÉGION (RAVEN GUARD)
+     Voir la note sur Kaedes Nex, catégorie État-major.
+     ---------------------------------------------------------- */
+  {
+    id: "corvus-corax",
+    nom: "Corvus Corax",
+    categorie: "Seigneur de Guerre",
+    cout: 440,
+    composition: "1 Corvus Corax",
+    notes:
+      "Primarque de la Raven Guard, Le Libérateur, Celui Qui Choisit les Morts, Le Seigneur Ombreux.",
+    traits: ["Loyaliste", "Raven Guard", "Maître de la Légion"],
+    equipement: [
+      "Colère et Justice",
+      "Talionis",
+      "Les Serres Corvidées",
+      "Caméléolin",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Corvus Corax",
+        cout: 0,
+        profil: {
+          M: 16,
+          CC: 7,
+          CT: 6,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 6,
+          A: 6,
+          Cd: 12,
+          Sf: 10,
+          Vo: 10,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Sire de la Raven Guard",
+          "Massif (6)",
+          "Le Seigneur Ombreux",
+          "Guerrier Éternel (2)",
+          "Frappe en Profondeur",
+        ],
+        type: "Parangon (Unique, Antigrav)",
+      },
+    ],
+    options: [],
+    legion: "XIX",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
+     Voir la note sur Qin Xa, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "jaghatai-khan",
+    nom: "Jaghatai Khan",
+    categorie: "Seigneur de Guerre",
+    cout: 440,
+    composition: "1 Jaghatai Khan",
+    notes: "Primarque des White Scars, Le Faucon, Maître du Firmament d'Azur.",
+    traits: ["Loyaliste", "White Scars", "Maître de la Légion"],
+    equipement: [
+      "Le Dao du Tigre Blanc",
+      "Voix de l'Orage",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Jaghatai Khan",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 7,
+          CT: 6,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 7,
+          A: 7,
+          Cd: 12,
+          Sf: 10,
+          Vo: 10,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Sire des White Scars",
+          "Massif (4)",
+          "Mort par Mille Coupures",
+          "Guerrier Éternel (2)",
+        ],
+        type: "Parangon (Unique)",
+      },
+    ],
+    options: [],
+    legion: "V",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
+     Voir la note sur Raldoron, catégorie Quartier Général.
+     ---------------------------------------------------------- */
+  {
+    id: "sanguinius",
+    nom: "Sanguinius",
+    categorie: "Seigneur de Guerre",
+    cout: 485,
+    composition: "1 Sanguinius",
+    notes:
+      "Le Grand Ange, Le Plus Brillant, Maître des Osts, Primarque des Blood Angels.",
+    traits: ["Loyaliste", "Blood Angels", "Maître de la Légion"],
+    equipement: [
+      "Infernus",
+      "La Lame Carmin",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Sanguinius",
+        cout: 0,
+        profil: {
+          M: 16,
+          CC: 8,
+          CT: 6,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 6,
+          A: 6,
+          Cd: 12,
+          Sf: 10,
+          Vo: 10,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Sire des Blood Angels",
+          "Massif (6)",
+          "Descente Angélique",
+          "Frappe en Profondeur",
+          "Guerrier Éternel (2)",
+        ],
+        type: "Parangon (Unique, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-principale",
+        libelle:
+          "Échanger la Lame Carmin contre la Lance de Telesto (et la Lame d'Argent Lunaire, ci-dessous)",
+        remplace: "La Lame Carmin",
+        choix: [
+          { nom: "— Conserver la Lame Carmin —", cout: 0 },
+          { nom: "Lance de Telesto", cout: 0 },
+        ],
+      },
+      {
+        type: "case",
+        id: "lame-argent",
+        libelle: "Lame d'Argent Lunaire (uniquement avec la Lance de Telesto)",
+        cout: 0,
+        ajoute: "Lame d'Argent Lunaire",
+      },
+    ],
+    legion: "IX",
   },
 ];

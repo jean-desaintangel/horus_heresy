@@ -72,6 +72,7 @@ const ENTETES_VEHICULE = [
 // indépendant de leur ordre d'apparition dans UNITES. Une catégorie
 // absente de cette liste est simplement affichée après les autres.
 const ORDRE_CATEGORIES = [
+  "Seigneur de Guerre",
   "Quartier Général",
   "État-major",
   "Suites",
@@ -95,6 +96,22 @@ const ORDRE_CATEGORIES = [
 // Retrouve la fiche d'une unité par son id.
 function trouverUnite(id) {
   return UNITES.find((u) => u.id === id);
+}
+
+/* Une unité réservée à une Légion (champ `legion`, ex : Corvus Corax,
+   Kaedes Nex, Escouades de Mor Deythan/Furies Noires — voir js/unites-
+   data.js) n'est proposable que si cette Légion est actuellement
+   choisie dans les paramètres de la partie (js/organigramme.js). Sans
+   Légion précisée sur l'unité, elle reste universellement disponible.
+   Ne s'applique qu'au sélecteur « Unité à ajouter » : une unité déjà
+   dans la liste reste affichée si la Légion change ensuite. */
+function uniteAccessible(unite) {
+  if (!unite.legion) return true;
+  return (
+    orgaPret &&
+    typeof Organigramme !== "undefined" &&
+    Organigramme.legionActuelle() === unite.legion
+  );
 }
 
 // Retire " (liste Pistolets de Légion)" etc. du nom d'un choix : sert
@@ -437,7 +454,13 @@ function construireTableProfil(unite, instance) {
       {
         libelle: null,
         valeurs: ENTETES_PROFIL.map((c) =>
-          appliquerBonusPrincipal(avantageId, variante, null, c, variante.profil[c]),
+          appliquerBonusPrincipal(
+            avantageId,
+            variante,
+            null,
+            c,
+            variante.profil[c],
+          ),
         ),
       },
     ];
@@ -463,7 +486,10 @@ function construireTableProfil(unite, instance) {
       // de profilVehicule n'ont pas la même signification à index égal.
       const car = variante.profilVehicule ? null : ENTETES_PROFIL[indiceCol];
       const td = el("td", null, String(v));
-      if (car && bonusAvantagePrincipal(avantageId, variante, nomLigne, car) !== 0) {
+      if (
+        car &&
+        bonusAvantagePrincipal(avantageId, variante, nomLigne, car) !== 0
+      ) {
         const avantage = AVANTAGES_PRINCIPAUX.find((a) => a.id === avantageId);
         td.className = "profil-bonus";
         if (avantage) td.title = "Bonus « " + avantage.nom + " »";
@@ -1195,7 +1221,8 @@ function actualiserSelectsCases() {
     // on la reconstruit pour qu'elle reste à jour même quand le
     // changement vient d'ailleurs (une autre carte, l'organigramme).
     const ancienneFiche = carte.querySelector(".unite-fiche");
-    if (ancienneFiche) ancienneFiche.replaceWith(construireFiche(unite, instance));
+    if (ancienneFiche)
+      ancienneFiche.replaceWith(construireFiche(unite, instance));
   }
 }
 
@@ -1259,7 +1286,9 @@ function texteFiche(fiche) {
     } else if (enfant.classList.contains("fiche-ligne")) {
       lignes.push(texteSansInfobulles(enfant));
     } else if (enfant.classList.contains("unite-fiche-definitions")) {
-      lignes.push(enfant.querySelector(".unite-definitions-titre").textContent.trim());
+      lignes.push(
+        enfant.querySelector(".unite-definitions-titre").textContent.trim(),
+      );
       for (const li of enfant.querySelectorAll("li")) {
         lignes.push("- " + li.textContent.trim());
       }
@@ -1316,10 +1345,14 @@ function texteArmee() {
   const total = document.getElementById("total-armee");
   if (total) lignes.push(total.textContent.trim(), "");
   const resume = document.getElementById("orga-resume");
-  if (resume && resume.textContent.trim())
-    lignes.push(...texteResume(resume));
+  if (resume && resume.textContent.trim()) lignes.push(...texteResume(resume));
   for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
-    lignes.push(...texteCarte(carte), "", "----------------------------------------", "");
+    lignes.push(
+      ...texteCarte(carte),
+      "",
+      "----------------------------------------",
+      "",
+    );
   }
   return lignes.join("\n");
 }
@@ -1382,9 +1415,10 @@ function initialiserChoixUnite() {
 
   // La normalisation (accents, casse) est assurée par normaliserTexte,
   // partagée par toutes les barres de recherche du site (js/main.js).
+  // Filtrée en direct (pas de rebuild d'`entrees` nécessaire) : ouvrir
+  // ou retaper dans le champ relit toujours la Légion actuelle.
   function filtrer(requete) {
     const q = normaliserTexte(requete.trim());
-    if (!q) return entrees;
     const resultat = [];
     let groupeCourant = null;
     let groupeAjoute = false;
@@ -1394,7 +1428,8 @@ function initialiserChoixUnite() {
         groupeAjoute = false;
         continue;
       }
-      if (!normaliserTexte(entree.unite.nom).includes(q)) continue;
+      if (!uniteAccessible(entree.unite)) continue;
+      if (q && !normaliserTexte(entree.unite.nom).includes(q)) continue;
       if (!groupeAjoute) {
         resultat.push(groupeCourant);
         groupeAjoute = true;
@@ -1567,6 +1602,10 @@ function initialiser() {
   boutonAjouter.addEventListener("click", () => {
     const unite = uniteChoisie();
     if (!unite) return;
+    // Filet de sécurité : la sélection du champ peut dater d'avant un
+    // changement de Légion (le champ n'est pas ré-ouvert à chaque
+    // changement). Le sélecteur filtre déjà normalement ce cas.
+    if (!uniteAccessible(unite)) return;
     // Règle p. 282 : une unité doit occuper une Case de l'Organigramme
     // de Force dont le Rôle Tactique correspond au sien. Sans case
     // libre compatible, l'ajout est refusé et on explique comment

@@ -76,6 +76,7 @@ const Organigramme = (() => {
       nom: "Dark Angels",
       primarque: "Lion El'Jonson",
       monde: "Caliban",
+      allegeance: "loyaliste",
       devise:
         "Chevaliers de Caliban, les fils du Lion gardent un secret plus lourd que leurs épées : celui des Frères Déchus qu'ils traquent sans repos.",
     },
@@ -85,6 +86,7 @@ const Organigramme = (() => {
       nom: "Emperor's Children",
       primarque: "Fulgrim",
       monde: "Chemos",
+      allegeance: "renegat",
       devise:
         "Nés dans les brumes toxiques de Chemos, les fils de Fulgrim ne recherchent qu'une chose : la perfection absolue, jusqu'à l'obsession.",
     },
@@ -94,6 +96,7 @@ const Organigramme = (() => {
       nom: "Iron Warriors",
       primarque: "Perturabo",
       monde: "Olympia",
+      allegeance: "renegat",
       devise:
         "Rancuniers et increvables, les fils de Perturabo ne connaissent que la guerre de siège : pierre après pierre, bastion après bastion, jusqu'à la victoire.",
     },
@@ -103,6 +106,7 @@ const Organigramme = (() => {
       nom: "White Scars",
       primarque: "Jaghatai Khan",
       monde: "Chogoris",
+      allegeance: "loyaliste",
       devise:
         "Cavaliers de Chogoris, les fils de Jaghatai Khan frappent à la vitesse du vent et ne laissent à l'ennemi que la poussière de leur passage.",
     },
@@ -112,6 +116,7 @@ const Organigramme = (() => {
       nom: "Space Wolves",
       primarque: "Leman Russ",
       monde: "Fenris",
+      allegeance: "loyaliste",
       devise:
         "Nés dans la glace de Fenris, les fils de Leman Russ chassent en meute et ne connaissent d'autre loi que celle du loup.",
     },
@@ -121,6 +126,7 @@ const Organigramme = (() => {
       nom: "Imperial Fists",
       primarque: "Rogal Dorn",
       monde: "Terra (Inwit)",
+      allegeance: "loyaliste",
       devise:
         "Bâtisseurs increvables, les fils de Rogal Dorn tiennent leurs murs jusqu'au dernier homme : reculer n'est pas un mot qu'ils connaissent.",
     },
@@ -130,6 +136,7 @@ const Organigramme = (() => {
       nom: "Night Lords",
       primarque: "Konrad Curze",
       monde: "Nostramo",
+      allegeance: "renegat",
       devise:
         "Nés dans l'ombre de Nostramo, les fils de Konrad Curze sèment une terreur si totale que la résistance meurt avant le premier coup.",
     },
@@ -139,6 +146,7 @@ const Organigramme = (() => {
       nom: "Blood Angels",
       primarque: "Sanguinius",
       monde: "Baal",
+      allegeance: "loyaliste",
       devise:
         "Hantée par la Soif Rouge et la Rage Noire, la IXe Légion mène la charge avec une noblesse et une fureur qui n'appartiennent qu'à elle.",
     },
@@ -148,6 +156,7 @@ const Organigramme = (() => {
       nom: "Iron Hands",
       primarque: "Ferrus Manus",
       monde: "Medusa",
+      allegeance: "loyaliste",
       devise:
         "Sur Médusa, la chair est faiblesse : les fils de Ferrus Manus remplacent leurs membres par l'acier et ne pleurent jamais leurs pertes.",
     },
@@ -157,6 +166,7 @@ const Organigramme = (() => {
       nom: "World Eaters",
       primarque: "Angron",
       monde: "—",
+      allegeance: "renegat",
       devise:
         "Rongés par les Clous du Boucher, les fils d'Angron ne connaissent plus la retraite : seule la rage guide leurs haches jusqu'au dernier ennemi debout.",
     },
@@ -166,6 +176,7 @@ const Organigramme = (() => {
       nom: "Ultramarines",
       primarque: "Roboute Guilliman",
       monde: "Macragge",
+      allegeance: "loyaliste",
       devise:
         "Fils de Guilliman, les Ultramarines incarnent la discipline et la civilisation : chaque bataille suit un plan, chaque plan sert l'Imperium.",
     },
@@ -175,6 +186,7 @@ const Organigramme = (() => {
       nom: "Death Guard",
       primarque: "Mortarion",
       monde: "Barbarus",
+      allegeance: "renegat",
       devise:
         "Endurcis par les miasmes de Barbarus, les fils de Mortarion refusent de tomber : leur endurance est aussi implacable que la faux qu'ils portent.",
     },
@@ -184,6 +196,7 @@ const Organigramme = (() => {
       nom: "Thousand Sons",
       primarque: "Magnus le Rouge",
       monde: "Prospero",
+      allegeance: "renegat",
       devise:
         "Érudits de Prospero, les fils de Magnus le Rouge manient les arcanes psychiques avec une soif de savoir qui n'a d'égale que leur puissance.",
     },
@@ -193,6 +206,7 @@ const Organigramme = (() => {
       nom: "Sons of Horus",
       primarque: "Horus Lupercal",
       monde: "Cthonia",
+      allegeance: "renegat",
       devise:
         "Fils de Cthonia, les Sons of Horus suivent leur Primarque en toute chose — et c'est cette loyauté sans faille qui, un jour maudit, embrasa la galaxie.",
     },
@@ -202,6 +216,7 @@ const Organigramme = (() => {
       nom: "Word Bearers",
       primarque: "Lorgar",
       monde: "Colchis",
+      allegeance: "renegat",
       devise:
         "Nés dans la foi de Colchis, les fils de Lorgar ne se battent pas seulement pour l'Empereur : ils cherchent un dieu à vénérer, et ne s'arrêteront devant rien pour le trouver.",
     },
@@ -211,6 +226,7 @@ const Organigramme = (() => {
       nom: "Salamanders",
       primarque: "Vulkan",
       monde: "Nocturne",
+      allegeance: "loyaliste",
       devise:
         "Forgés dans les volcans de Nocturne, les fils de Vulkan protègent l'humanité comme un père protège ses enfants — et frappent comme le marteau frappe l'enclume.",
     },
@@ -220,6 +236,7 @@ const Organigramme = (() => {
       nom: "Raven Guard",
       primarque: "Corvus Corax",
       monde: "Deliverance",
+      allegeance: "loyaliste",
       devise:
         "Fils de Corvus Corax, les Raven Guard frappent depuis l'ombre de Deliverance et disparaissent avant que l'ennemi ait pu riposter.",
     },
@@ -229,6 +246,7 @@ const Organigramme = (() => {
       nom: "Alpha Legion",
       primarque: "Alpharius et Omegon",
       monde: "—",
+      allegeance: "renegat",
       devise:
         "Légion de l'ombre aux mille visages, les fils d'Alpharius et Omegon frappent partout à la fois : couper une tête n'a jamais suffi à tuer l'hydre.",
     },
@@ -247,7 +265,9 @@ const Organigramme = (() => {
     const svg = document.createElementNS(ESPACE_NOM_SVG, "svg");
     svg.setAttribute(
       "class",
-      classeSupplementaire ? "legion-icon " + classeSupplementaire : "legion-icon",
+      classeSupplementaire
+        ? "legion-icon " + classeSupplementaire
+        : "legion-icon",
     );
     svg.setAttribute("aria-hidden", "true");
     svg.setAttribute("focusable", "false");
@@ -385,7 +405,8 @@ const Organigramme = (() => {
         // placement — et son effet (pas de détachement débloqué) —
         // soit visible avant même de le choisir.
         const viaAffectationSpeciale =
-          unite.categorie === "Quartier Général" && caseOrga.role === "État-major";
+          unite.categorie === "Quartier Général" &&
+          caseOrga.role === "État-major";
         resultat.push({
           detUid: det.uid,
           indice,
@@ -469,7 +490,8 @@ const Organigramme = (() => {
             const extraIdx = det.cases.findIndex((c) => c.extra);
             if (extraIdx !== -1) {
               const extra = det.cases[extraIdx];
-              if (extra.uniteUid !== null) hooks.retirerInstance(extra.uniteUid);
+              if (extra.uniteUid !== null)
+                hooks.retirerInstance(extra.uniteUid);
               det.cases.splice(extraIdx, 1);
             }
           }
@@ -1133,12 +1155,23 @@ const Organigramme = (() => {
     for (const [valeur, texte] of LEGIONS) {
       const opt = document.createElement("option");
       opt.value = valeur;
-      opt.textContent = texte;
+      // Une Légion n'est sélectionnable que si des unités lui sont
+      // réservées (champ `legion` dans js/unites-data.js) : les autres
+      // restent affichées, grisées, en attendant leur transcription
+      // depuis le livre d'armée.
+      const disponible = UNITES.some((u) => u.legion === valeur);
+      opt.textContent = disponible ? texte : texte + " (prochainement)";
+      opt.disabled = !disponible;
       selectLegion.appendChild(opt);
     }
     selectLegion.value = etat.legion;
     selectLegion.addEventListener("change", () => {
       etat.legion = selectLegion.value;
+      // Allégeance par défaut selon la Légion choisie (Loyaliste ou
+      // Légion Renégate) : purement indicative, le joueur reste libre
+      // de la changer ensuite via le menu Allégeance ci-contre.
+      const skinChoisi = SKINS_LEGION[etat.legion];
+      if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
       actualiser();
     });
     ligne.appendChild(labelLegion);
@@ -1202,7 +1235,7 @@ const Organigramme = (() => {
         Math.max(0, credits.auxRestants) +
         " · Apex disponibles : " +
         Math.max(0, credits.apexRestants) +
-        " · Quota Seigneurs des Batailles (25 %) : " +
+        " · Quota Seigneur de Guerre + Seigneurs des Batailles (25 %) : " +
         coutSeigneurs() +
         " / " +
         Math.ceil(etat.limite * 0.25) +
@@ -1416,8 +1449,7 @@ const Organigramme = (() => {
       const groupe = document.createElement("details");
       groupe.className = "orga-ajout-groupe";
       groupe.dataset.famille = famille;
-      groupe.open =
-        famille in etatsOuverts ? etatsOuverts[famille] : false;
+      groupe.open = famille in etatsOuverts ? etatsOuverts[famille] : false;
       groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of TYPES_DETACHEMENTS.filter(
@@ -1558,6 +1590,10 @@ const Organigramme = (() => {
     casesLibresPour,
     assignationDe,
     avantageDe,
+    // Légion choisie dans les paramètres de la partie ("" = aucune) :
+    // consommée par js/unites.js pour filtrer les unités réservées à
+    // une Légion (champ `legion` dans js/unites-data.js).
+    legionActuelle: () => etat.legion,
     assigner,
     // Retrait d'une unité de la liste : on libère sa case puis on
     // laisse js/unites.js supprimer la carte, avant d'actualiser.
