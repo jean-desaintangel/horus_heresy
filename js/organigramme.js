@@ -844,7 +844,7 @@ const Organigramme = (() => {
         Math.max(0, credits.auxRestants) +
         " · Apex disponibles : " +
         Math.max(0, credits.apexRestants) +
-        " · Quota Seigneurs des Batailles(25 %) : " +
+        " · Quota Seigneurs des Batailles (25 %) : " +
         coutSeigneurs() +
         " / " +
         Math.ceil(etat.limite * 0.25) +
