@@ -37,8 +37,30 @@ const Organigramme = (() => {
   let etat = {
     limite: 3000, // Limite de Points de la partie
     allegeance: "loyaliste", // "loyaliste" | "renegat" (Vrais Croyants)
+    legion: "", // id LEGIONS ou "" (Choisir Légion)
     detachements: [],
   };
+
+  const LEGIONS = [
+    ["I", "I – Dark Angels"],
+    ["III", "III – Emperor’s Children"],
+    ["IV", "IV – Iron Warriors"],
+    ["V", "V – White Scars"],
+    ["VI", "VI – Space Wolves"],
+    ["VII", "VII – Imperial Fists"],
+    ["VIII", "VIII – Night Lords"],
+    ["IX", "IX – Blood Angels"],
+    ["X", "X – Iron Hands"],
+    ["XII", "XII – World Eaters"],
+    ["XIII", "XIII – Ultramarines"],
+    ["XIV", "XIV – Death Guard"],
+    ["XV", "XV – Thousand Sons"],
+    ["XVI", "XVI – Sons of Horus"],
+    ["XVII", "XVII – Word Bearers"],
+    ["XVIII", "XVIII – Salamanders"],
+    ["XIX", "XIX – Raven Guard"],
+    ["XX", "XX – Alpha Legion"],
+  ];
   let compteurDet = 0;
   let hooks = null; // fournis par js/unites.js (voir initialiser)
 
@@ -168,6 +190,22 @@ const Organigramme = (() => {
       });
     }
     return resultat;
+  }
+
+  /* Avantage Principal appliqué à cette instance (id d'AVANTAGES_
+     PRINCIPAUX, "aucun" si aucun ou si l'unité n'occupe pas de Case
+     Principale). Consommé par js/unites.js pour appliquer les bonus
+     concrets de Maître-sergent, Vétérans de Combat et Parangon de
+     Bataille sur la fiche récap. */
+  function avantageDe(uniteUid) {
+    for (const det of etat.detachements) {
+      for (const caseOrga of det.cases) {
+        if (caseOrga.uniteUid === uniteUid && caseOrga.principale) {
+          return caseOrga.avantage;
+        }
+      }
+    }
+    return "aucun";
   }
 
   // Où est placée cette instance ? (null = hors organigramme)
@@ -672,6 +710,7 @@ const Organigramme = (() => {
         JSON.stringify({
           limite: etat.limite,
           allegeance: etat.allegeance,
+          legion: etat.legion,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             cases: d.cases.map((c) => ({
@@ -700,6 +739,12 @@ const Organigramme = (() => {
         donnees.allegeance === "loyaliste"
       ) {
         etat.allegeance = donnees.allegeance;
+      }
+      if (
+        typeof donnees.legion === "string" &&
+        (donnees.legion === "" || LEGIONS.some(([v]) => v === donnees.legion))
+      ) {
+        etat.legion = donnees.legion;
       }
       if (!Array.isArray(donnees.detachements)) return;
       // On revalide tout : les données du navigateur ne sont jamais
@@ -857,6 +902,29 @@ const Organigramme = (() => {
     });
     ligne.appendChild(labelAllegeance);
     ligne.appendChild(selectAllegeance);
+
+    const labelLegion = el("label", null, "Légion ");
+    const selectLegion = document.createElement("select");
+    selectLegion.id = "legion-armee";
+    labelLegion.htmlFor = selectLegion.id;
+    const optChoisir = document.createElement("option");
+    optChoisir.value = "";
+    optChoisir.textContent = "Choisir Legion";
+    selectLegion.appendChild(optChoisir);
+    for (const [valeur, texte] of LEGIONS) {
+      const opt = document.createElement("option");
+      opt.value = valeur;
+      opt.textContent = texte;
+      selectLegion.appendChild(opt);
+    }
+    selectLegion.value = etat.legion;
+    selectLegion.addEventListener("change", () => {
+      etat.legion = selectLegion.value;
+      actualiser();
+    });
+    ligne.appendChild(labelLegion);
+    ligne.appendChild(selectLegion);
+
     conteneur.appendChild(ligne);
   }
 
@@ -1233,6 +1301,7 @@ const Organigramme = (() => {
     },
     casesLibresPour,
     assignationDe,
+    avantageDe,
     assigner,
     // Retrait d'une unité de la liste : on libère sa case puis on
     // laisse js/unites.js supprimer la carte, avant d'actualiser.

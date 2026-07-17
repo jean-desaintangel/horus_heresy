@@ -334,9 +334,73 @@ function libelleCout(cout) {
   return cout > 0 ? "+" + cout + " pts" : "Gratuit";
 }
 
+/* ----------------------------------------------------------
+   BONUS D'AVANTAGES PRINCIPAUX SUR LE PROFIL (p. 283)
+   Maître-sergent, Vétérans de Combat et Parangon de Bataille
+   modifient concrètement les caractéristiques affichées sur la
+   fiche récap. js/organigramme.js reste seul responsable de la
+   légalité du choix (avantagesPossibles) ; ici on ne fait
+   qu'appliquer le texte de l'avantage aux chiffres du profil.
+   ---------------------------------------------------------- */
+
+// Sous-types de la ligne de profil nomLigne ("Sergent", "Légionnaire"…),
+// lus dans variante.type. Pour un profil à une seule figurine
+// (nomLigne === null), c'est le type entier de la variante qui fait foi.
+// Format d'un type à plusieurs figurines :
+// "Sergent : Infanterie (Sergent) · Légionnaire : Infanterie".
+function sousTypesLigne(variante, nomLigne) {
+  if (nomLigne === null) return variante.type;
+  for (const segment of variante.type.split("·")) {
+    const separateur = segment.indexOf(" : ");
+    if (separateur === -1) continue;
+    if (segment.slice(0, separateur).trim() === nomLigne) {
+      return segment.slice(separateur + 3);
+    }
+  }
+  return "";
+}
+
+// Bonus (nombre) qu'un Avantage Principal apporte à une caractéristique
+// d'une ligne de profil donnée, 0 si l'avantage ne s'applique pas ici.
+function bonusAvantagePrincipal(avantageId, variante, nomLigne, car) {
+  if (avantageId === "veterans-combat") {
+    // Toutes les figurines de l'unité (p. 283) : Cd, Sf, Vo, Int.
+    return ["Cd", "Sf", "Vo", "Int"].includes(car) ? 1 : 0;
+  }
+  if (avantageId === "maitre-sergent") {
+    if (!sousTypesLigne(variante, nomLigne).includes("Sergent")) return 0;
+    if (car === "A" || car === "CC") return 1;
+    // Gagne aussi le Sous-type Champion ; s'il l'a déjà, +1 Cd de plus
+    // à la place (le Sous-type ne peut pas être gagné deux fois).
+    if (car === "Cd") {
+      return sousTypesLigne(variante, nomLigne).includes("Champion") ? 2 : 1;
+    }
+    return 0;
+  }
+  if (avantageId === "parangon-bataille") {
+    if (!sousTypesLigne(variante, nomLigne).includes("État-major")) return 0;
+    return car === "A" || car === "CC" || car === "CT" ? 1 : 0;
+  }
+  return 0;
+}
+
+// Applique le bonus à une valeur de caractéristique (seules M, CC, CT,
+// F, E, PV, I, A, Cd, Sf, Vo, Int sont numériques ; Sv/Inv, en chaîne,
+// ne reçoivent jamais de bonus). Vétérans de Combat plafonne à 10.
+function appliquerBonusPrincipal(avantageId, variante, nomLigne, car, valeur) {
+  const bonus = bonusAvantagePrincipal(avantageId, variante, nomLigne, car);
+  if (bonus === 0 || typeof valeur !== "number") return valeur;
+  const plafond = avantageId === "veterans-combat" ? 10 : Infinity;
+  return Math.min(plafond, valeur + bonus);
+}
+
 // Table de profil (infanterie ou véhicule) de la variante choisie.
 function construireTableProfil(unite, instance) {
   const variante = unite.variantes[instance.variante];
+  const avantageId =
+    orgaPret && window.Organigramme
+      ? window.Organigramme.avantageDe(instance.uid)
+      : "aucun";
   const conteneur = el("div", "table-scroll");
   const table = el("table", "table-profil");
   const enTete = document.createElement("thead");
@@ -363,12 +427,19 @@ function construireTableProfil(unite, instance) {
     entetes = [""].concat(ENTETES_PROFIL);
     lignes = variante.profils.map((p) => ({
       libelle: p.nom,
-      valeurs: ENTETES_PROFIL.map((c) => p.profil[c]),
+      valeurs: ENTETES_PROFIL.map((c) =>
+        appliquerBonusPrincipal(avantageId, variante, p.nom, c, p.profil[c]),
+      ),
     }));
   } else {
     entetes = ENTETES_PROFIL;
     lignes = [
-      { libelle: null, valeurs: ENTETES_PROFIL.map((c) => variante.profil[c]) },
+      {
+        libelle: null,
+        valeurs: ENTETES_PROFIL.map((c) =>
+          appliquerBonusPrincipal(avantageId, variante, null, c, variante.profil[c]),
+        ),
+      },
     ];
   }
   for (const titre of entetes) {
@@ -377,7 +448,7 @@ function construireTableProfil(unite, instance) {
     th.textContent = titre;
     ligneTitres.appendChild(th);
   }
-  for (const ligne of lignes) {
+  lignes.forEach((ligne, indiceLigne) => {
     const tr = document.createElement("tr");
     if (ligne.libelle !== null) {
       const th = document.createElement("th");
@@ -385,9 +456,22 @@ function construireTableProfil(unite, instance) {
       th.textContent = ligne.libelle;
       tr.appendChild(th);
     }
-    for (const v of ligne.valeurs) tr.appendChild(el("td", null, String(v)));
+    const nomLigne = variante.profils ? ligne.libelle : null;
+    ligne.valeurs.forEach((v, indiceCol) => {
+      // Les bonus d'Avantages Principaux ne portent que sur des
+      // caractéristiques d'infanterie (A, CC, Cd, CT) : les colonnes
+      // de profilVehicule n'ont pas la même signification à index égal.
+      const car = variante.profilVehicule ? null : ENTETES_PROFIL[indiceCol];
+      const td = el("td", null, String(v));
+      if (car && bonusAvantagePrincipal(avantageId, variante, nomLigne, car) !== 0) {
+        const avantage = AVANTAGES_PRINCIPAUX.find((a) => a.id === avantageId);
+        td.className = "profil-bonus";
+        if (avantage) td.title = "Bonus « " + avantage.nom + " »";
+      }
+      tr.appendChild(td);
+    });
     corps.appendChild(tr);
-  }
+  });
   enTete.appendChild(ligneTitres);
   table.appendChild(enTete);
   table.appendChild(corps);
@@ -1105,6 +1189,13 @@ function actualiserSelectsCases() {
     select.value = actuelle ? actuelle.detUid + ":" + actuelle.indice : "";
     // Alerte visuelle : carte sans case = liste non conforme.
     carte.classList.toggle("unite-carte--sans-case", !actuelle);
+
+    // La fiche récap dépend de l'Avantage Principal de la case (bonus
+    // de Maître-sergent, Vétérans de Combat, Parangon de Bataille) :
+    // on la reconstruit pour qu'elle reste à jour même quand le
+    // changement vient d'ailleurs (une autre carte, l'organigramme).
+    const ancienneFiche = carte.querySelector(".unite-fiche");
+    if (ancienneFiche) ancienneFiche.replaceWith(construireFiche(unite, instance));
   }
 }
 

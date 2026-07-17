@@ -1735,6 +1735,13 @@ footer p {
   color: var(--titre-contraste);
 }
 
+/* Caractéristique modifiée par un Avantage Principal (Maître-sergent,
+   Vétérans de Combat, Parangon de Bataille — voir js/unites.js). */
+.table-profil td.profil-bonus {
+  font-weight: 700;
+  color: var(--accent-clair);
+}
+
 .fiche-ligne {
   font-size: 0.93rem;
   margin-bottom: 0.35rem;
