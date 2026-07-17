@@ -592,6 +592,15 @@ strong {
     transform: translateX(-50%);
     width: 260px;
   }
+
+  /* Sur la 1ère ligne d'une table d'armes, la bulle n'a pas la place de
+     s'ouvrir vers le haut : elle serait rognée par .table-scroll (son
+     overflow-x:auto clippe aussi verticalement, faute de place au-dessus
+     du tableau). On l'ouvre vers le bas pour cette ligne uniquement. */
+  .table-scroll table tbody tr:first-child .regle-tag .tooltip {
+    bottom: auto;
+    top: calc(100% + 8px);
+  }
 }
 
 /* Règle spéciale inline (tables d'armes) avec la même info-bulle que
