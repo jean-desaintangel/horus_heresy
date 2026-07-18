@@ -339,6 +339,11 @@ const Organigramme = (() => {
     return {
       uid: ++compteurDet,
       typeId,
+      // Légion (Faction, p. 283) propre à ce Détachement Allié, choisie
+      // sur sa carte — voir construireDetachementDOM et caseAccepte().
+      // Sans objet (null) pour tout autre type de détachement : ceux-là
+      // suivent la Légion de l'Armée (etat.legion).
+      legionAlliee: type.id === "allie" ? "" : null,
       cases: type.cases.map((c) => ({
         role: c.role,
         principale: Boolean(c.principale),
@@ -364,6 +369,16 @@ const Organigramme = (() => {
         Escouades de Reconnaissance uniquement). */
   function caseAccepte(det, caseOrga, unite) {
     const type = typeDe(det);
+    // Faction (p. 283) : une unité réservée à une Légion (champ
+    // `legion`, js/unites-data.js) ne peut occuper une Case que dans un
+    // détachement de SA Légion — celle de l'Armée (Principal, Seigneur
+    // de Guerre/des Batailles, Auxiliaires, Apex), ou celle propre au
+    // Détachement Allié qui l'accueille (menu « Légion Alliée » de sa
+    // carte, vide tant qu'elle n'est pas choisie).
+    if (unite.legion) {
+      const legionRequise = type.id === "allie" ? det.legionAlliee : etat.legion;
+      if (unite.legion !== legionRequise) return false;
+    }
     const restriction = type.restrictions && type.restrictions[caseOrga.role];
     if (restriction && !restriction.includes(unite.id)) return false;
     if (unite.categorie === caseOrga.role) return true;
@@ -611,6 +626,23 @@ const Organigramme = (() => {
           "Réservé aux parties d'au moins " + type.pointsMin + " pts (p. 283).",
       };
     }
+    if (
+      type.requiertUniteArmee &&
+      !hooks
+        .getArmee()
+        .some((inst) => type.requiertUniteArmee.includes(inst.uniteId))
+    ) {
+      const noms = type.requiertUniteArmee
+        .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
+        .join(" ou ");
+      return {
+        possible: false,
+        raison:
+          "Nécessite une Unité de " +
+          noms +
+          " dans l'Armée (n'importe quelle Case).",
+      };
+    }
     const credits = calculerCredits();
     if (type.famille === "apex" && credits.apexRestants <= 0) {
       return {
@@ -808,6 +840,28 @@ const Organigramme = (() => {
             ".",
         );
       }
+      // Condition de sélection portant sur l'Armée entière (unité
+      // présente n'importe où, pas liée à une Case précise) : contrairement
+      // à `deblocage` ci-dessus, ne consomme aucun crédit et ne dépend pas
+      // d'une Case — juste un prérequis de composition (ex : Avant-garde
+      // de Medusa exige un Révérend de Fer ou Ferrus Manus dans l'Armée).
+      if (
+        type.requiertUniteArmee &&
+        etat.detachements.some((d) => d.typeId === type.id) &&
+        !hooks
+          .getArmee()
+          .some((inst) => type.requiertUniteArmee.includes(inst.uniteId))
+      ) {
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » nécessite une Unité de " +
+            type.requiertUniteArmee
+              .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
+              .join(" ou ") +
+            " dans l'Armée.",
+        );
+      }
     }
 
     // 6. Avantages Principaux (p. 283).
@@ -959,6 +1013,7 @@ const Organigramme = (() => {
           legion: etat.legion,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
+            legionAlliee: d.legionAlliee || null,
             cases: d.cases.map((c) => ({
               role: c.role,
               uniteUid: c.uniteUid,
@@ -999,6 +1054,14 @@ const Organigramme = (() => {
         const type = TYPES_DETACHEMENTS.find((t) => t.id === brute.typeId);
         if (!type) continue;
         const det = creerDetachement(type.id);
+        if (
+          type.id === "allie" &&
+          typeof brute.legionAlliee === "string" &&
+          (brute.legionAlliee === "" ||
+            LEGIONS.some(([v]) => v === brute.legionAlliee))
+        ) {
+          det.legionAlliee = brute.legionAlliee;
+        }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
         // Case supplémentaire du Bénéfice Logistique éventuelle.
         const extraSauvee = casesSauvees.find((c) => c && c.extra);
@@ -1313,6 +1376,76 @@ const Organigramme = (() => {
     }
   }
 
+  /* Menu « Légion Alliée » d'une carte de Détachement Allié (p. 283 :
+     Faction différente de celle du Détachement Principal). Suit
+     exactement la logique du menu « Légion » des paramètres de la
+     partie (construireParametres) : seules les Légions ayant des
+     unités transcrites sont sélectionnables, et on y exclut en plus la
+     Légion de l'Armée elle-même. Changer la sélection retire du
+     détachement les unités réservées à l'ancienne Légion Alliée (les
+     unités génériques restent, elles ne dépendent d'aucune Légion). */
+  function construireSelectLegionAlliee(det) {
+    const ligne = el("p", "orga-detachement-legion");
+    const label = el("label", null, "Légion Alliée ");
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "Légion du Détachement Allié");
+    const optVide = document.createElement("option");
+    optVide.value = "";
+    optVide.textContent = "— Choisir la Légion Alliée —";
+    select.appendChild(optVide);
+    for (const [valeur, texteLegion] of LEGIONS) {
+      const opt = document.createElement("option");
+      opt.value = valeur;
+      const memeQueArmee = valeur === etat.legion;
+      const disponible =
+        !memeQueArmee &&
+        !LEGIONS_INDISPONIBLES.includes(valeur) &&
+        UNITES.some((u) => u.legion === valeur);
+      opt.textContent =
+        texteLegion +
+        (memeQueArmee
+          ? " (Légion du Détachement Principal)"
+          : disponible
+            ? ""
+            : " (prochainement)");
+      opt.disabled = !disponible;
+      select.appendChild(opt);
+    }
+    select.value = det.legionAlliee || "";
+    select.addEventListener("change", () => {
+      const nouvelle = select.value;
+      if (nouvelle === det.legionAlliee) return;
+      const casesConcernees = det.cases.filter((c) => {
+        if (c.uniteUid === null) return false;
+        const occ = occupant(c);
+        return Boolean(
+          occ && occ.unite.legion && occ.unite.legion !== nouvelle,
+        );
+      });
+      if (
+        casesConcernees.length > 0 &&
+        !window.confirm(
+          "Changer la Légion Alliée retire " +
+            casesConcernees.length +
+            " unité(s) réservée(s) à l'ancienne Légion de ce Détachement. Continuer ?",
+        )
+      ) {
+        select.value = det.legionAlliee || "";
+        return;
+      }
+      for (const c of casesConcernees) {
+        const uid = c.uniteUid;
+        liberer(uid);
+        hooks.retirerInstance(uid);
+      }
+      det.legionAlliee = nouvelle;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
   // Carte d'un détachement : titre, cases, bouton retirer.
   function construireDetachementDOM(det) {
     const type = typeDe(det);
@@ -1352,6 +1485,7 @@ const Organigramme = (() => {
       entete.appendChild(retirer);
     }
     carte.appendChild(entete);
+    if (type.id === "allie") carte.appendChild(construireSelectLegionAlliee(det));
 
     const liste = el("ul", "orga-cases-liste");
     det.cases.forEach((caseOrga, indice) => {
@@ -1487,8 +1621,7 @@ const Organigramme = (() => {
       groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of TYPES_DETACHEMENTS.filter(
-        (t) =>
-          t.famille === famille && (!t.legion || t.legion === etat.legion),
+        (t) => t.famille === famille && (!t.legion || t.legion === etat.legion),
       )) {
         const { possible, raison } = disponibilite(type);
         const bouton = el(
@@ -1629,6 +1762,16 @@ const Organigramme = (() => {
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
     legionActuelle: () => etat.legion,
+    // Légions des Détachements Alliés actuellement dans l'Armée (une
+    // par Détachement Allié dont la Légion a été choisie, doublons
+    // possibles si plusieurs partagent la même — p. 283). Consommée
+    // par js/unites.js (uniteAccessible) pour proposer au sélecteur
+    // « Unité à ajouter » les unités réservées à ces Légions-là aussi,
+    // en plus de celle du Détachement Principal.
+    legionsAlliees: () =>
+      etat.detachements
+        .filter((d) => typeDe(d).id === "allie" && d.legionAlliee)
+        .map((d) => d.legionAlliee),
     assigner,
     // Retrait d'une unité de la liste : on libère sa case puis on
     // laisse js/unites.js supprimer la carte, avant d'actualiser.

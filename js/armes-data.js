@@ -325,6 +325,28 @@ const ARMES_TIR = [
         regles: "Brèche (5+)",
         traits: "Bolts, Assaut",
       },
+      {
+        // Arme de personnage (Roboute Guilliman, Primarque des
+        // Ultramarines).
+        nom: "L'Arbitrator",
+        stats: ["18", "2", "6", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Bolts, Assaut",
+      },
+      {
+        // Arme de personnage (Leman Russ, Primarque des Space Wolves).
+        nom: "Crache-mépris",
+        stats: ["12", "3", "4", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        // Arme de personnage (Shadrak Meduson, Iron Hands).
+        nom: "Ire de la Tempête",
+        stats: ["24", "3", "5", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Bolts, Assaut",
+      },
     ],
   },
   {
@@ -1051,6 +1073,53 @@ const ARMES_TIR = [
         regles: 'Explosion (5"), Brèche (4+), Surcharge (1)',
         traits: "Plasma",
       },
+      {
+        // Arme de personnage (Lion El'Jonson, Primarque des Dark
+        // Angels).
+        nom: "Le Fusil Actinaeus",
+        stats: ["18", "2", "7", "3", "2"],
+        regles: "Brèche (4+)",
+        traits: "Assaut, Plasma",
+      },
+      {
+        nom: "Brûleur à plasma — Tir soutenu",
+        stats: ["Souffle", "1", "5", "4", "1"],
+        regles: "Souffle, Brèche (6+)",
+        traits: "Plasma",
+      },
+      {
+        nom: "Brûleur à plasma — Tir maximal",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Brèche (5+), Surcharge (1)",
+        traits: "Plasma",
+      },
+      {
+        nom: "Incinérateur à plasma — Tir soutenu",
+        stats: ["Souffle", "1", "5", "4", "2"],
+        regles: "Souffle, Brèche (6+)",
+        traits: "Plasma",
+      },
+      {
+        nom: "Incinérateur à plasma — Tir maximal",
+        stats: ["Souffle", "1", "6", "4", "2"],
+        regles: "Souffle, Brèche (5+), Surcharge (1)",
+        traits: "Plasma",
+      },
+      {
+        // Arme des Chevaliers du Cercle Intérieur (Dark Angels) : arme
+        // digitale compacte, montée sur avant-bras pour préserver la
+        // liberté de mouvement en mêlée.
+        nom: "Lance-plasma — Tir soutenu",
+        stats: ["Souffle", "1", "4", "4", "1"],
+        regles: "Souffle, Brèche (6+)",
+        traits: "Plasma",
+      },
+      {
+        nom: "Lance-plasma — Tir maximal",
+        stats: ["Souffle", "1", "4", "4", "1"],
+        regles: "Souffle, Brèche (5+), Surcharge (1)",
+        traits: "Plasma",
+      },
     ],
   },
   {
@@ -1061,6 +1130,22 @@ const ARMES_TIR = [
         stats: ["8", "1", "4", "3", "1"],
         regles: "Empoisonnée (2+), Phage (E)",
         traits: "Rad",
+      },
+      {
+        // Arme des Interemptors de la Dreadwing (Dark Angels) : profil
+        // Missile Rad, voir aussi Missile à stase ci-dessous.
+        nom: "Lance-missiles de Destructeur — Missile Rad",
+        stats: ["24", "2", "4", "3", "1"],
+        regles: "Empoisonnée (2+), Phage (E)",
+        traits: "Assaut, Rad",
+      },
+      {
+        // Arme des Interemptors de la Dreadwing (Dark Angels) : profil
+        // Missile à stase, voir aussi Missile Rad ci-dessus.
+        nom: "Lance-missiles de Destructeur — Missile à stase",
+        stats: ["24", "1", "4", "-", "2"],
+        regles: 'Explosion (3"), Sonner (3)',
+        traits: "Assaut, Stase",
       },
     ],
   },
@@ -1301,6 +1386,30 @@ const ARMES_TIR = [
         stats: ["Souffle", "1", "2", "5", "1"],
         regles: "Souffle, Brèche (6+)",
         traits: "Sonique, Assaut",
+      },
+      {
+        // Arme de personnage (Ferrus Manus, Primarque des Iron Hands) :
+        // profil Alpha-12, voir aussi Epsilon-415 et Phi-71 ci-dessous.
+        nom: "La Carapace de Medusa — Alpha-12",
+        stats: ["18", "2", "7", "4", "1"],
+        regles: "Brèche (4+)",
+        traits: "Plasma",
+      },
+      {
+        // Arme de personnage (Ferrus Manus, Primarque des Iron Hands) :
+        // profil Epsilon-415, voir aussi Alpha-12 et Phi-71.
+        nom: "La Carapace de Medusa — Epsilon-415",
+        stats: ["18", "2", "6", "3", "1"],
+        regles: "Choc (Fixée), Fixation (1)",
+        traits: "Gravitons",
+      },
+      {
+        // Arme de personnage (Ferrus Manus, Primarque des Iron Hands) :
+        // profil Phi-71, voir aussi Alpha-12 et Epsilon-415.
+        nom: "La Carapace de Medusa — Phi-71",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Panique (2)",
+        traits: "Flammes",
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
@@ -1686,6 +1795,126 @@ const ARMES_MELEE = [
         regles: "Impact (D), Brèche (6+)",
         traits: "Énergétique",
       },
+      {
+        // Arsenal des Ultramarines (XIIIe Légion) : échange contre une
+        // hache légatine pour toute Figurine de Sous-type État-major,
+        // Champion ou Sergent ayant le Trait Ultramarines, +5 Points
+        // par Figurine.
+        nom: "Hache légatine",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Remus Ventanus, Ultramarines).
+        nom: "Phaeton",
+        stats: ["1", "+1", "F", "3", "1"],
+        regles: "Brèche (6+), Atout du Duelliste (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Dark Angels (Ire Légion) : échange contre une
+        // lame de Caliban pour toute Figurine de Sous-type État-major,
+        // Champion ou Sergent ayant le Trait Dark Angels, +5 Points
+        // par Figurine.
+        nom: "Lame de Caliban",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Épée de l'Ordre",
+      },
+      {
+        // Arsenal des Dark Angels (Ire Légion) : échange gratuit contre
+        // un espadon terranique pour toute Figurine de Sous-type
+        // État-major ou Champion ayant le Trait Dark Angels. Aussi
+        // porté par le Cenobium de Chevaliers du Cercle Intérieur et
+        // imposé par l'Avantage Principal Paladin de l'Hekatonystika.
+        nom: "Espadon terranique",
+        stats: ["-1", "A", "+2", "3", "2"],
+        regles: "Brèche (5+)",
+        traits: "Épée de l'Ordre",
+      },
+      {
+        // Arme de personnage (Corswain, Dark Angels).
+        nom: "La Lame",
+        stats: ["1", "A", "+2", "2", "2"],
+        regles: "Atout du Duelliste (2)",
+        traits: "Énergétique, Épée de l'Ordre",
+      },
+      {
+        // Arsenal des Space Wolves (VIe Légion) : échange contre une
+        // épée tronçonneuse pour toute Figurine ayant le Trait Space
+        // Wolves, +2 Points par Figurine.
+        nom: "Hache de Fenris",
+        stats: ["1", "A", "+1", "-", "1"],
+        regles: "Fauchage (1)",
+        traits: "-",
+      },
+      {
+        // Arsenal des Space Wolves (VIe Légion) : échange contre une
+        // arme énergétique pour toute Figurine de Sous-type État-major
+        // ou Champion ayant le Trait Space Wolves, +5 Points par
+        // Figurine.
+        nom: "Épée de givre",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (5+), Fauchage (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Space Wolves (VIe Légion) : voir Épée de givre.
+        nom: "Hache de givre",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Brèche (4+), Fauchage (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Space Wolves (VIe Légion) : échange contre une
+        // griffe Lightning pour toute Figurine de Sous-type État-major
+        // ou Champion ayant le Trait Space Wolves, +5 Points par
+        // Figurine.
+        nom: "Griffe de givre",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (4+), Fauchage (1), Lacération (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Space Wolves (VIe Légion) : échange contre une
+        // arme énergétique pour toute Figurine de Sous-type État-major
+        // ou Champion ayant le Trait Space Wolves, +10 Points par
+        // Figurine.
+        nom: "Grande lame de givre",
+        stats: ["-2", "A", "+3", "2", "2"],
+        regles: "Fauchage (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Geigor Main Terrible, Space Wolves).
+        nom: "La Main Terrible",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (4+), Lacération (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Hvarl Lamerouge, Space Wolves).
+        nom: "Fend l'Âtre",
+        stats: ["1", "A", "+2", "2", "2"],
+        regles: "Fléau des Blindages",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Shadrak Meduson, Iron Hands).
+        nom: "Gladius énergétique albien",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Iron Hands (Xe Légion) : équipement des Terminators
+        // Gorgone et des Révérends de Fer ayant le Trait Iron Hands.
+        nom: "Hache énergétique d'artificier",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+), Lacération (5+)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -1696,6 +1925,43 @@ const ARMES_MELEE = [
         stats: ["1", "A", "+1", "2", "1"],
         regles: "Touche Critique (6+)",
         traits: "-",
+      },
+      {
+        // Arme de personnage (Lion El'Jonson, Primarque des Dark
+        // Angels).
+        nom: "L'Épée du Lion",
+        stats: ["1", "A", "+2", "2", "3"],
+        regles: "-",
+        traits: "Énergétique, Épée de l'Ordre",
+      },
+      {
+        // Arme de personnage (Lion El'Jonson, Primarque des Dark
+        // Angels) : échange possible gratuit contre l'Épée du Lion.
+        nom: "La Lame du Loup",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Lacération (4+), Brèche (4+), Fauchage (2)",
+        traits: "Tronçonneuse, Épée de l'Ordre",
+      },
+      {
+        // Arme de personnage (Leman Russ, Primarque des Space Wolves).
+        nom: "L'Épée de Malenuit",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Touche Critique (5+)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Leman Russ, Primarque des Space Wolves).
+        nom: "La Hache de l'Infernhiver",
+        stats: ["1", "A", "+2", "2", "2"],
+        regles: "Fléau des Blindages, Fauchage (1)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Ferrus Manus, Primarque des Iron Hands).
+        nom: "Brise-forge",
+        stats: ["-1", "A", "+3", "2", "3"],
+        regles: "Touche Critique (5+)",
+        traits: "Énergétique",
       },
       {
         // Arme de personnage (Corvus Corax, Primarque de la Raven Guard).
@@ -1773,6 +2039,22 @@ const ARMES_MELEE = [
         regles: "Lacération (4+), Fauchage (2)",
         traits: "Tronçonneuse",
       },
+      {
+        // Arme de personnage (Roboute Guilliman, Primarque des
+        // Ultramarines).
+        nom: "Le Gladius Incandor",
+        stats: ["1", "A", "F", "3", "2"],
+        regles: "Brèche (5+), Atout du Duelliste (1)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Roboute Guilliman, Primarque des
+        // Ultramarines).
+        nom: "La Main de Domination",
+        stats: ["-3", "A", "+4", "2", "3"],
+        regles: "Fléau des Blindages",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -1830,6 +2112,28 @@ const ARMES_MELEE = [
         nom: "Lames de Lucius",
         stats: ["1", "A", "F", "2", "2"],
         regles: "Atout du Duelliste (1)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Marduk Sedras, Dark Angels).
+        nom: "La Mort des Mondes",
+        stats: ["-2", "A", "+5", "2", "3"],
+        regles: "-",
+        traits: "-",
+      },
+      {
+        // Attaque bonus des Mort-jurés (Space Wolves), voir la Règle
+        // Spéciale Les Songes du Loup Funeste.
+        nom: "Frappe d'agonie",
+        stats: ["1", "1", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de Freki et Geri, les loups de Leman Russ (Space Wolves).
+        nom: "Crocs et Griffes",
+        stats: ["1", "A", "F", "4", "2"],
+        regles: "Brèche (6+)",
         traits: "-",
       },
       {

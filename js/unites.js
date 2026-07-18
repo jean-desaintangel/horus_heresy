@@ -115,13 +115,20 @@ function estPersonnageNomme(unite) {
 /* Une unité réservée à une Légion (champ `legion`, ex : Corvus Corax,
    Kaedes Nex, Escouades de Mor Deythan/Furies Noires — voir js/unites-
    data.js) n'est proposable que si cette Légion est actuellement
-   choisie dans les paramètres de la partie (js/organigramme.js). Sans
-   Légion précisée sur l'unité, elle reste universellement disponible.
+   choisie dans les paramètres de la partie (js/organigramme.js), OU
+   si elle est la Légion Alliée d'un Détachement Allié de l'Armée (p.
+   283 : Faction distincte de celle du Détachement Principal — voir
+   Organigramme.legionsAlliees()). Sans Légion précisée sur l'unité,
+   elle reste universellement disponible.
    Un champ `excluAvec: [idUnite, ...]` (ex : Angron / Angron
    Transfiguré, deux formes du même Primarque) rend l'unité
    indisponible tant qu'une des unités listées est déjà dans la liste.
    Un personnage nommé (sous-type « Unique ») déjà présent dans la
    liste devient lui aussi indisponible, pour empêcher un doublon.
+   Un champ `maxParArmee: N` (ex : Escouade de Terminator Deliverers,
+   « 0-1 » du livre) généralise cette même mécanique de quota aux
+   unités d'escouade (pas seulement aux personnages nommés) : l'unité
+   disparaît du sélecteur dès que N exemplaires sont déjà dans la liste.
    Ne s'applique qu'au sélecteur « Unité à ajouter » : une unité déjà
    dans la liste reste affichée si la Légion change ensuite, ou si
    l'unité exclusive avec laquelle elle a été ajoutée est retirée
@@ -129,16 +136,21 @@ function estPersonnageNomme(unite) {
    ajout, comme n'importe quelle unité déjà présente). */
 function uniteAccessible(unite) {
   if (unite.legion) {
-    if (
-      !orgaPret ||
-      typeof Organigramme === "undefined" ||
-      Organigramme.legionActuelle() !== unite.legion
-    )
-      return false;
+    if (!orgaPret || typeof Organigramme === "undefined") return false;
+    const legionOk =
+      Organigramme.legionActuelle() === unite.legion ||
+      Organigramme.legionsAlliees().includes(unite.legion);
+    if (!legionOk) return false;
   }
   if (
     unite.excluAvec &&
     unite.excluAvec.some((id) => armee.some((inst) => inst.uniteId === id))
+  )
+    return false;
+  if (
+    unite.maxParArmee &&
+    armee.filter((inst) => inst.uniteId === unite.id).length >=
+      unite.maxParArmee
   )
     return false;
   if (

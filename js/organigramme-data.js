@@ -216,7 +216,7 @@ const TYPES_DETACHEMENTS = [
     nom: "Détachement Allié",
     famille: "additionnel",
     texte:
-      "Nombre libre, mais toutes les unités alliées doivent être d'une Faction différente de celle du Détachement Principal, et leur coût total ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire.",
+      "Nombre libre. Chaque Légion Astartes compte comme une Faction distincte : ce Détachement doit donc porter une Légion différente de celle du Détachement Principal (menu « Légion Alliée » sur sa carte). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [
       _caseOrga("État-major", true),
       _caseOrga("État-major"),
@@ -225,10 +225,21 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
     ],
-    // Choix assumé (réponse de Jean) : les fiches du site ne couvrent
-    // que les Legiones Astartes → aucune Faction différente possible.
-    indisponible:
-      "Les fiches du site ne couvrent que les Legiones Astartes : aucune unité d'une Faction différente n'est disponible pour un Détachement Allié.",
+    // Faction = Légion (choix de Jean) : chaque Détachement Allié porte
+    // sa propre Légion (`legionAlliee` sur l'instance, choisie sur sa
+    // carte — voir js/organigramme.js), qui doit différer de la Légion
+    // de l'Armée (etat.legion). Les unités réservées à une Légion
+    // (champ `legion`, js/unites-data.js) sont filtrées en conséquence
+    // par caseAccepte() : Légion de l'Armée pour tout détachement non
+    // Allié, Légion propre à chaque Détachement Allié pour les siennes.
+    // L'Allégeance (Loyaliste/Renégat), elle, reste un réglage UNIQUE
+    // pour toute l'Armée (menu « Allégeance » des paramètres de la
+    // partie) : Principal et Alliés la partagent donc automatiquement,
+    // ce qui satisfait la règle « même Allégeance » sans champ dédié.
+    // Simplification assumée : les Détachements Auxiliaires débloqués
+    // par une Case d'État-major alliée piochent dans le même crédit
+    // partagé que ceux du Détachement Principal (voir calculerCredits())
+    // sans être eux-mêmes rattachés à la Légion de cet Allié.
   },
 
   /* ---------- Détachements Auxiliaires standard (p. 284) ---------- */
@@ -344,8 +355,10 @@ const TYPES_DETACHEMENTS = [
     nom: "Cadre de Vétérans",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Champion de Légion occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
-    deblocage: { caseRole: "État-major", uniteIds: ["champion"] },
+      "Débloqué quand un Champion de Légion — à pied ou Monté (Motard / Motojet Scimitar) — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
+    // « Champion sur Scimitar » (js/unites-data.js) compte comme une
+    // Unité de Champion de Légion pour ce déblocage (voir sa note).
+    deblocage: { caseRole: "État-major", uniteIds: ["champion", "champion-monte"] },
     cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports")],
   },
   {
@@ -583,6 +596,193 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Assaut Lourd"),
     ],
     legion: "VII",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : char (Blindés), transport (Transport Lourd),
+     figurine simple (Troupes) — confirmé par le texte (« détachements
+     de chars et troupes mécanisées en transports lourds »). */
+  {
+    id: "phalange-fer-de-lance",
+    nom: "Phalange Fer de Lance",
+    famille: "auxiliaire",
+    texte:
+      "Les Iron Hands étaient des parangons du combat de blindés, mêlant détachements de chars et troupes mécanisées en transports lourds. Les Cases de Transport Lourd de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Porteur Land Raider ou de Spartan.",
+    restrictions: { "Transports Lourds": ["porteur-land-raider", "spartan"] },
+    cases: [
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Blindés"),
+      _caseOrga("Assaut Lourd"),
+    ],
+    legion: "X",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : État-major, Elite (×2), Appui, Engin de
+     Guerre — confirmé par le texte (« phalanges d'implacables
+     Terminators [Elite] accompagnés de Dreadnoughts [Engin de Guerre]
+     et appuyés par des guerriers augmentés cybernétiquement
+     [Appui] »). La Case d'État-major est réservée à une Unité de
+     Praevius (voir js/unites-data.js, unité réservée à l'Iron Hands).
+     `requiertUniteArmee` : condition de sélection portant sur l'Armée
+     entière (unité présente n'importe où, indépendamment de la Case
+     qu'elle occupe), vérifiée par disponibilite()/validerArmee() dans
+     js/organigramme.js — contrairement à `deblocage`, qui ne compte
+     que les occupants d'une Case précise et consomme un crédit. */
+  {
+    id: "avant-garde-medusa",
+    nom: "Avant-garde de Medusa",
+    famille: "apex",
+    texte:
+      "Les assauts des Iron Hands étaient typiquement menés par des phalanges d'implacables Terminators accompagnés de Dreadnoughts et appuyés par des guerriers augmentés cybernétiquement. La Case d'État-major de ce Détachement ne peut servir qu'à sélectionner une Unité de Praevius. Sélectionnable uniquement si l'Armée comprend aussi une Unité de Révérend de Fer ou de Ferrus Manus.",
+    restrictions: { "État-major": ["praevius"] },
+    requiertUniteArmee: ["reverend-de-fer", "ferrus-manus"],
+    cases: [
+      _caseOrga("État-major", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Appui"),
+      _caseOrga("Engins de Guerre"),
+    ],
+    legion: "X",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : État-major, Troupes (×2), Transport, Attaque
+     Rapide — le bullet du livre (« La Case d'État-major ... Optae »)
+     confirme la première icône. */
+  {
+    id: "demi-compagnie-primus",
+    nom: "Demi-Compagnie Primus",
+    famille: "auxiliaire",
+    texte:
+      "Les Ultramarines déployaient leurs forces selon diverses formations standardisées. La Case d'État-major de ce Détachement ne peut servir qu'à sélectionner une Unité d'Optae.",
+    restrictions: { "État-major": ["optae"] },
+    cases: [
+      _caseOrga("État-major", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Transports"),
+      _caseOrga("Attaque Rapide"),
+    ],
+    legion: "XIII",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : 2 Troupes (icône simple, répétée) + 2 Assaut
+     Lourd (icône à l'armure plus large) — même ambiguïté visuelle que
+     Gantelet de Siège (Imperial Fists), résolue par le bullet du livre
+     (« Les Cases de Troupes ... Meute de Tueurs Gris »). */
+  {
+    id: "griffe-ensanglantee",
+    nom: "Griffe Ensanglantée",
+    famille: "auxiliaire",
+    texte:
+      "Les Space Wolves n'ont jamais rechigné face à des assauts frontaux et pourtant sanglants. Les Cases de Troupes de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Meute de Tueurs Gris.",
+    restrictions: { Troupes: ["meute-tueurs-gris"] },
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+    ],
+    legion: "VI",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : figurine simple (Troupes, ×2) + transport
+     (Transports, ×2). Aucun bullet de restriction visible sous
+     l'encadré (contrairement aux autres Détachements Auxiliaires
+     Dark Angels ci-dessous) : aucune restriction transcrite. */
+  {
+    id: "levee-stormwing",
+    nom: "Levée de la Stormwing",
+    famille: "auxiliaire",
+    texte:
+      "Les combattants de la Stormwing sont des artistes de la destruction, dont les pinceaux sont les tirs qu'ils déchaînent sur la toile du champ de bataille, et ils forment le cœur de la Légion des Dark Angels. Les Levées de la Stormwing appliquent des tactiques d'infanterie lourde combinant la puissance de chaque guerrier en une marée inexorable.",
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes", true),
+      _caseOrga("Transports"),
+      _caseOrga("Transports"),
+    ],
+    legion: "I",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : véhicule rapide (Attaque Rapide, ×2) + figurine
+     à la lance (Reco, ×2) — confirmé par le bullet (« Escadron de
+     Motards », catégorie Reco). */
+  {
+    id: "lance-ravenwing",
+    nom: "Lance de la Ravenwing",
+    famille: "auxiliaire",
+    texte:
+      "« La flèche connaît la voie. » Un dicton lourd de sens pour les maîtres de la Ravenwing, formation connue pour ses étranges credo mais aussi pour ses succès sur le terrain. Les Cases de Reco de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escadron de Motards.",
+    restrictions: { Reco: ["escadron-motards"] },
+    cases: [
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+    ],
+    legion: "I",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : Suite (icône du sabre vertical, ×1) + Elite
+     (figurine à l'arme d'hast, ×2). Aucun bullet de restriction visible
+     sous l'encadré : aucune restriction transcrite. */
+  {
+    id: "conclave-deathwing",
+    nom: "Conclave de la Deathwing",
+    famille: "auxiliaire",
+    texte:
+      "Le fardeau du devoir pèse lourdement sur les guerriers de la Deathwing, qui firent autrefois le serment de ne reculer devant aucun obstacle pour accomplir leur mission. Les Conclaves de la Deathwing comptent parmi les divisions les plus puissantes de la Ire Légion.",
+    cases: [_caseOrga("Suites", true), _caseOrga("Elite"), _caseOrga("Assaut Lourd")],
+    legion: "I",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : Elite (figurine à l'arme d'hast, ×4) —
+     confirmé par le bullet (« Escouade Traqueuse », catégorie Elite). */
+  {
+    id: "echelon-firewing",
+    nom: "Échelon de la Firewing",
+    famille: "auxiliaire",
+    texte:
+      "Les Échelons de la Firewing regroupent les meilleurs chasseurs-tueurs de la Légion, aussi mortels que précis. Les Cases d'Élite de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escouade Traqueuse.",
+    restrictions: { Elite: ["escouade-traqueuse"] },
+    cases: [
+      _caseOrga("Reco", true),
+      _caseOrga("Reco"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+    legion: "I",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : char (Blindés, ×4). Aucun bullet de
+     restriction visible sous l'encadré : aucune restriction transcrite. */
+  {
+    id: "gantelet-ironwing",
+    nom: "Gantelet de l'Ironwing",
+    famille: "auxiliaire",
+    texte:
+      "L'Ironwing régit les immenses arsenaux des Dark Angels, et donc une force d'engins de guerre qui surpasse celle de toute autre Légion. Les Gantelets de l'Ironwing constituent une force tactiquement flexible de chars et de transports blindés.",
+    cases: [
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+    ],
+    legion: "I",
+  },
+  /* Icônes identifiées par comparaison avec la légende des Rôles
+     Tactiques (p. 285) : transport + figurine (Appui, ×3) — confirmé
+     par le bullet (« Interemptors de la Dreadwing » ou « Batterie de
+     Rapier », toutes deux catégorie Appui). */
+  {
+    id: "cadre-dreadwing",
+    nom: "Cadre de la Dreadwing",
+    famille: "auxiliaire",
+    texte:
+      "Quand le Lion décrète qu'un monde doit périr, il confie le commandement de cette funeste opération aux vétérans de la Dreadwing. Les Cases d'Appui de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Interemptors de la Dreadwing ou des Unités de Batterie de Rapier.",
+    restrictions: { Appui: ["interemptors-dreadwing", "batterie-rapier"] },
+    cases: [_caseOrga("Appui", true), _caseOrga("Appui"), _caseOrga("Appui")],
+    legion: "I",
   },
 ];
 

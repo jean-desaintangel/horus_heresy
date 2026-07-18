@@ -645,4 +645,200 @@ const REGLES_DIVERSES = [
     texte:
       "Quand les Templiers des Serments de la Légion vont en guerre, rien ne saurait les arrêter : les Templiers frappent avec la force cinglante d'une lame de fond d'armure énergétique, une tactique guère subtile mais dont la méthode irrépressible a maintes fois prouvé son efficacité. Les Frères Templiers lancent l'assaut plus efficacement quand ils chargent après avoir Débarqué. À la Phase d'Assaut de n'importe quel Tour de Joueur auquel elles ont Débarqué d'un Véhicule d'Assaut, les Figurines ayant cette Règle Spéciale peuvent ajouter +2\" à leur Mouvement de Positionnement. Ce modificateur ne s'applique pas si l'Unité a été forcée d'effectuer un Débarquement d'Urgence au même Tour.",
   },
+
+  /* --- Arsenal des Ultramarines (XIIIe Légion) : Roboute Guilliman,
+     Remus Ventanus, Escouade de Suzerains Invictarus, Escouade de
+     Brécheurs Prétoriens (voir js/unites-data.js, unités réservées à
+     cette Légion). --- */
+  {
+    nom: "Bouclier d'Abordage Modèle Argyrum",
+    texte:
+      "Confère une Sauvegarde Invulnérable de 5+, qui devient une Sauvegarde Invulnérable de 4+ contre les Blessures infligées par des Armes de Mêlée. Confère également le Trait Bouclier et le Sous-type Lourd.",
+  },
+  {
+    nom: "Icône de Calth",
+    texte:
+      "Équipement de Remus Ventanus : on modifie de +1 l'Effectif Tactique des Figurines qui ont le Trait Ultramarines d'une Unité incluant au moins une Figurine dotée d'une icône de Calth.",
+  },
+  {
+    nom: "Interconnexion Vox",
+    texte:
+      "Équipement de Remus Ventanus qui améliore les Jets de Réserves du Joueur en Contrôle. Tant qu'une Figurine dotée d'une interconnexion vox se trouve sur le Champ de Bataille, le Joueur en Contrôle peut ajouter +1 au résultat de ses Jets de Réserves, y compris pour les Réserves Aériennes.",
+  },
+  {
+    nom: "Bretteur Réfléchi",
+    texte:
+      "Même s'il n'est pas le plus renommé des bretteurs de l'Imperium, Roboute Guilliman ne compte ni sur la force brute ni sur la rapidité d'exécution, mais sur les renseignements collectés pour étudier son adversaire et exploiter ses faiblesses. Guilliman gagne un bonus au Jet de Concentration selon le numéro du Tour de Bataille en cours. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Bretteur Réfléchi — si cette Posture est choisie, le Joueur en Contrôle de cette Figurine gagne un modificateur positif au Jet de Concentration égal au numéro du Tour de Bataille en cours, jusqu'à un maximum de +4.",
+  },
+  {
+    nom: "Sire des Ultramarines",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que la Figurine qui a cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par au moins deux Unités d'Escouade d'Assaut et au moins deux Unités d'Escouade Tactique, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie de cette Armée qui ont le Trait Ultramarines peuvent Contrôler et Contester des Objectifs même si elles sont sujettes à un Statut Tactique.",
+  },
+  {
+    nom: "Seigneurs d'Ultramar",
+    texte:
+      "Les Suzerains jouissent déjà d'une indiscutable autorité parmi les rangs subalternes de la Légion, non par la force ou la crainte qu'ils inspirent, mais par respect et admiration. Les Figurines amies à portée peuvent utiliser les Caractéristiques de cette Figurine pour s'ôter un Statut Tactique. À la Sous-phase des Statuts, pour toute Unité amie n'incluant aucune Figurine de Type Véhicule et dont au moins une Figurine se trouve à 12 pouces d'une Figurine ayant cette Règle Spéciale et n'étant elle-même pas sujette à un Statut Tactique, on peut utiliser la Caractéristique non modifiée de la Figurine ayant cette Règle Spéciale pour les Tests visant à retirer des Statuts Tactiques à l'Unité en question.",
+  },
+
+  /* --- Arsenal des Dark Angels (Ire Légion) : Lion El'Jonson, Corswain,
+     Marduk Sedras, Détachement de Compagnons de la Deathwing,
+     Interemptors de la Dreadwing, Cenobium de Chevaliers du Cercle
+     Intérieur (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    nom: "Le Courroux du Lion",
+    texte:
+      "Quand le Lion partait au combat, rares étaient les adversaires dignes de périr de sa main, et seuls ceux qui se montrent d'une virulence à la hauteur de son hostilité sont témoins du véritable courroux du Premier Primarque. Le Lion gagne un bonus au Jet de Concentration quand il est blessé. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, s'il lui reste 2 Points de Vie ou moins, son Joueur en Contrôle peut choisir cette Posture : Le Courroux du Lion — si cette Posture est choisie, le Joueur en Contrôle de cette Figurine ajoute un modificateur de +2 au Jet de Concentration, et ne subit pas le modificateur de -1 par point de différence entre la Caractéristique de Points de Vie de base de cette Figurine et sa Caractéristique de Points de Vie actuelle.",
+  },
+  {
+    nom: "Sire des Dark Angels",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que la Figurine qui a cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par au moins une Unité d'Escouade d'Assaut, une Unité d'Escouade Tactique et une Unité d'Escouade Brécheuse, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, toutes les Unités d'Escadron de Motards et toutes les Unités d'Escadron de Motojets Scimitar de la même Armée gagnent la Règle Spéciale suivante : quand le Joueur en Contrôle fait un Jet de Réserves pour une Unité qui a le Trait Dark Angels, une Unité d'Escadron de Motards ou une Unité d'Escadron de Motojets Scimitar composée uniquement de Figurines qui ont le Trait Dark Angels, ce Jet est modifié de +1.",
+  },
+  {
+    nom: "Grenades à Stase",
+    texte:
+      "Reliques de l'Antique Nuit, les grenades à stase étaient impossibles à reproduire pour les Techmarines de la Première Légion et n'étaient disponibles qu'en petites quantités, pour les cas les plus désespérés ; le Lion pouvait néanmoins les déployer sans restriction. Les grenades à stase réduisent l'Initiative en Combat des ennemis. Une fois par Bataille, la première fois qu'une Charge réussit contre une Figurine dotée de grenades à stase et l'Unité qu'elle a rejointe, l'Initiative en Combat de toutes les Figurines de l'Unité Assaillante est modifiée de -2 pour la durée de la Phase d'Assaut en cours. Ce modificateur n'affecte pas les Figurines de l'Unité Assaillante engagées en Défi.",
+  },
+  {
+    nom: "Armure de la Forêt",
+    texte:
+      "Armure d'artificier ouvragée dans l'acier de Terra au cœur des forêts de Caliban de la main du Lion en personne, l'Armure de la Forêt réduit les Dégâts des blessures subies en Défi. Quand une Figurine ayant cette Règle Spéciale est Engagée en Défi, on réduit de 1 la Caractéristique de Dégâts de toute Blessure infligée à cette Figurine, jusqu'à un minimum de 1.",
+  },
+  {
+    nom: "Ancien de la Guerre",
+    texte:
+      "Marduk Sedras combat pour sa Légion depuis plus de deux siècles, un des plus longs services chez les Space Marines ; il s'est battu en présence de tous les Primarques et a observé les autres Légions dans mille et une zones de guerre. Tant que Marduk Sedras fait partie d'une Unité composée uniquement de Figurines qui ont le Trait Dark Angels, toutes les Figurines de ladite Unité gagnent la Règle Spéciale Haine (Renégats).",
+  },
+  {
+    nom: "Compagnons",
+    texte:
+      "Les Détachements de Compagnons vouent leur vie à ceux qu'ils protègent, et sont prêts au sacrifice suprême pour garantir leur survie sur le champ de bataille. Tant qu'une Figurine qui a le Trait Dark Angels et de Type Parangon ou de Sous-type État-major fait partie d'une Unité incluant au moins une Figurine ayant cette Règle Spéciale, on ne peut pas allouer à cette Figurine de Blessures de Précision infligées par une Attaque de Tir.",
+  },
+  {
+    nom: "Égide Modèle Cytheron",
+    texte:
+      "Création de la ville disparue de Cytheron sur Mercure, cet appareil dérive des champs de force qui défiaient autrefois l'ardeur de Sol lui-même. Une Figurine dotée d'une égide modèle Cytheron a une Sauvegarde Invulnérable de 5+ et gagne le Trait Bouclier. De plus, le Joueur en Contrôle d'une Unité qui inclut des Figurines dotées d'une égide modèle Cytheron peut déclarer la Réaction Avancée Mur de Boucliers ! pour cette Unité — il s'agit d'une exception aux Règles normales de cette Réaction Avancée.",
+  },
+  {
+    nom: "Parangons de l'Ordre",
+    texte:
+      "Au sein de la Première Légion coexistent d'innombrables Ordres, chacun voué à un credo guerrier distinct. Quand une Unité incluant au moins une Figurine ayant cette Règle Spéciale est sélectionnée dans un Détachement au cours de la Sélection d'Armée, on doit sélectionner une seule option des Ordres de l'Hekatonystika pour toutes les Figurines de cette Unité.",
+  },
+  {
+    nom: "Augures de Faiblesse",
+    texte:
+      "Ordre de l'Hekatonystika : quand elles font des attaques ciblant une Unité qui inclut une Figurine de Type Véhicule, les Figurines ayant la Règle Spéciale Parangons de l'Ordre gagnent la Règle Spéciale Fléau des Blindages.",
+  },
+  {
+    nom: "Icônes de Résolution",
+    texte:
+      "Ordre de l'Hekatonystika : quand elles font partie d'une Unité Chargée avec succès par une Unité ennemie, les Figurines ayant la Règle Spéciale Parangons de l'Ordre fixent leur Caractéristique de Commandement à 10 pour la durée de la Phase d'Assaut en cours.",
+  },
+  {
+    nom: "Tueurs de Rois",
+    texte:
+      "Ordre de l'Hekatonystika : tant qu'elles font partie d'une Unité Verrouillée en Combat avec une Unité ennemie incluant au moins une Figurine qui a une Caractéristique de Capacité de Combat de 6 ou plus, on peut fixer à 1 la Caractéristique d'Attaques des Figurines ayant la Règle Spéciale Parangons de l'Ordre. Si on utilise cette option, les espadons terraniques de ces Figurines gagnent la Règle Spéciale Touche Critique (6+) jusqu'à la fin du Combat.",
+  },
+  {
+    nom: "Chasseurs de Bêtes",
+    texte:
+      "Ordre de l'Hekatonystika : tant qu'elles font partie d'une Unité Verrouillée en Combat avec une Unité ennemie incluant au moins une Figurine qui a une Caractéristique d'Endurance de 6 ou plus, on modifie de +1 la Caractéristique de Dégâts des Blessures infligées par les Figurines ayant la Règle Spéciale Parangons de l'Ordre.",
+  },
+  {
+    nom: "Faucheurs d'Osts",
+    texte:
+      "Ordre de l'Hekatonystika : tant qu'elles font partie d'une Unité Verrouillée en Combat avec une ou plusieurs Unités ennemies qui lui sont supérieures en nombre, toutes les Figurines de cette Unité ayant la Règle Spéciale Parangons de l'Ordre modifient de +1 leur Caractéristique d'Attaques.",
+  },
+  {
+    nom: "Briseurs de Sorciers",
+    texte:
+      "Ordre de l'Hekatonystika : tant qu'elles font partie d'une Unité Verrouillée en Combat avec une Unité ennemie incluant au moins une Figurine de Sous-type Maléfique ou qui a le Trait Psyker, on modifie de +1 les Jets de Touche et de Blessure faits pour les Figurines ayant la Règle Spéciale Parangons de l'Ordre qui sont impliquées dans ce Combat.",
+  },
+
+  /* --- Arsenal des Space Wolves (VIe Légion) : Leman Russ, Hvarl
+     Lamerouge, Geigor Main Terrible, Frères Loups de Russ, Meute de
+     Tueurs Gris, Meute de Mort-jurés, Escouade Terminator de Gardes
+     Loups Varagyr (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    nom: "Bombes à Stase de Classe Ymira",
+    texte:
+      "Reliques d'une campagne génocidaire si terrible que seuls le Roi Loup et son cercle intérieur de prêtres ont le droit de s'en souvenir autrement qu'en cauchemar, ces armes dégradent le cours du temps quand elles explosent. Les bombes à stase de classe Ymira obligent le Joueur Adverse à conserver le résultat le plus bas quand il fait un Jet de Charge. Quand l'Unité Cible d'un Mouvement de Charge ennemi n'est pas déjà Verrouillée en Combat et inclut au moins une Figurine dotée de bombes à stase de classe Ymira, tout Jet de Charge se fait en jetant 2D6 et en défaussant le résultat le plus élevé, au lieu de défausser le résultat le plus faible.",
+  },
+  {
+    nom: "Les Songes du Loup Funeste",
+    texte:
+      "Les seules émotions que les Mort-jurés peuvent encore ressentir sont celles de la tuerie et de la mort qui les guette. Les Mort-jurés font une ultime attaque avant d'être Retirés comme Pertes. Au Rang d'Initiative 1 de tout Combat qui implique au moins une Figurine ayant cette Règle Spéciale, le Joueur en Contrôle peut faire une attaque bonus pour chaque Figurine ayant cette Règle Spéciale qui a été Retirée comme Perte à un quelconque Rang d'Initiative précédent du Combat en cours. Ces attaques peuvent cibler n'importe quelle Unité impliquée dans ce Combat, et se font selon le profil de Frappe d'agonie.",
+  },
+  {
+    nom: "Fléau des Seigneurs",
+    texte:
+      "Les Varagyr aiment prouver leur supériorité sur les champions ennemis, et cherchent à glorifier leur seigneur en lui ramenant des trophées macabres, dans l'espoir que les scaldes chanteront leur saga. Les Varagyr gagnent un bonus à leur Résultat de Combat si le Thegn survit à un Défi. À l'Étape de Gloire d'un Défi qui implique une Figurine de Thegn ayant cette Règle Spéciale, si cette Figurine n'a pas été Retirée comme Perte lors de ce Défi, pour ce Combat le Joueur en Contrôle gagne à la Sous-phase de Résolution suivante un nombre de Points de Résolution de Combat égal au nombre de Figurines de Varagyr de la même Unité, jusqu'à un maximum de +4.",
+  },
+  {
+    nom: "Frères Loups de Russ",
+    texte:
+      "Au combat, Leman Russ est parfois accompagné par deux énormes loups du Primarque, que la légende dit être ses frères de portée : ils se tenaient déjà à ses côtés quand, encore à l'état sauvage, il arpentait les désolations de Fenris. Aucune autre Figurine que Leman Russ ne peut rejoindre une Unité qui inclut des Figurines ayant cette Règle Spéciale.",
+  },
+  {
+    nom: "Preneur de Têtes",
+    texte:
+      "Hvarl n'aimait qu'une chose au combat, la mort de l'ennemi ; il se moquait de la stratégie, de la subtilité du déploiement ou de la manœuvre, et préférait se rapprocher aussi vite que possible de ses ennemis. Cette Posture empêche l'Adversaire de gagner un bonus de Soutien Extérieur au Jet de Concentration. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Preneur de Têtes — si cette Posture est choisie, l'Adversaire n'a pas droit à un bonus de Soutien Extérieur à l'Étape de Concentration.",
+  },
+  {
+    nom: "Hurlement du Loup Funeste",
+    texte:
+      "Au combat, Russ n'était pas seulement un guerrier, mais un véritable catalyseur de fureur, de rage et de violence, investi du pouvoir du Loup Funeste, prompt à déchaîner un assaut en règle contre quiconque osait se dresser contre lui. Une fois par Bataille, tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Hurlement du Loup Funeste — une fois que cette Posture est choisie et jusqu'à ce qu'elle cesse de faire effet, on ne peut choisir aucune autre Posture pour cette Figurine. Quand cette Posture est choisie, le Joueur en Contrôle de cette Figurine gagne un bonus de +5 au Jet de Concentration suivant et aux Jets de Concentration consécutifs au cours du Défi, jusqu'à ce que cette Figurine ne parvienne pas à infliger une Blessure Non Sauvegardée à l'Étape de Frappe. Dès lors, les effets de cette Posture prennent fin, et le Joueur en Contrôle ne peut plus la choisir de tout le Défi en cours.",
+  },
+  {
+    nom: "Sire des Space Wolves",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que la Figurine qui a cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités de Meute de Tueurs Gris, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie de cette Armée qui ont le Trait Space Wolves gagnent la Règle Spéciale Mouvement à Couvert.",
+  },
+
+  /* --- Arsenal des Iron Hands (Xe Légion) : Ferrus Manus, Shadrak
+     Meduson, Révérend de Fer, Escouade Terminator Gorgone, Escouade
+     d'Immortels de Medusa (voir js/unites-data.js, unités réservées à
+     cette Légion). --- */
+  {
+    nom: "Armure Terminator Modèle Gorgone",
+    texte:
+      "Les Sauvegardes d'Armure et Invulnérables réussies peuvent imposer des Statuts Tactiques aux Figurines ennemies. À la fin de l'Étape 4 de la Phase d'Assaut, si la moindre Figurine en armure Terminator modèle Gorgone a réussi au moins un jet de Sauvegarde d'Armure ou de Sauvegarde Invulnérable contre des Blessures causées par des Attaques de Tir ou de Mêlée à la même Phase d'Assaut, l'Unité qui a infligé ces Blessures doit faire un Test de Sang-froid. Si ce Test est raté, l'Unité gagne le Statut Neutralisée.",
+  },
+  {
+    nom: "Seigneur des Automates",
+    texte:
+      "Nombre de Révérends de Fer étaient initiés aux secrets de la Legio Cybernetica, et accompagnaient même les automates de combat honorés par la Légion sur le champ de bataille, qui agissaient alors comme une extension de sa volonté. Cette Règle Spéciale permet à un Révérend de Fer d'être accompagné d'une Unité d'Automates de Combat : quand une Figurine ayant cette Règle Spéciale est incluse dans un Détachement, on ajoute à ce dernier une Case d'Organigramme de Force additionnelle, qui ne peut être occupée que par une Unité de Manipule d'Automates de Combat Castellax ; celle-ci remplace alors son Trait Cybernetica par Automates Liés et peut rejoindre le Détachement bien qu'elle n'ait pas le même Trait de Faction que ses autres Unités. De plus, une Figurine ayant cette Règle Spéciale peut rejoindre une Unité amie de Type Automate sans réduire la Valeur de ses Caractéristiques de Commandement et de Sang-froid.",
+  },
+  {
+    // NOTE : texte non confirmé sur le livre — reprend la mécanique de
+    // Seigneur des Automates (Révérend de Fer), le Praevius étant lui
+    // aussi un techno-chamane de la Legio Cybernetica au sein des Iron
+    // Hands. À corriger si le livre donne un texte différent.
+    nom: "Maître des Automates",
+    texte:
+      "Les Praevius sont initiés aux secrets de la Legio Cybernetica, chargés de guider au combat les automates honorés par la Légion. Cette Règle Spéciale permet à un Praevius d'être accompagné d'une Unité d'Automates de Combat : quand une Figurine ayant cette Règle Spéciale est incluse dans un Détachement, on ajoute à ce dernier une Case d'Organigramme de Force additionnelle, qui ne peut être occupée que par une Unité de Manipule d'Automates de Combat Castellax ; celle-ci remplace alors son Trait Cybernetica par Automates Liés et peut rejoindre le Détachement bien qu'elle n'ait pas le même Trait de Faction que ses autres Unités. De plus, une Figurine ayant cette Règle Spéciale peut rejoindre une Unité amie de Type Automate sans réduire la Valeur de ses Caractéristiques de Commandement et de Sang-froid.",
+  },
+  {
+    nom: "Trempé par la Guerre",
+    texte:
+      "La guerre est le creuset dans lequel la Gorgone fut forgée, car rien d'autre ne pouvait engendrer la force et la résistance que Ferrus Manus exigeait de ses guerriers. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Trempé par la Guerre — quand cette Posture est choisie, la Caractéristique d'Endurance de cette Figurine est fixée à 8 pour la durée de l'Étape de Frappe suivante.",
+  },
+  {
+    nom: "Sire des Iron Hands",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que la Figurine qui a cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Escouades Tactiques et/ou des Escouades Brécheuses, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie de cette Armée qui ont le Trait Iron Hands ont la Règle Spéciale Insensible à la Douleur (6+).",
+  },
+
+  /* --- Arsenal des Raven Guard (XIXe Légion) : Escouade de Mor
+     Deythan, Escouade de Furies Noires, Escouade de Terminator
+     Deliverers (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    nom: "La Honte de Corax",
+    texte:
+      "En symbole de l'héritage cruel et brutal que Corax hérita en prenant le contrôle de la Raven Guard, les Deliverers ont longtemps été exilés de toute position d'honneur au sein de leur propre Légion. Les Figurines dotées de cette Règle Spéciale subissent des restrictions au sein d'une Armée comprenant Corvus Corax : une Unité qui compte au moins une Figurine dotée de cette Règle Spéciale ne peut pas être rejointe par une Figurine de Corvus Corax. De plus, les Jets de Réserves faits pour une Unité qui compte au moins une Figurine dotée de cette Règle Spéciale sont modifiés de -1 pendant toute Sous-phase de Réserves au cours de laquelle une Figurine de Corvus Corax amie était elle aussi en Réserves au début de cette Sous-phase.",
+  },
 ];

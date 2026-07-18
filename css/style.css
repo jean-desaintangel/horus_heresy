@@ -2306,6 +2306,18 @@ body.skin-legion-xx {
   color: var(--titre-contraste);
 }
 
+/* Menu « Légion Alliée » (Détachement Allié, Faction ≠ Détachement
+   Principal — voir construireSelectLegionAlliee dans js/organigramme.js). */
+.orga-detachement-legion {
+  margin: -0.3rem 0 0.6rem;
+  font-size: 0.85rem;
+}
+
+.orga-detachement-legion select {
+  margin-left: 0.4rem;
+  padding: 0.2rem 0.4rem;
+}
+
 /* ---------- Cases d'un détachement ---------- */
 .orga-cases-liste {
   list-style: none;
