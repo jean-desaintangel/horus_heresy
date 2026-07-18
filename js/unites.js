@@ -2077,9 +2077,7 @@ function initialiser() {
     // débloquer un détachement adapté (exigence UX).
     const libres = Organigramme.casesLibresPour(unite);
     if (libres.length === 0) {
-      messageAjout.textContent = Organigramme.suggestionPourRole(
-        unite.categorie,
-      );
+      messageAjout.textContent = Organigramme.suggestionPourRole(unite);
       messageAjout.hidden = false;
       return;
     }

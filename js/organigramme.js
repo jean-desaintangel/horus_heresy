@@ -1794,15 +1794,25 @@ const Organigramme = (() => {
     },
     actualiser,
     // Message d'aide quand aucune case n'est libre pour une unité :
-    // suggère quels détachements contiennent ce Rôle Tactique.
-    suggestionPourRole(categorie) {
-      const types = TYPES_DETACHEMENTS.filter(
-        (t) =>
-          !t.indisponible &&
-          t.famille !== "principal" &&
-          (!t.legion || t.legion === etat.legion) &&
-          t.cases.some((c) => c.role === categorie),
-      ).map((t) => t.nom);
+    // suggère quels détachements contiennent ce Rôle Tactique. Ne
+    // retient que les détachements dont au moins une Case de ce Rôle
+    // accueillerait VRAIMENT cette unité précise : certains Détachements
+    // Auxiliaires restreignent leurs Cases à une liste d'unités précises
+    // (`restrictions`, ex : Cadre de Décapitation n'accepte que
+    // l'Escouade de Vétérans d'Assaut ou de Furies Noires sur ses Cases
+    // d'Élite) — les suggérer pour une autre unité de même Rôle
+    // Tactique (ex : Deliverers) induirait le joueur en erreur.
+    suggestionPourRole(unite) {
+      const categorie = unite.categorie;
+      const types = TYPES_DETACHEMENTS.filter((t) => {
+        if (t.indisponible || t.famille === "principal") return false;
+        if (t.legion && t.legion !== etat.legion) return false;
+        return t.cases.some((c) => {
+          if (c.role !== categorie) return false;
+          const restriction = t.restrictions && t.restrictions[c.role];
+          return !restriction || restriction.includes(unite.id);
+        });
+      }).map((t) => t.nom);
       const role = ROLES_TACTIQUES[categorie];
       return (
         "Aucune Case libre pour le Rôle Tactique « " +
