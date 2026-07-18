@@ -1968,7 +1968,11 @@ function initialiserChoixUnite() {
         liste.appendChild(li);
         continue;
       }
-      const li = el("li", "unite-combobox-option", libelle(entree.unite));
+      const classe =
+        entree.unite.legion === Organigramme.legionActuelle()
+          ? "unite-combobox-option unite-combobox-option--legion"
+          : "unite-combobox-option";
+      const li = el("li", classe, libelle(entree.unite));
       li.id = idOption(entree.unite);
       li.setAttribute("role", "option");
       li.dataset.uniteId = entree.unite.id;

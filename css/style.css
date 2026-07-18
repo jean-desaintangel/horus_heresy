@@ -1455,16 +1455,30 @@ footer p {
   display: none;
 }
 
+/* En-tête de catégorie (Troupe, Élite, Soutien...) : collé en haut de
+   la liste pendant le défilement (position: sticky) pour rester lisible
+   même au milieu d'une longue catégorie. Repris des couleurs de skin de
+   Légion (--accent, --titre) : voir « Skins de Légion » plus bas — sans
+   Légion choisie, --accent/--titre gardent leurs teintes par défaut. */
 .unite-combobox-groupe {
-  padding: 0.35rem 0.8rem 0.15rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.45rem 0.9rem;
+  background: var(--fond-secondaire);
+  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid var(--titre);
+  font-family: "Cinzel", serif;
   font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--texte-doux);
+  letter-spacing: 1.3px;
+  color: var(--titre-contraste);
 }
 
 .unite-combobox-option {
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem 0.9rem 0.5rem 1.1rem;
+  border-left: 3px solid transparent;
   font-size: 0.92rem;
   cursor: pointer;
 }
@@ -1472,6 +1486,16 @@ footer p {
 .unite-combobox-option:hover,
 .unite-combobox-option.unite-combobox-actif {
   background: var(--carte-hover);
+}
+
+/* Unité propre à la Légion actuelle (voir initialiserChoixUnite, qui
+   les fait déjà remonter en tête de leur catégorie) : liseré et texte
+   dans la couleur de skin de la Légion, pour les repérer d'un coup
+   d'œil parmi les unités génériques. */
+.unite-combobox-option--legion {
+  border-left-color: var(--accent);
+  color: var(--titre-contraste);
+  font-weight: 700;
 }
 
 .unite-combobox-vide {
