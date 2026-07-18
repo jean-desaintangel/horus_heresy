@@ -104,6 +104,14 @@ function trouverUnite(id) {
   return UNITES.find((u) => u.id === id);
 }
 
+/* Un « personnage nommé » (ex : Khârn le Sanglant, Raldoron…) porte
+   le sous-type « Unique » (voir js/unites-data.js, champ `type` des
+   variantes) : les règles n'autorisent qu'un seul exemplaire de ce
+   personnage dans l'Armée. */
+function estPersonnageNomme(unite) {
+  return unite.variantes.some((v) => v.type && v.type.includes("Unique"));
+}
+
 /* Une unité réservée à une Légion (champ `legion`, ex : Corvus Corax,
    Kaedes Nex, Escouades de Mor Deythan/Furies Noires — voir js/unites-
    data.js) n'est proposable que si cette Légion est actuellement
@@ -112,6 +120,8 @@ function trouverUnite(id) {
    Un champ `excluAvec: [idUnite, ...]` (ex : Angron / Angron
    Transfiguré, deux formes du même Primarque) rend l'unité
    indisponible tant qu'une des unités listées est déjà dans la liste.
+   Un personnage nommé (sous-type « Unique ») déjà présent dans la
+   liste devient lui aussi indisponible, pour empêcher un doublon.
    Ne s'applique qu'au sélecteur « Unité à ajouter » : une unité déjà
    dans la liste reste affichée si la Légion change ensuite, ou si
    l'unité exclusive avec laquelle elle a été ajoutée est retirée
@@ -129,6 +139,11 @@ function uniteAccessible(unite) {
   if (
     unite.excluAvec &&
     unite.excluAvec.some((id) => armee.some((inst) => inst.uniteId === id))
+  )
+    return false;
+  if (
+    estPersonnageNomme(unite) &&
+    armee.some((inst) => inst.uniteId === unite.id)
   )
     return false;
   return true;
@@ -1806,7 +1821,11 @@ function initialiserChoixUnite() {
   const libelle = (unite) => unite.nom + " — " + unite.cout + " pts";
   const idOption = (unite) => "choix-unite-option-" + unite.id;
 
-  const premiereUnite = entrees.find((e) => e.unite);
+  // Praetor par défaut (unité HQ générique) plutôt que la première
+  // entrée du tableau, qui dépend juste de l'ordre des catégories.
+  const premiereUnite =
+    entrees.find((e) => e.unite && e.unite.id === "praetor") ||
+    entrees.find((e) => e.unite);
   let uniteId = premiereUnite ? premiereUnite.unite.id : null;
   let visibles = entrees; // sous-ensemble d'`entrees` correspondant à la recherche courante
   let indiceActif = -1; // indice dans les options visibles (hors en-têtes)

@@ -580,4 +580,69 @@ const REGLES_DIVERSES = [
     texte:
       "Quand elle est Verrouillée en Combat, une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale peut appliquer une Règle Spéciale de plus jusqu'à la fin de la Phase : à la fin de la Sous-phase de Charge, si elle est Verrouillée en Combat avec une ou plusieurs Unités ennemies, son Joueur en Contrôle peut choisir un des effets suivants — La Frappe Parfaite : jusqu'à la fin de cette Phase, la Caractéristique de Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont elle a besoin pour Toucher à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative (sans effet sur les Jets de Touche faits contre elle). La Garde Parfaite : jusqu'à la fin de cette Phase, la Caractéristique de Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont une Figurine adverse a besoin pour la Toucher à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative (sans effet sur les Jets de Touche faits pour ses propres attaques).",
   },
+
+  /* --- Arsenal des Imperial Fists (VIIe Légion) : Rogal Dorn,
+     Sigismund, Fafnir Rann, Evander Garrius, Camba Diaz, Alexis Polux,
+     Frères Templiers, Escouade de Gardiens du Phalanx (voir
+     js/unites-data.js, unités réservées à cette Légion). --- */
+  {
+    nom: "Sire des Imperial Fists",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que la Figurine qui a cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Escouades Tactiques et/ou des Escouades Brécheuses, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, toutes les Figurines de Type Infanterie qui ont le Trait Imperial Fists gagnent la Règle Spéciale Défenses Préparées : jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie de cette Armée qui ont le Trait Imperial Fists ont une Sauvegarde de Couvert de 5+ tant qu'elles se trouvent dans la Zone de Déploiement de leur Joueur en Contrôle.",
+  },
+  {
+    nom: "Rempart de l'Imperium",
+    texte:
+      "Posture qui permet à Rogal Dorn de se battre sur la défensive. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Rempart de l'Imperium — tant que cette Posture est choisie, les Jets de Blessure faits contre la Figurine adoptant cette Posture qui donnent un résultat non modifié de 1, 2, 3 ou 4 sont toujours des échecs, quelle que soit la Caractéristique de Force d'une Touche et quelles que soient les Règles Spéciales qui fixent le Nombre Cible pour les Jets de Blessure.",
+  },
+  {
+    nom: "Tueur de Rois",
+    texte:
+      "Le Joueur en Contrôle de Sigismund doit lancer un Défi si c'est possible, et il choisit quel adversaire le relève. À la Sous-phase de Défi du Joueur en Contrôle, si Sigismund est éligible, il doit être déclaré Protagoniste. S'il y a dans un Combat plus d'une Figurine qui doit être le Protagoniste sous le contrôle du Joueur Actif, celui-ci doit choisir Sigismund comme Protagoniste. De plus, quand le Joueur en Contrôle lance un Défi pour Sigismund (y compris au cours de la Réaction Avancée Intervention Héroïque), il peut choisir l'Antagoniste parmi les Figurines éligibles de l'Adversaire quelconque. Si, pour une raison quelconque, la Figurine ennemie choisie ne peut pas être l'Antagoniste, le Joueur en Contrôle de Sigismund gagne un nombre de Points de Résolution de Combat égal à la Caractéristique de Points de Vie de Base de la Figurine ennemie choisie qui n'est pas devenue l'Antagoniste, puis le Joueur en Contrôle de Sigismund peut choisir une autre Figurine éligible pour relever le Défi.",
+  },
+  {
+    nom: "Champion de la Mort",
+    texte:
+      "Sigismund porte des attaques plus meurtrières quand cette Posture est choisie. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Champion de la Mort — si cette Posture est choisie, les attaques faites par cette Figurine à l'Étape de Frappe suivante ont la Règle Spéciale Touche Critique (5+).",
+  },
+  {
+    nom: "Maître du Bouclier",
+    texte:
+      "Rann est réputé pour son talent singulier à combiner l'emploi de ses haches et d'un bouclier. Fafnir Rann ne subit pas de malus en Défi du fait qu'il porte un bouclier. Le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale ne subit pas le malus de -1 aux Jets de Concentration dû au fait que cette Figurine est de Sous-type Lourd.",
+  },
+  {
+    nom: "L'Impôt du Bourreau",
+    texte:
+      "Aussi irrésistible en attaque qu'inflexible en défense, Rann est exceptionnellement agressif pour un membre de la VIIe Légion : même sur la défensive, l'ennemi n'est pas à l'abri du courroux vengeur de son assaut. Fafnir Rann peut subir un modificateur négatif au Jet de Concentration en échange d'attaques améliorées. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : L'Impôt du Bourreau — quand cette Posture est choisie, le Joueur en Contrôle doit jeter un Dé de plus à l'Étape de Concentration et défausser le résultat le plus élevé. Ses Attaques faites à l'Étape de Frappe suivante gagnent la Règle Spéciale Touche Critique (6+).",
+  },
+  {
+    nom: "Les Atours du Tyran",
+    texte:
+      "Équipement réservé à Evander Garrius : l'armure Terminator Cataphractii dite des Atours du Tyran offre une des meilleures protections accessibles à un seigneur des Legiones Astartes, ses systèmes internes injectant directement des antalgiques dans le flux sanguin du porteur pour atténuer la souffrance que lui causent ses anciennes blessures. Evander Garrius gagne un Jet de Mitigation de Dégâts quand il est Engagé en Défi. Une Figurine ayant cette Règle Spéciale bénéficie de la Règle Spéciale Insensible à la Douleur (5+) contre les Blessures subies quand elle est Engagée en Défi.",
+  },
+  {
+    nom: "La Ligne Intacte",
+    texte:
+      "Camba Diaz était un tel maître en guerre défensive qu'on disait que dès lors qu'il avait tracé une ligne par terre, aucun ennemi ne pouvait la franchir. Camba Diaz gagne des attaques supplémentaires quand il combat le dernier en Défi. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : La Ligne Intacte — quand cette Posture est choisie et que cette Figurine n'a pas l'Avantage en Défi, on modifie de +2 la Valeur de la Caractéristique d'Attaques de Camba Diaz.",
+  },
+  {
+    nom: "Coup de Marteau",
+    texte:
+      "La carrure et la force de volonté de Polux étaient telles qu'il était capable de porter un unique coup écrasant de son gantelet énergétique aussi facilement et lestement que ses frères légionnaires portaient un coup d'épée. Alexis Polux peut faire une attaque alternative en Défi. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Coup de Marteau — tant que cette Posture est choisie, cette Figurine gagne le Profil d'Arme Coup de Marteau et ne peut pas choisir de faire des attaques avec une autre Arme à l'Étape de Frappe.",
+  },
+  {
+    nom: "Commandant Spatial",
+    texte:
+      "Polux faisait montre d'une aptitude naturelle au combat spatial, et conduisit des formations d'abordage spécialisées dans l'Hérésie d'Horus. Si une Figurine ayant cette Règle Spéciale rejoint une Unité d'Escouade Brécheuse en Réserves, les Figurines de l'Unité en question gagnent la Règle Spéciale Frappe en Profondeur tant que cette Figurine fait partie de l'Unité. De plus, quand une Figurine ayant cette Règle Spéciale est déployée dans le cadre d'une Frappe en Profondeur, ladite Figurine et toutes les autres Figurines de la même Unité gagnent la Règle Spéciale Insensible à la Douleur (5+) jusqu'à la prochaine Sous-phase des Effets du Joueur en Contrôle.",
+  },
+  {
+    nom: "Formation en Phalange",
+    texte:
+      "Si habiles et agressifs que soient ceux qui en formaient les rangs, c'était avec une discipline rigide et une détermination inflexible que les Gardiens du Phalanx accomplissaient leur devoir. Une Unité qui comprend au moins une Figurine ayant cette Règle Spéciale peut effectuer la Réaction Avancée Mur de Boucliers ! sans dépenser de Point d'Attribution de Réaction de son Joueur en Contrôle, en contrepartie de quoi elle subit des limitations : si aucun Point d'Attribution de Réaction n'est dépensé, l'Unité Réactive gagne le Statut Fixée une fois que la Réaction est résolue.",
+  },
+  {
+    nom: "Assaut Templier",
+    texte:
+      "Quand les Templiers des Serments de la Légion vont en guerre, rien ne saurait les arrêter : les Templiers frappent avec la force cinglante d'une lame de fond d'armure énergétique, une tactique guère subtile mais dont la méthode irrépressible a maintes fois prouvé son efficacité. Les Frères Templiers lancent l'assaut plus efficacement quand ils chargent après avoir Débarqué. À la Phase d'Assaut de n'importe quel Tour de Joueur auquel elles ont Débarqué d'un Véhicule d'Assaut, les Figurines ayant cette Règle Spéciale peuvent ajouter +2\" à leur Mouvement de Positionnement. Ce modificateur ne s'applique pas si l'Unité a été forcée d'effectuer un Débarquement d'Urgence au même Tour.",
+  },
 ];

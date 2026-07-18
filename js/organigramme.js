@@ -1166,7 +1166,34 @@ const Organigramme = (() => {
     }
     selectLegion.value = etat.legion;
     selectLegion.addEventListener("change", () => {
-      etat.legion = selectLegion.value;
+      const nouvelleLegion = selectLegion.value;
+      if (nouvelleLegion !== etat.legion) {
+        // Les unités et Détachements Auxiliaires/d'Apex d'une Légion
+        // ne sont généralement pas ceux d'une autre (champ `legion`
+        // dans js/unites-data.js) : un changement de Légion repart
+        // donc d'une liste et d'un organigramme vierges (seul le
+        // Détachement Principal, obligatoire, est conservé).
+        const armeeNonVide = hooks.getArmee().length > 0;
+        const detachementsSupp = etat.detachements.some(
+          (d) => d.typeId !== "principal",
+        );
+        if (
+          (armeeNonVide || detachementsSupp) &&
+          !window.confirm(
+            "Changer de Légion réinitialise la liste d'armée et les " +
+              "détachements sélectionnés. Continuer ?",
+          )
+        ) {
+          selectLegion.value = etat.legion;
+          return;
+        }
+        if (armeeNonVide) {
+          for (const instance of [...hooks.getArmee()])
+            hooks.retirerInstance(instance.uid);
+        }
+        etat.detachements = [creerDetachement("principal")];
+      }
+      etat.legion = nouvelleLegion;
       // Allégeance par défaut selon la Légion choisie (Loyaliste ou
       // Légion Renégate) : purement indicative, le joueur reste libre
       // de la changer ensuite via le menu Allégeance ci-contre.

@@ -318,6 +318,13 @@ const ARMES_TIR = [
         regles: "Souffle, Lacération (6+), Fixation (1)",
         traits: "Bolts, Assaut",
       },
+      {
+        // Arme de personnage (Rogal Dorn, Primarque des Imperial Fists).
+        nom: "La Voix de Terra",
+        stats: ["24", "3", "5", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Bolts, Assaut",
+      },
     ],
   },
   {
@@ -1103,6 +1110,13 @@ const ARMES_TIR = [
         traits: "Volkite",
       },
       {
+        // Arme de personnage (Evander Garrius, Imperial Fists).
+        nom: "Incineratus",
+        stats: ["15", "4", "5", "5", "1"],
+        regles: "Déflagration (6)",
+        traits: "Volkite",
+      },
+      {
         nom: "Arquebuse volkite",
         stats: ["30", "2", "6", "5", "1"],
         regles: "Déflagration (6)",
@@ -1451,6 +1465,44 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arsenal des Imperial Fists : équipement réservé aux Sous-types
+        // État-major, Champion ou Sergent ayant le Trait Imperial Fists.
+        nom: "Gantelet énergétique Solarite",
+        stats: ["-3", "A", "+4", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Fafnir Rann, Imperial Fists).
+        nom: "Le Bourreau et le Chasseur",
+        stats: ["1", "A", "+2", "3", "1"],
+        regles: "Brèche (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Evander Garrius, Imperial Fists).
+        nom: "Subjugator",
+        stats: ["-2", "A", "+4", "2", "2"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Camba Diaz, Imperial Fists).
+        nom: "Durenda",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Alexis Polux, Imperial Fists) : Profil
+        // d'Arme de la Posture Coup de Marteau (voir Règles Spéciales,
+        // js/regles-data.js), pas une arme équipée normalement.
+        nom: "Coup de Marteau",
+        stats: ["1", "1", "10", "2", "3"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
         nom: "Crozius Arcanum",
         stats: ["1", "A", "+2", "3", "2"],
         regles: "Vulnérante (6+), Brèche (6+)",
@@ -1714,6 +1766,13 @@ const ARMES_MELEE = [
         regles: "Touche Critique (5+), Fléau des Blindages",
         traits: "Énergétique",
       },
+      {
+        // Arme de personnage (Rogal Dorn, Primarque des Imperial Fists).
+        nom: "Dents de la Tempête",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Lacération (4+), Fauchage (2)",
+        traits: "Tronçonneuse",
+      },
     ],
   },
   {
@@ -1814,6 +1873,13 @@ const ARMES_MELEE = [
         stats: ["1", "A", "F", "5", "1"],
         regles: "Fléau des Blindages",
         traits: "Baïonnette",
+      },
+      {
+        // Arme de personnage (Sigismund, Imperial Fists).
+        nom: "L'Épée Noire",
+        stats: ["1", "A", "+2", "2", "1"],
+        regles: "Touche Critique (6+), Atout du Duelliste (2)",
+        traits: "-",
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",

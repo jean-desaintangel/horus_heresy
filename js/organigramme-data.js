@@ -194,7 +194,7 @@ const TYPES_DETACHEMENTS = [
     texte:
       "Un seul par armée, même Faction que le Détachement Principal, uniquement si la Limite de Points est d'au moins 3000 pts. Doit inclure au moins 1 figurine de Type Parangon. Quota combiné Seigneur de Guerre + Seigneur des Batailles : 25 % de la Limite de Points.",
     cases: [
-      _caseOrga("Seigneur de Guerre", true),
+      _caseOrga("Seigneur de Guerre"),
       _caseOrga("Suites"),
       _caseOrga("Transports Lourds"),
     ],
@@ -218,8 +218,8 @@ const TYPES_DETACHEMENTS = [
     texte:
       "Nombre libre, mais toutes les unités alliées doivent être d'une Faction différente de celle du Détachement Principal, et leur coût total ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire.",
     cases: [
-      _caseOrga("Quartier Général", true),
       _caseOrga("État-major", true),
+      _caseOrga("État-major"),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
@@ -358,8 +358,8 @@ const TYPES_DETACHEMENTS = [
     restrictions: { Reco: ["escouade-reconnaissance"] },
     cases: [
       _caseOrga("Reco", true),
-      _caseOrga("Reco", true),
-      _caseOrga("Reco", true),
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
       _caseOrga("Attaque Rapide"),
     ],
   },
@@ -418,8 +418,8 @@ const TYPES_DETACHEMENTS = [
     restrictions: { Appui: ["techmarine"] },
     cases: [
       _caseOrga("Appui", true),
-      _caseOrga("Appui", true),
-      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
       _caseOrga("Appui"),
       _caseOrga("Appui"),
       _caseOrga("Appui"),
@@ -435,8 +435,8 @@ const TYPES_DETACHEMENTS = [
     restrictions: { Appui: ["apothicaire"] },
     cases: [
       _caseOrga("Appui", true),
-      _caseOrga("Appui", true),
-      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
       _caseOrga("Appui"),
       _caseOrga("Appui"),
       _caseOrga("Appui"),
@@ -461,7 +461,7 @@ const TYPES_DETACHEMENTS = [
       Elite: ["cohorte-eoclaste", "escouade-veterans-assaut"],
     },
     cases: [
-      _caseOrga("Troupes"),
+      _caseOrga("Troupes", true),
       _caseOrga("Troupes"),
       _caseOrga("Elite"),
       _caseOrga("Elite"),
@@ -499,8 +499,8 @@ const TYPES_DETACHEMENTS = [
       "Les Cases de Blindé de ce Détachement ne peuvent accueillir que des Predator ou des Vindicator.",
     restrictions: { Blindés: ["predator", "vindicator"] },
     cases: [
-      _caseOrga("Troupes", true),
-      _caseOrga("Troupes"),
+      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
       _caseOrga("Blindés"),
       _caseOrga("Blindés"),
     ],
@@ -532,10 +532,10 @@ const TYPES_DETACHEMENTS = [
       "Les Cases d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Escouades Saccageuses.",
     restrictions: { "Assaut Lourd": ["escouade-saccageuse"] },
     cases: [
-      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Troupes", true),
       _caseOrga("Assaut Lourd"),
       _caseOrga("Assaut Lourd"),
-      _caseOrga("Assaut Lourd"),
+      _caseOrga("Elite"),
     ],
     legion: "XII",
   },
@@ -553,10 +553,36 @@ const TYPES_DETACHEMENTS = [
     restrictions: { Appui: ["apothicaire"] },
     cases: [
       _caseOrga("Appui", true),
-      _caseOrga("Appui"),
-      _caseOrga("Appui"),
+      _caseOrga("Appui", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
     ],
     legion: "XII",
+  },
+  /* NOTE (hypothèse de transcription) : sur la photo du livre, seule
+     la restriction de Troupes (Escouade Brécheuse) est du texte lisible ;
+     les 4 icônes de rôle ont été identifiées par comparaison avec la
+     légende des Rôles Tactiques (p. 285) — 2 Troupes (icône simple,
+     répétée) + 2 Assaut Lourd (icône à l'armure plus large). Aucune
+     condition de déblocage particulière (confirmé par Jean : « même
+     règle que pour les détachements auxiliaires classiques »), donc
+     pas de champ `deblocage`, comme Cadre de Berserkers ou Cénacle de
+     l'Immolation. À corriger si le livre dit autre chose. */
+  {
+    id: "gantelet-de-siege",
+    nom: "Gantelet de Siège",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Troupes de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escouade Brécheuse.",
+    restrictions: { Troupes: ["escouade-brecheuse"] },
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+    ],
+    legion: "VII",
   },
 ];
 
