@@ -1269,11 +1269,11 @@ const Organigramme = (() => {
         Math.max(0, credits.auxRestants) +
         " · Apex disponibles : " +
         Math.max(0, credits.apexRestants) +
-        " · Quota Seigneur de Guerre + Seigneurs des Batailles (25 %) : " +
+        " · Quota Seigneur de Guerre + Seigneurs des Batailles (25 % : " +
         coutSeigneurs() +
         " / " +
         Math.ceil(etat.limite * 0.25) +
-        " pts",
+        " pts)",
     );
     conteneur.appendChild(texte);
 
@@ -1657,6 +1657,7 @@ const Organigramme = (() => {
         (t) =>
           !t.indisponible &&
           t.famille !== "principal" &&
+          (!t.legion || t.legion === etat.legion) &&
           t.cases.some((c) => c.role === categorie),
       ).map((t) => t.nom);
       const role = ROLES_TACTIQUES[categorie];

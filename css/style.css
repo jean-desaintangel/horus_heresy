@@ -1401,6 +1401,14 @@ footer p {
   border-color: var(--titre);
 }
 
+/* Tant qu'aucune Légion n'est choisie dans les paramètres de la partie :
+   voir actualiserVerrouLegion dans js/unites.js. */
+.unite-combobox-champ:disabled,
+.unite-combobox-bouton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* Bouton « flèche » : rouvre la liste complète en un clic (ex : après
    un Échap), voir initialiserChoixUnite dans js/unites.js. Le champ
    reste utilisable sans lui (focus, clic, ou simplement taper). */
@@ -1485,6 +1493,11 @@ footer p {
     background var(--transition),
     border-color var(--transition),
     color var(--transition);
+}
+
+.bouton-principal:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .bouton-principal {
@@ -1926,6 +1939,7 @@ footer p {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  vertical-align: middle;
 }
 
 /* Double filet (accent + or) sous les titres de section : évoque les

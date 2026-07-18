@@ -1240,7 +1240,39 @@ function actualiserTotal() {
    est signalée en erreur : les règles imposent qu'une unité occupe
    une Case de l'Organigramme de Force (p. 282).
    ---------------------------------------------------------- */
+// Tant qu'aucune Légion n'est choisie dans les paramètres de la partie
+// (js/organigramme.js), les unités qui lui sont propres ne peuvent pas
+// être identifiées (voir uniteAccessible) : on bloque donc la sélection
+// d'unité en amont plutôt que de laisser un menu incomplet ou trompeur.
+// Rappelé à chaque actualiserSelectsCases (callback surChangement de
+// l'organigramme), donc à chaque changement de Légion.
+function actualiserVerrouLegion() {
+  const champUnite = document.getElementById("choix-unite");
+  const boutonUnite = document.getElementById("choix-unite-bouton");
+  const boutonUnite2 = document.getElementById("ajouter-unite");
+  const legionChoisie = Organigramme.legionActuelle() !== "";
+  champUnite.disabled = !legionChoisie;
+  boutonUnite.disabled = !legionChoisie;
+  boutonUnite2.disabled = !legionChoisie;
+  if (!legionChoisie) {
+    document.getElementById("choix-unite-liste").hidden = true;
+    champUnite.setAttribute("aria-expanded", "false");
+  }
+  const messageAjout = document.getElementById("ajout-message");
+  if (!legionChoisie) {
+    messageAjout.textContent =
+      "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités.";
+    messageAjout.hidden = false;
+  } else if (
+    messageAjout.textContent ===
+    "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités."
+  ) {
+    messageAjout.hidden = true;
+  }
+}
+
 function actualiserSelectsCases() {
+  actualiserVerrouLegion();
   for (const instance of armee) {
     const carte = document.getElementById("unite-" + instance.uid);
     if (!carte) continue;
@@ -2018,6 +2050,9 @@ function initialiser() {
   const messageAjout = document.getElementById("ajout-message");
 
   boutonAjouter.addEventListener("click", () => {
+    // Filet de sécurité : le bouton est normalement désactivé tant
+    // qu'aucune Légion n'est choisie (voir actualiserVerrouLegion).
+    if (Organigramme.legionActuelle() === "") return;
     const unite = uniteChoisie();
     if (!unite) return;
     // Filet de sécurité : la sélection du champ peut dater d'avant un
