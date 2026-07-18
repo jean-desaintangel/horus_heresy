@@ -1918,25 +1918,36 @@ function initialiserChoixUnite() {
   // partagée par toutes les barres de recherche du site (js/main.js).
   // Filtrée en direct (pas de rebuild d'`entrees` nécessaire) : ouvrir
   // ou retaper dans le champ relit toujours la Légion actuelle.
+  // Dans chaque catégorie, les unités propres à la Légion actuelle
+  // remontent avant les unités génériques (tri stable : l'ordre
+  // d'origine est conservé au sein de chaque sous-groupe).
   function filtrer(requete) {
     const q = normaliserTexte(requete.trim());
+    const legionCourante = Organigramme.legionActuelle();
     const resultat = [];
     let groupeCourant = null;
-    let groupeAjoute = false;
+    let uniteesCourantes = [];
+    const vider = () => {
+      if (uniteesCourantes.length === 0) return;
+      uniteesCourantes.sort(
+        (a, b) =>
+          (a.unite.legion === legionCourante ? 0 : 1) -
+          (b.unite.legion === legionCourante ? 0 : 1),
+      );
+      resultat.push(groupeCourant, ...uniteesCourantes);
+      uniteesCourantes = [];
+    };
     for (const entree of entrees) {
       if (entree.groupe) {
+        vider();
         groupeCourant = entree;
-        groupeAjoute = false;
         continue;
       }
       if (!uniteAccessible(entree.unite)) continue;
       if (q && !normaliserTexte(entree.unite.nom).includes(q)) continue;
-      if (!groupeAjoute) {
-        resultat.push(groupeCourant);
-        groupeAjoute = true;
-      }
-      resultat.push(entree);
+      uniteesCourantes.push(entree);
     }
+    vider();
     return resultat;
   }
 
