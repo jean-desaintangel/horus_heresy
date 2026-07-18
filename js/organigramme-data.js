@@ -47,6 +47,18 @@
                  choisie dans les paramètres de la partie, comme les
                  unités réservées de js/unites-data.js. Absent =
                  disponible pour toutes les Légions.
+     requiertAllegeance : "loyaliste" | "renegat" — condition de
+                 composition sur l'Armée entière (etat.allegeance,
+                 menu Allégeance des paramètres de la partie), grisée
+                 tant qu'elle n'est pas remplie et signalée en erreur
+                 si elle cesse de l'être après coup (ex : Conclave
+                 Exalté des Word Bearers, réservé aux Armées
+                 Renégates).
+     requiertAvantage : id d'AVANTAGES_PRINCIPAUX qui doit être choisi
+                 sur au moins une Case de l'Armée (n'importe quel
+                 détachement) — même mécanique que requiertAllegeance
+                 ci-dessus (ex : Conclave Exalté, qui exige Vrais
+                 Croyants).
    }
    ============================================================ */
 
@@ -344,6 +356,30 @@ const TYPES_DETACHEMENTS = [
     famille: "apex",
     texte: "Des unités d'Élite, les guerriers les plus redoutables de l'armée.",
     cases: [_caseOrga("Elite", true), _caseOrga("Elite"), _caseOrga("Elite")],
+  },
+  /* Premier Détachement d'Apex réservé à une Légion sur le site.
+     Composition confirmée par Jean : 4 Cases (Troupes principale ×2,
+     Elite ×2), sans restriction d'unité. Condition de sélection du
+     livre : Allégeance Renégate (« Traitre » dans le menu Allégeance
+     des paramètres de la partie, voir etat.allegeance) ET au moins 1
+     Avantage Principal Vrais Croyants choisi sur une Case de l'Armée
+     — vérifiée par `requiertAllegeance`/`requiertAvantage`
+     (disponibilite()/validerArmee(), js/organigramme.js). */
+  {
+    id: "conclave-exalte",
+    nom: "Conclave Exalté",
+    famille: "apex",
+    texte:
+      "Des Troupes et des unités d'Élite corrompues par le Warp. Réservé aux Armées d'Allégeance Renégate (Traitre) ayant choisi l'Avantage Principal Vrais Croyants sur au moins une Case.",
+    requiertAllegeance: "renegat",
+    requiertAvantage: "vrais-croyants",
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes", true),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+    legion: "XVII",
   },
 
   /* ---------- Détachements Auxiliaires des Legiones Astartes
@@ -784,6 +820,21 @@ const TYPES_DETACHEMENTS = [
     cases: [_caseOrga("Appui", true), _caseOrga("Appui"), _caseOrga("Appui")],
     legion: "I",
   },
+  /* Composition confirmée par Jean : 4 Cases (Troupes principale ×2,
+     Assaut Lourd, Elite), sans restriction d'unité. */
+  {
+    id: "cadre-suprematie",
+    nom: "Cadre de Suprématie",
+    famille: "auxiliaire",
+    texte: "Des Troupes, une unité d'Assaut Lourd et une unité d'Élite.",
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Elite"),
+    ],
+    legion: "XVI",
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -795,6 +846,15 @@ const TYPES_DETACHEMENTS = [
    - caseEM       : réservé aux Cases d'État-major,
    - unParDetachement : sélectionnable une seule fois par détachement,
    - renegat      : Allégeance Renégate uniquement (Vrais Croyants).
+   - roleRequis   : réservé aux Cases de ce Rôle Tactique exact (ex :
+                 Suprématie Martiale, réservé aux Cases d'Élite),
+   - traitRequis  : l'unité doit avoir ce Trait (ex : Suprématie
+                 Martiale et Assaut Zélé, réservés aux Traits de
+                 Légion Sons of Horus / Word Bearers) — combiné à
+                 `roleRequis` ci-dessus, approxime « composée
+                 uniquement de Figurines qui ont le Trait X » : le
+                 site ne modélise que le Trait au niveau de l'Unité,
+                 pas figurine par figurine.
    Rappel du livre : si l'unité inclut une figurine de Sous-type
    Unique, seul « Bénéfice Logistique » reste disponible.
    ---------------------------------------------------------- */
@@ -846,6 +906,27 @@ const AVANTAGES_PRINCIPAUX = [
     renegat: true,
     texte:
       "Armées d'Allégeance Renégate (liste Legiones Astartes) : toutes les figurines de l'unité gagnent le Sous-type Maléfique — elles ignorent les Statuts Tactiques (remplacés par D3 blessures automatiques PA2/Dégâts 1 sans sauvegarde) et les règles réduisant Cd/Sf/Vo/Int, et ne peuvent pas rejoindre ou être rejointes par des unités non-Maléfiques.",
+  },
+  /* --- Arsenal des Sons of Horus (XVIe Légion), page « Suprématie
+     Martiale » (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    id: "supremacie-martiale",
+    nom: "Suprématie Martiale (Sons of Horus)",
+    roleRequis: "Elite",
+    traitRequis: "Sons of Horus",
+    texte:
+      "Réservé à une Unité de Rôle Tactique Élite composée uniquement de Figurines ayant le Trait Sons of Horus : une Figurine de l'Unité gagne le Sous-type Champion et la Règle Spéciale Atout du Duelliste (1).",
+  },
+  /* --- Arsenal des Word Bearers (XVIIe Légion), page « Assaut Zélé »
+     (voir js/unites-data.js, unités réservées à cette Légion). --- */
+  {
+    id: "assaut-zele",
+    nom: "Assaut Zélé (Word Bearers)",
+    roleRequis: "Troupes",
+    traitRequis: "Word Bearers",
+    texte:
+      "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Word Bearers : les Figurines de l'Unité gagnent la Règle Spéciale Impact (F).",
   },
 ];
 

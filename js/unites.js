@@ -120,6 +120,12 @@ function estPersonnageNomme(unite) {
    283 : Faction distincte de celle du Détachement Principal — voir
    Organigramme.legionsAlliees()). Sans Légion précisée sur l'unité,
    elle reste universellement disponible.
+   De même, une unité au Trait « Loyaliste » ou « Renégat » (champ
+   `traits`, ex : Primarques, Maîtres de Légion) n'est proposable que
+   si l'Allégeance de l'Armée (js/organigramme.js) correspond : ce
+   changement d'Allégeance retire aussi les unités devenues
+   incompatibles déjà présentes dans la liste (voir le gestionnaire
+   du menu Allégeance dans js/organigramme.js).
    Un champ `excluAvec: [idUnite, ...]` (ex : Angron / Angron
    Transfiguré, deux formes du même Primarque) rend l'unité
    indisponible tant qu'une des unités listées est déjà dans la liste.
@@ -141,6 +147,17 @@ function uniteAccessible(unite) {
       Organigramme.legionActuelle() === unite.legion ||
       Organigramme.legionsAlliees().includes(unite.legion);
     if (!legionOk) return false;
+  }
+  if (
+    unite.traits &&
+    (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
+  ) {
+    if (!orgaPret || typeof Organigramme === "undefined") return false;
+    const allegeance = Organigramme.allegeanceActuelle();
+    if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste")
+      return false;
+    if (unite.traits.includes("Renégat") && allegeance !== "renegat")
+      return false;
   }
   if (
     unite.excluAvec &&

@@ -257,29 +257,53 @@ const Organigramme = (() => {
     },
   };
 
-  const ESPACE_NOM_SVG = "http://www.w3.org/2000/svg";
+  /* Blasons de Légion (assets/logo_legions/*.png) : bannières
+     héraldiques officielles, une par Légion. La clé est le slug
+     `icone` de SKINS_LEGION ci-dessus ; la valeur est le nom de
+     fichier réel sous assets/logo_legions/ (quelques fichiers ont une
+     coquille dans leur nom — ex. "scpace_wolves.png",
+     "salamenders.png", conservées telles quelles pour ne pas casser
+     le lien vers le fichier). */
+  const LOGOS_LEGION = {
+    "dark-angels": "dark_angels",
+    "emperors-children": "emperor_children",
+    "iron-warriors": "iron_warriors",
+    "white-scars": "white_scars",
+    "space-wolves": "scpace_wolves",
+    "imperial-fists": "imperial_fists",
+    "night-lords": "night_lords",
+    "blood-angels": "blood_angels",
+    "iron-hands": "iron_hands",
+    "world-eaters": "world_eaters",
+    ultramarines: "ultramarines",
+    "death-guard": "death_guards",
+    "thousand-sons": "thousand_sons",
+    "sons-of-horus": "sons_of_horus",
+    "word-bearers": "word_bearers",
+    salamanders: "salamenders",
+    "raven-guard": "raven_guards",
+    "alpha-legion": "alpha_legion",
+  };
 
-  /* Icône <svg><use> pointant vers le sprite de symboles posé dans
-     pages/unites.html (<symbol id="icon-...">). Colorée via
-     currentColor (voir .legion-stroke du sprite et .legion-icon de
-     css/style.css) : elle suit automatiquement --accent du skin actif,
-     sans variante par couleur à maintenir. document.createElementNS
-     est indispensable ici — document.createElement("svg") ne produit
-     pas un élément SVG utilisable. */
-  function creerIconeLegion(id, classeSupplementaire) {
-    const svg = document.createElementNS(ESPACE_NOM_SVG, "svg");
-    svg.setAttribute(
-      "class",
-      classeSupplementaire
-        ? "legion-icon " + classeSupplementaire
-        : "legion-icon",
-    );
-    svg.setAttribute("aria-hidden", "true");
-    svg.setAttribute("focusable", "false");
-    const use = document.createElementNS(ESPACE_NOM_SVG, "use");
-    use.setAttribute("href", "#icon-" + id);
-    svg.appendChild(use);
-    return svg;
+  /* Image du blason (bannière héraldique complète, déjà en couleur :
+     contrairement à l'ancien sprite ligne, elle ne suit pas --accent).
+     `skin` = une entrée de SKINS_LEGION. Purement décorative dans les
+     deux emplacements où elle est posée (le nom de la Légion est
+     toujours affiché en texte juste à côté) : alt vide + aria-hidden,
+     pour ne pas faire doublon au lecteur d'écran. */
+  function creerIconeLegion(skin, classeSupplementaire) {
+    const img = document.createElement("img");
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src =
+      "../assets/logo_legions/" +
+      (LOGOS_LEGION[skin.icone] || skin.icone) +
+      ".png";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
   }
 
   let compteurDet = 0;
@@ -643,6 +667,32 @@ const Organigramme = (() => {
           " dans l'Armée (n'importe quelle Case).",
       };
     }
+    if (type.requiertAllegeance && etat.allegeance !== type.requiertAllegeance) {
+      return {
+        possible: false,
+        raison:
+          "Réservé aux Armées d'Allégeance " +
+          (type.requiertAllegeance === "renegat"
+            ? "Renégate (Traitre)"
+            : "Loyaliste") +
+          ".",
+      };
+    }
+    if (
+      type.requiertAvantage &&
+      !etat.detachements.some((d) =>
+        d.cases.some((c) => c.avantage === type.requiertAvantage),
+      )
+    ) {
+      const avantage = avantageParId(type.requiertAvantage);
+      return {
+        possible: false,
+        raison:
+          "Nécessite l'Avantage Principal « " +
+          (avantage ? avantage.nom : type.requiertAvantage) +
+          " » choisi sur au moins une Case de l'Armée.",
+      };
+    }
     const credits = calculerCredits();
     if (type.famille === "apex" && credits.apexRestants <= 0) {
       return {
@@ -862,6 +912,44 @@ const Organigramme = (() => {
             " dans l'Armée.",
         );
       }
+      // Mêmes conditions de composition d'Armée que ci-dessus, portant
+      // cette fois sur l'Allégeance de la partie et/ou un Avantage
+      // Principal choisi n'importe où (ex : Conclave Exalté des Word
+      // Bearers, réservé aux Armées Renégates ayant choisi Vrais
+      // Croyants sur au moins une Case) : un changement d'Allégeance ou
+      // la désélection de l'Avantage rend le Détachement déjà présent
+      // invalide, signalé ici plutôt que retiré automatiquement.
+      if (
+        type.requiertAllegeance &&
+        etat.detachements.some((d) => d.typeId === type.id) &&
+        etat.allegeance !== type.requiertAllegeance
+      ) {
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » nécessite une Armée d'Allégeance " +
+            (type.requiertAllegeance === "renegat"
+              ? "Renégate (Traitre)"
+              : "Loyaliste") +
+            ".",
+        );
+      }
+      if (
+        type.requiertAvantage &&
+        etat.detachements.some((d) => d.typeId === type.id) &&
+        !etat.detachements.some((d) =>
+          d.cases.some((c) => c.avantage === type.requiertAvantage),
+        )
+      ) {
+        const avantage = avantageParId(type.requiertAvantage);
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » nécessite l'Avantage Principal « " +
+            (avantage ? avantage.nom : type.requiertAvantage) +
+            " » choisi sur au moins une Case de l'Armée.",
+        );
+      }
     }
 
     // 6. Avantages Principaux (p. 283).
@@ -921,6 +1009,16 @@ const Organigramme = (() => {
         raison = "Exige une figurine de Sous-type État-major.";
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
+      } else if (avantage.roleRequis && caseOrga.role !== avantage.roleRequis) {
+        raison = "Réservé aux Cases de Rôle Tactique " + avantage.roleRequis + ".";
+      } else if (
+        avantage.traitRequis &&
+        (!occ || !occ.unite.traits.includes(avantage.traitRequis))
+      ) {
+        raison =
+          "Exige une Unité dont les Figurines ont le Trait " +
+          avantage.traitRequis +
+          ".";
       } else if (
         avantage.id === "affectation-speciale" &&
         occ &&
@@ -1206,7 +1304,43 @@ const Organigramme = (() => {
     }
     selectAllegeance.value = etat.allegeance;
     selectAllegeance.addEventListener("change", () => {
-      etat.allegeance = selectAllegeance.value;
+      const nouvelleAllegeance = selectAllegeance.value;
+      if (nouvelleAllegeance !== etat.allegeance) {
+        // Une unité de Trait « Loyaliste » ou « Renégat » (champ
+        // `traits` de js/unites-data.js, ex : Primarques, Maîtres de
+        // Légion) n'est légale que dans une Armée de la même
+        // Allégeance : un changement d'Allégeance qui en rendrait
+        // certaines illégales les retire donc de la liste, après
+        // confirmation.
+        const traitRequis =
+          nouvelleAllegeance === "renegat" ? "Loyaliste" : "Renégat";
+        const incompatibles = hooks
+          .getArmee()
+          .filter((inst) => {
+            const unite = hooks.trouverUnite(inst.uniteId);
+            return unite && unite.traits && unite.traits.includes(traitRequis);
+          });
+        if (incompatibles.length > 0) {
+          const noms = incompatibles
+            .map((inst) => (hooks.trouverUnite(inst.uniteId) || {}).nom)
+            .join(", ");
+          if (
+            !window.confirm(
+              "Changer d'Allégeance retire de la liste les unités " +
+                "incompatibles (Trait « " +
+                traitRequis +
+                " ») : " +
+                noms +
+                ". Continuer ?",
+            )
+          ) {
+            selectAllegeance.value = etat.allegeance;
+            return;
+          }
+          for (const inst of incompatibles) hooks.retirerInstance(inst.uid);
+        }
+      }
+      etat.allegeance = nouvelleAllegeance;
       actualiser();
     });
     ligne.appendChild(labelAllegeance);
@@ -1290,7 +1424,7 @@ const Organigramme = (() => {
       if (ancienneIcone) ancienneIcone.remove();
       if (skin) {
         titre.insertBefore(
-          creerIconeLegion(skin.icone, "legion-icon--titre"),
+          creerIconeLegion(skin, "legion-icon--titre"),
           titre.firstChild,
         );
       }
@@ -1299,7 +1433,7 @@ const Organigramme = (() => {
       document.body.classList.add(skin.classe);
       const banniere = el("p", "legion-banniere");
       const entete = el("strong", "legion-item");
-      entete.appendChild(creerIconeLegion(skin.icone));
+      entete.appendChild(creerIconeLegion(skin));
       entete.appendChild(
         document.createTextNode(etat.legion + " – " + skin.nom),
       );
@@ -1762,6 +1896,11 @@ const Organigramme = (() => {
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
     legionActuelle: () => etat.legion,
+    // Allégeance de l'Armée ("loyaliste" | "renegat") : consommée par
+    // js/unites.js (uniteAccessible) pour n'autoriser que les unités
+    // dont le Trait d'Allégeance (« Loyaliste »/« Renégat », champ
+    // `traits` de js/unites-data.js) correspond à cette Allégeance.
+    allegeanceActuelle: () => etat.allegeance,
     // Légions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Légion a été choisie, doublons
     // possibles si plusieurs partagent la même — p. 283). Consommée
