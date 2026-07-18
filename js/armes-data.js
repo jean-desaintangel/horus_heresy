@@ -347,6 +347,38 @@ const ARMES_TIR = [
         regles: "Brèche (6+)",
         traits: "Bolts, Assaut",
       },
+      /* --- Arsenal des Sons of Horus (XVIe Légion) : munitions
+         Banestrike (page « Arsenal des Sons of Horus », voir
+         js/unites-data.js, unités réservées à cette Légion). --- */
+      {
+        nom: "Bolter Banestrike",
+        stats: ["18", "2", "4", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Bolts",
+      },
+      {
+        nom: "Combi-bolter Banestrike",
+        stats: ["18", "4", "4", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Bolts",
+      },
+      {
+        // Arme de personnage (Vheren Ashurhaddon, Sons of Horus).
+        nom: "Paire de Pistolets Banestrike",
+        stats: ["10", "4", "5", "4", "1"],
+        regles: "Pistolet, Brèche (6+)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        // Arme de personnage (Horus Lupercal / Horus Exalté, Sons of
+        // Horus). Profil de Tir : possède aussi un profil de Mêlée
+        // (voir Armes Énergétiques ci-dessous, même mécanique que
+        // L'Épée Noire — note en fin de section).
+        nom: "La Serre du Maître de Guerre",
+        stats: ["24", "5", "5", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Bolts, Assaut",
+      },
     ],
   },
   {
@@ -574,6 +606,45 @@ const ARMES_TIR = [
         stats: ["Souffle", "1", "6", "4", "1"],
         regles: "Souffle, Panique (2)",
         traits: "Assaut, Flammes",
+      },
+      /* --- Arsenal des Word Bearers (XVIIe Légion) : Escouade du
+         Cercle de Cendres, Kor Phaeron, Dreadnought Mhara Gal (voir
+         js/unites-data.js, unités réservées à cette Légion). --- */
+      {
+        // Arme de l'Escouade du Cercle de Cendres (Word Bearers).
+        nom: "Lance-flammes Léger Akkadique",
+        stats: ["Souffle", "1", "4", "4", "1"],
+        regles: "Souffle, Pistolet, Panique (2)",
+        traits: "Assaut, Flammes",
+      },
+      {
+        // Arme de l'Iconoclaste de l'Escouade du Cercle de Cendres
+        // (option, Word Bearers).
+        nom: "Pistolet Inferno",
+        stats: ["6", "1", "8", "2", "1"],
+        regles: "Pistolet, Fusion (3)",
+        traits: "Assaut, Fusion",
+      },
+      {
+        // Arme de Kor Phaeron (Word Bearers).
+        nom: "Digi-lance-flammes",
+        stats: ["Souffle", "1", "4", "-", "1"],
+        regles: "Souffle",
+        traits: "Flammes, Assaut",
+      },
+      {
+        // Arme du Dreadnought Mhara Gal (Word Bearers).
+        nom: "Canon à Feu Warp",
+        stats: ["36", "1", "6", "4", "2"],
+        regles: 'Lourde (FT), Explosion (3"), Brèche (4+), Lacération (6+)',
+        traits: "Plasma",
+      },
+      {
+        // Arme du Dreadnought Mhara Gal (Word Bearers).
+        nom: "Brasier Warp",
+        stats: ["Souffle", "1", "5", "4", "1"],
+        regles: "Souffle, Panique (2), Brèche (4+), Lacération (6+)",
+        traits: "Flammes",
       },
     ],
   },
@@ -1915,6 +1986,126 @@ const ARMES_MELEE = [
         regles: "Brèche (5+), Lacération (5+)",
         traits: "Énergétique",
       },
+      /* --- Arsenal des Sons of Horus (XVIe Légion) : Émissaire Noir,
+         Ezekyle Abaddon, Horus Aximand, Tybalt Marr, Vheren Ashurhaddon
+         (voir js/unites-data.js, unités réservées à cette Légion).
+         Stats des armes de personnage À VÉRIFIER (pages peu lisibles
+         sur les photos, notamment près de la reliure pour Abaddon et
+         Aximand). --- */
+      {
+        // Arme de personnage (Émissaire Noir, Sons of Horus).
+        nom: "Sceptre de Sombre Autorité",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Ezekyle Abaddon, Sons of Horus).
+        nom: "Griffe Énergétique Cthonienne",
+        stats: ["-2", "A", "+4", "2", "2"],
+        regles: "Lacération (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Horus Aximand, « Deuil-de-Tout »,
+        // Sons of Horus).
+        nom: "Deuil-de-Tout",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Tybalt Marr, Sons of Horus).
+        nom: "La Lame d'Abattage",
+        stats: ["I", "A", "F", "3", "1"],
+        regles: "Empoisonné (2+), Touche Critique (6+), Brèche (5+)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Vheren Ashurhaddon, Sons of Horus).
+        nom: "La Hache Serpentis",
+        stats: ["+1", "A", "F", "2", "1"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Sons of Horus (XVIe Légion) : échange contre une
+        // arme énergétique pour toute Figurine ayant le Trait Sons of
+        // Horus, +5 Points par Figurine.
+        nom: "Hache énergétique carsoraine",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+), Lacération (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Sons of Horus (XVIe Légion) : voir Hache
+        // énergétique carsoraine, +10 Points par Figurine.
+        nom: "Tabar énergétique carsoraine",
+        stats: ["-2", "A", "+2", "3", "1"],
+        regles: "Brèche (5+), Lacération (5+)",
+        traits: "Énergétique",
+      },
+      /* --- Arsenal des Word Bearers (XVIIe Légion) : Kor Phaeron,
+         Erebus, Argel Tal, Zardu Layak, Gal Vorbak, Dreadnought Mhara
+         Gal (voir js/unites-data.js, unités réservées à cette
+         Légion). --- */
+      {
+        // Arme de personnage (Kor Phaeron, Word Bearers).
+        nom: "Griffes du Patriarche",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "Lacération (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Erebus, Word Bearers).
+        nom: "Crux Malefica",
+        stats: ["1", "A", "+3", "2", "2"],
+        regles: "Phage (F)",
+        traits: "Énergétique, Psychique",
+      },
+      {
+        // Arme de personnage (Argel Tal, Word Bearers).
+        nom: "Serres Démoniaques",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "-",
+        traits: "Psychique",
+      },
+      {
+        // Arme de personnage (Zardu Layak, Word Bearers).
+        nom: "L'Azurda Char'is",
+        stats: ["+1", "A", "+2", "4", "2"],
+        regles: "Force (D)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de personnage (Anakatis Kul, compagnon de Zardu Layak,
+        // Word Bearers).
+        nom: "Épée Anakatis",
+        stats: ["1", "A", "F", "3", "2"],
+        regles: "Brèche (6+), Phage (F)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de l'Unité Gal Vorbak (Word Bearers).
+        nom: "Serres Souillées",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (6+), Lacération (6+), Phage (F)",
+        traits: "Psychique",
+      },
+      {
+        // Arme du Dreadnought Mhara Gal (Word Bearers).
+        nom: "Griffe Souillée",
+        stats: ["1", "A", "+3", "2", "3"],
+        regles: "-",
+        traits: "Psychique, Énergétique",
+      },
+      {
+        // Arme de l'Escouade du Cercle de Cendres (Word Bearers).
+        nom: "Hache-croc",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Touche Critique (6+), Phage (M)",
+        traits: "Tronçonneuse",
+      },
     ],
   },
   {
@@ -2054,6 +2245,40 @@ const ARMES_MELEE = [
         stats: ["-3", "A", "+4", "2", "3"],
         regles: "Fléau des Blindages",
         traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Horus Lupercal / Horus Exalté, Primarque
+        // des Sons of Horus). Profil de Mêlée : possède aussi un
+        // profil de Tir (voir Armes à Bolts ci-dessus).
+        nom: "La Serre du Maître de Guerre",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "Fauchage (3), Lacération (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Horus Lupercal / Horus Exalté, Primarque
+        // des Sons of Horus, « Worldbreaker »).
+        nom: "Briseuse de Mondes",
+        stats: ["-2", "A", "+4", "2", "3"],
+        regles: "Touche Critique (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Lorgar, Primarque des Word Bearers).
+        // MI confirmé "I" par Jean lors d'une précédente relecture ;
+        // la capture la plus récente affiche plutôt "1" à cette
+        // colonne (police proche) — à confirmer en dernier ressort.
+        nom: "Illuminarum",
+        stats: ["I", "A", "+2", "2", "3"],
+        regles: "Touche Critique (5+), Phage (F), Fauchage (2)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Lorgar, Primarque des Word Bearers).
+        nom: "Dévotion",
+        stats: ["12", "1", "8", "2", "2"],
+        regles: "Choc (Fixée), Fixation (0)",
+        traits: "Gravitons, Assaut",
       },
     ],
   },
