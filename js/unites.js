@@ -634,25 +634,41 @@ function construireRegexArme(nomMinuscule) {
   return new RegExp(echapperRegex(nomMinuscule).split(" ").join("s? ") + "s?");
 }
 
+// Certaines armes de l'Arsenal ont plusieurs profils au tir partageant
+// le même montage : munitions ou cadence différentes après un tiret
+// cadratin (« Obusier Kratos — Obus HE » / « — Obus PA » / « — Obus
+// Brûleurs* », « Fusil à plasma — Tir soutenu » / « — Tir maximal »),
+// ou bande de portée entre parenthèses (« Canon à conversion lourd
+// (< 15 pas) » / « (15-30 pas) » / « (> 30-45 pas) »). Le nom affiché
+// sur la fiche d'unité ne mentionne que le montage lui-même (« Obusier
+// Kratos de Tourelle », « Fusil à plasma », « Canon à conversion lourd
+// de Tourelle »), jamais le profil précis. `nomBase` (débarrassé du
+// tiret et de la parenthèse finale) sert donc à la fois à la recherche
+// dans l'équipement et à regrouper tous les profils d'un même montage
+// dans la table de caractéristiques (voir construireTablesArmes).
 function construireIndexArmes() {
   const index = [];
   const ajouter = (categories, entetes) => {
     for (const categorie of categories) {
       for (const arme of categorie.armes) {
+        const separateur = arme.nom.indexOf(" — ");
+        const nomBase = (separateur === -1 ? arme.nom : arme.nom.slice(0, separateur))
+          .replace(/\s*\([^)]*\)\s*$/, "");
         index.push({
           nom: arme.nom,
+          nomBase,
           entetes,
           stats: arme.stats,
           regles: arme.regles,
           traits: arme.traits,
-          regex: construireRegexArme(arme.nom.toLowerCase()),
+          regex: construireRegexArme(nomBase.toLowerCase()),
         });
       }
     }
   };
   if (typeof ARMES_TIR !== "undefined") ajouter(ARMES_TIR, ENTETES_TIR);
   if (typeof ARMES_MELEE !== "undefined") ajouter(ARMES_MELEE, ENTETES_MELEE);
-  index.sort((a, b) => b.nom.length - a.nom.length);
+  index.sort((a, b) => b.nomBase.length - a.nomBase.length);
   return index;
 }
 
@@ -773,9 +789,16 @@ function construireTablesArmes(equipement) {
   const noms = new Set();
   for (const texte of equipement) {
     const correspondance = trouverArmeDansTexte(texte);
-    if (correspondance && !noms.has(correspondance.arme.nom)) {
-      noms.add(correspondance.arme.nom);
-      armesTrouvees.push(correspondance.arme);
+    if (!correspondance) continue;
+    // Un montage identifié entraîne tous ses profils (voir
+    // construireIndexArmes), pas seulement celui retenu par
+    // trouverArmeDansTexte pour la correspondance.
+    const nomBaseMinuscule = correspondance.arme.nomBase.toLowerCase();
+    for (const arme of indexArmes) {
+      if (arme.nomBase.toLowerCase() !== nomBaseMinuscule) continue;
+      if (noms.has(arme.nom)) continue;
+      noms.add(arme.nom);
+      armesTrouvees.push(arme);
     }
   }
 
