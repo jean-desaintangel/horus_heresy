@@ -1897,39 +1897,36 @@ footer p {
 
 /* ---------- Skins de Légion ----------
    Posés sur <body> par js/organigramme.js (construireParametres) selon
-   la Légion choisie dans les paramètres de la partie. Chaque skin ne
-   fait que recolorer les variables CSS déjà utilisées partout
-   (--accent, --accent-clair, --fond-secondaire, --carte-hover) : le
-   blason (voir .legion-icon plus haut) suit --accent via currentColor,
-   sans variable dédiée. Boutons, bordures, badges, jauge… s'adaptent
-   sans règle par composant. Les règles partagées ci-dessous (double
-   filet, liserés…) s'appliquent à N'IMPORTE QUEL skin-legion-* posé
-   sur <body>, pour ne pas dupliquer la mise en forme à chaque nouvelle
-   Légion.
+   la Légion choisie dans les paramètres de la partie. Chaque skin
+   recolore les variables CSS déjà utilisées partout (--accent,
+   --accent-clair, --fond-secondaire, --carte-hover) : boutons,
+   bordures, badges, jauge… s'adaptent sans règle par composant. Les
+   règles partagées ci-dessous (double filet, liserés…) s'appliquent à
+   N'IMPORTE QUEL skin-legion-* posé sur <body>, pour ne pas dupliquer
+   la mise en forme à chaque nouvelle Légion.
    --titre/--titre-contraste (or) restent VOLONTAIREMENT inchangés
    pour toutes les Légions : leur contraste WCAG (~4.3:1 / ~7:1 sur
    --fond) est calibré pour le thème par défaut, et l'or sert de
    liseré héraldique commun à toutes les livrées. */
 
-/* Blason de Légion : <svg><use> posé par js/organigramme.js
-   (creerIconeLegion), référençant un <symbol> du sprite ligne posé en
-   tête de pages/unites.html (currentColor, voir sa balise <style>
-   .legion-stroke). --accent fournit la couleur : un seul sprite sert
-   les 18 Légions, sans variante par couleur à maintenir. */
+/* Blason de Légion : <img> posé par js/organigramme.js
+   (creerIconeLegion), pointant vers assets/logo_legions/*.png (une
+   bannière héraldique déjà en couleur par Légion — contrairement à
+   l'ancien sprite ligne, elle ne suit pas --accent). Bannière haute et
+   étroite (ratio ~0.53) : on fixe la hauteur et on laisse la largeur
+   s'adapter, plutôt qu'un carré fixe. */
 .legion-icon {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
-  color: var(--accent);
+  height: 1.8rem;
+  width: auto;
+  flex: 0 0 auto;
 }
 
 /* Version agrandie posée devant le titre de page (h1.titre-page). */
 .legion-icon--titre {
-  width: 1.4em;
-  height: 1.4em;
-  flex-basis: auto;
+  height: 2.2em;
+  width: auto;
   margin-right: 0.5rem;
-  vertical-align: -0.3em;
+  vertical-align: -0.6em;
   filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.35));
 }
 
