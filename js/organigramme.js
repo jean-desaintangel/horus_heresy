@@ -41,6 +41,11 @@ const Organigramme = (() => {
     detachements: [],
   };
 
+  // Légions temporairement grisées malgré la présence d'unités qui
+  // leur sont réservées (ex. transcription en cours de relecture).
+  // Retirer l'entrée ici suffit à réactiver la sélection.
+  const LEGIONS_INDISPONIBLES = ["III"];
+
   const LEGIONS = [
     ["I", "I – Dark Angels"],
     ["III", "III – Emperor’s Children"],
@@ -1159,7 +1164,9 @@ const Organigramme = (() => {
       // réservées (champ `legion` dans js/unites-data.js) : les autres
       // restent affichées, grisées, en attendant leur transcription
       // depuis le livre d'armée.
-      const disponible = UNITES.some((u) => u.legion === valeur);
+      const disponible =
+        UNITES.some((u) => u.legion === valeur) &&
+        !LEGIONS_INDISPONIBLES.includes(valeur);
       opt.textContent = disponible ? texte : texte + " (prochainement)";
       opt.disabled = !disponible;
       selectLegion.appendChild(opt);
