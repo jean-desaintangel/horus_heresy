@@ -1228,6 +1228,66 @@ const ARMES_TIR = [
         regles: "Brèche (5+), Déflagration (6), Sonner (1)",
         traits: "Assaut",
       },
+      {
+        // Arme de personnage (Angron, Primarque des World Eaters).
+        nom: "Le Fourneau de Hargne",
+        stats: ["12", "2", "7", "2", "2"],
+        regles: "-",
+        traits: "Plasma, Assaut",
+      },
+      {
+        // Arme de personnage (Lotara Sarrin, World Eaters).
+        nom: "Pistolet de dotation",
+        stats: ["12", "1", "3", "-", "1"],
+        regles: "Pistolet",
+        traits: "Assaut",
+      },
+      {
+        // Arme de personnage (Vulkan, Primarque des Salamanders).
+        nom: "Le Cœur du Fourneau",
+        stats: ["18", "1", "7", "2", "3"],
+        regles: "Panique (1)",
+        traits: "Volkite",
+      },
+      {
+        // Arme de personnage (Vulkan, Primarque des Salamanders).
+        nom: "Gantelet Souffle de Dragon",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Panique (2)",
+        traits: "Flammes",
+      },
+      {
+        // Arme de l'Escouade Pyroclaste (Salamanders) : profil Dispersé,
+        // voir aussi Focalisé ci-dessous.
+        nom: "Projecteur à flammes Pyroclaste — Dispersé",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Panique (1)",
+        traits: "Flammes, Fusion",
+      },
+      {
+        // Arme de l'Escouade Pyroclaste (Salamanders) : profil Focalisé,
+        // voir aussi Dispersé ci-dessus.
+        nom: "Projecteur à flammes Pyroclaste — Focalisé",
+        stats: ["12", "1", "8", "2", "2"],
+        regles: "Fusion (6)",
+        traits: "Flammes, Fusion",
+      },
+      {
+        // Arme de personnage (Seigneur Commandant Eidolon, Emperor's
+        // Children).
+        nom: "Cri Mortel",
+        stats: ["Souffle", "1", "3", "5", "1"],
+        regles: "Souffle, Brèche (6+), Fixation (0)",
+        traits: "Sonique, Assaut",
+      },
+      {
+        // Arsenal des Emperor's Children (IIIe Légion) : équipement
+        // optionnel (Escouade Terminator Phénix, Capitaine Lucius).
+        nom: "Lance sonique",
+        stats: ["Souffle", "1", "2", "5", "1"],
+        regles: "Souffle, Brèche (6+)",
+        traits: "Sonique, Assaut",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
@@ -1527,6 +1587,53 @@ const ARMES_MELEE = [
         regles: "Précision (6+), En Feu (1)",
         traits: "Énergétique, Flammes",
       },
+      {
+        // Arme de personnage (Khârn le Sanglant, World Eaters).
+        nom: "La Trancheuse",
+        stats: ["I", "A", "+1", "2", "1"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Khârn le Sanglant, World Eaters) : échange
+        // possible contre La Trancheuse si Angron n'est pas dans l'Armée.
+        nom: "La Carnassière Reforgée",
+        stats: ["I", "A", "+1", "2", "1"],
+        regles: "Touche Critique (6+), Lacération (5+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        // Arme de personnage (Lotara Sarrin, World Eaters).
+        nom: "La Morsure du Conqueror",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de l'Escouade Terminator Pyrodracs (Salamanders).
+        nom: "Marteau Thunder forgé",
+        stats: ["-2", "+1", "+3", "2", "2"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Seigneur Commandant Eidolon, Emperor's
+        // Children).
+        nom: "Gloria Aeterna",
+        stats: ["-2", "A", "+2", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Emperor's Children (IIIe Légion) : échange contre
+        // une arme énergétique pour toute Figurine de Sous-type
+        // État-major, Champion ou Sergent ayant le Trait Emperor's
+        // Children (Escouade Terminator Phénix, +10 Points/Figurine).
+        nom: "Lance énergétique Phénix",
+        stats: ["+1", "A", "+1", "3", "1"],
+        regles: "Impact (D), Brèche (6+)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -1577,6 +1684,69 @@ const ARMES_MELEE = [
         regles: "Atout du Duelliste (1)",
         traits: "Énergétique",
       },
+      {
+        // Arme de personnage (Angron, Primarque des World Eaters).
+        nom: "La Carnivore et la Carnassière",
+        stats: ["1", "+1", "F", "2", "2"],
+        regles: "Touche Critique (6+), Lacération (5+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        // Arme de personnage (Angron Transfiguré, World Eaters) : profil
+        // Éviscération, voir aussi Concassage ci-dessous.
+        nom: "Lames de l'Ange Rouge — Éviscération",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Fauchage (2)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Angron Transfiguré, World Eaters) : profil
+        // Concassage, voir aussi Éviscération ci-dessus.
+        nom: "Lames de l'Ange Rouge — Concassage",
+        stats: ["-2", "4", "+4", "2", "4"],
+        regles: "Touche Critique (6+), Fléau des Blindages",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Vulkan, Primarque des Salamanders).
+        nom: "Amène-l'Aube",
+        stats: ["1", "A", "+2", "2", "3"],
+        regles: "Touche Critique (5+), Fléau des Blindages",
+        traits: "Énergétique",
+      },
+    ],
+  },
+  {
+    // Arsenal des World Eaters (XIIe Légion) : armes rituelles des
+    // Saccageurs (Escouade Saccageuse, voir js/unites-data.js, unité
+    // réservée à cette Légion). Chaque Figurine équipée d'une arme des
+    // Caedere choisit un de ces quatre profils.
+    titre: "Armes des Caedere",
+    armes: [
+      {
+        nom: "Marteau météore",
+        stats: ["1", "-1", "+2", "3", "2"],
+        regles: "Impact (MI)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Hache tronçonneuse Excoriator",
+        stats: ["-2", "A", "+2", "3", "1"],
+        regles: "Brèche (6+), Lacération (6+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        nom: "Paire de falax",
+        stats: ["1", "+2", "F", "3", "1"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Fouet barbelé",
+        stats: ["+1", "A", "F", "3", "1"],
+        regles: "Touche Critique (6+), Phage (F)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -1594,6 +1764,13 @@ const ARMES_MELEE = [
         nom: "Canons de poing Fulcrum (Mêlée)",
         stats: ["1", "+1", "6", "2", "1"],
         regles: "Lacération (5+)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Capitaine Lucius, Emperor's Children).
+        nom: "Lames de Lucius",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Atout du Duelliste (1)",
         traits: "-",
       },
       {

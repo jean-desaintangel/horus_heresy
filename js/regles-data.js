@@ -513,4 +513,71 @@ const REGLES_DIVERSES = [
     texte:
       "Avantage Principal réservé à une Unité entièrement composée de Figurines ayant le Trait Blood Angels occupant une Case Principale : ses Figurines gagnent la Règle Spéciale Peur (1).",
   },
+
+  /* --- Arsenal des World Eaters (XIIe Légion) : Angron, Angron
+     Transfiguré, Khârn le Sanglant, Lotara Sarrin, Escouade Saccageuse
+     (voir js/unites-data.js, unités réservées à cette Légion). --- */
+  {
+    nom: "Seigneur des Sables Écarlates",
+    texte:
+      "Angron peut livrer plusieurs Défis successifs en un Tour. Au début de l'Étape de Gloire d'un Défi dont le Protagoniste est une Figurine ayant cette Règle Spéciale, avant de résoudre ladite Étape de Gloire, le Joueur en Contrôle de la Figurine ayant cette Règle Spéciale a le droit de revenir immédiatement à l'Étape de Déclaration de Défi afin de déclarer un autre Défi. Les Figurines ennemies qui ont déjà combattu en Défi à cette Sous-phase ne sont pas éligibles à participer à ce Défi supplémentaire. Quand on résout l'Étape de Gloire à cette Sous-phase de Défi, les joueurs gagnent des Points de Résolution de Combat pour l'ensemble des Défis résolus au cours de cette Sous-phase.",
+  },
+  {
+    nom: "Sire des World Eaters",
+    texte:
+      "Le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex World Eaters de son Armée, tant qu'une Figurine ayant cette Règle Spéciale en fait partie : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade d'Assaut et/ou Nettoyeuse, on les considère comme des Cases Principales. Jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie ou Parangon qui ont le Trait World Eaters ont la Règle Spéciale Vif (2).",
+  },
+  {
+    nom: "Calme et Posée",
+    texte:
+      "Une Unité rejointe par Lotara Sarrin peut utiliser ses Caractéristiques pour ôter des Statuts Tactiques. Si une Unité inclut une Figurine ayant cette Règle Spéciale, à la Phase de Début de son Tour en tant que Joueur Actif, le Joueur en Contrôle peut faire un Test pour retirer un seul Statut à toutes les Figurines de l'Unité qui inclut la Figurine ayant cette Règle Spéciale. On fait ce Test sous la Caractéristique appropriée de la Figurine ayant cette Règle Spéciale (à savoir le Sang-froid, sauf pour retirer En Déroute auquel cas c'est le Commandement).",
+  },
+  {
+    nom: "L'Ombre du Conqueror",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie du Détachement Principal de cette Armée et se trouve sur le Champ de Bataille, à la Sous-phase des Effets de la Phase de Début, le Joueur en Contrôle de la Figurine ayant cette Règle Spéciale peut faire un Test d'Intelligence pour ladite Figurine. Si le Test est réussi, le Joueur en Contrôle peut choisir une des options suivantes : Coordonner — une fois à ce Tour, avant de faire un Jet de Réserves pour une Unité en Réserves Aériennes, le Joueur en Contrôle peut modifier de +1 le résultat de ce Jet de Réserves. Annihiler — une fois à la prochaine Phase de Mouvement adverse, le Joueur en Contrôle peut effectuer la Réaction Avancée Canons du Conqueror : le Joueur Réactif peut la déclarer à l'Étape 2 de la Sous-phase de Déplacement si une Unité ennemie finit un Déplacement à 24 pouces et en Ligne de Vue d'une Figurine d'une Unité sous son contrôle qui comprend une Figurine ayant cette Règle Spéciale (Coût : 3 Points de Réactions ; Cible : l'Unité dont le Déplacement déclenche la Réaction). Le Joueur Réactif fait alors une Attaque de Tir contre l'Unité Cible avec le profil Canons du Conqueror (24, 1, 10, 3, 3 — Barrage (2), Explosion (7\"), Brèche (5+), Assaut), dont le Jet de Touche est automatiquement raté ; une fois cette Attaque entièrement résolue, retrait des Pertes inclus, le Joueur Actif finit de résoudre le Déplacement de l'Unité Cible s'il y a lieu.",
+  },
+
+  /* --- Arsenal des Salamanders (XVIIIe Légion) : Vulkan, Escouade
+     Pyroclaste, Escouade Terminator Pyrodracs (voir js/unites-data.js,
+     unités réservées à cette Légion). --- */
+  {
+    nom: "Écaille de Drac",
+    texte:
+      "Équipement (+10 Points par Figurine) réservé à une Figurine de Sous-type État-major ou Champion ayant le Trait Salamanders : on fixe à 1 la Caractéristique de Dégâts des Blessures ayant le Trait Flammes, Plasma, Fusion ou Volkite allouées à une Figurine dotée d'Écaille de Drac.",
+  },
+  {
+    nom: "Le Devoir Avant la Mort",
+    texte:
+      "Avantage Principal réservé à une Unité entièrement composée de Figurines ayant le Trait Salamanders et le Rôle Tactique Troupes occupant une Case Principale : ses Figurines gagnent la Règle Spéciale Insensible à la Douleur (6+).",
+  },
+  {
+    nom: "Le Feu Inextinguible",
+    texte:
+      "Posture disponible tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi : le Joueur en Contrôle de cette Figurine ne peut appliquer aucun modificateur positif au Jet de Concentration à l'Étape 4 de l'Étape de Frappe. Cependant, si cette Figurine n'est pas réduite à 0 Point de Vie avant que les joueurs reprennent l'Étape 2 de la procédure de Défi ou qu'ils passent à l'Étape de Gloire, elle augmente de +D3 la Valeur de sa Caractéristique de Points de Vie Actuelle, jusqu'à concurrence de sa Caractéristique de Points de Vie de Base. Aucun Point de Vie regagné en vertu de cette Règle Spéciale n'affecte le nombre de PV que l'Adversaire a fait perdre pour la Résolution de Combat.",
+  },
+  {
+    nom: "Sire des Salamanders",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que cette Figurine : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées et qu'au moins une Figurine de chacune des Unités qui occupent ces Cases a reçu comme amélioration une Arme Forgée, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, jusqu'à la fin du premier Tour de Bataille, le Joueur en Contrôle peut ignorer tous les modificateurs négatifs aux Caractéristiques de Commandement, de Volonté, de Sang-froid et d'Intelligence de toutes les Figurines de la même Armée ayant le Trait Salamanders.",
+  },
+
+  /* --- Arsenal des Emperor's Children (IIIe Légion) : Seigneur
+     Commandant Eidolon, Capitaine Lucius, Escouade Terminator Phénix
+     (voir js/unites-data.js, unités réservées à cette Légion). --- */
+  {
+    nom: "Hurleurs soniques",
+    texte:
+      "Équipement réservé aux Figurines ayant les Traits Emperor's Children et Renégat : quand une Unité qui comprend la moindre Figurine dotée de hurleurs soniques fait un Mouvement de Charge, l'Unité Cible de la Charge en question ne peut pas effectuer de Réactions avant que la Procédure de Charge soit terminée.",
+  },
+  {
+    nom: "La Lame Exemplaire",
+    texte:
+      "Lucius profite davantage de la Posture Parangon d'Excellence : si une Figurine ayant cette Règle Spéciale adopte cette Posture, on ajoute un Modificateur de +4 au Jet de Concentration au lieu de +2.",
+  },
+  {
+    nom: "Adresse Inégalée",
+    texte:
+      "Quand elle est Verrouillée en Combat, une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale peut appliquer une Règle Spéciale de plus jusqu'à la fin de la Phase : à la fin de la Sous-phase de Charge, si elle est Verrouillée en Combat avec une ou plusieurs Unités ennemies, son Joueur en Contrôle peut choisir un des effets suivants — La Frappe Parfaite : jusqu'à la fin de cette Phase, la Caractéristique de Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont elle a besoin pour Toucher à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative (sans effet sur les Jets de Touche faits contre elle). La Garde Parfaite : jusqu'à la fin de cette Phase, la Caractéristique de Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont une Figurine adverse a besoin pour la Toucher à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative (sans effet sur les Jets de Touche faits pour ses propres attaques).",
+  },
 ];

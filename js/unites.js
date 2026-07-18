@@ -7,9 +7,10 @@
    le total de la liste sont recalculés à chaque changement. Une
    fiche récap (profil, équipement final, règles) est générée
    pour chaque unité ; la liste est imprimable (Ctrl+P — voir les
-   styles @media print de css/style.css) et téléchargeable en
-   texte brut (bouton « Télécharger armée », modifiable ensuite
-   dans n'importe quel éditeur de texte).
+   styles @media print de css/style.css) et téléchargeable au
+   format « carte d'unité », au choix en PDF (bouton « Télécharger
+   en PDF », voir genererPDF) ou en Word (bouton « Télécharger en
+   Word », voir genererWordHTML).
    Depuis 2026-07-17, chaque unité ajoutée doit occuper une Case
    de l'Organigramme de Force (règles de Sélection d'Armée,
    p. 282-285) : la structure de l'armée et sa validation sont
@@ -17,8 +18,13 @@
    Dépend : js/main.js (normaliserTexte, el, trouverDefinitionRegle),
    js/regles-data.js, js/armes-data.js, js/unites-data.js,
    js/organigramme-data.js et js/organigramme.js (chargés avant ce
-   script).
-   Sécurité : textContent partout, jamais innerHTML (anti-XSS).
+   script), js/vendor/jspdf.umd.min.js et
+   js/vendor/jspdf.plugin.autotable.min.js (export PDF, voir
+   js/vendor/LICENCES.txt).
+   Sécurité : textContent partout, jamais innerHTML — à l'exception
+   du HTML du fichier Word (genererWordHTML/carteWordHTML), construit
+   uniquement pour un téléchargement local et dont chaque valeur
+   dynamique est échappée via echapperHTML.
    Persistance : la liste est mémorisée dans localStorage pour
    survivre au rechargement de la page (aucune donnée envoyée
    à un serveur).
@@ -103,15 +109,29 @@ function trouverUnite(id) {
    data.js) n'est proposable que si cette Légion est actuellement
    choisie dans les paramètres de la partie (js/organigramme.js). Sans
    Légion précisée sur l'unité, elle reste universellement disponible.
+   Un champ `excluAvec: [idUnite, ...]` (ex : Angron / Angron
+   Transfiguré, deux formes du même Primarque) rend l'unité
+   indisponible tant qu'une des unités listées est déjà dans la liste.
    Ne s'applique qu'au sélecteur « Unité à ajouter » : une unité déjà
-   dans la liste reste affichée si la Légion change ensuite. */
+   dans la liste reste affichée si la Légion change ensuite, ou si
+   l'unité exclusive avec laquelle elle a été ajoutée est retirée
+   entre-temps (elle redevient alors non disponible pour un second
+   ajout, comme n'importe quelle unité déjà présente). */
 function uniteAccessible(unite) {
-  if (!unite.legion) return true;
-  return (
-    orgaPret &&
-    typeof Organigramme !== "undefined" &&
-    Organigramme.legionActuelle() === unite.legion
-  );
+  if (unite.legion) {
+    if (
+      !orgaPret ||
+      typeof Organigramme === "undefined" ||
+      Organigramme.legionActuelle() !== unite.legion
+    )
+      return false;
+  }
+  if (
+    unite.excluAvec &&
+    unite.excluAvec.some((id) => armee.some((inst) => inst.uniteId === id))
+  )
+    return false;
+  return true;
 }
 
 // Retire " (liste Pistolets de Légion)" etc. du nom d'un choix : sert
@@ -213,9 +233,18 @@ function equipementFinal(unite, instance, sansOption = null) {
 /* Une option est-elle actuellement réalisable ? (grise le champ
    sinon). Exemples : la baïonnette exige de conserver le bolter ;
    la paire de griffes exige que bolter ET pistolet soient encore
-   là ; le cyber-familier est interdit à la variante à Réacteurs. */
+   là ; le cyber-familier est interdit à la variante à Réacteurs ;
+   `requiertAbsenceUnite: idUnite` interdit l'option tant que cette
+   autre unité fait partie de la liste (ex : Khârn ne peut échanger
+   La Trancheuse contre La Carnassière Reforgée que si Angron n'est
+   pas dans la même Armée). */
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
+  if (
+    opt.requiertAbsenceUnite &&
+    armee.some((i) => i.uniteId === opt.requiertAbsenceUnite)
+  )
+    return false;
   const equipSansElle = equipementFinal(unite, instance, opt.id);
   // requiertEquip est comparé en « contient » : "combi-bolter"
   // reconnaît aussi "Poing énergétique Gravis et combi-bolter".
@@ -805,11 +834,14 @@ function construireFiche(unite, instance) {
   return fiche;
 }
 
-/* Met à jour ce qui dépend des valeurs : points de la carte,
-   fiche récap, champs grisés, total général. Appelée après
-   chaque interaction, sans reconstruire le formulaire (les
-   menus déroulants gardent ainsi leur état et le focus). */
-function actualiserCarte(carte, unite, instance) {
+/* Options devenues irréalisables (on les remet à zéro) puis champs du
+   formulaire (valeur + grisé) synchronisés en conséquence. Factorisé
+   hors d'actualiserCarte : une option peut devenir irréalisable suite
+   à un changement sur UNE AUTRE carte (ex : `requiertAbsenceUnite` —
+   l'option de Khârn dépend de la présence d'Angron dans la liste), pas
+   seulement suite à une interaction sur sa propre carte — voir l'appel
+   depuis actualiserSelectsCases. */
+function synchroniserConfig(carte, unite, instance) {
   // 1. Options devenues irréalisables : on les remet à zéro.
   for (const opt of unite.options) {
     if (optionRealisable(unite, instance, opt)) continue;
@@ -868,6 +900,14 @@ function actualiserCarte(carte, unite, instance) {
       caseACocher.disabled = !realisable;
     }
   }
+}
+
+/* Met à jour ce qui dépend des valeurs : points de la carte,
+   fiche récap, champs grisés, total général. Appelée après
+   chaque interaction, sans reconstruire le formulaire (les
+   menus déroulants gardent ainsi leur état et le focus). */
+function actualiserCarte(carte, unite, instance) {
+  synchroniserConfig(carte, unite, instance);
 
   // 3. Fiche récap et coût de l'unité.
   const ancienneFiche = carte.querySelector(".unite-fiche");
@@ -1216,14 +1256,30 @@ function actualiserSelectsCases() {
     // Alerte visuelle : carte sans case = liste non conforme.
     carte.classList.toggle("unite-carte--sans-case", !actuelle);
 
-    // La fiche récap dépend de l'Avantage Principal de la case (bonus
-    // de Maître-sergent, Vétérans de Combat, Parangon de Bataille) :
-    // on la reconstruit pour qu'elle reste à jour même quand le
-    // changement vient d'ailleurs (une autre carte, l'organigramme).
+    // Les options d'une carte peuvent dépendre d'une AUTRE carte (ex :
+    // `requiertAbsenceUnite` — l'option de Khârn dépend de la présence
+    // d'Angron dans la liste) : on resynchronise le formulaire ici,
+    // pas seulement lors d'une interaction sur sa propre carte.
+    synchroniserConfig(carte, unite, instance);
+
+    // La fiche récap dépend elle aussi de l'Avantage Principal de la
+    // case (bonus de Maître-sergent, Vétérans de Combat, Parangon de
+    // Bataille) : on la reconstruit pour qu'elle reste à jour même
+    // quand le changement vient d'ailleurs (une autre carte,
+    // l'organigramme).
     const ancienneFiche = carte.querySelector(".unite-fiche");
     if (ancienneFiche)
       ancienneFiche.replaceWith(construireFiche(unite, instance));
+    carte.querySelector(".unite-points").textContent =
+      coutInstance(unite, instance) + " pts";
+    if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
   }
+  // Le coût d'une unité a pu changer (option remise à zéro par
+  // synchroniserConfig ci-dessus) : total à jour, sans redéclencher
+  // Organigramme.actualiser (actualiserSelectsCases EST son callback
+  // surChangement — le rappeler ici boucherait indéfiniment).
+  majTexteTotal();
+  sauvegarder();
 }
 
 // Retrait d'une instance à la demande de l'organigramme (suppression
@@ -1238,13 +1294,16 @@ function retirerInstance(uid) {
 }
 
 /* ----------------------------------------------------------
-   TÉLÉCHARGEMENT DE LA LISTE (texte brut)
+   TÉLÉCHARGEMENT DE LA LISTE (PDF et Word)
    Plutôt que de rejouer toute la logique de coût/équipement, on
    relit directement le DOM déjà construit (cartes + résumé de
-   l'organigramme) : ainsi le fichier reste toujours identique à
-   l'écran/l'impression, sans double maintenance. .textContent
-   fonctionne même sur une fiche repliée (display:none n'empêche
-   pas la lecture du texte, contrairement à .innerText).
+   l'organigramme) et on le restructure en blocs typés
+   ({type:"table"|"ligne"|"definitions", …}) : le PDF et le Word
+   restent ainsi toujours fidèles à l'écran/l'impression (fiche au
+   format « carte d'unité », sur le modèle d'une fiche officielle),
+   sans double maintenance. .textContent fonctionne même sur une
+   fiche repliée (display:none n'empêche pas la lecture du texte,
+   contrairement à .innerText).
    ---------------------------------------------------------- */
 
 // .textContent d'un élément, sans le texte des info-bulles (.tooltip)
@@ -1261,106 +1320,434 @@ function texteSansInfobulles(element) {
   return clone.textContent.trim();
 }
 
-// Une table de profil ou d'armes → lignes "cellule | cellule | …".
-function texteTable(table) {
-  const lignes = [];
+// Une table de profil ou d'armes → { entetes, lignes } (chaque ligne
+// est un tableau de cellules texte, dans l'ordre des colonnes).
+function donneesTable(table) {
   const entetes = Array.from(table.querySelectorAll("thead th")).map((th) =>
     th.textContent.trim(),
   );
-  lignes.push(entetes.join(" | "));
-  for (const tr of table.querySelectorAll("tbody tr")) {
-    const cellules = Array.from(tr.children).map(texteSansInfobulles);
-    lignes.push(cellules.join(" | "));
-  }
-  return lignes;
+  const lignes = Array.from(table.querySelectorAll("tbody tr")).map((tr) =>
+    Array.from(tr.children).map(texteSansInfobulles),
+  );
+  return { type: "table", entetes, lignes };
+}
+
+// Une ligne « Étiquette : valeur, valeur… » (Effectif, Équipement,
+// Traits, Règles spéciales, Type, Notes) → { titre, texte }.
+function donneesLigne(p) {
+  const clone = p.cloneNode(true);
+  clone.querySelectorAll(".tooltip").forEach((bulle) => bulle.remove());
+  const strong = clone.querySelector("strong");
+  const titre = strong ? strong.textContent.replace(/\s*:\s*$/, "").trim() : "";
+  if (strong) strong.remove();
+  return { type: "ligne", titre, texte: clone.textContent.trim() };
+}
+
+// Le bloc « Définitions » (réservé à l'impression, voir
+// construireDefinitions) → { items: [{ nom, texte }] }.
+function donneesDefinitions(bloc) {
+  const items = Array.from(bloc.querySelectorAll("li")).map((li) => {
+    const clone = li.cloneNode(true);
+    const strong = clone.querySelector("strong");
+    const nom = strong ? strong.textContent.replace(/\s*—\s*$/, "").trim() : "";
+    if (strong) strong.remove();
+    return { nom, texte: clone.textContent.trim() };
+  });
+  return { type: "definitions", items };
 }
 
 // Contenu de .unite-fiche (profil, équipement, armes, règles…), dans
-// l'ordre d'affichage.
-function texteFiche(fiche) {
-  const lignes = [];
+// l'ordre d'affichage, sous forme de blocs typés.
+function donneesFiche(fiche) {
+  const blocs = [];
   for (const enfant of fiche.children) {
     if (enfant.classList.contains("table-scroll")) {
       const table = enfant.querySelector("table");
-      if (table) lignes.push(...texteTable(table), "");
+      if (table) blocs.push(donneesTable(table));
     } else if (enfant.classList.contains("fiche-ligne")) {
-      lignes.push(texteSansInfobulles(enfant));
+      blocs.push(donneesLigne(enfant));
     } else if (enfant.classList.contains("unite-fiche-definitions")) {
-      lignes.push(
-        enfant.querySelector(".unite-definitions-titre").textContent.trim(),
-      );
-      for (const li of enfant.querySelectorAll("li")) {
-        lignes.push("- " + li.textContent.trim());
-      }
+      blocs.push(donneesDefinitions(enfant));
     }
   }
-  return lignes;
+  return blocs;
 }
 
 // Une carte d'unité entière : en-tête, case occupée, composition,
 // puis la fiche récap.
-function texteCarte(carte) {
-  const lignes = [];
+function donneesCarte(carte) {
   const nom = carte.querySelector(".unite-carte-entete h3").textContent.trim();
   const points = carte.querySelector(".unite-points").textContent.trim();
-  lignes.push("== " + nom + " — " + points + " ==");
   const composition = carte.querySelector(".unite-composition");
-  if (composition) lignes.push(composition.textContent.trim());
+  const compositionTexte = composition ? composition.textContent.trim() : "";
   const caseSelect = carte.querySelector(".unite-case-select");
   const optionActuelle = caseSelect && caseSelect.selectedOptions[0];
-  if (optionActuelle && optionActuelle.value) {
-    lignes.push("Case occupée : " + optionActuelle.textContent.trim());
-  }
-  lignes.push("");
+  const caseTexte =
+    optionActuelle && optionActuelle.value
+      ? optionActuelle.textContent.trim()
+      : "";
   const fiche = carte.querySelector(".unite-fiche");
-  if (fiche) lignes.push(...texteFiche(fiche));
-  return lignes;
+  return {
+    nom,
+    points,
+    compositionTexte,
+    caseTexte,
+    blocs: fiche ? donneesFiche(fiche) : [],
+  };
 }
 
 // Résumé de la structure d'armée (#orga-resume, voir construireResume
-// dans js/organigramme.js) : limite/allégeance/total, puis un bloc par
-// détachement listant ses Cases occupées.
-function texteResume(conteneur) {
-  const lignes = [];
-  const titre = conteneur.querySelector("h2");
-  if (titre) lignes.push(titre.textContent.trim().toUpperCase());
-  const entete = conteneur.querySelector(".orga-resume-entete");
-  if (entete) lignes.push(entete.textContent.trim());
-  lignes.push("");
-  for (const bloc of conteneur.querySelectorAll(".orga-resume-detachement")) {
+// dans js/organigramme.js) : un bloc par détachement, avec le libellé
+// de ses Cases occupées.
+function donneesResume(conteneur) {
+  return Array.from(
+    conteneur.querySelectorAll(".orga-resume-detachement"),
+  ).map((bloc) => {
     const h3 = bloc.querySelector("h3");
-    if (h3) lignes.push(h3.textContent.trim());
-    for (const li of bloc.querySelectorAll("li")) {
-      lignes.push("  - " + li.textContent.trim());
+    return {
+      titre: h3 ? h3.textContent.trim() : "",
+      items: Array.from(bloc.querySelectorAll("li")).map((li) =>
+        li.textContent.trim(),
+      ),
+    };
+  });
+}
+
+/* ---------- Export PDF (js/vendor/jspdf*, voir LICENCES.txt) ----------
+   Une page par unité (mise en page « carte » : cadre, en-tête nom +
+   points, table de profil, tables d'armes, lignes de règles, bloc
+   Définitions), précédée d'une page de garde reprenant le total et la
+   structure de l'armée (résumé des détachements). */
+
+// Les polices standard de jsPDF (Times, Helvetica…) n'embarquent que
+// l'encodage WinAnsi (Latin-1) : un glyphe hors de cet ensemble n'est
+// pas simplement absent, il est SILENCIEUSEMENT remplacé par un autre
+// caractère du jeu (ex : "★", qui marque une Case Principale dans le
+// résumé de l'armée, devient "&"). On substitue ici les quelques
+// symboles utilisés ailleurs sur le site par un équivalent ASCII AVANT
+// tout appel à doc.text/splitTextToSize/autoTable, pour ne jamais
+// laisser passer un contresens silencieux sur une fiche imprimée.
+function assainirPDF(texte) {
+  return String(texte)
+    .replace(/★/g, "*")
+    .replace(/⚠/g, "!");
+}
+
+function genererPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const MARGE = 36;
+  const PAD = 10;
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const contentX = MARGE + PAD;
+  const contentW = pageW - 2 * (MARGE + PAD);
+  const basPage = pageH - MARGE - PAD;
+  let y = MARGE + PAD;
+  let pageOuverte = false; // la 1ère page de jsPDF existe déjà par défaut
+
+  function nouvellePage() {
+    if (pageOuverte) doc.addPage();
+    pageOuverte = true;
+    y = MARGE + PAD + 4;
+  }
+
+  function assurerEspace(hauteur) {
+    if (y + hauteur > basPage) nouvellePage();
+  }
+
+  function titreSection(texte, taille) {
+    assurerEspace(taille + 6);
+    doc.setFont("times", "bold");
+    doc.setFontSize(taille);
+    doc.text(assainirPDF(texte), contentX, y);
+    y += taille + 4;
+  }
+
+  function paragraphe(texte, taille, style) {
+    doc.setFont("times", style || "normal");
+    doc.setFontSize(taille);
+    const interligne = taille * 1.3;
+    for (const ligne of doc.splitTextToSize(assainirPDF(texte), contentW)) {
+      assurerEspace(interligne);
+      doc.text(ligne, contentX, y);
+      y += interligne;
     }
-    lignes.push("");
   }
-  return lignes;
-}
 
-// Assemble le fichier .txt complet : total, structure de l'armée,
-// puis une section par unité.
-function texteArmee() {
-  const lignes = ["LISTE D'ARMÉE — HORUS HERESY", ""];
-  const total = document.getElementById("total-armee");
-  if (total) lignes.push(total.textContent.trim(), "");
-  const resume = document.getElementById("orga-resume");
-  if (resume && resume.textContent.trim()) lignes.push(...texteResume(resume));
-  for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
-    lignes.push(
-      ...texteCarte(carte),
-      "",
-      "----------------------------------------",
-      "",
+  // "Titre : texte" avec le titre en gras et le texte en romain,
+  // repliable sur plusieurs lignes (utilisée pour les lignes de
+  // fiche et pour chaque entrée du bloc Définitions).
+  function ligneEtiquette(titre, texte, separateur) {
+    const taille = 9;
+    const interligne = taille * 1.3;
+    doc.setFontSize(taille);
+    const prefixe = assainirPDF(titre) + (separateur || " : ");
+    texte = assainirPDF(texte);
+    doc.setFont("times", "bold");
+    const largeurPrefixe = doc.getTextWidth(prefixe);
+    doc.setFont("times", "normal");
+    const largeurRestante = contentW - largeurPrefixe;
+    const lignes = doc.splitTextToSize(
+      texte,
+      largeurRestante > 60 ? largeurRestante : contentW,
     );
+    assurerEspace(interligne);
+    doc.setFont("times", "bold");
+    doc.text(prefixe, contentX, y);
+    doc.setFont("times", "normal");
+    if (lignes[0]) doc.text(lignes[0], contentX + largeurPrefixe, y);
+    y += interligne;
+    for (let i = 1; i < lignes.length; i++) {
+      assurerEspace(interligne);
+      doc.text(lignes[i], contentX, y);
+      y += interligne;
+    }
   }
-  return lignes.join("\n");
+
+  function tableauPDF(bloc) {
+    assurerEspace(30);
+    doc.autoTable({
+      startY: y,
+      margin: { left: contentX, right: MARGE + PAD },
+      tableWidth: contentW,
+      head: [bloc.entetes.map(assainirPDF)],
+      body: bloc.lignes.map((ligne) => ligne.map(assainirPDF)),
+      theme: "grid",
+      styles: {
+        font: "times",
+        fontSize: 8,
+        cellPadding: 3,
+        lineColor: [0, 0, 0],
+        lineWidth: 0.5,
+        textColor: [0, 0, 0],
+      },
+      headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [242, 242, 242] },
+    });
+    y = doc.lastAutoTable.finalY + 8;
+  }
+
+  function definitionsPDF(items) {
+    assurerEspace(20);
+    y += 4;
+    doc.setDrawColor(120);
+    doc.setLineWidth(0.5);
+    doc.line(contentX, y, pageW - MARGE - PAD, y);
+    y += 10;
+    titreSection("Définitions", 10);
+    for (const item of items) ligneEtiquette(item.nom, item.texte, " — ");
+  }
+
+  function cartePDF(donnees) {
+    nouvellePage();
+    const nom = assainirPDF(donnees.nom);
+    const points = assainirPDF(donnees.points);
+    doc.setFont("times", "bold");
+    doc.setFontSize(15);
+    doc.text(nom, contentX, y);
+    doc.setFontSize(13);
+    const largeurPoints = doc.getTextWidth(points);
+    doc.text(points, pageW - MARGE - PAD - largeurPoints, y);
+    y += 16;
+    if (donnees.compositionTexte) {
+      doc.setFont("times", "italic");
+      doc.setFontSize(9.5);
+      for (const ligne of doc.splitTextToSize(
+        assainirPDF(donnees.compositionTexte),
+        contentW,
+      )) {
+        assurerEspace(13);
+        doc.text(ligne, contentX, y);
+        y += 13;
+      }
+    }
+    if (donnees.caseTexte) {
+      assurerEspace(12);
+      doc.setFont("times", "italic");
+      doc.setFontSize(8.5);
+      doc.text("Case occupée : " + assainirPDF(donnees.caseTexte), contentX, y);
+      y += 12;
+    }
+    y += 4;
+    doc.setDrawColor(0);
+    doc.setLineWidth(0.75);
+    doc.line(contentX, y, pageW - MARGE - PAD, y);
+    y += 10;
+
+    for (const bloc of donnees.blocs) {
+      if (bloc.type === "table") tableauPDF(bloc);
+      else if (bloc.type === "ligne" && bloc.texte) {
+        ligneEtiquette(bloc.titre, bloc.texte);
+        y += 2;
+      } else if (bloc.type === "definitions" && bloc.items.length > 0) {
+        definitionsPDF(bloc.items);
+      }
+    }
+  }
+
+  // --- Page de garde : titre, total, structure de l'armée ---
+  nouvellePage();
+  doc.setFont("times", "bold");
+  doc.setFontSize(18);
+  doc.text("Liste d'armée — Horus Heresy", contentX, y);
+  y += 26;
+  const total = document.getElementById("total-armee");
+  if (total) paragraphe(total.textContent.trim(), 11, "bold");
+  paragraphe("Générée le " + new Date().toLocaleDateString("fr-FR"), 9, "italic");
+  y += 6;
+  const resume = document.getElementById("orga-resume");
+  if (resume && resume.textContent.trim()) {
+    titreSection("Structure de l'armée", 12);
+    for (const detachement of donneesResume(resume)) {
+      paragraphe(detachement.titre, 10, "bold");
+      for (const item of detachement.items) paragraphe("• " + item, 9);
+      y += 4;
+    }
+  }
+
+  // --- Une carte par unité ---
+  for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
+    cartePDF(donneesCarte(carte));
+  }
+
+  // Cadre de carte, posé après coup sur chaque page générée (y
+  // compris la page de garde) : plus simple et plus robuste que de
+  // calculer sa hauteur à l'avance quand le contenu peut déborder sur
+  // une page suivante (table ou bloc Définitions trop longs).
+  doc.setDrawColor(0);
+  doc.setLineWidth(1);
+  for (let i = 1; i <= doc.getNumberOfPages(); i++) {
+    doc.setPage(i);
+    doc.rect(MARGE, MARGE, pageW - 2 * MARGE, pageH - 2 * MARGE);
+  }
+
+  return doc;
 }
 
-// Déclenche le téléchargement d'un fichier texte via une URL blob
-// éphémère (révoquée juste après le clic simulé).
-function telechargerTexte(nomFichier, contenu) {
-  const blob = new Blob([contenu], { type: "text/plain;charset=utf-8" });
+function telechargerPDF() {
+  const doc = genererPDF();
+  const date = new Date().toISOString().slice(0, 10);
+  doc.save("armee-horus-heresy-" + date + ".pdf");
+}
+
+/* ---------- Export Word (.doc) ----------
+   Aucune dépendance : un fichier .doc au format HTML (astuce classique,
+   reconnue par Microsoft Word), avec ses styles intégrés — la même
+   mise en forme « carte d'unité » que le PDF, mais éditable dans
+   Word. */
+function echapperHTML(texte) {
+  const div = document.createElement("div");
+  div.textContent = texte;
+  return div.innerHTML;
+}
+
+function carteWordHTML(donnees) {
+  let html = '<div class="carte">';
+  html +=
+    '<div class="entete"><span>' +
+    echapperHTML(donnees.nom) +
+    "</span><span>" +
+    echapperHTML(donnees.points) +
+    "</span></div>";
+  if (donnees.compositionTexte) {
+    html += "<p class=\"composition\">" + echapperHTML(donnees.compositionTexte) + "</p>";
+  }
+  if (donnees.caseTexte) {
+    html +=
+      '<p class="composition">Case occupée : ' +
+      echapperHTML(donnees.caseTexte) +
+      "</p>";
+  }
+  html += "<hr>";
+  for (const bloc of donnees.blocs) {
+    if (bloc.type === "table") {
+      html += "<table><thead><tr>";
+      for (const entete of bloc.entetes) html += "<th>" + echapperHTML(entete) + "</th>";
+      html += "</tr></thead><tbody>";
+      for (const ligne of bloc.lignes) {
+        html +=
+          "<tr>" +
+          ligne.map((cellule) => "<td>" + echapperHTML(cellule) + "</td>").join("") +
+          "</tr>";
+      }
+      html += "</tbody></table>";
+    } else if (bloc.type === "ligne" && bloc.texte) {
+      html +=
+        '<p class="ligne"><strong>' +
+        echapperHTML(bloc.titre) +
+        " : </strong>" +
+        echapperHTML(bloc.texte) +
+        "</p>";
+    } else if (bloc.type === "definitions" && bloc.items.length > 0) {
+      html += '<div class="definitions"><p><strong>Définitions</strong></p>';
+      for (const item of bloc.items) {
+        html +=
+          "<p><strong>" +
+          echapperHTML(item.nom) +
+          " — </strong>" +
+          echapperHTML(item.texte) +
+          "</p>";
+      }
+      html += "</div>";
+    }
+  }
+  html += "</div>";
+  return html;
+}
+
+function genererWordHTML() {
+  const style = `
+    body { font-family: 'Times New Roman', serif; font-size: 11pt; color: #000; }
+    h1 { font-size: 20pt; margin-bottom: 4pt; }
+    h2 { font-size: 14pt; margin: 14pt 0 4pt; border-bottom: 1pt solid #000; padding-bottom: 2pt; }
+    .carte { border: 1pt solid #000; padding: 10pt; margin-bottom: 16pt; page-break-inside: avoid; }
+    .entete { font-weight: bold; font-size: 14pt; }
+    .entete span:last-child { float: right; }
+    .composition { font-style: italic; font-size: 10pt; margin: 2pt 0 8pt; }
+    table { border-collapse: collapse; width: 100%; margin: 6pt 0; font-size: 9pt; }
+    th, td { border: 1pt solid #000; padding: 3pt 5pt; text-align: center; }
+    th { background: #e6e6e6; }
+    p.ligne { margin: 4pt 0; font-size: 9.5pt; }
+    .definitions { margin-top: 8pt; border-top: 1pt solid #999; padding-top: 6pt; }
+    .definitions p { margin: 3pt 0; font-size: 9pt; }
+    hr { border: none; border-top: 1pt solid #000; margin: 6pt 0 10pt; }
+  `;
+  let corps = "<h1>Liste d'armée — Horus Heresy</h1>";
+  const total = document.getElementById("total-armee");
+  if (total) corps += "<p><strong>" + echapperHTML(total.textContent.trim()) + "</strong></p>";
+  corps +=
+    "<p><em>Générée le " +
+    echapperHTML(new Date().toLocaleDateString("fr-FR")) +
+    "</em></p>";
+  const resume = document.getElementById("orga-resume");
+  if (resume && resume.textContent.trim()) {
+    corps += "<h2>Structure de l'armée</h2>";
+    for (const detachement of donneesResume(resume)) {
+      corps += "<p><strong>" + echapperHTML(detachement.titre) + "</strong></p><ul>";
+      for (const item of detachement.items) corps += "<li>" + echapperHTML(item) + "</li>";
+      corps += "</ul>";
+    }
+  }
+  for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
+    corps += carteWordHTML(donneesCarte(carte));
+  }
+  return (
+    "<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+    "xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
+    "<head><meta charset=\"utf-8\"><title>Liste d'armée — Horus Heresy</title>" +
+    "<style>" +
+    style +
+    "</style></head><body>" +
+    corps +
+    "</body></html>"
+  );
+}
+
+// Déclenche le téléchargement d'un fichier via une URL blob éphémère
+// (révoquée juste après le clic simulé).
+function telechargerBlob(nomFichier, contenu, type) {
+  const blob = new Blob([contenu], { type });
   const url = URL.createObjectURL(blob);
   const lien = document.createElement("a");
   lien.href = url;
@@ -1369,6 +1756,17 @@ function telechargerTexte(nomFichier, contenu) {
   lien.click();
   lien.remove();
   URL.revokeObjectURL(url);
+}
+
+function telechargerWord() {
+  const date = new Date().toISOString().slice(0, 10);
+  // BOM ("﻿") : force Word à détecter l'encodage UTF-8 (sinon les
+  // accents peuvent s'afficher mal à l'ouverture).
+  telechargerBlob(
+    "armee-horus-heresy-" + date + ".doc",
+    "﻿" + genererWordHTML(),
+    "application/msword;charset=utf-8",
+  );
 }
 
 /* Combobox « Unité à ajouter » : un champ de recherche filtre, au fil
@@ -1594,7 +1992,8 @@ function initialiserChoixUnite() {
 function initialiser() {
   const uniteChoisie = initialiserChoixUnite();
   const boutonAjouter = document.getElementById("ajouter-unite");
-  const boutonTelecharger = document.getElementById("telecharger-armee");
+  const boutonTelechargerPDF = document.getElementById("telecharger-pdf");
+  const boutonTelechargerWord = document.getElementById("telecharger-word");
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
   const messageAjout = document.getElementById("ajout-message");
@@ -1633,10 +2032,8 @@ function initialiser() {
     Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
   });
 
-  boutonTelecharger.addEventListener("click", () => {
-    const date = new Date().toISOString().slice(0, 10);
-    telechargerTexte("armee-horus-heresy-" + date + ".txt", texteArmee());
-  });
+  boutonTelechargerPDF.addEventListener("click", () => telechargerPDF());
+  boutonTelechargerWord.addEventListener("click", () => telechargerWord());
 
   boutonVider.addEventListener("click", () => {
     armee = [];

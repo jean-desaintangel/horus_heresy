@@ -18,7 +18,7 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 - **Tables de référence interactives** (CC, Blessure, CT) : surbrillance ligne/colonne au survol, épinglage d'une case au tap sur mobile, première colonne figée au défilement horizontal.
 - **Glossaire des règles spéciales** avec recherche instantanée (insensible aux accents).
 - **Arsenal** : tables d'armes filtrables, avec info-bulle de définition sur chaque règle spéciale.
-- **Configurateur d'unités** : composez votre liste (variantes, options d'armement), coût en points recalculé en direct, fiche récap imprimable, sauvegarde locale (`localStorage`).
+- **Configurateur d'unités** : composez votre liste (variantes, options d'armement), coût en points recalculé en direct, fiche récap imprimable, export **PDF** et **Word** en un clic, sauvegarde locale (`localStorage`).
 - **Téléchargements** : aides de jeu maison et documents communautaires.
 - **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier.
 - **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée.
@@ -51,7 +51,8 @@ horus_heresy/
 │   ├── armes.js             # Rendu + filtrage des tables d'armes
 │   ├── armes-data.js        # Données : caractéristiques des armes
 │   ├── unites.js            # Logique du configurateur d'unités
-│   └── unites-data.js       # Données : fiches d'unités + équipements
+│   ├── unites-data.js       # Données : fiches d'unités + équipements
+│   └── vendor/               # jsPDF + AutoTable, auto-hébergées (export PDF)
 └── assets/
     ├── fonts/               # Cinzel & Lato auto-hébergées (WOFF2)
     ├── img/                 # Favicon, illustration d'accueil
@@ -62,7 +63,7 @@ horus_heresy/
 
 ## Technologies utilisées
 
-- **HTML5 / CSS3 / JavaScript vanilla** — aucun framework, aucune dépendance, aucune étape de build.
+- **HTML5 / CSS3 / JavaScript vanilla** — aucun framework, aucune étape de build. Seule exception : [jsPDF](https://github.com/parallax/jsPDF) + [AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) (`js/vendor/`, MIT), auto-hébergées comme les polices, pour l'export PDF du configurateur d'unités. L'export Word ne nécessite aucune dépendance (fichier `.doc` au format HTML).
 - **Mobile-first** : les styles de base ciblent le petit écran, les media queries `min-width` enrichissent pour le bureau.
 - **Sécurité** : tout le texte est injecté via `textContent` (jamais `innerHTML`) — réflexe anti-XSS.
 - Hébergement : **GitHub Pages**.

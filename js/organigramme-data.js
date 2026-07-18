@@ -40,6 +40,13 @@
                  grisé, avec ce message d'explication (choix
                  assumé : les données du site ne couvrent que les
                  Legiones Astartes).
+     legion    : id LEGIONS (js/organigramme.js) réservant ce type à
+                 une seule Légion (ex : Détachements Auxiliaires de
+                 l'Arsenal d'une Légion) — entièrement MASQUÉ (pas
+                 seulement grisé) tant que cette Légion n'est pas
+                 choisie dans les paramètres de la partie, comme les
+                 unités réservées de js/unites-data.js. Absent =
+                 disponible pour toutes les Légions.
    }
    ============================================================ */
 
@@ -434,6 +441,122 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Appui"),
       _caseOrga("Appui"),
     ],
+  },
+
+  /* ---------- Détachements Auxiliaires réservés à une Légion
+     (Arsenal de chaque Légion, voir js/unites-data.js) : masqués tant
+     que la Légion correspondante n'est pas choisie (champ `legion`,
+     voir la note du modèle de données plus haut). ---------- */
+  {
+    id: "ost-revelation",
+    nom: "Ost de la Révélation",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Troupes de ce Détachement ne peuvent accueillir que des Escouades d'Assaut. Les Cases d'Élite ne peuvent accueillir que des Cohortes Éoclastes ou des Escouades de Vétérans d'Assaut.",
+    // « Cohorte Éoclaste » n'est pas encore transcrite sur le site :
+    // seule l'Escouade de Vétérans d'Assaut peut occuper les Cases
+    // d'Élite pour l'instant.
+    restrictions: {
+      Troupes: ["escouade-assaut"],
+      Elite: ["cohorte-eoclaste", "escouade-veterans-assaut"],
+    },
+    cases: [
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+    legion: "IX",
+  },
+  {
+    id: "cadre-decapitation",
+    nom: "Cadre de Décapitation",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Reco de ce Détachement ne peuvent accueillir que des Escouades de Reconnaissance. Les Cases d'Élite ne peuvent accueillir que des Escouades de Vétérans d'Assaut ou de Furies Noires.",
+    restrictions: {
+      Reco: ["escouade-reconnaissance"],
+      Elite: ["escouade-veterans-assaut", "escouade-furies-noires"],
+    },
+    cases: [
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+    legion: "XIX",
+  },
+  {
+    // NOTE (hypothèse de transcription) : le livre ne restreint
+    // explicitement que les 2 Cases de Blindé (Predator/Vindicator).
+    // Les 2 Cases de Troupes, sans restriction indiquée sur la photo,
+    // sont une supposition raisonnable à partir des icônes — à
+    // corriger si le livre dit autre chose.
+    id: "cenacle-immolation",
+    nom: "Cénacle de l'Immolation",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Blindé de ce Détachement ne peuvent accueillir que des Predator ou des Vindicator.",
+    restrictions: { Blindés: ["predator", "vindicator"] },
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+    ],
+    legion: "XVIII",
+  },
+  {
+    id: "bande-guerriere-chogorienne",
+    nom: "Bande Guerrière Chogorienne",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases d'Attaque Rapide de ce Détachement ne peuvent accueillir que des Escadrons de Motojets Scimitar. Les Cases de Reco ne peuvent accueillir que des Escadrons de Motards.",
+    restrictions: {
+      "Attaque Rapide": ["escadron-scimitar"],
+      Reco: ["escadron-motards"],
+    },
+    cases: [
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+    ],
+    legion: "V",
+  },
+  {
+    id: "cadre-berserkers",
+    nom: "Cadre de Berserkers",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Escouades Saccageuses.",
+    restrictions: { "Assaut Lourd": ["escouade-saccageuse"] },
+    cases: [
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+    ],
+    legion: "XII",
+  },
+  {
+    // Même mécanique que Délégation de l'Apothecarion (icônes
+    // Techmarine + Apothicaire pour le déblocage), en version
+    // World Eaters ; ses propres Cases d'Appui restent réservées aux
+    // Apothicaires.
+    id: "fils-de-bodt",
+    nom: "Fils de Bodt",
+    famille: "auxiliaire",
+    texte:
+      "Débloqué quand un Techmarine ou un Apothicaire occupe une Case d'Appui. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Apothicaires.",
+    deblocage: { caseRole: "Appui", uniteIds: ["techmarine", "apothicaire"] },
+    restrictions: { Appui: ["apothicaire"] },
+    cases: [
+      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+    legion: "XII",
   },
 ];
 

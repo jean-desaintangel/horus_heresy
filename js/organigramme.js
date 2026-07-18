@@ -1453,7 +1453,8 @@ const Organigramme = (() => {
       groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of TYPES_DETACHEMENTS.filter(
-        (t) => t.famille === famille,
+        (t) =>
+          t.famille === famille && (!t.legion || t.legion === etat.legion),
       )) {
         const { possible, raison } = disponibilite(type);
         const bouton = el(
