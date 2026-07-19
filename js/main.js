@@ -52,6 +52,24 @@ function el(balise, classe, texte) {
   return noeud;
 }
 
+/**
+ * Ajoute une <option> (valeur + texte) à un <select> : variante de
+ * el() dédiée à ce cas précis, répété une dizaine de fois entre
+ * js/organigramme.js et js/unites.js. Retourne l'élément créé pour lui
+ * ajouter d'autres propriétés ensuite (disabled…) si besoin.
+ * @param {HTMLSelectElement} select
+ * @param {string} valeur
+ * @param {string} texte
+ * @returns {HTMLOptionElement}
+ */
+function ajouterOption(select, valeur, texte) {
+  const opt = document.createElement("option");
+  opt.value = valeur;
+  opt.textContent = texte;
+  select.appendChild(opt);
+  return opt;
+}
+
 /* Index des définitions de règles spéciales (REGLES_ARMES +
    REGLES_DIVERSES, voir js/regles-data.js), indexées par nom de
    base sans le "(X)" final : les tables d'armes et les fiches

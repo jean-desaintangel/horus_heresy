@@ -36,6 +36,15 @@
                  listée doit occuper une case de ce rôle,
      pointsMin : limite de points minimale de la partie (Seigneur
                  de Guerre : 3000 pts, p. 283),
+     requiertUniteArmee : [ids d'UNITES] — condition de sélection
+                 portant sur l'Armée entière (une unité listée doit
+                 être présente n'importe où, indépendamment de la Case
+                 qu'elle occupe) : contrairement à `deblocage`
+                 ci-dessus, ne consomme aucun crédit et n'est pas liée
+                 à une Case précise — juste un prérequis de composition
+                 (ex : Avant-garde de Medusa, qui exige un Révérend de
+                 Fer ou Ferrus Manus dans l'Armée ; Le Marteau
+                 d'Olympia, qui exige un Forgeguerre ou Perturabo).
      indisponible : si présent, le détachement est proposé mais
                  grisé, avec ce message d'explication (choix
                  assumé : les données du site ne couvrent que les
@@ -1121,9 +1130,12 @@ const RITES_DE_GUERRE = {
    - unParArmee   : sélectionnable une seule fois par ARMÉE (tous
                  détachements confondus), à la différence de
                  `unParDetachement` ci-dessus.
-   - typeInfanterie : l'unité doit inclure le Type Infanterie (ex :
-                 Les Défavorisés, Iron Warriors) — vérifié comme
-                 `sergent`/`etatMajor` ci-dessus, via aSousType.
+   - typesRequis  : [Types] — l'unité doit inclure AU MOINS UN des
+                 Types listés (logique OU), vérifié comme
+                 `sergent`/`etatMajor` ci-dessus via aSousType (ex :
+                 Les Défavorisés, Iron Warriors, réservé au seul Type
+                 Infanterie ; Les Sagyar Mazan, White Scars, qui
+                 acceptent Infanterie OU Cavalerie).
    - ajouteCase   : ajoute une case au détachement (tout Rôle Tactique
                  sauf QG, État-major, Seigneur de Guerre et Seigneurs
                  des Batailles — voir ROLES_INTERDITS_LOGISTIQUE), comme
@@ -1131,6 +1143,15 @@ const RITES_DE_GUERRE = {
                  seule case ajoutée à la fois par détachement, quel que
                  soit l'Avantage qui l'a créée — voir changerAvantage,
                  js/organigramme.js).
+   - rolesCaseAjoutee : [clés de ROLES_TACTIQUES] — restreint le Rôle
+                 Tactique proposé pour la case ajoutée par `ajouteCase`
+                 ci-dessus à cette liste au lieu de « tout Rôle sauf
+                 QG/État-major/Seigneurs » (ex : Bardé de Fer, Iron
+                 Hands, limité à Engins de Guerre ; Logisticae,
+                 Ultramarines, limité à Transport/Transport Lourd). Un
+                 seul Rôle dans la liste : préaffecté directement, sans
+                 passer par le menu déroulant (voir changerAvantage,
+                 construireCarteDetachement dans js/organigramme.js).
    Rappel du livre : si l'unité inclut une figurine de Sous-type
    Unique, seul « Bénéfice Logistique » reste disponible.
    ---------------------------------------------------------- */
@@ -1258,7 +1279,7 @@ const AVANTAGES_PRINCIPAUX = [
   {
     id: "les-defavorises",
     nom: "Les Défavorisés (Iron Warriors)",
-    typeInfanterie: true,
+    typesRequis: ["Infanterie"],
     traitRequis: "Iron Warriors",
     texte:
       "Réservé à une Unité de Type Infanterie composée uniquement de Figurines ayant le Trait Iron Warriors : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1).",
@@ -1320,6 +1341,141 @@ const AVANTAGES_PRINCIPAUX = [
     unParArmee: true,
     texte:
       "Réservé à une Unité de Rôle Tactique État-major composée uniquement de Figurines ayant le Trait World Eaters, sélectionnable une seule fois par Armée : le joueur en Contrôle doit choisir une autre Unité de Rôle Tactique État-major de son Armée ; une Figurine de chacune des deux Unités gagne la Règle Spéciale Frères de Chaîne (tant qu'elle est en Cohésion d'Unité — ou en Défi impliqué dans le même Combat — avec l'autre Figurine ayant cette Règle Spéciale, elle gagne un bonus de +1 aux Jets de Touche faits à la Phase d'Assaut).",
+  },
+  /* --- Arsenal des Dark Angels (Ire Légion), page « Paladin de
+     l'Hekatonystika » (voir js/unites-data.js, id "centurion" —
+     variantes 0 « Centurion » et 1 « Centurion à Réacteurs », toutes
+     deux admises par le texte du livre). L'échange d'arme et le gain
+     de Règle Spéciale ne sont pas appliqués automatiquement par le
+     site (comme Garde Phénix, ci-dessus) : à faire manuellement sur
+     la fiche de la Figurine concernée.
+     HYPOTHÈSE DE TRANSCRIPTION : le nom de la Règle Spéciale gagnée
+     est manuscrit (annotation au crayon) sur la photo du livre et
+     retranscrit ici sous toutes réserves (« Parangon de l'Ordre ») —
+     à corriger contre le livre en cas de doute. --- */
+  {
+    id: "paladin-hekatonystika",
+    nom: "Paladin de l'Hekatonystika (Dark Angels)",
+    uniteRequise: [
+      { id: "centurion", variante: 0 },
+      { id: "centurion", variante: 1 },
+    ],
+    traitRequis: "Dark Angels",
+    unParArmee: true,
+    texte:
+      "Réservé à une Figurine de Centurion (à pied ou à Réacteurs) ayant le Trait Dark Angels, sélectionnable une seule fois par Armée : la Valeur de Base de sa Capacité de Combat est modifiée de +1, elle doit échanger gratuitement son bolter contre un espadon terranique, et gagne la Règle Spéciale Parangon de l'Ordre (p. 137).",
+  },
+  /* --- Arsenal des Imperial Fists (VIIe Légion), page « Castellan »
+     (voir js/unites-data.js, id "centurion", variante 0 seulement — le
+     livre dit « une Figurine de Centurion » sans mentionner la
+     variante à Réacteurs, contrairement à Paladin de l'Hekatonystika
+     ci-dessus). Le gain de scanner augure et l'échange d'arme ne sont
+     pas appliqués automatiquement par le site : à faire manuellement
+     sur la fiche de la Figurine concernée. */
+  {
+    id: "castellan",
+    nom: "Castellan (Imperial Fists)",
+    uniteRequise: [{ id: "centurion", variante: 0 }],
+    traitRequis: "Imperial Fists",
+    texte:
+      "Réservé à une Figurine de Centurion ayant le Trait Imperial Fists : elle gagne un scanner augure, ne peut choisir aucune des options de Centurion listées et doit à la place échanger gratuitement son bolter contre un Bolter lourd, un Autocanon ou un Canon d'Assaut Iliastus (p. 188).",
+  },
+  /* --- Arsenal des Iron Hands (Xe Légion), page « Bardé de Fer »
+     (voir js/unites-data.js, unités réservées à cette Légion).
+     `rolesCaseAjoutee` (voir js/organigramme.js, changerAvantage)
+     restreint la case ajoutée par `ajouteCase` au seul Rôle Tactique
+     Engin de Guerre, préaffecté directement (liste à un seul élément)
+     sans passer par le menu déroulant habituel de Bénéfice
+     Logistique/Le Salaire de la Traîtrise. Le gain du Sous-type
+     Champion n'est pas appliqué automatiquement par le site : à cocher
+     manuellement sur la fiche de l'Unité concernée. --- */
+  {
+    id: "barde-de-fer",
+    nom: "Bardé de Fer (Iron Hands)",
+    roleRequis: "État-major",
+    traitRequis: "Iron Hands",
+    unParArmee: true,
+    ajouteCase: true,
+    rolesCaseAjoutee: ["Engins de Guerre"],
+    texte:
+      "Réservé à une Unité de Rôle Tactique État-major composée uniquement de Figurines ayant le Trait Iron Hands, sélectionnable une seule fois par Armée : ajoute une Case de Rôle Tactique Engin de Guerre au Détachement. Une Unité sélectionnée pour occuper cette Case gagne le Sous-type Champion si elle ne l'avait pas déjà.",
+  },
+  /* --- Arsenal de la Raven Guard (XIXe Légion), page « Spectres »
+     (voir js/unites-data.js, unités réservées à cette Légion). --- */
+  {
+    id: "spectres",
+    nom: "Spectres (Raven Guard)",
+    roleRequis: "Troupes",
+    traitRequis: "Raven Guard",
+    texte:
+      "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Raven Guard : les Figurines de l'Unité gagnent la Règle Spéciale Spectres (après avoir Foncé, un Test de Volonté réussi rend Désordonnées les Charges qui ciblent l'Unité à la Phase d'Assaut du Tour de Joueur suivant ; en cas d'échec, l'Unité gagne le Statut Tactique Sonnée à la place).",
+  },
+  /* --- Arsenal des Space Wolves (VIe Légion), page « Thegn de Meute »
+     (voir js/unites-data.js, id "optae", unité générique — un seul
+     Rôle Tactique et une seule variante, `variante` omis). L'échange
+     d'arme n'est pas appliqué automatiquement par le site : à faire
+     manuellement sur la fiche de la Figurine concernée. --- */
+  {
+    id: "thegn-de-meute",
+    nom: "Thegn de Meute (Space Wolves)",
+    uniteRequise: [{ id: "optae" }],
+    traitRequis: "Space Wolves",
+    texte:
+      "Réservé à une Figurine d'Optae ayant le Trait Space Wolves : les Valeurs de Base de ses Caractéristiques d'Attaques et de Capacité de Combat sont modifiées de +1, et elle peut échanger gratuitement son épée énergétique contre une épée de givre ou une hache de givre, ou l'échanger contre une griffe de givre pour +5 Points.",
+  },
+  /* --- Arsenal des Ultramarines (XIIIe Légion), page « Logisticae »
+     (voir js/unites-data.js, unités réservées à cette Légion).
+     `rolesCaseAjoutee` (voir js/organigramme.js, changerAvantage)
+     restreint la case ajoutée par `ajouteCase` à Transport ou
+     Transport Lourd (au choix du joueur, menu déroulant). Le
+     modificateur de Capacité de Transport n'est pas appliqué
+     automatiquement par le site : à ajuster manuellement sur la fiche
+     de l'Unité concernée. --- */
+  {
+    id: "logisticae",
+    nom: "Logisticae (Ultramarines)",
+    roleRequis: "État-major",
+    traitRequis: "Ultramarines",
+    ajouteCase: true,
+    rolesCaseAjoutee: ["Transports", "Transports Lourds"],
+    texte:
+      "Réservé à une Unité de Rôle Tactique État-major composée uniquement de Figurines ayant le Trait Ultramarines : ajoute une Case de Rôle Tactique Transport ou Transport Lourd (au choix) au Détachement. La Capacité de Transport d'une Unité sélectionnée pour occuper cette Case est modifiée de +2.",
+  },
+  /* --- Arsenal des Blood Angels (IXe Légion), page « Revenants »
+     (voir js/unites-data.js, unités réservées à cette Légion). Aucun
+     Rôle Tactique précis n'est exigé par le livre (contrairement aux
+     autres Avantages de ce type) : n'importe quelle Case Principale
+     convient, d'où l'absence de `roleRequis` ici. --- */
+  {
+    id: "revenants",
+    nom: "Revenants (Blood Angels)",
+    traitRequis: "Blood Angels",
+    texte:
+      "Réservé à une Unité composée uniquement de Figurines ayant le Trait Blood Angels, sélectionnée pour occuper n'importe quelle Case Principale d'Organigramme de Force : les Figurines de l'Unité gagnent la Règle Spéciale Peur (1).",
+  },
+  /* --- Arsenal des Salamanders (XVIIIe Légion), page « Le Devoir
+     Avant la Mort » (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    id: "devoir-avant-la-mort",
+    nom: "Le Devoir Avant la Mort (Salamanders)",
+    roleRequis: "Troupes",
+    traitRequis: "Salamanders",
+    texte:
+      "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Salamanders : les Figurines de l'Unité gagnent la Règle Spéciale Insensible à la Douleur (6+).",
+  },
+  /* --- Arsenal des White Scars (Ve Légion), page « Les Sagyar Mazan »
+     (voir js/unites-data.js, unités réservées à cette Légion). Premier
+     Avantage de ce type conditionné par le Type de Figurine plutôt que
+     par le Rôle Tactique (`typesRequis`, logique OU Infanterie/
+     Cavalerie), d'où l'absence de `roleRequis` ici. --- */
+  {
+    id: "les-sagyar-mazan",
+    nom: "Les Sagyar Mazan (White Scars)",
+    typesRequis: ["Infanterie", "Cavalerie"],
+    traitRequis: "White Scars",
+    texte:
+      "Réservé à une Unité composée uniquement de Figurines ayant le Trait White Scars et de Type Infanterie ou Cavalerie : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (2).",
   },
 ];
 

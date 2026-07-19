@@ -324,13 +324,28 @@ function optionBombesFusion() {
   };
 }
 
-// Option récurrente : baïonnette (uniquement si le bolter est conservé).
-function optionBaionnette() {
+// Variante « toute l'unité » de l'option ci-dessus (une seule case à
+// cocher pour toutes les Figurines, coût forfaitaire).
+function optionBombesFusionUnite() {
+  return {
+    type: "case",
+    id: "bombes-fusion-unite",
+    libelle: "Toutes les Figurines : bombes à fusion",
+    cout: 25,
+    ajoute: "Bombes à fusion (toute l'unité)",
+  };
+}
+
+// Option récurrente : baïonnette (uniquement si l'arme donnée est
+// conservée — "Bolter" par défaut, ex : "Bolter Kraken" pour les
+// unités qui en sont équipées à la place).
+function optionBaionnette(arme = "Bolter") {
+  const armeMinuscule = arme.charAt(0).toLowerCase() + arme.slice(1);
   return {
     type: "choix",
     id: "baionnette",
-    libelle: "Baïonnette (uniquement si la Figurine a un bolter)",
-    requiertEquip: "Bolter",
+    libelle: "Baïonnette (uniquement si la Figurine a un " + armeMinuscule + ")",
+    requiertEquip: arme,
     ajoute: true,
     choix: [
       { nom: "Aucune", cout: 0 },
@@ -2711,13 +2726,7 @@ const UNITES = [
         groupe: "pistolet",
         remplace: "du pistolet bolter",
       }),
-      {
-        type: "case",
-        id: "bombes-fusion-unite",
-        libelle: "Toutes les Figurines : bombes à fusion",
-        cout: 25,
-        ajoute: "Bombes à fusion (toute l'unité)",
-      },
+      optionBombesFusionUnite(),
       {
         type: "quantite",
         id: "lame-parangon",
@@ -4705,18 +4714,7 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
         ],
       },
-      {
-        type: "choix",
-        id: "baionnette",
-        libelle: "Baïonnette (uniquement si la Figurine a un bolter Kraken)",
-        requiertEquip: "Bolter Kraken",
-        ajoute: true,
-        choix: [
-          { nom: "Aucune", cout: 0 },
-          { nom: "Baïonnette", cout: 1 },
-          { nom: "Baïonnette tronçonneuse", cout: 2 },
-        ],
-      },
+      optionBaionnette("Bolter Kraken"),
       {
         type: "case",
         id: "sergent-bombes",
@@ -9658,13 +9656,7 @@ const UNITES = [
         cout: 10,
         ajoute: "Vexillum (un Frère Templier)",
       },
-      {
-        type: "case",
-        id: "bombes-fusion-unite",
-        libelle: "Toutes les Figurines : bombes à fusion",
-        cout: 25,
-        ajoute: "Bombes à fusion (toute l'unité)",
-      },
+      optionBombesFusionUnite(),
     ],
     legion: "VII",
   },
@@ -9791,13 +9783,7 @@ const UNITES = [
         cout: 10,
         ajoute: "Vexillum (un Gardien du Phalanx)",
       },
-      {
-        type: "case",
-        id: "bombes-fusion-unite",
-        libelle: "Toutes les Figurines : bombes à fusion",
-        cout: 25,
-        ajoute: "Bombes à fusion (toute l'unité)",
-      },
+      optionBombesFusionUnite(),
     ],
     legion: "VII",
   },
@@ -10336,13 +10322,7 @@ const UNITES = [
         groupe: "pistolet-bolter-swap",
         ajoute: "Pistolet à plasma (à la place du pistolet bolter)",
       },
-      {
-        type: "case",
-        id: "bombes-fusion-unite",
-        libelle: "Toutes les Figurines : bombes à fusion",
-        cout: 25,
-        ajoute: "Bombes à fusion (toute l'unité)",
-      },
+      optionBombesFusionUnite(),
     ],
     legion: "I",
   },

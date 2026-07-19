@@ -44,6 +44,11 @@ let compteurUid = 0;
 // Vrai une fois window.Organigramme initialisé : évite d'actualiser
 // l'organigramme pendant la restauration initiale des cartes.
 let orgaPret = false;
+// Dernier Avantage Principal connu par uid (voir actualiserSelectsCases) :
+// permet de ne reconstruire la fiche récap d'une unité que lorsque son
+// Avantage a réellement changé, plutôt qu'à chaque interaction sur
+// N'IMPORTE QUELLE carte de l'Armée.
+const dernierAvantageParUid = new Map();
 
 const CLE_STOCKAGE = "hh-fiche-unites";
 
@@ -911,15 +916,26 @@ function construireFiche(unite, instance) {
    à un changement sur UNE AUTRE carte (ex : `requiertAbsenceUnite` —
    l'option de Khârn dépend de la présence d'Angron dans la liste), pas
    seulement suite à une interaction sur sa propre carte — voir l'appel
-   depuis actualiserSelectsCases. */
+   depuis actualiserSelectsCases. Retourne true si une valeur d'option a
+   réellement été modifiée (donc si la fiche récap de CETTE instance a
+   besoin d'être reconstruite pour cette raison — voir
+   actualiserSelectsCases). */
 function synchroniserConfig(carte, unite, instance) {
+  let modifie = false;
   // 1. Options devenues irréalisables : on les remet à zéro.
   for (const opt of unite.options) {
     if (optionRealisable(unite, instance, opt)) continue;
-    if (opt.type === "choix") instance.valeurs[opt.id] = 0;
-    else if (opt.type === "multi") instance.valeurs[opt.id] = [];
-    else if (opt.type === "quantite") instance.valeurs[opt.id] = 0;
-    else instance.valeurs[opt.id] = false;
+    const ancienneValeur = instance.valeurs[opt.id];
+    if (opt.type === "multi") {
+      if (ancienneValeur.length !== 0) modifie = true;
+      instance.valeurs[opt.id] = [];
+    } else if (opt.type === "choix" || opt.type === "quantite") {
+      if (ancienneValeur !== 0) modifie = true;
+      instance.valeurs[opt.id] = 0;
+    } else {
+      if (ancienneValeur !== false) modifie = true;
+      instance.valeurs[opt.id] = false;
+    }
   }
 
   // 1 bis. Quantités : si l'effectif a diminué, on ramène chaque
@@ -930,10 +946,12 @@ function synchroniserConfig(carte, unite, instance) {
       quantiteUtilisee(unite, instance, opt) -
       budgetQuantite(unite, instance, opt);
     if (debordement > 0) {
-      instance.valeurs[opt.id] = Math.max(
+      const nouvelleValeur = Math.max(
         0,
         instance.valeurs[opt.id] - debordement,
       );
+      if (nouvelleValeur !== instance.valeurs[opt.id]) modifie = true;
+      instance.valeurs[opt.id] = nouvelleValeur;
     }
   }
 
@@ -971,6 +989,27 @@ function synchroniserConfig(carte, unite, instance) {
       caseACocher.disabled = !realisable;
     }
   }
+  return modifie;
+}
+
+// Reconstruit la fiche récap (profil, équipement, armes, règles) et le
+// texte de points affichés sur une carte, puis recâble les info-bulles
+// d'accessibilité de ses nouvelles .regle-tag (voir js/main.js). Met
+// aussi à jour le cache dernierAvantageParUid : voir
+// actualiserSelectsCases, qui s'en sert pour éviter de reconstruire la
+// fiche des unités dont rien n'a changé.
+function rafraichirFicheEtPoints(carte, unite, instance) {
+  const ancienneFiche = carte.querySelector(".unite-fiche");
+  if (ancienneFiche) ancienneFiche.replaceWith(construireFiche(unite, instance));
+  carte.querySelector(".unite-points").textContent =
+    coutInstance(unite, instance) + " pts";
+  if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
+  if (orgaPret && window.Organigramme) {
+    dernierAvantageParUid.set(
+      instance.uid,
+      window.Organigramme.avantageDe(instance.uid),
+    );
+  }
 }
 
 /* Met à jour ce qui dépend des valeurs : points de la carte,
@@ -980,14 +1019,10 @@ function synchroniserConfig(carte, unite, instance) {
 function actualiserCarte(carte, unite, instance) {
   synchroniserConfig(carte, unite, instance);
 
-  // 3. Fiche récap et coût de l'unité.
-  const ancienneFiche = carte.querySelector(".unite-fiche");
-  ancienneFiche.replaceWith(construireFiche(unite, instance));
-  carte.querySelector(".unite-points").textContent =
-    coutInstance(unite, instance) + " pts";
-  // Les .regle-tag des règles spéciales viennent d'être créées : on
-  // relance le câblage d'accessibilité des info-bulles (voir js/main.js).
-  if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
+  // 3. Fiche récap et coût de l'unité (l'interaction vient de sa propre
+  // carte : toujours à reconstruire, contrairement à
+  // actualiserSelectsCases qui ne le fait que si nécessaire).
+  rafraichirFicheEtPoints(carte, unite, instance);
 
   // 4. Total général + sauvegarde.
   actualiserTotal();
@@ -1076,16 +1111,14 @@ function construireConfig(carte, unite, instance) {
         select.id = "opt-" + instance.uid + "-" + opt.id;
         label.htmlFor = select.id;
         opt.choix.forEach((choix, indice) => {
-          const optionHtml = document.createElement("option");
-          optionHtml.value = String(indice);
-          optionHtml.textContent =
+          const texteOption =
             indice === 0 && !opt.obligatoire
               ? nomCourt(choix.nom)
               : nomCourt(choix.nom) +
                 " — " +
                 libelleCout(choix.cout) +
                 (opt.parFigurine && choix.cout > 0 ? "/figurine" : "");
-          select.appendChild(optionHtml);
+          ajouterOption(select, String(indice), texteOption);
         });
         select.addEventListener("change", () => {
           instance.valeurs[opt.id] = Number(select.value);
@@ -1191,6 +1224,7 @@ function construireCarte(instance) {
   retirer.setAttribute("aria-label", "Retirer " + unite.nom + " de la liste");
   retirer.addEventListener("click", () => {
     armee = armee.filter((i) => i.uid !== instance.uid);
+    dernierAvantageParUid.delete(instance.uid);
     carte.remove();
     sauvegarder();
     // Libère la Case de l'Organigramme de Force qu'occupait l'unité
@@ -1338,22 +1372,17 @@ function actualiserSelectsCases() {
     const actuelle = Organigramme.assignationDe(instance.uid);
     select.replaceChildren();
     if (!actuelle) {
-      const opt = document.createElement("option");
-      opt.value = "";
-      opt.textContent = "⚠ Non placée — choisir une case";
-      select.appendChild(opt);
+      ajouterOption(select, "", "⚠ Non placée — choisir une case");
     }
     if (actuelle) {
-      const opt = document.createElement("option");
-      opt.value = actuelle.detUid + ":" + actuelle.indice;
-      opt.textContent = actuelle.libelle;
-      select.appendChild(opt);
+      ajouterOption(
+        select,
+        actuelle.detUid + ":" + actuelle.indice,
+        actuelle.libelle,
+      );
     }
     for (const libre of Organigramme.casesLibresPour(unite)) {
-      const opt = document.createElement("option");
-      opt.value = libre.detUid + ":" + libre.indice;
-      opt.textContent = libre.libelle;
-      select.appendChild(opt);
+      ajouterOption(select, libre.detUid + ":" + libre.indice, libre.libelle);
     }
     select.value = actuelle ? actuelle.detUid + ":" + actuelle.indice : "";
     // Alerte visuelle : carte sans case = liste non conforme.
@@ -1363,19 +1392,24 @@ function actualiserSelectsCases() {
     // `requiertAbsenceUnite` — l'option de Khârn dépend de la présence
     // d'Angron dans la liste) : on resynchronise le formulaire ici,
     // pas seulement lors d'une interaction sur sa propre carte.
-    synchroniserConfig(carte, unite, instance);
+    const configModifiee = synchroniserConfig(carte, unite, instance);
 
-    // La fiche récap dépend elle aussi de l'Avantage Principal de la
-    // case (bonus de Maître-sergent, Vétérans de Combat, Parangon de
+    // La fiche récap dépend aussi de l'Avantage Principal de la case
+    // (bonus de Maître-sergent, Vétérans de Combat, Parangon de
     // Bataille) : on la reconstruit pour qu'elle reste à jour même
     // quand le changement vient d'ailleurs (une autre carte,
-    // l'organigramme).
-    const ancienneFiche = carte.querySelector(".unite-fiche");
-    if (ancienneFiche)
-      ancienneFiche.replaceWith(construireFiche(unite, instance));
-    carte.querySelector(".unite-points").textContent =
-      coutInstance(unite, instance) + " pts";
-    if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
+    // l'organigramme) — mais SEULEMENT si quelque chose qui influe sur
+    // elle a réellement changé pour CETTE instance (option remise à
+    // zéro ci-dessus, ou Avantage différent de la dernière fois) :
+    // cette fonction tourne après CHAQUE interaction sur N'IMPORTE
+    // QUELLE carte, donc reconstruire la fiche de toute l'Armée à
+    // chaque fois (recalcul des tableaux d'armes de chaque unité)
+    // serait un gâchis pur pour la quasi-totalité des unités, qui n'ont
+    // rien à mettre à jour.
+    const avantageActuel = Organigramme.avantageDe(instance.uid);
+    if (configModifiee || dernierAvantageParUid.get(instance.uid) !== avantageActuel) {
+      rafraichirFicheEtPoints(carte, unite, instance);
+    }
   }
   // Le coût d'une unité a pu changer (option remise à zéro par
   // synchroniserConfig ci-dessus) : total à jour, sans redéclencher
@@ -1390,6 +1424,7 @@ function actualiserSelectsCases() {
 // l'organigramme : c'est lui qui pilote et actualisera ensuite.
 function retirerInstance(uid) {
   armee = armee.filter((i) => i.uid !== uid);
+  dernierAvantageParUid.delete(uid);
   const carte = document.getElementById("unite-" + uid);
   if (carte) carte.remove();
   majTexteTotal();

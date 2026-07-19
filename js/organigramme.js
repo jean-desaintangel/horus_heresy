@@ -315,12 +315,26 @@ const Organigramme = (() => {
   /* ----------------------------------------------------------
      OUTILS DONNÉES
      ---------------------------------------------------------- */
+  function typeParId(typeId) {
+    return TYPES_DETACHEMENTS.find((t) => t.id === typeId);
+  }
+
   function typeDe(det) {
-    return TYPES_DETACHEMENTS.find((t) => t.id === det.typeId);
+    return typeParId(det.typeId);
   }
 
   function trouverDetachement(uid) {
     return etat.detachements.find((d) => d.uid === uid);
+  }
+
+  // Noms lisibles d'une liste d'ids d'UNITES (js/unites-data.js),
+  // joints par « ou » pour les messages de raison (requiertUniteArmee,
+  // deblocage.uniteIds) — id brut affiché tel quel si l'unité est
+  // introuvable.
+  function nomsUnitesParIds(ids) {
+    return ids
+      .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
+      .join(" ou ");
   }
 
   function avantageParId(id) {
@@ -335,24 +349,26 @@ const Organigramme = (() => {
     return { instance, unite: hooks.trouverUnite(instance.uniteId) };
   }
 
+  // Variante choisie d'une instance occupant une Case (repli sur la
+  // variante 0 si l'indice sauvegardé est invalide/absent).
+  function varianteDe(occ) {
+    return occ.unite.variantes[occ.instance.variante] || occ.unite.variantes[0];
+  }
+
   /* Sous-types d'une instance, lus dans la ligne « Type » de la
      variante choisie (ex : "Sergent : Infanterie (Sergent) ·
      Légionnaire : Infanterie"). Sert aux conditions des Avantages
      Principaux : Sergent (Maître-sergent), État-major (Parangon de
      Bataille) et Unique (seul Bénéfice Logistique autorisé, p. 283). */
   function aSousType(occ, sousType) {
-    const variante =
-      occ.unite.variantes[occ.instance.variante] || occ.unite.variantes[0];
-    return variante.type.includes(sousType);
+    return varianteDe(occ).type.includes(sousType);
   }
 
   /* Règle « Officier de Ligne (X) » (livre d'armée) : la Case
      d'État-major occupée par cette unité débloque X Détachements
      Auxiliaires au lieu d'un seul. */
   function valeurOfficierDeLigne(occ) {
-    const variante =
-      occ.unite.variantes[occ.instance.variante] || occ.unite.variantes[0];
-    for (const regle of variante.regles || []) {
+    for (const regle of varianteDe(occ).regles || []) {
       const m = /officier de ligne\s*\((\d+)\)/i.exec(regle);
       if (m) return Number(m[1]);
     }
@@ -360,7 +376,7 @@ const Organigramme = (() => {
   }
 
   function creerDetachement(typeId) {
-    const type = TYPES_DETACHEMENTS.find((t) => t.id === typeId);
+    const type = typeParId(typeId);
     return {
       uid: ++compteurDet,
       typeId,
@@ -627,8 +643,12 @@ const Organigramme = (() => {
 
   /* Un type de détachement est-il sélectionnable maintenant ?
      Retourne { possible, raison } — la raison alimente le message
-     du bouton grisé (exigence UX : expliquer pourquoi). */
-  function disponibilite(type) {
+     du bouton grisé (exigence UX : expliquer pourquoi). `credits`
+     (calculerCredits()) est calculé une seule fois par le passage de
+     rendu appelant (construireAjoutDetachements, qui l'évalue pour
+     chaque type de la famille courante) plutôt que recalculé ici à
+     chaque appel — recalculé par défaut si omis. */
+  function disponibilite(type, credits = calculerCredits()) {
     if (type.famille === "principal")
       return {
         possible: false,
@@ -653,7 +673,7 @@ const Organigramme = (() => {
     ) {
       const noms = type.excluAvec
         .map((id) => {
-          const autre = TYPES_DETACHEMENTS.find((t) => t.id === id);
+          const autre = typeParId(id);
           return autre ? autre.nom : id;
         })
         .join(" ou ");
@@ -689,9 +709,7 @@ const Organigramme = (() => {
         .getArmee()
         .some((inst) => type.requiertUniteArmee.includes(inst.uniteId))
     ) {
-      const noms = type.requiertUniteArmee
-        .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
-        .join(" ou ");
+      const noms = nomsUnitesParIds(type.requiertUniteArmee);
       return {
         possible: false,
         raison:
@@ -726,7 +744,6 @@ const Organigramme = (() => {
           " » choisi sur au moins une Case de l'Armée.",
       };
     }
-    const credits = calculerCredits();
     if (type.famille === "apex" && credits.apexRestants <= 0) {
       return {
         possible: false,
@@ -746,11 +763,7 @@ const Organigramme = (() => {
         };
       }
       if (type.deblocage && debloqueursDisponibles(type) <= 0) {
-        const noms = type.deblocage.uniteIds
-          .map((id) =>
-            hooks.trouverUnite(id) ? hooks.trouverUnite(id).nom : id,
-          )
-          .join(" ou ");
+        const noms = nomsUnitesParIds(type.deblocage.uniteIds);
         return {
           possible: false,
           raison:
@@ -819,10 +832,12 @@ const Organigramme = (() => {
      cette liste couvre les règles « transversales » (quotas,
      crédits, avantages) qui peuvent devenir fausses après coup
      (ex : on retire le Centurion qui finançait deux Auxiliaires).
+     `credits` (calculerCredits()) est calculé une seule fois par
+     construireBarre, qui en a de toute façon besoin par ailleurs,
+     plutôt que recalculé ici — recalculé par défaut si omis.
      ---------------------------------------------------------- */
-  function validerArmee() {
+  function validerArmee(credits = calculerCredits()) {
     const erreurs = [];
-    const credits = calculerCredits();
     const total = coutTotalArmee();
 
     // 1. Limite de Points (p. 282).
@@ -915,9 +930,7 @@ const Organigramme = (() => {
           "« " +
             type.nom +
             " » : il manque une unité débloqueuse (" +
-            type.deblocage.uniteIds
-              .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
-              .join(" ou ") +
+            nomsUnitesParIds(type.deblocage.uniteIds) +
             ") occupant une Case " +
             type.deblocage.caseRole +
             ".",
@@ -939,9 +952,7 @@ const Organigramme = (() => {
           "« " +
             type.nom +
             " » nécessite une Unité de " +
-            type.requiertUniteArmee
-              .map((id) => (hooks.trouverUnite(id) || { nom: id }).nom)
-              .join(" ou ") +
+            nomsUnitesParIds(type.requiertUniteArmee) +
             " dans l'Armée.",
         );
       }
@@ -1015,7 +1026,7 @@ const Organigramme = (() => {
             etat.detachements.some((d) => d.typeId === type.id) &&
             etat.detachements.some((d) => d.typeId === autreId)
           ) {
-            const autre = TYPES_DETACHEMENTS.find((t) => t.id === autreId);
+            const autre = typeParId(autreId);
             erreurs.push(
               "« " +
                 type.nom +
@@ -1105,8 +1116,15 @@ const Organigramme = (() => {
         raison = "Exige une figurine de Sous-type Sergent.";
       } else if (avantage.etatMajor && occ && !aSousType(occ, "État-major")) {
         raison = "Exige une figurine de Sous-type État-major.";
-      } else if (avantage.typeInfanterie && occ && !aSousType(occ, "Infanterie")) {
-        raison = "Réservé aux Figurines de Type Infanterie.";
+      } else if (
+        avantage.typesRequis &&
+        occ &&
+        !avantage.typesRequis.some((t) => aSousType(occ, t))
+      ) {
+        raison =
+          "Réservé aux Figurines de Type " +
+          avantage.typesRequis.join(" ou ") +
+          ".";
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
       } else if (avantage.roleRequis && caseOrga.role !== avantage.roleRequis) {
@@ -1195,14 +1213,12 @@ const Organigramme = (() => {
           "« " +
           avantage.nom +
           " » déjà choisi ailleurs dans l'Armée (une seule fois par Armée).";
-      } else if (
-        avantage.id === "affectation-speciale" &&
-        occ &&
-        occ.unite.categorie === "Quartier Général"
-      ) {
-        // Une unité QG en case État-major n'est légale QUE via cet
-        // avantage : il est alors verrouillé (non désélectionnable).
       }
+      // Note : une unité QG en Case d'État-major n'est légale QUE via
+      // l'Avantage Affectation Spéciale — il est alors verrouillé (non
+      // désélectionnable) par changerAvantage() ci-dessous, pas ici :
+      // le proposer grisé ici n'aurait aucun sens puisqu'il reste la
+      // seule option valide pour cette Case.
       resultat.push({ avantage, grise: raison !== "", raison });
     }
     return resultat;
@@ -1254,8 +1270,17 @@ const Organigramme = (() => {
       nouvelAvantage.ajouteCase &&
       !det.cases.some((c) => c.extra)
     ) {
+      // Rôle Tactique de la case ajoutée : libre par défaut (tout sauf
+      // QG/État-major/Seigneurs, ROLES_INTERDITS_LOGISTIQUE), sauf si
+      // l'Avantage restreint la liste (`rolesCaseAjoutee`, ex : Bardé
+      // de Fer, réservé à Engins de Guerre) — un seul Rôle possible
+      // dans cette liste est alors préaffecté directement.
+      const rolesPossibles = nouvelAvantage.rolesCaseAjoutee;
       det.cases.push({
-        role: null,
+        role:
+          rolesPossibles && rolesPossibles.length === 1
+            ? rolesPossibles[0]
+            : null,
         principale: false,
         uniteUid: null,
         avantage: "aucun",
@@ -1336,7 +1361,7 @@ const Organigramme = (() => {
       // On revalide tout : les données du navigateur ne sont jamais
       // considérées comme sûres.
       for (const brute of donnees.detachements) {
-        const type = TYPES_DETACHEMENTS.find((t) => t.id === brute.typeId);
+        const type = typeParId(brute.typeId);
         if (!type) continue;
         const det = creerDetachement(type.id);
         if (
@@ -1459,6 +1484,29 @@ const Organigramme = (() => {
     return badge;
   }
 
+  /* Vide la liste d'armée et remet à zéro les détachements (seul le
+     Détachement Principal, obligatoire, est conservé) — après
+     confirmation de l'utilisateur si l'Armée ou les détachements
+     sélectionnés ne sont pas déjà vides. Retourne true si la
+     réinitialisation a eu lieu (ou n'était pas nécessaire), false si
+     l'utilisateur a annulé. Partagée par les menus Légion et Rite de
+     Guerre ci-dessous (construireParametres), dont un changement rend
+     invalides les unités/détachements propres à l'ancienne valeur. */
+  function reinitialiserArmeeAvecConfirmation(message) {
+    const armeeNonVide = hooks.getArmee().length > 0;
+    const detachementsSupp = etat.detachements.some(
+      (d) => d.typeId !== "principal",
+    );
+    if (!armeeNonVide && !detachementsSupp) return true;
+    if (!window.confirm(message)) return false;
+    if (armeeNonVide) {
+      for (const instance of [...hooks.getArmee()])
+        hooks.retirerInstance(instance.uid);
+    }
+    etat.detachements = [creerDetachement("principal")];
+    return true;
+  }
+
   /* Change l'Allégeance de l'Armée : retire (après confirmation) les
      unités dont le Trait « Loyaliste »/« Renégat » (js/unites-data.js)
      devient incompatible. Retourne true si le changement a été
@@ -1533,10 +1581,7 @@ const Organigramme = (() => {
       ["loyaliste", "Loyaliste"],
       ["renegat", "Traitre"],
     ]) {
-      const opt = document.createElement("option");
-      opt.value = valeur;
-      opt.textContent = texte;
-      selectAllegeance.appendChild(opt);
+      ajouterOption(selectAllegeance, valeur, texte);
     }
     selectAllegeance.value = etat.allegeance;
     selectAllegeance.disabled = Boolean(allegeanceForcee);
@@ -1559,13 +1604,8 @@ const Organigramme = (() => {
     const selectLegion = document.createElement("select");
     selectLegion.id = "legion-armee";
     labelLegion.htmlFor = selectLegion.id;
-    const optChoisir = document.createElement("option");
-    optChoisir.value = "";
-    optChoisir.textContent = "Choisir Legion";
-    selectLegion.appendChild(optChoisir);
+    ajouterOption(selectLegion, "", "Choisir Legion");
     for (const [valeur, texte] of LEGIONS) {
-      const opt = document.createElement("option");
-      opt.value = valeur;
       // Une Légion n'est sélectionnable que si des unités lui sont
       // réservées (champ `legion` dans js/unites-data.js) : les autres
       // restent affichées, grisées, en attendant leur transcription
@@ -1573,9 +1613,12 @@ const Organigramme = (() => {
       const disponible =
         UNITES.some((u) => u.legion === valeur) &&
         !LEGIONS_INDISPONIBLES.includes(valeur);
-      opt.textContent = disponible ? texte : texte + " (prochainement)";
+      const opt = ajouterOption(
+        selectLegion,
+        valeur,
+        disponible ? texte : texte + " (prochainement)",
+      );
       opt.disabled = !disponible;
-      selectLegion.appendChild(opt);
     }
     selectLegion.value = etat.legion;
     selectLegion.addEventListener("change", () => {
@@ -1586,13 +1629,8 @@ const Organigramme = (() => {
         // dans js/unites-data.js) : un changement de Légion repart
         // donc d'une liste et d'un organigramme vierges (seul le
         // Détachement Principal, obligatoire, est conservé).
-        const armeeNonVide = hooks.getArmee().length > 0;
-        const detachementsSupp = etat.detachements.some(
-          (d) => d.typeId !== "principal",
-        );
         if (
-          (armeeNonVide || detachementsSupp) &&
-          !window.confirm(
+          !reinitialiserArmeeAvecConfirmation(
             "Changer de Légion réinitialise la liste d'armée et les " +
               "détachements sélectionnés. Continuer ?",
           )
@@ -1600,11 +1638,6 @@ const Organigramme = (() => {
           selectLegion.value = etat.legion;
           return;
         }
-        if (armeeNonVide) {
-          for (const instance of [...hooks.getArmee()])
-            hooks.retirerInstance(instance.uid);
-        }
-        etat.detachements = [creerDetachement("principal")];
         // Le Rite de Guerre (RITES_DE_GUERRE) est propre à chaque
         // Légion : il repart lui aussi à zéro, à rechoisir dans le
         // menu ci-dessous s'il en existe un pour la nouvelle Légion.
@@ -1632,15 +1665,9 @@ const Organigramme = (() => {
       const selectRite = document.createElement("select");
       selectRite.id = "rite-de-guerre-armee";
       labelRite.htmlFor = selectRite.id;
-      const optChoisirRite = document.createElement("option");
-      optChoisirRite.value = "";
-      optChoisirRite.textContent = "Choisir un Rite de Guerre";
-      selectRite.appendChild(optChoisirRite);
+      ajouterOption(selectRite, "", "Choisir un Rite de Guerre");
       for (const rite of ritesLegion) {
-        const opt = document.createElement("option");
-        opt.value = rite.id;
-        opt.textContent = rite.nom;
-        selectRite.appendChild(opt);
+        ajouterOption(selectRite, rite.id, rite.nom);
       }
       selectRite.value = etat.riteDeGuerre;
       selectRite.addEventListener("change", () => {
@@ -1652,13 +1679,8 @@ const Organigramme = (() => {
           // Cadre de Berserkers/Fils de Bodt) : comme un changement de
           // Légion, on repart d'une liste et d'un organigramme vierges
           // (seul le Détachement Principal, obligatoire, est conservé).
-          const armeeNonVide = hooks.getArmee().length > 0;
-          const detachementsSupp = etat.detachements.some(
-            (d) => d.typeId !== "principal",
-          );
           if (
-            (armeeNonVide || detachementsSupp) &&
-            !window.confirm(
+            !reinitialiserArmeeAvecConfirmation(
               "Changer de Rite de Guerre réinitialise la liste d'armée et " +
                 "les détachements sélectionnés. Continuer ?",
             )
@@ -1666,11 +1688,6 @@ const Organigramme = (() => {
             selectRite.value = etat.riteDeGuerre;
             return;
           }
-          if (armeeNonVide) {
-            for (const instance of [...hooks.getArmee()])
-              hooks.retirerInstance(instance.uid);
-          }
-          etat.detachements = [creerDetachement("principal")];
         }
         const nouveauRiteInfo = ritesLegion.find((r) => r.id === nouveauRite);
         if (
@@ -1734,7 +1751,7 @@ const Organigramme = (() => {
     conteneur.replaceChildren();
     const total = coutTotalArmee();
     const credits = calculerCredits();
-    const erreurs = validerArmee();
+    const erreurs = validerArmee(credits);
 
     const texte = el(
       "p",
@@ -1803,27 +1820,24 @@ const Organigramme = (() => {
     const label = el("label", null, "Légion Alliée ");
     const select = document.createElement("select");
     select.setAttribute("aria-label", "Légion du Détachement Allié");
-    const optVide = document.createElement("option");
-    optVide.value = "";
-    optVide.textContent = "— Choisir la Légion Alliée —";
-    select.appendChild(optVide);
+    ajouterOption(select, "", "— Choisir la Légion Alliée —");
     for (const [valeur, texteLegion] of LEGIONS) {
-      const opt = document.createElement("option");
-      opt.value = valeur;
       const memeQueArmee = valeur === etat.legion;
       const disponible =
         !memeQueArmee &&
         !LEGIONS_INDISPONIBLES.includes(valeur) &&
         UNITES.some((u) => u.legion === valeur);
-      opt.textContent =
+      const opt = ajouterOption(
+        select,
+        valeur,
         texteLegion +
-        (memeQueArmee
-          ? " (Légion du Détachement Principal)"
-          : disponible
-            ? ""
-            : " (prochainement)");
+          (memeQueArmee
+            ? " (Légion du Détachement Principal)"
+            : disponible
+              ? ""
+              : " (prochainement)"),
+      );
       opt.disabled = !disponible;
-      select.appendChild(opt);
     }
     select.value = det.legionAlliee || "";
     select.addEventListener("change", () => {
@@ -1931,24 +1945,26 @@ const Organigramme = (() => {
 
       // Case supplémentaire d'un Avantage `ajouteCase` (Bénéfice
       // Logistique, Le Salaire de la Traîtrise) : choix du Rôle
-      // Tactique (tout sauf QG, État-major, Seigneurs — p. 283).
+      // Tactique (tout sauf QG, État-major, Seigneurs — p. 283), sauf
+      // si l'Avantage d'origine restreint la liste à quelques Rôles
+      // précis (`rolesCaseAjoutee`, ex : Logisticae des Ultramarines,
+      // limité à Transport/Transport Lourd).
       if (caseOrga.extra) {
+        const origineExtra = avantageParId(caseOrga.origineAvantage);
+        const rolesPossiblesExtra =
+          (origineExtra && origineExtra.rolesCaseAjoutee) ||
+          Object.keys(ROLES_TACTIQUES).filter(
+            (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
+          );
         const selectRole = document.createElement("select");
         selectRole.className = "orga-case-role-select";
         selectRole.setAttribute(
           "aria-label",
           "Rôle Tactique de la case ajoutée",
         );
-        const optVide = document.createElement("option");
-        optVide.value = "";
-        optVide.textContent = "— Choisir un Rôle Tactique —";
-        selectRole.appendChild(optVide);
-        for (const cle of Object.keys(ROLES_TACTIQUES)) {
-          if (ROLES_INTERDITS_LOGISTIQUE.includes(cle)) continue;
-          const opt = document.createElement("option");
-          opt.value = cle;
-          opt.textContent = ROLES_TACTIQUES[cle].livre;
-          selectRole.appendChild(opt);
+        ajouterOption(selectRole, "", "— Choisir un Rôle Tactique —");
+        for (const cle of rolesPossiblesExtra) {
+          ajouterOption(selectRole, cle, ROLES_TACTIQUES[cle].livre);
         }
         selectRole.value = caseOrga.role || "";
         selectRole.disabled = caseOrga.uniteUid !== null; // rôle figé tant qu'occupée
@@ -1984,12 +2000,9 @@ const Organigramme = (() => {
             det,
             caseOrga,
           )) {
-            const opt = document.createElement("option");
-            opt.value = avantage.id;
-            opt.textContent = avantage.nom;
+            const opt = ajouterOption(selectAv, avantage.id, avantage.nom);
             opt.disabled = grise;
             if (grise) opt.title = raison;
-            selectAv.appendChild(opt);
           }
           selectAv.value = caseOrga.avantage;
           selectAv.addEventListener("change", () => {
@@ -2031,6 +2044,11 @@ const Organigramme = (() => {
       etatsOuverts[d.dataset.famille] = d.open;
     });
     conteneur.replaceChildren();
+    // Calculé une seule fois pour tous les types de toutes les
+    // familles ci-dessous (identique pour chacun tant que l'Armée n'a
+    // pas changé), plutôt que recalculé par disponibilite() à chaque
+    // type (une quinzaine à une trentaine par rendu).
+    const credits = calculerCredits();
     const familles = [
       ["additionnel", "Détachements additionnels"],
       ["auxiliaire", "Détachements Auxiliaires"],
@@ -2046,7 +2064,7 @@ const Organigramme = (() => {
       for (const type of TYPES_DETACHEMENTS.filter(
         (t) => t.famille === famille && (!t.legion || t.legion === etat.legion),
       )) {
-        const { possible, raison } = disponibilite(type);
+        const { possible, raison } = disponibilite(type, credits);
         const bouton = el(
           "button",
           "bouton-secondaire orga-ajout-bouton",
