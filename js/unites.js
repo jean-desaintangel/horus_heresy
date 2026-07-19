@@ -1571,7 +1571,40 @@ function assainirPDF(texte) {
     .replace(/⚠/g, "!");
 }
 
-function genererPDF() {
+// Charge une image locale (chemin relatif, ex. un blason de Légion
+// sous assets/logo_legions/) en Data URL, pour l'incorporer au PDF
+// (doc.addImage) ou au Word exporté (<img src="data:...">). Retourne
+// null en cas d'échec (Légion sans blason, page ouverte sans serveur
+// local...) plutôt que de bloquer l'export.
+async function chargerImageDataURL(chemin) {
+  if (!chemin) return null;
+  try {
+    const reponse = await fetch(chemin);
+    if (!reponse.ok) return null;
+    const blob = await reponse.blob();
+    return await new Promise((resolve, reject) => {
+      const lecteur = new FileReader();
+      lecteur.onload = () => resolve(lecteur.result);
+      lecteur.onerror = reject;
+      lecteur.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
+}
+
+// Texte "Allégeance : ... · Primarque : ... · Monde Natal : ..." pour
+// la Légion en cours (partagé par la page de garde PDF et Word).
+function texteIdentiteLegion(skin) {
+  let texte =
+    skin.allegeance === "renegat"
+      ? "Allégeance : Renégate (Traitre)"
+      : "Allégeance : Loyaliste";
+  if (skin.monde && skin.monde !== "—") texte += " · Monde Natal : " + skin.monde;
+  return texte;
+}
+
+async function genererPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const MARGE = 36;
@@ -1609,6 +1642,20 @@ function genererPDF() {
     for (const ligne of doc.splitTextToSize(assainirPDF(texte), contentW)) {
       assurerEspace(interligne);
       doc.text(ligne, contentX, y);
+      y += interligne;
+    }
+  }
+
+  // Identique à paragraphe, mais chaque ligne est centrée sur la
+  // largeur de contenu (page de garde : identité de Légion).
+  function paragrapheCentre(texte, taille, style) {
+    doc.setFont("times", style || "normal");
+    doc.setFontSize(taille);
+    const interligne = taille * 1.3;
+    for (const ligne of doc.splitTextToSize(assainirPDF(texte), contentW)) {
+      assurerEspace(interligne);
+      const largeur = doc.getTextWidth(ligne);
+      doc.text(ligne, contentX + (contentW - largeur) / 2, y);
       y += interligne;
     }
   }
@@ -1724,12 +1771,47 @@ function genererPDF() {
     }
   }
 
-  // --- Page de garde : titre, total, structure de l'armée ---
+  // --- Page de garde : Légion, total, structure de l'armée ---
   nouvellePage();
-  doc.setFont("times", "bold");
-  doc.setFontSize(18);
-  doc.text("Liste d'armée — Horus Heresy", contentX, y);
-  y += 26;
+
+  // Identité de Légion : blason et nom sur une même ligne centrée,
+  // Allégeance/Primarque/Monde Natal centrés en dessous (voir
+  // Organigramme.skinActuel/cheminLogoActuel, js/organigramme.js).
+  const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
+  if (skin) {
+    const logoDataUrl = await chargerImageDataURL(Organigramme.cheminLogoActuel());
+    const nomLegionTexte = assainirPDF(Organigramme.legionActuelle() + " – " + skin.nom);
+    let largeurLogo = 0;
+    let hauteurLogo = 0;
+    let proprietes = null;
+    if (logoDataUrl) {
+      try {
+        proprietes = doc.getImageProperties(logoDataUrl);
+        hauteurLogo = 50;
+        largeurLogo = Math.min((proprietes.width / proprietes.height) * hauteurLogo, 90);
+      } catch {
+        // Format d'image non géré par jsPDF (rare) : on continue sans blason.
+        proprietes = null;
+      }
+    }
+    const ECART = largeurLogo > 0 ? 10 : 0;
+    doc.setFont("times", "bold");
+    doc.setFontSize(16);
+    const largeurTexte = doc.getTextWidth(nomLegionTexte);
+    const largeurBloc = largeurLogo + ECART + largeurTexte;
+    const hauteurBloc = Math.max(hauteurLogo, 16);
+    assurerEspace(hauteurBloc + 8);
+    const xBloc = contentX + (contentW - largeurBloc) / 2;
+    if (proprietes) {
+      doc.addImage(logoDataUrl, proprietes.fileType || "PNG", xBloc, y, largeurLogo, hauteurLogo);
+    }
+    doc.text(nomLegionTexte, xBloc + largeurLogo + ECART, y + hauteurBloc / 2 + 6);
+    y += hauteurBloc + 8;
+
+    paragrapheCentre(texteIdentiteLegion(skin), 9.5);
+    y += 6;
+  }
+
   const total = document.getElementById("total-armee");
   if (total) paragraphe(total.textContent.trim(), 11, "bold");
   paragraphe("Générée le " + new Date().toLocaleDateString("fr-FR"), 9, "italic");
@@ -1742,6 +1824,31 @@ function genererPDF() {
       for (const item of detachement.items) paragraphe("• " + item, 9);
       y += 4;
     }
+  }
+
+  // Contenu du Rite de Guerre de la Légion choisie (Tactica de
+  // Légion, Posture, Réaction Avancée — voir RITE_DE_GUERRE_LEGION,
+  // js/organigramme-data.js). Certaines Légions ont un contenu
+  // différent selon le Rite de Guerre précis choisi (ex : Legio
+  // Hereticus World Eaters) : on cherche d'abord une entrée pour ce
+  // Rite précis (id RITES_DE_GUERRE), puis on retombe sur l'entrée
+  // générique de la Légion. Absent pour les Légions/Rites dont le
+  // contenu n'est pas encore transcrit.
+  const contenuRite =
+    RITE_DE_GUERRE_LEGION[Organigramme.riteActuel ? Organigramme.riteActuel() : ""] ||
+    RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+  if (contenuRite) {
+    y += 4;
+    titreSection("Rite de Guerre : " + contenuRite.nomRite, 12);
+    contenuRite.sections.forEach((section, indice) => {
+      // Ligne vide entre les blocs Tactica de Légion / Posture /
+      // Réaction Avancée (aucune avant le premier).
+      if (indice > 0) y += 11.7;
+      paragraphe(section.titre, 10.5, "bold");
+      for (const p of section.paragraphes) {
+        paragraphe(p.texte, 9, p.style === "bold" ? "bold" : "normal");
+      }
+    });
   }
 
   // --- Une carte par unité ---
@@ -1763,8 +1870,8 @@ function genererPDF() {
   return doc;
 }
 
-function telechargerPDF() {
-  const doc = genererPDF();
+async function telechargerPDF() {
+  const doc = await genererPDF();
   const date = new Date().toISOString().slice(0, 10);
   doc.save("armee-horus-heresy-" + date + ".pdf");
 }
@@ -1781,7 +1888,12 @@ function echapperHTML(texte) {
 }
 
 function carteWordHTML(donnees) {
-  let html = '<div class="carte">';
+  // Cadre en <hr> (haut/bas) plutôt qu'une bordure CSS sur .carte :
+  // le filtre HTML de Word ne fusionne pas fiablement une bordure de
+  // <div> avec le saut de page forcé qui précède chaque carte (la
+  // boîte se disloque en autant de fragments que de paragraphes),
+  // alors qu'un <hr> autonome traverse un saut de page sans problème.
+  let html = '<div class="carte"><hr class="carte-trait">';
   html +=
     '<div class="entete"><span>' +
     echapperHTML(donnees.nom) +
@@ -1830,16 +1942,18 @@ function carteWordHTML(donnees) {
       html += "</div>";
     }
   }
+  html += '<hr class="carte-trait">';
   html += "</div>";
   return html;
 }
 
-function genererWordHTML() {
+async function genererWordHTML() {
   const style = `
     body { font-family: 'Times New Roman', serif; font-size: 11pt; color: #000; }
     h1 { font-size: 20pt; margin-bottom: 4pt; }
     h2 { font-size: 14pt; margin: 14pt 0 4pt; border-bottom: 1pt solid #000; padding-bottom: 2pt; }
-    .carte { border: 1pt solid #000; padding: 10pt; margin-bottom: 16pt; page-break-inside: avoid; }
+    .carte { margin-bottom: 20pt; page-break-inside: avoid; }
+    .carte-trait { border: none; border-top: 2pt solid #000; margin: 4pt 0 10pt; }
     .entete { font-weight: bold; font-size: 14pt; }
     .entete span:last-child { float: right; }
     .composition { font-style: italic; font-size: 10pt; margin: 2pt 0 8pt; }
@@ -1850,8 +1964,39 @@ function genererWordHTML() {
     .definitions { margin-top: 8pt; border-top: 1pt solid #999; padding-top: 6pt; }
     .definitions p { margin: 3pt 0; font-size: 9pt; }
     hr { border: none; border-top: 1pt solid #000; margin: 6pt 0 10pt; }
+    /* Tableau plutôt que flexbox : le moteur HTML de Word ne gère pas
+       fiablement flexbox, mais centre correctement une table via
+       margin: 0 auto (technique classique HTML compatible Word). */
+    .legion-table { border-collapse: collapse; width: auto; margin: 0 auto 6pt; }
+    .legion-table td { border: none; padding: 0 6pt; text-align: left; vertical-align: middle; }
+    .legion-logo { max-height: 50pt; max-width: 90pt; display: block; }
+    .legion-nom { font-size: 16pt; font-weight: bold; }
+    .legion-identite { text-align: center; font-size: 9.5pt; margin: 0 0 8pt; }
+    .rite-titre { font-size: 11pt; margin-top: 8pt; }
+    .rite-sep { margin: 0; font-size: 11pt; line-height: 11pt; }
   `;
-  let corps = "<h1>Liste d'armée — Horus Heresy</h1>";
+  let corps = "";
+
+  // Identité de Légion : blason et nom sur une même ligne centrée
+  // (tableau à une ligne), Allégeance/Primarque/Monde Natal centrés
+  // en dessous (voir Organigramme.skinActuel/cheminLogoActuel,
+  // js/organigramme.js).
+  const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
+  if (skin) {
+    const logoDataUrl = await chargerImageDataURL(Organigramme.cheminLogoActuel());
+    corps += '<table class="legion-table"><tr>';
+    if (logoDataUrl) {
+      corps += '<td><img class="legion-logo" src="' + logoDataUrl + '" alt=""></td>';
+    }
+    corps +=
+      '<td><span class="legion-nom">' +
+      echapperHTML(Organigramme.legionActuelle() + " – " + skin.nom) +
+      "</span></td>";
+    corps += "</tr></table>";
+    corps +=
+      '<p class="legion-identite">' + echapperHTML(texteIdentiteLegion(skin)) + "</p>";
+  }
+
   const total = document.getElementById("total-armee");
   if (total) corps += "<p><strong>" + echapperHTML(total.textContent.trim()) + "</strong></p>";
   corps +=
@@ -1867,7 +2012,42 @@ function genererWordHTML() {
       corps += "</ul>";
     }
   }
+
+  // Contenu du Rite de Guerre de la Légion choisie (Tactica de
+  // Légion, Posture, Réaction Avancée — voir RITE_DE_GUERRE_LEGION,
+  // js/organigramme-data.js). Certaines Légions ont un contenu
+  // différent selon le Rite de Guerre précis choisi (ex : Legio
+  // Hereticus World Eaters) : on cherche d'abord une entrée pour ce
+  // Rite précis (id RITES_DE_GUERRE), puis on retombe sur l'entrée
+  // générique de la Légion. Absent pour les Légions/Rites dont le
+  // contenu n'est pas encore transcrit.
+  const contenuRite =
+    RITE_DE_GUERRE_LEGION[Organigramme.riteActuel ? Organigramme.riteActuel() : ""] ||
+    RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+  if (contenuRite) {
+    corps += "<h2>Rite de Guerre : " + echapperHTML(contenuRite.nomRite) + "</h2>";
+    contenuRite.sections.forEach((section, indice) => {
+      // Ligne vide entre les blocs Tactica de Légion / Posture /
+      // Réaction Avancée (aucune avant le premier).
+      if (indice > 0) corps += '<p class="rite-sep">&nbsp;</p>';
+      corps +=
+        '<p class="rite-titre"><strong>' + echapperHTML(section.titre) + "</strong></p>";
+      for (const p of section.paragraphes) {
+        corps +=
+          p.style === "bold"
+            ? "<p><strong>" + echapperHTML(p.texte) + "</strong></p>"
+            : "<p>" + echapperHTML(p.texte) + "</p>";
+      }
+    });
+  }
+
+  // Une carte par page (comme le PDF, voir nouvellePage/cartePDF) : un
+  // <br style="page-break-before:always"> DEVANT la carte (jamais
+  // page-break-before sur .carte elle-même — Word éclate alors la
+  // bordure du cadre en autant de boîtes que de paragraphes, un bug
+  // confirmé du filtre HTML de Word sur les div bordurées).
   for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
+    corps += '<br style="page-break-before: always">';
     corps += carteWordHTML(donneesCarte(carte));
   }
   return (
@@ -1896,13 +2076,13 @@ function telechargerBlob(nomFichier, contenu, type) {
   URL.revokeObjectURL(url);
 }
 
-function telechargerWord() {
+async function telechargerWord() {
   const date = new Date().toISOString().slice(0, 10);
   // BOM ("﻿") : force Word à détecter l'encodage UTF-8 (sinon les
   // accents peuvent s'afficher mal à l'ouverture).
   telechargerBlob(
     "armee-horus-heresy-" + date + ".doc",
-    "﻿" + genererWordHTML(),
+    "﻿" + (await genererWordHTML()),
     "application/msword;charset=utf-8",
   );
 }

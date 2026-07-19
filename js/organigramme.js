@@ -2203,11 +2203,36 @@ const Organigramme = (() => {
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
     legionActuelle: () => etat.legion,
+    // Rite de Guerre choisi (id d'un RITES_DE_GUERRE[legion], ou ""
+    // si aucun choisi / Légion sans choix de Rite de Guerre) :
+    // consommée par js/unites.js pour la page de garde du PDF/Word,
+    // certaines Légions ayant un contenu de Rite de Guerre différent
+    // selon le choix fait ici (RITE_DE_GUERRE_LEGION, voir
+    // js/organigramme-data.js).
+    riteActuel: () => etat.riteDeGuerre,
     // Allégeance de l'Armée ("loyaliste" | "renegat") : consommée par
     // js/unites.js (uniteAccessible) pour n'autoriser que les unités
     // dont le Trait d'Allégeance (« Loyaliste »/« Renégat », champ
     // `traits` de js/unites-data.js) correspond à cette Allégeance.
     allegeanceActuelle: () => etat.allegeance,
+    // Identité de la Légion choisie ({ nom, primarque, monde,
+    // allegeance, devise, icone, classe }, voir SKINS_LEGION plus
+    // haut) ou null si aucune Légion choisie / sans skin dédié.
+    // Consommée par js/unites.js pour la page de garde du PDF/Word.
+    skinActuel: () => SKINS_LEGION[etat.legion] || null,
+    // Chemin (relatif aux pages HTML) du blason de la Légion choisie,
+    // ou null si aucun blason disponible. Même construction que
+    // creerIconeLegion ci-dessus, exposée pour js/unites.js (export
+    // PDF/Word, qui ne peut pas injecter de <img> dans le DOM).
+    cheminLogoActuel: () => {
+      const skin = SKINS_LEGION[etat.legion];
+      if (!skin) return null;
+      return (
+        "../assets/logo_legions/" +
+        (LOGOS_LEGION[skin.icone] || skin.icone) +
+        ".png"
+      );
+    },
     // Légions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Légion a été choisie, doublons
     // possibles si plusieurs partagent la même — p. 283). Consommée
