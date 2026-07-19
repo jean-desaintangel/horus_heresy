@@ -59,6 +59,35 @@
                  détachement) — même mécanique que requiertAllegeance
                  ci-dessus (ex : Conclave Exalté, qui exige Vrais
                  Croyants).
+     avantagesAutorises : [ids d'AVANTAGES_PRINCIPAUX] — restreint
+                 l'Avantage Principal sélectionnable sur TOUTES les
+                 Cases Principales de ce Détachement à cette liste
+                 (« Aucun avantage choisi » reste toujours permis) ;
+                 vérifié par avantagesPossibles() dans
+                 js/organigramme.js, qui grise les autres options du
+                 menu déroulant de la Case (ex : Chasse Atramentar des
+                 Night Lords, qui n'autorise que l'Avantage Atramentar).
+     requiertRiteDeGuerre : id d'un Rite de Guerre de RITES_DE_GUERRE
+                 (ci-dessous) qui doit être choisi dans les paramètres
+                 de la partie (menu « Rite de Guerre », affiché
+                 uniquement pour une Légion qui figure dans
+                 RITES_DE_GUERRE) — même mécanique de déblocage/
+                 grisage que `requiertAllegeance`.
+     excluAvec : [ids de TYPES_DETACHEMENTS] — indisponible tant qu'un
+                 Détachement de l'un de ces types est déjà présent
+                 dans l'Armée (même mécanique que le champ `excluAvec`
+                 des unités, js/unites-data.js/js/unites.js). À
+                 déclarer sur LES DEUX types pour une exclusion
+                 symétrique (ex : Confrérie du Phénix et Détachement de
+                 Seigneur de Guerre, mutuellement exclusifs).
+     pasDeCredit : si true, les Cases de Quartier Général et
+                 d'État-major de ce Détachement ne débloquent AUCUN
+                 Détachement Auxiliaire ou d'Apex supplémentaire
+                 (vérifié par calculerCredits() dans
+                 js/organigramme.js, qui ignore alors entièrement ce
+                 Détachement dans le calcul des crédits — ex :
+                 Confrérie du Phénix, dont les Cases QG/État-major ne
+                 doivent débloquer aucun Auxiliaire/Apex).
    }
    ============================================================ */
 
@@ -203,6 +232,9 @@ const TYPES_DETACHEMENTS = [
     famille: "additionnel",
     max: 1,
     pointsMin: 3000, // p. 283 : sélectionnable uniquement à 3000 pts et +
+    // Confrérie du Phénix (Emperor's Children, Rite de Guerre Legio
+    // Hereticus) se sélectionne À LA PLACE de ce Détachement.
+    excluAvec: ["confrerie-du-phenix"],
     texte:
       "Un seul par armée, même Faction que le Détachement Principal, uniquement si la Limite de Points est d'au moins 3000 pts. Doit inclure au moins 1 figurine de Type Parangon. Quota combiné Seigneur de Guerre + Seigneur des Batailles : 25 % de la Limite de Points.",
     cases: [
@@ -835,7 +867,211 @@ const TYPES_DETACHEMENTS = [
     ],
     legion: "XVI",
   },
+  /* --- Arsenal de l'Alpha Legion (XXe Légion) : Léviathan de
+     Chasseurs de Têtes (voir js/unites-data.js, id "chasseur-de-
+     tetes", unité réservée à cette Légion). --- */
+  {
+    id: "leviathan-chasseurs-tetes",
+    nom: "Léviathan de Chasseurs de Têtes",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases d'Élite de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escouade Traqueuse ou de Chasseur de Têtes.",
+    restrictions: { Elite: ["escouade-traqueuse", "chasseur-de-tetes"] },
+    cases: [
+      _caseOrga("Reco", true),
+      _caseOrga("Reco", true),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+    legion: "XX",
+  },
+  /* --- Arsenal de la Death Guard (XIVe Légion) : Ost Moissonneur. --- */
+  {
+    id: "ost-moissonneur",
+    nom: "Ost Moissonneur",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Troupes de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escouade d'Assaut.",
+    restrictions: { Troupes: ["escouade-assaut"] },
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+      _caseOrga("Assaut Lourd"),
+    ],
+    legion: "XIV",
+  },
+  /* --- Arsenal des Iron Warriors (IVe Légion) : La Cohorte de Feu de
+     Fer. --- */
+  {
+    id: "cohorte-feu-de-fer",
+    nom: "La Cohorte de Feu de Fer",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Blindés de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Bombarde Arquitor.",
+    restrictions: { Blindés: ["arquitor"] },
+    cases: [
+      _caseOrga("Blindés", true),
+      _caseOrga("Blindés"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+    legion: "IV",
+  },
+  /* --- Arsenal des Iron Warriors (IVe Légion) : Le Marteau
+     d'Olympia. --- */
+  {
+    id: "marteau-olympia",
+    nom: "Le Marteau d'Olympia",
+    famille: "apex",
+    texte:
+      "Sélectionnable uniquement si l'Armée comprend aussi une Unité de Forgeguerre ou de Perturabo.",
+    requiertUniteArmee: ["forgeguerre", "perturabo"],
+    cases: [
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+    ],
+    legion: "IV",
+  },
+  /* --- Arsenal des Night Lords (VIIIe Légion) : Assaut de Terreur. --- */
+  {
+    id: "assaut-de-terreur",
+    nom: "Assaut de Terreur",
+    famille: "auxiliaire",
+    texte:
+      "Les Cases de Troupes de ce Détachement ne peuvent servir qu'à sélectionner des Unités d'Escouade Terreur.",
+    restrictions: { Troupes: ["escouade-terreur"] },
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+    ],
+    legion: "VIII",
+  },
+  /* --- Arsenal des Night Lords (VIIIe Légion) : Chasse Atramentar.
+     Les 2 Cases d'Assaut Lourd sont TOUTES DEUX des Cases Principales
+     (confirmé par Jean), contrairement à la plupart des autres
+     Détachements à 2 Cases de même Rôle Tactique (une seule
+     Principale). `avantagesAutorises` (voir js/organigramme.js,
+     avantagesPossibles) restreint l'Avantage Principal sélectionnable
+     sur les Cases Principales de ce Détachement au seul Atramentar
+     (voir plus haut dans AVANTAGES_PRINCIPAUX) — toute autre valeur
+     que « aucun » est grisée dans le menu déroulant de la Case. */
+  {
+    id: "chasse-atramentar",
+    nom: "Chasse Atramentar",
+    famille: "apex",
+    texte:
+      "La Case de Suite de ce Détachement ne peut servir qu'à sélectionner une Unité d'Escouade d'État-major Terminator Cataphractii ou Tartaros. Les Cases d'Assaut Lourd ne peuvent servir qu'à sélectionner des Unités d'Escouade Terminator Cataphractii ou Tartaros. Seul l'Avantage Principal Atramentar peut être choisi sur les Cases Principales de ce Détachement.",
+    restrictions: {
+      Suites: ["escouade-etat-major-cataphractii", "escouade-etat-major-tartaros"],
+      "Assaut Lourd": ["terminators-cataphractii", "terminators-tartaros"],
+    },
+    avantagesAutorises: ["atramentar"],
+    cases: [
+      _caseOrga("Suites", true),
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd", true),
+    ],
+    legion: "VIII",
+  },
+  /* --- Arsenal des Thousand Sons (XVe Légion) : Convocation de
+     Prospero. --- */
+  {
+    id: "convocation-de-prospero",
+    nom: "Convocation de Prospero",
+    famille: "auxiliaire",
+    texte: "Des Troupes, une unité d'Attaque Rapide, une unité d'Élite et une unité de Transport Lourd.",
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Elite"),
+      _caseOrga("Transports Lourds"),
+    ],
+    legion: "XV",
+  },
+  /* --- Arsenal des Emperor's Children (IIIe Légion) : Escadre de
+     Primauté, réservée au Rite de Guerre Legio Astartes (voir
+     RITES_DE_GUERRE ci-dessous). --- */
+  {
+    id: "escadre-de-primaute",
+    nom: "Escadre de Primauté",
+    famille: "auxiliaire",
+    texte:
+      "Réservé au Rite de Guerre Legio Astartes Emperor's Children. Une Suite, une Élite et deux unités d'Attaque Rapide.",
+    requiertRiteDeGuerre: "legio-astartes-emperors-children",
+    cases: [
+      _caseOrga("Suites"),
+      _caseOrga("Elite"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+    ],
+    legion: "III",
+  },
+  /* --- Arsenal des Emperor's Children (IIIe Légion) : Confrérie du
+     Phénix, réservée au Rite de Guerre Legio Hereticus (voir
+     RITES_DE_GUERRE ci-dessous). Se sélectionne À LA PLACE du
+     Détachement de Seigneur de Guerre (`excluAvec`, déclaré aussi sur
+     ce dernier plus haut) : mêmes contraintes de points (3000 pts
+     minimum, `pointsMin`) et de quota Seigneur de Guerre/Seigneur des
+     Batailles (25 % combiné, appliqué automatiquement à toute unité
+     de Rôle Tactique Seigneur de Guerre logée dans sa Case). Ses
+     Cases QG/État-major sont exclues du calcul des crédits
+     Auxiliaire/Apex (`pasDeCredit`, voir js/organigramme.js,
+     calculerCredits). */
+  {
+    id: "confrerie-du-phenix",
+    nom: "Confrérie du Phénix",
+    famille: "additionnel",
+    max: 1,
+    pointsMin: 3000,
+    requiertRiteDeGuerre: "legio-hereticus-emperors-children",
+    requiertUniteArmee: ["fulgrim-transfigure"],
+    excluAvec: ["seigneur-guerre"],
+    pasDeCredit: true,
+    texte:
+      "Réservé au Rite de Guerre Legio Hereticus Emperor's Children. Se sélectionne à la place du Détachement de Seigneur de Guerre (l'Armée ne peut pas inclure les deux). Uniquement si la Limite de Points est d'au moins 3000 pts, et nécessite une Unité de Fulgrim Transfiguré dans l'Armée. Les Cases de Quartier Général et d'État-major de ce Détachement ne débloquent aucun Détachement Auxiliaire ou d'Apex supplémentaire.",
+    cases: [
+      _caseOrga("Seigneur de Guerre"),
+      _caseOrga("Quartier Général", true),
+      _caseOrga("Quartier Général"),
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major"),
+    ],
+    legion: "III",
+  },
 ];
+
+/* ----------------------------------------------------------
+   RITES DE GUERRE (livre d'armée Legiones Astartes)
+   Certaines Légions imposent au joueur un choix de Rite de Guerre
+   (menu « Rite de Guerre » des paramètres de la partie,
+   js/organigramme.js, affiché uniquement pour une Légion présente
+   ici). Ce choix conditionne l'accès à certains Détachements (champ
+   `requiertRiteDeGuerre` de TYPES_DETACHEMENTS ci-dessus) et peut
+   verrouiller l'Allégeance de l'Armée sur une valeur précise
+   (`allegeanceForcee` : le menu Allégeance est alors grisé et forcé
+   sur cette valeur — ex : Legio Hereticus, qui impose l'Allégeance
+   Renégate). Légion absente d'ici = pas de choix de Rite de Guerre.
+   Clé = id LEGIONS (js/organigramme.js).
+   ---------------------------------------------------------- */
+const RITES_DE_GUERRE = {
+  III: [
+    {
+      id: "legio-astartes-emperors-children",
+      nom: "Legio Astartes Emperor's Children",
+    },
+    {
+      id: "legio-hereticus-emperors-children",
+      nom: "Legio Hereticus Emperor's Children",
+      allegeanceForcee: "renegat",
+    },
+  ],
+};
 
 /* ----------------------------------------------------------
    AVANTAGES PRINCIPAUX (p. 283 + Légions Corrompues)
@@ -854,7 +1090,29 @@ const TYPES_DETACHEMENTS = [
                  `roleRequis` ci-dessus, approxime « composée
                  uniquement de Figurines qui ont le Trait X » : le
                  site ne modélise que le Trait au niveau de l'Unité,
-                 pas figurine par figurine.
+                 pas figurine par figurine. Une unité générique (Trait
+                 « [Legiones Astartes] », ex : Centurion) compte comme
+                 ayant le Trait de la Légion choisie pour la partie
+                 (voir avantagesPossibles, js/organigramme.js).
+   - uniteRequise : réservé à certaines Figurines précises, par id
+                 d'UNITES (js/unites-data.js) et éventuellement indice
+                 de variante si une seule variante est concernée (ex :
+                 Résistance Anormale, réservé au Centurion et au
+                 Centurion Cataphractii — PAS au Centurion Tartaros,
+                 autre variante de la même unité).
+   - unParArmee   : sélectionnable une seule fois par ARMÉE (tous
+                 détachements confondus), à la différence de
+                 `unParDetachement` ci-dessus.
+   - typeInfanterie : l'unité doit inclure le Type Infanterie (ex :
+                 Les Défavorisés, Iron Warriors) — vérifié comme
+                 `sergent`/`etatMajor` ci-dessus, via aSousType.
+   - ajouteCase   : ajoute une case au détachement (tout Rôle Tactique
+                 sauf QG, État-major, Seigneur de Guerre et Seigneurs
+                 des Batailles — voir ROLES_INTERDITS_LOGISTIQUE), comme
+                 Bénéfice Logistique et Le Salaire de la Traîtrise (une
+                 seule case ajoutée à la fois par détachement, quel que
+                 soit l'Avantage qui l'a créée — voir changerAvantage,
+                 js/organigramme.js).
    Rappel du livre : si l'unité inclut une figurine de Sous-type
    Unique, seul « Bénéfice Logistique » reste disponible.
    ---------------------------------------------------------- */
@@ -897,6 +1155,7 @@ const AVANTAGES_PRINCIPAUX = [
     id: "benefice-logistique",
     nom: "Bénéfice Logistique",
     unParDetachement: true,
+    ajouteCase: true,
     texte:
       "Ajoute une case au détachement, de n'importe quel Rôle Tactique sauf Quartier Général, État-major, Seigneur de Guerre et Seigneur des Batailles. Une seule fois par détachement. Seul avantage disponible si l'unité inclut le Sous-type Unique.",
   },
@@ -927,6 +1186,105 @@ const AVANTAGES_PRINCIPAUX = [
     traitRequis: "Word Bearers",
     texte:
       "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Word Bearers : les Figurines de l'Unité gagnent la Règle Spéciale Impact (F).",
+  },
+  /* --- Arsenal des Thousand Sons (XVe Légion), page « Déplacement
+     Télékinétique » (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    id: "deplacement-telekinetique",
+    nom: "Déplacement Télékinétique (Thousand Sons)",
+    roleRequis: "Troupes",
+    traitRequis: "Thousand Sons",
+    texte:
+      "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Thousand Sons : les Figurines de l'Unité gagnent la Règle Spéciale Déplacement Télékinétique (quand l'Unité Fonce, un Test de Volonté réussi lui donne le Sous-type Antigrav et la Règle Spéciale Mouvement à Couvert jusqu'à la fin de la Phase de Mouvement ; s'il est raté, l'Unité ne peut pas se Déplacer ce tour-ci).",
+  },
+  /* --- Arsenal de la Death Guard (XIVe Légion), page « Résistance
+     Anormale » : réservé au Centurion et au Centurion Cataphractii
+     (unités génériques, voir js/unites-data.js, id "centurion" et
+     "centurion-terminator" — SEULE la variante Cataphractii de cette
+     dernière est concernée, pas le Centurion Tartaros). --- */
+  {
+    id: "resistance-anormale",
+    nom: "Résistance Anormale (Death Guard)",
+    uniteRequise: [{ id: "centurion" }, { id: "centurion-terminator", variante: 0 }],
+    traitRequis: "Death Guard",
+    unParArmee: true,
+    texte:
+      "Réservé à une Figurine de Centurion ou de Centurion Cataphractii ayant le Trait Death Guard : elle bénéficie d'un Modificateur de +1 à la Valeur de Base de sa Caractéristique de Points de Vie et gagne la Règle Spéciale Guerrier Éternel (2). Une seule fois par Armée.",
+  },
+  /* --- Arsenal de l'Alpha Legion (XXe Légion), page « Le Salaire de
+     la Traîtrise » (voir js/unites-data.js, unités réservées à cette
+     Légion). Simplification : le livre autorise cet Avantage plusieurs
+     fois par détachement (une case ajoutée par sélection) ; le site ne
+     modélise qu'une case ajoutée par détachement à la fois, comme pour
+     le Bénéfice Logistique (voir `ajouteCase`, changerAvantage dans
+     js/organigramme.js). Les conditions d'éligibilité de la Figurine
+     qui vient occuper la case ajoutée (issue de la Liste d'Armée des
+     Legiones Astartes, sans Trait de Faction Alpha Legion, sans
+     Sous-type Unique) et le remplacement de son Trait de Faction par
+     « Alpha Legion » ne sont pas non plus vérifiés par le site : à
+     appliquer manuellement. --- */
+  {
+    id: "salaire-traitrise",
+    nom: "Le Salaire de la Traîtrise (Alpha Legion)",
+    roleRequis: "État-major",
+    traitRequis: "Alpha Legion",
+    unParDetachement: true,
+    ajouteCase: true,
+    texte:
+      "Réservé à une Unité de Rôle Tactique État-major composée uniquement de Figurines ayant le Trait Alpha Legion : ajoute une case au détachement, de n'importe quel Rôle Tactique sauf Quartier Général, État-major, Seigneur de Guerre et Seigneurs des Batailles. La Figurine qui occupe cette case doit être issue de la Liste d'Armée des Legiones Astartes, ne pas avoir le Trait de Faction Alpha Legion et ne pas inclure de Sous-type Unique ; toutes les Figurines de son Unité remplacent alors leur Trait de Faction par « Alpha Legion ».",
+  },
+  /* --- Arsenal des Iron Warriors (IVe Légion), page « Les
+     Défavorisés » (voir js/unites-data.js, unités réservées à cette
+     Légion). --- */
+  {
+    id: "les-defavorises",
+    nom: "Les Défavorisés (Iron Warriors)",
+    typeInfanterie: true,
+    traitRequis: "Iron Warriors",
+    texte:
+      "Réservé à une Unité de Type Infanterie composée uniquement de Figurines ayant le Trait Iron Warriors : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1).",
+  },
+  /* --- Arsenal des Night Lords (VIIIe Légion), page « Atramentar »
+     (voir js/unites-data.js, unités réservées à cette Légion). Liste
+     des Figurines admises RECONSTITUÉE : le passage transcrit de la
+     photo répète deux fois « Escouade Terminator Tartaros » et
+     n'évoque qu'une seule fois la variante Cataphractii du Centurion
+     Terminator (probablement une erreur d'OCR/de mise en page sur la
+     photo). Reconstitution retenue, par symétrie avec les Escouades
+     d'État-major Terminator Cataphractii/Tartaros déjà existantes
+     (js/unites-data.js, id "centurion-terminator" et "escouade-etat-
+     major-cataphractii"/"escouade-etat-major-tartaros") : les deux
+     variantes du Centurion Terminator ET les deux Escouades d'État-
+     major Terminator sont admises. À corriger contre le livre en cas
+     de doute. --- */
+  {
+    id: "atramentar",
+    nom: "Atramentar (Night Lords)",
+    uniteRequise: [
+      { id: "centurion-terminator", variante: 0 },
+      { id: "centurion-terminator", variante: 1 },
+      { id: "escouade-etat-major-cataphractii" },
+      { id: "escouade-etat-major-tartaros" },
+    ],
+    traitRequis: "Night Lords",
+    texte:
+      "Réservé à une Figurine de Centurion en Armure Terminator (Cataphractii ou Tartaros) ou d'Escouade d'État-major Terminator (Cataphractii ou Tartaros) ayant le Trait Night Lords : les Figurines de l'Unité gagnent les Règles Spéciales Frappe en Profondeur et Impact (1).",
+  },
+  /* --- Arsenal des Emperor's Children (IIIe Légion), page « Garde
+     Phénix » (voir js/unites-data.js, unités réservées à cette
+     Légion). L'échange gratuit de combi-bolter et d'arme énergétique
+     contre une lance énergétique Phénix n'est pas appliqué
+     automatiquement par le site (comme pour les autres Avantages qui
+     modifient l'équipement d'une Unité) : à faire manuellement sur la
+     fiche de la Figurine concernée. --- */
+  {
+    id: "garde-phenix",
+    nom: "Garde Phénix (Emperor's Children)",
+    uniteRequise: [{ id: "centurion-terminator", variante: 1 }],
+    traitRequis: "Emperor's Children",
+    texte:
+      "Réservé à une Figurine de Centurion Tartaros ayant le Trait Emperor's Children : elle doit échanger gratuitement son combi-bolter et son arme énergétique contre une lance énergétique Phénix, et gagne la Règle Spéciale Adresse Inégalée.",
   },
 ];
 

@@ -125,6 +125,77 @@ function cablerInfoBulles(racine) {
 }
 window.cablerInfoBulles = cablerInfoBulles;
 
+/* ----------------------------------------------------------
+   SKIN DE LÉGION — SITE ENTIER
+   js/organigramme.js pose une classe "skin-legion-*" sur <body>
+   (voir "Skins de Légion" dans css/style.css) mais uniquement sur
+   pages/unites.html, la seule page qui le charge. On relit ici la
+   même clé localStorage ("hh-armee-organigramme", voir
+   CLE_STOCKAGE_ORGA dans organigramme.js — dupliquée car ce fichier
+   n'est pas chargé partout) pour poser la même classe sur TOUTES les
+   pages : la palette (--accent…) et le blason suivent alors le
+   joueur d'une page à l'autre.
+   Posé hors DOMContentLoaded, au plus tôt (script en defer, donc DOM
+   déjà prêt) pour éviter un flash de la palette par défaut. Le
+   blason devant h1.titre-page attend DOMContentLoaded (élément pas
+   forcément déjà présent dans <head>-relative timing, et moins
+   critique côté flash vu sa petite taille).
+   Fichiers de blasons sous assets/logo_legions/ : voir LOGOS_LEGION
+   dans organigramme.js pour la légende des coquilles de noms de
+   fichiers conservées telles quelles.
+   ---------------------------------------------------------- */
+(function appliquerSkinLegionGlobal() {
+  const LOGOS_LEGION = {
+    I: "dark_angels",
+    III: "emperor_children",
+    IV: "iron_warriors",
+    V: "white_scars",
+    VI: "scpace_wolves",
+    VII: "imperial_fists",
+    VIII: "night_lords",
+    IX: "blood_angels",
+    X: "iron_hands",
+    XII: "world_eaters",
+    XIII: "ultramarines",
+    XIV: "death_guards",
+    XV: "thousand_sons",
+    XVI: "sons_of_horus",
+    XVII: "word_bearers",
+    XVIII: "salamenders",
+    XIX: "raven_guards",
+    XX: "alpha_legion",
+  };
+
+  let legion;
+  try {
+    const brut = localStorage.getItem("hh-armee-organigramme");
+    if (!brut) return;
+    legion = JSON.parse(brut).legion;
+  } catch {
+    return; // stockage indisponible ou corrompu : palette par défaut
+  }
+  if (typeof legion !== "string" || !LOGOS_LEGION[legion]) return;
+
+  document.body.classList.add("skin-legion-" + legion.toLowerCase());
+
+  // Racine du site déduite de l'URL réelle de ce script (résolue en
+  // absolu par le navigateur) plutôt que codée en dur : fonctionne
+  // aussi bien depuis index.html (racine) que depuis pages/*.html.
+  const racine = document.currentScript.src.replace(/js\/main\.js.*$/, "");
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const titre = document.querySelector("h1.titre-page");
+    if (!titre || titre.querySelector(".legion-icon")) return;
+    const img = document.createElement("img");
+    img.className = "legion-icon legion-icon--titre";
+    img.src = racine + "assets/logo_legions/" + LOGOS_LEGION[legion] + ".png";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    titre.insertBefore(img, titre.firstChild);
+  });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
      1. MENU BURGER (mobile)

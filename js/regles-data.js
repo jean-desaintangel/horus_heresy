@@ -841,4 +841,109 @@ const REGLES_DIVERSES = [
     texte:
       "En symbole de l'héritage cruel et brutal que Corax hérita en prenant le contrôle de la Raven Guard, les Deliverers ont longtemps été exilés de toute position d'honneur au sein de leur propre Légion. Les Figurines dotées de cette Règle Spéciale subissent des restrictions au sein d'une Armée comprenant Corvus Corax : une Unité qui compte au moins une Figurine dotée de cette Règle Spéciale ne peut pas être rejointe par une Figurine de Corvus Corax. De plus, les Jets de Réserves faits pour une Unité qui compte au moins une Figurine dotée de cette Règle Spéciale sont modifiés de -1 pendant toute Sous-phase de Réserves au cours de laquelle une Figurine de Corvus Corax amie était elle aussi en Réserves au début de cette Sous-phase.",
   },
+
+  /* --- ÉQUIPEMENT GÉNÉRIQUE (p. 313-315) : objets de wargear qui
+     confèrent une Règle Spéciale plutôt qu'un profil d'Arme (voir
+     js/armes-data.js pour les armes proprement dites). Transcrit
+     depuis le glossaire d'Équipement du livre de règles ; utilisé par
+     de nombreuses unités à travers tout js/unites-data.js. La ligne
+     "Équipement" de la fiche récap (construireFiche, js/unites.js)
+     habille chaque entrée reconnue d'une info-bulle reprenant sa
+     définition, exactement comme "Règles spéciales" et "Traits". --- */
+  {
+    nom: "Étendard de Compagnie",
+    texte:
+      "Donne un bonus à la Résolution de Combat. Quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, on marque 1 Point de Résolution de Combat pour chaque Unité impliquée dans ce Combat dont au moins une Figurine porte un étendard de Compagnie. De plus, une Figurine qui a un étendard de Compagnie compte comme 5 Figurines supplémentaires pour ce qui est du Soutien Extérieur en Défi.",
+  },
+  {
+    nom: "Étendard de Légion",
+    texte:
+      "Donne un bonus à la Résolution de Combat. Quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, on marque 2 Points de Résolution de Combat pour chaque Unité impliquée dans ce Combat dont au moins une Figurine porte un étendard de Légion. De plus, une Figurine qui a un étendard de Légion compte comme 6 Figurines supplémentaires pour ce qui est du Soutien Extérieur en Défi.",
+  },
+  {
+    nom: "Vexillum",
+    texte:
+      "Donne un bonus à la Résolution de Combat. Quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, on marque 1 Point de Résolution de Combat pour chaque Unité impliquée dans ce Combat dont au moins une Figurine porte un vexillum.",
+  },
+  {
+    nom: "Lame de Bulldozer",
+    texte:
+      "Permet aux Figurines d'ignorer le malus au Mouvement du Terrain Difficile. Si le Joueur en Contrôle fait entrer dans une quelconque zone de Terrain Difficile une Figurine dotée d'une lame de bulldozer, l'Unité concernée est dispensée d'appliquer un modificateur à son déplacement à cette Phase.",
+  },
+  {
+    nom: "Narthecium",
+    texte:
+      "Permet de faire des Jets de Rétablissement à la Sous-phase de Moral. Si une Unité incluant la moindre Figurine dotée d'un narthecium n'est pas Verrouillée en Combat, avant que le Joueur en Contrôle fasse un Test de Caractéristique pour ladite Unité à la Sous-phase de Moral, il peut faire un Jet de Rétablissement pour l'Unité. Si ce Jet de Rétablissement est réussi, le Joueur peut soustraire -2 au résultat du Test de Caractéristique. On ne peut faire ainsi qu'un seul Jet de Rétablissement par Unité à chaque Sous-phase de Moral.",
+  },
+  {
+    nom: "Nuncio-vox",
+    texte:
+      "Permet aux Unités de retirer des Statuts Tactiques à la Phase de Début. Si une Unité inclut au moins une Figurine dotée d'un nuncio-vox, et s'il y a sur le Champ de Bataille au moins une Figurine de Sous-type État-major, le Joueur en Contrôle peut activer le nuncio-vox à la Phase de Début de son Tour en tant que Joueur Actif. Quand le nuncio-vox est activé, le Joueur en Contrôle peut faire un Test pour retirer un seul Statut Tactique à toutes les Figurines de l'Unité dotée du nuncio-vox. On fait ce Test sous la Caractéristique de Sang-froid (sauf pour tenter de retirer le Statut En Déroute, auquel cas c'est le Commandement) de n'importe quelle Figurine amie de Sous-type État-major sur le Champ de Bataille au choix du Joueur en Contrôle. Un nuncio-vox ne peut être activé qu'une fois par Tour, et chaque Figurine amie de Sous-type État-major ne peut servir à utiliser cette Règle Spéciale qu'une fois par Phase de Début.",
+  },
+  {
+    nom: "Projecteurs",
+    texte:
+      "Permettent aux attaques d'ignorer les Jets de Mitigation de Dégâts de Dissimulation. On augmente de +1 (jusqu'à un maximum de 6+) le Nombre Cible de tous les Jets de Mitigation de Dégâts de Dissimulation consécutifs aux Blessures, Touches Pénétrantes ou Touches Superficielles infligées par les Attaques de Tir faites par une Figurine dotée de projecteurs qui a Ligne de Vue vers l'Unité Cible. Réciproquement, une Figurine dotée de projecteurs ne peut pas tenter de Jets de Mitigation de Dégâts de Dissimulation pour annuler les Blessures, Touches Pénétrantes ou Touches Superficielles en question.",
+  },
+  {
+    nom: "Scanner Augure",
+    texte:
+      "Permettent aux attaques d'ignorer les Jets de Mitigation de Dégâts de Dissimulation. Quand une Attaque de Tir faite par une Unité incluant la moindre Figurine dotée d'un scanner augure inflige des Touches (à l'exclusion des Touches d'attaques au Jugé), on ne peut pas tenter de Jets de Mitigation de Dégâts de Dissimulation contre les Touches en question.",
+  },
+  {
+    nom: "Servobras",
+    texte:
+      "Restaure davantage de Points de Vie ou de Coque quand la Figurine utilise la Règle Spéciale Guerrier-artisan (X). Chaque fois que le Joueur en Contrôle d'une Figurine dotée d'un servobras choisit l'option Réparer quand il active la Règle Spéciale Guerrier-artisan (X) pour cette Figurine, le nombre de Points de Coque ou de Points de Vie que gagne la Figurine Cible augmente de +1.",
+  },
+  {
+    nom: "Relais Vox d'État-major",
+    texte:
+      "Confère un bonus aux Jets de Réserves et peut servir à accorder d'autres bénéfices. Tant qu'une Figurine dotée d'un relais vox d'état-major se trouve sur le Champ de Bataille, avant de faire un Jet de Réserves pour une Unité en Réserves, le Joueur en Contrôle peut faire activer ce relais vox d'état-major par la Figurine : s'il le fait, il peut modifier de +1 le résultat du Jet de Réserves (un seul relais vox d'état-major activable par Jet de Réserves). De plus, à la Sous-phase des Effets de la Phase de Début, le Joueur en Contrôle d'une Figurine dotée d'un relais vox d'état-major peut faire un Test d'Intelligence pour ladite Figurine (Caractéristique d'Intelligence de 8 si elle est de Type Véhicule). Si ce Test est réussi, il peut choisir une Unité amie composée uniquement de Figurines avec le même Trait de Faction que la Figurine dotée du relais vox d'état-major, et lui donner jusqu'à la fin de ce Tour soit la Règle Spéciale Ligne (1) (perdant Avant-garde (X) si elle la possédait), soit Avant-garde (1) (perdant Ligne (X) si elle la possédait).",
+  },
+  {
+    nom: "Bouclier d'Abordage",
+    texte:
+      "Confère une Sauvegarde Invulnérable de 5+, le Trait Bouclier et le Sous-type Lourd. Une Figurine avec bouclier d'abordage gagne une Sauvegarde Invulnérable de 5+. De plus, elle gagne le Trait Bouclier et le Sous-type Lourd.",
+  },
+  {
+    nom: "Bouclier de Combat",
+    texte:
+      "Confère une Sauvegarde Invulnérable de 5+ et un bonus aux Jets de Concentration. Une Figurine avec bouclier de combat a une Sauvegarde Invulnérable de 5+ contre les attaques faites avec des Armes de Mêlée. De plus, une Figurine avec bouclier de combat gagne un modificateur de +1 aux Jets de Concentration qu'on fait pour elle.",
+  },
+  {
+    nom: "Champ de Diffraction Thermique",
+    texte:
+      "Atténue les Dégâts qu'infligent les Armes ayant certains Traits. Une Figurine dotée d'un champ de diffraction thermique réduit de -1 la Force de toutes les Touches qui lui sont infligées par les Armes ayant le Trait Laser, Plasma, Fusion ou Flammes. De plus, quand une Figurine dotée d'un champ de diffraction thermique génère un Groupe d'Incidents en vertu de la Règle Spéciale Surcharge (X), la Règle Spéciale Brèche (X) de ces Touches ne prend effet que sur un résultat de Jet de Blessure de 6+, quelle que soit la valeur de X.",
+  },
+  {
+    nom: "Cognis-signum",
+    texte:
+      "Permet de porter des attaques plus précises avec les Armes de Barrage. Au lieu de faire une Attaque de Tir avec une Figurine dotée d'un cognis-signum, le Joueur en Contrôle peut faire un Test d'Intelligence. Si le Test est réussi, il peut choisir une seule Unité ennemie en Ligne de Vue de la Figurine dotée d'un cognis-signum : la prochaine fois à la Phase de Tir en cours que l'Unité ennemie choisie est ciblée par une Attaque de Tir incluant au moins une Arme ayant la Règle Spéciale Barrage (X), le Joueur en Contrôle peut faire normalement les Jets de Touche pour ces attaques, en ignorant les limitations de la Règle Spéciale Barrage (X) si l'Unité qui fait l'Attaque de Tir n'a pas de Ligne de Vue vers l'Unité Cible. Si le Test est raté, le cognis-signum n'a aucun effet à ce tour.",
+  },
+  {
+    nom: "Contrôleur de Cortex",
+    texte:
+      "Permet aux Automates d'effectuer des Réactions. Une Unité incluant la moindre Figurine de Type Automate peut ignorer la restriction sur les Réactions à laquelle le Type Automate est soumis, tant qu'elle inclut au moins une Figurine dotée d'un contrôleur de cortex.",
+  },
+  {
+    nom: "Cyber-familier",
+    texte:
+      "Donne un bonus aux Tests d'Intelligence. Le Joueur en Contrôle d'une Figurine dotée d'un cyber-familier peut modifier de -2 le résultat des Tests d'Intelligence faits pour ladite Figurine.",
+  },
+
+  /* --- Arsenal des Emperor's Children (IIIe Légion) : équipement et
+     Règle Spéciale d'Unité (voir js/unites-data.js, unités réservées à
+     cette Légion — Seigneur Commandant Eidolon, Capitaine Lucius,
+     Escouade Terminator Phénix, Escouade de Lames Palatines, Escouade
+     Kakophoni). --- */
+  {
+    nom: "Hurleurs Soniques",
+    texte:
+      "Amplifiant les cris et grognements du porteur en déflagrations dissonantes, ces armes étourdissent les combattants ennemis au moyen d'ondes à haute fréquence, ce qui en fait des proies faciles. Quand une Unité qui comprend la moindre Figurine dotée de hurleurs soniques fait un Mouvement de Charge, l'Unité Cible de la Charge en question ne peut pas effectuer de Réactions avant que la Procédure de Charge soit terminée.",
+  },
+  {
+    nom: "Adresse Inégalée",
+    texte:
+      "Quand elle est Verrouillée en Combat, l'Unité peut appliquer une Règle Spéciale de plus jusqu'à la fin de la Phase. À la fin de la Sous-phase de Charge, si l'Unité est Verrouillée en Combat avec une ou plusieurs Unités ennemies, son Joueur en Contrôle peut choisir un des effets suivants, jusqu'à la fin de la Phase : La Frappe Parfaite — la Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont elle a besoin pour Toucher un adversaire (à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative), sans modifier les Jets de Touche faits par les Figurines adverses contre elle. La Garde Parfaite — inversement, la Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont une Figurine adverse a besoin pour la Toucher, sans modifier les Jets de Touche faits par l'Unité pour ses propres attaques.",
+  },
 ];

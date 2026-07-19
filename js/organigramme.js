@@ -38,13 +38,14 @@ const Organigramme = (() => {
     limite: 3000, // Limite de Points de la partie
     allegeance: "loyaliste", // "loyaliste" | "renegat" (Vrais Croyants)
     legion: "", // id LEGIONS ou "" (Choisir Légion)
+    riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
     detachements: [],
   };
 
   // Légions temporairement grisées malgré la présence d'unités qui
   // leur sont réservées (ex. transcription en cours de relecture).
   // Retirer l'entrée ici suffit à réactiver la sélection.
-  const LEGIONS_INDISPONIBLES = ["III"];
+  const LEGIONS_INDISPONIBLES = [];
 
   const LEGIONS = [
     ["I", "I – Dark Angels"],
@@ -559,6 +560,7 @@ const Organigramme = (() => {
     let creditsEM = 0;
     let qgRemplis = 0;
     for (const det of etat.detachements) {
+      if (typeDe(det).pasDeCredit) continue;
       for (const caseOrga of det.cases) {
         const occ = occupant(caseOrga);
         if (!occ) continue;
@@ -641,6 +643,37 @@ const Organigramme = (() => {
       return {
         possible: false,
         raison: "Maximum atteint : " + type.max + " par armée (p. 283).",
+      };
+    }
+    if (
+      type.excluAvec &&
+      type.excluAvec.some((id) =>
+        etat.detachements.some((d) => d.typeId === id),
+      )
+    ) {
+      const noms = type.excluAvec
+        .map((id) => {
+          const autre = TYPES_DETACHEMENTS.find((t) => t.id === id);
+          return autre ? autre.nom : id;
+        })
+        .join(" ou ");
+      return {
+        possible: false,
+        raison: "Incompatible avec « " + noms + " » déjà présent dans l'Armée.",
+      };
+    }
+    if (
+      type.requiertRiteDeGuerre &&
+      etat.riteDeGuerre !== type.requiertRiteDeGuerre
+    ) {
+      const rites = RITES_DE_GUERRE[type.legion] || [];
+      const rite = rites.find((r) => r.id === type.requiertRiteDeGuerre);
+      return {
+        possible: false,
+        raison:
+          "Réservé au Rite de Guerre « " +
+          (rite ? rite.nom : type.requiertRiteDeGuerre) +
+          " » (menu « Rite de Guerre » des paramètres de la partie).",
       };
     }
     if (type.pointsMin && etat.limite < type.pointsMin) {
@@ -950,14 +983,60 @@ const Organigramme = (() => {
             " » choisi sur au moins une Case de l'Armée.",
         );
       }
+      // Rite de Guerre choisi dans les paramètres de la partie (menu
+      // « Rite de Guerre », affiché pour les Légions de
+      // RITES_DE_GUERRE) : un changement de Rite après coup rend le
+      // Détachement déjà présent invalide, comme pour l'Allégeance
+      // ci-dessus.
+      if (
+        type.requiertRiteDeGuerre &&
+        etat.detachements.some((d) => d.typeId === type.id) &&
+        etat.riteDeGuerre !== type.requiertRiteDeGuerre
+      ) {
+        const rites = RITES_DE_GUERRE[type.legion] || [];
+        const rite = rites.find((r) => r.id === type.requiertRiteDeGuerre);
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » nécessite le Rite de Guerre « " +
+            (rite ? rite.nom : type.requiertRiteDeGuerre) +
+            " ».",
+        );
+      }
+      // Exclusion mutuelle entre deux types de Détachement (ex :
+      // Confrérie du Phénix / Détachement de Seigneur de Guerre) :
+      // signalée une seule fois par paire (type.id < autreId) pour
+      // éviter un message en double, l'exclusion étant déclarée sur
+      // les deux types.
+      if (type.excluAvec) {
+        for (const autreId of type.excluAvec) {
+          if (autreId <= type.id) continue;
+          if (
+            etat.detachements.some((d) => d.typeId === type.id) &&
+            etat.detachements.some((d) => d.typeId === autreId)
+          ) {
+            const autre = TYPES_DETACHEMENTS.find((t) => t.id === autreId);
+            erreurs.push(
+              "« " +
+                type.nom +
+                " » et « " +
+                (autre ? autre.nom : autreId) +
+                " » ne peuvent pas être sélectionnés dans la même Armée.",
+            );
+          }
+        }
+      }
     }
 
     // 6. Avantages Principaux (p. 283).
+    const parIdArmee = {};
     for (const det of etat.detachements) {
       const parId = {};
       for (const caseOrga of det.cases) {
-        if (caseOrga.avantage !== "aucun")
+        if (caseOrga.avantage !== "aucun") {
           parId[caseOrga.avantage] = (parId[caseOrga.avantage] || 0) + 1;
+          parIdArmee[caseOrga.avantage] = (parIdArmee[caseOrga.avantage] || 0) + 1;
+        }
       }
       for (const avantage of AVANTAGES_PRINCIPAUX) {
         if (avantage.unParDetachement && parId[avantage.id] > 1) {
@@ -969,6 +1048,13 @@ const Organigramme = (() => {
               ").",
           );
         }
+      }
+    }
+    for (const avantage of AVANTAGES_PRINCIPAUX) {
+      if (avantage.unParArmee && parIdArmee[avantage.id] > 1) {
+        erreurs.push(
+          "« " + avantage.nom + " » ne peut être choisi qu'une fois par Armée.",
+        );
       }
     }
 
@@ -991,11 +1077,23 @@ const Organigramme = (() => {
      raison dans le title. Règle p. 283 : Sous-type Unique → seul
      Bénéfice Logistique disponible. */
   function avantagesPossibles(det, caseOrga) {
+    const type = typeDe(det);
     const occ = occupant(caseOrga);
     const resultat = [];
     for (const avantage of AVANTAGES_PRINCIPAUX) {
       let raison = "";
       if (
+        type.avantagesAutorises &&
+        avantage.id !== "aucun" &&
+        !type.avantagesAutorises.includes(avantage.id)
+      ) {
+        raison =
+          "Seul l'Avantage Principal « " +
+          type.avantagesAutorises
+            .map((id) => avantageParId(id).nom)
+            .join(" / ") +
+          " » peut être choisi pour les Cases de ce Détachement.";
+      } else if (
         occ &&
         aSousType(occ, "Unique") &&
         avantage.id !== "benefice-logistique" &&
@@ -1007,13 +1105,57 @@ const Organigramme = (() => {
         raison = "Exige une figurine de Sous-type Sergent.";
       } else if (avantage.etatMajor && occ && !aSousType(occ, "État-major")) {
         raison = "Exige une figurine de Sous-type État-major.";
+      } else if (avantage.typeInfanterie && occ && !aSousType(occ, "Infanterie")) {
+        raison = "Réservé aux Figurines de Type Infanterie.";
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
       } else if (avantage.roleRequis && caseOrga.role !== avantage.roleRequis) {
         raison = "Réservé aux Cases de Rôle Tactique " + avantage.roleRequis + ".";
       } else if (
+        avantage.uniteRequise &&
+        !(
+          occ &&
+          avantage.uniteRequise.some(
+            (u) =>
+              u.id === occ.unite.id &&
+              (u.variante === undefined || u.variante === occ.instance.variante),
+          )
+        )
+      ) {
+        // Noms lisibles (dédupliqués) des Figurines/variantes admises,
+        // résolus depuis `uniteRequise` via hooks.trouverUnite : pour
+        // une variante précise, on prend son propre nom (ex : « Centu-
+        // rion Cataphractii », pas « Centurion en Armure Terminator »).
+        const noms = [
+          ...new Set(
+            avantage.uniteRequise.map((u) => {
+              const unite = hooks.trouverUnite(u.id);
+              if (!unite) return u.id;
+              if (u.variante === undefined) return unite.nom;
+              const variante = unite.variantes[u.variante];
+              return variante ? variante.nom : unite.nom;
+            }),
+          ),
+        ];
+        // Élision (« d'Escouade » et non « de Escouade ») devant une
+        // voyelle ou un h muet.
+        const de = (nom) => (/^[aeiouhàâéèêëîïôùûü]/i.test(nom) ? "d'" : "de ");
+        raison =
+          "Réservé à une Figurine " +
+          noms.map((nom, i) => (i === 0 ? "" : "ou ") + de(nom) + nom).join(" ") +
+          ".";
+      } else if (
         avantage.traitRequis &&
-        (!occ || !occ.unite.traits.includes(avantage.traitRequis))
+        !(
+          occ &&
+          (occ.unite.traits.includes(avantage.traitRequis) ||
+            // Unité générique (Trait « [Legiones Astartes] ») : compte
+            // comme ayant le Trait de la Légion choisie pour la partie
+            // (ex : Centurion en Armée Death Guard).
+            (occ.unite.traits.includes("[Legiones Astartes]") &&
+              SKINS_LEGION[etat.legion] &&
+              SKINS_LEGION[etat.legion].nom === avantage.traitRequis))
+        )
       ) {
         raison =
           "Exige une Unité dont les Figurines ont le Trait " +
@@ -1043,6 +1185,17 @@ const Organigramme = (() => {
           avantage.nom +
           " » déjà choisi ailleurs dans ce détachement (une seule fois par détachement).";
       } else if (
+        avantage.unParArmee &&
+        caseOrga.avantage !== avantage.id &&
+        etat.detachements.some((d) =>
+          d.cases.some((c) => c !== caseOrga && c.avantage === avantage.id),
+        )
+      ) {
+        raison =
+          "« " +
+          avantage.nom +
+          " » déjà choisi ailleurs dans l'Armée (une seule fois par Armée).";
+      } else if (
         avantage.id === "affectation-speciale" &&
         occ &&
         occ.unite.categorie === "Quartier Général"
@@ -1055,13 +1208,20 @@ const Organigramme = (() => {
     return resultat;
   }
 
-  /* Change l'avantage d'une case. Gère la case supplémentaire du
-     Bénéfice Logistique : ajout à la sélection, retrait au
-     changement (bloqué si la case ajoutée est occupée). Retourne
-     un message d'erreur ou null si tout va bien. */
+  /* Change l'avantage d'une case. Gère la case supplémentaire des
+     Avantages `ajouteCase` (Bénéfice Logistique, Le Salaire de la
+     Traîtrise) : ajout à la sélection, retrait au changement (bloqué
+     si la case ajoutée est occupée). Un seul détachement ne porte
+     jamais plus d'une case ajoutée à la fois, quel que soit l'Avantage
+     qui l'a créée (simplification : le livre autorise Le Salaire de la
+     Traîtrise plusieurs fois par détachement, une case par sélection —
+     seule la première case ajoutée est modélisée ici). Retourne un
+     message d'erreur ou null si tout va bien. */
   function changerAvantage(det, indice, nouvelId) {
     const caseOrga = det.cases[indice];
     const occ = occupant(caseOrga);
+    const ancienAvantage = avantageParId(caseOrga.avantage);
+    const nouvelAvantage = avantageParId(nouvelId);
     // Verrou Affectation Spéciale (voir assigner).
     if (
       caseOrga.avantage === "affectation-speciale" &&
@@ -1072,25 +1232,35 @@ const Organigramme = (() => {
       return "Cette unité de Quartier Général n'occupe la Case d'État-major que grâce à l'Affectation Spéciale : déplacez d'abord l'unité.";
     }
     if (
-      caseOrga.avantage === "benefice-logistique" &&
-      nouvelId !== "benefice-logistique"
+      ancienAvantage &&
+      ancienAvantage.ajouteCase &&
+      caseOrga.avantage !== nouvelId
     ) {
       const extraIdx = det.cases.findIndex((c) => c.extra);
       if (extraIdx !== -1) {
         if (det.cases[extraIdx].uniteUid !== null) {
-          return "La case ajoutée par le Bénéfice Logistique est occupée : retirez ou déplacez d'abord son unité.";
+          return (
+            "La case ajoutée par « " +
+            ancienAvantage.nom +
+            " » est occupée : retirez ou déplacez d'abord son unité."
+          );
         }
         det.cases.splice(extraIdx, 1);
       }
     }
     caseOrga.avantage = nouvelId;
-    if (nouvelId === "benefice-logistique" && !det.cases.some((c) => c.extra)) {
+    if (
+      nouvelAvantage &&
+      nouvelAvantage.ajouteCase &&
+      !det.cases.some((c) => c.extra)
+    ) {
       det.cases.push({
         role: null,
         principale: false,
         uniteUid: null,
         avantage: "aucun",
         extra: true,
+        origineAvantage: nouvelId,
       });
     }
     actualiser();
@@ -1109,6 +1279,7 @@ const Organigramme = (() => {
           limite: etat.limite,
           allegeance: etat.allegeance,
           legion: etat.legion,
+          riteDeGuerre: etat.riteDeGuerre,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             legionAlliee: d.legionAlliee || null,
@@ -1117,6 +1288,7 @@ const Organigramme = (() => {
               uniteUid: c.uniteUid,
               avantage: c.avantage,
               extra: c.extra,
+              origineAvantage: c.origineAvantage || null,
             })),
           })),
         }),
@@ -1145,6 +1317,21 @@ const Organigramme = (() => {
       ) {
         etat.legion = donnees.legion;
       }
+      const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
+      if (
+        typeof donnees.riteDeGuerre === "string" &&
+        (donnees.riteDeGuerre === "" ||
+          ritesLegion.some((r) => r.id === donnees.riteDeGuerre))
+      ) {
+        etat.riteDeGuerre = donnees.riteDeGuerre;
+      }
+      // Cohérence Allégeance/Rite de Guerre (ex : Legio Hereticus
+      // impose l'Allégeance Renégate) : re-synchronise au cas où la
+      // sauvegarde daterait d'avant l'ajout du champ `allegeanceForcee`.
+      const riteActif = ritesLegion.find((r) => r.id === etat.riteDeGuerre);
+      if (riteActif && riteActif.allegeanceForcee) {
+        etat.allegeance = riteActif.allegeanceForcee;
+      }
       if (!Array.isArray(donnees.detachements)) return;
       // On revalide tout : les données du navigateur ne sont jamais
       // considérées comme sûres.
@@ -1161,7 +1348,8 @@ const Organigramme = (() => {
           det.legionAlliee = brute.legionAlliee;
         }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
-        // Case supplémentaire du Bénéfice Logistique éventuelle.
+        // Case supplémentaire d'un Avantage `ajouteCase` éventuelle
+        // (Bénéfice Logistique, Le Salaire de la Traîtrise).
         const extraSauvee = casesSauvees.find((c) => c && c.extra);
         if (extraSauvee) {
           det.cases.push({
@@ -1171,6 +1359,10 @@ const Organigramme = (() => {
             uniteUid: null,
             avantage: "aucun",
             extra: true,
+            origineAvantage:
+              typeof extraSauvee.origineAvantage === "string"
+                ? extraSauvee.origineAvantage
+                : "benefice-logistique",
           });
         }
         det.cases.forEach((caseOrga, indice) => {
@@ -1211,15 +1403,16 @@ const Organigramme = (() => {
         vus.add(caseOrga.uniteUid);
       }
     }
-    // Case supplémentaire de Bénéfice Logistique devenue orpheline
+    // Case supplémentaire d'un Avantage `ajouteCase` devenue orpheline
     // (données anciennes/altérées où plus aucune case du détachement
-    // ne porte cet avantage) : on la retire, comme le fait déjà
-    // `liberer` pour les cas normaux.
+    // ne porte l'Avantage qui l'a créée) : on la retire, comme le fait
+    // déjà `liberer` pour les cas normaux.
     for (const det of etat.detachements) {
       const extraIdx = det.cases.findIndex((c) => c.extra);
       if (extraIdx === -1) continue;
+      const origine = det.cases[extraIdx].origineAvantage || "benefice-logistique";
       const encoreAccorde = det.cases.some(
-        (c) => !c.extra && c.avantage === "benefice-logistique",
+        (c) => !c.extra && c.avantage === origine,
       );
       if (!encoreAccorde) det.cases.splice(extraIdx, 1);
     }
@@ -1266,6 +1459,42 @@ const Organigramme = (() => {
     return badge;
   }
 
+  /* Change l'Allégeance de l'Armée : retire (après confirmation) les
+     unités dont le Trait « Loyaliste »/« Renégat » (js/unites-data.js)
+     devient incompatible. Retourne true si le changement a été
+     appliqué, false si l'utilisateur a annulé. Partagée par le menu
+     Allégeance et le menu Rite de Guerre ci-dessous (`allegeanceForcee`,
+     RITES_DE_GUERRE, js/organigramme-data.js). */
+  function appliquerAllegeance(nouvelleAllegeance) {
+    if (nouvelleAllegeance === etat.allegeance) return true;
+    const traitRequis =
+      nouvelleAllegeance === "renegat" ? "Loyaliste" : "Renégat";
+    const incompatibles = hooks.getArmee().filter((inst) => {
+      const unite = hooks.trouverUnite(inst.uniteId);
+      return unite && unite.traits && unite.traits.includes(traitRequis);
+    });
+    if (incompatibles.length > 0) {
+      const noms = incompatibles
+        .map((inst) => (hooks.trouverUnite(inst.uniteId) || {}).nom)
+        .join(", ");
+      if (
+        !window.confirm(
+          "Changer d'Allégeance retire de la liste les unités " +
+            "incompatibles (Trait « " +
+            traitRequis +
+            " ») : " +
+            noms +
+            ". Continuer ?",
+        )
+      ) {
+        return false;
+      }
+      for (const inst of incompatibles) hooks.retirerInstance(inst.uid);
+    }
+    etat.allegeance = nouvelleAllegeance;
+    return true;
+  }
+
   // Paramètres de la partie : Limite de Points + Allégeance.
   function construireParametres(conteneur) {
     conteneur.replaceChildren();
@@ -1289,6 +1518,13 @@ const Organigramme = (() => {
     ligne.appendChild(labelLimite);
     ligne.appendChild(champLimite);
 
+    // Rite de Guerre actif (RITES_DE_GUERRE, js/organigramme-data.js) :
+    // certains imposent l'Allégeance de l'Armée (`allegeanceForcee`),
+    // ce qui verrouille le menu Allégeance ci-dessous.
+    const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
+    const riteActif = ritesLegion.find((r) => r.id === etat.riteDeGuerre);
+    const allegeanceForcee = riteActif && riteActif.allegeanceForcee;
+
     const labelAllegeance = el("label", null, "Allégeance ");
     const selectAllegeance = document.createElement("select");
     selectAllegeance.id = "allegeance-armee";
@@ -1303,44 +1539,17 @@ const Organigramme = (() => {
       selectAllegeance.appendChild(opt);
     }
     selectAllegeance.value = etat.allegeance;
+    selectAllegeance.disabled = Boolean(allegeanceForcee);
+    if (allegeanceForcee) {
+      selectAllegeance.title =
+        "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
+    }
     selectAllegeance.addEventListener("change", () => {
       const nouvelleAllegeance = selectAllegeance.value;
-      if (nouvelleAllegeance !== etat.allegeance) {
-        // Une unité de Trait « Loyaliste » ou « Renégat » (champ
-        // `traits` de js/unites-data.js, ex : Primarques, Maîtres de
-        // Légion) n'est légale que dans une Armée de la même
-        // Allégeance : un changement d'Allégeance qui en rendrait
-        // certaines illégales les retire donc de la liste, après
-        // confirmation.
-        const traitRequis =
-          nouvelleAllegeance === "renegat" ? "Loyaliste" : "Renégat";
-        const incompatibles = hooks
-          .getArmee()
-          .filter((inst) => {
-            const unite = hooks.trouverUnite(inst.uniteId);
-            return unite && unite.traits && unite.traits.includes(traitRequis);
-          });
-        if (incompatibles.length > 0) {
-          const noms = incompatibles
-            .map((inst) => (hooks.trouverUnite(inst.uniteId) || {}).nom)
-            .join(", ");
-          if (
-            !window.confirm(
-              "Changer d'Allégeance retire de la liste les unités " +
-                "incompatibles (Trait « " +
-                traitRequis +
-                " ») : " +
-                noms +
-                ". Continuer ?",
-            )
-          ) {
-            selectAllegeance.value = etat.allegeance;
-            return;
-          }
-          for (const inst of incompatibles) hooks.retirerInstance(inst.uid);
-        }
+      if (!appliquerAllegeance(nouvelleAllegeance)) {
+        selectAllegeance.value = etat.allegeance;
+        return;
       }
-      etat.allegeance = nouvelleAllegeance;
       actualiser();
     });
     ligne.appendChild(labelAllegeance);
@@ -1396,6 +1605,10 @@ const Organigramme = (() => {
             hooks.retirerInstance(instance.uid);
         }
         etat.detachements = [creerDetachement("principal")];
+        // Le Rite de Guerre (RITES_DE_GUERRE) est propre à chaque
+        // Légion : il repart lui aussi à zéro, à rechoisir dans le
+        // menu ci-dessous s'il en existe un pour la nouvelle Légion.
+        etat.riteDeGuerre = "";
       }
       etat.legion = nouvelleLegion;
       // Allégeance par défaut selon la Légion choisie (Loyaliste ou
@@ -1407,6 +1620,46 @@ const Organigramme = (() => {
     });
     ligne.appendChild(labelLegion);
     ligne.appendChild(selectLegion);
+
+    // Rite de Guerre (livre d'armée Legiones Astartes) : menu affiché
+    // uniquement pour une Légion présente dans RITES_DE_GUERRE
+    // (js/organigramme-data.js). Conditionne l'accès à certains
+    // Détachements (`requiertRiteDeGuerre`) et peut verrouiller
+    // l'Allégeance ci-dessus (`allegeanceForcee`, voir riteActif plus
+    // haut).
+    if (ritesLegion.length > 0) {
+      const labelRite = el("label", null, "Rite de Guerre ");
+      const selectRite = document.createElement("select");
+      selectRite.id = "rite-de-guerre-armee";
+      labelRite.htmlFor = selectRite.id;
+      const optChoisirRite = document.createElement("option");
+      optChoisirRite.value = "";
+      optChoisirRite.textContent = "Choisir un Rite de Guerre";
+      selectRite.appendChild(optChoisirRite);
+      for (const rite of ritesLegion) {
+        const opt = document.createElement("option");
+        opt.value = rite.id;
+        opt.textContent = rite.nom;
+        selectRite.appendChild(opt);
+      }
+      selectRite.value = etat.riteDeGuerre;
+      selectRite.addEventListener("change", () => {
+        const nouveauRite = selectRite.value;
+        const nouveauRiteInfo = ritesLegion.find((r) => r.id === nouveauRite);
+        if (
+          nouveauRiteInfo &&
+          nouveauRiteInfo.allegeanceForcee &&
+          !appliquerAllegeance(nouveauRiteInfo.allegeanceForcee)
+        ) {
+          selectRite.value = etat.riteDeGuerre;
+          return;
+        }
+        etat.riteDeGuerre = nouveauRite;
+        actualiser();
+      });
+      ligne.appendChild(labelRite);
+      ligne.appendChild(selectRite);
+    }
 
     conteneur.appendChild(ligne);
 
@@ -1637,11 +1890,20 @@ const Organigramme = (() => {
           "orga-case-role",
           (role ? role.livre : caseOrga.role || "Rôle à choisir") +
             (caseOrga.principale ? " — Case Principale" : "") +
-            (caseOrga.extra ? " (Bénéfice Logistique)" : ""),
+            (caseOrga.extra
+              ? " (" +
+                (
+                  avantageParId(caseOrga.origineAvantage) || {
+                    nom: "Bénéfice Logistique",
+                  }
+                ).nom +
+                ")"
+              : ""),
         ),
       );
 
-      // Case supplémentaire du Bénéfice Logistique : choix du Rôle
+      // Case supplémentaire d'un Avantage `ajouteCase` (Bénéfice
+      // Logistique, Le Salaire de la Traîtrise) : choix du Rôle
       // Tactique (tout sauf QG, État-major, Seigneurs — p. 283).
       if (caseOrga.extra) {
         const selectRole = document.createElement("select");

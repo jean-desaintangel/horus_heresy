@@ -587,21 +587,25 @@ function construireLigneFiche(titre, elements) {
 }
 
 /* ----------------------------------------------------------
-   RÈGLES SPÉCIALES ET TRAITS D'UNITÉS (js/regles-data.js) — les
-   lignes "Règles spéciales" et "Traits" de la fiche récap habillent
-   chaque entrée reconnue d'une info-bulle reprenant sa définition,
-   exactement comme la colonne "Règles spéciales" des tables d'armes
-   (page armes.html). La recherche de définition
+   RÈGLES SPÉCIALES, TRAITS ET ÉQUIPEMENT D'UNITÉS (js/regles-data.js)
+   — les lignes "Règles spéciales", "Traits" et "Équipement" de la
+   fiche récap habillent chaque entrée reconnue d'une info-bulle
+   reprenant sa définition, exactement comme la colonne "Règles
+   spéciales" des tables d'armes (page armes.html). Les objets
+   d'équipement qui confèrent une règle plutôt qu'un profil d'Arme
+   (Cognis-signum, Servobras, Cyber-familier…) sont ainsi documentés
+   sur la fiche au même titre qu'une Règle Spéciale — voir
+   REGLES_DIVERSES dans js/regles-data.js. La recherche de définition
    (trouverDefinitionRegle) est partagée : voir js/main.js. Certaines
    entrées n'ont pas de définition connue (ex : "Aucune", ou des
    traits encore non documentés comme "Psyker") — le texte reste
    alors affiché tel quel, sans info-bulle.
    ---------------------------------------------------------- */
 
-// Comme construireLigneFiche, mais pour une liste de règles/traits :
-// habille chaque entrée reconnue d'un .regle-tag portant sa définition
-// (voir ci-dessus). Utilisée pour les lignes "Règles spéciales" et
-// "Traits" de la fiche récap.
+// Comme construireLigneFiche, mais pour une liste de règles/traits/
+// équipement : habille chaque entrée reconnue d'un .regle-tag portant
+// sa définition (voir ci-dessus). Utilisée pour les lignes "Règles
+// spéciales", "Traits" et "Équipement" de la fiche récap.
 function construireLigneRegles(titre, regles) {
   const p = el("p", "fiche-ligne");
   p.appendChild(el("strong", null, titre + " : "));
@@ -879,7 +883,7 @@ function construireFiche(unite, instance) {
   }
   const equipement = equipementFinal(unite, instance);
   fiche.appendChild(
-    construireLigneFiche(unite.equipementLibelle || "Équipement", equipement),
+    construireLigneRegles(unite.equipementLibelle || "Équipement", equipement),
   );
   fiche.appendChild(construireTablesArmes(equipement));
   // [Allégeance] et [Legiones Astartes] sont communs à toutes les

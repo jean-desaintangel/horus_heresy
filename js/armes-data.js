@@ -1482,6 +1482,205 @@ const ARMES_TIR = [
         regles: "Souffle, Panique (2)",
         traits: "Flammes",
       },
+      /* --- Arsenal de la Death Guard (XIVe Légion) : Mortarion,
+         Calas Typhon, Escouade Terminator du Linceul, Garde-tombe
+         (voir js/unites-data.js, unités réservées à cette Légion).
+         --- */
+      {
+        // Arme de personnage (Mortarion, Primarque de la Death Guard).
+        nom: "La Lanterne",
+        stats: ["10", "1", "8", "2", "3"],
+        regles: "Fléau des Blindages",
+        traits: "Assaut",
+      },
+      {
+        // Arme de personnage (Calas Typhon, Death Guard).
+        nom: "Rassasieuse",
+        stats: ["Souffle", "1", "3", "-", "1"],
+        regles: "Souffle, Pistolet, Empoisonnée (2+), Panique (1)",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Escouade Terminator du Linceul (Death Guard).
+        nom: "Projecteur alchim",
+        stats: ["Souffle", "1", "3", "-", "1"],
+        regles: "Souffle, Pistolet, Empoisonnée (2+)",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Unité Garde-tombe (Death Guard) : profil Krak, voir
+        // aussi Toxine ci-dessous.
+        nom: "Lance-grenades d'assaut — Krak",
+        stats: ["18", "2", "6", "4", "2"],
+        regles: "-",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Unité Garde-tombe (Death Guard) : profil Toxine,
+        // voir aussi Krak ci-dessus.
+        nom: "Lance-grenades d'assaut — Toxine",
+        stats: ["18", "3", "6", "5", "1"],
+        regles: "Empoisonnée (3+)",
+        traits: "Assaut",
+      },
+      {
+        // Arme d'un Garde-tombe de l'Unité Garde-tombe (Death Guard),
+        // par tranche de cinq Figurines (option, à la place du
+        // lance-grenades d'assaut).
+        nom: "Lance-flammes lourd alchim",
+        stats: ["Souffle", "5", "4", "1", "1"],
+        regles: "Souffle, Empoisonnée (2+)",
+        traits: "Assaut",
+      },
+      /* --- Arsenal des Thousand Sons (XVe Légion) : Magnus le Rouge,
+         Magistus Amon, Castellax-Achea (voir js/unites-data.js, unités
+         réservées à cette Légion). --- */
+      {
+        // Arme de personnage (Magnus le Rouge, Primarque des Thousand
+        // Sons).
+        nom: "Serpentine à feu psychique",
+        stats: ["15", "3", "6", "2", "1"],
+        regles: "-",
+        traits: "Psychique, Assaut",
+      },
+      {
+        // Arme de personnage (Magistus Amon, Thousand Sons) : profil de
+        // Tir, voir aussi son profil de Mêlée dans Armes Énergétiques
+        // ci-dessous.
+        nom: "Le Reliquaire de Cendres",
+        stats: ["12", "2D6", "1", "6", "1"],
+        regles: "Empoisonnée (5+), Brèche (5+), Sonner (3), Limitée (1)",
+        traits: "Psychique, Assaut",
+      },
+      {
+        // Arme du Castellax-Achea (Thousand Sons).
+        nom: "Canon à bolts Asphyx",
+        stats: ["24", "4", "5", "4", "1"],
+        regles: "Vulnérante (4+)",
+        traits: "Psychique, Assaut",
+      },
+      {
+        // Arme du Castellax-Achea (Thousand Sons), option à la place du
+        // canon à bolts Asphyx.
+        nom: "Canon à étherfeu",
+        stats: ["24", "1", "6", "4", "2"],
+        regles: 'Explosion (3"), Brèche (6+)',
+        traits: "Psychique, Assaut",
+      },
+      /* --- Arsenal de l'Alpha Legion (XXe Légion) : Alpharius, Exodus,
+         Saboteur (voir js/unites-data.js, unités réservées à cette
+         Légion). --- */
+      {
+        // Arme de personnage (Alpharius, Primarque de l'Alpha Legion).
+        nom: "La Hargne de l'Hydre",
+        stats: ["18", "2", "7", "3", "1"],
+        regles: "Brèche (4+)",
+        traits: "Plasma, Assaut",
+      },
+      {
+        // Arme de personnage (Exodus, Alpha Legion) : profil Mode
+        // rapide, voir aussi Mode Exécution ci-dessous.
+        nom: "L'Instrument — Mode rapide",
+        stats: ["24", "3", "6", "3", "1"],
+        regles: "-",
+        traits: "Assaut",
+      },
+      {
+        // Arme de personnage (Exodus, Alpha Legion) : profil Mode
+        // Exécution, voir aussi Mode rapide ci-dessus.
+        nom: "L'Instrument — Mode Exécution",
+        stats: ["72", "1", "8", "2", "1"],
+        regles: "Lourde (D), Fixation (1)",
+        traits: "-",
+      },
+      {
+        // Arme de l'Unité Saboteur (Alpha Legion).
+        nom: "Fusil à pompe Banestrike",
+        stats: ["12", "2", "4", "4", "1"],
+        regles: "Brèche (6+), Lacération (6+), Sonner (0)",
+        traits: "Assaut",
+      },
+      {
+        // Arsenal de l'Alpha Legion (XXe Légion) : équipement optionnel
+        // réservé aux Sous-types État-major ou Champion ayant le Trait
+        // Alpha Legion (+5 Points par Figurine).
+        nom: "Sphères à venin",
+        stats: ["8", "1", "1", "-", "1"],
+        regles: 'Explosion (3"), Empoisonnée (4+)',
+        traits: "Assaut",
+      },
+      /* --- Arsenal des Iron Warriors (IVe Légion) : Perturabo,
+         Manipule du Cercle de Fer, Escouade Terminator Tyrans de Siège
+         (voir js/unites-data.js, unités réservées à cette Légion). --- */
+      {
+        // Arme de personnage (Perturabo, Primarque des Iron Warriors) :
+        // profil de Tir, voir aussi son profil de Mêlée dans Armes de
+        // Parangon ci-dessous.
+        nom: "L'Arsenal du Logos",
+        stats: ["30", "6", "6", "3", "1"],
+        regles: "Lacération (4+), Neutralisation (1)",
+        traits: "Bolts, Assaut",
+      },
+      {
+        // Arme du Domitar-Ferrum (Manipule du Cercle de Fer, Iron
+        // Warriors).
+        nom: "Canon à shrapnels jumelé",
+        stats: ["36", "6", "5", "5", "1"],
+        regles: "Fixation (1), Lacération (5+)",
+        traits: "Bolts",
+      },
+      {
+        // Arme de l'Unité Tyran de Siège (Iron Warriors) : profil
+        // Saturateur, voir aussi Briseur ci-dessous.
+        nom: "Lance-roquettes Tyran — Saturateur",
+        stats: ["48", "3", "5", "6", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Missile",
+      },
+      {
+        // Arme de l'Unité Tyran de Siège (Iron Warriors) : profil
+        // Briseur, voir aussi Saturateur ci-dessus.
+        nom: "Lance-roquettes Tyran — Briseur",
+        stats: ["48", "1", "9", "3", "1"],
+        regles: "Lourde (D), Fléau des Blindages",
+        traits: "Missile",
+      },
+      /* --- Arsenal des Night Lords (VIIIe Légion) : Konrad Curze,
+         Escouade Terminator Contekar (voir js/unites-data.js, unités
+         réservées à cette Légion). --- */
+      {
+        // Arme de personnage (Konrad Curze, Primarque des Night
+        // Lords).
+        nom: "Les Endeuilleurs",
+        stats: ["12", "3", "4", "5", "1"],
+        regles: "Brèche (4+)",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Unité Terminator Contekar (Night Lords).
+        nom: "Caviteur volkite",
+        stats: ["10", "4", "6", "5", "1"],
+        regles: "Déflagration (6)",
+        traits: "Volkite, Assaut",
+      },
+      /* --- Arsenal des Emperor's Children (IIIe Légion) : Fulgrim,
+         Escouade Kakophoni (voir js/unites-data.js, unités réservées à
+         cette Légion). --- */
+      {
+        // Arme de personnage (Fulgrim, Primarque des Emperor's
+        // Children).
+        nom: "Flambeau",
+        stats: ["15", "2", "6", "2", "1"],
+        regles: "Lacération (5+), Déflagration (6)",
+        traits: "Volkite, Assaut",
+      },
+      {
+        // Arme de l'Unité Escouade Kakophoni (Emperor's Children).
+        nom: "La Cacophonie",
+        stats: ["36", "3", "6", "5", "1"],
+        regles: "Surcharge (1), Sonner (2), Touche Critique (6+)",
+        traits: "Sonique",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
@@ -1545,6 +1744,44 @@ const ARMES_MELEE = [
         regles: "Lacération (6+)",
         traits: "Baïonnette, Tronçonneuse",
       },
+      /* --- Arsenal des Night Lords (VIIIe Légion) : Sevatar, Escouade
+         Terminator Contekar, Escouade Terreur, Escouade de Rapaces
+         Nocturnes (voir js/unites-data.js, unités réservées à cette
+         Légion). --- */
+      {
+        // Arme de personnage (Sevatar, Night Lords).
+        nom: "Murmure de la Nuit",
+        stats: ["+1", "A", "+2", "2", "1"],
+        regles: "Touche Critique (6+), Lacération (5+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        // Arme de l'Unité Terminator Contekar (Night Lords).
+        nom: "Lame tronçonneuse",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (6+), Lacération (6+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        // Arsenal des Night Lords (VIIIe Légion) : échange contre une
+        // arme énergétique pour toute Figurine de Sous-type État-major,
+        // Champion ou Sergent ayant le Trait Night Lords, +5 Points par
+        // Figurine. Arme de l'Escouade Terreur et de l'Escouade de
+        // Rapaces Nocturnes (option).
+        nom: "Vouge tronçonneur",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (6+), Lacération (6+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        // Arsenal des Night Lords (VIIIe Légion) : échange contre une
+        // arme énergétique pour toute Figurine de Sous-type État-major
+        // ayant le Trait Night Lords, +10 Points par Figurine.
+        nom: "Hache de bourreau",
+        stats: ["-2", "A", "+2", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Tronçonneuse",
+      },
     ],
   },
   {
@@ -1560,6 +1797,13 @@ const ARMES_MELEE = [
         nom: "Tabar charnabal",
         stats: ["1", "A", "+1", "-", "1"],
         regles: "Brèche (6+), Atout du Duelliste (1)",
+        traits: "Charnabal",
+      },
+      {
+        // Arme de personnage (Saul Tarvitz, Emperor's Children).
+        nom: "Espadon charnabal",
+        stats: ["1", "A", "+2", "-", "1"],
+        regles: "Brèche (5+), Atout du Duelliste (1)",
         traits: "Charnabal",
       },
     ],
@@ -1589,6 +1833,23 @@ const ARMES_MELEE = [
         nom: "Bâton de force",
         stats: ["+1", "A", "+2", "4", "1"],
         regles: "Force (D)",
+        traits: "Psychique",
+      },
+      /* --- Arsenal des Thousand Sons (XVe Légion) : Ahzek Ahriman,
+         Sorcier de Prospero (voir js/unites-data.js, unités réservées
+         à cette Légion). --- */
+      {
+        // Arme de personnage (Ahzek Ahriman, Thousand Sons).
+        nom: "Le Sceptre Corvidae",
+        stats: ["+1", "A", "+1", "2", "1"],
+        regles: "Force (D), Touche Critique (6+)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de l'Unité Sorcier de Prospero (Thousand Sons).
+        nom: "Bâton sorcier de Prospero",
+        stats: ["+1", "A", "F", "3", "1"],
+        regles: "Force (D), Conduit",
         traits: "Psychique",
       },
     ],
@@ -2106,6 +2367,113 @@ const ARMES_MELEE = [
         regles: "Touche Critique (6+), Phage (M)",
         traits: "Tronçonneuse",
       },
+      /* --- Arsenal de la Death Guard (XIVe Légion) : Calas Typhon,
+         Escouade Terminator du Linceul (voir js/unites-data.js,
+         unités réservées à cette Légion). --- */
+      {
+        // Arme de personnage (Calas Typhon, Death Guard).
+        nom: "Lakrimae",
+        stats: ["-1", "A", "+2", "2", "2"],
+        regles: "Fauchage (3), Empoisonnée (3+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal de la Death Guard (XIVe Légion) : arme de l'Escouade
+        // Terminator du Linceul, ouverte en option à toute Figurine de
+        // Sous-type État-major, Champion, Spécialiste ou Sergent ayant
+        // le Trait Death Guard (+10 Pts en échange d'une arme
+        // énergétique, +5 Pts en échange d'un gantelet énergétique).
+        nom: "Faux énergétique",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Fauchage (2), Brèche (5+)",
+        traits: "Énergétique",
+      },
+      /* --- Arsenal des Thousand Sons (XVe Légion) : Castellax-Achea,
+         Cabale de Terminators Sekhmet, Cabale du Khenetai Occulte,
+         Magistus Amon (voir js/unites-data.js, unités réservées à
+         cette Légion). --- */
+      {
+        // Arme du Castellax-Achea (Thousand Sons).
+        nom: "Griffes de force Achea",
+        stats: ["1", "A", "+1", "3", "2"],
+        regles: "Brèche (5+)",
+        traits: "Psychique",
+      },
+      {
+        // Arsenal des Thousand Sons (XVe Légion) : arme de l'Unité
+        // Cabale de Terminators Sekhmet, ouverte en option à toute
+        // Figurine de Sous-type État-major ou Champion ayant le Trait
+        // Thousand Sons (+5 Points par Figurine).
+        nom: "Épée de force modèle Achea",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de l'Unité Cabale du Khenetai Occulte (Thousand Sons).
+        nom: "Paire d'épées de force Achea",
+        stats: ["1", "+1", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de personnage (Magistus Amon, Thousand Sons) : profil de
+        // Mêlée, voir aussi son profil de Tir dans Armes Exotiques et
+        // Diverses (Tir) ci-dessus. MF transcrit « F » (lettre ambiguë
+        // sur la photo, lue « S ») : à vérifier contre le livre.
+        nom: "Le Reliquaire de Cendres",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "Empoisonnée (2+)",
+        traits: "Psychique",
+      },
+      /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,
+         Exodus, Chasseur de Têtes, Saboteur (voir js/unites-data.js,
+         unités réservées à cette Légion). --- */
+      {
+        // Arme de personnage (Armillus Dynat, Alpha Legion) : profil Le
+        // Prince, voir aussi Le Prophète ci-dessous.
+        nom: "Le Prince",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (5+), Coup de Tonnerre",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Armillus Dynat, Alpha Legion) : profil Le
+        // Prophète, voir aussi Le Prince ci-dessus.
+        nom: "Le Prophète",
+        stats: ["-2", "-1", "+3", "2", "2"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal de l'Alpha Legion (XXe Légion) : équipement optionnel
+        // (échange gratuit) réservé aux Sous-types État-major, Champion
+        // ou Sergent ayant le Trait Alpha Legion. Arme de l'Unité
+        // Exodus, Chasseur de Têtes et Saboteur (voir js/unites-data.js).
+        nom: "Dague énergétique",
+        stats: ["+2", "A", "-1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      /* --- Arsenal des Iron Warriors (IVe Légion) : équipement
+         optionnel réservé aux Sous-types État-major ou Champion ayant
+         le Trait Iron Warriors (échange gratuit contre un marteau
+         Thunder). Voir js/unites-data.js, unités réservées à cette
+         Légion (Forgeguerre, Manipule du Cercle de Fer). --- */
+      {
+        nom: "Broyeur à gravitons",
+        stats: ["-2", "A", "+4", "2", "2"],
+        regles: "Fléau des Blindages, Choc (Fixée)",
+        traits: "Gravitons",
+      },
+      {
+        // Arme de l'Unité Terminator Contekar (Night Lords), option à
+        // la place de la lame tronçonneuse pour le Dissident.
+        nom: "Griffe énergétique Escaton",
+        stats: ["-2", "A", "+3", "2", "2"],
+        regles: "Lacération (6+)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -2280,6 +2648,83 @@ const ARMES_MELEE = [
         regles: "Choc (Fixée), Fixation (0)",
         traits: "Gravitons, Assaut",
       },
+      {
+        // Arme de personnage (Mortarion, Primarque de la Death Guard).
+        // Profil de Mêlée : possède aussi un profil de Tir (voir
+        // Armes Exotiques et Diverses (Tir) ci-dessus, La Lanterne).
+        nom: "Silence",
+        stats: ["-1", "A", "+1", "2", "2"],
+        regles: "Fauchage (3), Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Magnus le Rouge, Primarque des Thousand
+        // Sons). Profil de Mêlée : possède aussi un profil de Tir (voir
+        // Armes Exotiques et Diverses (Tir) ci-dessus, Serpentine à feu
+        // psychique).
+        nom: "La Lame d'Ahn-nunurta",
+        stats: ["1", "+1", "F", "2", "2"],
+        regles: "Force (D)",
+        traits: "Psychique",
+      },
+      {
+        // Arme de personnage (Alpharius, Primarque de l'Alpha Legion).
+        nom: "La Lance Pâle",
+        stats: ["+1", "A", "+1", "2", "2"],
+        regles: "Touche Critique (5+), Fléau des Blindages, Phage (F)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Perturabo, Primarque des Iron Warriors) :
+        // profil de Mêlée, voir aussi son profil de Tir dans Armes
+        // Exotiques et Diverses (Tir) ci-dessus.
+        nom: "L'Arsenal du Logos",
+        stats: ["1", "+2", "6", "3", "1"],
+        regles: "Lacération (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Perturabo, Iron Warriors) : jadis celle
+        // de Ferrus Manus, Primarque des Iron Hands.
+        nom: "Brise-forge Profané",
+        stats: ["-2", "A", "+3", "2", "2"],
+        regles: "Touche Critique (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Konrad Curze, Primarque des Night
+        // Lords).
+        nom: "Miséricorde et Pardon",
+        stats: ["1", "+2", "F", "2", "1"],
+        regles: "Touche Critique (5+), Lacération (4+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Fulgrim, Primarque des Emperor's
+        // Children).
+        nom: "Lame Laërienne",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Atout du Duelliste (1)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Fulgrim Transfiguré, Emperor's Children) :
+        // profil Coups de décapitation, voir aussi Coups de fendoir
+        // ci-dessous.
+        nom: "Lames du Phénicien — Coups de décapitation",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Touche Critique (6+), Atout du Duelliste (1)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Fulgrim Transfiguré, Emperor's Children) :
+        // profil Coups de fendoir, voir aussi Coups de décapitation
+        // ci-dessus.
+        nom: "Lames du Phénicien — Coups de fendoir",
+        stats: ["-2", "3", "+5", "2", "4"],
+        regles: "Touche Critique (6+), Atout du Duelliste (1)",
+        traits: "-",
+      },
     ],
   },
   {
@@ -2337,6 +2782,13 @@ const ARMES_MELEE = [
         nom: "Lames de Lucius",
         stats: ["1", "A", "F", "2", "2"],
         regles: "Atout du Duelliste (1)",
+        traits: "-",
+      },
+      {
+        // Arme de l'Escouade de Lames Palatines (Emperor's Children).
+        nom: "Lame palatine",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Brèche (5+), Atout du Duelliste (1)",
         traits: "-",
       },
       {
