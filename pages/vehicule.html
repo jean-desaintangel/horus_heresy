@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les Véhicules</title>
+    <meta
+      name="description"
+      content="Règles des Véhicules Horus Heresy 3e édition simplifiées : mouvement, arcs de tir, blindage et pénétration, tableau de dégâts, assaut, transports et sous-types."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Les Véhicules — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Règles des Véhicules Horus Heresy 3e édition simplifiées : mouvement, arcs de tir, blindage et pénétration, tableau de dégâts, assaut, transports et sous-types."
+    />
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu">
+            <li><a href="armee.html">Construction d’armée tuto</a></li>
+            <li><a href="unites.html">Construction d’armée</a></li>
+            <li><a href="tour.html">Tour</a></li>
+            <li><a href="mouvement.html">Mouvement</a></li>
+            <li><a href="tir.html">Tir</a></li>
+            <li><a href="assaut.html">Assaut</a></li>
+            <li>
+              <a href="statuts-reactions.html">Statuts &amp; Réactions</a>
+            </li>
+            <li><a href="vehicule.html" aria-current="page">Véhicules</a></li>
+            <li><a href="regles.html">Règles spéciales</a></li>
+            <li><a href="armes.html">Armes</a></li>
+            <li><a href="telechargement.html">Téléchargements</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Les Véhicules
+      </h1>
+      <div class="encadre">
+        <p>
+          Un véhicule est une figurine à part : il n’a
+          <strong>ni Blessures, ni sauvegarde d’armure</strong>. À la place, il
+          a des <strong>Points de Coque</strong>, des
+          <strong>valeurs de Blindage</strong> (Avant, Flanc, Arrière) et ses
+          armes tirent chacune dans un <strong>Arc de Tir</strong> précis.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== LES BASES ===================== -->
+        <div class="timeline-item" id="bases">
+          <button class="timeline-titre" aria-expanded="false">
+            1. Les bases <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ul>
+                <li>
+                  <strong>Toujours seul.</strong> Un véhicule forme toujours une
+                  unité d’<strong>une seule figurine</strong>.
+                </li>
+                <li>
+                  <strong>Pas de sauvegarde d’armure.</strong> Un véhicule ne
+                  peut utiliser que des
+                  <strong>sauvegardes Invulnérables ou de Couvert</strong> (les
+                  Jets de Mitigation de Dégâts restent permis : ce ne sont pas
+                  des sauvegardes).
+                </li>
+                <li>
+                  <strong>Points de Coque.</strong> C’est la « vie » du
+                  véhicule. Réduit à <strong>0 Point de Coque</strong>, il est
+                  retiré comme perte.
+                </li>
+                <li>
+                  <strong>Statuts.</strong> Un véhicule peut subir tous les
+                  <a href="statuts-reactions.html#statuts">Statuts</a> sauf
+                  <em>En déroute</em> (il n’a pas de Sang-froid). Il ne peut
+                  s’en débarrasser que par un
+                  <strong>Jet de Réparation</strong> ou la règle spéciale
+                  <em>Guerrier-artisan</em>.
+                </li>
+              </ul>
+              <h2 class="sous-titre">Jet de Réparation</h2>
+              <p>
+                À la <strong>Sous-phase des Statuts</strong>, jette 1D6 pour
+                chaque véhicule sous ton contrôle : sur un <strong>6</strong>,
+                retire-lui un Statut de ton choix. Certaines règles spéciales
+                ajoutent des dés ou améliorent le seuil.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== MOUVEMENT ===================== -->
+        <div class="timeline-item" id="mouvement">
+          <button class="timeline-titre" aria-expanded="false">
+            2. Phase de Mouvement <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Un véhicule se déplace comme les autres figurines, jusqu’à sa
+                caractéristique de <strong>Mouvement</strong>, et peut finir
+                orienté dans n’importe quelle direction. Son orientation compte
+                énormément : elle détermine les
+                <a href="#tirer-sur">faces visées par l’ennemi</a> et les
+                <a href="#tir">Arcs de Tir</a> de ses propres armes.
+              </p>
+              <ul>
+                <li>
+                  <strong>Pivoter n’est pas bouger.</strong> Un véhicule peut
+                  pivoter sur le centre de sa coque au lieu de se déplacer : il
+                  compte alors comme resté <strong>À l’arrêt</strong> (il faut
+                  finir le pivot à plus de 1 pouce de tout ennemi).
+                </li>
+                <li>
+                  <strong>Pas de Foncer.</strong> Sans Initiative, un véhicule
+                  ne peut pas Foncer — sauf s’il a le Sous-type
+                  <a href="#sous-types">Rapide</a>.
+                </li>
+                <li>
+                  <strong>Pas d’escalade.</strong> Un véhicule ne se déplace
+                  jamais verticalement dans un décor et ne gravit pas les
+                  étages.
+                </li>
+                <li>
+                  <strong>Terrain dangereux.</strong> Test raté = le véhicule
+                  subit <strong>1 Point de Dégâts</strong> (pas de Jet de
+                  Pénétration, aucune sauvegarde ni mitigation possible).
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Rouler à travers les autres unités</h2>
+              <p>
+                Contrairement aux autres figurines, un véhicule peut
+                <strong>passer à travers</strong> les unités qui ne sont pas des
+                véhicules (mais jamais à travers un autre véhicule ni un décor),
+                et il ne peut pas finir son mouvement sur une figurine ou à 1
+                pouce d’un ennemi.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Unité amie traversée</h3>
+                  <ul>
+                    <li>Aucun effet : on ne déplace même pas ses figurines.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Unité ennemie traversée</h3>
+                  <ul>
+                    <li>
+                      Elle subit
+                      <strong>D6 touches de Force 6, PA&nbsp;–</strong>
+                      (réparties par son propriétaire). Elle peut déclencher la
+                      Réaction avancée <em>La Mort ou la Gloire</em>.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== LE VÉHICULE TIRE ===================== -->
+        <div class="timeline-item" id="tir">
+          <button class="timeline-titre" aria-expanded="false">
+            3. Phase de Tir : le véhicule tire <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Un véhicule tire avec sa <strong>Capacité de Tir</strong> comme
+                tout le monde, mais avec deux grosses différences : chaque arme
+                est limitée à son <strong>Arc de Tir</strong>, et il peut
+                <strong>répartir ses armes entre plusieurs cibles</strong>.
+              </p>
+              <div class="encadre-attention">
+                <p>
+                  <strong>Cibler plusieurs unités a un prix :</strong> si le
+                  véhicule fait plusieurs Attaques de Tir à la même phase,
+                  toutes ses attaques se font <strong>au Jugé</strong>… sauf
+                  celles des <em>Armes Défensives</em>. Chaque Attaque de Tir
+                  doit viser une unité différente, et chaque arme ne sert qu’une
+                  fois par phase.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Armes Défensives et Armes de Bataille</h2>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="gauche">Catégorie</th>
+                      <th class="gauche">Quelles armes ?</th>
+                      <th class="gauche">Avantage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Arme Défensive</td>
+                      <td class="gauche">
+                        Force 6 ou moins (ou indiquée comme telle)
+                      </td>
+                      <td class="gauche">
+                        Jamais au Jugé quand on vise plusieurs unités
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Arme de Bataille</td>
+                      <td class="gauche">Force 7 ou plus</td>
+                      <td class="gauche">—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 class="sous-titre">Arcs de Tir et montures d’arme</h2>
+              <p>
+                On trace deux lignes imaginaires par les coins du véhicule pour
+                délimiter quatre arcs : <strong>Avant</strong>,
+                <strong>Arrière</strong>, <strong>Gauche</strong> et
+                <strong>Droit</strong>. Le profil de chaque arme indique sa
+                monture, qui fixe où elle peut tirer :
+              </p>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="gauche">Monture</th>
+                      <th class="gauche">Peut tirer…</th>
+                      <th class="gauche">Bonus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Coque (Arc)</td>
+                      <td class="gauche">
+                        Dans le seul arc indiqué (ex. Avant)
+                      </td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Tourelle</td>
+                      <td class="gauche">Dans les 4 arcs, sans restriction</td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Axe Central</td>
+                      <td class="gauche">
+                        Dans la bande prolongeant les flancs vers l’avant (ou
+                        l’arrière si précisé)
+                      </td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Latérale</td>
+                      <td class="gauche">
+                        Dans son arc latéral (Gauche ou Droit) ; une monture par
+                        côté en général
+                      </td>
+                      <td class="gauche">Toujours Arme Défensive</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Pivot</td>
+                      <td class="gauche">Dans les 4 arcs, sans restriction</td>
+                      <td class="gauche">
+                        Toujours Arme Défensive + Trait <em>Assaut</em>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Coaxiale (X)</td>
+                      <td class="gauche">
+                        Dans les arcs de l’arme X dont elle est solidaire
+                      </td>
+                      <td class="gauche">
+                        Doit viser la même cible que l’arme X, sinon ne tire pas
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== TIRER SUR UN VÉHICULE ===================== -->
+        <div class="timeline-item" id="tirer-sur">
+          <button class="timeline-titre" aria-expanded="false">
+            4. Tirer sur un véhicule : blindage et dégâts
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ol class="etapes">
+                <li>
+                  <strong>Ligne de vue et Jets de Touche</strong> comme
+                  d’habitude (ligne de vue mesurée vers la coque, sans compter
+                  canons et antennes qui dépassent).
+                </li>
+                <li>
+                  <strong>Quelle face est touchée ?</strong> Trace deux lignes
+                  imaginaires par les coins du véhicule : la zone où se trouve
+                  le tireur indique la face visée (Avant, Flanc ou Arrière). Si
+                  le tireur voit deux faces, c’est le
+                  <strong>propriétaire du véhicule</strong> qui choisit. Tir
+                  indirect ou sans ligne de vue : toujours le
+                  <strong>Blindage de Flanc</strong>.
+                </li>
+                <li>
+                  <strong>Jet de Pénétration de Blindage</strong> à la place du
+                  Jet de Blessure : <strong>1D6 + Force de la touche</strong>,
+                  comparé à la valeur de Blindage de la face visée.
+                </li>
+              </ol>
+
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Total &lt; Blindage</h3>
+                  <ul>
+                    <li>Aucun effet, la touche est défaussée.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Total = Blindage</h3>
+                  <ul>
+                    <li>
+                      <strong>Touche Superficielle</strong> : pas de dégâts,
+                      mais un jet dans le Tableau de Dégâts ci-dessous.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Total &gt; Blindage</h3>
+                  <ul>
+                    <li>
+                      <strong>Touche Pénétrante</strong> : sauf sauvegarde
+                      (Invu/Couvert) ou mitigation réussie, le véhicule perd
+                      autant de <strong>Points de Coque</strong> que la
+                      caractéristique de Dégâts de l’arme.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">Tableau de Dégâts de Véhicule</h2>
+              <p>(1D6 par Touche Superficielle)</p>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Dé</th>
+                      <th class="gauche">Résultat</th>
+                      <th class="gauche">Effet</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1–2</td>
+                      <td class="gauche">Senseurs faussés</td>
+                      <td class="gauche">Statut <em>Sonnée</em></td>
+                    </tr>
+                    <tr>
+                      <td>3–4</td>
+                      <td class="gauche">Moteurs cassés</td>
+                      <td class="gauche">Statut <em>Fixée</em></td>
+                    </tr>
+                    <tr>
+                      <td>5–6</td>
+                      <td class="gauche">Armes endommagées</td>
+                      <td class="gauche">Statut <em>Neutralisée</em></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="encadre-attention">
+                <p>
+                  <strong>Statut déjà présent ?</strong> Si le résultat donne un
+                  Statut que le véhicule a déjà, il perd à la place
+                  <strong>1 Point de Coque</strong> — sans aucune sauvegarde ni
+                  mitigation possible.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Épaves</h2>
+              <p>
+                À 0 Point de Coque, le véhicule est retiré comme perte. En
+                option (si les deux joueurs sont d’accord), on peut laisser une
+                <strong>Épave</strong> sur la table : elle compte comme du
+                terrain <strong>Difficile et Dangereux</strong> et confère une
+                <strong>Sauvegarde de Couvert de 6+</strong> (pas d’épave si le
+                véhicule a Explosé via <em>Explose (X)</em>).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== ASSAUT ===================== -->
+        <div class="timeline-item" id="assaut">
+          <button class="timeline-titre" aria-expanded="false">
+            5. Phase d’Assaut <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  Retenez l’essentiel :
+                  <strong
+                    >un véhicule ne charge jamais et ne frappe jamais</strong
+                  >
+                  mais l’ennemi peut le charger et le démolir.
+                </p>
+              </div>
+              <ul>
+                <li>
+                  <strong
+                    >Pas de Charge, pas d’attaques, pas de verrouillage : </strong
+                  >un véhicule ne verrouille pas l’ennemi et n’est jamais
+                  <em>Verrouillé en Combat</em>.
+                </li>
+                <li>
+                  <strong>Être chargé.</strong> On déclare une Charge contre un
+                  véhicule normalement ; il peut Réagir et faire ses
+                  <em>Attaques de Volée</em> à l’Étape 4 de la Charge s’il a des
+                  armes appropriées.
+                </li>
+                <li>
+                  <strong>Le frapper en Combat.</strong> Le véhicule compte
+                  comme <strong>CC 1</strong>. Toute touche se résout contre le
+                  <strong>Blindage Arrière</strong>, quelle que soit la position
+                  des combattants, avec des Jets de Pénétration (pas de Jets de
+                  Blessure).
+                </li>
+                <li>
+                  <strong>Résolution.</strong> Comme il n’attaque pas, un
+                  véhicule seul perd a priori le Combat. Il ne peut que
+                  <em>Tenir</em> à la fin du Combat, puis se déplace normalement
+                  à sa prochaine Phase de Mouvement.
+                </li>
+                <li>
+                  <strong>Rester au contact paye :</strong> une unité encore en
+                  contact socle à socle avec le véhicule à sa propre Phase
+                  d’Assaut peut l’attaquer de nouveau, sans compter comme ayant
+                  chargé.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== TRANSPORTS ===================== -->
+        <div class="timeline-item" id="transports">
+          <button class="timeline-titre" aria-expanded="false">
+            6. Les Transports <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Un véhicule de Sous-type <strong>Transport</strong> peut
+                embarquer une unité. Les règles gèrent qui monte, quand, et ce
+                qui se passe quand tout explose.
+              </p>
+
+              <h2 class="sous-titre">Qui peut monter ?</h2>
+              <ul>
+                <li>
+                  <strong>Capacité de Transport :</strong> 1 figurine par point
+                  de Capacité. Trop de figurines = embarquement impossible.
+                </li>
+                <li>
+                  Seules les figurines de Type
+                  <strong>Infanterie ou Parangon</strong>, du
+                  <strong>même Trait de Faction</strong> que le Transport.
+                </li>
+                <li>
+                  <strong>Une seule unité à la fois</strong> (les personnages
+                  qui ont rejoint l’unité en font partie), et
+                  <strong>toute l’unité ou rien</strong> : pas d’embarquement
+                  partiel.
+                </li>
+                <li>
+                  L’unité embarquée et le Transport restent
+                  <strong>deux unités distinctes</strong> à tous égards.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Embarquer / Débarquer</h2>
+              <ul>
+                <li>
+                  Uniquement à la <strong>Sous-phase de Déplacement</strong> ;
+                  une unité ne peut pas embarquer <em>et</em> débarquer à la
+                  même Phase de Mouvement.
+                </li>
+                <li>
+                  <strong>Embarquer :</strong> toutes les figurines de l’unité
+                  doivent commencer ou finir la sous-phase à
+                  <strong>2 pouces</strong> d’une face du Transport dotée d’un
+                  <strong>Point d’Accès</strong> (portes, rampes, écoutilles —
+                  indiqués sur le profil). L’unité est alors retirée de la
+                  table.
+                </li>
+                <li>
+                  <strong>Débarquer :</strong> avant ou après le déplacement du
+                  Transport (pas pendant). On place les figurines une par une au
+                  contact d’une face à Point d’Accès, jamais à 1 pouce d’un
+                  ennemi, en cohésion d’unité. Impossible à placer = perte.
+                </li>
+                <li>
+                  <strong>Après débarquement :</strong> l’unité peut tirer (elle
+                  compte comme déplacée) et charger — mais en
+                  <em>Charge Désordonnée</em>, sauf si le véhicule a la règle
+                  <em>Véhicule d’Assaut</em>.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Pendant le voyage</h2>
+              <div class="encadre">
+                <p>
+                  Une unité embarquée est traitée comme
+                  <strong>temporairement hors du jeu</strong> : elle ne peut
+                  être ciblée par rien, ne fait aucune attaque ni Réaction, et
+                  tous les effets qu’elle génère (comme <em>Peur (X)</em>)
+                  cessent. Ses Statuts sont conservés mais gelés jusqu’au
+                  débarquement, et rien de ce qui touche le Transport ne
+                  l’affecte… tant qu’il roule.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Débarquement d’Urgence</h2>
+              <p>
+                Si le Transport est <strong>détruit</strong> avec une unité à
+                bord, celle-ci doit effectuer un
+                <strong>Débarquement d’Urgence</strong> avant que le véhicule
+                soit retiré — même si elle avait embarqué à la même phase :
+              </p>
+              <ol class="etapes">
+                <li>
+                  Place chaque figurine au contact de la coque du Transport,
+                  jamais à 1 pouce d’un ennemi ni en terrain infranchissable
+                  (pas besoin de cohésion d’unité). Figurine implaçable = perte.
+                </li>
+                <li>
+                  Aucun dégât de l’attaque qui a détruit le Transport n’est
+                  transféré à l’unité.
+                </li>
+                <li>
+                  Une fois tout le monde placé :
+                  <strong>Test de Sang-froid</strong>. Raté, l’unité gagne le
+                  Statut <em>Fixée</em>.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-TYPES ===================== -->
+        <div class="timeline-item" id="sous-types">
+          <button class="timeline-titre" aria-expanded="false">
+            7. Les Sous-types de Véhicule <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Le Sous-type est indiqué entre parenthèses après le Type sur le
+                profil, ex. <em>Véhicule (Rapide, Transport)</em>. Chaque
+                Sous-type ajoute ses règles aux règles de base ci-dessus.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-sonne">
+                  <h3>Rapide</h3>
+                  <ul>
+                    <li>
+                      Peut <strong>Foncer</strong> : +6 pouces fixes (pas
+                      d’Initiative).
+                    </li>
+                    <li>
+                      Peut tirer en Fonçant, mais tout <strong>au Jugé</strong>
+                      et sans Attaques de Tir multiples ce tour.
+                    </li>
+                    <li>
+                      Rapide + Transport qui Fonce : personne ne débarque ce
+                      tour (hors Débarquement d’Urgence).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-fixe">
+                  <h3>Stable</h3>
+                  <ul>
+                    <li>
+                      Tire toujours comme resté
+                      <strong>À l’arrêt</strong>, quel que soit son mouvement
+                      (sauf s’il a Foncé).
+                    </li>
+                    <li>
+                      Ses Attaques de Tir multiples ne sont
+                      <strong>pas toutes au Jugé</strong>.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Super-lourd</h3>
+                  <ul>
+                    <li>
+                      Ignore le Terrain Difficile et Dangereux (mais pas
+                      l’Infranchissable).
+                    </li>
+                    <li>
+                      Tire toujours comme <strong>À l’arrêt</strong> ; ses
+                      Attaques de Tir multiples ne sont pas toutes au Jugé.
+                    </li>
+                    <li>
+                      Ne Réagit qu’aux Parangons, Super-lourds, Chevaliers et
+                      Titans.
+                    </li>
+                    <li>
+                      Pas de jet dans le Tableau de Dégâts : il perd
+                      <strong>1 Point de Coque</strong> à la place.
+                    </li>
+                    <li>
+                      S’il transporte : autant d’unités qu’on veut, dans la
+                      limite de sa Capacité.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Transport</h3>
+                  <ul>
+                    <li>Peut embarquer et débarquer des unités.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p class="footer-disclaimer">
+        <strong
+          >Guide non officiel réalisé par des fans bénévoles
+          francophones.</strong
+        >
+        Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés
+        sont des marques déposées de
+        <a
+          href="https://www.games-workshop.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
+        >. Ce site n’est ni affilié ni approuvé par Games Workshop. Aucun défi à
+        leur statut n’est intentionné.
+      </p>
+    </footer>
+  </body>
+</html>
