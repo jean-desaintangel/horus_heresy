@@ -216,7 +216,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Léger",
-    texte: "+2 pouces pour Foncer, et peut tirer au jugé après avoir foncé.",
+    texte:
+      "Une Unité entièrement composée de Figurines de Sous-type Léger gagne +2 à son Initiative pour déterminer la distance dont elle peut Foncer (cumulable avec d'autres bonus), et peut faire des Attaques de Tir après avoir Foncé, mais uniquement en tant que Tirs au Jugé.",
   },
   {
     nom: "Lent et méthodique",
@@ -225,12 +226,12 @@ const REGLES_DIVERSES = [
   {
     nom: "Lourd",
     texte:
-      "+1 en Sang-froid, ne peut pas Foncer, mouvement de positionnement (charge) sans Initiative.",
+      "Une Unité entièrement composée de Figurines de Sous-type Lourd gagne +1 en Sang-froid aux Tests pour éviter un Statut Tactique. Une Unité qui inclut la moindre Figurine de Sous-type Lourd ne peut pas Foncer, et n'utilise que sa Caractéristique de Mouvement — sans ajouter son Initiative — pour un Mouvement de Positionnement.",
   },
   {
     nom: "Marcheur",
     texte:
-      "Tire avec toutes ses armes (sauf Volée). Compte comme ses PV de base pour la résolution de combat.",
+      "Ignore la Règle Spéciale Empoisonnée (X) sauf sur un Jet de Blessure de 6 non modifié, quelle que soit la valeur de X. Peut attaquer avec toutes ses Armes à chaque Attaque de Tir, y compris en Réaction (sans permettre aux Armes dépourvues du Trait Assaut d'attaquer en Attaque de Volée). Compte comme sa Valeur de Points de Vie de Base pour la résolution d'un Combat.",
   },
   {
     nom: "Massif (X)",
@@ -945,5 +946,74 @@ const REGLES_DIVERSES = [
     nom: "Adresse Inégalée",
     texte:
       "Quand elle est Verrouillée en Combat, l'Unité peut appliquer une Règle Spéciale de plus jusqu'à la fin de la Phase. À la fin de la Sous-phase de Charge, si l'Unité est Verrouillée en Combat avec une ou plusieurs Unités ennemies, son Joueur en Contrôle peut choisir un des effets suivants, jusqu'à la fin de la Phase : La Frappe Parfaite — la Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont elle a besoin pour Toucher un adversaire (à l'Étape de Frappe de la Sous-phase de Défi ou à l'Étape Faire les Jets de Touche de l'Étape Résoudre un Rang d'Initiative), sans modifier les Jets de Touche faits par les Figurines adverses contre elle. La Garde Parfaite — inversement, la Capacité de Combat de chaque Figurine de l'Unité ayant cette Règle Spéciale est considérée supérieure d'un point à la normale pour déterminer le résultat dont une Figurine adverse a besoin pour la Toucher, sans modifier les Jets de Touche faits par l'Unité pour ses propres attaques.",
+  },
+
+  /* --- Types et Sous-types de Figurine (indiqués entre parenthèses
+     après le Type sur chaque profil, ex. « Infanterie (Sergent,
+     Lourd) ») : consultées comme des Règles Spéciales ordinaires par
+     trouverDefinitionRegle (voir js/main.js), ce qui leur donne une
+     info-bulle partout où un Type ou Sous-type de Figurine est cité —
+     notamment la ligne « Type » de la fiche récap (js/unites.js) —
+     sans nécessiter de page dédiée. Lourd, Léger et Marcheur déjà
+     présents ci-dessus (Sous-types les plus fréquemment cités comme
+     Règle Spéciale à part entière) ; les Types de Base (Infanterie,
+     Cavalerie) et les autres Sous-types les complètent ici. --- */
+  {
+    nom: "Infanterie",
+    texte:
+      "Type le plus courant : utilise les Règles de Base sans aucun bonus ni malus. Une Figurine de Type Infanterie peut Embarquer à bord d'une Figurine de Sous-type Transport et en Débarquer.",
+  },
+  {
+    nom: "Cavalerie",
+    texte:
+      "Lors d'un Mouvement de Retraite, une Figurine de Type Cavalerie se déplace d'une distance égale à son Initiative plus la somme de deux dés. Elle ne bénéficie d'aucune Sauvegarde de Couvert conférée par un Élément ou une Zone de Terrain.",
+  },
+  {
+    nom: "Parangon",
+    texte:
+      "Alloue lui-même les Touches qu'il inflige, au Tir comme en Mêlée. Peut rejoindre ou quitter une Unité de Type Infanterie (et réciproquement), Embarquer à bord d'une Figurine de Sous-type Transport, Lancer et Relever des Défis, et prêter ses Caractéristiques à son Unité pour tout Test de Caractéristique. Compte comme sa Valeur de Points de Vie de Base pour la résolution d'un Combat.",
+  },
+  {
+    nom: "Automate",
+    texte:
+      "Ne peut jamais gagner de Statut Tactique et réussit automatiquement tout Test censé le lui éviter — sauf si l'Unité inclut au moins une Figurine qui n'est pas de Type Automate. Ignore la Règle Spéciale Empoisonnée (X) sauf sur un Jet de Blessure de 6 non modifié. Une Unité qui inclut la moindre Figurine de Type Automate ne peut pas effectuer de Réactions.",
+  },
+  {
+    nom: "Tirailleurs",
+    texte:
+      "Une Unité entièrement composée de Figurines de Sous-type Tirailleurs a une limite de Cohésion d'Unité de 3 pouces au lieu de 2.",
+  },
+  {
+    nom: "Antigrav",
+    texte:
+      "Une Unité entièrement composée de Figurines de Sous-type Antigrav ignore les effets du Terrain qu'elle franchit et peut survoler le Terrain Infranchissable (sans y commencer ni y terminer son mouvement, et en testant normalement le Terrain Dangereux si elle y commence ou termine son mouvement). Elle ignore les Figurines et Unités quand elle se Déplace, mais doit achever son mouvement à au moins 1 pouce de toute Figurine qui ne fait pas partie de la même Unité si elle franchit une Unité amie, ou de toute Figurine ennemie si elle franchit une Unité ennemie.",
+  },
+  {
+    nom: "Transport",
+    texte:
+      "Sa Caractéristique de Capacité de Transport fixe le nombre de Figurines pouvant Embarquer à son bord (une Figurine par point, sauf mention contraire de Massif (X)). Seules les Figurines de Type Infanterie ou Parangon du même Trait de Faction peuvent Embarquer ou Débarquer, une seule Unité à la fois et en totalité — jamais d'embarquement partiel. L'Unité Embarquée demeure une Unité séparée du Transport à tous égards.",
+  },
+  {
+    nom: "Spécialiste",
+    texte: "Une Figurine de Sous-type Spécialiste peut rejoindre et quitter des Unités.",
+  },
+  {
+    nom: "Sergent",
+    texte:
+      "Le Joueur en Contrôle d'une Unité qui inclut une ou plusieurs Figurines de Sous-type Sergent peut utiliser les Caractéristiques d'une de ces Figurines pour résoudre tout Test de Caractéristique fait pour l'Unité.",
+  },
+  {
+    nom: "État-major",
+    texte:
+      "Une Figurine de Sous-type État-major peut rejoindre et quitter des Unités, ainsi que Lancer et Relever des Défis. Le Joueur en Contrôle d'une Unité qui en inclut une ou plusieurs peut utiliser ses Caractéristiques pour résoudre tout Test de Caractéristique fait pour l'Unité.",
+  },
+  {
+    nom: "Champion",
+    texte: "Une Figurine de Sous-type Champion peut Lancer et Relever des Défis.",
+  },
+  {
+    nom: "Unique",
+    texte:
+      "Une armée ne peut inclure qu'un seul exemplaire d'une Figurine de ce Sous-type. Une Figurine de Sous-type Unique, ou une Unité entièrement composée de telles Figurines, ne peut avoir d'autres options que celles sélectionnées pour elle dans son Profil de Liste d'Armée.",
   },
 ];

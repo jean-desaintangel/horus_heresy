@@ -648,6 +648,57 @@ function construireLigneRegles(titre, regles) {
   return p;
 }
 
+// Ajoute un nom de Type/Sous-type de Figurine à `parent`, habillé d'un
+// .regle-tag portant sa définition (voir REGLES_DIVERSES dans
+// js/regles-data.js) s'il en existe une, ou en texte brut sinon —
+// utilisé par construireLigneType ci-dessous.
+function ajouterTypeTag(parent, nom) {
+  const definition = trouverDefinitionRegle(nom);
+  if (!definition) {
+    parent.appendChild(document.createTextNode(nom));
+    return;
+  }
+  const tag = el("span", "regle-tag", nom);
+  tag.tabIndex = 0;
+  tag.appendChild(el("span", "tooltip", definition));
+  parent.appendChild(tag);
+}
+
+// Ligne "Type" de la fiche récap : habille chaque Type et Sous-type de
+// Figurine d'une info-bulle, comme construireLigneRegles pour les
+// Règles Spéciales. `typeBrut` (variante.type) suit le format "Type
+// (Sous-type, Sous-type)" pour un profil à une seule figurine, ou
+// "NomLigne : Type (Sous-type) · NomLigne : Type" pour un profil à
+// plusieurs figurines (voir sousTypesLigne) : dans ce dernier cas,
+// chaque "NomLigne : " reste en texte brut, seuls les Types et
+// Sous-types entre parenthèses reçoivent une info-bulle.
+function construireLigneType(typeBrut) {
+  const p = el("p", "fiche-ligne");
+  p.appendChild(el("strong", null, "Type : "));
+  typeBrut.split(" · ").forEach((segment, i) => {
+    if (i > 0) p.appendChild(document.createTextNode(" · "));
+    let reste = segment;
+    const separateur = segment.indexOf(" : ");
+    if (separateur !== -1) {
+      p.appendChild(document.createTextNode(segment.slice(0, separateur + 3)));
+      reste = segment.slice(separateur + 3);
+    }
+    const correspondance = reste.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
+    if (!correspondance) {
+      ajouterTypeTag(p, reste);
+      return;
+    }
+    ajouterTypeTag(p, correspondance[1]);
+    p.appendChild(document.createTextNode(" ("));
+    correspondance[2].split(",").forEach((sousType, j) => {
+      if (j > 0) p.appendChild(document.createTextNode(", "));
+      ajouterTypeTag(p, sousType.trim());
+    });
+    p.appendChild(document.createTextNode(")"));
+  });
+  return p;
+}
+
 /* ----------------------------------------------------------
    CARACTÉRISTIQUES D'ARMES (js/armes-data.js) — affichées sur la
    fiche récap sous forme de table (une par jeu d'en-têtes rencontré :
@@ -924,7 +975,7 @@ function construireFiche(unite, instance) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
   }
   fiche.appendChild(construireLigneRegles("Règles spéciales", variante.regles));
-  fiche.appendChild(construireLigneFiche("Type", [variante.type]));
+  fiche.appendChild(construireLigneType(variante.type));
   if (unite.notes)
     fiche.appendChild(construireLigneFiche("Notes", [unite.notes]));
   const definitions = construireDefinitions(fiche);
