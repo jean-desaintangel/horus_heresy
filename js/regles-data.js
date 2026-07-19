@@ -167,6 +167,23 @@ const REGLES_ARMES = [
     texte:
       "Un jet de touche trop bas (X ou moins, avant modificateur) inflige une touche à la figurine qui tire.",
   },
+  /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+     Titaniques. --- */
+  {
+    nom: "Brise-blindage (X)",
+    texte:
+      "Si le Jet de Pénétration de Blindage est supérieur ou égal à X, la Touche Pénétrante inflige 1 point de Dégâts supplémentaire.",
+  },
+  {
+    nom: "Brise-bouclier (X)",
+    texte:
+      "Une attaque qui abat un bouclier Void en abat X à la fois au lieu d'un seul.",
+  },
+  {
+    nom: "Macro-Auspex",
+    texte:
+      "Contre une cible qui n'est pas un Titan, un Chevalier, un Super-lourd ou une figurine d'au moins 10 Points de Vie de Base, l'arme doit Tirer au Jugé.",
+  },
 ];
 
 // --- Règles diverses ---
@@ -1015,5 +1032,90 @@ const REGLES_DIVERSES = [
     nom: "Unique",
     texte:
       "Une armée ne peut inclure qu'un seul exemplaire d'une Figurine de ce Sous-type. Une Figurine de Sous-type Unique, ou une Unité entièrement composée de telles Figurines, ne peut avoir d'autres options que celles sélectionnées pour elle dans son Profil de Liste d'Armée.",
+  },
+  /* ============================================================
+     Arsenal des Maisonnées de Chevaliers et des Legios Titaniques :
+     Règles Spéciales et Équipement propres aux Chevaliers Questoris
+     et aux Titans.
+     ============================================================ */
+  {
+    nom: "Énergivore",
+    texte:
+      "Quand une Arme ayant cette Règle Spéciale est utilisée, toutes les autres Armes de la Figurine sont réduites à Tirer au Jugé pour le reste de l'Attaque de Tir.",
+  },
+  {
+    nom: "Bélier-choc",
+    texte:
+      "Un Véhicule ayant cette Règle Spéciale inflige D6+3 Touches (au lieu de D6) en traversant une Unité ennemie, et gagne une Sauvegarde Invulnérable de 6+ contre les Réactions La Mort ou la Gloire dont il est la cible.",
+  },
+  {
+    nom: "Tir Indépendant",
+    texte:
+      "Une Figurine de Type Véhicule ayant cette Règle Spéciale peut tirer sur plusieurs cibles à sa Capacité de Tir entière sans être réduite à Tirer au Jugé.",
+  },
+  {
+    nom: "Boucliers Void Titaniques (X)",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale possède X boucliers Void (Valeur de Blindage 13) qui absorbent chacun une Touche avant que les suivantes n'atteignent son Profil de Titan.",
+  },
+  {
+    nom: "Bouclier Ionique",
+    texte:
+      "Sauvegarde Invulnérable de 5+ (Face Avant) ou 6+ (Face Arrière) contre les Attaques de Tir, valable aussi contre les Touches Superficielles.",
+  },
+  {
+    nom: "Bouclier Répulsif Ionique",
+    texte:
+      "Combine le bouclier ionique (Sauvegarde Invulnérable de 5+/6+ contre les Attaques de Tir, y compris les Touches Superficielles) et le bouclier répulsif (annule Fléau des Blindages contre la Figurine).",
+  },
+  {
+    nom: "Bouclier Magnéto-inverseur",
+    texte:
+      "Réduit d'1\" (minimum 1\") la distance de Charge des Unités ennemies qui chargent une Unité majoritairement équipée, laquelle gagne aussi le Trait Bouclier.",
+  },
+  {
+    nom: "Bouclier Répulsif",
+    texte:
+      "Les Attaques de Tir qui touchent la Figurine équipée ne bénéficient pas de la Règle Spéciale Fléau des Blindages.",
+  },
+  {
+    nom: "Hommes d'Armes de la Legio",
+    texte:
+      "Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ignore les malus de Cor Titanique (X) et gagne +1 à son Commandement tant qu'un Titan ami est sur le champ de bataille ; elle fait un Test de Panique si un Titan ami est détruit.",
+  },
+  {
+    nom: "Colosse",
+    texte:
+      "Une Figurine de Sous-type Chevalier ayant cette Règle Spéciale n'a pas de socle : les distances, Lignes de Vue et Faces Avant/Arrière se déterminent depuis sa Coque, comme pour un Véhicule.",
+  },
+  {
+    nom: "Cor Titanique (X)",
+    texte:
+      'Une fois par Bataille, réduit de X les Caractéristiques de Commandement, Volonté, Sang-froid et Intelligence des Figurines ennemies à 24" de la Figurine qui l\'active.',
+  },
+  {
+    nom: "Structure Renforcée (X)",
+    texte:
+      "Réduit de X (minimum 1) les Dégâts des Touches infligées par les Armes dépourvues du Trait Stratégique ou de la Règle Spéciale Artillerie (X).",
+  },
+  {
+    nom: "Réparateurs (X)",
+    texte:
+      "Un Titan peut se réparer lui-même : à la Sous-phase des Effets de la Phase de Début, il regagne X Points de Coque sur un Profil, sans dépasser sa Valeur de Base.",
+  },
+  {
+    nom: "Fourneau Rad",
+    texte:
+      "Toute Figurine Verrouillée dans le même Combat qu'une Figurine dotée d'un fourneau Rad réduit de 1 son Endurance pour la durée du Combat.",
+  },
+  {
+    nom: "Grenades Frag",
+    texte:
+      'À l\'Étape de Volée de la Procédure de Charge, une Figurine dotée de grenades Frag peut faire une attaque unique (P6, PF1, FT3, PA6, D1, Explosion (3"), Assaut) à la place d\'une Attaque de Tir normale.',
+  },
+  {
+    nom: "Autres Gabarits",
+    texte:
+      "Certaines Armes de grande taille utilisent, à la place du Gabarit de Flammes standard, un autre Gabarit de Souffle (par exemple le Gabarit de Fournaise, indiqué entre parenthèses après « Souffle »).",
   },
 ];
