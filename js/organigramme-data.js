@@ -1299,6 +1299,23 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Réservé à une Figurine de Centurion Tartaros ayant le Trait Emperor's Children : elle doit échanger gratuitement son combi-bolter et son arme énergétique contre une lance énergétique Phénix, et gagne la Règle Spéciale Adresse Inégalée.",
   },
+  /* --- Arsenal des World Eaters (XIIe Légion), page « Enchaînés »
+     (voir js/unites-data.js, unités réservées à cette Légion). Le
+     livre demande de choisir une SECONDE Unité d'État-major de
+     l'Armée (hors Case Principale) pour recevoir l'autre moitié de
+     l'effet : comme les autres Avantages de ce type (ex : Garde
+     Phénix, ci-dessus), ce choix et l'application de la Règle
+     Spéciale Frères de Chaîne aux Figurines concernées ne sont pas
+     automatisés par le site — à gérer manuellement sur les fiches. --- */
+  {
+    id: "enchaines",
+    nom: "Enchaînés (World Eaters)",
+    roleRequis: "État-major",
+    traitRequis: "World Eaters",
+    unParArmee: true,
+    texte:
+      "Réservé à une Unité de Rôle Tactique État-major composée uniquement de Figurines ayant le Trait World Eaters, sélectionnable une seule fois par Armée : le joueur en Contrôle doit choisir une autre Unité de Rôle Tactique État-major de son Armée ; une Figurine de chacune des deux Unités gagne la Règle Spéciale Frères de Chaîne (tant qu'elle est en Cohésion d'Unité — ou en Défi impliqué dans le même Combat — avec l'autre Figurine ayant cette Règle Spéciale, elle gagne un bonus de +1 aux Jets de Touche faits à la Phase d'Assaut).",
+  },
 ];
 
 /* Rôles interdits à la case supplémentaire du Bénéfice Logistique
