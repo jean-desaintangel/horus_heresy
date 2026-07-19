@@ -35,7 +35,8 @@
    ---------------------------------------------------------- */
 const Organigramme = (() => {
   let etat = {
-    limite: 3000, // Limite de Points de la partie
+    limite: 3000, // Limite de points
+    armee: "legio-astartes", // id ARMEES (seule Legio Astartes est jouable pour l'instant)
     allegeance: "loyaliste", // "loyaliste" | "renegat" (Vrais Croyants)
     legion: "", // id LEGIONS ou "" (Choisir Légion)
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
@@ -46,6 +47,18 @@ const Organigramme = (() => {
   // leur sont réservées (ex. transcription en cours de relecture).
   // Retirer l'entrée ici suffit à réactiver la sélection.
   const LEGIONS_INDISPONIBLES = [];
+
+  // Types d'armée du menu « Armée » (p. 282) : seule Legio Astartes est
+  // transcrite pour l'instant, les autres restent grisées en attendant
+  // leur livre d'armée respectif.
+  const ARMEES = [
+    ["legio-astartes", "Legio Astartes", true],
+    ["legio-custodes", "Légio Custodes", false],
+    ["legio-titanicus", "Legio Titanicus", false],
+    ["chevaliers-questoris", "Chevaliers Questoris", false],
+    ["solar-auxilia", "Solar Auxilia", false],
+    ["mechanicum", "Mechanicum", false],
+  ];
 
   const LEGIONS = [
     ["I", "I – Dark Angels"],
@@ -1302,6 +1315,7 @@ const Organigramme = (() => {
         CLE_STOCKAGE_ORGA,
         JSON.stringify({
           limite: etat.limite,
+          armee: etat.armee,
           allegeance: etat.allegeance,
           legion: etat.legion,
           riteDeGuerre: etat.riteDeGuerre,
@@ -1330,6 +1344,12 @@ const Organigramme = (() => {
       const donnees = JSON.parse(brut);
       if (Number.isInteger(donnees.limite) && donnees.limite > 0)
         etat.limite = donnees.limite;
+      if (
+        typeof donnees.armee === "string" &&
+        ARMEES.some(([v, , disponible]) => v === donnees.armee && disponible)
+      ) {
+        etat.armee = donnees.armee;
+      }
       if (
         donnees.allegeance === "renegat" ||
         donnees.allegeance === "loyaliste"
@@ -1548,7 +1568,17 @@ const Organigramme = (() => {
     conteneur.replaceChildren();
     const ligne = el("div", "orga-parametres");
 
-    const labelLimite = el("label", null, "Limite de Points de la partie ");
+    // Regroupe un label et son champ dans un même bloc : l'espacement
+    // large entre paramètres (`gap` de .orga-parametres) ne s'applique
+    // alors qu'entre blocs, pas entre un label et son propre champ.
+    function groupeParametre(label, champ) {
+      const groupe = el("span", "orga-parametre");
+      groupe.appendChild(label);
+      groupe.appendChild(champ);
+      return groupe;
+    }
+
+    const labelLimite = el("label", null, "Limite de points");
     const champLimite = document.createElement("input");
     champLimite.type = "number";
     champLimite.id = "limite-points";
@@ -1563,8 +1593,24 @@ const Organigramme = (() => {
       champLimite.value = String(v);
       actualiser();
     });
-    ligne.appendChild(labelLimite);
-    ligne.appendChild(champLimite);
+    ligne.appendChild(groupeParametre(labelLimite, champLimite));
+
+    // Armée (p. 282) : seule Legio Astartes est transcrite pour l'instant,
+    // les autres options restent grisées (ARMEES, ci-dessus).
+    const labelArmee = el("label", null, "Armée");
+    const selectArmee = document.createElement("select");
+    selectArmee.id = "armee-jeu";
+    labelArmee.htmlFor = selectArmee.id;
+    for (const [valeur, texte, disponible] of ARMEES) {
+      const opt = ajouterOption(selectArmee, valeur, texte);
+      opt.disabled = !disponible;
+    }
+    selectArmee.value = etat.armee;
+    selectArmee.addEventListener("change", () => {
+      etat.armee = selectArmee.value;
+      actualiser();
+    });
+    ligne.appendChild(groupeParametre(labelArmee, selectArmee));
 
     // Rite de Guerre actif (RITES_DE_GUERRE, js/organigramme-data.js) :
     // certains imposent l'Allégeance de l'Armée (`allegeanceForcee`),
@@ -1573,38 +1619,11 @@ const Organigramme = (() => {
     const riteActif = ritesLegion.find((r) => r.id === etat.riteDeGuerre);
     const allegeanceForcee = riteActif && riteActif.allegeanceForcee;
 
-    const labelAllegeance = el("label", null, "Allégeance ");
-    const selectAllegeance = document.createElement("select");
-    selectAllegeance.id = "allegeance-armee";
-    labelAllegeance.htmlFor = selectAllegeance.id;
-    for (const [valeur, texte] of [
-      ["loyaliste", "Loyaliste"],
-      ["renegat", "Traitre"],
-    ]) {
-      ajouterOption(selectAllegeance, valeur, texte);
-    }
-    selectAllegeance.value = etat.allegeance;
-    selectAllegeance.disabled = Boolean(allegeanceForcee);
-    if (allegeanceForcee) {
-      selectAllegeance.title =
-        "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
-    }
-    selectAllegeance.addEventListener("change", () => {
-      const nouvelleAllegeance = selectAllegeance.value;
-      if (!appliquerAllegeance(nouvelleAllegeance)) {
-        selectAllegeance.value = etat.allegeance;
-        return;
-      }
-      actualiser();
-    });
-    ligne.appendChild(labelAllegeance);
-    ligne.appendChild(selectAllegeance);
-
-    const labelLegion = el("label", null, "Légion ");
+    const labelLegion = el("label", null, "Légion");
     const selectLegion = document.createElement("select");
     selectLegion.id = "legion-armee";
     labelLegion.htmlFor = selectLegion.id;
-    ajouterOption(selectLegion, "", "Choisir Legion");
+    ajouterOption(selectLegion, "", "Choisir Légion");
     for (const [valeur, texte] of LEGIONS) {
       // Une Légion n'est sélectionnable que si des unités lui sont
       // réservées (champ `legion` dans js/unites-data.js) : les autres
@@ -1651,8 +1670,7 @@ const Organigramme = (() => {
       if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
       actualiser();
     });
-    ligne.appendChild(labelLegion);
-    ligne.appendChild(selectLegion);
+    ligne.appendChild(groupeParametre(labelLegion, selectLegion));
 
     // Rite de Guerre (livre d'armée Legiones Astartes) : menu affiché
     // uniquement pour une Légion présente dans RITES_DE_GUERRE
@@ -1661,7 +1679,7 @@ const Organigramme = (() => {
     // l'Allégeance ci-dessus (`allegeanceForcee`, voir riteActif plus
     // haut).
     if (ritesLegion.length > 0) {
-      const labelRite = el("label", null, "Rite de Guerre ");
+      const labelRite = el("label", null, "Rite de Guerre");
       const selectRite = document.createElement("select");
       selectRite.id = "rite-de-guerre-armee";
       labelRite.htmlFor = selectRite.id;
@@ -1701,9 +1719,34 @@ const Organigramme = (() => {
         etat.riteDeGuerre = nouveauRite;
         actualiser();
       });
-      ligne.appendChild(labelRite);
-      ligne.appendChild(selectRite);
+      ligne.appendChild(groupeParametre(labelRite, selectRite));
     }
+
+    const labelAllegeance = el("label", null, "Allégeance");
+    const selectAllegeance = document.createElement("select");
+    selectAllegeance.id = "allegeance-armee";
+    labelAllegeance.htmlFor = selectAllegeance.id;
+    for (const [valeur, texte] of [
+      ["loyaliste", "Loyaliste"],
+      ["renegat", "Traitre"],
+    ]) {
+      ajouterOption(selectAllegeance, valeur, texte);
+    }
+    selectAllegeance.value = etat.allegeance;
+    selectAllegeance.disabled = Boolean(allegeanceForcee);
+    if (allegeanceForcee) {
+      selectAllegeance.title =
+        "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
+    }
+    selectAllegeance.addEventListener("change", () => {
+      const nouvelleAllegeance = selectAllegeance.value;
+      if (!appliquerAllegeance(nouvelleAllegeance)) {
+        selectAllegeance.value = etat.allegeance;
+        return;
+      }
+      actualiser();
+    });
+    ligne.appendChild(groupeParametre(labelAllegeance, selectAllegeance));
 
     conteneur.appendChild(ligne);
 

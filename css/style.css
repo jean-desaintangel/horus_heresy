@@ -1877,13 +1877,18 @@ footer p {
   margin-bottom: 1rem;
 }
 
+.orga-parametre {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .orga-parametres label {
   font-weight: 700;
 }
 
 .orga-parametres input,
 .orga-parametres select {
-  margin-left: 0.4rem;
   padding: 0.3rem 0.5rem;
   border: 1px solid var(--acier);
   border-radius: var(--radius);
