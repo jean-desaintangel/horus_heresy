@@ -234,6 +234,39 @@ const ARMES_TIR = [
         regles: "Artillerie (D), Fléau des Blindages, Surcharge (1)",
         traits: "Auto",
       },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques : armes montées sur Chevaliers Questoris et
+         Titans. --- */
+      {
+        nom: "Mitrailleuse",
+        stats: ["36", "3", "4", "6", "1"],
+        regles: "-",
+        traits: "Auto",
+      },
+      {
+        nom: "Autocanon Icarus jumelé",
+        stats: ["48", "4", "7", "4", "2"],
+        regles: "Lourde (PF), Brèche (6+), Antiaérien, Poursuite Rapide",
+        traits: "Auto",
+      },
+      {
+        nom: "Autocanon Phaëton",
+        stats: ["30", "3", "7", "3", "2"],
+        regles: "Artillerie (PF), Brèche (5+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Obusier à tir rapide",
+        stats: ["48", "1", "8", "4", "2"],
+        regles: 'Lourde (PF & PA), Explosion (3"), Fixation (1)',
+        traits: "Auto",
+      },
+      {
+        nom: "Canon gatling Avenger",
+        stats: ["36", "7", "6", "4", "1"],
+        regles: "Artillerie (PF), Brèche (6+), Neutralisation (2)",
+        traits: "Auto",
+      },
     ],
   },
   {
@@ -379,6 +412,20 @@ const ARMES_TIR = [
         regles: "Brèche (6+)",
         traits: "Bolts, Assaut",
       },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Canon à bolts Mauler jumelé",
+        stats: ["24", "6", "6", "4", "1"],
+        regles: "Fixation (2), Lacération (4+)",
+        traits: "Bolts",
+      },
+      {
+        nom: "Canon à bolts de Castigateur jumelé",
+        stats: ["36", "10", "6", "3", "1"],
+        regles: "Artillerie (D), Neutralisation (2)",
+        traits: "Bolts",
+      },
     ],
   },
   {
@@ -486,6 +533,44 @@ const ARMES_TIR = [
         regles: 'Lourde (FT), Explosion (5")',
         traits: "Conversion",
       },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Faisceau de conversion Moirax (< 15 pas)",
+        stats: ["<15", "1", "6", "4", "1"],
+        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
+        traits: "Conversion",
+      },
+      {
+        nom: "Faisceau de conversion Moirax (15-30 pas)",
+        stats: ["15-30", "1", "7", "3", "2"],
+        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
+        traits: "Conversion",
+      },
+      {
+        nom: "Faisceau de conversion Moirax (> 30-45 pas)",
+        stats: [">30-45", "1", "8", "2", "3"],
+        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
+        traits: "Conversion",
+      },
+      {
+        nom: "Affût à conversion Desolator (< 18 pas)",
+        stats: ["<18", "2", "8", "4", "2"],
+        regles: 'Artillerie (D), Explosion (7")',
+        traits: "Conversion",
+      },
+      {
+        nom: "Affût à conversion Desolator (18-42 pas)",
+        stats: ["18-42", "2", "9", "3", "3"],
+        regles: 'Artillerie (D), Explosion (7")',
+        traits: "Conversion",
+      },
+      {
+        nom: "Affût à conversion Desolator (> 42-72 pas)",
+        stats: [">42-72", "2", "10", "2", "4"],
+        regles: 'Artillerie (D), Explosion (7")',
+        traits: "Conversion",
+      },
     ],
   },
   {
@@ -564,6 +649,22 @@ const ARMES_TIR = [
         stats: ["18", "1", "9", "3", "3"],
         regles:
           'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (3)',
+        traits: "Gravitons",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Pulsar à gravitons",
+        stats: ["24", "2", "6", "3", "1"],
+        regles:
+          'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (2)',
+        traits: "Gravitons",
+      },
+      {
+        nom: "Canon à singularité graviton",
+        stats: ["36", "1", "9", "2", "8"],
+        regles:
+          'Explosion (5"), Lourde (D), Surcharge (1), Fléau des Blindages, Touche Critique (6+)',
         traits: "Gravitons",
       },
     ],
@@ -646,6 +747,13 @@ const ARMES_TIR = [
         regles: "Souffle, Panique (2), Brèche (4+), Lacération (6+)",
         traits: "Flammes",
       },
+      {
+        // Arsenal des Maisonnées de Chevaliers et des Legios Titaniques.
+        nom: "Canon Infernus d'Achéron",
+        stats: ["Souffle", "1", "7", "4", "1"],
+        regles: "Souffle (Fournaise), Lourde (PA), Lacération (5+), Panique (2)",
+        traits: "Flammes",
+      },
     ],
   },
   {
@@ -716,6 +824,20 @@ const ARMES_TIR = [
         nom: "Destructeur turbo-laser",
         stats: ["96", "1", "12", "2", "6"],
         regles: 'Explosion (3"), Fléau des Blindages',
+        traits: "Laser",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Multi-laser",
+        stats: ["36", "3", "6", "6", "1"],
+        regles: "Neutralisation (1)",
+        traits: "Laser",
+      },
+      {
+        nom: "Batterie à onde neutronique",
+        stats: ["120", "4", "12", "2", "4"],
+        regles: "Artillerie (D), Fléau des Blindages, Choc (Sonnée)",
         traits: "Laser",
       },
     ],
@@ -797,6 +919,20 @@ const ARMES_TIR = [
         nom: "Affût à fusion de Sentinelle",
         stats: ["18", "2", "8", "2", "2"],
         regles: "Lourde (FT), Fusion (8)",
+        traits: "Fusion",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Lance thermique",
+        stats: ["24", "1", "9", "2", "4"],
+        regles: "Lourde (FT), Fusion (12)",
+        traits: "Fusion",
+      },
+      {
+        nom: "Canon thermique",
+        stats: ["36", "1", "10", "2", "6"],
+        regles: 'Lourde (FT), Explosion (3"), Fusion (12)',
         traits: "Fusion",
       },
     ],
@@ -964,6 +1100,26 @@ const ARMES_TIR = [
         nom: "Missile Frag Orias",
         stats: ["48", "1", "6", "5", "1"],
         regles: 'Barrage (3), Explosion (5"), Limitée (1)',
+        traits: "Missile",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Nacelle lance-missiles Ironstorm",
+        stats: ["72", "1", "5", "4", "1"],
+        regles: 'Artillerie (D), Explosion (5")',
+        traits: "Missile",
+      },
+      {
+        nom: "Batterie lance-missiles Ironstorm",
+        stats: ["72", "2", "5", "4", "1"],
+        regles: 'Artillerie (D), Explosion (5")',
+        traits: "Missile",
+      },
+      {
+        nom: "Nacelle lance-roquettes Stormspear",
+        stats: ["48", "3", "7", "3", "1"],
+        regles: "-",
         traits: "Missile",
       },
     ],
@@ -1191,6 +1347,13 @@ const ARMES_TIR = [
         regles: "Souffle, Brèche (5+), Surcharge (1)",
         traits: "Plasma",
       },
+      {
+        // Arsenal des Maisonnées de Chevaliers et des Legios Titaniques.
+        nom: "Fusil à plasma phasé",
+        stats: ["24", "3", "5", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Plasma",
+      },
     ],
   },
   {
@@ -1217,6 +1380,27 @@ const ARMES_TIR = [
         stats: ["24", "1", "4", "-", "2"],
         regles: 'Explosion (3"), Sonner (3)',
         traits: "Assaut, Stase",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Irradieur",
+        stats: ["Souffle", "1", "2", "5", "1"],
+        regles: "Souffle, Panique (1), Phage (E), Empoisonnée (2+)",
+        traits: "Rad",
+      },
+      {
+        nom: "Radioactiveur",
+        stats: ["Souffle", "1", "5", "4", "2"],
+        regles: "Souffle, Panique (2), Phage (E), Empoisonnée (2+), Brèche (6+)",
+        traits: "Rad",
+      },
+      {
+        nom: "Mortier Karacnos",
+        stats: ["60", "1", "6", "4", "1"],
+        regles:
+          'Explosion (3"), Barrage (2), Phage (E), Fixation (3), Empoisonnée (2+)',
+        traits: "Rad",
       },
     ],
   },
@@ -1324,6 +1508,20 @@ const ARMES_TIR = [
         nom: "Cardanelle volkite",
         stats: ["45", "12", "7", "5", "2"],
         regles: "Déflagration (7), Neutralisation (1)",
+        traits: "Volkite",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Veuglaire volkite",
+        stats: ["30", "5", "7", "5", "1"],
+        regles: "Lourde (PF), Déflagration (6)",
+        traits: "Volkite",
+      },
+      {
+        nom: "Chieorovile volkite",
+        stats: ["45", "5", "7", "4", "2"],
+        regles: "Lourde (PF), Déflagration (7)",
         traits: "Volkite",
       },
     ],
@@ -1684,6 +1882,220 @@ const ARMES_TIR = [
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
+  /* ============================================================
+     Arsenal des Maisonnées de Chevaliers et des Legios Titaniques :
+     armes montées sur les Chevaliers Questoris et les Titans.
+     ============================================================ */
+  {
+    titre: "Électro-armes",
+    armes: [
+      {
+        nom: "Lanceur galvanique",
+        stats: ["24", "3", "3", "6", "1"],
+        regles: "Lacération (5+), Vulnérante (5+)",
+        traits: "Électro, Assaut",
+      },
+      {
+        nom: "Électropistolet",
+        stats: ["12", "2", "6", "5", "1"],
+        regles: "Pistolet, Neutralisation (1), Choc (Neutralisée)",
+        traits: "Électro, Assaut",
+      },
+      {
+        // Profil de Tir : possède aussi un profil de Mêlée (voir Armes
+        // de Mêlée ci-dessous).
+        nom: "Lance-choc (Tir)",
+        stats: ["18", "6", "7", "3", "1"],
+        regles: "Sonner (2)",
+        traits: "Électro",
+      },
+    ],
+  },
+  {
+    titre: "Armes à Foudre",
+    armes: [
+      {
+        nom: "Mousquet à foudre",
+        stats: ["36", "1", "7", "3", "2"],
+        regles:
+          'Explosion (3"), Brèche (5+), Lacération (5+), Neutralisation (0)',
+        traits: "Électro",
+      },
+      {
+        nom: "Canon à foudre",
+        stats: ["36", "1", "7", "3", "2"],
+        regles:
+          'Explosion (5"), Brèche (5+), Lacération (5+), Neutralisation (1)',
+        traits: "Électro",
+      },
+    ],
+  },
+  {
+    titre: "Outils de Découpe du Mechanicum",
+    armes: [
+      {
+        // Profil de Tir : possède aussi un profil de Mêlée (voir Armes
+        // de Mêlée ci-dessous).
+        nom: "Impulseur laser (Tir)",
+        stats: ["8", "1", "9", "2", "4"],
+        regles: "Artillerie (D), Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Découpeur de phase Atrapos (Tir)",
+        stats: ["12", "1", "10", "2", "6"],
+        regles: "Artillerie (D), Fléau des Blindages",
+        traits: "Laser",
+      },
+    ],
+  },
+  {
+    titre: "Armes Tactiques Titaniques",
+    armes: [
+      {
+        nom: "Autocanon Defensor",
+        stats: ["48", "3", "7", "4", "2"],
+        regles: "Brèche (6+), Antiaérien",
+        traits: "Auto, Tactique",
+      },
+      {
+        nom: "Canon à bolts Defensor",
+        stats: ["36", "6", "5", "4", "1"],
+        regles: "-",
+        traits: "Bolts, Tactique",
+      },
+      {
+        nom: "Canon laser Defensor",
+        stats: ["48", "2", "9", "2", "2"],
+        regles: "Fléau des Blindages",
+        traits: "Laser, Tactique",
+      },
+    ],
+  },
+  {
+    titre: "Armes Stratégiques Titaniques",
+    armes: [
+      {
+        nom: "Méga-bolter Vulcan",
+        stats: ["48", "12", "7", "3", "2"],
+        regles: "Neutralisation (3)",
+        traits: "Bolts, Stratégique",
+      },
+      {
+        nom: "Canon Inferno titanique",
+        stats: ["Souffle", "1", "7", "3", "3"],
+        regles: "Souffle (Fournaise), Panique (3)",
+        traits: "Flammes, Stratégique",
+      },
+      {
+        nom: "Éclateur à plasma titanique — Tir soutenu",
+        stats: ["60", "1", "8", "2", "5"],
+        regles: 'Explosion (3")',
+        traits: "Plasma, Stratégique",
+      },
+      {
+        nom: "Éclateur à plasma titanique — Tir maximal",
+        stats: ["60", "1", "9", "2", "7"],
+        regles: 'Explosion (5"), Énergivore',
+        traits: "Plasma, Stratégique",
+      },
+      {
+        nom: "Destructeur turbo-laser titanique",
+        stats: ["96", "1", "12", "2", "6"],
+        regles: 'Explosion (3"), Fléau des Blindages',
+        traits: "Laser, Stratégique",
+      },
+      {
+        nom: "Éclateur gatling titanique",
+        stats: ["82", "5", "9", "2", "4"],
+        regles: "Fléau des Blindages",
+        traits: "Auto, Stratégique",
+      },
+      {
+        nom: "Éclateur laser titanique",
+        stats: ["82", "3", "10", "2", "5"],
+        regles: "Fléau des Blindages",
+        traits: "Laser, Stratégique",
+      },
+      {
+        nom: "Canon à fusion titanique",
+        stats: ["60", "1", "12", "2", "8"],
+        regles: 'Explosion (5"), Fusion (48)',
+        traits: "Fusion, Stratégique",
+      },
+      {
+        nom: "Canon Volcano titanique",
+        stats: ["120", "1", "13", "2", "12"],
+        regles: 'Explosion (3"), Énergivore, Macro-auspex',
+        traits: "Laser, Stratégique",
+      },
+      {
+        nom: "Lance-missiles Apocalypse",
+        stats: ["150", "1", "9", "3", "4"],
+        regles: 'Explosion (10"), Brise-bouclier (3)',
+        traits: "Missile, Stratégique",
+      },
+      {
+        nom: "Canon sismique Némésis",
+        stats: ["150", "1", "12", "2", "10"],
+        regles: 'Explosion (5"), Énergivore, Macro-auspex',
+        traits: "Laser, Stratégique",
+      },
+      {
+        nom: "Canon Volcano Némésis",
+        stats: ["150", "1", "13", "2", "12"],
+        regles: 'Explosion (3"), Énergivore, Macro-auspex',
+        traits: "Auto, Stratégique",
+      },
+      {
+        nom: "Canon sismique Mori",
+        stats: ["150", "1", "12", "2", "10"],
+        regles: 'Explosion (5"), Macro-auspex',
+        traits: "Laser, Stratégique",
+      },
+      {
+        nom: "Canon Volcano Belicosa",
+        stats: ["150", "1", "13", "2", "12"],
+        regles: 'Explosion (3"), Macro-auspex',
+        traits: "Auto, Stratégique",
+      },
+      {
+        nom: "Macro-éclateur gatling",
+        stats: ["96", "5", "10", "2", "5"],
+        regles: "Fléau des Blindages, Macro-auspex",
+        traits: "Auto, Stratégique",
+      },
+      {
+        nom: "Annihilateur à plasma Sunfury — Tir soutenu",
+        stats: ["82", "1", "9", "2", "6"],
+        regles: 'Explosion (5"), Macro-auspex',
+        traits: "Plasma, Stratégique",
+      },
+      {
+        nom: "Annihilateur à plasma Sunfury — Tir maximal",
+        stats: ["82", "1", "12", "2", "9"],
+        regles: 'Explosion (7"), Énergivore, Macro-auspex',
+        traits: "Plasma, Stratégique",
+      },
+    ],
+  },
+  {
+    titre: "Armes de Frappe Titaniques",
+    armes: [
+      {
+        nom: "Poing énergétique titanique",
+        stats: ["6", "1", "12", "2", "10"],
+        regles: "Fléau des Blindages",
+        traits: "Frappe",
+      },
+      {
+        nom: "Griffe énergétique Arioch",
+        stats: ["8", "1", "13", "2", "12"],
+        regles: "Fléau des Blindages",
+        traits: "Frappe",
+      },
+    ],
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -1780,6 +2192,26 @@ const ARMES_MELEE = [
         nom: "Hache de bourreau",
         stats: ["-2", "A", "+2", "2", "2"],
         regles: "Touche Critique (6+)",
+        traits: "Tronçonneuse",
+      },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Tronçonneur Reaper",
+        stats: ["1", "A", "+1", "2", "2"],
+        regles: "Fauchage (2), Lacération (5+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        nom: "Tronçonneuse Reaper",
+        stats: ["-1", "A", "+2", "2", "3"],
+        regles: "Fauchage (2), Lacération (4+)",
+        traits: "Tronçonneuse",
+      },
+      {
+        nom: "Poing tronçonneur Reaper",
+        stats: ["-3", "A", "+3", "2", "6"],
+        regles: "Fléau des Blindages",
         traits: "Tronçonneuse",
       },
     ],
@@ -2474,6 +2906,20 @@ const ARMES_MELEE = [
         regles: "Lacération (6+)",
         traits: "Énergétique",
       },
+      /* --- Arsenal des Maisonnées de Chevaliers et des Legios
+         Titaniques. --- */
+      {
+        nom: "Gantelet Thunderstrike",
+        stats: ["-2", "-1", "+3", "2", "4"],
+        regles: "Touche Critique (6+), Impact (F), Choc (Neutralisée)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lame de guerre Tempest",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Fauchage (6), En Feu (2)",
+        traits: "Énergétique",
+      },
     ],
   },
   {
@@ -2864,5 +3310,76 @@ const ARMES_MELEE = [
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
+  },
+  /* ============================================================
+     Arsenal des Maisonnées de Chevaliers et des Legios Titaniques :
+     armes montées sur les Chevaliers Questoris et les Titans.
+     ============================================================ */
+  {
+    titre: "Électro-armes",
+    armes: [
+      {
+        // Profil de Mêlée : possède aussi un profil de Tir (voir Armes
+        // de Tir ci-dessus).
+        nom: "Lance-choc (Mêlée)",
+        stats: ["1", "A", "+1", "2", "4"],
+        regles: "Impact (MI & D), Choc (Sonnée)",
+        traits: "Électro",
+      },
+      {
+        nom: "Électrolance",
+        stats: ["+1", "A", "+1", "3", "1"],
+        regles: "Précision (6+), Choc (Neutralisée)",
+        traits: "Électro",
+      },
+      {
+        nom: "Électromasse",
+        stats: ["-1", "A", "+3", "3", "2"],
+        regles: "Choc (Neutralisée)",
+        traits: "Électro",
+      },
+    ],
+  },
+  {
+    titre: "Outils de Découpe du Mechanicum",
+    armes: [
+      {
+        // Profil de Mêlée : possède aussi un profil de Tir (voir Armes
+        // de Tir ci-dessus).
+        nom: "Impulseur laser (Mêlée)",
+        stats: ["-3", "-1", "10", "2", "5"],
+        regles: "Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Découpeur de phase Atrapos (Mêlée)",
+        stats: ["-2", "-1", "12", "2", "6"],
+        regles: "Fléau des Blindages",
+        traits: "Laser",
+      },
+    ],
+  },
+  {
+    titre: "Destructeurs de Siège",
+    armes: [
+      {
+        nom: "Pince de siège Gyges",
+        stats: ["1", "A", "+5", "3", "3"],
+        regles: "Brise-blindage (5+), Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Paire de pinces de siège Gyges",
+        stats: ["1", "A", "+6", "3", "4"],
+        regles: "Brise-blindage (5+), Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Pince de siège Hekaton",
+        stats: ["-1", "A", "x2", "3", "3"],
+        regles: "Brise-blindage (4+), Brèche (4+), Choc (Fixée)",
+        traits: "Énergétique",
+      },
+    ],
   },
 ];
