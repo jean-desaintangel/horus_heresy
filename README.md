@@ -6,6 +6,7 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 
 <!-- TODO : remplacer par une vraie capture d'écran du site
      (ex : docs/screenshot.png, prise sur mobile ET bureau) -->
+
 ![Page d'accueil du guide](assets/img/hero.webp)
 
 ## Démo en ligne
@@ -39,7 +40,8 @@ horus_heresy/
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
 │   ├── unites.html          # Configurateur de liste d'armée
-│   └── telechargement.html  # Documents à télécharger
+│   ├── telechargement.html  # Documents à télécharger
+│   └── contact.html         # Formulaire de signalement (Formspree)
 ├── css/
 │   └── style.css            # Feuille de style unique, mobile-first,
 │                            # variables CSS nommées par rôle
@@ -53,6 +55,7 @@ horus_heresy/
 │   ├── armes-data.js        # Données : caractéristiques des armes
 │   ├── unites.js            # Logique du configurateur d'unités
 │   ├── unites-data.js       # Données : fiches d'unités + équipements
+│   ├── contact.js           # Envoi AJAX du formulaire de signalement
 │   └── vendor/               # jsPDF + AutoTable, auto-hébergées (export PDF)
 └── assets/
     ├── fonts/               # Cinzel & Lato auto-hébergées (WOFF2)
@@ -88,15 +91,41 @@ Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci
 ## Choix techniques assumés
 
 - **Polices auto-hébergées** (`assets/fonts/`, issues du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / CNIL) et chargement plus rapide.
-- **Nav et footer dupliqués dans chaque page** : dette assumée pour rester en statique pur consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute modification du menu doit être répercutée sur les **11 pages**.
+- **Nav et footer dupliqués dans chaque page** : dette assumée pour rester en statique pur consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute modification du menu doit être répercutée sur les **12 pages**.
 - **Pas de Content-Security-Policy en `<meta>`** : la source `'self'` est inopérante en `file://`. GitHub Pages ne permettant pas de définir des en-têtes HTTP personnalisés, une CSP devra attendre un éventuel changement d'hébergeur.
 - **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter maintenant que le domaine est connu.
+
+## Formulaire de signalement (Formspree)
+
+La page `pages/contact.html` permet aux visiteurs de signaler une erreur ou de proposer une amélioration. Le site étant **statique** (GitHub Pages, aucun serveur PHP), l'envoi du mail est délégué à [Formspree](https://formspree.io), qui reçoit le formulaire et le retransmet par courriel.
+
+### Mise en service (une seule fois)
+
+1. Créer un compte sur [formspree.io](https://formspree.io) et **valider l'adresse e-mail de réception** (sans cette validation, aucun message n'est délivré).
+2. Créer un nouveau formulaire (_New form_). Formspree affiche alors un **endpoint** de la forme `https://formspree.io/f/xxxxxxxx` — les 8 caractères finaux sont le _hashid_ du formulaire.
+3. Dans `pages/contact.html`, remplacer `VOTRE_ID` par ce hashid :
+
+   ```html
+   <form ... action="https://formspree.io/f/xxxxxxxx" method="post"></form>
+   ```
+
+4. Publier, puis **envoyer un message de test** : le premier envoi déclenche un mail d'activation à confirmer.
+5. Dans les réglages du formulaire, activer _Restrict to Domain_ en y inscrivant le domaine du site : le hashid est visible dans le code source de la page, cette option empêche qu'il soit réutilisé depuis un autre site pour consommer le quota.
+
+### Bon à savoir
+
+- **Le hashid n'est pas un secret** : il est public par nature (il figure dans le HTML). La protection repose sur la restriction de domaine et le filtrage anti-spam, pas sur sa confidentialité.
+- **Quota du plan gratuit : 50 envois par mois**, avec 30 jours d'historique. Formspree prévient à 50 %, 75 % et 90 % du quota.
+- **Anti-spam** : un champ piège `_gotcha`, invisible à l'écran (classe `.honeypot`), est rempli par les robots et jamais par un humain — Formspree écarte alors le message en silence. Un reCAPTCHA est activable en complément côté Formspree.
+- **Champs à noms réservés** : `subject` fixe l'objet du mail reçu, `email` alimente son en-tête _Reply-To_. Les autres noms (`Type`, `Page`, `message`) apparaissent tels quels dans le corps du message.
+- **Sans JavaScript**, le formulaire reste fonctionnel : le navigateur poste directement vers Formspree, qui affiche sa propre page de confirmation (_amélioration progressive_). `js/contact.js` ne fait qu'améliorer l'expérience : envoi sans quitter la page, message de succès ou d'erreur annoncé aux lecteurs d'écran (`role="status"`), et pré-remplissage du champ « Page concernée » d'après `document.referrer`.
+- **RGPD** : l'adresse e-mail est facultative et n'est utilisée que pour répondre. Formspree est un sous-traitant tiers — à mentionner dans une éventuelle page de mentions légales.
 
 ## Contribuer / s'approprier le code
 
 Les contributions sont bienvenues : correction d'une valeur de jeu, faute d'orthographe, nouvelle unité dans le configurateur, amélioration d'accessibilité…
 
-1. **Forkez** le dépôt (bouton *Fork* en haut de la page GitHub).
+1. **Forkez** le dépôt (bouton _Fork_ en haut de la page GitHub).
 2. Créez une branche : `git checkout -b correction-profil-praetor`.
 3. Faites vos modifications (les fichiers `js/*-data.js` sont le point d'entrée le plus fréquent).
 4. Ouvrez une **Pull Request** en décrivant le changement et, pour une valeur de jeu, la **page du livre** qui fait référence.
@@ -107,7 +136,7 @@ Vous voulez adapter le site pour une autre communauté (autre langue, autre syst
 
 Le **code** (HTML, CSS, JS) est sous licence **[MIT](LICENSE)** : vous pouvez le copier, le modifier et le redistribuer librement, y compris commercialement, à condition de conserver la mention de copyright. C'est la licence la plus simple et la plus permissive pour encourager les forks.
 
-⚠️ **La licence MIT ne couvre que le code.** Les noms, l'univers et les valeurs de jeu de *Warhammer : The Horus Heresy* restent la propriété intellectuelle de **Games Workshop Ltd**. Les documents du dossier `assets/documents/` conservent la licence de leurs auteurs respectifs.
+⚠️ **La licence MIT ne couvre que le code.** Les noms, l'univers et les valeurs de jeu de _Warhammer : The Horus Heresy_ restent la propriété intellectuelle de **Games Workshop Ltd**. Les documents du dossier `assets/documents/` conservent la licence de leurs auteurs respectifs.
 
 ## Contact / crédits
 
@@ -117,4 +146,4 @@ Le **code** (HTML, CSS, JS) est sous licence **[MIT](LICENSE)** : vous pouvez le
 
 ---
 
-*Guide non officiel réalisé par des fans bénévoles francophones. Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de Games Workshop Ltd. Ce site n'est ni affilié ni approuvé par Games Workshop.*
+_Guide non officiel réalisé par des fans bénévoles francophones. Horus Heresy, Warhammer : The Horus Heresy et tous les noms associés sont des marques déposées de Games Workshop Ltd. Ce site n'est ni affilié ni approuvé par Games Workshop._

@@ -2013,8 +2013,16 @@ body.skin-legion-ix {
   --carte-hover: #f5e6da;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(122, 12, 12, 0.1) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(122, 12, 12, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* IV — Iron Warriors (Primarque Perturabo, monde natal Olympia) :
@@ -2026,8 +2034,16 @@ body.skin-legion-iv {
   --carte-hover: #efece4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(74, 74, 74, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(74, 74, 74, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* VIII — Night Lords (Primarque Konrad Curze, monde natal Nostramo) :
@@ -2039,8 +2055,16 @@ body.skin-legion-viii {
   --carte-hover: #eceef2;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(16, 21, 31, 0.14) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(138, 143, 156, 0.1) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(16, 21, 31, 0.14) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(138, 143, 156, 0.1) 0%,
+      transparent 50%
+    );
 }
 
 /* V — White Scars (Primarque Jaghatai Khan, monde natal Chogoris) :
@@ -2052,8 +2076,16 @@ body.skin-legion-v {
   --carte-hover: #f7f1e7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(163, 52, 28, 0.1) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(163, 52, 28, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XII — World Eaters (Primarque Angron) : brun-rouille et bronze,
@@ -2065,8 +2097,16 @@ body.skin-legion-xii {
   --carte-hover: #f3e8da;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(138, 58, 18, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(138, 58, 18, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XIX — Raven Guard (Primarque Corvus Corax, monde natal Deliverance) :
@@ -2078,8 +2118,16 @@ body.skin-legion-xix {
   --carte-hover: #ececef;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(28, 28, 34, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 28, 34, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* I — Dark Angels (Primarque Lion El'Jonson, monde natal Caliban) :
@@ -2091,8 +2139,16 @@ body.skin-legion-i {
   --carte-hover: #e8eee7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(31, 58, 36, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(31, 58, 36, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* III — Emperor's Children (Primarque Fulgrim, monde natal Chemos) :
@@ -2104,8 +2160,16 @@ body.skin-legion-iii {
   --carte-hover: #f0e9f0;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(74, 26, 92, 0.1) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(74, 26, 92, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* VI — Space Wolves (Primarque Leman Russ, monde natal Fenris) :
@@ -2117,8 +2181,16 @@ body.skin-legion-vi {
   --carte-hover: #e8eff2;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(51, 69, 78, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(51, 69, 78, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* VII — Imperial Fists (Primarque Rogal Dorn, monde natal Terra/Inwit) :
@@ -2130,8 +2202,16 @@ body.skin-legion-vii {
   --carte-hover: #f3ead4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(92, 71, 18, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(92, 71, 18, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* X — Iron Hands (Primarque Ferrus Manus, monde natal Medusa) :
@@ -2143,8 +2223,16 @@ body.skin-legion-x {
   --carte-hover: #e8e4e4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(42, 20, 20, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(42, 20, 20, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XIII — Ultramarines (Primarque Roboute Guilliman, monde natal
@@ -2156,8 +2244,16 @@ body.skin-legion-xiii {
   --carte-hover: #e8ecf4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(28, 58, 110, 0.1) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 58, 110, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XIV — Death Guard (Primarque Mortarion, monde natal Barbarus) :
@@ -2169,8 +2265,16 @@ body.skin-legion-xiv {
   --carte-hover: #eaeee2;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(58, 74, 46, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 74, 46, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XV — Thousand Sons (Primarque Magnus le Rouge, monde natal
@@ -2182,8 +2286,16 @@ body.skin-legion-xv {
   --carte-hover: #e8e7f4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(28, 47, 92, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 47, 92, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XVI — Sons of Horus (Primarque Horus Lupercal, monde natal
@@ -2195,8 +2307,16 @@ body.skin-legion-xvi {
   --carte-hover: #efe8d8;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(58, 48, 32, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 48, 32, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XVII — Word Bearers (Primarque Lorgar, monde natal Colchis) :
@@ -2208,8 +2328,16 @@ body.skin-legion-xvii {
   --carte-hover: #f2e6e1;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(74, 28, 28, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(74, 28, 28, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XVIII — Salamanders (Primarque Vulkan, monde natal Nocturne) :
@@ -2221,8 +2349,16 @@ body.skin-legion-xviii {
   --carte-hover: #efe9dc;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(42, 58, 36, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(42, 58, 36, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* XX — Alpha Legion (Primarques Alpharius et Omegon, monde natal
@@ -2234,8 +2370,16 @@ body.skin-legion-xx {
   --carte-hover: #e2eeee;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
-    radial-gradient(circle at 100% 100%, rgba(18, 58, 60, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 0% 100%, rgba(184, 150, 47, 0.08) 0%, transparent 50%);
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(18, 58, 60, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 /* ---------- Jauge de points + compteurs ---------- */
@@ -2609,5 +2753,184 @@ body.skin-legion-xx {
 
   .unite-carte--sans-case {
     border: 2px dashed #000; /* signale aussi à l'impression */
+  }
+}
+
+/* ============================================================
+   FORMULAIRE DE SIGNALEMENT (page contact.html)
+   ============================================================ */
+.formulaire {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre);
+  padding: 1.4rem;
+}
+
+/* Un « champ » = un libellé + son contrôle + son aide éventuelle.
+   display: flex en colonne : le label se place TOUJOURS au-dessus,
+   sans avoir à gérer des marges au cas par cas. */
+.champ {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.champ label {
+  font-family: "Cinzel", serif;
+  font-weight: 500;
+  color: var(--titre-contraste);
+  margin-bottom: 0.4rem;
+}
+
+.champ-option {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  color: var(--texte-doux);
+  font-size: 0.85rem;
+}
+
+.champ-aide {
+  font-size: 0.82rem;
+  color: var(--texte-doux);
+  margin-top: 0.35rem;
+}
+
+/* Bordure --acier-clair (et non --acier) : 8:1 sur blanc, alors que
+   --acier ne donnait que 2.9:1 — or le contour est l'unique repère
+   visuel qui délimite le champ (WCAG 1.4.11 / RGAA 3.3).
+   font: inherit — les navigateurs imposent par défaut leur propre
+   police aux input/textarea/select ; sans cette ligne, les champs
+   ne reprennent PAS la police du site. */
+.champ input,
+.champ select,
+.champ textarea {
+  font: inherit;
+  font-size: 1rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--fond);
+  border: 2px solid var(--acier-clair);
+  border-radius: var(--radius);
+  color: var(--texte);
+}
+
+/* resize: vertical — l'utilisateur peut agrandir la zone de texte en
+   hauteur (utile pour un long message) mais pas en largeur, ce qui
+   casserait la mise en page. */
+.champ textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.champ input:focus-visible,
+.champ select:focus-visible,
+.champ textarea:focus-visible {
+  outline: 3px solid var(--acier-clair);
+  outline-offset: 2px;
+  border-color: var(--titre);
+}
+
+/* Champ invalide APRÈS saisie : :user-invalid (et non :invalid) ne se
+   déclenche qu'une fois le champ quitté ou le formulaire soumis. Avec
+   :invalid, un champ « required » encore vide serait signalé en rouge
+   dès l'ouverture de la page — on gronde l'utilisateur avant qu'il
+   ait tapé quoi que ce soit. */
+.champ input:user-invalid,
+.champ textarea:user-invalid {
+  border-color: var(--accent);
+}
+
+/* PIÈGE À ROBOTS : invisible pour l'humain, présent dans le DOM pour
+   le robot. On n'utilise NI display:none NI visibility:hidden, que
+   les robots un peu sérieux savent détecter — le champ est simplement
+   envoyé hors de l'écran. Voir le commentaire du champ _gotcha dans
+   pages/contact.html. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.bouton-envoyer {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.8rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.bouton-envoyer:hover {
+  background: var(--accent-clair);
+}
+
+/* Pendant l'envoi (bouton désactivé par js/contact.js) : l'aspect
+   grisé + le curseur « interdit » signalent qu'un clic de plus ne
+   servira à rien. */
+.bouton-envoyer:disabled {
+  background: var(--acier);
+  cursor: not-allowed;
+}
+
+.form-retour {
+  margin-top: 1rem;
+  padding: 0;
+  font-weight: 700;
+}
+
+/* :empty — tant que JavaScript n'a rien écrit dans la zone de retour,
+   aucun cadre vide ne s'affiche. Les deux états portent une couleur
+   ET un préfixe textuel (✔ / ✖) : l'information ne repose jamais sur
+   la seule couleur (WCAG 1.4.1 / RGAA 3.1). */
+.form-retour:not(:empty) {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  border-left: 4px solid;
+}
+
+.form-retour--succes {
+  background: #e6f2e6;
+  border-left-color: #2e6b2e;
+  color: #1d4a1d;
+}
+
+.form-retour--succes::before {
+  content: "✔ ";
+}
+
+.form-retour--erreur {
+  background: #f7e6e6;
+  border-left-color: var(--accent);
+  color: #6b0000;
+}
+
+.form-retour--erreur::before {
+  content: "✖ ";
+}
+
+/* Lien « Signaler une erreur » présent dans le pied de page de
+   toutes les pages du site. */
+.footer-signalement {
+  margin-bottom: 0.8rem !important;
+  font-size: 0.95rem;
+}
+
+.footer-signalement a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (min-width: 700px) {
+  .formulaire {
+    padding: 2rem;
   }
 }
