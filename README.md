@@ -38,6 +38,7 @@ horus_heresy/
 │   ├── assaut.html          # Phase d'Assaut + tables de référence
 │   ├── statuts-reactions.html # Statuts tactiques et réactions
 │   ├── vehicule.html        # Règles des Véhicules (blindage, transports…)
+│   ├── psy.html             # Aptitudes Psychiques (Pouvoirs, Périls du Warp…)
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
 │   ├── unites.html          # Configurateur de liste d'armée
