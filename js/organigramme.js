@@ -53,7 +53,7 @@ const Organigramme = (() => {
   // leur livre d'armée respectif.
   const ARMEES = [
     ["legio-astartes", "Legio Astartes", true],
-    ["legio-custodes", "Légio Custodes", false],
+    ["legio-custodes", "Legio Custodes", false],
     ["legio-titanicus", "Legio Titanicus", false],
     ["chevaliers-questoris", "Chevaliers Questoris", false],
     ["solar-auxilia", "Solar Auxilia", false],
