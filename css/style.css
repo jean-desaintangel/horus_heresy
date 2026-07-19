@@ -1757,7 +1757,26 @@ footer p {
 }
 
 .unite-fiche .table-scroll {
-  margin: 0.4rem 0 0.8rem;
+  margin: 0.4rem 0 0.4rem;
+}
+
+/* Indice de défilement horizontal (voir construireIndiceDefilement,
+   js/unites.js) : signale qu'il reste des colonnes à droite (ex : la
+   colonne « Règles spéciales ») quand la table déborde de l'écran, la
+   barre de défilement native étant invisible sur mobile tant qu'on ne
+   touche pas l'écran. Masqué dès qu'il y a la place de tout afficher
+   sans défiler. */
+.table-scroll-indice {
+  margin: -0.15rem 0 0.8rem;
+  font-size: 0.75rem;
+  color: var(--texte-doux);
+  text-align: right;
+}
+
+@media (min-width: 601px) {
+  .table-scroll-indice {
+    display: none;
+  }
 }
 
 .table-profil th,

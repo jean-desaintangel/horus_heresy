@@ -489,6 +489,22 @@ function appliquerBonusPrincipal(avantageId, variante, nomLigne, car, valeur) {
   return Math.min(plafond, valeur + bonus);
 }
 
+// Indice de défilement horizontal pour les tables de profil/armes
+// (voir construireTableProfil et construireTableArmes) : sur téléphone,
+// ces tables ont plus de colonnes que l'écran n'en montre, et défilent
+// DANS .table-scroll plutôt que de casser la page — mais rien ne le
+// signale, en particulier sur les navigateurs mobiles qui masquent la
+// barre de défilement native tant qu'on ne touche pas l'écran. Masqué
+// au-delà de 601px de large (voir .table-scroll-indice, css/style.css),
+// où ces tables tiennent normalement sans défiler.
+function construireIndiceDefilement() {
+  return el(
+    "p",
+    "table-scroll-indice",
+    "◂ Faites glisser le tableau pour voir la suite ▸",
+  );
+}
+
 // Table de profil (infanterie ou véhicule) de la variante choisie.
 function construireTableProfil(unite, instance) {
   const variante = unite.variantes[instance.variante];
@@ -580,7 +596,10 @@ function construireTableProfil(unite, instance) {
   table.appendChild(enTete);
   table.appendChild(corps);
   conteneur.appendChild(table);
-  return conteneur;
+  const enveloppe = document.createDocumentFragment();
+  enveloppe.appendChild(conteneur);
+  enveloppe.appendChild(construireIndiceDefilement());
+  return enveloppe;
 }
 
 // Bloc « Étiquette : valeur, valeur… » de la fiche récap.
@@ -803,7 +822,10 @@ function construireTableArmes(entetes, armes) {
   }
   table.appendChild(corps);
   conteneur.appendChild(table);
-  return conteneur;
+  const enveloppe = document.createDocumentFragment();
+  enveloppe.appendChild(conteneur);
+  enveloppe.appendChild(construireIndiceDefilement());
+  return enveloppe;
 }
 
 // Repère, dans l'équipement final, les armes reconnues dans l'Arsenal
