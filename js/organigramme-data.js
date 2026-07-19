@@ -1024,7 +1024,12 @@ const TYPES_DETACHEMENTS = [
      de Rôle Tactique Seigneur de Guerre logée dans sa Case). Ses
      Cases QG/État-major sont exclues du calcul des crédits
      Auxiliaire/Apex (`pasDeCredit`, voir js/organigramme.js,
-     calculerCredits). */
+     calculerCredits). Fulgrim Transfiguré n'est PAS un prérequis à la
+     sélection du Détachement (contrairement à `requiertUniteArmee`,
+     qui bloquerait l'ajout tant qu'il n'est pas déjà dans l'Armée) :
+     c'est l'inverse, sa Case de Seigneur de Guerre lui est réservée
+     (`restrictions`), comme n'importe quelle autre Case restreinte —
+     rien n'empêche de créer le Détachement avec cette Case vide. */
   {
     id: "confrerie-du-phenix",
     nom: "Confrérie du Phénix",
@@ -1032,11 +1037,11 @@ const TYPES_DETACHEMENTS = [
     max: 1,
     pointsMin: 3000,
     requiertRiteDeGuerre: "legio-hereticus-emperors-children",
-    requiertUniteArmee: ["fulgrim-transfigure"],
     excluAvec: ["seigneur-guerre"],
     pasDeCredit: true,
+    restrictions: { "Seigneur de Guerre": ["fulgrim-transfigure"] },
     texte:
-      "Réservé au Rite de Guerre Legio Hereticus Emperor's Children. Se sélectionne à la place du Détachement de Seigneur de Guerre (l'Armée ne peut pas inclure les deux). Uniquement si la Limite de Points est d'au moins 3000 pts, et nécessite une Unité de Fulgrim Transfiguré dans l'Armée. Les Cases de Quartier Général et d'État-major de ce Détachement ne débloquent aucun Détachement Auxiliaire ou d'Apex supplémentaire.",
+      "Réservé au Rite de Guerre Legio Hereticus Emperor's Children. Se sélectionne à la place du Détachement de Seigneur de Guerre (l'Armée ne peut pas inclure les deux). Uniquement si la Limite de Points est d'au moins 3000 pts. Sa Case de Seigneur de Guerre ne peut accueillir qu'une Unité de Fulgrim Transfiguré. Les Cases de Quartier Général et d'État-major de ce Détachement ne débloquent aucun Détachement Auxiliaire ou d'Apex supplémentaire.",
     cases: [
       _caseOrga("Seigneur de Guerre"),
       _caseOrga("Quartier Général", true),

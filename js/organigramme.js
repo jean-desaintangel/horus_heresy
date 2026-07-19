@@ -1645,6 +1645,33 @@ const Organigramme = (() => {
       selectRite.value = etat.riteDeGuerre;
       selectRite.addEventListener("change", () => {
         const nouveauRite = selectRite.value;
+        if (nouveauRite !== etat.riteDeGuerre) {
+          // Un Détachement réservé à un Rite de Guerre
+          // (`requiertRiteDeGuerre`) devient invalide dès qu'on change
+          // de Rite (ex : Escadre de Primauté/Confrérie du Phénix,
+          // Cadre de Berserkers/Fils de Bodt) : comme un changement de
+          // Légion, on repart d'une liste et d'un organigramme vierges
+          // (seul le Détachement Principal, obligatoire, est conservé).
+          const armeeNonVide = hooks.getArmee().length > 0;
+          const detachementsSupp = etat.detachements.some(
+            (d) => d.typeId !== "principal",
+          );
+          if (
+            (armeeNonVide || detachementsSupp) &&
+            !window.confirm(
+              "Changer de Rite de Guerre réinitialise la liste d'armée et " +
+                "les détachements sélectionnés. Continuer ?",
+            )
+          ) {
+            selectRite.value = etat.riteDeGuerre;
+            return;
+          }
+          if (armeeNonVide) {
+            for (const instance of [...hooks.getArmee()])
+              hooks.retirerInstance(instance.uid);
+          }
+          etat.detachements = [creerDetachement("principal")];
+        }
         const nouveauRiteInfo = ritesLegion.find((r) => r.id === nouveauRite);
         if (
           nouveauRiteInfo &&
