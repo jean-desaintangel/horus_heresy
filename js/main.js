@@ -144,6 +144,111 @@ function cablerInfoBulles(racine) {
 window.cablerInfoBulles = cablerInfoBulles;
 
 /* ----------------------------------------------------------
+   RACINE DU SITE
+   Déduite de l'URL réelle de ce script (résolue en absolu par le
+   navigateur) plutôt que codée en dur : fonctionne aussi bien depuis
+   index.html (racine) que depuis pages/*.html, et quel que soit le
+   sous-chemin d'hébergement (ex : GitHub Pages, jean-desaintangel.
+   github.io/horus_heresy/). Posée hors DOMContentLoaded, au plus tôt
+   (script en defer, donc document.currentScript encore valide).
+   Consommée par construireNavigation/construirePiedDePage ci-dessous
+   et par le skin de Légion plus bas.
+   ---------------------------------------------------------- */
+const RACINE_SITE = document.currentScript.src.replace(/js\/main\.js.*$/, "");
+
+/* ----------------------------------------------------------
+   NAVIGATION ET PIED DE PAGE — SITE ENTIER
+   Identiques sur toutes les pages : générés ici une seule fois plutôt
+   que dupliqués dans chaque fichier HTML (une seule liste à tenir à
+   jour, un seul ordre à corriger). Chaque page HTML ne garde qu'un
+   conteneur vide (<ul class="nav-menu"></ul>, <footer></footer>) que
+   ce script remplit au chargement.
+   Sécurité : construit via createElement/textContent, jamais
+   innerHTML (voir la note Sécurité en tête de fichier).
+   ---------------------------------------------------------- */
+// Ordre d'affichage des liens du menu principal.
+const LIENS_NAV = [
+  { href: "unites.html", texte: "Construction d’armée" },
+  { href: "tour.html", texte: "Tour" },
+  { href: "mouvement.html", texte: "Mouvement" },
+  { href: "tir.html", texte: "Tir" },
+  { href: "assaut.html", texte: "Assaut" },
+  { href: "statuts-reactions.html", texte: "Statuts & Réactions" },
+  { href: "regles.html", texte: "Règles spéciales" },
+  { href: "armes.html", texte: "Armes" },
+  { href: "psy.html", texte: "Psychique" },
+  { href: "vehicule.html", texte: "Véhicules" },
+  { href: "titan.html", texte: "Titans" },
+  { href: "telechargement.html", texte: "Téléchargements" },
+];
+
+// Remplit .nav-menu et corrige le lien du logo (utile depuis index.html
+// comme depuis pages/*.html, sans distinguer les deux cas au cas par
+// cas). aria-current="page" est posé sur l'entrée qui correspond à la
+// page actuellement affichée (comparaison sur le nom de fichier).
+function construireNavigation() {
+  const logo = document.querySelector(".nav-logo");
+  if (logo) logo.href = RACINE_SITE + "index.html";
+
+  const menu = document.querySelector(".nav-menu");
+  if (!menu) return;
+  menu.replaceChildren();
+  const pageActuelle = location.pathname.split("/").pop();
+  for (const lien of LIENS_NAV) {
+    const a = document.createElement("a");
+    a.href = RACINE_SITE + "pages/" + lien.href;
+    a.textContent = lien.texte;
+    if (lien.href === pageActuelle) a.setAttribute("aria-current", "page");
+    const li = document.createElement("li");
+    li.appendChild(a);
+    menu.appendChild(li);
+  }
+}
+
+// Remplit le <footer> (lien de signalement + mentions légales).
+function construirePiedDePage() {
+  const pied = document.querySelector("footer");
+  if (!pied) return;
+  pied.replaceChildren();
+
+  const pSignalement = el("p", "footer-signalement");
+  pSignalement.append("Une erreur, une suggestion ? ");
+  const lienContact = document.createElement("a");
+  lienContact.href = RACINE_SITE + "pages/contact.html";
+  lienContact.textContent = "Signalez-la";
+  pSignalement.append(lienContact, ".");
+  pied.appendChild(pSignalement);
+
+  const pDisclaimer = el("p", "footer-disclaimer");
+  const strong = el(
+    "strong",
+    null,
+    "Guide non officiel réalisé par des fans bénévoles francophones.",
+  );
+  pDisclaimer.append(
+    strong,
+    " Horus Heresy, Warhammer : The Horus Heresy et tous les noms" +
+      " associés sont des marques déposées de ",
+  );
+  const lienGW = document.createElement("a");
+  lienGW.href = "https://www.games-workshop.com";
+  lienGW.target = "_blank";
+  lienGW.rel = "noopener noreferrer";
+  lienGW.append("Games Workshop Ltd ", el("span", "sr-only", "(nouvelle fenêtre)"));
+  pDisclaimer.append(
+    lienGW,
+    ". Ce site n’est ni affilié ni approuvé par Games Workshop." +
+      " Aucun défi à leur statut n’est intentionné.",
+  );
+  pied.appendChild(pDisclaimer);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  construireNavigation();
+  construirePiedDePage();
+});
+
+/* ----------------------------------------------------------
    SKIN DE LÉGION — SITE ENTIER
    js/organigramme.js pose une classe "skin-legion-*" sur <body>
    (voir "Skins de Légion" dans css/style.css) mais uniquement sur
@@ -196,17 +301,12 @@ window.cablerInfoBulles = cablerInfoBulles;
 
   document.body.classList.add("skin-legion-" + legion.toLowerCase());
 
-  // Racine du site déduite de l'URL réelle de ce script (résolue en
-  // absolu par le navigateur) plutôt que codée en dur : fonctionne
-  // aussi bien depuis index.html (racine) que depuis pages/*.html.
-  const racine = document.currentScript.src.replace(/js\/main\.js.*$/, "");
-
   document.addEventListener("DOMContentLoaded", () => {
     const titre = document.querySelector("h1.titre-page");
     if (!titre || titre.querySelector(".legion-icon")) return;
     const img = document.createElement("img");
     img.className = "legion-icon legion-icon--titre";
-    img.src = racine + "assets/logo_legions/" + LOGOS_LEGION[legion] + ".png";
+    img.src = RACINE_SITE + "assets/logo_legions/" + LOGOS_LEGION[legion] + ".png";
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.loading = "lazy";
