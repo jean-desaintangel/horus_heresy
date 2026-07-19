@@ -541,7 +541,7 @@ strong {
    hidden, pas display:none, pour permettre la transition en
    fondu) et révélé uniquement par les sélecteurs :hover/:focus
    ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet.
-   Partagé par .orga-boite (organigramme, armee.html), .regle-tag
+   Partagé par .orga-boite (organigramme, unites.html), .regle-tag
    (règles spéciales des tables d'armes, armes.html) et .orga-badge
    (badges de Rôles Tactiques du constructeur d'armée, unites.html). */
 .orga-boite .tooltip,
@@ -948,6 +948,11 @@ td.impossible {
   color: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+.section-titre--centre .section-toggle {
+  width: auto;
+  justify-content: center;
 }
 
 .section-titre .chevron {

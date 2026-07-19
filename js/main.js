@@ -115,7 +115,7 @@ function trouverDefinitionRegle(intitule) {
 
 /* ----------------------------------------------------------
    ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
-   Chaque case .orga-boite (organigramme, armee.html) et chaque
+   Chaque case .orga-boite (organigramme, unites.html) et chaque
    .regle-tag (règles spéciales des tables d'armes, armes.html) est
    focalisable (tabindex="0") et révèle une description au focus. On
    associe la description à son déclencheur via aria-describedby pour
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
      2. PANNEAUX DÉPLIABLES (Accordéon + Timeline)
 
-     Les Cases Principales (armee.html) et la Timeline des phases
+     Les Cases Principales (unites.html) et la Timeline des phases
      (tour.html, tir.html, assaut.html, mouvement.html) sont deux
      habillages différents du même comportement : un bouton-titre qui
      révèle un bloc de contenu en dessous de lui. On factorise donc la
@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
      ---------------------------------------------------------- */
   // Les deux familles de panneaux dépliables (Accordéon et Timeline)
   // peuvent s'imbriquer l'une dans l'autre (ex : l'Accordéon des Cases
-  // Principales, dans armee.html, est niché dans un timeline-item) : le
+  // Principales, dans unites.html, est niché dans un timeline-item) : le
   // recalcul de hauteur des ancêtres doit donc reconnaître les deux.
   const SELECTEUR_ITEM_DEPLIABLE = ".accordeon-item, .timeline-item";
 
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cases Principales (armee.html)
+  // Cases Principales (unites.html)
   activerPanneauxDepliables(
     ".accordeon-titre",
     ".accordeon-item",

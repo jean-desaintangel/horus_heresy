@@ -31,7 +31,6 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 horus_heresy/
 ├── index.html               # Page d'accueil (hero + navigation)
 ├── pages/                   # Pages secondaires (une par section)
-│   ├── armee.html           # Construction d'armée (détachements, rôles)
 │   ├── tour.html            # Les 5 phases d'un tour de jeu (timeline)
 │   ├── mouvement.html       # Phase de Mouvement
 │   ├── tir.html             # Phase de Tir + tables de référence
