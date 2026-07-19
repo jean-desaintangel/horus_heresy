@@ -610,7 +610,8 @@ const TYPES_DETACHEMENTS = [
     nom: "Cadre de Berserkers",
     famille: "auxiliaire",
     texte:
-      "Les Cases d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Escouades Saccageuses.",
+      "Réservé au Rite de Guerre Legio Astartes World Eaters. Les Cases d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Escouades Saccageuses.",
+    requiertRiteDeGuerre: "legio-astartes-world-eaters",
     restrictions: { "Assaut Lourd": ["escouade-saccageuse"] },
     cases: [
       _caseOrga("Troupes", true),
@@ -629,7 +630,8 @@ const TYPES_DETACHEMENTS = [
     nom: "Fils de Bodt",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Techmarine ou un Apothicaire occupe une Case d'Appui. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Apothicaires.",
+      "Réservé au Rite de Guerre Legio Hereticus World Eaters. Débloqué quand un Techmarine ou un Apothicaire occupe une Case d'Appui. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Apothicaires.",
+    requiertRiteDeGuerre: "legio-hereticus-world-eaters",
     deblocage: { caseRole: "Appui", uniteIds: ["techmarine", "apothicaire"] },
     restrictions: { Appui: ["apothicaire"] },
     cases: [
@@ -1068,6 +1070,17 @@ const RITES_DE_GUERRE = {
     {
       id: "legio-hereticus-emperors-children",
       nom: "Legio Hereticus Emperor's Children",
+      allegeanceForcee: "renegat",
+    },
+  ],
+  XII: [
+    {
+      id: "legio-astartes-world-eaters",
+      nom: "Legio Astartes World Eaters",
+    },
+    {
+      id: "legio-hereticus-world-eaters",
+      nom: "Legio Hereticus World Eaters",
       allegeanceForcee: "renegat",
     },
   ],
