@@ -27,6 +27,27 @@
 
    Un profil = { M, CC, CT, F, E, PV, I, A, Cd, Sf, Vo, Int, Sv, Inv }
    Un profil de véhicule = { M, CT, avant, flanc, arriere, PC, transport }
+   Un profil de Titan (Legio Titanicus) : `profilsVehicule` sur la
+   variante, tableau de { nom, M, CT, principal, expose, PC, transport }
+   — une ligne par Profil de Titan (Tête, Carapace, Bras, Jambes…),
+   chacune avec son propre Blindage Principal/Exposé (voir
+   ENTETES_TITAN et construireTableProfil dans js/unites.js). À ne
+   pas confondre avec `profilVehicule` (singulier, une seule ligne
+   Avant/Flanc/Arrière) ni `profils` (pluriel, lignes de profil
+   d'infanterie nommées, ex : Légionnaire/Sergent).
+   Champ `ctParEquipage` (facultatif, sur un Profil de `profilsVehicule`
+   uniquement) : tableau [Minoris, Senioris, Majoris] de la CT de ce
+   Profil selon l'Équipage choisi par l'option "choix" obligatoire
+   d'id "equipage" (indice 0/1/2 = Minoris/Senioris/Majoris) — la
+   table de profil affichée par js/unites.js (construireTableProfil)
+   lit `instance.valeurs.equipage` pour choisir la bonne CT en temps
+   réel. Un Profil sans CT (Tête, Jambes) n'a pas ce champ.
+
+   Champ `faction` (facultatif) : réserve l'unité à une Faction du menu
+   « Faction » (js/organigramme.js, FACTIONS) autre que Legio Astartes,
+   ex : "legio-titanicus". Sans ce champ, une unité reste réservée à
+   Legio Astartes (comportement historique de ce fichier). Consommé
+   par js/unites.js (uniteAccessible).
 
    Types d'options :
    - "choix" : menu déroulant. `remplace` = équipement retiré quand
@@ -42,6 +63,14 @@
    Champs communs facultatifs :
    - variantesExclues : indices de variantes qui n'ont PAS accès
      à l'option (ex : cyber-familier interdit aux Réacteurs).
+   - desactiveSiOptionActive : id d'une autre option de la même
+     unité qui, une fois active, verrouille complètement celle-ci —
+     aucune contribution à l'équipement ni au coût, champ grisé et
+     remis à zéro (voir optionPermise dans js/unites.js). Sert aux
+     options qui s'excluent mutuellement au sein d'une même unité
+     (ex : Titan Warlord, la Griffe énergétique Arioch avec Méga-
+     bolter Vulcan occupe à elle seule les deux emplacements d'Arme
+     de Bras et verrouille donc les deux choix normaux).
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -14427,5 +14456,565 @@ const UNITES = [
       },
     ],
     legion: "VIII",
+  },
+
+  /* ============================================================
+     UNITÉS — LEGIO TITANICUS
+     Transcription depuis l'Arsenal des Maisonnées de Chevaliers et
+     des Legios Titaniques. Faction distincte de Legio Astartes (champ
+     `faction: "legio-titanicus"`, voir MODÈLE DE DONNÉES en tête de
+     fichier et uniteAccessible dans js/unites.js) : pour l'instant
+     grisée dans le menu « Faction » (js/organigramme.js, FACTIONS),
+     ces unités restent donc indisponibles au sélecteur « Unité à
+     ajouter » tant que ce menu n'est pas activé.
+
+     Les 4 Titans (Warhound/Reaver/Warbringer Némésis/Warlord)
+     utilisent `profilsVehicule` (une ligne par Profil de Titan —
+     Tête, Carapace, Bras, Jambes — voir le MODÈLE DE DONNÉES et
+     ENTETES_TITAN dans js/unites.js), une forme distincte du profil
+     de véhicule standard à une seule ligne.
+
+     Limite connue : l'option [Équipage] (Minoris/Senioris/Majoris)
+     augmente la CT des Profils de Bras (et de Carapace au-delà du
+     Warhound) contre un supplément de Points — ce supplément est
+     bien comptabilisé par l'option, mais la table de profil affichée
+     n'actualise pas automatiquement la valeur de CT (elle reste
+     celle de l'Équipage Minoris, gratuit) : le libellé de chaque
+     choix précise la CT obtenue.
+     ---------------------------------------------------------- */
+  {
+    id: "axiarque-secutarius",
+    nom: "Axiarque Secutarius",
+    categorie: "État-major",
+    cout: 95,
+    composition: "1 Axiarque",
+    traits: ["[Allégeance]", "Legio Titanicus", "Bouclier"],
+    equipement: ["Électrolance", "Bouclier magnéto-inverseur", "Grenades Frag"],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Axiarque",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 3,
+          PV: 3,
+          I: 4,
+          A: 4,
+          Cd: 9,
+          Sf: 10,
+          Vo: 8,
+          Int: 9,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Hommes d'Armes de la Legio"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "electrolance",
+        libelle: "Remplacer l'électrolance",
+        remplace: "Électrolance",
+        choix: [
+          { nom: "— Conserver l'électrolance —", cout: 0 },
+          { nom: "Épée énergétique", cout: 0 },
+          { nom: "Électromasse", cout: 0 },
+        ],
+      },
+      { type: "case", id: "grenades-rad", libelle: "Grenades Rad", cout: 10, ajoute: "Grenades Rad" },
+      {
+        type: "case",
+        id: "cyber-familier",
+        libelle: "Cyber-familier",
+        cout: 5,
+        ajoute: "Cyber-familier",
+      },
+    ],
+  },
+
+  {
+    id: "cohorte-secutarii",
+    nom: "Cohorte de Secutarii",
+    categorie: "Troupes",
+    cout: 165,
+    composition: "9 Secutarii et 1 Secutarius Alpha",
+    effectif: { base: 10, max: 20, cout: 15 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Legio Titanicus", "Bouclier"],
+    equipement: ["Électrolance", "Bouclier magnéto-inverseur", "Grenades Frag"],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Cohorte de Secutarii",
+        cout: 0,
+        profils: [
+          {
+            nom: "Secutarius",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 7,
+              Sf: 8,
+              Vo: 7,
+              Int: 8,
+              Sv: "4+",
+              Inv: "6+",
+            },
+          },
+          {
+            nom: "Secutarius Alpha",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 8,
+              Sf: 9,
+              Vo: 7,
+              Int: 8,
+              Sv: "4+",
+              Inv: "6+",
+            },
+          },
+        ],
+        regles: ["Hommes d'Armes de la Legio"],
+        type: "Secutarius Alpha : Infanterie (Sergent) · Secutarius : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "paire",
+        id: "lanceur-galvanique",
+        libelle:
+          "Toute l'Unité : échanger électrolance et bouclier magnéto-inverseur contre un lanceur galvanique (l'Unité perd alors le Trait Bouclier et gagne le Trait Écran de Fumée)",
+        cout: 0,
+        ajoute: "Lanceur galvanique (toute l'Unité)",
+        remplaceListe: ["Électrolance", "Bouclier magnéto-inverseur"],
+      },
+      {
+        type: "case",
+        id: "grenades-rad",
+        libelle: "Toute l'Unité : grenades Rad",
+        cout: 2,
+        ajoute: "Grenades Rad",
+        parFigurine: true,
+      },
+      {
+        type: "multi",
+        id: "secutarius-alpha-equip",
+        libelle: "Secutarius Alpha : équipement complémentaire",
+        prefixe: "Secutarius Alpha : ",
+        max: 4,
+        choix: [
+          { nom: "Épée énergétique", cout: 0 },
+          { nom: "Électromasse", cout: 0 },
+          { nom: "Serpentine volkite", cout: 2 },
+          { nom: "Électropistolet", cout: 5 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "triaros",
+    nom: "Convoyeur Blindé Triaros",
+    categorie: "Transports Lourds",
+    cout: 200,
+    composition: "1 Triaros",
+    traits: ["[Allégeance]", "Legio Titanicus"],
+    equipement: [
+      "Deux arquebuses volkites d'Axe Central",
+      "Canon à bolts Mauler jumelé sur Pivot",
+      "Bouclier répulsif",
+      "Projecteurs",
+    ],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Triaros",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 12,
+          arriere: 12,
+          PC: 7,
+          transport: 22,
+        },
+        regles: ["Autoréparation (4+)", "Bélier-choc"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "missiles-traqueurs",
+        libelle: "Missiles traqueurs de Coque (Avant)",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur de Coque (Avant)",
+      },
+    ],
+  },
+
+  {
+    id: "titan-warhound",
+    nom: "Titan Warhound",
+    categorie: "Seigneurs des Batailles",
+    cout: 750,
+    composition: "1 Titan Warhound",
+    traits: ["[Allégeance]", "Legio Titanicus", "Titan Éclaireur", "[Équipage]"],
+    equipement: [],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Titan Warhound",
+        cout: 0,
+        profilsVehicule: [
+          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 8, transport: "—" },
+          { nom: "Carapace", M: "—", CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
+          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 12, expose: 10, PC: 8, transport: "—" },
+          { nom: "Jambes", M: 20, CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
+        ],
+        regles: ["Cor Titanique (1)", "Réparateurs (D3)", "Boucliers Void Titaniques (2)"],
+        type: "Véhicule (Titan)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "equipage",
+        libelle: "Remplacer le Trait [Équipage]",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Équipage Minoris", cout: 0 },
+          { nom: "Équipage Senioris (CT 4 au Profil de Bras)", cout: 50 },
+          { nom: "Équipage Majoris (CT 5 au Profil de Bras)", cout: 100 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Arme de Bras (1)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Méga-bolter Vulcan de Bras", cout: 0 },
+          { nom: "Canon Inferno titanique de Bras", cout: 0 },
+          { nom: "Éclateur à plasma titanique de Bras", cout: 0 },
+          { nom: "Destructeur turbo-laser titanique de Bras", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Arme de Bras (2)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Méga-bolter Vulcan de Bras", cout: 0 },
+          { nom: "Canon Inferno titanique de Bras", cout: 0 },
+          { nom: "Éclateur à plasma titanique de Bras", cout: 0 },
+          { nom: "Destructeur turbo-laser titanique de Bras", cout: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "titan-reaver",
+    nom: "Titan Reaver",
+    categorie: "Seigneurs des Batailles",
+    cout: 1500,
+    composition: "1 Titan Reaver",
+    traits: ["[Allégeance]", "Legio Titanicus", "Titan Léger", "[Équipage]"],
+    equipement: ["Lance-missiles Apocalypse de Carapace"],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Titan Reaver",
+        cout: 0,
+        profilsVehicule: [
+          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
+          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 15, expose: 14, PC: 12, transport: "—" },
+          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 10, transport: "—" },
+          { nom: "Jambes", M: 15, CT: "—", principal: 15, expose: 14, PC: 12, transport: "—" },
+        ],
+        regles: [
+          "Cor Titanique (2)",
+          "Réparateurs (D3+1)",
+          "Boucliers Void Titaniques (4)",
+          "Structure Renforcée (1)",
+        ],
+        type: "Véhicule (Titan)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "equipage",
+        libelle: "Remplacer le Trait [Équipage]",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Équipage Minoris", cout: 0 },
+          {
+            nom: "Équipage Senioris (CT 4 aux Profils de Bras et de Carapace)",
+            cout: 100,
+          },
+          {
+            nom: "Équipage Majoris (CT 5 aux Profils de Bras et de Carapace)",
+            cout: 200,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Arme de Bras (1)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Éclateur gatling titanique de Bras", cout: 0 },
+          { nom: "Éclateur laser titanique de Bras", cout: 0 },
+          { nom: "Canon à fusion titanique de Bras", cout: 0 },
+          { nom: "Poing énergétique titanique de Bras", cout: 0 },
+          { nom: "Canon Volcano titanique de Bras", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Arme de Bras (2)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Éclateur gatling titanique de Bras", cout: 0 },
+          { nom: "Éclateur laser titanique de Bras", cout: 0 },
+          { nom: "Canon à fusion titanique de Bras", cout: 0 },
+          { nom: "Poing énergétique titanique de Bras", cout: 0 },
+          { nom: "Canon Volcano titanique de Bras", cout: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "titan-warbringer-nemesis",
+    nom: "Titan Warbringer Némésis",
+    categorie: "Seigneurs des Batailles",
+    cout: 2000,
+    composition: "1 Titan Warbringer Némésis",
+    traits: ["[Allégeance]", "Legio Titanicus", "Titan Moyen", "[Équipage]"],
+    equipement: [
+      "Deux autocanons Defensor (Carapace)",
+      "Deux canons à bolts Defensor (Avant)",
+      "Un canon à bolts Defensor (Arrière)",
+    ],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Titan Warbringer Némésis",
+        cout: 0,
+        profilsVehicule: [
+          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 12, transport: "—" },
+          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 16, expose: 14, PC: 18, transport: "—" },
+          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 12, transport: "—" },
+          { nom: "Jambes", M: 10, CT: "—", principal: 15, expose: 14, PC: 14, transport: "—" },
+        ],
+        regles: [
+          "Cor Titanique (3)",
+          "Réparateurs (D6)",
+          "Boucliers Void Titaniques (6)",
+          "Structure Renforcée (2)",
+        ],
+        type: "Véhicule (Titan)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "equipage",
+        libelle: "Remplacer le Trait [Équipage]",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Équipage Minoris", cout: 0 },
+          {
+            nom: "Équipage Senioris (CT 4 aux Profils de Bras et de Carapace)",
+            cout: 200,
+          },
+          {
+            nom: "Équipage Majoris (CT 5 aux Profils de Bras et de Carapace)",
+            cout: 350,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "axe-median",
+        libelle: "Arme d'Axe Médian",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Canon sismique Némésis d'Axe Médian", cout: 0 },
+          { nom: "Canon Volcano Némésis d'Axe Médian", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Arme de Bras (1)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Éclateur gatling titanique de Bras", cout: 0 },
+          { nom: "Éclateur laser titanique de Bras", cout: 0 },
+          { nom: "Canon Volcano titanique de Bras", cout: 0 },
+          { nom: "Canon à fusion titanique de Bras", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Arme de Bras (2)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Éclateur gatling titanique de Bras", cout: 0 },
+          { nom: "Éclateur laser titanique de Bras", cout: 0 },
+          { nom: "Canon Volcano titanique de Bras", cout: 0 },
+          { nom: "Canon à fusion titanique de Bras", cout: 0 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "titan-warlord",
+    nom: "Titan Warlord",
+    categorie: "Seigneurs des Batailles",
+    cout: 3000,
+    composition: "1 Titan Warlord",
+    traits: ["[Allégeance]", "Legio Titanicus", "Titan Moyen", "[Équipage]"],
+    equipement: [
+      "Deux canons à bolts Defensor (Avant)",
+      "Deux canons laser Defensor (Arrière)",
+    ],
+    faction: "legio-titanicus",
+    variantes: [
+      {
+        nom: "Titan Warlord",
+        cout: 0,
+        profilsVehicule: [
+          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 14, transport: "—" },
+          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 15, expose: 14, PC: 18, transport: "—" },
+          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 14, transport: "—" },
+          { nom: "Jambes", M: 12, CT: "—", principal: 15, expose: 14, PC: 16, transport: "—" },
+        ],
+        regles: [
+          "Cor Titanique (4)",
+          "Réparateurs (D6+1)",
+          "Boucliers Void Titaniques (8)",
+          "Structure Renforcée (3)",
+        ],
+        type: "Véhicule (Titan)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "equipage",
+        libelle: "Remplacer le Trait [Équipage]",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Équipage Minoris", cout: 0 },
+          {
+            nom: "Équipage Senioris (CT 4 aux Profils de Bras et de Carapace)",
+            cout: 300,
+          },
+          {
+            nom: "Équipage Majoris (CT 5 aux Profils de Bras et de Carapace)",
+            cout: 500,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "carapace",
+        libelle: "Armes de Carapace",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Deux lance-missiles Apocalypse de Carapace", cout: 0 },
+          { nom: "Deux éclateurs laser titaniques de Carapace", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Arme de Bras (1)",
+        ajoute: true,
+        obligatoire: true,
+        // Verrouillée par le combo Griffe énergétique Arioch/Méga-
+        // bolter Vulcan (option "bras-arioch-combo" ci-dessous), qui
+        // occupe à lui seul les deux emplacements d'Arme de Bras.
+        desactiveSiOptionActive: "bras-arioch-combo",
+        choix: [
+          { nom: "Canon sismique Mori de Bras", cout: 0 },
+          { nom: "Canon Volcano Belicosa de Bras", cout: 0 },
+          { nom: "Macro-éclateur gatling de Bras", cout: 0 },
+          { nom: "Annihilateur à plasma Sunfury de Bras", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Arme de Bras (2)",
+        ajoute: true,
+        obligatoire: true,
+        desactiveSiOptionActive: "bras-arioch-combo",
+        choix: [
+          { nom: "Canon sismique Mori de Bras", cout: 0 },
+          { nom: "Canon Volcano Belicosa de Bras", cout: 0 },
+          { nom: "Macro-éclateur gatling de Bras", cout: 0 },
+          { nom: "Annihilateur à plasma Sunfury de Bras", cout: 0 },
+        ],
+      },
+      {
+        // Chargement combiné occupant à lui seul les deux emplacements
+        // d'Arme de Bras (« ces deux Armes comptent comme un seul
+        // choix ») : verrouille bras-1 et bras-2 (desactiveSiOptionActive
+        // ci-dessus) tant qu'il est coché, au lieu d'un simple rappel
+        // textuel — contrainte appliquée, pas seulement documentée.
+        type: "case",
+        id: "bras-arioch-combo",
+        libelle:
+          "Les deux Armes de Bras : Griffe énergétique Arioch avec un Méga-bolter Vulcan (remplace les deux choix d'Arme de Bras ci-dessus)",
+        cout: 0,
+        ajoute:
+          "Griffe énergétique Arioch de Bras avec un Méga-bolter Vulcan de Bras (les deux Bras)",
+      },
+    ],
   },
 ];

@@ -78,6 +78,19 @@ const ENTETES_VEHICULE = [
   "PC",
   "Capacité de Transport",
 ];
+// Profil de Titan (Legio Titanicus) : une ligne par Profil (Tête,
+// Carapace, Bras, Jambes…), chacune avec son propre Blindage
+// Principal/Exposé — à ne pas confondre avec le profil de véhicule
+// standard (une seule ligne, Avant/Flanc/Arrière). Voir `profilsVehicule`
+// dans js/unites-data.js et construireTableProfil ci-dessous.
+const ENTETES_TITAN = [
+  "M",
+  "CT",
+  "Blindage Principal",
+  "Blindage Exposé",
+  "PC",
+  "Capacité de Transport",
+];
 
 // Ordre d'affichage des catégories dans le menu de sélection,
 // indépendant de leur ordre d'apparition dans UNITES. Une catégorie
@@ -146,6 +159,36 @@ function estPersonnageNomme(unite) {
    entre-temps (elle redevient alors non disponible pour un second
    ajout, comme n'importe quelle unité déjà présente). */
 function uniteAccessible(unite) {
+  // Faction réservée (champ `faction`, ex : "legio-titanicus") : sans ce
+  // champ, une unité reste réservée à Legio Astartes (livre d'armée
+  // transcrit ici depuis le début). Tant que l'organigramme n'est pas
+  // prêt (restauration initiale), on suppose Legio Astartes — la
+  // valeur par défaut de l'état (js/organigramme.js) — pour ne pas
+  // masquer les unités Legio Astartes à ce moment-là.
+  // Exception (livre d'armée Legio Titanicus) : un Titan (Rôle
+  // Tactique Seigneurs des Batailles, Faction Legio Titanicus) reste
+  // accessible quelle que soit la Faction de l'Armée, car le
+  // Détachement de Seigneur des Batailles accepte n'importe quelle
+  // Faction (`factionLibre` dans js/organigramme-data.js) — c'est la
+  // façon d'aligner un Titan isolé dans une Armée qui remplit son
+  // Détachement Principal selon une autre Liste d'Armée. À sens
+  // UNIQUE : une unité Seigneurs des Batailles Legio Astartes (ex :
+  // Fellblade) reste réservée à Legio Astartes comme toute autre
+  // unité de ce livre — sous Legio Titanicus, seuls les Titans
+  // apparaissent dans ce Rôle Tactique. caseAccepte()
+  // (js/organigramme.js) reste seul juge du placement réel (ex :
+  // aucune unité Legio Titanicus dans ce détachement si le
+  // Détachement Principal est l'Ordinal Titanique, voir sa règle 1).
+  const factionActuelle =
+    orgaPret && typeof Organigramme !== "undefined"
+      ? Organigramme.factionActuelle()
+      : "legio-astartes";
+  const factionUnite = unite.faction || "legio-astartes";
+  if (
+    factionActuelle !== factionUnite &&
+    !(unite.categorie === "Seigneurs des Batailles" && factionUnite === "legio-titanicus")
+  )
+    return false;
   if (unite.legion) {
     if (!orgaPret || typeof Organigramme === "undefined") return false;
     const legionOk =
@@ -229,11 +272,26 @@ function quantiteUtilisee(unite, instance, opt) {
   return total;
 }
 
-// Une option est-elle accessible à la variante choisie ?
+/* Une option est-elle accessible à la variante choisie, et pas
+   verrouillée par une AUTRE option de la même unité ?
+   `desactiveSiOptionActive: idOption` verrouille complètement cette
+   option (aucune contribution à l'équipement ni au coût, champ grisé
+   et remis à zéro par synchroniserConfig) tant que l'option visée
+   est active — ex : Titan Warlord, Griffe énergétique Arioch avec
+   Méga-bolter Vulcan (une seule Arme de Bras occupant les deux
+   emplacements) verrouille les deux choix d'Arme de Bras normaux
+   tant qu'elle est cochée (voir js/unites-data.js). Centralisé ici
+   car optionPermise est déjà le filtre commun à equipementFinal,
+   coutInstance ET optionRealisable. */
 function optionPermise(opt, instance) {
-  return !(
-    opt.variantesExclues && opt.variantesExclues.includes(instance.variante)
-  );
+  if (opt.variantesExclues && opt.variantesExclues.includes(instance.variante))
+    return false;
+  if (
+    opt.desactiveSiOptionActive &&
+    instance.valeurs[opt.desactiveSiOptionActive]
+  )
+    return false;
+  return true;
 }
 
 /* Équipement final d'une instance : équipement de départ, puis
@@ -534,6 +592,27 @@ function construireTableProfil(unite, instance) {
         valeurs: [p.M, p.CT, p.avant, p.flanc, p.arriere, p.PC, p.transport],
       },
     ];
+  } else if (variante.profilsVehicule) {
+    // Profil de Titan : la CT des Profils de Bras (et de Carapace au-
+    // delà du Warhound) dépend de l'Équipage choisi (option "choix"
+    // obligatoire id "equipage", indice 0/1/2 = Minoris/Senioris/
+    // Majoris — voir js/unites-data.js). `ctParEquipage`, sur les
+    // seuls Profils concernés, donne la CT pour chacun des 3 indices ;
+    // les Profils sans CT (Tête, Jambes) n'ont pas ce champ et gardent
+    // simplement leur `CT` de base ("—").
+    const equipageIdx =
+      instance.valeurs && typeof instance.valeurs.equipage === "number"
+        ? instance.valeurs.equipage
+        : 0;
+    entetes = [""].concat(ENTETES_TITAN);
+    lignes = variante.profilsVehicule.map((p) => {
+      const ct = p.ctParEquipage ? p.ctParEquipage[equipageIdx] : p.CT;
+      return {
+        libelle: p.nom,
+        valeurs: [p.M, ct, p.principal, p.expose, p.PC, p.transport || "—"],
+        ctEquipageModifiee: !!(p.ctParEquipage && equipageIdx > 0),
+      };
+    });
   } else if (variante.profils) {
     entetes = [""].concat(ENTETES_PROFIL);
     lignes = variante.profils.map((p) => ({
@@ -578,7 +657,10 @@ function construireTableProfil(unite, instance) {
       // Les bonus d'Avantages Principaux ne portent que sur des
       // caractéristiques d'infanterie (A, CC, Cd, CT) : les colonnes
       // de profilVehicule n'ont pas la même signification à index égal.
-      const car = variante.profilVehicule ? null : ENTETES_PROFIL[indiceCol];
+      const car =
+        variante.profilVehicule || variante.profilsVehicule
+          ? null
+          : ENTETES_PROFIL[indiceCol];
       const td = el("td", null, String(v));
       if (
         car &&
@@ -587,6 +669,13 @@ function construireTableProfil(unite, instance) {
         const avantage = AVANTAGES_PRINCIPAUX.find((a) => a.id === avantageId);
         td.className = "profil-bonus";
         if (avantage) td.title = "Bonus « " + avantage.nom + " »";
+      } else if (
+        variante.profilsVehicule &&
+        indiceCol === 1 &&
+        ligne.ctEquipageModifiee
+      ) {
+        td.className = "profil-bonus";
+        td.title = "CT modifiée par l'Équipage";
       }
       tr.appendChild(td);
     });
@@ -1403,33 +1492,67 @@ function actualiserTotal() {
    est signalée en erreur : les règles imposent qu'une unité occupe
    une Case de l'Organigramme de Force (p. 282).
    ---------------------------------------------------------- */
+// id de l'unité proposée par défaut dans « Unité à ajouter » avant
+// toute saisie/sélection, selon la Faction actuelle (etat.faction,
+// js/organigramme.js) : Praetor (Quartier Général générique) pour
+// Legio Astartes, Titan Warlord pour Legio Titanicus. Une Faction sans
+// valeur dédiée ici retombe sur la première unité disponible (voir
+// initialiserChoixUnite, qui construit la liste réellement affichée).
+// Contrairement à uniteAccessible ci-dessus, pas de garde `orgaPret` :
+// Organigramme (le module) existe déjà quand ce fichier s'exécute
+// (chargé avant, voir organigramme.js), que sa méthode initialiser()
+// ait déjà tourné ou non — seule la valeur d'etat.faction qu'elle
+// renvoie change (valeur par défaut avant restauration, restaurée
+// ensuite). Sans ce calcul immédiat, une Faction Legio Titanicus
+// restaurée depuis une session précédente resterait affichée comme
+// Praetor le temps d'une interaction supplémentaire.
+function idUniteParDefautPourFaction() {
+  const faction = Organigramme.factionActuelle();
+  return faction === "legio-titanicus" ? "titan-warlord" : "praetor";
+}
+
+// Rebranché par initialiserChoixUnite() sur sa propre sélection par
+// défaut : appelé ici (actualiserVerrouLegion) quand la Faction change
+// réellement, pour que « Unité à ajouter » propose Titan Warlord (et
+// non plus Praetor) dès qu'on choisit Legio Titanicus, sans effacer la
+// recherche en cours à chaque rafraîchissement non lié à la Faction.
+let derniereFactionCombobox = null;
+let reinitialiserChoixUniteParDefaut = () => {};
+
 // Tant qu'aucune Légion n'est choisie dans les paramètres de la partie
-// (js/organigramme.js), les unités qui lui sont propres ne peuvent pas
-// être identifiées (voir uniteAccessible) : on bloque donc la sélection
-// d'unité en amont plutôt que de laisser un menu incomplet ou trompeur.
+// (js/organigramme.js) POUR UNE ARMÉE LEGIO ASTARTES, les unités qui
+// lui sont propres ne peuvent pas être identifiées (voir
+// uniteAccessible) : on bloque donc la sélection d'unité en amont
+// plutôt que de laisser un menu incomplet ou trompeur. Les autres
+// Factions transcrites (Legio Titanicus) n'ont pas de notion de
+// Légion : leur sélection d'unité se débloque dès la Faction choisie.
 // Rappelé à chaque actualiserSelectsCases (callback surChangement de
-// l'organigramme), donc à chaque changement de Légion.
+// l'organigramme), donc à chaque changement de Légion ou de Faction.
 function actualiserVerrouLegion() {
   const champUnite = document.getElementById("choix-unite");
   const boutonUnite = document.getElementById("choix-unite-bouton");
   const boutonUnite2 = document.getElementById("ajouter-unite");
-  const legionChoisie = Organigramme.legionActuelle() !== "";
-  champUnite.disabled = !legionChoisie;
-  boutonUnite.disabled = !legionChoisie;
-  boutonUnite2.disabled = !legionChoisie;
-  if (!legionChoisie) {
+  const factionActuelle = Organigramme.factionActuelle();
+  if (factionActuelle !== derniereFactionCombobox) {
+    derniereFactionCombobox = factionActuelle;
+    reinitialiserChoixUniteParDefaut();
+  }
+  const legionRequise = factionActuelle === "legio-astartes";
+  const peutAjouter = !legionRequise || Organigramme.legionActuelle() !== "";
+  champUnite.disabled = !peutAjouter;
+  boutonUnite.disabled = !peutAjouter;
+  boutonUnite2.disabled = !peutAjouter;
+  if (!peutAjouter) {
     document.getElementById("choix-unite-liste").hidden = true;
     champUnite.setAttribute("aria-expanded", "false");
   }
+  const messageVerrou =
+    "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités.";
   const messageAjout = document.getElementById("ajout-message");
-  if (!legionChoisie) {
-    messageAjout.textContent =
-      "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités.";
+  if (!peutAjouter) {
+    messageAjout.textContent = messageVerrou;
     messageAjout.hidden = false;
-  } else if (
-    messageAjout.textContent ===
-    "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités."
-  ) {
+  } else if (messageAjout.textContent === messageVerrou) {
     messageAjout.hidden = true;
   }
 }
@@ -2197,14 +2320,26 @@ function initialiserChoixUnite() {
   const libelle = (unite) => unite.nom + " — " + unite.cout + " pts";
   const idOption = (unite) => "choix-unite-option-" + unite.id;
 
-  // Praetor par défaut (unité HQ générique) plutôt que la première
-  // entrée du tableau, qui dépend juste de l'ordre des catégories.
-  const premiereUnite =
-    entrees.find((e) => e.unite && e.unite.id === "praetor") ||
-    entrees.find((e) => e.unite);
-  let uniteId = premiereUnite ? premiereUnite.unite.id : null;
+  let uniteId = null;
   let visibles = entrees; // sous-ensemble d'`entrees` correspondant à la recherche courante
   let indiceActif = -1; // indice dans les options visibles (hors en-têtes)
+
+  // Sélection par défaut avant toute saisie/sélection, dépendante de
+  // la Faction (idUniteParDefautPourFaction : Praetor pour Legio
+  // Astartes, Titan Warlord pour Legio Titanicus) plutôt que fixée une
+  // fois pour toutes à la première entrée du tableau — sinon elle
+  // dépendrait juste de l'ordre des catégories. Rebranchée sur
+  // reinitialiserChoixUniteParDefaut (module) pour être rappelée par
+  // actualiserVerrouLegion à chaque changement de Faction réel.
+  function reinitialiserSelectionParDefaut() {
+    const idVoulu = idUniteParDefautPourFaction();
+    const defaut =
+      entrees.find((e) => e.unite && e.unite.id === idVoulu) ||
+      entrees.find((e) => e.unite);
+    uniteId = defaut ? defaut.unite.id : null;
+    if (defaut) champ.value = libelle(defaut.unite);
+  }
+  reinitialiserChoixUniteParDefaut = reinitialiserSelectionParDefaut;
 
   // La normalisation (accents, casse) est assurée par normaliserTexte,
   // partagée par toutes les barres de recherche du site (js/main.js).
@@ -2394,7 +2529,14 @@ function initialiserChoixUnite() {
     if (unite) champ.value = libelle(unite);
   });
 
-  if (premiereUnite) champ.value = libelle(premiereUnite.unite);
+  reinitialiserSelectionParDefaut();
+  // Évite qu'actualiserVerrouLegion() ne rappelle inutilement
+  // reinitialiserSelectionParDefaut() dès son premier passage : on
+  // vient de faire l'équivalent ci-dessus, pour la Faction actuelle.
+  derniereFactionCombobox =
+    orgaPret && typeof Organigramme !== "undefined"
+      ? Organigramme.factionActuelle()
+      : "legio-astartes";
 
   return () => trouverUnite(uniteId);
 }
@@ -2410,8 +2552,14 @@ function initialiser() {
 
   boutonAjouter.addEventListener("click", () => {
     // Filet de sécurité : le bouton est normalement désactivé tant
-    // qu'aucune Légion n'est choisie (voir actualiserVerrouLegion).
-    if (Organigramme.legionActuelle() === "") return;
+    // qu'aucune Légion n'est choisie pour une Armée Legio Astartes (voir
+    // actualiserVerrouLegion) — les autres Factions transcrites (Legio
+    // Titanicus) n'ont pas cette notion.
+    if (
+      Organigramme.factionActuelle() === "legio-astartes" &&
+      Organigramme.legionActuelle() === ""
+    )
+      return;
     const unite = uniteChoisie();
     if (!unite) return;
     // Filet de sécurité : la sélection du champ peut dater d'avant un

@@ -56,6 +56,27 @@
                  choisie dans les paramètres de la partie, comme les
                  unités réservées de js/unites-data.js. Absent =
                  disponible pour toutes les Légions.
+     faction   : id FACTIONS (js/organigramme.js) réservant ce type à
+                 une seule Faction (ex : Ordinal Titanique, réservé à
+                 Legio Titanicus) — entièrement MASQUÉ tant que cette
+                 Faction n'est pas choisie dans les paramètres de la
+                 partie. Absent = même défaut que les unités sans
+                 champ `faction` (js/unites-data.js) : réservé à Legio
+                 Astartes (comportement historique de ce fichier, qui
+                 ne couvre que les Legiones Astartes en dehors de
+                 l'Ordinal Titanique). Vérifié par caseAccepte(),
+                 construireAjoutDetachements() et suggestionPourRole()
+                 dans js/organigramme.js.
+     factionLibre : true — dispense ce type de la vérification de
+                 Faction ci-dessus (accepte des unités de n'importe
+                 quelle Faction, et reste proposé quelle que soit la
+                 Faction choisie) : Détachement de Seigneur des
+                 Batailles (« un Titan Legio Titanicus peut prendre
+                 place dans un Détachement de Seigneur des Batailles
+                 d'une Armée d'une autre Faction », livre d'armée Legio
+                 Titanicus) et Détachement Allié (mélange déjà permis
+                 entre Légions ; le mélange entre Factions n'a pas de
+                 sélecteur dédié — limitation assumée, voir caseAccepte).
      requiertAllegeance : "loyaliste" | "renegat" — condition de
                  composition sur l'Armée entière (etat.allegeance,
                  menu Allégeance des paramètres de la partie), grisée
@@ -234,6 +255,47 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachement Principal de Legio Titanicus ----------
+     Livre d'armée Legio Titanicus. Deuxième façon (avec le Titan
+     isolé en Détachement de Seigneur des Batailles, voir plus bas)
+     d'aligner des Unités de la Liste d'Armée de Legio Titanicus :
+     1 Seigneur des Batailles, 1 État-major, 4 Troupes, 4 Transports
+     Lourds — masqué tant que la Faction Legio Titanicus n'est pas
+     choisie (`faction`, voir MODÈLE DE DONNÉES en tête de fichier).
+     Seules des Unités au Trait de Faction Legio Titanicus peuvent
+     occuper ses Cases (appliqué par caseAccepte() dans
+     js/organigramme.js, via le champ `faction` des unités de
+     js/unites-data.js) ; toute autre Faction n'y entre que par un
+     Détachement Allié.
+     Ignore le quota combiné Seigneur de Guerre + Seigneur des
+     Batailles (25 % de la Limite de Points) : un Titan peut à lui
+     seul consommer tous les Points disponibles (appliqué par
+     validerArmee() dans js/organigramme.js). */
+  {
+    id: "ordinal-titanique",
+    nom: "Ordinal Titanique",
+    famille: "principal",
+    faction: "legio-titanicus",
+    max: 1,
+    texte:
+      "Obligatoire et unique pour une Armée Legio Titanicus. 1 Case Seigneur des Batailles, 1 Case État-major, 4 Cases Troupes, 4 Cases Transports Lourds — toutes réservées au Trait de Faction Legio Titanicus. Ignore le quota des 25 % Seigneur de Guerre + Seigneur des Batailles : un seul choix de Seigneur des Batailles peut consommer tous les Points de l'Armée. Un Détachement de Seigneur des Batailles peut être ajouté en plus, mais ne peut alors inclure aucune Unité Legio Titanicus.",
+    // Pas de Case Principale (choix de Jean) : contrairement au
+    // Détachement Principal de Croisade, l'Ordinal Titanique n'a pas
+    // de symbole étoilé sur son organigramme.
+    cases: [
+      _caseOrga("Seigneurs des Batailles"),
+      _caseOrga("État-major"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
+    ],
+  },
+
   /* ---------- Détachements Additionnels (p. 283-284) ---------- */
   {
     id: "seigneur-guerre",
@@ -257,8 +319,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Détachement de Seigneur des Batailles",
     famille: "additionnel",
     max: 1, // p. 283 : « un seul détachement de Seigneur des Batailles »
+    factionLibre: true, // livre d'armée Legio Titanicus, voir MODÈLE DE DONNÉES
     texte:
-      "Un seul par armée, de n'importe quelle Faction. Le coût total des unités de Rôle Seigneur de Guerre + Seigneur des Batailles ne doit pas dépasser 25 % de la Limite de Points (quota combiné, arrondi à l'entier supérieur).",
+      "Un seul par armée, de n'importe quelle Faction. Le coût total des unités de Rôle Seigneur de Guerre + Seigneur des Batailles ne doit pas dépasser 25 % de la Limite de Points (quota combiné, arrondi à l'entier supérieur). Avec l'Ordinal Titanique (Détachement Principal) comme Détachement Principal, ne peut inclure aucune Unité Legio Titanicus.",
     cases: [
       _caseOrga("Seigneurs des Batailles"),
       _caseOrga("Seigneurs des Batailles"),
@@ -268,6 +331,7 @@ const TYPES_DETACHEMENTS = [
     id: "allie",
     nom: "Détachement Allié",
     famille: "additionnel",
+    factionLibre: true, // voir MODÈLE DE DONNÉES : mélange de Factions non modélisé finement
     texte:
       "Nombre libre. Chaque Légion Astartes compte comme une Faction distincte : ce Détachement doit donc porter une Légion différente de celle du Détachement Principal (menu « Légion Alliée » sur sa carte). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [

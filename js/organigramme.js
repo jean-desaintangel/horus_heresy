@@ -36,7 +36,7 @@
 const Organigramme = (() => {
   let etat = {
     limite: 3000, // Limite de points
-    armee: "legio-astartes", // id ARMEES (seule Legio Astartes est jouable pour l'instant)
+    faction: "legio-astartes", // id FACTIONS (seule Legio Astartes est jouable pour l'instant)
     allegeance: "loyaliste", // "loyaliste" | "renegat" (Vrais Croyants)
     legion: "", // id LEGIONS ou "" (Choisir Légion)
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
@@ -48,16 +48,16 @@ const Organigramme = (() => {
   // Retirer l'entrée ici suffit à réactiver la sélection.
   const LEGIONS_INDISPONIBLES = [];
 
-  // Types d'armée du menu « Armée » (p. 282) : seule Legio Astartes est
-  // transcrite pour l'instant, les autres restent grisées en attendant
-  // leur livre d'armée respectif.
-  const ARMEES = [
+  // Factions du menu « Faction » (p. 282, « Armée » au Livre de Règles) :
+  // Legio Astartes et Legio Titanicus sont transcrites, les autres
+  // restent grisées en attendant leur livre d'armée respectif.
+  const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
+    ["legio-titanicus", "Legio Titanicus", true],
     ["legio-custodes", "Legio Custodes", false],
-    ["legio-titanicus", "Legio Titanicus", false],
-    ["chevaliers-questoris", "Chevaliers Questoris", false],
     ["solar-auxilia", "Solar Auxilia", false],
     ["mechanicum", "Mechanicum", false],
+    ["chevaliers-questoris", "Chevaliers Questoris", false],
   ];
 
   const LEGIONS = [
@@ -336,6 +336,26 @@ const Organigramme = (() => {
     return typeParId(det.typeId);
   }
 
+  // id du type de Détachement Principal correspondant à la Faction
+  // actuelle (etat.faction) : "principal" (Legiones Astartes) ou
+  // "ordinal-titanique" (Legio Titanicus, livre d'armée Legio
+  // Titanicus). Consommé partout où le Détachement Principal était
+  // jusqu'ici codé en dur sous l'id "principal" (initialiser,
+  // reinitialiserArmeeAvecConfirmation).
+  function idDetachementPrincipal() {
+    return etat.faction === "legio-titanicus" ? "ordinal-titanique" : "principal";
+  }
+
+  // Ce type de Détachement doit-il être proposé/accepté pour la Faction
+  // actuelle (etat.faction) ? Même règle par défaut que caseAccepte()
+  // pour les unités : `factionLibre` dispense de la vérification,
+  // sinon le type est réservé à `faction` (ou à Legio Astartes si ce
+  // champ est absent, voir MODÈLE DE DONNÉES dans organigramme-data.js).
+  // Utilisé par construireAjoutDetachements() et suggestionPourRole().
+  function typeDisponiblePourFaction(type) {
+    return type.factionLibre || (type.faction || "legio-astartes") === etat.faction;
+  }
+
   function trouverDetachement(uid) {
     return etat.detachements.find((d) => d.uid === uid);
   }
@@ -423,7 +443,31 @@ const Organigramme = (() => {
         Escouades de Reconnaissance uniquement). */
   function caseAccepte(det, caseOrga, unite) {
     const type = typeDe(det);
-    // Faction (p. 283) : une unité réservée à une Légion (champ
+    // Faction (champ `faction`, js/unites-data.js — Legio Astartes vs
+    // Legio Titanicus etc., à ne pas confondre avec la Légion Astartes
+    // ci-dessous) : une unité n'occupe une Case que dans un détachement
+    // de SA Faction — celle de l'Armée (etat.faction) pour tout
+    // détachement non `factionLibre`. Exceptions (livre d'armée Legio
+    // Titanicus) :
+    // - `factionLibre` (Détachement de Seigneur des Batailles, Allié) :
+    //   accepte toute Faction, SAUF qu'un Détachement de Seigneur des
+    //   Batailles ne peut inclure aucune unité Legio Titanicus tant que
+    //   le Détachement Principal de l'Armée est l'Ordinal Titanique
+    //   (règle 1 de l'Ordinal Titanique — sinon, un Titan isolé DANS ce
+    //   détachement est justement la façon d'en aligner un sans lui).
+    const factionUnite = unite.faction || "legio-astartes";
+    if (type.factionLibre) {
+      if (
+        type.id === "seigneur-batailles" &&
+        factionUnite === "legio-titanicus" &&
+        etat.faction === "legio-titanicus"
+      ) {
+        return false;
+      }
+    } else if (factionUnite !== (type.faction || "legio-astartes")) {
+      return false;
+    }
+    // Légion (p. 283) : une unité réservée à une Légion (champ
     // `legion`, js/unites-data.js) ne peut occuper une Case que dans un
     // détachement de SA Légion — celle de l'Armée (Principal, Seigneur
     // de Guerre/des Batailles, Auxiliaires, Apex), ou celle propre au
@@ -865,9 +909,13 @@ const Organigramme = (() => {
     }
 
     // 2. Quota combiné Seigneur de Guerre + Seigneur des Batailles (p. 283).
+    // Ignoré pour une Armée dont le Détachement Principal est l'Ordinal
+    // Titanique (livre d'armée Legio Titanicus) : un seul choix de
+    // Seigneur des Batailles peut alors consommer tous les Points.
     const seigneurs = coutSeigneurs();
     const plafond25 = Math.ceil(etat.limite * 0.25);
-    if (etat.limite >= 3000 && seigneurs > plafond25) {
+    const quotaSeigneursIgnore = idDetachementPrincipal() === "ordinal-titanique";
+    if (!quotaSeigneursIgnore && etat.limite >= 3000 && seigneurs > plafond25) {
       erreurs.push(
         "Quota Seigneur de Guerre + Seigneur des Batailles dépassé : " +
           seigneurs +
@@ -877,6 +925,7 @@ const Organigramme = (() => {
       );
     }
     if (
+      !quotaSeigneursIgnore &&
       etat.limite < 3000 &&
       seigneurs > 0 &&
       seigneurs >= etat.limite * 0.25
@@ -1315,7 +1364,7 @@ const Organigramme = (() => {
         CLE_STOCKAGE_ORGA,
         JSON.stringify({
           limite: etat.limite,
-          armee: etat.armee,
+          faction: etat.faction,
           allegeance: etat.allegeance,
           legion: etat.legion,
           riteDeGuerre: etat.riteDeGuerre,
@@ -1345,10 +1394,10 @@ const Organigramme = (() => {
       if (Number.isInteger(donnees.limite) && donnees.limite > 0)
         etat.limite = donnees.limite;
       if (
-        typeof donnees.armee === "string" &&
-        ARMEES.some(([v, , disponible]) => v === donnees.armee && disponible)
+        typeof donnees.faction === "string" &&
+        FACTIONS.some(([v, , disponible]) => v === donnees.faction && disponible)
       ) {
-        etat.armee = donnees.armee;
+        etat.faction = donnees.faction;
       }
       if (
         donnees.allegeance === "renegat" ||
@@ -1509,13 +1558,15 @@ const Organigramme = (() => {
      confirmation de l'utilisateur si l'Armée ou les détachements
      sélectionnés ne sont pas déjà vides. Retourne true si la
      réinitialisation a eu lieu (ou n'était pas nécessaire), false si
-     l'utilisateur a annulé. Partagée par les menus Légion et Rite de
-     Guerre ci-dessous (construireParametres), dont un changement rend
-     invalides les unités/détachements propres à l'ancienne valeur. */
+     l'utilisateur a annulé. Partagée par les menus Faction, Légion et
+     Rite de Guerre ci-dessous (construireParametres), dont un
+     changement rend invalides les unités/détachements propres à
+     l'ancienne valeur. */
   function reinitialiserArmeeAvecConfirmation(message) {
+    const idPrincipal = idDetachementPrincipal();
     const armeeNonVide = hooks.getArmee().length > 0;
     const detachementsSupp = etat.detachements.some(
-      (d) => d.typeId !== "principal",
+      (d) => d.typeId !== idPrincipal,
     );
     if (!armeeNonVide && !detachementsSupp) return true;
     if (!window.confirm(message)) return false;
@@ -1523,7 +1574,7 @@ const Organigramme = (() => {
       for (const instance of [...hooks.getArmee()])
         hooks.retirerInstance(instance.uid);
     }
-    etat.detachements = [creerDetachement("principal")];
+    etat.detachements = [creerDetachement(idPrincipal)];
     return true;
   }
 
@@ -1595,131 +1646,168 @@ const Organigramme = (() => {
     });
     ligne.appendChild(groupeParametre(labelLimite, champLimite));
 
-    // Armée (p. 282) : seule Legio Astartes est transcrite pour l'instant,
-    // les autres options restent grisées (ARMEES, ci-dessus).
-    const labelArmee = el("label", null, "Armée");
-    const selectArmee = document.createElement("select");
-    selectArmee.id = "armee-jeu";
-    labelArmee.htmlFor = selectArmee.id;
-    for (const [valeur, texte, disponible] of ARMEES) {
-      const opt = ajouterOption(selectArmee, valeur, texte);
+    // Faction (p. 282) : Legio Astartes et Legio Titanicus sont
+    // transcrites, les autres options restent grisées (FACTIONS,
+    // ci-dessus).
+    const labelFaction = el("label", null, "Faction");
+    const selectFaction = document.createElement("select");
+    selectFaction.id = "faction-jeu";
+    labelFaction.htmlFor = selectFaction.id;
+    for (const [valeur, texte, disponible] of FACTIONS) {
+      const opt = ajouterOption(selectFaction, valeur, texte);
       opt.disabled = !disponible;
     }
-    selectArmee.value = etat.armee;
-    selectArmee.addEventListener("change", () => {
-      etat.armee = selectArmee.value;
+    selectFaction.value = etat.faction;
+    selectFaction.addEventListener("change", () => {
+      const nouvelleFaction = selectFaction.value;
+      if (nouvelleFaction !== etat.faction) {
+        // Les unités et le Détachement Principal d'une Faction ne sont
+        // pas ceux d'une autre (champ `faction` dans js/unites-data.js,
+        // Ordinal Titanique/Détachement Principal de Croisade) : un
+        // changement de Faction repart donc d'une liste et d'un
+        // organigramme vierges. Appelé AVANT d'écrire etat.faction, pour
+        // que reinitialiserArmeeAvecConfirmation compare encore à
+        // l'ancien Détachement Principal (et en recrée un du même type,
+        // aussitôt remplacé ci-dessous par celui de la nouvelle Faction).
+        if (
+          !reinitialiserArmeeAvecConfirmation(
+            "Changer de Faction réinitialise la liste d'armée et les " +
+              "détachements sélectionnés. Continuer ?",
+          )
+        ) {
+          selectFaction.value = etat.faction;
+          return;
+        }
+        etat.faction = nouvelleFaction;
+        etat.detachements = [creerDetachement(idDetachementPrincipal())];
+        // Légion et Rite de Guerre n'ont de sens que pour Legio
+        // Astartes : ils repartent à zéro, comme la liste d'armée.
+        etat.legion = "";
+        etat.riteDeGuerre = "";
+      }
       actualiser();
     });
-    ligne.appendChild(groupeParametre(labelArmee, selectArmee));
+    ligne.appendChild(groupeParametre(labelFaction, selectFaction));
 
     // Rite de Guerre actif (RITES_DE_GUERRE, js/organigramme-data.js) :
     // certains imposent l'Allégeance de l'Armée (`allegeanceForcee`),
-    // ce qui verrouille le menu Allégeance ci-dessous.
+    // ce qui verrouille le menu Allégeance ci-dessous. Calculé même
+    // hors Legio Astartes (etat.legion vaut alors toujours "", donc
+    // ritesLegion reste vide) : allegeanceForcee doit être défini avant
+    // le menu Allégeance plus bas, qui le lit hors du bloc Légion.
     const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
     const riteActif = ritesLegion.find((r) => r.id === etat.riteDeGuerre);
     const allegeanceForcee = riteActif && riteActif.allegeanceForcee;
 
-    const labelLegion = el("label", null, "Légion");
-    const selectLegion = document.createElement("select");
-    selectLegion.id = "legion-armee";
-    labelLegion.htmlFor = selectLegion.id;
-    ajouterOption(selectLegion, "", "Choisir Légion");
-    for (const [valeur, texte] of LEGIONS) {
-      // Une Légion n'est sélectionnable que si des unités lui sont
-      // réservées (champ `legion` dans js/unites-data.js) : les autres
-      // restent affichées, grisées, en attendant leur transcription
-      // depuis le livre d'armée.
-      const disponible =
-        UNITES.some((u) => u.legion === valeur) &&
-        !LEGIONS_INDISPONIBLES.includes(valeur);
-      const opt = ajouterOption(
-        selectLegion,
-        valeur,
-        disponible ? texte : texte + " (prochainement)",
-      );
-      opt.disabled = !disponible;
-    }
-    selectLegion.value = etat.legion;
-    selectLegion.addEventListener("change", () => {
-      const nouvelleLegion = selectLegion.value;
-      if (nouvelleLegion !== etat.legion) {
-        // Les unités et Détachements Auxiliaires/d'Apex d'une Légion
-        // ne sont généralement pas ceux d'une autre (champ `legion`
-        // dans js/unites-data.js) : un changement de Légion repart
-        // donc d'une liste et d'un organigramme vierges (seul le
-        // Détachement Principal, obligatoire, est conservé).
-        if (
-          !reinitialiserArmeeAvecConfirmation(
-            "Changer de Légion réinitialise la liste d'armée et les " +
-              "détachements sélectionnés. Continuer ?",
-          )
-        ) {
-          selectLegion.value = etat.legion;
-          return;
-        }
-        // Le Rite de Guerre (RITES_DE_GUERRE) est propre à chaque
-        // Légion : il repart lui aussi à zéro, à rechoisir dans le
-        // menu ci-dessous s'il en existe un pour la nouvelle Légion.
-        etat.riteDeGuerre = "";
+    // Légion et Rite de Guerre n'existent que pour Legio Astartes
+    // (livre d'armée Legiones Astartes) : entièrement masqués pour
+    // toute autre Faction plutôt que simplement grisés/vidés — ils
+    // repartent de toute façon à "" au changement de Faction (voir
+    // plus haut).
+    if (etat.faction === "legio-astartes") {
+      const labelLegion = el("label", null, "Légion");
+      const selectLegion = document.createElement("select");
+      selectLegion.id = "legion-armee";
+      labelLegion.htmlFor = selectLegion.id;
+      ajouterOption(selectLegion, "", "Choisir Légion");
+      for (const [valeur, texte] of LEGIONS) {
+        // Une Légion n'est sélectionnable que si des unités lui sont
+        // réservées (champ `legion` dans js/unites-data.js) : les
+        // autres restent affichées, grisées, en attendant leur
+        // transcription depuis le livre d'armée.
+        const disponible =
+          UNITES.some((u) => u.legion === valeur) &&
+          !LEGIONS_INDISPONIBLES.includes(valeur);
+        const opt = ajouterOption(
+          selectLegion,
+          valeur,
+          disponible ? texte : texte + " (prochainement)",
+        );
+        opt.disabled = !disponible;
       }
-      etat.legion = nouvelleLegion;
-      // Allégeance par défaut selon la Légion choisie (Loyaliste ou
-      // Légion Renégate) : purement indicative, le joueur reste libre
-      // de la changer ensuite via le menu Allégeance ci-contre.
-      const skinChoisi = SKINS_LEGION[etat.legion];
-      if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
-      actualiser();
-    });
-    ligne.appendChild(groupeParametre(labelLegion, selectLegion));
-
-    // Rite de Guerre (livre d'armée Legiones Astartes) : menu affiché
-    // uniquement pour une Légion présente dans RITES_DE_GUERRE
-    // (js/organigramme-data.js). Conditionne l'accès à certains
-    // Détachements (`requiertRiteDeGuerre`) et peut verrouiller
-    // l'Allégeance ci-dessus (`allegeanceForcee`, voir riteActif plus
-    // haut).
-    if (ritesLegion.length > 0) {
-      const labelRite = el("label", null, "Rite de Guerre");
-      const selectRite = document.createElement("select");
-      selectRite.id = "rite-de-guerre-armee";
-      labelRite.htmlFor = selectRite.id;
-      ajouterOption(selectRite, "", "Choisir un Rite de Guerre");
-      for (const rite of ritesLegion) {
-        ajouterOption(selectRite, rite.id, rite.nom);
-      }
-      selectRite.value = etat.riteDeGuerre;
-      selectRite.addEventListener("change", () => {
-        const nouveauRite = selectRite.value;
-        if (nouveauRite !== etat.riteDeGuerre) {
-          // Un Détachement réservé à un Rite de Guerre
-          // (`requiertRiteDeGuerre`) devient invalide dès qu'on change
-          // de Rite (ex : Escadre de Primauté/Confrérie du Phénix,
-          // Cadre de Berserkers/Fils de Bodt) : comme un changement de
-          // Légion, on repart d'une liste et d'un organigramme vierges
-          // (seul le Détachement Principal, obligatoire, est conservé).
+      selectLegion.value = etat.legion;
+      selectLegion.addEventListener("change", () => {
+        const nouvelleLegion = selectLegion.value;
+        if (nouvelleLegion !== etat.legion) {
+          // Les unités et Détachements Auxiliaires/d'Apex d'une Légion
+          // ne sont généralement pas ceux d'une autre (champ `legion`
+          // dans js/unites-data.js) : un changement de Légion repart
+          // donc d'une liste et d'un organigramme vierges (seul le
+          // Détachement Principal, obligatoire, est conservé).
           if (
             !reinitialiserArmeeAvecConfirmation(
-              "Changer de Rite de Guerre réinitialise la liste d'armée et " +
-                "les détachements sélectionnés. Continuer ?",
+              "Changer de Légion réinitialise la liste d'armée et les " +
+                "détachements sélectionnés. Continuer ?",
             )
+          ) {
+            selectLegion.value = etat.legion;
+            return;
+          }
+          // Le Rite de Guerre (RITES_DE_GUERRE) est propre à chaque
+          // Légion : il repart lui aussi à zéro, à rechoisir dans le
+          // menu ci-dessous s'il en existe un pour la nouvelle Légion.
+          etat.riteDeGuerre = "";
+        }
+        etat.legion = nouvelleLegion;
+        // Allégeance par défaut selon la Légion choisie (Loyaliste ou
+        // Légion Renégate) : purement indicative, le joueur reste
+        // libre de la changer ensuite via le menu Allégeance ci-contre.
+        const skinChoisi = SKINS_LEGION[etat.legion];
+        if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelLegion, selectLegion));
+
+      // Rite de Guerre (livre d'armée Legiones Astartes) : menu
+      // affiché uniquement pour une Légion présente dans
+      // RITES_DE_GUERRE (js/organigramme-data.js). Conditionne
+      // l'accès à certains Détachements (`requiertRiteDeGuerre`) et
+      // peut verrouiller l'Allégeance ci-dessus (`allegeanceForcee`,
+      // voir riteActif plus haut).
+      if (ritesLegion.length > 0) {
+        const labelRite = el("label", null, "Rite de Guerre");
+        const selectRite = document.createElement("select");
+        selectRite.id = "rite-de-guerre-armee";
+        labelRite.htmlFor = selectRite.id;
+        ajouterOption(selectRite, "", "Choisir un Rite de Guerre");
+        for (const rite of ritesLegion) {
+          ajouterOption(selectRite, rite.id, rite.nom);
+        }
+        selectRite.value = etat.riteDeGuerre;
+        selectRite.addEventListener("change", () => {
+          const nouveauRite = selectRite.value;
+          if (nouveauRite !== etat.riteDeGuerre) {
+            // Un Détachement réservé à un Rite de Guerre
+            // (`requiertRiteDeGuerre`) devient invalide dès qu'on
+            // change de Rite (ex : Escadre de Primauté/Confrérie du
+            // Phénix, Cadre de Berserkers/Fils de Bodt) : comme un
+            // changement de Légion, on repart d'une liste et d'un
+            // organigramme vierges (seul le Détachement Principal,
+            // obligatoire, est conservé).
+            if (
+              !reinitialiserArmeeAvecConfirmation(
+                "Changer de Rite de Guerre réinitialise la liste d'armée et " +
+                  "les détachements sélectionnés. Continuer ?",
+              )
+            ) {
+              selectRite.value = etat.riteDeGuerre;
+              return;
+            }
+          }
+          const nouveauRiteInfo = ritesLegion.find((r) => r.id === nouveauRite);
+          if (
+            nouveauRiteInfo &&
+            nouveauRiteInfo.allegeanceForcee &&
+            !appliquerAllegeance(nouveauRiteInfo.allegeanceForcee)
           ) {
             selectRite.value = etat.riteDeGuerre;
             return;
           }
-        }
-        const nouveauRiteInfo = ritesLegion.find((r) => r.id === nouveauRite);
-        if (
-          nouveauRiteInfo &&
-          nouveauRiteInfo.allegeanceForcee &&
-          !appliquerAllegeance(nouveauRiteInfo.allegeanceForcee)
-        ) {
-          selectRite.value = etat.riteDeGuerre;
-          return;
-        }
-        etat.riteDeGuerre = nouveauRite;
-        actualiser();
-      });
-      ligne.appendChild(groupeParametre(labelRite, selectRite));
+          etat.riteDeGuerre = nouveauRite;
+          actualiser();
+        });
+        ligne.appendChild(groupeParametre(labelRite, selectRite));
+      }
     }
 
     const labelAllegeance = el("label", null, "Allégeance");
@@ -1806,11 +1894,10 @@ const Organigramme = (() => {
         Math.max(0, credits.auxRestants) +
         " · Apex disponibles : " +
         Math.max(0, credits.apexRestants) +
-        " · Quota Seigneur de Guerre + Seigneurs des Batailles (25 % : " +
-        coutSeigneurs() +
-        " / " +
-        Math.ceil(etat.limite * 0.25) +
-        " pts)",
+        " · Quota Seigneur de Guerre + Seigneurs des Batailles : " +
+        (idDetachementPrincipal() === "ordinal-titanique"
+          ? coutSeigneurs() + " pts (ignoré — Ordinal Titanique)"
+          : coutSeigneurs() + " / " + Math.ceil(etat.limite * 0.25) + " pts (25 %)"),
     );
     conteneur.appendChild(texte);
 
@@ -2105,7 +2192,10 @@ const Organigramme = (() => {
       groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of TYPES_DETACHEMENTS.filter(
-        (t) => t.famille === famille && (!t.legion || t.legion === etat.legion),
+        (t) =>
+          t.famille === famille &&
+          (!t.legion || t.legion === etat.legion) &&
+          typeDisponiblePourFaction(t),
       )) {
         const { possible, raison } = disponibilite(type, credits);
         const bouton = el(
@@ -2229,19 +2319,32 @@ const Organigramme = (() => {
     initialiser(hooksFournis) {
       hooks = hooksFournis;
       restaurerOrga();
-      // Le Détachement Principal est obligatoire et unique (p. 283) :
-      // on le crée s'il manque, on ne garde que le premier sinon.
+      // Le Détachement Principal est obligatoire et unique (p. 283) : on
+      // le crée s'il manque, ou on le remplace si son type ne correspond
+      // plus à la Faction actuelle (ex : partie restaurée après un
+      // changement de Faction) — on ne garde que le premier sinon.
+      const idAttendu = idDetachementPrincipal();
       const principaux = etat.detachements.filter(
-        (d) => d.typeId === "principal",
+        (d) => typeDe(d).famille === "principal",
       );
-      if (principaux.length === 0)
-        etat.detachements.unshift(creerDetachement("principal"));
+      if (principaux.length === 0 || principaux[0].typeId !== idAttendu) {
+        etat.detachements = etat.detachements.filter(
+          (d) => typeDe(d).famille !== "principal",
+        );
+        etat.detachements.unshift(creerDetachement(idAttendu));
+      }
       reconcilier();
       actualiser();
     },
     casesLibresPour,
     assignationDe,
     avantageDe,
+    // Faction choisie dans les paramètres de la partie (id FACTIONS) :
+    // consommée par js/unites.js (uniteAccessible) pour filtrer les
+    // unités réservées à une Faction (champ `faction` dans
+    // js/unites-data.js, ex : "legio-titanicus"). Une unité sans ce
+    // champ reste réservée à Legio Astartes (comportement historique).
+    factionActuelle: () => etat.faction,
     // Légion choisie dans les paramètres de la partie ("" = aucune) :
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
@@ -2321,6 +2424,7 @@ const Organigramme = (() => {
       const types = TYPES_DETACHEMENTS.filter((t) => {
         if (t.indisponible || t.famille === "principal") return false;
         if (t.legion && t.legion !== etat.legion) return false;
+        if (!typeDisponiblePourFaction(t)) return false;
         return t.cases.some((c) => {
           if (c.role !== categorie) return false;
           const restriction = t.restrictions && t.restrictions[c.role];
