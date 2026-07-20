@@ -2291,6 +2291,16 @@ const Organigramme = (() => {
      sauvegarde. Appelée après chaque interaction.
      ---------------------------------------------------------- */
   function actualiser() {
+    // Le tutoriel de construction d'armée (unites.html) ne décrit que
+    // l'Organigramme de Force des Legiones Astartes (Détachement
+    // Principal de Croisade, États-Majors…) : sans objet pour Legio
+    // Titanicus, qui suit son propre Détachement Principal (Ordinal
+    // Titanique). Entièrement masqué, comme Légion/Rite de Guerre
+    // ci-dessous, plutôt que simplement grisé.
+    const sectionTutoriel = document.getElementById("construction-armee");
+    if (sectionTutoriel) {
+      sectionTutoriel.hidden = etat.faction !== "legio-astartes";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");
