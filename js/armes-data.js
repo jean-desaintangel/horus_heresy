@@ -1765,6 +1765,27 @@ const ARMES_TIR = [
         regles: 'Explosion (3"), Brèche (6+)',
         traits: "Psychique, Assaut",
       },
+      {
+        // Arme Psychique (Arcane de Prospero Pavoni, Thousand Sons).
+        nom: "Ébullition Sanguine",
+        stats: ["12", "1", "4", "2", "2"],
+        regles: "Empoisonnée (2+)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Arcane de Prospero Athanéen, Thousand Sons).
+        nom: "Manifestation de l'Effroi",
+        stats: ["24", "3", "4", "-", "1"],
+        regles: "Panique (1)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Arcane de Prospero Raptora, Thousand Sons).
+        nom: "Force Écrasante",
+        stats: ["12", "1", "9", "4", "2"],
+        regles: "Force (D), Fléau des Blindages",
+        traits: "Psychique",
+      },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Alpharius, Exodus,
          Saboteur (voir js/unites-data.js, unités réservées à cette
          Légion). --- */
@@ -2856,6 +2877,13 @@ const ARMES_MELEE = [
         nom: "Le Reliquaire de Cendres",
         stats: ["1", "A", "F", "2", "1"],
         regles: "Empoisonnée (2+)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Arcane de Prospero Pyrae, Thousand Sons).
+        nom: "Étreinte Brûlante",
+        stats: ["1", "1", "8", "3", "2"],
+        regles: "Brèche (5+), Touche Critique (6+), Fléau des Blindages",
         traits: "Psychique",
       },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,

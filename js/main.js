@@ -205,7 +205,52 @@ function construireNavigation() {
   }
 }
 
-// Remplit le <footer> (lien de signalement + mentions légales).
+// Lien externe accessible (nouvel onglet + mention "(nouvelle fenêtre)"
+// pour les lecteurs d'écran, WCAG 3.2.5) : factorisé ici, répété pour
+// chaque source du pied de page ci-dessous.
+function lienExterne(href, texte) {
+  const a = document.createElement("a");
+  a.href = href;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.append(texte + " ", el("span", "sr-only", "(nouvelle fenêtre)"));
+  return a;
+}
+
+// Sources ayant servi à la retranscription du site (livres d'armée,
+// blasons) : voir le pied de page ci-dessous.
+const SOURCES_SITE = [
+  {
+    texte: "Livre de Règles",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-age-of-darkness-rulebook-2025-fre",
+  },
+  {
+    texte: "Liber Astartes",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-astartes-2025-fre",
+  },
+  {
+    texte: "Liber Hereticus",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-hereticus-2025-fre",
+  },
+  {
+    texte: "Liber Questoris",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-questoris-2025-fre",
+  },
+  {
+    texte: "Unités Legacies",
+    href: "https://assets.warhammer-community.com/eng_30-10_thehorusheresy_aod_legacies-rosvjdnd1o-gqos8xkdx7.pdf",
+  },
+  {
+    texte: "logos des Légions",
+    href: "https://fr.pinterest.com/pin/512143788883678481/",
+  },
+  {
+    texte: "logo Legio Titanicus",
+    href: "https://fr.pinterest.com/pin/53409945577919499/",
+  },
+];
+
+// Remplit le <footer> (lien de signalement + mentions légales + sources).
 function construirePiedDePage() {
   const pied = document.querySelector("footer");
   if (!pied) return;
@@ -229,18 +274,22 @@ function construirePiedDePage() {
     strong,
     " Horus Heresy, Warhammer : The Horus Heresy et tous les noms" +
       " associés sont des marques déposées de ",
-  );
-  const lienGW = document.createElement("a");
-  lienGW.href = "https://www.games-workshop.com";
-  lienGW.target = "_blank";
-  lienGW.rel = "noopener noreferrer";
-  lienGW.append("Games Workshop Ltd ", el("span", "sr-only", "(nouvelle fenêtre)"));
-  pDisclaimer.append(
-    lienGW,
+    lienExterne("https://www.games-workshop.com", "Games Workshop Ltd"),
     ". Ce site n’est ni affilié ni approuvé par Games Workshop." +
       " Aucun défi à leur statut n’est intentionné.",
   );
   pied.appendChild(pDisclaimer);
+
+  // Sources : livres d'armée officiels utilisés pour la retranscription
+  // des règles, ainsi que les blasons/logos réutilisés (voir
+  // SOURCES_SITE ci-dessus).
+  const pSources = el("p", "footer-sources");
+  pSources.append("Sources : ");
+  SOURCES_SITE.forEach((source, indice) => {
+    pSources.append(lienExterne(source.href, source.texte));
+    pSources.append(indice < SOURCES_SITE.length - 1 ? ", " : ".");
+  });
+  pied.appendChild(pSources);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

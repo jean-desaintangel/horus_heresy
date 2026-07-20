@@ -486,6 +486,31 @@ function optionsFinBlinde({
   return options;
 }
 
+/* Arcane de Prospero (livre d'armée Thousand Sons, XVe Légion) :
+   option partagée par le Sorcier de Prospero et la Cabale de
+   Terminators Sekhmet (voir leurs sections plus bas) — les deux seules
+   Unités éligibles parmi celles transcrites (Magnus/Ahriman/Amon sont
+   de Sous-type Unique, le Castellax-Achea est un Automate, et la
+   Cabale du Khenetai Occulte a déjà son propre Arcane fixe via ses
+   Règles Spéciales). Coût volontairement SANS `parFigurine` : +10
+   Points par UNITÉ (pas par Figurine), comme indiqué dans le livre
+   d'armée. Voir js/regles-data.js pour le détail de chaque Arcane.
+   ---------------------------------------------------------- */
+const ARCANE_DE_PROSPERO = {
+  type: "choix",
+  id: "arcane-prospero",
+  libelle: "Arcane de Prospero",
+  ajoute: true,
+  choix: [
+    { nom: "— Aucun Arcane de Prospero —", cout: 0 },
+    { nom: "Raptora", cout: 10 },
+    { nom: "Pyrae", cout: 10 },
+    { nom: "Pavoni", cout: 10 },
+    { nom: "Corvidae", cout: 10 },
+    { nom: "Athanéen", cout: 10 },
+  ],
+};
+
 /* ----------------------------------------------------------
    UNITÉS — QUARTIER GÉNÉRAL
    ---------------------------------------------------------- */
@@ -12881,6 +12906,16 @@ const UNITES = [
      modélisés en détail (comme pour les autres Légions : seul le nom
      de la Règle Spéciale figure sur la fiche, sans moteur de jeu
      psychique dédié) — voir l'en-tête du fichier.
+     Les cinq Arcanes de Prospero (Pavoni, Corvidae, Athanéen, Pyrae,
+     Raptora), eux, SONT modélisés : voir l'option "arcane-prospero" du
+     Sorcier de Prospero et de la Cabale de Terminators Sekhmet
+     ci-dessous (+10 Points par Unité, non par Figurine — cf. le livre
+     d'armée), et leurs Règles Spéciales dans js/regles-data.js. Réservé
+     aux Unités ayant le Trait Thousand Sons hors Véhicule/Automate/
+     Sous-type Unique : la Cabale du Khenetai Occulte a son propre
+     Arcane (Khenetai) via ses Règles Spéciales et n'y a donc pas accès ;
+     Magnus/Ahriman/Amon (Sous-type Unique) et le Castellax-Achea
+     (Automate) en sont exclus.
      ---------------------------------------------------------- */
   {
     id: "magnus-le-rouge",
@@ -13071,6 +13106,7 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
         ],
       },
+      ARCANE_DE_PROSPERO,
     ],
     legion: "XV",
   },
@@ -13179,6 +13215,7 @@ const UNITES = [
           },
         ],
       },
+      ARCANE_DE_PROSPERO,
       {
         type: "quantite",
         id: "arme-lourde-lance-flammes",

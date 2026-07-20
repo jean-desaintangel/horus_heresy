@@ -1118,4 +1118,71 @@ const REGLES_DIVERSES = [
     texte:
       "Certaines Armes de grande taille utilisent, à la place du Gabarit de Flammes standard, un autre Gabarit de Souffle (par exemple le Gabarit de Fournaise, indiqué entre parenthèses après « Souffle »).",
   },
+  /* --- Arsenal des Thousand Sons (XVe Légion) : les cinq Arcanes de
+     Prospero (Pavoni, Corvidae, Athanéen, Pyrae, Raptora), voir l'option
+     "arcane-prospero" (ARCANE_DE_PROSPERO) dans js/unites-data.js et
+     leurs Armes Psychiques dans js/armes-data.js. Chaque Arcane est une
+     Discipline Psychique donnant à ses Figurines un Pouvoir/Réaction/
+     Arme Psychique et un Trait propres — même principe que la
+     Discipline « Appel de l'Orage » des White Scars ci-dessus. */
+  {
+    nom: "Arcanes de Prospero",
+    texte:
+      "Chaque Unité qui a le Trait Thousand Sons (sauf les Unités comprenant des Figurines de Type Véhicule ou Automate, ou de Sous-type Unique) peut être nantie d'un des cinq Arcanes suivants pour +10 Points par Unité (et non par Figurine) : Raptora, Pyrae, Pavoni, Corvidae ou Athanéen. Toutes les Figurines de l'Unité en profitent, mais pas celles qui la rejoignent au Déploiement ou en cours de Bataille (qui peuvent recevoir leur propre Arcane, identique ou différent, lors de la composition de la Feuille d'Armée) ; une Unité ne peut être nantie que d'un seul Arcane de Prospero. Une Unité qui a déjà un Arcane de Prospero en vertu de ses propres Règles Spéciales (par exemple la Cabale du Khenetai Occulte) ne peut pas en recevoir un autre de cette liste. Si une Figurine qui Manifeste un Pouvoir Psychique, une Arme Psychique ou une Réaction Psychique conféré par un Arcane de Prospero subit les effets des Périls du Warp, on ne fait pas de jet sur le tableau des Périls du Warp : à la place, l'Unité subit D3 Blessures, chacune avec une PA de 2 et des Dégâts de 1 qui ignorent les Sauvegardes de Couvert et les Jets de Mitigation de Dégâts (Sauvegardes Invulnérables autorisées, Blessures allouées comme si une Attaque de Tir les avait infligées). Si l'Unité dispose d'une Arme Psychique conférée par son Arcane, une seule de ses Figurines peut l'utiliser à chaque fois que l'Unité est choisie pour faire des attaques au cours d'une Attaque de Tir ou d'un Combat.",
+  },
+  {
+    nom: "Pavoni",
+    texte:
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne la Réaction Psychique Corps de Pierre, l'Arme Psychique Ébullition Sanguine, et le Trait « Pavoni ».",
+  },
+  {
+    nom: "Corps de Pierre",
+    texte:
+      "Réaction Psychique (Bénédiction) qui accroît la Caractéristique d'Endurance de l'Unité Réactive. Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif qui cible une Unité incluant au moins une Figurine ayant le Trait Pavoni (Coût : 1 Point d'Attribution de Réactions, payé seulement si le Test de Volonté est réussi). Le Focus doit être une Figurine ayant le Trait Pavoni de l'Unité ciblée ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de la Sous-phase : toutes les Figurines de l'Unité Cible gagnent un bonus de +2 à leur Caractéristique d'Endurance.",
+  },
+  {
+    nom: "Corvidae",
+    texte:
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne les Pouvoirs Psychiques Tirs Fatidiques et Voies de Conséquence, et le Trait « Corvidae ».",
+  },
+  {
+    nom: "Tirs Fatidiques",
+    texte:
+      "Pouvoir Psychique (Bénédiction) qui rend plus efficaces les Attaques de Tir de l'Unité. Le Joueur Actif peut le Manifester à la Phase de Tir, au début de l'Étape 4 d'une Attaque de Tir faite par une Unité incluant au moins une Figurine ayant le Trait Corvidae. Le Focus doit être une Figurine ayant le Trait Corvidae de l'Unité qui tire ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de l'Attaque de Tir en cours : toutes les Armes de Tir dont sont dotées les Figurines de l'Unité Cible, sauf celles ayant la Règle Spéciale Explosion (X), gagnent la Règle Spéciale Vulnérante (5+).",
+  },
+  {
+    nom: "Voies de Conséquence",
+    texte:
+      "Pouvoir Psychique (Malédiction) qui réduit le Mouvement de la Cible et lui impose des Jets de Terrain Dangereux. Le Joueur Actif peut le Manifester à la Sous-phase des Effets de la Phase de Début. Le Focus doit être une Figurine ayant le Trait Corvidae sous le contrôle du Joueur Actif ; la Cible est une Unité ennemie dont au moins une Figurine se trouve à 18 pouces et en Ligne de Vue du Focus. En cas de réussite, ses effets durent jusqu'au début du prochain Tour du Joueur Actif : toutes les Figurines de l'Unité Cible subissent un malus de -2 à leur Caractéristique de Mouvement (jusqu'à un minimum de 0), et la première fois qu'une Figurine de l'Unité Cible se Déplace à une Phase donnée, elle doit faire un Jet de Terrain Dangereux.",
+  },
+  {
+    nom: "Athanéen",
+    texte:
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Manifestation de l'Effroi, le Pouvoir Psychique Clarté, et le Trait « Athanéen ».",
+  },
+  {
+    nom: "Clarté",
+    texte:
+      "Pouvoir Psychique (Bénédiction) qui retire un Statut Tactique à une Unité amie. Le Joueur Actif peut le Manifester à la Sous-phase des Effets de la Phase de Début. Le Focus doit être une Figurine ayant le Trait Athanéen sous le contrôle du Joueur Actif ; la Cible est une Unité amie, entièrement composée de Figurines ayant le Trait Thousand Sons, dont au moins une Figurine se trouve à 18 pouces et en Ligne de Vue du Focus. En cas de réussite, ses effets sont résolus immédiatement : le Joueur en Contrôle choisit un seul Statut Tactique subi par une Figurine de l'Unité Cible, et on le retire immédiatement à toutes les Figurines de l'Unité Cible.",
+  },
+  {
+    nom: "Pyrae",
+    texte:
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne le Pouvoir Psychique Bouclier Incandescent, l'Arme Psychique Étreinte Brûlante, et le Trait « Pyrae ».",
+  },
+  {
+    nom: "Bouclier Incandescent",
+    texte:
+      "Pouvoir Psychique (Bénédiction) qui permet à une Unité d'infliger des Touches automatiques à toute Unité qui l'attaque en Mêlée. Le Joueur Actif peut le Manifester à la fin de l'Étape Déclarer les Armes et Définir les Rangs d'Initiative d'un Combat. Le Focus doit être une Figurine ayant le Trait Pyrae impliquée dans ce Combat ; la Cible est son Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la résolution du Combat : toutes les Figurines de l'Unité Cible gagnent la Règle Spéciale Bouclier Incandescent — à la fin de chaque Rang d'Initiative, toute Unité ayant infligé des Touches à une Unité comprenant au moins une Figurine ayant cette Règle Spéciale subit D6 Touches avec une Force de 4, une PA de -, et des Dégâts de 1, allouées par le Joueur en Contrôle de l'Unité qui les subit.",
+  },
+  {
+    nom: "Raptora",
+    texte:
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Force Écrasante, la Réaction Psychique Bouclier Télékinétique, et le Trait « Raptora ».",
+  },
+  {
+    nom: "Bouclier Télékinétique",
+    texte:
+      "Réaction Psychique (Bénédiction) qui donne à une Unité un Jet de Mitigation de Dégâts de Dissimulation. Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif qui cible une Unité incluant au moins une Figurine ayant le Trait Raptora (Coût : 1 Point d'Attribution de Réactions, payé seulement si le Test de Volonté est réussi). Le Focus doit être une Figurine ayant le Trait Raptora de l'Unité ciblée ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de la Sous-phase : toutes les Figurines de l'Unité Cible gagnent un Jet de Mitigation de Dégâts de Dissimulation de 4+ contre toute Blessure subie.",
+  },
 ];

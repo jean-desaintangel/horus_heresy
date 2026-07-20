@@ -2595,6 +2595,18 @@ const Organigramme = (() => {
         ".png"
       );
     },
+    // Équivalent skinActuel/cheminLogoActuel ci-dessus, mais pour la
+    // Faction Legio Titanicus (SKIN_TITANICUS) plutôt qu'une Légion :
+    // null si la Faction actuelle n'est pas Legio Titanicus. Consommée
+    // par js/unites.js pour la page de garde du PDF/Word — à la
+    // différence d'une Légion, DEUX blasons sont à poser (gauche et
+    // droite du nom, voir SKIN_TITANICUS.blasons et creerIconeTitan).
+    skinTitanActuel: () =>
+      etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null,
+    cheminsLogoTitanActuel: () =>
+      SKIN_TITANICUS.blasons.map(
+        (blason) => "../assets/logo_titan/" + blason.fichier,
+      ),
     // Factions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Faction a été choisie, doublons
     // possibles). Consommée par js/unites.js (uniteAccessible) pour

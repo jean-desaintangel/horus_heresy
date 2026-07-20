@@ -1888,7 +1888,8 @@ footer p {
   .unites-barre-actions,
   .unite-config,
   .unite-retirer,
-  .unite-bascule {
+  .unite-bascule,
+  .fiche-ligne--notes {
     display: none !important;
   }
 

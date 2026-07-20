@@ -701,8 +701,13 @@ function construireTableProfil(unite, instance) {
 }
 
 // Bloc « Étiquette : valeur, valeur… » de la fiche récap.
-function construireLigneFiche(titre, elements) {
-  const p = el("p", "fiche-ligne");
+// `classeSupplementaire` : voir l'appel pour "Notes" (masquée à
+// l'impression, css/style.css, .fiche-ligne--notes).
+function construireLigneFiche(titre, elements, classeSupplementaire) {
+  const p = el(
+    "p",
+    classeSupplementaire ? "fiche-ligne " + classeSupplementaire : "fiche-ligne",
+  );
   p.appendChild(el("strong", null, titre + " : "));
   p.appendChild(document.createTextNode(elements.join(" · ")));
   return p;
@@ -1075,7 +1080,9 @@ function construireFiche(unite, instance) {
   fiche.appendChild(construireLigneRegles("Règles spéciales", variante.regles));
   fiche.appendChild(construireLigneType(variante.type));
   if (unite.notes)
-    fiche.appendChild(construireLigneFiche("Notes", [unite.notes]));
+    fiche.appendChild(
+      construireLigneFiche("Notes", [unite.notes], "fiche-ligne--notes"),
+    );
   const definitions = construireDefinitions(fiche);
   if (definitions) fiche.appendChild(definitions);
   return fiche;
@@ -1708,7 +1715,12 @@ function donneesFiche(fiche) {
       const table = enfant.querySelector("table");
       if (table) blocs.push(donneesTable(table));
     } else if (enfant.classList.contains("fiche-ligne")) {
-      blocs.push(donneesLigne(enfant));
+      const ligne = donneesLigne(enfant);
+      // Les Notes (lore/fluff, voir construireFiche dans js/unites.js)
+      // ne sont que de la couleur narrative, pas des règles de jeu :
+      // on les exclut du PDF/Word exporté, qui ne garde que
+      // l'essentiel technique. Elles restent visibles à l'écran.
+      if (ligne.titre !== "Notes") blocs.push(ligne);
     } else if (enfant.classList.contains("unite-fiche-definitions")) {
       blocs.push(donneesDefinitions(enfant));
     }
@@ -2015,6 +2027,68 @@ async function genererPDF() {
 
     paragrapheCentre(texteIdentiteLegion(skin), 9.5);
     y += 6;
+  } else {
+    // Identité de Faction Legio Titanicus : même principe qu'une
+    // Légion ci-dessus, mais avec DEUX blasons (gauche et droite du
+    // nom, voir SKIN_TITANICUS.blasons/creerIconeTitan dans
+    // js/organigramme.js) et sans ligne Allégeance/Monde Natal (sans
+    // objet pour cette Faction).
+    const skinTitan = Organigramme.skinTitanActuel ? Organigramme.skinTitanActuel() : null;
+    if (skinTitan) {
+      const HAUTEUR_LOGO = 50;
+      const ECART = 10;
+      const logos = [];
+      for (const chemin of Organigramme.cheminsLogoTitanActuel()) {
+        const dataUrl = await chargerImageDataURL(chemin);
+        if (!dataUrl) continue;
+        try {
+          const proprietes = doc.getImageProperties(dataUrl);
+          const largeur = Math.min(
+            (proprietes.width / proprietes.height) * HAUTEUR_LOGO,
+            90,
+          );
+          logos.push({ dataUrl, proprietes, largeur });
+        } catch {
+          // Format d'image non géré par jsPDF (rare) : on saute ce blason.
+        }
+      }
+      const nomTitanTexte = assainirPDF(skinTitan.nom);
+      doc.setFont("times", "bold");
+      doc.setFontSize(16);
+      const largeurTexte = doc.getTextWidth(nomTitanTexte);
+      const largeurLogos = logos.reduce(
+        (somme, logo) => somme + logo.largeur + ECART,
+        0,
+      );
+      const largeurBloc = largeurLogos + largeurTexte;
+      const hauteurBloc = Math.max(HAUTEUR_LOGO, 16);
+      assurerEspace(hauteurBloc + 8);
+      let xBloc = contentX + (contentW - largeurBloc) / 2;
+      if (logos[0]) {
+        doc.addImage(
+          logos[0].dataUrl,
+          logos[0].proprietes.fileType || "PNG",
+          xBloc,
+          y,
+          logos[0].largeur,
+          HAUTEUR_LOGO,
+        );
+        xBloc += logos[0].largeur + ECART;
+      }
+      doc.text(nomTitanTexte, xBloc, y + hauteurBloc / 2 + 6);
+      xBloc += largeurTexte + ECART;
+      if (logos[1]) {
+        doc.addImage(
+          logos[1].dataUrl,
+          logos[1].proprietes.fileType || "PNG",
+          xBloc,
+          y,
+          logos[1].largeur,
+          HAUTEUR_LOGO,
+        );
+      }
+      y += hauteurBloc + 8;
+    }
   }
 
   const total = document.getElementById("total-armee");
@@ -2200,6 +2274,27 @@ async function genererWordHTML() {
     corps += "</tr></table>";
     corps +=
       '<p class="legion-identite">' + echapperHTML(texteIdentiteLegion(skin)) + "</p>";
+  } else {
+    // Identité de Faction Legio Titanicus : même principe qu'une
+    // Légion ci-dessus, mais avec DEUX blasons (un par cellule de part
+    // et d'autre du nom) et sans ligne Allégeance/Monde Natal (sans
+    // objet pour cette Faction) — voir SKIN_TITANICUS/creerIconeTitan
+    // dans js/organigramme.js.
+    const skinTitan = Organigramme.skinTitanActuel ? Organigramme.skinTitanActuel() : null;
+    if (skinTitan) {
+      const chemins = Organigramme.cheminsLogoTitanActuel();
+      const logosDataUrl = await Promise.all(chemins.map((c) => chargerImageDataURL(c)));
+      corps += '<table class="legion-table"><tr>';
+      if (logosDataUrl[0]) {
+        corps += '<td><img class="legion-logo" src="' + logosDataUrl[0] + '" alt=""></td>';
+      }
+      corps +=
+        '<td><span class="legion-nom">' + echapperHTML(skinTitan.nom) + "</span></td>";
+      if (logosDataUrl[1]) {
+        corps += '<td><img class="legion-logo" src="' + logosDataUrl[1] + '" alt=""></td>';
+      }
+      corps += "</tr></table>";
+    }
   }
 
   const total = document.getElementById("total-armee");
