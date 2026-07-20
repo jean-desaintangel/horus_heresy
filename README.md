@@ -20,7 +20,8 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 - **Glossaire des règles spéciales** avec recherche instantanée (insensible aux accents).
 - **Arsenal** : tables d'armes filtrables, avec info-bulle de définition sur chaque règle spéciale.
 - **Configurateur d'unités** : composez votre liste (variantes, options d'armement), coût en points recalculé en direct, fiche récap imprimable, export **PDF** et **Word** en un clic, sauvegarde locale (`localStorage`).
-- **Assistant de Sélection d'Armée** (Legio Astartes) : organigramme de détachements conforme au Livre de Règles (Détachement Principal, Auxiliaires, Apex, quotas Seigneur de Guerre/Alliés…), validation en temps réel des règles de construction.
+- **Assistant de Sélection d'Armée** (Legio Astartes, Legio Titanicus, Chevaliers Questoris) : organigramme de détachements conforme aux livres d'armée respectifs (Détachement Principal, Auxiliaires, Apex, Détachements Additionnels de Maisonnée, quotas Seigneur de Guerre/Seigneurs des Batailles, Alliés…), validation en temps réel des règles de construction.
+- **Pages de règles dédiées** : Véhicules (blindage, transports, Sous-types Rapide/Stable/Super-lourd/Titan/Chevalier), Titans (Legio Titanicus) et Chevaliers Questoris (Paradigmes de Maisonnée, Vœux Questoris, Réactions Avancées).
 - **Téléchargements** : aides de jeu maison et documents communautaires.
 - **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier.
 - **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée.
@@ -36,7 +37,11 @@ horus_heresy/
 │   ├── tir.html             # Phase de Tir + tables de référence
 │   ├── assaut.html          # Phase d'Assaut + tables de référence
 │   ├── statuts-reactions.html # Statuts tactiques et réactions
-│   ├── vehicule.html        # Règles des Véhicules (blindage, transports…)
+│   ├── vehicule.html        # Règles des Véhicules (blindage, transports,
+│   │                        # Sous-types dont Chevalier…)
+│   ├── titan.html           # Règles des Titans (Legio Titanicus)
+│   ├── chevaliers-questoris.html # Règles des Chevaliers Questoris
+│   │                        # (Paradigmes de Maisonnée, Vœux, Réactions)
 │   ├── psy.html             # Aptitudes Psychiques (Pouvoirs, Périls du Warp…)
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
@@ -64,6 +69,7 @@ horus_heresy/
     ├── fonts/               # Cinzel & Lato auto-hébergées (WOFF2)
     ├── img/                 # Favicon, illustration d'accueil
     ├── logo_legions/        # Logos des 18 Légions Astartes (PNG)
+    ├── logo_titan/          # Blasons Legio Titanicus (PNG)
     └── documents/           # Fichiers proposés au téléchargement
 ```
 
@@ -95,14 +101,13 @@ Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci
 ## Choix techniques assumés
 
 - **Polices auto-hébergées** (`assets/fonts/`, issues du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / CNIL) et chargement plus rapide.
-- **Nav et footer dupliqués dans chaque page** : dette assumée pour rester en statique pur consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute modification du menu doit être répercutée sur les **13 pages** (`index.html` + les 12 pages de `pages/`).
+- **Nav et pied de page centralisés en JS** (`js/main.js`, tableau `LIENS_NAV`) : chaque page ne porte qu'un conteneur vide (`<ul class="nav-menu">`, `<footer>`), rempli au chargement — évite la duplication tout en restant consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute nouvelle page doit être ajoutée à `LIENS_NAV` pour apparaître dans le menu des **15 pages** du site (`index.html` + les 14 pages de `pages/`).
 - **Pas de Content-Security-Policy en `<meta>`** : la source `'self'` est inopérante en `file://`. GitHub Pages ne permettant pas de définir des en-têtes HTTP personnalisés, une CSP devra attendre un éventuel changement d'hébergeur.
 - **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter maintenant que le domaine est connu.
 
 ## Formulaire de signalement (Formspree)
 
 La page `pages/contact.html` permet aux visiteurs de signaler une erreur ou de proposer une amélioration. Le site étant **statique** (GitHub Pages, aucun serveur PHP), l'envoi du mail est délégué à [Formspree](https://formspree.io).
-
 
 ## Contribuer / s'approprier le code
 
