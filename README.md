@@ -15,7 +15,7 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 
 ## Fonctionnalités principales
 
-- **Règles résumées par phase** : construction d'armée, tour de jeu, mouvement, tir, assaut, statuts & réactions.
+- **Règles résumées par phase** : construction d'armée, tour de jeu, mouvement, tir, assaut, défi, statuts & réactions.
 - **Tables de référence interactives** (CC, Blessure, CT) : surbrillance ligne/colonne au survol, épinglage d'une case au tap sur mobile, première colonne figée au défilement horizontal.
 - **Glossaire des règles spéciales** avec recherche instantanée (insensible aux accents).
 - **Arsenal** : tables d'armes filtrables, avec info-bulle de définition sur chaque règle spéciale.
@@ -36,6 +36,7 @@ horus_heresy/
 │   ├── mouvement.html       # Phase de Mouvement
 │   ├── tir.html             # Phase de Tir + tables de référence
 │   ├── assaut.html          # Phase d'Assaut + tables de référence
+│   ├── defi.html            # Sous-phase de Défi (Postures, Concentration…)
 │   ├── statuts-reactions.html # Statuts tactiques et réactions
 │   ├── vehicule.html        # Règles des Véhicules (blindage, transports,
 │   │                        # Sous-types dont Chevalier…)
@@ -101,7 +102,7 @@ Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci
 ## Choix techniques assumés
 
 - **Polices auto-hébergées** (`assets/fonts/`, issues du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / CNIL) et chargement plus rapide.
-- **Nav et pied de page centralisés en JS** (`js/main.js`, tableau `LIENS_NAV`) : chaque page ne porte qu'un conteneur vide (`<ul class="nav-menu">`, `<footer>`), rempli au chargement — évite la duplication tout en restant consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute nouvelle page doit être ajoutée à `LIENS_NAV` pour apparaître dans le menu des **15 pages** du site (`index.html` + les 14 pages de `pages/`).
+- **Nav et pied de page centralisés en JS** (`js/main.js`, tableau `LIENS_NAV`) : chaque page ne porte qu'un conteneur vide (`<ul class="nav-menu">`, `<footer>`), rempli au chargement — évite la duplication tout en restant consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute nouvelle page doit être ajoutée à `LIENS_NAV` pour apparaître dans le menu des **16 pages** du site (`index.html` + les 15 pages de `pages/`).
 - **Pas de Content-Security-Policy en `<meta>`** : la source `'self'` est inopérante en `file://`. GitHub Pages ne permettant pas de définir des en-têtes HTTP personnalisés, une CSP devra attendre un éventuel changement d'hébergeur.
 - **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter maintenant que le domaine est connu.
 

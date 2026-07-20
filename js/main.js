@@ -173,6 +173,7 @@ const LIENS_NAV = [
   { href: "mouvement.html", texte: "Mouvement" },
   { href: "tir.html", texte: "Tir" },
   { href: "assaut.html", texte: "Assaut" },
+  { href: "defi.html", texte: "Défi" },
   { href: "armes.html", texte: "Armes" },
   { href: "statuts-reactions.html", texte: "Statuts & Réactions" },
   { href: "regles.html", texte: "Règles spéciales" },

@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Le Défi</title>
+    <meta
+      name="description"
+      content="Sous-phase de défi Horus Heresy 3e édition : conditions d'éligibilité, procédure de défi (déclaration, confrontation, concentration, frappe, gloire), postures de base, initiative en combat, soutien extérieur et statut en disgrâce."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Le Défi — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Sous-phase de défi Horus Heresy 3e édition : procédure de défi, postures de base, initiative en combat, soutien extérieur et statut en disgrâce."
+    />
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">Le Défi</h1>
+      <p>
+        La sous-phase de défi est celle où les commandants et les champions
+        s’affrontent en combat singulier, avant que le reste des unités ne
+        s’affronte.
+      </p>
+
+      <div class="encadre-attention">
+        <p>
+          Pour être éligible, une figurine doit remplir les conditions suivantes
+          :
+        </p>
+        <ul>
+          <li>
+            être de sous-type
+            <span class="regle-tag" tabindex="0"
+              >État-major<span class="tooltip"
+                >Cette figurine peut lancer et relever des défis, entre autres
+                prérogatives propres aux commandants d’unité.</span
+              ></span
+            >
+            ou
+            <span class="regle-tag" tabindex="0"
+              >Champion<span class="tooltip"
+                >Une figurine de sous-type Champion peut lancer et relever des
+                défis.</span
+              ></span
+            >
+            ;
+          </li>
+          <li>
+            être verrouillée en combat avec au moins une unité ennemie qui
+            inclut une figurine ennemie éligible ;
+          </li>
+          <li>ne pas être sujette au statut <em>en déroute</em>.</li>
+        </ul>
+      </div>
+
+      <section id="procedure">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="procedure-corps"
+          >
+            <span>Procédure de défi</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="procedure-corps">
+          <p>Le joueur doit suivre ces 5 étapes :</p>
+
+          <div class="timeline">
+            <!-- ===================== 1. DÉCLARATION DE DÉFI ===================== -->
+            <div class="timeline-item" id="declaration">
+              <button class="timeline-titre" aria-expanded="false">
+                1. Déclaration de défi <span class="chevron">❯</span>
+              </button>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    Si un joueur lance un défi pour le combat choisi, il doit
+                    alors choisir une figurine éligible à participer à un défi —
+                    cette figurine étant le <strong>protagoniste</strong>. Le
+                    joueur adverse peut alors choisir une figurine éligible sous
+                    son contrôle dans le combat pour relever le défi — cette
+                    figurine étant l’<strong>antagoniste</strong>.
+                  </p>
+                  <div class="encadre">
+                    <p>
+                      <strong>Si le joueur adverse ne veut pas</strong>
+                      relever le défi, le joueur qui lance le défi doit choisir
+                      une figurine ennemie éligible à relever le défi et lui
+                      applique le statut
+                      <em>en disgrâce</em> (voir plus bas) — aucune autre
+                      figurine de la même unité ne gagne ce statut.
+                    </p>
+                  </div>
+                  <p>
+                    On retire aussitôt du combat le protagoniste et
+                    l’antagoniste et on les met de côté ensemble, en contact
+                    socle à socle, avant de passer à l’étape 2. Le temps du
+                    défi, on les considère hors-jeu jusqu’à leur restitution à
+                    la sous-phase de résolution (voir plus bas).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 2. CONFRONTATION ===================== -->
+            <div class="timeline-item" id="confrontation">
+              <button class="timeline-titre" aria-expanded="false">
+                2. Confrontation <span class="chevron">❯</span>
+              </button>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <ul>
+                    <li>
+                      Au <strong>premier round</strong> de tout défi, c’est le
+                      joueur en contrôle du protagoniste qui choisit la première
+                      posture.
+                    </li>
+                    <li>
+                      À chaque round <strong>suivant</strong>, c’est le joueur
+                      ayant l’<strong>avantage en défi</strong> qui choisit la
+                      première posture.
+                    </li>
+                  </ul>
+                  <p>
+                    Une fois qu’un joueur a choisi une posture, il en applique
+                    les bonus ou limitations avant que le joueur adverse ne
+                    choisisse la sienne. Si les effets des deux postures sont
+                    contradictoires, c’est la posture choisie par le joueur
+                    ayant l’avantage en défi qui prévaut, ou — si aucun joueur
+                    n’a l’avantage — celle choisie par le joueur actif.
+                  </p>
+                  <p>
+                    Une fois qu’une posture a été choisie, aucune autre figurine
+                    dans le défi ne peut choisir la même posture à la même étape
+                    de confrontation (si le défi dure plusieurs rounds, les
+                    choix faits à une étape ne limitent pas les étapes
+                    ultérieures).
+                  </p>
+
+                  <h3 class="sous-titre" id="postures">Postures de base</h3>
+                  <div class="table-scroll">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="gauche">Posture</th>
+                          <th class="gauche">Effet</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Saisir l’initiative</strong>
+                          </td>
+                          <td class="gauche">
+                            Le joueur jette un dé de plus à l’étape de
+                            concentration et défausse le dé au résultat le plus
+                            bas.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Grêle de coups</strong>
+                          </td>
+                          <td class="gauche">
+                            La figurine gagne un bonus de +D3 à sa
+                            caractéristique d’attaques, mais les touches
+                            infligées par ces attaques ont leur caractéristique
+                            de dégâts fixée à « 1 », sans que cela puisse être
+                            modifié par une règle spéciale.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Éprouver l’adversaire</strong>
+                          </td>
+                          <td class="gauche">
+                            La figurine visée par ce choix ne gagne aucun bonus
+                            aux étapes de concentration ou de frappe, mais si
+                            elle n’est pas retirée comme perte, elle gagne
+                            automatiquement l’avantage en défi au début de la
+                            prochaine étape de confrontation.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Se garder</strong></td>
+                          <td class="gauche">
+                            La figurine destinataire gagne un bonus de +1 à sa
+                            capacité de combat à l’étape de frappe, mais elle ne
+                            peut faire qu’une seule attaque, quelle que soit sa
+                            caractéristique d’attaques. À l’étape de frappe,
+                            chaque attaque ratée de la figurine ennemie confère
+                            au joueur qui a choisi cette posture un bonus de +1
+                            au prochain jet de concentration.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Provoquer et leurrer</strong>
+                          </td>
+                          <td class="gauche">
+                            La figurine voit ses caractéristiques de capacité de
+                            combat et d’attaques réduites à celles de la
+                            figurine ennemie (ou, si elles étaient déjà égales,
+                            réduites de -1). Pour chacune des fois qu’un joueur
+                            a choisi cette posture lors du défi en cours, il
+                            gagne +1 point de résolution de combat s’il remporte
+                            le défi.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Plastronner</strong></td>
+                          <td class="gauche">
+                            Le joueur doit jeter un dé de plus à l’étape de
+                            concentration et défausser le dé au résultat le plus
+                            élevé ; la figurine ne gagne aucun bonus de soutien
+                            extérieur. En contrepartie, elle gagne un bonus
+                            d’attaques égal au bonus de soutien extérieur auquel
+                            elle aurait normalement eu droit à l’étape de
+                            concentration.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Feinte et riposte</strong>
+                          </td>
+                          <td class="gauche">
+                            Ne peut être choisie que par le joueur choisissant
+                            la première posture. Ce joueur peut nommer n’importe
+                            quelle autre posture (y compris une posture propre à
+                            une faction à laquelle il n’a pas accès) : le joueur
+                            adverse ne peut pas choisir cette posture à cette
+                            etape de confrontation.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Rompre</strong></td>
+                          <td class="gauche">
+                            La figurine ne peut faire qu’une seule attaque,
+                            quelle que soit sa caractéristique d’attaques. À
+                            l’étape de gloire, un joueur qui a choisi cette
+                            posture a le droit de mettre fin au défi et de ne
+                            marquer aucun point de résolution de combat, pour
+                            peu que la figurine sous son contrôle n’ait pas été
+                            retirée comme perte à l’étape de frappe.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Coup de grâce</strong></td>
+                          <td class="gauche">
+                            Le joueur doit jeter un dé de plus et défausser le
+                            dé au résultat le plus élevé avant de faire le
+                            total. En contrepartie, une figurine gagne un bonus
+                            de +1 aux caractéristiques de force et de dégâts de
+                            toutes les touches infligées à l’étape de frappe.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 3. CONCENTRATION ===================== -->
+            <div class="timeline-item" id="concentration">
+              <button class="timeline-titre" aria-expanded="false">
+                3. Concentration <span class="chevron">❯</span>
+              </button>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    Chaque joueur ne doit choisir qu’une seule arme pour la
+                    figurine sous son contrôle, et le joueur réactif doit
+                    choisir en premier, puis chacun doit faire un
+                    <strong>jet de concentration</strong> : le joueur en
+                    contrôle d’une figurine jette un dé et ajoute les
+                    modificateurs suivants, s’ils s’appliquent :
+                  </p>
+                  <ul>
+                    <li>
+                      on ajoute l’<strong>initiative en combat</strong>
+                      (voir plus bas) de chaque figurine au résultat du jet ;
+                    </li>
+                    <li>
+                      une figurine de sous-type
+                      <span class="regle-tag" tabindex="0"
+                        >Lourd<span class="tooltip"
+                          >Une unité entièrement composée de figurines de
+                          sous-type Lourd gagne +1 en sang-froid, mais ne peuts
+                          pas foncer.</span
+                        ></span
+                      >
+                      subit un modificateur de -1 ;
+                    </li>
+                    <li>
+                      une figurine dont la caractéristique de PV actuelle est
+                      inférieure à sa caractéristique de PV de base subit un
+                      modificateur de -1 par point de différence entre la valeur
+                      de base et la valeur actuelle ;
+                    </li>
+                    <li>
+                      si une figurine, ou l’arme choisie, a la règle spéciale
+                      <span class="regle-tag" tabindex="0"
+                        >Atout du duelliste (X)<span class="tooltip"
+                          >Ajoute un modificateur positif égal à X aux jets de
+                          concentration faits pour la figurine.</span
+                        ></span
+                      >, elle gagne un modificateur positif égal à la valeur de
+                      X ;
+                    </li>
+                    <li>
+                      une figurine de sous-type
+                      <span class="regle-tag" tabindex="0"
+                        >Léger<span class="tooltip"
+                          >Une unité entièrement composée de figurines de
+                          sous-type Léger gagne +2 à son initiative pour foncer,
+                          et peut tirer au jugé après avoir Foncé.</span
+                        ></span
+                      >
+                      gagne un modificateur de +1 ;
+                    </li>
+                    <li>
+                      une figurine peut gagner un modificateur positif grâce au
+                      <strong>soutien extérieur</strong> (voir plus bas).
+                    </li>
+                  </ul>
+                  <p>
+                    Une fois que les deux joueurs ont fait leur jet de
+                    concentration en ajoutant tous les modificateurs, on compare
+                    leurs deux totaux : le joueur avec la figurine sous son
+                    contrôle qui a le total le plus haut prend l’<strong
+                      >avantage en défi</strong
+                    >, et sa figurine attaque la première à l’étape de frappe en
+                    gagnant un bonus de +1 à sa caractéristique d’attaques à
+                    cette seule étape de frappe (si le défi se prolonge sur
+                    plusieurs étapes de frappe, ce bonus ne se reporte pas). En
+                    cas d’égalité, les deux joueurs doivent refaire leur jet de
+                    concentration jusqu’à ce que l’un des deux ait un total
+                    supérieur à celui de son adversaire.
+                  </p>
+                  <p>
+                    Une fois les jets de concentration effectués et l’avantage
+                    en défi décidé, les joueurs passent à l’étape de frappe.
+                  </p>
+
+                  <div class="encadre" id="initiative-combat">
+                    <p>
+                      <strong>Initiative en combat.</strong> L’initiative en
+                      combat d’une figurine donnée est toujours égale à la
+                      valeur actuelle de sa caractéristique d’initiative,
+                      modifiée par la caractéristique de modificateur
+                      d’initiative en combat de l’arme utilisée. Un modificateur
+                      précédé d’un symbole (« + », « − » ou « × ») se combine à
+                      la caractéristique d’initiative actuelle ; une valeur fixe
+                      (sans symbole) la remplace ; et un modificateur « I » ne
+                      change rien.
+                    </p>
+                    <div class="table-scroll">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th class="gauche">
+                              Modificateur d’initiative de l’arme
+                            </th>
+                            <th class="gauche">Exemple (initiative 4)</th>
+                            <th class="gauche">Initiative en combat</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="gauche">+2</td>
+                            <td class="gauche">4 + 2</td>
+                            <td class="gauche">6</td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">-1</td>
+                            <td class="gauche">4 − 1</td>
+                            <td class="gauche">3</td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">×2</td>
+                            <td class="gauche">4 × 2</td>
+                            <td class="gauche">8</td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">2 (valeur fixe)</td>
+                            <td class="gauche">4 remplacé par 2</td>
+                            <td class="gauche">2</td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">« I »</td>
+                            <td class="gauche">4 non modifié</td>
+                            <td class="gauche">4</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="encadre" id="soutien-exterieur">
+                    <p>
+                      <strong>Soutien extérieur.</strong> Un joueur a droit à un
+                      bonus de soutien extérieur à l’étape de concentration s’il
+                      contrôle d’autres figurines dans le combat où ont été
+                      choisis le protagoniste et l’antagoniste.
+                    </p>
+                    <ul>
+                      <li>
+                        Par tranche de <strong>cinq figurines amies</strong>
+                        dans le combat, la figurine gagne un bonus de +1 au jet
+                        de concentration. On ne compte que les figurines
+                        engagées, en excluant les figurines sujettes aux
+                        statuts. Les véhicules ou automates ne comptent pas, et
+                        chaque figurine de type marcheur compte pour cinq.
+                      </li>
+                      <li>
+                        Si un joueur en contrôle d’une figurine engagée en défi
+                        contrôle dans le même combat d’autres figurines que le
+                        joueur adverse ne contrôle pas dans ce combat, on suit
+                        une procédure différente : ce joueur gagne un bonus de
+                        +2 au jet de concentration par tranche complète ou
+                        partielle de cinq figurines sous son contrôle qui ne
+                        sont pas engagées en défi. Ces figurines n’ont pas
+                        besoin d’être engagées pour compter, et elles comptent
+                        même si elles sont sujettes aux statuts. On ne compte
+                        toujours pas les véhicules ou automates.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 4. FRAPPE ===================== -->
+            <div class="timeline-item" id="frappe">
+              <button class="timeline-titre" aria-expanded="false">
+                4. Frappe <span class="chevron">❯</span>
+              </button>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    Après le jet de concentration, une fois l’avantage en défi
+                    décidé, le joueur doit faire ses attaques à l’étape de
+                    frappe. L’ordre dans lequel les figurines attaquent dépend
+                    de quel joueur a l’avantage en défi : l’initiative et les
+                    règles spéciales sont ici sans effet. Les attaques de chaque
+                    figurine forment un <strong>groupe de coups</strong>, mais
+                    certaines règles spéciales peuvent exiger de le scinder à
+                    cette étape. On doit résoudre tous les groupes de coups
+                    générés pour le joueur qui a l’avantage en défi, avant de
+                    résoudre les groupes de coups générés pour la figurine
+                    restante.
+                  </p>
+                  <p>
+                    La figurine qui a l’avantage en défi fait toutes ses
+                    attaques en premier, suivie de la figurine adverse. Pour
+                    faire les attaques, les deux joueurs suivent ce processus :
+                  </p>
+                  <ol class="etapes">
+                    <li>
+                      <strong>Faire les jets de touche.</strong> Le joueur
+                      attaquant fait un nombre de jets de touche égal à la
+                      caractéristique d’attaques de la figurine sous son
+                      contrôle, plus les modificateurs conférés par l’arme
+                      choisie, la posture ou le jet de concentration. Le nombre
+                      cible de ces jets dépend de la capacité de combat de la
+                      figurine adverse en défi, et non de la caractéristique
+                      majoritaire de l’unité dont cette figurine fait partie.
+                    </li>
+                    <li>
+                      <strong>Faire les jets de blessure.</strong> Une fois les
+                      jets de touche effectués, les réussites donnent des
+                      touches et le joueur attaquant doit faire un jet de
+                      blessure pour chaque touche. Le nombre cible de ces jets
+                      est fonction de l’endurance de la figurine adverse en
+                      défi, et non de la caractéristique majoritaire de l’unité.
+                      Si la figurine adverse a une caractéristique de blindage
+                      au lieu d’une endurance, on fait un jet de pénétration de
+                      blindage à la place, contre la valeur de blindage la plus
+                      élevée de la figurine adverse.
+                    </li>
+                    <li>
+                      <strong
+                        >Le joueur adverse fait ses jets de sauvegarde et/ou de
+                        mitigation de dégâts.</strong
+                      >
+                      Une fois les jets de blessure effectués, les réussites
+                      donnent des blessures. Le joueur adverse peut tenter un
+                      jet de sauvegarde pour chaque blessure s’il en dispose ; à
+                      chaque réussite, on défausse la blessure. S’il en reste,
+                      le joueur adverse peut tenter un jet de mitigation de
+                      dégâts par blessure restante, si un tel jet est disponible
+                      ; à chaque réussite, on défausse une blessure.
+                    </li>
+                    <li>
+                      <strong
+                        >Appliquer les dégâts des blessures non
+                        sauvegardées.</strong
+                      >
+                      Les blessures non défaussées deviennent des blessures non
+                      sauvegardées. À chaque blessure non sauvegardée, la
+                      figurine adverse doit réduire sa caractéristique de points
+                      de vie ou de points de coque d’un montant égal à la
+                      caractéristique de dégâts de l’arme utilisée par la
+                      figurine qui a infligé la blessure. Si la caractéristique
+                      de PV ou de PC d’une figurine est réduite à 0 ou moins,
+                      elle est retirée comme perte et le défi prend fin.
+                    </li>
+                  </ol>
+
+                  <div class="encadre">
+                    <p>
+                      <strong>Remporter un défi.</strong> Si une figurine
+                      engagée en défi est retirée comme perte, le joueur en
+                      contrôle de la figurine restante est le vainqueur du défi.
+                      Quand une figurine est retirée — voire si les deux
+                      figurines sont retirées comme pertes en défi — les joueurs
+                      passent aussitôt à l’étape de gloire.
+                    </p>
+                    <p>
+                      <strong>Égalité.</strong> Si, après toutes les attaques
+                      pour toutes les figurines engagées dans le défi, ni le
+                      protagoniste ni l’antagoniste n’a été retiré comme perte,
+                      le défi se solde par une égalité. Le joueur en contrôle de
+                      la figurine ayant l’avantage en défi a le droit soit de
+                      revenir à l’étape 2 (confrontation) et d’en répéter les
+                      étapes 2, 3 et 4, soit de passer à l’étape de gloire. Il
+                      n’y a pas de limite au nombre de fois que l’on peut
+                      répéter les étapes 2, 3 et 4 dans un défi qui se prolonge.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 5. GLOIRE ===================== -->
+            <div class="timeline-item" id="gloire">
+              <button class="timeline-titre" aria-expanded="false">
+                5. Gloire <span class="chevron">❯</span>
+              </button>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    Si, quand l’étape de gloire commence, une figurine impliquée
+                    dans le défi a été retirée comme perte, le joueur en
+                    contrôle de la figurine restante est le vainqueur du défi et
+                    gagne un nombre de
+                    <strong>points de résolution de combat</strong>
+                    égal à la caractéristique de points de vie de base de la
+                    figurine retirée comme perte (et non pas égal au nombre de
+                    PV retirés). On ajoute +1 à cette valeur si la figurine
+                    retirée comme perte était de type
+                    <span class="regle-tag" tabindex="0"
+                      >Parangon<span class="tooltip"
+                        >Alloue lui-même les touches qu’il inflige, au tir comme
+                        en mêlée. Peut lancer et relever des défis, et compte
+                        comme sa valeur de points de vie de base pour la
+                        résolution d’un combat.</span
+                      ></span
+                    >
+                    ou de sous-type État-major.
+                  </p>
+                  <p>
+                    Si aucune figurine n’a été retirée comme perte quand l’étape
+                    de gloire commence, le joueur en contrôle de la figurine qui
+                    fait perdre le plus de PV à l’autre figurine dans ce défi
+                    est le vainqueur, et il gagne un nombre de points de
+                    résolution de combat égal au nombre de PV ôtés. Le joueur en
+                    contrôle de la figurine vaincue ne gagne aucun point de
+                    résolution de combat, bien que sa figurine n’ait pas été
+                    retirée comme perte.
+                  </p>
+                  <p>
+                    Si aucune figurine n’a été retirée comme perte et qu’aucun
+                    PV n’a été perdu, ou que les deux joueurs en ont fait perdre
+                    le même nombre — ou que les deux figurines ont été retirées
+                    comme pertes — le défi se solde par une
+                    <strong>égalité</strong>
+                    et aucun joueur ne gagne de résolution de combat.
+                  </p>
+                  <p>
+                    Une fois qu’on connaît le vainqueur du défi (ou son
+                    absence), les joueurs doivent revenir à l’étape 1 et choisir
+                    un nouveau combat pour lequel déclarer un défi — ou, s’il
+                    n’y a plus de combat éligible, finir la sous-phase de défi
+                    et commencer la sous-phase de combat.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="disgrace">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="disgrace-corps"
+          >
+            <span>Le statut en disgrâce</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="disgrace-corps">
+          <div class="encadre-attention">
+            <p>
+              Une figurine sujette au statut <strong>en disgrâce</strong> divise
+              ses caractéristiques de capacité de combat et de commandement pour
+              la durée de la phase d’assaut à laquelle elle a gagné ce statut.
+              Tous les effets normalement applicables à une unité qui inclut une
+              figurine sujette à un statut affectent les figurines de la même
+              unité qu’une figurine en disgrâce, y compris être réduites à une
+              initiative en combat de 1.
+            </p>
+            <p>
+              À la différence d’autres statuts, le statut en disgrâce est
+              automatiquement retiré à la phase de fin du même tour de joueur
+              auquel il a été infligé, sans faire de test. Notez que le statut
+              en disgrâce n’affecte pas les figurines que les autres statuts
+              n’affectent pas, et que d’autres règles et effets capables de
+              retirer des statuts peuvent retirer celui-ci avant la phase de
+              fin.
+            </p>
+            <p>
+              Une unité qui inclut des figurines <em>en déroute</em> peut
+              inclure des figurines en disgrâce.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="restitution">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="restitution-corps"
+          >
+            <span>Rendre le protagoniste et l’antagoniste à leurs unités</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="restitution-corps">
+          <p>
+            Les figurines qui ont fait des attaques à la sous-phase de défi et
+            ne sont pas retirées comme pertes doivent rester de côté jusqu’à la
+            sous-phase de résolution. À ce moment, toutes les figurines qui ont
+            fait des attaques à la sous-phase de défi sont rendues à l’unité
+            dont elles faisaient partie. On peut les placer n’importe où tant
+            qu’elles sont en cohésion d’unité avec au moins une autre figurine
+            de la même unité, et qu’elles doivent être engagées contre une unité
+            ennemie autant que possible.
+          </p>
+          <p>
+            Si l’unité dont la figurine faisait partie a été entièrement retirée
+            comme pertes à la sous-phase de combat, la figurine doit être placée
+            en contact socle à socle avec une figurine ennemie quelconque de
+            l’unité avec laquelle elle était verrouillée en combat au début de
+            la sous-phase de défi. En pareil cas, on considère que la figurine
+            ramenée en jeu est verrouillée dans le même combat, en conservant
+            tous les modificateurs de résolution de combat infligés à la
+            sous-phase de défi et à la sous-phase de combat. On résout alors le
+            combat normalement.
+          </p>
+          <div class="encadre">
+            <p>
+              Notez que cela implique que les figurines ayant fait des attaques
+              à la sous-phase de défi ne feront aucune attaque à la sous-phase
+              de combat suivante, et qu’on ne pourra pas leur allouer de
+              blessures durant cette sous-phase. Dans certains cas, cela peut
+              donner une unité « verrouillée en combat » mais sans avoir la
+              moindre figurine ennemie à cibler avec des attaques à la
+              sous-phase de combat : en pareil cas, on ne fait pas d’attaque à
+              cette sous-phase, et les figurines qui demeurent sur le champ de
+              bataille dans ce combat ne peuvent pas faire de mise au contact ni
+              aucun autre déplacement. Après avoir rendu à leurs unités les
+              figurines qui étaient engagées en défi, on résout le combat
+              normalement, en faisant la somme des points de résolution de
+              combat glanés lors du défi et de tous ceux qui découlent de la
+              composition de l’unité, comme la supériorité numérique ou les
+              éventuels vexilla.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
