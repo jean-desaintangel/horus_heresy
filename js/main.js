@@ -173,9 +173,9 @@ const LIENS_NAV = [
   { href: "mouvement.html", texte: "Mouvement" },
   { href: "tir.html", texte: "Tir" },
   { href: "assaut.html", texte: "Assaut" },
+  { href: "armes.html", texte: "Armes" },
   { href: "statuts-reactions.html", texte: "Statuts & Réactions" },
   { href: "regles.html", texte: "Règles spéciales" },
-  { href: "armes.html", texte: "Armes" },
   { href: "psy.html", texte: "Psychique" },
   { href: "vehicule.html", texte: "Véhicules" },
   { href: "titan.html", texte: "Titans" },
@@ -249,23 +249,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ----------------------------------------------------------
-   SKIN DE LÉGION — SITE ENTIER
+   SKIN DE LÉGION / FACTION — SITE ENTIER
    js/organigramme.js pose une classe "skin-legion-*" sur <body>
    (voir "Skins de Légion" dans css/style.css) mais uniquement sur
    pages/unites.html, la seule page qui le charge. On relit ici la
    même clé localStorage ("hh-armee-organigramme", voir
    CLE_STOCKAGE_ORGA dans organigramme.js — dupliquée car ce fichier
    n'est pas chargé partout) pour poser la même classe sur TOUTES les
-   pages : la palette (--accent…) et le blason suivent alors le
+   pages : la palette (--accent…) et le(s) blason(s) suivent alors le
    joueur d'une page à l'autre.
    Posé hors DOMContentLoaded, au plus tôt (script en defer, donc DOM
-   déjà prêt) pour éviter un flash de la palette par défaut. Le
-   blason devant h1.titre-page attend DOMContentLoaded (élément pas
-   forcément déjà présent dans <head>-relative timing, et moins
-   critique côté flash vu sa petite taille).
-   Fichiers de blasons sous assets/logo_legions/ : voir LOGOS_LEGION
-   dans organigramme.js pour la légende des coquilles de noms de
-   fichiers conservées telles quelles.
+   déjà prêt) pour éviter un flash de la palette par défaut. Le(s)
+   blason(s) devant h1.titre-page attendent DOMContentLoaded (élément
+   pas forcément déjà présent dans <head>-relative timing, et moins
+   critique côté flash vu leur petite taille).
+   Deux skins possibles, mutuellement exclusifs (une Armée Legio
+   Titanicus n'a pas de Légion, `legion` reste "" dans la sauvegarde) :
+   - Légion Astartes : un seul blason (assets/logo_legions/*.png, voir
+     LOGOS_LEGION dans organigramme.js pour la légende des coquilles de
+     noms de fichiers conservées telles quelles), posé à gauche.
+   - Faction Legio Titanicus (SKIN_TITANICUS, organigramme.js) : deux
+     blasons (assets/logo_titan/1.png et 2.png), posés à gauche ET à
+     droite du titre.
    ---------------------------------------------------------- */
 (function appliquerSkinLegionGlobal() {
   const LOGOS_LEGION = {
@@ -289,29 +294,56 @@ document.addEventListener("DOMContentLoaded", () => {
     XX: "alpha_legion",
   };
 
-  let legion;
+  let donnees;
   try {
     const brut = localStorage.getItem("hh-armee-organigramme");
     if (!brut) return;
-    legion = JSON.parse(brut).legion;
+    donnees = JSON.parse(brut);
   } catch {
     return; // stockage indisponible ou corrompu : palette par défaut
   }
-  if (typeof legion !== "string" || !LOGOS_LEGION[legion]) return;
 
-  document.body.classList.add("skin-legion-" + legion.toLowerCase());
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const titre = document.querySelector("h1.titre-page");
-    if (!titre || titre.querySelector(".legion-icon")) return;
+  const creerBlason = (dossier, fichier, classeSupplementaire) => {
     const img = document.createElement("img");
-    img.className = "legion-icon legion-icon--titre";
-    img.src = RACINE_SITE + "assets/logo_legions/" + LOGOS_LEGION[legion] + ".png";
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src = RACINE_SITE + "assets/" + dossier + "/" + fichier + ".png";
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.loading = "lazy";
-    titre.insertBefore(img, titre.firstChild);
-  });
+    return img;
+  };
+
+  const legion = donnees.legion;
+  if (typeof legion === "string" && LOGOS_LEGION[legion]) {
+    document.body.classList.add("skin-legion-" + legion.toLowerCase());
+    document.addEventListener("DOMContentLoaded", () => {
+      const titre = document.querySelector("h1.titre-page");
+      if (!titre || titre.querySelector(".legion-icon")) return;
+      titre.insertBefore(
+        creerBlason("logo_legions", LOGOS_LEGION[legion], "legion-icon--titre"),
+        titre.firstChild,
+      );
+    });
+  } else if (donnees.faction === "legio-titanicus") {
+    document.body.classList.add("skin-legion-titanicus");
+    document.addEventListener("DOMContentLoaded", () => {
+      const titre = document.querySelector("h1.titre-page");
+      if (!titre || titre.querySelector(".legion-icon")) return;
+      titre.insertBefore(
+        creerBlason("logo_titan", "1", "legion-icon--titre"),
+        titre.firstChild,
+      );
+      titre.appendChild(
+        creerBlason(
+          "logo_titan",
+          "2",
+          "legion-icon--titre legion-icon--titre-droite",
+        ),
+      );
+    });
+  }
 })();
 
 document.addEventListener("DOMContentLoaded", () => {

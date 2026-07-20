@@ -74,9 +74,11 @@
                  Batailles (« un Titan Legio Titanicus peut prendre
                  place dans un Détachement de Seigneur des Batailles
                  d'une Armée d'une autre Faction », livre d'armée Legio
-                 Titanicus) et Détachement Allié (mélange déjà permis
-                 entre Légions ; le mélange entre Factions n'a pas de
-                 sélecteur dédié — limitation assumée, voir caseAccepte).
+                 Titanicus) et Détachement Allié — ce dernier porte en
+                 réalité sa propre Faction (`factionAlliee` sur
+                 l'instance, menu « Faction Alliée » de sa carte, voir
+                 js/organigramme.js) : caseAccepte() la vérifie
+                 précisément malgré `factionLibre` ici.
      requiertAllegeance : "loyaliste" | "renegat" — condition de
                  composition sur l'Armée entière (etat.allegeance,
                  menu Allégeance des paramètres de la partie), grisée
@@ -331,9 +333,9 @@ const TYPES_DETACHEMENTS = [
     id: "allie",
     nom: "Détachement Allié",
     famille: "additionnel",
-    factionLibre: true, // voir MODÈLE DE DONNÉES : mélange de Factions non modélisé finement
+    factionLibre: true, // Faction propre (`factionAlliee`), voir commentaire ci-dessous
     texte:
-      "Nombre libre. Chaque Légion Astartes compte comme une Faction distincte : ce Détachement doit donc porter une Légion différente de celle du Détachement Principal (menu « Légion Alliée » sur sa carte). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
+      "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte, pour une Armée Legio Titanicus ; Chaque Légion Astartes comptant comme une Faction distincte, une Légion différente suffit pour une Armée Legio Astartes — menu « Légion Alliée »). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [
       _caseOrga("État-major", true),
       _caseOrga("État-major"),
@@ -342,21 +344,28 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
     ],
-    // Faction = Légion (choix de Jean) : chaque Détachement Allié porte
-    // sa propre Légion (`legionAlliee` sur l'instance, choisie sur sa
-    // carte — voir js/organigramme.js), qui doit différer de la Légion
-    // de l'Armée (etat.legion). Les unités réservées à une Légion
-    // (champ `legion`, js/unites-data.js) sont filtrées en conséquence
-    // par caseAccepte() : Légion de l'Armée pour tout détachement non
-    // Allié, Légion propre à chaque Détachement Allié pour les siennes.
-    // L'Allégeance (Loyaliste/Renégat), elle, reste un réglage UNIQUE
-    // pour toute l'Armée (menu « Allégeance » des paramètres de la
-    // partie) : Principal et Alliés la partagent donc automatiquement,
-    // ce qui satisfait la règle « même Allégeance » sans champ dédié.
+    // Chaque Détachement Allié porte sa propre Faction (`factionAlliee`
+    // sur l'instance, menu « Faction Alliée » de sa carte — voir
+    // js/organigramme.js) : "legio-astartes" par défaut pour une Armée
+    // Legio Astartes (comme avant l'ajout de ce menu, seule la Légion
+    // varie alors — Faction = Légion, choix de Jean), vide tant qu'elle
+    // n'est pas choisie pour une Armée Legio Titanicus. Elle doit
+    // différer de la Faction de l'Armée (etat.faction) ; à Légio
+    // Astartes égal, sa propre Légion (`legionAlliee`) doit en plus
+    // différer de celle de l'Armée (etat.legion), chaque Légion comptant
+    // comme une Faction distincte. Les unités réservées à une Faction ou
+    // une Légion (champs `faction`/`legion`, js/unites-data.js) sont
+    // filtrées en conséquence par caseAccepte() : celles de l'Armée pour
+    // tout détachement non Allié, celles propres à chaque Détachement
+    // Allié pour les siens. L'Allégeance (Loyaliste/Renégat), elle,
+    // reste un réglage UNIQUE pour toute l'Armée (menu « Allégeance »
+    // des paramètres de la partie) : Principal et Alliés la partagent
+    // donc automatiquement, ce qui satisfait la règle « même Allégeance »
+    // sans champ dédié.
     // Simplification assumée : les Détachements Auxiliaires débloqués
     // par une Case d'État-major alliée piochent dans le même crédit
     // partagé que ceux du Détachement Principal (voir calculerCredits())
-    // sans être eux-mêmes rattachés à la Légion de cet Allié.
+    // sans être eux-mêmes rattachés à la Faction/Légion de cet Allié.
   },
 
   /* ---------- Détachements Auxiliaires standard (p. 284) ---------- */

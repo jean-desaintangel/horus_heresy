@@ -96,6 +96,11 @@ const Organigramme = (() => {
       primarque: "Lion El'Jonson",
       monde: "Caliban",
       allegeance: "loyaliste",
+      // Couleur d'accent (--accent du skin body.skin-legion-* ci-dessous,
+      // css/style.css) : dupliquée ici pour teinter la Légion propriétaire
+      // d'une unité affichée hors de son propre skin de page (ex : liste
+      // « Unité à ajouter », voir js/unites.js).
+      accent: "#1f3a24",
       devise:
         "Chevaliers de Caliban, les fils du Lion gardent un secret plus lourd que leurs épées : celui des Frères Déchus qu'ils traquent sans repos.",
     },
@@ -106,6 +111,7 @@ const Organigramme = (() => {
       primarque: "Fulgrim",
       monde: "Chemos",
       allegeance: "renegat",
+      accent: "#4a1a5c",
       devise:
         "Nés dans les brumes toxiques de Chemos, les fils de Fulgrim ne recherchent qu'une chose : la perfection absolue, jusqu'à l'obsession.",
     },
@@ -116,6 +122,7 @@ const Organigramme = (() => {
       primarque: "Perturabo",
       monde: "Olympia",
       allegeance: "renegat",
+      accent: "#4a4a4a",
       devise:
         "Rancuniers et increvables, les fils de Perturabo ne connaissent que la guerre de siège : pierre après pierre, bastion après bastion, jusqu'à la victoire.",
     },
@@ -126,6 +133,7 @@ const Organigramme = (() => {
       primarque: "Jaghatai Khan",
       monde: "Chogoris",
       allegeance: "loyaliste",
+      accent: "#a3341c",
       devise:
         "Cavaliers de Chogoris, les fils de Jaghatai Khan frappent à la vitesse du vent et ne laissent à l'ennemi que la poussière de leur passage.",
     },
@@ -136,6 +144,7 @@ const Organigramme = (() => {
       primarque: "Leman Russ",
       monde: "Fenris",
       allegeance: "loyaliste",
+      accent: "#33454e",
       devise:
         "Nés dans la glace de Fenris, les fils de Leman Russ chassent en meute et ne connaissent d'autre loi que celle du loup.",
     },
@@ -146,6 +155,7 @@ const Organigramme = (() => {
       primarque: "Rogal Dorn",
       monde: "Terra (Inwit)",
       allegeance: "loyaliste",
+      accent: "#5c4712",
       devise:
         "Bâtisseurs increvables, les fils de Rogal Dorn tiennent leurs murs jusqu'au dernier homme : reculer n'est pas un mot qu'ils connaissent.",
     },
@@ -156,6 +166,7 @@ const Organigramme = (() => {
       primarque: "Konrad Curze",
       monde: "Nostramo",
       allegeance: "renegat",
+      accent: "#10151f",
       devise:
         "Nés dans l'ombre de Nostramo, les fils de Konrad Curze sèment une terreur si totale que la résistance meurt avant le premier coup.",
     },
@@ -166,6 +177,7 @@ const Organigramme = (() => {
       primarque: "Sanguinius",
       monde: "Baal",
       allegeance: "loyaliste",
+      accent: "#7a0c0c",
       devise:
         "Hantée par la Soif Rouge et la Rage Noire, la IXe Légion mène la charge avec une noblesse et une fureur qui n'appartiennent qu'à elle.",
     },
@@ -176,6 +188,7 @@ const Organigramme = (() => {
       primarque: "Ferrus Manus",
       monde: "Medusa",
       allegeance: "loyaliste",
+      accent: "#2a1414",
       devise:
         "Sur Médusa, la chair est faiblesse : les fils de Ferrus Manus remplacent leurs membres par l'acier et ne pleurent jamais leurs pertes.",
     },
@@ -184,8 +197,9 @@ const Organigramme = (() => {
       icone: "world-eaters",
       nom: "World Eaters",
       primarque: "Angron",
-      monde: "—",
+      monde: "Nuceria",
       allegeance: "renegat",
+      accent: "#8a3a12",
       devise:
         "Rongés par les Clous du Boucher, les fils d'Angron ne connaissent plus la retraite : seule la rage guide leurs haches jusqu'au dernier ennemi debout.",
     },
@@ -196,6 +210,7 @@ const Organigramme = (() => {
       primarque: "Roboute Guilliman",
       monde: "Macragge",
       allegeance: "loyaliste",
+      accent: "#1c3a6e",
       devise:
         "Fils de Guilliman, les Ultramarines incarnent la discipline et la civilisation : chaque bataille suit un plan, chaque plan sert l'Imperium.",
     },
@@ -206,6 +221,7 @@ const Organigramme = (() => {
       primarque: "Mortarion",
       monde: "Barbarus",
       allegeance: "renegat",
+      accent: "#3a4a2e",
       devise:
         "Endurcis par les miasmes de Barbarus, les fils de Mortarion refusent de tomber : leur endurance est aussi implacable que la faux qu'ils portent.",
     },
@@ -216,6 +232,7 @@ const Organigramme = (() => {
       primarque: "Magnus le Rouge",
       monde: "Prospero",
       allegeance: "renegat",
+      accent: "#1c2f5c",
       devise:
         "Érudits de Prospero, les fils de Magnus le Rouge manient les arcanes psychiques avec une soif de savoir qui n'a d'égale que leur puissance.",
     },
@@ -226,6 +243,7 @@ const Organigramme = (() => {
       primarque: "Horus Lupercal",
       monde: "Cthonia",
       allegeance: "renegat",
+      accent: "#3a3020",
       devise:
         "Fils de Cthonia, les Sons of Horus suivent leur Primarque en toute chose — et c'est cette loyauté sans faille qui, un jour maudit, embrasa la galaxie.",
     },
@@ -236,6 +254,7 @@ const Organigramme = (() => {
       primarque: "Lorgar",
       monde: "Colchis",
       allegeance: "renegat",
+      accent: "#4a1c1c",
       devise:
         "Nés dans la foi de Colchis, les fils de Lorgar ne se battent pas seulement pour l'Empereur : ils cherchent un dieu à vénérer, et ne s'arrêteront devant rien pour le trouver.",
     },
@@ -246,6 +265,7 @@ const Organigramme = (() => {
       primarque: "Vulkan",
       monde: "Nocturne",
       allegeance: "loyaliste",
+      accent: "#2a3a24",
       devise:
         "Forgés dans les volcans de Nocturne, les fils de Vulkan protègent l'humanité comme un père protège ses enfants — et frappent comme le marteau frappe l'enclume.",
     },
@@ -256,6 +276,7 @@ const Organigramme = (() => {
       primarque: "Corvus Corax",
       monde: "Deliverance",
       allegeance: "loyaliste",
+      accent: "#1c1c22",
       devise:
         "Fils de Corvus Corax, les Raven Guard frappent depuis l'ombre de Deliverance et disparaissent avant que l'ennemi ait pu riposter.",
     },
@@ -266,9 +287,37 @@ const Organigramme = (() => {
       primarque: "Alpharius et Omegon",
       monde: "—",
       allegeance: "renegat",
+      accent: "#123a3c",
       devise:
         "Légion de l'ombre aux mille visages, les fils d'Alpharius et Omegon frappent partout à la fois : couper une tête n'a jamais suffi à tuer l'hydre.",
     },
+  };
+
+  /* Skin de la Faction Legio Titanicus (livre d'armée Legio Titanicus) :
+     même mécanique que SKINS_LEGION ci-dessus (classe posée sur <body>,
+     recolore --accent/--accent-clair/--fond-secondaire/--carte-hover),
+     mais rattachée à la FACTION (etat.faction) plutôt qu'à une Légion
+     précise — ce livre d'armée n'a pas de subdivision en Légions
+     Titanicus dans ce site, contrairement aux Legiones Astartes.
+     `classe` reprend volontairement le préfixe "skin-legion-" pour
+     hériter des règles partagées body[class*="skin-legion-"] déjà
+     définies ci-dessous (liserés, bordures de bouton…) sans les
+     dupliquer. `blasons` : les deux bannières héraldiques conservées
+     sous assets/logo_titan/ (1.png et 2.png ; les deux autres bannières
+     d'origine ont été retirées du site puis celle-ci renumérotée de
+     4.png à 2.png) — la première posée à gauche des titres, la
+     seconde à droite (voir construireParametres et css/style.css, ainsi
+     que appliquerSkinLegionGlobal dans js/main.js pour les pages hors
+     pages/unites.html). */
+  const SKIN_TITANICUS = {
+    classe: "skin-legion-titanicus",
+    nom: "Legio Titanicus",
+    devise:
+      "Dieux de fer arpentant le champ de bataille, les Titans de la Legio Titanicus écrasent blindés et bastions sous des tonnes d'acier sacré, chacun gravé du blason de sa Légion.",
+    blasons: [
+      { fichier: "1.png", nom: "Ferrum Mori" },
+      { fichier: "2.png", nom: "Paladin Argentus" },
+    ],
   };
 
   /* Blasons de Légion (assets/logo_legions/*.png) : bannières
@@ -314,6 +363,25 @@ const Organigramme = (() => {
       "../assets/logo_legions/" +
       (LOGOS_LEGION[skin.icone] || skin.icone) +
       ".png";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
+  }
+
+  /* Équivalent de creerIconeLegion ci-dessus pour un blason de
+     SKIN_TITANICUS.blasons (assets/logo_titan/*.png). `nom` est posé en
+     `title` (pas d'équivalent au texte "Légion – nom" affiché à côté de
+     creerIconeLegion, faute de Légion Titanicus sélectionnée) : tooltip
+     souris facultatif, l'image reste purement décorative (alt vide +
+     aria-hidden) pour le lecteur d'écran. */
+  function creerIconeTitan(blason, classeSupplementaire) {
+    const img = document.createElement("img");
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src = "../assets/logo_titan/" + blason.fichier;
+    img.title = blason.nom;
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.loading = "lazy";
@@ -410,13 +478,25 @@ const Organigramme = (() => {
 
   function creerDetachement(typeId) {
     const type = typeParId(typeId);
+    // Faction propre à ce Détachement Allié (menu « Faction Alliée » sur
+    // sa carte, uniquement affiché pour une Armée Legio Titanicus — voir
+    // construireDetachementDOM) : pour une Armée Legio Astartes, toujours
+    // "legio-astartes" comme avant l'ajout de ce menu (seule la Légion
+    // varie, via `legionAlliee` ci-dessous) ; pour une Armée Legio
+    // Titanicus, vide tant qu'elle n'est pas choisie. Sans objet (null)
+    // pour tout autre type de détachement.
+    const factionAllieeDefaut =
+      etat.faction === "legio-titanicus" ? "" : "legio-astartes";
     return {
       uid: ++compteurDet,
       typeId,
+      factionAlliee: type.id === "allie" ? factionAllieeDefaut : null,
       // Légion (Faction, p. 283) propre à ce Détachement Allié, choisie
       // sur sa carte — voir construireDetachementDOM et caseAccepte().
       // Sans objet (null) pour tout autre type de détachement : ceux-là
-      // suivent la Légion de l'Armée (etat.legion).
+      // suivent la Légion de l'Armée (etat.legion). N'a de sens que si
+      // `factionAlliee` vaut "legio-astartes" (Legio Titanicus n'a pas
+      // de subdivision en Légions).
       legionAlliee: type.id === "allie" ? "" : null,
       cases: type.cases.map((c) => ({
         role: c.role,
@@ -449,14 +529,20 @@ const Organigramme = (() => {
     // de SA Faction — celle de l'Armée (etat.faction) pour tout
     // détachement non `factionLibre`. Exceptions (livre d'armée Legio
     // Titanicus) :
-    // - `factionLibre` (Détachement de Seigneur des Batailles, Allié) :
-    //   accepte toute Faction, SAUF qu'un Détachement de Seigneur des
-    //   Batailles ne peut inclure aucune unité Legio Titanicus tant que
+    // - Détachement Allié : sa propre Faction (menu « Faction Alliée »
+    //   de sa carte, "legio-astartes" par défaut pour une Armée Legio
+    //   Astartes — seule la Légion varie alors, comme avant l'ajout de
+    //   ce menu — et vide tant qu'elle n'est pas choisie pour une Armée
+    //   Legio Titanicus).
+    // - Détachement de Seigneur des Batailles : accepte toute Faction,
+    //   SAUF qu'il ne peut inclure aucune unité Legio Titanicus tant que
     //   le Détachement Principal de l'Armée est l'Ordinal Titanique
     //   (règle 1 de l'Ordinal Titanique — sinon, un Titan isolé DANS ce
     //   détachement est justement la façon d'en aligner un sans lui).
     const factionUnite = unite.faction || "legio-astartes";
-    if (type.factionLibre) {
+    if (type.id === "allie") {
+      if (factionUnite !== (det.factionAlliee || "legio-astartes")) return false;
+    } else if (type.factionLibre) {
       if (
         type.id === "seigneur-batailles" &&
         factionUnite === "legio-titanicus" &&
@@ -1370,6 +1456,7 @@ const Organigramme = (() => {
           riteDeGuerre: etat.riteDeGuerre,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
+            factionAlliee: d.factionAlliee || null,
             legionAlliee: d.legionAlliee || null,
             cases: d.cases.map((c) => ({
               role: c.role,
@@ -1433,13 +1520,30 @@ const Organigramme = (() => {
         const type = typeParId(brute.typeId);
         if (!type) continue;
         const det = creerDetachement(type.id);
-        if (
-          type.id === "allie" &&
-          typeof brute.legionAlliee === "string" &&
-          (brute.legionAlliee === "" ||
-            LEGIONS.some(([v]) => v === brute.legionAlliee))
-        ) {
-          det.legionAlliee = brute.legionAlliee;
+        if (type.id === "allie") {
+          if (
+            typeof brute.factionAlliee === "string" &&
+            FACTIONS.some(
+              ([v, , disponible]) => v === brute.factionAlliee && disponible,
+            )
+          ) {
+            det.factionAlliee = brute.factionAlliee;
+          } else if (
+            typeof brute.legionAlliee === "string" &&
+            brute.legionAlliee !== ""
+          ) {
+            // Sauvegarde antérieure au menu « Faction Alliée » : une
+            // Légion Alliée déjà choisie signifiait forcément Legio
+            // Astartes (seule Faction alliable transcrite à l'époque).
+            det.factionAlliee = "legio-astartes";
+          }
+          if (
+            typeof brute.legionAlliee === "string" &&
+            (brute.legionAlliee === "" ||
+              LEGIONS.some(([v]) => v === brute.legionAlliee))
+          ) {
+            det.legionAlliee = brute.legionAlliee;
+          }
         }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
         // Case supplémentaire d'un Avantage `ajouteCase` éventuelle
@@ -1841,37 +1945,71 @@ const Organigramme = (() => {
     // Skin thématique : recolore tout le site (variables CSS), pose le
     // blason (sprite <symbol> de pages/unites.html) sur le titre de
     // page et ajoute un bandeau de contexte historique sous les
-    // paramètres.
+    // paramètres. Legio Titanicus (SKIN_TITANICUS) suit la Faction
+    // plutôt qu'une Légion précise (pas de subdivision en Légions
+    // Titanicus dans ce site) : skinLegion prime si les deux étaient
+    // renseignés (cas impossible aujourd'hui, etat.legion restant vide
+    // pour cette Faction).
     for (const info of Object.values(SKINS_LEGION)) {
       document.body.classList.remove(info.classe);
     }
-    const skin = SKINS_LEGION[etat.legion];
+    document.body.classList.remove(SKIN_TITANICUS.classe);
+    const skinLegion = SKINS_LEGION[etat.legion];
+    const skinTitan = etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const titre = document.querySelector("h1.titre-page");
     if (titre) {
-      const ancienneIcone = titre.querySelector(".legion-icon");
-      if (ancienneIcone) ancienneIcone.remove();
-      if (skin) {
+      // querySelectorAll (pas querySelector) : Legio Titanicus pose DEUX
+      // blasons sur le titre (gauche + droite ci-dessous), contre un
+      // seul pour une Légion Astartes — il faut retirer les deux au
+      // changement de Faction/Légion, pas juste le premier trouvé.
+      titre.querySelectorAll(".legion-icon").forEach((icone) => icone.remove());
+      if (skinLegion) {
         titre.insertBefore(
-          creerIconeLegion(skin, "legion-icon--titre"),
+          creerIconeLegion(skinLegion, "legion-icon--titre"),
           titre.firstChild,
+        );
+      } else if (skinTitan) {
+        titre.insertBefore(
+          creerIconeTitan(skinTitan.blasons[0], "legion-icon--titre"),
+          titre.firstChild,
+        );
+        titre.appendChild(
+          creerIconeTitan(
+            skinTitan.blasons[1],
+            "legion-icon--titre legion-icon--titre-droite",
+          ),
         );
       }
     }
-    if (skin) {
-      document.body.classList.add(skin.classe);
+    if (skinLegion) {
+      document.body.classList.add(skinLegion.classe);
       const banniere = el("p", "legion-banniere");
       const entete = el("strong", "legion-item");
-      entete.appendChild(creerIconeLegion(skin));
+      entete.appendChild(creerIconeLegion(skinLegion));
       entete.appendChild(
-        document.createTextNode(etat.legion + " – " + skin.nom),
+        document.createTextNode(etat.legion + " – " + skinLegion.nom),
       );
       banniere.appendChild(entete);
       banniere.appendChild(
         document.createTextNode(
-          " · Primarque : " + skin.primarque + " · Monde Natal : " + skin.monde,
+          " · Primarque : " + skinLegion.primarque + " · Monde Natal : " + skinLegion.monde,
         ),
       );
-      if (skin.devise) banniere.appendChild(el("em", null, skin.devise));
+      if (skinLegion.devise) banniere.appendChild(el("em", null, skinLegion.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinTitan) {
+      document.body.classList.add(skinTitan.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item");
+      entete.appendChild(creerIconeTitan(skinTitan.blasons[0]));
+      entete.appendChild(document.createTextNode(skinTitan.nom));
+      // Rouage Mechanicum décoratif (héraldique Titanicus) : purement
+      // ornemental, comme les blasons ci-dessus (aria-hidden).
+      const rouage = el("span", "legion-titan-cog", "⚙");
+      rouage.setAttribute("aria-hidden", "true");
+      entete.appendChild(rouage);
+      banniere.appendChild(entete);
+      if (skinTitan.devise) banniere.appendChild(el("em", null, skinTitan.devise));
       conteneur.appendChild(banniere);
     }
   }
@@ -1935,6 +2073,67 @@ const Organigramme = (() => {
         ),
       );
     }
+  }
+
+  /* Menu « Faction Alliée » d'une carte de Détachement Allié, affiché
+     uniquement pour une Armée Legio Titanicus (pour une Armée Legio
+     Astartes, la Faction Alliée reste "legio-astartes" — seule la
+     Légion varie, via construireSelectLegionAlliee ci-dessous, comme
+     avant l'ajout de ce menu). Legio Titanicus n'ayant pas de
+     subdivision en Légions, la Faction de l'Armée elle-même y est
+     exclue (une Faction Alliée doit différer de celle du Détachement
+     Principal, p. 283). Changer la sélection retire toutes les unités
+     déjà placées dans ce Détachement (leur Faction ne correspondrait
+     plus forcément à la nouvelle). */
+  function construireSelectFactionAlliee(det) {
+    const ligne = el("p", "orga-detachement-faction");
+    const label = el("label", null, "Faction Alliée ");
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "Faction du Détachement Allié");
+    ajouterOption(select, "", "— Choisir la Faction Alliée —");
+    for (const [valeur, texte, disponible] of FACTIONS) {
+      const memeQueArmee = valeur === etat.faction;
+      const dispo = disponible && !memeQueArmee;
+      const opt = ajouterOption(
+        select,
+        valeur,
+        texte +
+          (memeQueArmee
+            ? " (Faction du Détachement Principal)"
+            : disponible
+              ? ""
+              : " (prochainement)"),
+      );
+      opt.disabled = !dispo;
+    }
+    select.value = det.factionAlliee || "";
+    select.addEventListener("change", () => {
+      const nouvelle = select.value;
+      if (nouvelle === det.factionAlliee) return;
+      const casesConcernees = det.cases.filter((c) => c.uniteUid !== null);
+      if (
+        casesConcernees.length > 0 &&
+        !window.confirm(
+          "Changer la Faction Alliée retire " +
+            casesConcernees.length +
+            " unité(s) de ce Détachement. Continuer ?",
+        )
+      ) {
+        select.value = det.factionAlliee || "";
+        return;
+      }
+      for (const c of casesConcernees) {
+        const uid = c.uniteUid;
+        liberer(uid);
+        hooks.retirerInstance(uid);
+      }
+      det.factionAlliee = nouvelle;
+      det.legionAlliee = "";
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
   }
 
   /* Menu « Légion Alliée » d'une carte de Détachement Allié (p. 283 :
@@ -2043,7 +2242,14 @@ const Organigramme = (() => {
       entete.appendChild(retirer);
     }
     carte.appendChild(entete);
-    if (type.id === "allie") carte.appendChild(construireSelectLegionAlliee(det));
+    if (type.id === "allie") {
+      if (etat.faction === "legio-titanicus") {
+        carte.appendChild(construireSelectFactionAlliee(det));
+      }
+      if (det.factionAlliee === "legio-astartes") {
+        carte.appendChild(construireSelectLegionAlliee(det));
+      }
+    }
 
     const liste = el("ul", "orga-cases-liste");
     det.cases.forEach((caseOrga, indice) => {
@@ -2389,6 +2595,17 @@ const Organigramme = (() => {
         ".png"
       );
     },
+    // Factions des Détachements Alliés actuellement dans l'Armée (une
+    // par Détachement Allié dont la Faction a été choisie, doublons
+    // possibles). Consommée par js/unites.js (uniteAccessible) pour
+    // proposer au sélecteur « Unité à ajouter » les unités de ces
+    // Factions-là aussi, en plus de celle du Détachement Principal (ex :
+    // unités Legio Astartes dans une Armée Legio Titanicus ayant un
+    // Détachement Allié Legio Astartes).
+    factionsAlliees: () =>
+      etat.detachements
+        .filter((d) => typeDe(d).id === "allie" && d.factionAlliee)
+        .map((d) => d.factionAlliee),
     // Légions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Légion a été choisie, doublons
     // possibles si plusieurs partagent la même — p. 283). Consommée
@@ -2399,6 +2616,21 @@ const Organigramme = (() => {
       etat.detachements
         .filter((d) => typeDe(d).id === "allie" && d.legionAlliee)
         .map((d) => d.legionAlliee),
+    // Ordre canonique des Factions (menu « Faction » des paramètres de
+    // la partie, FACTIONS ci-dessus) : consommé par js/unites.js pour
+    // regrouper, dans la liste « Unité à ajouter », les unités d'autres
+    // Factions par Faction plutôt que dans un ordre arbitraire.
+    ordreFactions: () => FACTIONS.map(([valeur]) => valeur),
+    // Couleur d'accent (SKINS_LEGION) de N'IMPORTE QUELLE Légion, pas
+    // seulement celle de l'Armée (contrairement à skinActuel()) :
+    // consommée par js/unites.js pour teinter, dans la liste « Unité à
+    // ajouter », les unités d'une Légion différente de celle affichée
+    // par le skin de la page (ex : Légion Alliée d'une Armée Legio
+    // Titanicus). Null si la Légion est inconnue ou sans skin dédié.
+    accentLegion: (legionId) => {
+      const skin = SKINS_LEGION[legionId];
+      return skin ? skin.accent : null;
+    },
     assigner,
     // Retrait d'une unité de la liste : on libère sa case puis on
     // laisse js/unites.js supprimer la carte, avant d'actualiser.

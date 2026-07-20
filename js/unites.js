@@ -179,13 +179,22 @@ function uniteAccessible(unite) {
   // (js/organigramme.js) reste seul juge du placement réel (ex :
   // aucune unité Legio Titanicus dans ce détachement si le
   // Détachement Principal est l'Ordinal Titanique, voir sa règle 1).
+  // Autre exception : la Faction propre à un Détachement Allié (menu
+  // « Faction Alliée » de sa carte, ex : Legio Astartes alliée à une
+  // Armée Legio Titanicus) rend elle aussi accessibles les unités de
+  // cette Faction-là, en plus de celle de l'Armée.
   const factionActuelle =
     orgaPret && typeof Organigramme !== "undefined"
       ? Organigramme.factionActuelle()
       : "legio-astartes";
+  const factionsAllieesActuelles =
+    orgaPret && typeof Organigramme !== "undefined"
+      ? Organigramme.factionsAlliees()
+      : [];
   const factionUnite = unite.faction || "legio-astartes";
   if (
     factionActuelle !== factionUnite &&
+    !factionsAllieesActuelles.includes(factionUnite) &&
     !(unite.categorie === "Seigneurs des Batailles" && factionUnite === "legio-titanicus")
   )
     return false;
@@ -2345,22 +2354,40 @@ function initialiserChoixUnite() {
   // partagée par toutes les barres de recherche du site (js/main.js).
   // Filtrée en direct (pas de rebuild d'`entrees` nécessaire) : ouvrir
   // ou retaper dans le champ relit toujours la Légion actuelle.
-  // Dans chaque catégorie, les unités propres à la Légion actuelle
-  // remontent avant les unités génériques (tri stable : l'ordre
-  // d'origine est conservé au sein de chaque sous-groupe).
+  // Dans chaque catégorie, les unités de la Faction actuelle remontent
+  // avant celles des autres Factions (ex : Titans Legio Titanicus dans
+  // une Armée Legio Astartes, cf. l'exception de uniteAccessible en
+  // tête de fichier) ; parmi les autres Factions, les unités sont
+  // groupées par Faction (ordre canonique du menu « Faction », voir
+  // ordreFactions()) plutôt que mélangées ; à Faction égale, les unités
+  // propres à la Légion actuelle remontent avant les unités génériques
+  // (tri stable : l'ordre d'origine est conservé au sein de chaque
+  // sous-groupe).
   function filtrer(requete) {
     const q = normaliserTexte(requete.trim());
     const legionCourante = Organigramme.legionActuelle();
+    const factionCourante = Organigramme.factionActuelle();
+    const ordreFactions = Organigramme.ordreFactions();
     const resultat = [];
     let groupeCourant = null;
     let uniteesCourantes = [];
     const vider = () => {
       if (uniteesCourantes.length === 0) return;
-      uniteesCourantes.sort(
-        (a, b) =>
+      uniteesCourantes.sort((a, b) => {
+        const factionA = a.unite.faction || "legio-astartes";
+        const factionB = b.unite.faction || "legio-astartes";
+        const diffFaction =
+          (factionA === factionCourante ? 0 : 1) -
+          (factionB === factionCourante ? 0 : 1);
+        if (diffFaction !== 0) return diffFaction;
+        if (factionA !== factionB) {
+          return ordreFactions.indexOf(factionA) - ordreFactions.indexOf(factionB);
+        }
+        return (
           (a.unite.legion === legionCourante ? 0 : 1) -
-          (b.unite.legion === legionCourante ? 0 : 1),
-      );
+          (b.unite.legion === legionCourante ? 0 : 1)
+        );
+      });
       resultat.push(groupeCourant, ...uniteesCourantes);
       uniteesCourantes = [];
     };
@@ -2380,6 +2407,15 @@ function initialiserChoixUnite() {
 
   const options = () => visibles.filter((e) => e.unite);
 
+  // Libellés des Factions (FACTIONS dans js/organigramme.js) affichés
+  // en gris à côté du nom d'une unité d'une autre Faction que celle de
+  // l'Armée (ex : Titans Legio Titanicus dans une Armée Legio
+  // Astartes, cf. l'exception de uniteAccessible en tête de fichier).
+  const LIBELLES_FACTION = {
+    "legio-astartes": "Legio Astartes",
+    "legio-titanicus": "Legio Titanicus",
+  };
+
   function rendre() {
     liste.replaceChildren();
     if (visibles.length === 0) {
@@ -2388,6 +2424,15 @@ function initialiserChoixUnite() {
       );
       return;
     }
+    const factionCourante = Organigramme.factionActuelle();
+    // Légion Alliée à utiliser pour teinter les unités Legio Astartes
+    // génériques (sans `legion` propre) d'une autre Faction que celle
+    // de l'Armée : n'a de sens que s'il n'y en a qu'une seule en jeu
+    // (plusieurs Détachements Alliés de Légions différentes rendraient
+    // le choix ambigu — on laisse alors la teinte neutre habituelle).
+    const legionsAllieesActuelles = Organigramme.legionsAlliees();
+    const legionAllieeUnique =
+      legionsAllieesActuelles.length === 1 ? legionsAllieesActuelles[0] : null;
     for (const entree of visibles) {
       if (entree.groupe) {
         const li = el("li", "unite-combobox-groupe", entree.groupe);
@@ -2395,11 +2440,38 @@ function initialiserChoixUnite() {
         liste.appendChild(li);
         continue;
       }
-      const classe =
-        entree.unite.legion === Organigramme.legionActuelle()
-          ? "unite-combobox-option unite-combobox-option--legion"
-          : "unite-combobox-option";
-      const li = el("li", classe, libelle(entree.unite));
+      const factionUnite = entree.unite.faction || "legio-astartes";
+      const autreFaction = factionUnite !== factionCourante;
+      let classe = "unite-combobox-option";
+      if (entree.unite.legion === Organigramme.legionActuelle()) {
+        classe += " unite-combobox-option--legion";
+      }
+      // Teinte de Légion (voir SKINS_LEGION dans js/organigramme.js) :
+      // celle propre à l'unité si elle en a une, sinon celle du Détachement
+      // Allié Legio Astartes s'il n'y en a qu'un — remplace le fond gris
+      // neutre de --autre-faction par la couleur d'identité de la Légion.
+      let accentTeinte = null;
+      if (autreFaction) {
+        classe += " unite-combobox-option--autre-faction";
+        if (factionUnite === "legio-astartes") {
+          const legionPourTeinte = entree.unite.legion || legionAllieeUnique;
+          accentTeinte =
+            legionPourTeinte && Organigramme.accentLegion(legionPourTeinte);
+        }
+      }
+      if (accentTeinte) classe += " unite-combobox-option--teinte-legion";
+      const li = el("li", classe);
+      if (accentTeinte) li.style.setProperty("--tinte-legion", accentTeinte);
+      li.appendChild(document.createTextNode(libelle(entree.unite)));
+      if (autreFaction) {
+        li.appendChild(
+          el(
+            "span",
+            "unite-combobox-option-faction",
+            " (" + (LIBELLES_FACTION[factionUnite] || factionUnite) + ")",
+          ),
+        );
+      }
       li.id = idOption(entree.unite);
       li.setAttribute("role", "option");
       li.dataset.uniteId = entree.unite.id;

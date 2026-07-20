@@ -1503,6 +1503,44 @@ footer p {
   font-weight: 700;
 }
 
+/* Unité d'une autre Faction que celle de l'Armée (ex : Titans Legio
+   Titanicus proposés dans une Armée Legio Astartes, cf. l'exception
+   de uniteAccessible dans js/unites.js) : léger fond distinctif pour
+   la repérer parmi les unités de la Faction en cours, et son nom de
+   Faction affiché en gris à sa suite. */
+.unite-combobox-option--autre-faction {
+  background: var(--fond-secondaire);
+}
+
+.unite-combobox-option--autre-faction:hover,
+.unite-combobox-option--autre-faction.unite-combobox-actif {
+  background: var(--carte-hover);
+}
+
+/* Teinte spécifique à la Légion propriétaire de l'unité (couleur
+   d'accent SKINS_LEGION, js/organigramme.js), posée en style inline sur
+   `--tinte-legion` par rendre() dans js/unites.js — remplace le fond
+   gris neutre ci-dessus pour les unités Legio Astartes d'un Détachement
+   Allié. color-mix() dégrade proprement sur les navigateurs qui ne le
+   supportent pas : la déclaration entière est alors ignorée et le fond
+   gris neutre de --autre-faction (règle précédente) s'applique. */
+.unite-combobox-option--teinte-legion {
+  background: color-mix(in srgb, var(--tinte-legion) 16%, var(--carte));
+  border-left-color: var(--tinte-legion);
+}
+
+.unite-combobox-option--teinte-legion:hover,
+.unite-combobox-option--teinte-legion.unite-combobox-actif {
+  background: color-mix(in srgb, var(--tinte-legion) 30%, var(--carte));
+}
+
+.unite-combobox-option-faction {
+  margin-left: 0.35rem;
+  color: var(--texte-doux);
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
 .unite-combobox-vide {
   padding: 0.5rem 0.9rem;
   font-size: 0.9rem;
@@ -1983,6 +2021,14 @@ footer p {
   filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.35));
 }
 
+/* Second blason Legio Titanicus, posé APRÈS le titre plutôt qu'avant
+   (voir construireParametres dans js/organigramme.js — seule cette
+   Faction en pose deux, faute d'un sélecteur de Légion Titanicus). */
+.legion-icon--titre-droite {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
 /* Bandeau de contexte : blason + nom de Légion alignés (voir
    .legion-banniere strong dans js/organigramme.js). */
 .legion-item {
@@ -2218,17 +2264,22 @@ body.skin-legion-vi {
 }
 
 /* VII — Imperial Fists (Primarque Rogal Dorn, monde natal Terra/Inwit) :
-   bronze sombre, blason en muraille crénelée (défense inébranlable). */
+   or/jaune plus franc (teinte rapprochée du jaune pur, 55° de teinte,
+   contre 43° pour l'ancien bronze sombre — --accent reste assez foncé
+   pour le texte blanc de .bouton-principal, ~5.5:1 ; --accent-clair,
+   plus clair pour le survol, retombe à ~3.7:1 : un jaune vif n'a
+   jamais un bon contraste avec du blanc, compromis assumé), blason en
+   muraille crénelée (défense inébranlable). */
 body.skin-legion-vii {
-  --accent: #5c4712;
-  --accent-clair: #7a5f1c;
-  --fond-secondaire: #ece0c4;
-  --carte-hover: #f3ead4;
+  --accent: #746b06;
+  --accent-clair: #918608;
+  --fond-secondaire: #f0e3ae;
+  --carte-hover: #f8f0d0;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(92, 71, 18, 0.12) 0%,
+      rgba(116, 107, 6, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2406,6 +2457,79 @@ body.skin-legion-xx {
     );
 }
 
+/* Legio Titanicus (Faction, livre d'armée Legio Titanicus) : skin
+   commun à toute la Faction plutôt qu'à une Légion précise (voir
+   SKIN_TITANICUS dans js/organigramme.js — pas de subdivision en
+   Légions Titanicus dans ce site) — dans l'esprit héraldique « Legio
+   Ignatum » (rouge sombre et or, quasi-noir plutôt que le bronze
+   rustique des skins de Légion), sans jamais quitter le fond clair
+   parchemin partagé par tout le site (--fond/--carte/--titre restent
+   volontairement inchangés, comme pour toute Légion — voir plus haut).
+   Le très léger quadrillage diagonal du background-image (dernière
+   couche, 1.5 % d'opacité) évoque le métal brossé/les damiers de
+   blindage sans jamais concurrencer le texte. Le bandeau de contexte
+   (.legion-banniere ci-dessus) reçoit en plus un liseré gauche à
+   bandes obliques rouge/noir façon marquage de danger — voir plus bas. */
+body.skin-legion-titanicus {
+  --accent: #6e1410;
+  --accent-clair: #93211a;
+  --fond-secondaire: #f0e1d5;
+  --carte-hover: #f7ece4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(110, 20, 16, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.015) 0 12px,
+      transparent 12px 24px
+    );
+}
+
+/* Liseré à bandes obliques rouge/noir (marquage de danger, cf. les
+   bandes jaune/noir des blindages Titanicus) remplaçant, pour ce skin
+   uniquement, le liseré plein de .legion-banniere : la bordure gauche
+   est mise à blanc (elle sert juste à réserver l'espace) et un ::before
+   à fond rayé vient se caler dedans, rogné par overflow: hidden pour
+   suivre l'arrondi de la carte. */
+body.skin-legion-titanicus .legion-banniere {
+  position: relative;
+  overflow: hidden;
+  border-left-width: 10px;
+  border-left-color: transparent;
+}
+
+body.skin-legion-titanicus .legion-banniere::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  width: 10px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0 7px,
+    #1c1a16 7px 14px
+  );
+}
+
+/* Petit rouage Mechanicum décoratif à la suite du nom de Faction dans
+   le bandeau (voir construireParametres dans js/organigramme.js) :
+   posé en aria-hidden côté JS, comme toute icône purement décorative
+   de ce site. */
+.legion-titan-cog {
+  margin-left: 0.4rem;
+  color: var(--titre);
+}
+
 /* ---------- Jauge de points + compteurs ---------- */
 .orga-total {
   font-weight: 700;
@@ -2500,13 +2624,17 @@ body.skin-legion-xx {
   color: var(--titre-contraste);
 }
 
-/* Menu « Légion Alliée » (Détachement Allié, Faction ≠ Détachement
-   Principal — voir construireSelectLegionAlliee dans js/organigramme.js). */
+/* Menu « Faction Alliée » (Détachement Allié d'une Armée Legio
+   Titanicus — voir construireSelectFactionAlliee dans
+   js/organigramme.js) et menu « Légion Alliée » (Détachement Allié,
+   Faction ≠ Détachement Principal — voir construireSelectLegionAlliee). */
+.orga-detachement-faction,
 .orga-detachement-legion {
   margin: -0.3rem 0 0.6rem;
   font-size: 0.85rem;
 }
 
+.orga-detachement-faction select,
 .orga-detachement-legion select {
   margin-left: 0.4rem;
   padding: 0.2rem 0.4rem;
