@@ -298,6 +298,51 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachement Principal de Maisonnées de Chevaliers ----------
+     Livre d'armée Chevaliers Questoris. 4 Cases Seigneurs des Batailles,
+     TOUTES Cases Principales (aucune distinction QG/État-major/Troupes,
+     contrairement au Détachement Principal de Croisade) — masqué tant
+     que la Faction Chevaliers Questoris n'est pas choisie (`faction`).
+     Les Unités qui y occupent une Case Principale ne peuvent recevoir
+     que des Avantages Principaux de Rang de Maisonnée (avantagesAutorises,
+     voir AVANTAGES_PRINCIPAUX plus bas), et l'Armée ne peut inclure ni
+     Détachement Allié, ni Détachement de Seigneur de Guerre, ni
+     Détachement de Seigneur des Batailles (excluAvec, déclaré aussi sur
+     ces trois types ci-dessous pour une exclusion symétrique — voir
+     MODÈLE DE DONNÉES). N'ayant aucune Case Quartier Général/État-major,
+     il ne débloque naturellement aucun Détachement Auxiliaire/d'Apex :
+     seuls les Détachements Additionnels de Maisonnées de Chevaliers
+     ci-dessous (débloqués par un Avantage Principal de Rang de Maisonnée
+     précis, pas par un crédit) permettent d'agrandir l'Armée. */
+  {
+    id: "maisonnees-chevaliers",
+    nom: "Détachement Principal de Maisonnées de Chevaliers",
+    famille: "principal",
+    faction: "chevaliers-questoris",
+    max: 1,
+    excluAvec: ["seigneur-guerre", "seigneur-batailles", "allie"],
+    avantagesAutorises: [
+      "preux-martial",
+      "precepteur",
+      "uhlan",
+      "auctellier",
+      "endeuilleur",
+      "preux-implacable",
+      "senechal",
+      "seigneur-preux",
+      "arbaletrier",
+      "preux-aspirant",
+    ],
+    texte:
+      "Obligatoire et unique pour une Armée Chevaliers Questoris. 4 Cases Seigneurs des Batailles, toutes Principales : n'importe quel nombre de Points en Unités de ce Rôle Tactique, dans la limite des Cases disponibles. Les Unités y occupant une Case Principale ne peuvent recevoir qu'un Avantage Principal de Rang de Maisonnée. Incompatible avec un Détachement Allié, de Seigneur de Guerre ou de Seigneur des Batailles.",
+    cases: [
+      _caseOrga("Seigneurs des Batailles", true),
+      _caseOrga("Seigneurs des Batailles", true),
+      _caseOrga("Seigneurs des Batailles", true),
+      _caseOrga("Seigneurs des Batailles", true),
+    ],
+  },
+
   /* ---------- Détachements Additionnels (p. 283-284) ---------- */
   {
     id: "seigneur-guerre",
@@ -306,8 +351,10 @@ const TYPES_DETACHEMENTS = [
     max: 1,
     pointsMin: 3000, // p. 283 : sélectionnable uniquement à 3000 pts et +
     // Confrérie du Phénix (Emperor's Children, Rite de Guerre Legio
-    // Hereticus) se sélectionne À LA PLACE de ce Détachement.
-    excluAvec: ["confrerie-du-phenix"],
+    // Hereticus) se sélectionne À LA PLACE de ce Détachement. Le
+    // Détachement Principal de Maisonnées de Chevaliers (Chevaliers
+    // Questoris) exclut lui aussi ce Détachement (voir plus bas).
+    excluAvec: ["confrerie-du-phenix", "maisonnees-chevaliers"],
     texte:
       "Un seul par armée, même Faction que le Détachement Principal, uniquement si la Limite de Points est d'au moins 3000 pts. Doit inclure au moins 1 figurine de Type Parangon. Quota combiné Seigneur de Guerre + Seigneur des Batailles : 25 % de la Limite de Points.",
     cases: [
@@ -322,6 +369,10 @@ const TYPES_DETACHEMENTS = [
     famille: "additionnel",
     max: 1, // p. 283 : « un seul détachement de Seigneur des Batailles »
     factionLibre: true, // livre d'armée Legio Titanicus, voir MODÈLE DE DONNÉES
+    // Exclu par le Détachement Principal de Maisonnées de Chevaliers
+    // (Chevaliers Questoris, voir plus bas) : ses propres Cases
+    // Seigneurs des Batailles en tiennent déjà lieu.
+    excluAvec: ["maisonnees-chevaliers"],
     texte:
       "Un seul par armée, de n'importe quelle Faction. Le coût total des unités de Rôle Seigneur de Guerre + Seigneur des Batailles ne doit pas dépasser 25 % de la Limite de Points (quota combiné, arrondi à l'entier supérieur). Avec l'Ordinal Titanique (Détachement Principal) comme Détachement Principal, ne peut inclure aucune Unité Legio Titanicus.",
     cases: [
@@ -334,6 +385,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Détachement Allié",
     famille: "additionnel",
     factionLibre: true, // Faction propre (`factionAlliee`), voir commentaire ci-dessous
+    // Exclu par le Détachement Principal de Maisonnées de Chevaliers
+    // (Chevaliers Questoris, voir plus bas).
+    excluAvec: ["maisonnees-chevaliers"],
     texte:
       "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte, pour une Armée Legio Titanicus ; Chaque Légion Astartes comptant comme une Faction distincte, une Légion différente suffit pour une Armée Legio Astartes — menu « Légion Alliée »). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [
@@ -366,6 +420,101 @@ const TYPES_DETACHEMENTS = [
     // par une Case d'État-major alliée piochent dans le même crédit
     // partagé que ceux du Détachement Principal (voir calculerCredits())
     // sans être eux-mêmes rattachés à la Faction/Légion de cet Allié.
+  },
+
+  /* ---------- Détachements Additionnels de Maisonnées de Chevaliers
+     (livre d'armée Chevaliers Questoris) ----------
+     À la différence des autres Détachements Additionnels ci-dessus, on
+     les ajoute quand un Avantage Principal de Rang de Maisonnée précis
+     est sélectionné pour une Unité (`requiertAvantage`, même mécanique
+     de déblocage/grisage que requiertAllegeance — voir MODÈLE DE
+     DONNÉES), plutôt que via un crédit Auxiliaire/Apex ou un seuil de
+     Points. Réservés à la Faction Chevaliers Questoris. */
+  {
+    id: "serre-armigeres",
+    nom: "Serre d'Armigères",
+    famille: "additionnel",
+    faction: "chevaliers-questoris",
+    requiertAvantage: "preux-aspirant",
+    texte:
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Preux Aspirant. 4 Cases Engins de Guerre (Armigères).",
+    cases: [
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+    ],
+  },
+  {
+    id: "banniere-appui",
+    nom: "Bannière d'Appui",
+    famille: "additionnel",
+    faction: "chevaliers-questoris",
+    requiertAvantage: "preux-martial",
+    avantagesAutorises: [
+      "preux-martial",
+      "precepteur",
+      "uhlan",
+      "auctellier",
+      "endeuilleur",
+      "preux-implacable",
+      "senechal",
+      "seigneur-preux",
+      "arbaletrier",
+      "preux-aspirant",
+    ],
+    texte:
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Preux Martial. 2 Cases Seigneurs des Batailles, toutes Principales : les Unités qui les occupent ne peuvent recevoir qu'un Avantage Principal de Rang de Maisonnée.",
+    cases: [
+      _caseOrga("Seigneurs des Batailles", true),
+      _caseOrga("Seigneurs des Batailles", true),
+    ],
+  },
+  /* Serre d'Automates et Maisnie Roturière puisent respectivement dans
+     la Liste d'Armée du Liber Mechanicum (Manipules de Combat Domitar/
+     Castellax, Manipule d'Attaque Vorax, Escadron de Stratos Vultarax)
+     et dans celles des Solar Auxilia/Imperialis Militia (Liber Auxilia)
+     — aucune de ces trois Listes d'Armée n'est transcrite sur ce site
+     (voir FACTIONS, js/organigramme.js : Solar Auxilia/Mechanicum
+     restent grisées). Structure posée pour mémoire, mais grisée via
+     `indisponible` plutôt que proposée sans aucune Unité sélectionnable
+     (mêmes choix que pour toute Faction/Détachement hors Legiones
+     Astartes et Legio Titanicus, voir MODÈLE DE DONNÉES). */
+  {
+    id: "serre-automates",
+    nom: "Serre d'Automates",
+    famille: "additionnel",
+    faction: "chevaliers-questoris",
+    requiertAvantage: "precepteur",
+    indisponible:
+      "Réservé aux Manipules de Combat Domitar/Castellax, Manipule d'Attaque Vorax et Escadron de Stratos Vultarax (Liber Mechanicum), non transcrits sur ce site.",
+    texte:
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Précepteur. 1 Case Élite (Manipule Domitar), 1 Case Appui (Manipule Castellax), 1 Case Reco (Manipule Vorax), 1 Case Attaque Rapide (Escadron Stratos Vultarax) — toutes issues du Liber Mechanicum.",
+    cases: [
+      _caseOrga("Elite"),
+      _caseOrga("Appui"),
+      _caseOrga("Reco"),
+      _caseOrga("Attaque Rapide"),
+    ],
+  },
+  {
+    id: "maisnie-roturiere",
+    nom: "Maisnie Roturière",
+    famille: "additionnel",
+    faction: "chevaliers-questoris",
+    requiertAvantage: "seigneur-preux",
+    indisponible:
+      "Réservé aux Unités des Solar Auxilia (Liber Auxilia) ou de l'Imperialis Militia, non transcrites sur ce site.",
+    texte:
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Seigneur Preux. 2 Cases Troupes, 2 Cases Appui, 2 Cases Blindés — issues des Solar Auxilia et/ou de l'Imperialis Militia.",
+    cases: [
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+      _caseOrga("Blindés"),
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+      _caseOrga("Blindés"),
+    ],
   },
 
   /* ---------- Détachements Auxiliaires standard (p. 284) ---------- */
@@ -415,7 +564,13 @@ const TYPES_DETACHEMENTS = [
     id: "appui-lourd",
     nom: "Appui Lourd",
     famille: "auxiliaire",
-    texte: "Un Engin de Guerre (Dreadnought ou machine similaire).",
+    // factionLibre (comme "seigneur-batailles" plus bas) : un Engin de
+    // Guerre (Dreadnought Legiones Astartes, Armigère Chevaliers
+    // Questoris…) n'est pas propre à une seule Faction — seule l'Unité
+    // elle-même reste réservée à la sienne (champ `faction`, voir
+    // uniteAccessible dans js/unites.js).
+    factionLibre: true,
+    texte: "Un Engin de Guerre (Dreadnought, Armigère ou machine similaire).",
     cases: [_caseOrga("Engins de Guerre")],
   },
   {
@@ -2700,6 +2855,12 @@ const RITE_DE_GUERRE_LEGION = {
    `condition` est vérifiée par js/organigramme.js :
    - sergent      : l'unité doit inclure le Sous-type Sergent,
    - etatMajor    : l'unité doit inclure le Sous-type État-major,
+   - chevalier    : l'unité doit inclure le Sous-type Chevalier (livre
+                 d'armée Chevaliers Questoris, Avantages Principaux de
+                 Rang de Maisonnée) — même mécanique que sergent/
+                 etatMajor ci-dessus, via aSousType (js/organigramme.js)
+                 sur la ligne `type` de la variante (ex : "Véhicule
+                 (Chevalier)"), voir pages/vehicule.html#sous-types.
    - caseEM       : réservé aux Cases d'État-major,
    - unParDetachement : sélectionnable une seule fois par détachement,
    - renegat      : Allégeance Renégate uniquement (Vrais Croyants).
@@ -3070,6 +3231,101 @@ const AVANTAGES_PRINCIPAUX = [
     traitRequis: "White Scars",
     texte:
       "Réservé à une Unité composée uniquement de Figurines ayant le Trait White Scars et de Type Infanterie ou Cavalerie : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (2).",
+  },
+  /* --- Avantages Principaux de Rang de Maisonnée (livre d'armée
+     Chevaliers Questoris, p. 22) : réservés aux Unités composées
+     uniquement de Figurines de Sous-type Chevalier (condition
+     `chevalier`, voir aSousType/avantagesPossibles dans
+     js/organigramme.js — vérifie que le Type de la variante choisie
+     contient « Chevalier », comme pour un Véhicule de Sous-type
+     Chevalier sur pages/vehicule.html#sous-types). Sélectionnables sur
+     toute Case Principale occupée par un Chevalier (Détachement
+     Principal de Maisonnées de Chevaliers, Bannière d'Appui, ou
+     Détachement de Seigneur des Batailles générique), mais réservés
+     aux SEULES Cases du Détachement Principal de Maisonnées de
+     Chevaliers et de Bannière d'Appui via `avantagesAutorises` posé sur
+     ces deux types (voir TYPES_DETACHEMENTS plus haut). Les restrictions
+     de Vœu Questoris mentionnées dans le livre (« on ne peut pas
+     déclarer de Vœu Questoris autre que… ») sont purement descriptives
+     ici : les Vœux Questoris ne sont pas un choix modélisé par ce site
+     (voir pages/chevaliers-questoris.html). --- */
+  {
+    id: "preux-martial",
+    nom: "Preux Martial (Rang de Maisonnée)",
+    chevalier: true,
+    texte:
+      "Les Preux Martiaux représentent la norme sur laquelle sont basés les Profils d'Unité de la Liste d'Armée de Questoris Familia : cet Avantage ne modifie le profil d'aucune Figurine d'une Unité pour laquelle on le sélectionne. Débloque le Détachement Additionnel Bannière d'Appui.",
+  },
+  {
+    id: "precepteur",
+    nom: "Précepteur (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Guerrier-artisan (2) et comptent comme ayant une Caractéristique d'Intelligence de 8 pour les besoins de la Règle Spéciale Guerrier-artisan (X). Débloque le Détachement Additionnel Serre d'Automates.",
+  },
+  {
+    id: "uhlan",
+    nom: "Uhlan (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent les Règles Spéciales Vif (2) et Impact (A). On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Empressement pour une Figurine de l'Unité.",
+  },
+  {
+    id: "auctellier",
+    nom: "Auctellier (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Précision (5+) sur les Armes de Mêlée dont elles sont dotées. On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Exécution pour une Figurine de l'Unité.",
+  },
+  {
+    id: "endeuilleur",
+    nom: "Endeuilleur (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Peur (2). On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Abattage pour une Figurine de l'Unité.",
+  },
+  {
+    id: "preux-implacable",
+    nom: "Preux Implacable (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Orage de Feu. On ne peut pas déclarer de Vœu Questoris autre que le Vœu de Résolution pour une Figurine de l'Unité.",
+  },
+  {
+    id: "senechal",
+    nom: "Sénéchal (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Quand on alloue une Touche Pénétrante à une Figurine de l'Unité, on modifie de -1 les Dégâts de la Touche Pénétrante (minimum 1). L'Unité compte comme un Choix de Quartier Général au regard de toute version de l'Objectif Secondaire Tuez le Seigneur de Guerre (X). Si le Détachement Principal de Maisonnées de Chevaliers contient une Unité avec cet Avantage, le Joueur en Contrôle gagne un Point de Réaction bonus.",
+  },
+  {
+    id: "seigneur-preux",
+    nom: "Seigneur Preux (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Toutes les Figurines de l'Unité peuvent bénéficier de deux Jets de Réparation du Joueur Actif à chacune de ses Sous-phases des Statuts, au lieu d'un. Débloque le Détachement Additionnel Maisnie Roturière.",
+  },
+  {
+    id: "arbaletrier",
+    nom: "Arbalétrier (Rang de Maisonnée)",
+    chevalier: true,
+    unParArmee: true,
+    texte:
+      "0-1 par Armée. Quand une Figurine de l'Unité se déplace d'une distance inférieure ou égale à la moitié de sa Caractéristique de Mouvement à la Phase de Mouvement, elle bénéficie malgré tout de la variante de la Règle Spéciale Lourde (X) ou Artillerie (X) des Armes dont elle est dotée.",
+  },
+  {
+    id: "preux-aspirant",
+    nom: "Preux Aspirant (Rang de Maisonnée)",
+    chevalier: true,
+    texte:
+      "Toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1) et modifient de -1 la valeur de X de la Règle Spéciale Autoréparation (X) qu'elles possèdent. Débloque le Détachement Additionnel Serre d'Armigères.",
   },
 ];
 

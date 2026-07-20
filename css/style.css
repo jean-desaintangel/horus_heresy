@@ -2531,6 +2531,71 @@ body.skin-legion-titanicus .legion-banniere::before {
   color: var(--titre);
 }
 
+/* Maisonnées Questoris (Faction Chevaliers Questoris, livre d'armée
+   Chevaliers Questoris) : même mécanique que les skins de Légion
+   ci-dessus (voir SKINS_MAISONNEE dans js/organigramme.js), rattachée
+   à etat.maisonnee plutôt qu'à etat.legion. Trois teintes distinctes
+   des Légions et de Legio Titanicus déjà utilisées : or antique
+   (Imperialis, héraldique impériale), rouille du Mechanicum
+   (Mechanicum, Monde-Forge) et gris-brun passé (Mendicus, Maisonnées
+   errantes sans couleurs propres). */
+body.skin-legion-questoris-imperialis {
+  --accent: #8a6a2c;
+  --accent-clair: #b08f3f;
+  --fond-secondaire: #eee6d5;
+  --carte-hover: #f5efe0;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(138, 106, 44, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-questoris-mechanicum {
+  --accent: #8a2a1a;
+  --accent-clair: #b5432a;
+  --fond-secondaire: #ecdbd5;
+  --carte-hover: #f3e6e1;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(138, 42, 26, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-questoris-mendicus {
+  --accent: #5a5548;
+  --accent-clair: #7d7768;
+  --fond-secondaire: #e6e3da;
+  --carte-hover: #efece5;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(90, 85, 72, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
 /* ---------- Jauge de points + compteurs ---------- */
 .orga-total {
   font-weight: 700;

@@ -179,6 +179,7 @@ const LIENS_NAV = [
   { href: "psy.html", texte: "Psychique" },
   { href: "vehicule.html", texte: "Véhicules" },
   { href: "titan.html", texte: "Titans" },
+  { href: "chevaliers-questoris.html", texte: "Chevaliers Questoris" },
   { href: "telechargement.html", texte: "Téléchargements" },
 ];
 
@@ -392,6 +393,14 @@ document.addEventListener("DOMContentLoaded", () => {
         ),
       );
     });
+  } else if (
+    donnees.faction === "chevaliers-questoris" &&
+    ["imperialis", "mechanicum", "mendicus"].includes(donnees.maisonnee)
+  ) {
+    // Maisonnée Questoris (SKINS_MAISONNEE, organigramme.js) : pas de
+    // blason dédié (aucune bannière héraldique disponible pour
+    // l'instant), seule la palette suit le joueur d'une page à l'autre.
+    document.body.classList.add("skin-legion-questoris-" + donnees.maisonnee);
   }
 })();
 

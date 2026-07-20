@@ -1,0 +1,1166 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chevaliers Questoris</title>
+    <meta
+      name="description"
+      content="Règles des Chevaliers Questoris (livre d'armée Chevaliers Questoris) pour Horus Heresy 3e édition : Paradigmes de Maisonnée Questoris Imperialis, Mechanicum et Mendicus, Vœux Questoris et Réactions Avancées de Questoris Familia."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Chevaliers Questoris — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Paradigmes de Maisonnée, Vœux Questoris et Réactions Avancées du livre d'armée Chevaliers Questoris, Horus Heresy 3e édition."
+    />
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Chevaliers Questoris
+      </h1>
+      <div class="encadre">
+        <p>
+          La Faction <strong>Chevaliers Questoris</strong> se choisit dans le
+          menu Faction de la
+          <a href="unites.html">Construction d’armée</a>, qui remplace alors
+          automatiquement le Détachement Principal de Croisade par le
+          <strong>Détachement Principal de Maisonnées de Chevaliers</strong>
+          et propose un menu <strong>Maisonnée</strong> à la place du menu
+          Légion. Une Figurine de Chevalier suit par ailleurs les règles du
+          <a href="vehicule.html#sous-types">Sous-type Chevalier</a>, communes
+          à tout Véhicule de ce Sous-type. Cette page détaille les règles
+          propres au livre d’armée Chevaliers Questoris : composition
+          d’Armée, Avantages Principaux de Rang de Maisonnée, Détachements
+          Additionnels, Paradigmes de Maisonnée, Vœux Questoris et Réactions
+          Avancées de Questoris Familia.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== LEVER UNE ARMÉE ===================== -->
+        <div class="timeline-item" id="lever-armee">
+          <button class="timeline-titre" aria-expanded="false">
+            1. Les Chevaliers en Guerre : lever une Armée de Questoris
+            Familia <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Les Unités de la Liste d’Armée de Questoris Familia ont
+                toutes une Allégeance, représentée par un Trait dans leur
+                Profil d’Unité. Chez les Unités qui ne sont pas liées à une
+                Allégeance, c’est indiqué sous la forme «&nbsp;[Allégeance]&nbsp;».
+                Quand vous ajoutez une telle Unité à votre Armée, on remplace
+                ce Trait par «&nbsp;Loyaliste&nbsp;» ou «&nbsp;Renégat&nbsp;», selon l’Allégeance
+                choisie pour l’Armée (menu Allégeance des paramètres de la
+                partie).
+              </p>
+              <p>
+                Toutes les Unités de la Liste d’Armée de Questoris Familia
+                sont aussi rattachées à une Faction, figurée par un Trait
+                dans leur Profil d’Unité. Dans le cas des Unités qui ne sont
+                pas propres à une Maisonnée de Chevaliers ou autre
+                Organisation, il s’agit du Trait «&nbsp;[Questoris Familia]&nbsp;». Quand
+                vous ajoutez une telle Unité à votre Armée, vous devez
+                choisir un des Traits de Faction suivants à la place — ce
+                choix remplace toutes les occurrences du Trait
+                <em>[Questoris Familia]</em> sur ce Profil d’Unité tant qu’il
+                fait partie de votre Armée :
+              </p>
+              <ul>
+                <li>Questoris Imperialis</li>
+                <li>Questoris Mechanicum</li>
+                <li>Questoris Mendicus</li>
+              </ul>
+              <p>
+                Chaque fois que vous sélectionnez un Trait de Faction dans
+                cette liste, un <strong>Paradigme de Maisonnée</strong>
+                correspondant est lui aussi automatiquement sélectionné pour
+                l’Armée, ce qui confère un éventail de Règles Spéciales et
+                d’effets aux Figurines qui ont ce Trait de Faction (voir
+                <a href="#imperialis">Paradigmes de Maisonnée</a>
+                ci-dessous). Sur ce site, ce choix correspond au menu
+                <strong>Maisonnée</strong> des paramètres de la partie — le
+                Trait <em>[Questoris Familia]</em> reste simplement masqué
+                sur la fiche d’une Unité, comme <em>[Legiones Astartes]</em>
+                pour une Armée Legio Astartes, la Maisonnée choisie étant
+                déjà indiquée par le bandeau de contexte sous les paramètres.
+              </p>
+              <div class="encadre">
+                <p>
+                  <strong>Point de Réaction Bonus.</strong> Si une Armée
+                  contient un Détachement Principal de Maisonnées de
+                  Chevaliers, le Joueur en Contrôle gagne un Point de
+                  Réaction bonus si ce Détachement contient au moins une
+                  Unité qui a l’Avantage Principal de Rang de Maisonnée
+                  <a href="#avantages-maisonnee">Sénéchal</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== DÉTACHEMENT PRINCIPAL ===================== -->
+        <div class="timeline-item" id="detachement-principal">
+          <button class="timeline-titre" aria-expanded="false">
+            2. Le Détachement Principal de Maisonnées de Chevaliers
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                À l’Étape 3 du processus des Règles de Sélection d’Armée de
+                Croisade, si la Liste d’Armée de Questoris Familia est
+                sélectionnée comme Liste d’Armée pour le Détachement
+                Principal d’une Armée, on remplace le Détachement Principal
+                de Croisade de l’Organigramme de Force de Croisade par le
+                <strong>Détachement Principal de Maisonnées de
+                Chevaliers</strong>. Hormis les Cases d’Organigramme de Force
+                qu’il contient, on traite ce Détachement comme s’il
+                s’agissait d’un Détachement Principal de Croisade pour ce qui
+                est du processus de Sélection d’Armée, et la Faction de
+                l’Armée est définie par le Trait de Faction des Unités
+                sélectionnées pour occuper des Cases d’Organigramme de Force
+                dans ce Détachement (il doit y en avoir au moins une).
+              </p>
+              <div class="encadre">
+                <p>
+                  <strong>4 Cases Seigneurs des Batailles</strong>, toutes
+                  Principales — aucune Case Quartier Général, État-major,
+                  Troupes ou Transport, contrairement au Détachement
+                  Principal de Croisade.
+                </p>
+              </div>
+              <p>
+                Une Armée qui utilise ce Détachement Principal peut inclure
+                n’importe quel nombre de Points en Unités de Rôle Tactique
+                Seigneur des Batailles (il faut néanmoins qu’il y ait assez
+                de Cases d’Organigramme de Force pour les sélectionner),
+                jusqu’à concurrence de la Limite de Points de l’Armée, mais
+                elle ne peut inclure <strong>ni Détachement Allié, ni
+                Détachement de Seigneur de Guerre, ni Détachement de Seigneur
+                des Batailles</strong>.
+              </p>
+              <p>
+                De plus, les Unités sélectionnées pour occuper des Cases
+                Principales dans ce Détachement ne peuvent recevoir que des
+                <a href="#avantages-maisonnee"
+                  >Avantages Principaux de Rang de Maisonnée</a
+                >, et aucun autre Avantage Principal.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== AVANTAGES DE RANG DE MAISONNÉE ===================== -->
+        <div class="timeline-item" id="avantages-maisonnee">
+          <button class="timeline-titre" aria-expanded="false">
+            3. Avantages Principaux de Rang de Maisonnée
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Chaque noble, ou «&nbsp;preux&nbsp;», héritier des armoiries d’une
+                Maisonnée de Chevaliers est un guerrier nanti de sa propre
+                Chronique de Bataille et des traditions ancestrales dont il
+                se doit d’être garant. Les Avantages Principaux de Rang de
+                Maisonnée sont des Avantages Principaux réservés aux Unités
+                composées uniquement de Figurines de Sous-type Chevalier,
+                mais qui par ailleurs suivent l’ensemble des Règles et
+                limitations standard des Avantages Principaux — dont la
+                restriction «&nbsp;0-1 par Armée&nbsp;» précisée pour la plupart
+                d’entre eux.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Preux Martial</h3>
+                  <ul>
+                    <li>
+                      Les Preux Martiaux représentent la norme sur laquelle
+                      sont basés les Profils d’Unité de la Liste d’Armée de
+                      Questoris Familia : cet Avantage ne modifie le profil
+                      d’aucune Figurine.
+                    </li>
+                    <li>Débloque le Détachement Additionnel Bannière d’Appui.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Précepteur (0-1)</h3>
+                  <ul>
+                    <li>
+                      Les Figurines de l’Unité gagnent Guerrier-artisan (2)
+                      et comptent comme ayant une Intelligence de 8 pour
+                      cette Règle Spéciale.
+                    </li>
+                    <li>Débloque le Détachement Additionnel Serre d’Automates.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Uhlan (0-1)</h3>
+                  <ul>
+                    <li>
+                      Les Figurines de l’Unité gagnent Vif (2) et Impact (A).
+                    </li>
+                    <li>
+                      Seul le Vœu d’Empressement peut être déclaré pour une
+                      Figurine de l’Unité.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Auctellier (0-1)</h3>
+                  <ul>
+                    <li>
+                      Les Figurines de l’Unité gagnent Précision (5+) sur
+                      leurs Armes de Mêlée.
+                    </li>
+                    <li>
+                      Seul le Vœu d’Exécution peut être déclaré pour une
+                      Figurine de l’Unité.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-mouvement">
+                  <h3>Endeuilleur (0-1)</h3>
+                  <ul>
+                    <li>Les Figurines de l’Unité gagnent Peur (2).</li>
+                    <li>
+                      Seul le Vœu d’Abattage peut être déclaré pour une
+                      Figurine de l’Unité.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-tir">
+                  <h3>Preux Implacable (0-1)</h3>
+                  <ul>
+                    <li>Les Figurines de l’Unité gagnent Orage de Feu.</li>
+                    <li>
+                      Seul le Vœu de Résolution peut être déclaré pour une
+                      Figurine de l’Unité.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-assaut">
+                  <h3>Sénéchal (0-1)</h3>
+                  <ul>
+                    <li>
+                      Une Touche Pénétrante alloué à l’Unité voit ses Dégâts
+                      modifiés de -1 (minimum 1).
+                    </li>
+                    <li>
+                      L’Unité compte comme un Choix de Quartier Général pour
+                      l’Objectif Secondaire Tuez le Seigneur de Guerre (X).
+                    </li>
+                    <li>Débloque le Point de Réaction Bonus (voir plus haut).</li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-special">
+                  <h3>Seigneur Preux (0-1)</h3>
+                  <ul>
+                    <li>
+                      Les Figurines de l’Unité bénéficient de deux Jets de
+                      Réparation par Sous-phase des Statuts au lieu d’un.
+                    </li>
+                    <li>Débloque le Détachement Additionnel Maisnie Roturière.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-fixe">
+                  <h3>Arbalétrier (0-1)</h3>
+                  <ul>
+                    <li>
+                      Un déplacement ≤ la moitié de la Caractéristique de
+                      Mouvement de la Figurine conserve malgré tout le
+                      bénéfice de la variante Lourde (X)/Artillerie (X) de
+                      ses Armes.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Preux Aspirant</h3>
+                  <ul>
+                    <li>
+                      Les Figurines de l’Unité gagnent Sacrifiable (1) et
+                      modifient de -1 la valeur de X de leur Règle Spéciale
+                      Autoréparation (X).
+                    </li>
+                    <li>Débloque le Détachement Additionnel Serre d’Armigères.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== DÉTACHEMENTS ADDITIONNELS ===================== -->
+        <div class="timeline-item" id="detachements-additionnels">
+          <button class="timeline-titre" aria-expanded="false">
+            4. Détachements Additionnels de Maisonnées de Chevaliers
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Outre ceux que présente le Livre de Règles L’Âge des
+                Ténèbres, divers Détachements Additionnels sont accessibles
+                aux armées qui utilisent la Liste d’Armée de Questoris
+                Familia. À la différence d’autres Détachements Additionnels,
+                on les ajoute à une Armée quand certains Avantages Principaux
+                de Rang de Maisonnée sont sélectionnés pour des Unités
+                occupant une Case d’Organigramme de Force dans le Détachement
+                Principal de Maisonnées de Chevaliers, et ils sont reliés au
+                Détachement pour lequel ces Unités de Case Principale ont été
+                sélectionnées (généralement le Détachement Principal de
+                Maisonnées de Chevaliers).
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Serre d’Armigères</h3>
+                  <ul>
+                    <li>
+                      Débloqué par l’Avantage <strong>Preux Aspirant</strong>.
+                    </li>
+                    <li>4 Cases Engins de Guerre (Armigères).</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Bannière d’Appui</h3>
+                  <ul>
+                    <li>
+                      Débloqué par l’Avantage <strong>Preux Martial</strong>.
+                    </li>
+                    <li>
+                      2 Cases Seigneurs des Batailles, toutes Principales :
+                      seuls des Avantages de Rang de Maisonnée y sont
+                      sélectionnables.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Serre d’Automates</h3>
+                  <ul>
+                    <li>
+                      Débloqué par l’Avantage <strong>Précepteur</strong>.
+                    </li>
+                    <li>
+                      1 Case Élite (Manipule Domitar), 1 Appui (Manipule
+                      Castellax), 1 Reco (Manipule Vorax), 1 Attaque Rapide
+                      (Escadron Stratos Vultarax) — Liber Mechanicum, non
+                      transcrit sur ce site.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Maisnie Roturière</h3>
+                  <ul>
+                    <li>
+                      Débloqué par l’Avantage
+                      <strong>Seigneur Preux</strong>.
+                    </li>
+                    <li>
+                      Unités des Solar Auxilia (Liber Auxilia) ou de
+                      l’Imperialis Militia — non transcrites sur ce site.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== PARADIGMES DE MAISONNÉE ===================== -->
+        <div class="timeline-item" id="paradigmes">
+          <button class="timeline-titre" aria-expanded="false">
+            5. Paradigmes de Maisonnée <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Quand on sélectionne un Trait de Faction pour remplacer le
+                Trait <em>[Questoris Familia]</em> chez une Armée qui comprend
+                des Unités sélectionnées dans la Liste d’Armée de Questoris
+                Familia, un <strong>Paradigme de Maisonnée</strong>
+                correspondant est automatiquement sélectionné, ce qui confère
+                un éventail de Règles Spéciales et d’effets aux Figurines qui
+                ont ce Trait de Faction. Les trois Paradigmes de Maisonnée
+                (Questoris Imperialis, Questoris Mechanicum et Questoris
+                Mendicus) sont détaillés dans les sections suivantes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== QUESTORIS IMPERIALIS ===================== -->
+        <div class="timeline-item" id="imperialis">
+          <button class="timeline-titre" aria-expanded="false">
+            6. Questoris Imperialis : Maison Impériale
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  <em
+                    >Eu égard à la valeur que les Maisonnées de Chevaliers
+                    accordent à leur indépendance, l’Imperium accorda
+                    volontiers à chacune la préséance sur son monde. À vrai
+                    dire, les Maisonnées ne voulaient pas renoncer aux
+                    traditions que leurs ancêtres avaient âprement défendues
+                    avant la redécouverte par l’Imperium. Aux Maisonnées qui
+                    n’étaient pas tentées de s’inféoder à un puissant
+                    monde-forge, l’Imperium conféra le titre de Questoris
+                    Imperialis et reconnut leur autonomie, en échange du
+                    serment de servir l’Empereur. De telles Maisonnées
+                    comptaient parmi les plus puissantes et prestigieuses,
+                    nanties de prodigieuses réserves de harnois et du savoir
+                    nécessaire à leur maintenance, et quand elles partaient en
+                    guerre, la terre même tremblait sous leur pas.</em
+                  >
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Tactica de Questoris</h2>
+              <p>
+                Une Armée comprenant des Figurines qui ont le Trait de
+                Faction Questoris Imperialis gagne aussi le Paradigme de
+                Maisonnée Maison Impériale, et elle est sujette à la Règle
+                Spéciale suivante :
+              </p>
+              <h3>Cour Baronniale</h3>
+              <p>
+                On peut ajouter un seul Détachement Additionnel de Maisnie
+                Roturière à une Armée qui a le Paradigme de Maisonnée Maison
+                Impériale, sans qu’il faille avoir sélectionné pour une Unité
+                de cette Armée l’Avantage Principal de Rang de Maisonnée
+                correspondant. Ce Détachement Additionnel est relié soit à un
+                Détachement Principal de Maisonnées de Chevaliers, soit à un
+                Détachement de Seigneur des Batailles Additionnel (au choix du
+                Joueur), tant que ce Détachement contient au moins une
+                Figurine qui a le Trait de Faction Questoris Imperialis.
+              </p>
+              <p>
+                De plus, une Armée qui a le Paradigme de Maisonnée Maison
+                Impériale n’est pas sujette à la restriction 0-1 par Armée qui
+                s’applique à l’Avantage Principal de Rang de Maisonnée
+                Seigneur Preux.
+              </p>
+
+              <h2 class="sous-titre">Vœu de Questoris — Vœu de Domination</h2>
+              <p>
+                Quand on déclare des Vœux Questoris pour une Armée qui a le
+                Paradigme de Maisonnée Maison Impériale, on peut déclarer le
+                Vœu de Domination en plus des
+                <a href="#voeux-communs">Vœux Questoris communs</a>.
+              </p>
+              <p>
+                <em
+                  >Hautains et orgueilleux, les preux qui prononcent le Vœu de
+                  Domination jurent de représenter dignement la puissance de
+                  leur Maisonnée sur le champ de bataille, en abattant leurs
+                  ennemis avec tant de force que nul ne pourrait douter de la
+                  suprématie de la Questoris Familia.</em
+                >
+              </p>
+              <p>
+                La première fois d’une Bataille que chaque Figurine ayant fait
+                ce Vœu Questoris marque des Points de Victoire en vertu de la
+                Règle Spéciale Avant-garde (X), on augmente de 2 le nombre de
+                Points de Victoire que le Joueur en Contrôle remporte.
+              </p>
+
+              <h2 class="sous-titre">Réaction Avancée — Cri de Ralliement</h2>
+              <p>
+                Le Joueur en Contrôle d’Unités composées uniquement de
+                Figurines qui ont le Trait de Faction Questoris Imperialis
+                peut dépenser des Points de Réaction pour effectuer la
+                Réaction Avancée suivante :
+              </p>
+              <p>
+                <em
+                  >Les Maisonnées Questoris Imperialis sont les plus
+                  accoutumées à guerroyer en masse, et savent lire le flux et
+                  le reflux d’une bataille même dans les circonstances où la
+                  bravoure d’un preux pourrait défaillir. Plus d’un conte
+                  narre comment un chevalier impérial a sonné du cor pour
+                  rallier à lui seul sa Bannière afin de reprendre l’assaut de
+                  plus belle.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet à tous les Chevaliers d’une Armée de
+                  faire un Jet de Réparation quand le Joueur Actif marque des
+                  Points de Victoire à sa Phase de Fin.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> une fois par Bataille, le
+                  Joueur Réactif peut déclarer cette Réaction Avancée à la
+                  Sous-phase de Victoire de la Phase de Fin du Joueur Actif,
+                  quand ce dernier marque 1 ou plusieurs Points de Victoire.
+                </li>
+                <li>
+                  <strong>Coût :</strong> 1 point d’Attribution de Réactions,
+                  à payer dès la déclaration.
+                </li>
+                <li>
+                  <strong>Cible :</strong> n’importe quelle Unité sous le
+                  contrôle du Joueur Réactif composée uniquement de Figurines
+                  de Sous-type Chevalier qui ont le Trait Questoris
+                  Imperialis.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <p>
+                Une fois déclarée, le Joueur Réactif peut faire un seul Jet de
+                Réparation pour toutes les Figurines de Sous-type Chevalier
+                sous son contrôle.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== QUESTORIS MECHANICUM ===================== -->
+        <div class="timeline-item" id="mechanicum">
+          <button class="timeline-titre" aria-expanded="false">
+            7. Questoris Mechanicum : Vassaux du Mechanicum
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  <em
+                    >Les Maisonnées vouées au service du Mechanicum sont d’un
+                    genre à part, souvent dotées d’armes terribles qu’on
+                    n’avait plus revues depuis le Moyen-Âge Technologique. On
+                    dit même de certaines qu’elles ont été initiées aux
+                    mystères élémentaires du Mechanicum, que leurs preux
+                    arborent des augmétiques ésotériques, voire qu’ils sont
+                    greffés à leur harnois de chevalier.</em
+                  >
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Tactica de Questoris</h2>
+              <p>
+                Une Armée comprenant des Figurines qui ont le Trait de
+                Faction Questoris Mechanicum gagne aussi le Paradigme de
+                Maisonnée Vassaux du Mechanicum, et elle est sujette à la
+                Règle Spéciale suivante :
+              </p>
+              <h3>Serviteurs de la Machine</h3>
+              <p>
+                On peut ajouter un seul Détachement Additionnel de Serre
+                d’Automates à une Armée qui a le Paradigme de Maisonnée
+                Vassaux du Mechanicum, sans qu’il faille avoir sélectionné
+                pour une Unité de cette Armée l’Avantage Principal de Rang de
+                Maisonnée correspondant. Ce Détachement Additionnel est relié
+                soit à un Détachement Principal de Maisonnées de Chevaliers,
+                soit à un Détachement de Seigneur des Batailles Additionnel
+                (au choix du Joueur), tant que ce Détachement contient au
+                moins une Figurine qui a le Trait de Faction Questoris
+                Mechanicum.
+              </p>
+              <p>
+                De plus, une Armée qui a le Paradigme de Maisonnée Vassaux du
+                Mechanicum n’est pas sujette à la restriction 0-1 par Armée
+                qui s’applique à l’Avantage Principal de Rang de Maisonnée
+                Précepteur.
+              </p>
+
+              <h2 class="sous-titre">Vœu de Questoris — Vœu d’Obéissance</h2>
+              <p>
+                Quand on déclare des Vœux Questoris pour une Armée qui a le
+                Paradigme de Maisonnée Vassaux du Mechanicum, on peut déclarer
+                le Vœu d’Obéissance en plus des
+                <a href="#voeux-communs">Vœux Questoris communs</a>.
+              </p>
+              <p>
+                <em
+                  >Les chevaliers Questoris Mechanicum sont souvent enjoints à
+                  prononcer le Vœu d’Obéissance, et jurent de contribuer à
+                  atteindre les objectifs tactiques des osts du Taghmata
+                  plutôt que de privilégier leur honneur personnel.</em
+                >
+              </p>
+              <p>
+                La première fois d’une Bataille qu’une Unité amie dont au
+                moins une Figurine se trouve à 12 pouces d’une Figurine ayant
+                fait ce Vœu Questoris marque un Objectif, on modifie de +2 la
+                valeur de cet Objectif pour la durée de la Sous-phase de
+                Victoire de cette Phase de Fin.
+              </p>
+
+              <h2 class="sous-titre">Réaction Avancée — Purge Rad</h2>
+              <p>
+                Le Joueur en Contrôle d’Unités composées uniquement de
+                Figurines qui ont le Trait de Faction Questoris Mechanicum
+                peut dépenser des Points de Réaction pour effectuer la
+                Réaction Avancée suivante :
+              </p>
+              <p>
+                <em
+                  >Les preux Questoris Mechanicum sont formés à des tactiques
+                  que les orgueilleux preux des Maisons impériales jugeraient
+                  indignes d’eux, et font du réacteur de leur harnois une arme
+                  hideuse pour éradiquer la piétaille ennemie.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet à la Figurine Réactive d’attaquer
+                  toutes les Figurines ennemies en Contact Socle à
+                  Socle.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> le Joueur Réactif peut
+                  déclarer cette Réaction Avancée à la fin de l’Étape 5 de la
+                  Sous-phase de Combat de n’importe quel Combat qui implique
+                  au moins une Unité sous son contrôle, composée uniquement de
+                  Figurines de Sous-type Chevalier qui ont le Trait Questoris
+                  Mechanicum.
+                </li>
+                <li>
+                  <strong>Coût :</strong> 1 point d’Attribution de Réactions,
+                  à payer dès la déclaration.
+                </li>
+                <li>
+                  <strong>Cible :</strong> une Unité sous le contrôle du
+                  Joueur Réactif composée uniquement de Figurines de Sous-type
+                  Chevalier qui ont le Trait Questoris Mechanicum, et qui est
+                  en Combat.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <ol class="etapes">
+                <li>
+                  Une fois cette Réaction Avancée déclarée, chaque Unité
+                  ennemie dont une ou plusieurs Figurines sont en Contact
+                  Socle à Socle avec au moins une Figurine de l’Unité Réactive
+                  subit un nombre de Touches automatiques égal au nombre de
+                  ses Figurines qui sont Engagées avec au moins une Figurine
+                  de l’Unité Réactive. Chacune de ces Touches a une Force de
+                  2, une PA de 5 et des Dégâts de 1, ainsi que les Règles
+                  Spéciales Phage (E) et Empoisonnée (2+).
+                </li>
+                <li>
+                  Une fois que ces Touches sont résolues et qu’on a retiré les
+                  éventuelles Pertes qu’elles ont causées, le Round de Combat
+                  s’achève. Les Pertes infligées par cette Réaction Avancée
+                  comptent à la Sous-phase de Résolution suivante pour ce qui
+                  est de marquer des Points de Résolution de Combat.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== QUESTORIS MENDICUS ===================== -->
+        <div class="timeline-item" id="mendicus">
+          <button class="timeline-titre" aria-expanded="false">
+            8. Questoris Mendicus : Compagnie de Sans-fief
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  <em
+                    >Exclus des rangs de leurs Maisonnées d’origine, de leur
+                    plein gré par goût de l’aventure ou par soif de se battre,
+                    ou malgré eux dans le cas des exilés, des renégats ou des
+                    ultimes survivants, les sans-fief sont des chevaliers
+                    mendiants qui ne sont les alliés ou les vassaux de
+                    personne. Nombre d’entre eux se sont joints à la Grande
+                    Croisade parmi les forces de croisés Questoris, et ont
+                    combattu sur d’innombrables mondes au profit de la grande
+                    œuvre de l’Empereur. Certains formèrent d’illustres
+                    Compagnies de Sans-fief en réunissant des preux selon leur
+                    affinité, et en forgeant des légendes dignes de celles de
+                    leurs anciennes Maisonnées.</em
+                  >
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Tactica de Questoris</h2>
+              <p>
+                Une Armée comprenant des Figurines qui ont le Trait de
+                Faction Questoris Mendicus gagne aussi le Paradigme de
+                Maisonnée Compagnie de Sans-fief, et elle est sujette aux
+                Règles Spéciales suivantes :
+              </p>
+              <h3>Fidèles Affidés</h3>
+              <p>
+                On peut ajouter un seul Détachement Additionnel de Serre
+                d’Armigères à une Armée qui a le Paradigme de Maisonnée
+                Compagnie de Sans-fief, sans qu’il faille avoir sélectionné
+                pour une Unité de cette Armée l’Avantage Principal de Rang de
+                Maisonnée correspondant. Ce Détachement Additionnel est relié
+                soit à un Détachement Principal de Maisonnées de Chevaliers,
+                soit à un Détachement de Seigneur des Batailles Additionnel
+                (au choix du Joueur), tant que ce Détachement contient au
+                moins une Figurine qui a le Trait de Faction Questoris
+                Mendicus.
+              </p>
+              <h3>Chevaliers Mendiants</h3>
+              <p>
+                Les Unités sélectionnées dans un Détachement de Seigneur des
+                Batailles d’une Armée qui a le Paradigme de Maisonnée
+                Compagnie de Sans-fief, et qui sont issues de la Liste
+                d’Armée de Questoris Familia, peuvent être dotées chacune d’un
+                seul Avantage Principal de Rang de Maisonnée comme si elles
+                avaient été sélectionnées pour occuper une Case Principale
+                d’Organigramme de Force.
+              </p>
+
+              <h2 class="sous-titre">
+                Vœu de Questoris — Vœu de Belligérance
+              </h2>
+              <p>
+                Quand on déclare des Vœux Questoris pour une Armée qui a le
+                Paradigme de Maisonnée Compagnie de Sans-fief, on peut
+                déclarer le Vœu de Belligérance en plus des
+                <a href="#voeux-communs">Vœux Questoris communs</a>. À la
+                différence des autres Vœux Questoris, on peut déclarer le Vœu
+                de Belligérance pour une seule Figurine de Sous-type Chevalier
+                d’une Armée qui n’utilise pas le Détachement Principal de
+                Maisonnées de Chevaliers, mais qui par ailleurs se conforme à
+                toutes les Règles standard de déclaration de Vœux Questoris.
+              </p>
+              <p>
+                <em
+                  >Dénués de Maison, les chevaliers sans-fief sont avides de
+                  se couvrir de gloire à l’égal de leurs anciens pairs, et ils
+                  sont tenus par le Vœu de Belligérance, non sans témérité,
+                  d’être les premiers guerriers à percer la ligne
+                  adverse.</em
+                >
+              </p>
+              <p>
+                Si une Figurine ayant fait ce Vœu Questoris était impliquée
+                dans le premier Combat d’une Bataille dont son Joueur en
+                Contrôle est déclaré vainqueur, ledit Joueur en Contrôle gagne
+                2 Points de Victoire.
+              </p>
+
+              <h2 class="sous-titre">Réaction Avancée — Fin Valeureuse</h2>
+              <p>
+                Le Joueur en Contrôle d’Unités composées uniquement de
+                Figurines qui ont le Trait de Faction Questoris Mendicus peut
+                dépenser des Points de Réaction pour effectuer la Réaction
+                Avancée suivante :
+              </p>
+              <p>
+                <em
+                  >Aussi désireux de nourrir leur légende par leur mort que
+                  par les hauts faits accomplis de leur vivant, les preux
+                  sans-fief dont le harnois est sur le point de céder sont
+                  susceptibles de précipiter la détonation de leur propre
+                  réacteur, dans l’espoir d’emporter dans la tombe un
+                  adversaire de valeur.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet au Joueur Réactif d’appliquer
+                  automatiquement les effets de la Règle Spéciale Explose (X)
+                  quand un Chevalier sous son contrôle est Retiré comme
+                  Perte.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> le Joueur Réactif peut
+                  déclarer cette Réaction Avancée à l’Étape 11 d’une Attaque
+                  de Tir ou à l’Étape 10 d’un Rang d’Initiative au Tour du
+                  Joueur Actif, quand une Figurine de Sous-type Chevalier qui
+                  a le Trait Questoris Mendicus sous son contrôle est censée
+                  être Retirée comme Perte après avoir perdu son dernier Point
+                  de Coque.
+                </li>
+                <li>
+                  <strong>Coût :</strong> 1 point d’Attribution de Réactions,
+                  à payer dès la déclaration.
+                </li>
+                <li>
+                  <strong>Cible :</strong> toujours la Figurine de Sous-type
+                  Chevalier qui a le Trait Questoris Mendicus sous le contrôle
+                  du Joueur Réactif qui a perdu son dernier Point de Coque et
+                  qu’on est censé Retirer comme Perte.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <ol class="etapes">
+                <li>
+                  Le Joueur Réactif résout aussitôt la version de la Règle
+                  Spéciale Explose (X) que la Figurine Réactive possède, et on
+                  considère qu’il tire automatiquement un 6 sur le Dé jeté
+                  dans le cadre de la Règle Spéciale.
+                </li>
+                <li>
+                  Une fois la Règle Spéciale Explose (X) résolue, la Figurine
+                  Réactive est aussitôt Retirée comme Perte.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== VŒUX QUESTORIS COMMUNS ===================== -->
+        <div class="timeline-item" id="voeux-communs">
+          <button class="timeline-titre" aria-expanded="false">
+            9. Vœux Questoris communs <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Les Vœux Questoris que l’on peut déclarer pour une Figurine de
+                Sous-type Chevalier sont énumérés ci-dessous, en plus du Vœu
+                propre au Paradigme de Maisonnée de l’Armée (voir plus haut) —
+                et davantage de Vœux Questoris pourront apparaître dans de
+                futures publications.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Vœu d’Exécution</h3>
+                  <ul>
+                    <li>
+                      Les Chevaliers prêtant le Vœu d’Exécution s’en vont
+                      chercher les meneurs parmi les osts de l’ennemi, pour
+                      s’efforcer de briser sa chaîne de commandement, ainsi
+                      que ses rangs.
+                    </li>
+                    <li>
+                      Si une attaque d’une Figurine ayant fait ce Vœu
+                      entraîne le Retrait comme Perte de la dernière Figurine
+                      d’une Unité sélectionnée pour occuper une Case
+                      d’Organigramme de Force de Quartier Général, on
+                      augmente de 2 les Points de Victoire marqués pour avoir
+                      atteint une version de l’Objectif Secondaire Tuez le
+                      Seigneur de Guerre (X).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Vœu de Résolution</h3>
+                  <ul>
+                    <li>
+                      Un serment lugubre, uniquement prêté lorsque les
+                      chances de survie d’un ost chevaleresque semblent
+                      minces : le Vœu de Résolution oblige le pilote à tenir
+                      bon, peu importe ce que l’ennemi lancera contre lui.
+                    </li>
+                    <li>
+                      Si une Figurine ayant fait ce Vœu se trouve encore sur
+                      le Champ de Bataille à la fin de la Bataille, on
+                      augmente de 2 les Points de Victoire marqués pour avoir
+                      atteint une version de l’Objectif Secondaire Debout
+                      (X).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Vœu d’Abattage</h3>
+                  <ul>
+                    <li>
+                      Un Vœu d’Abattage trouve ses origines dans les grandes
+                      chasses menées pour traquer et tuer la mégafaune de
+                      nombreux mondes chevaliers : les héritiers liés par ce
+                      Vœu jurent d’être les premiers à terrasser les
+                      combattants les plus puissants que l’adversaire puisse
+                      mobiliser, qu’ils soient chair ou machine.
+                    </li>
+                    <li>
+                      Si, durant le premier Tour de Jeu du Joueur en
+                      Contrôle, une attaque d’une Figurine ayant fait ce Vœu
+                      entraîne le Retrait comme Perte de la dernière Figurine
+                      d’une Unité ennemie sélectionnée pour occuper une Case
+                      d’Organigramme de Force de Seigneur des Batailles, on
+                      augmente de 2 les Points de Victoire marqués pour avoir
+                      atteint une version de l’Objectif Secondaire Tueur de
+                      Géant (X).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Vœu d’Empressement</h3>
+                  <ul>
+                    <li>
+                      Un Vœu courant parmi les descendants les plus impétueux
+                      d’une Maisonnée : ceux qui prêtent le Vœu
+                      d’Empressement jurent par-là d’être les premiers à
+                      terrasser un ennemi.
+                    </li>
+                    <li>
+                      Si, durant le premier Tour de Jeu du Joueur en
+                      Contrôle, une attaque d’une Figurine ayant fait ce Vœu
+                      entraîne le Retrait comme Perte de la dernière Figurine
+                      d’une Unité ennemie, on augmente de 2 les Points de
+                      Victoire marqués pour avoir atteint une version de
+                      l’Objectif Secondaire Première Frappe (X).
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS AVANCÉES COMMUNES ===================== -->
+        <div class="timeline-item" id="reactions-communes">
+          <button class="timeline-titre" aria-expanded="false">
+            10. Réactions Avancées de Questoris Familia
+            <span class="chevron">❯</span>
+          </button>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Ces trois Réactions Avancées sont ouvertes à toute Unité
+                composée uniquement de Figurines de Sous-type Chevalier,
+                quel que soit son Paradigme de Maisonnée — en plus de la
+                Réaction Avancée propre à chaque Maisonnée (voir plus haut).
+              </p>
+
+              <h3>Piétinement</h3>
+              <p>
+                <em
+                  >Immense construction d’acier et de céramite, un harnois de
+                  chevalier peut broyer de nombreux ennemis de moindre
+                  stature sous sa masse, et plus d’un preux préfère piétiner
+                  les vulgaires fantassins que leur accorder une mort
+                  « honorable » au moyen des armes de son harnois.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet au Joueur Réactif de déplacer un
+                  Chevalier vers une Unité ennemie qui s’est approchée à 8
+                  pouces et d’exécuter une attaque de piétinement.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> à l’Étape 2 du processus de
+                  la Sous-phase de Déplacement, si une Unité ennemie composée
+                  uniquement de Figurines de Type Infanterie, Cavalerie ou
+                  Automate achève un déplacement à 8 pouces et en Ligne de
+                  Vue d’une Unité sous le contrôle du Joueur Réactif composée
+                  uniquement de Figurines de Sous-type Chevalier.
+                </li>
+                <li>
+                  <strong>Coût :</strong> 1 point d’Attribution de Réactions,
+                  à payer dès la déclaration.
+                </li>
+                <li>
+                  <strong>Cible :</strong> l’Unité Cible est toujours l’Unité
+                  dont le déplacement déclenche la Réaction. Une fois le coût
+                  payé, le Joueur Réactif choisit une Unité sous son contrôle
+                  qui se trouve à 8 pouces et en Ligne de Vue de l’Unité
+                  Cible, composée uniquement de Figurines de Sous-type
+                  Chevalier : cette Unité est l’Unité Réactive.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <ol class="etapes">
+                <li>
+                  Une fois la Réaction Piétinement déclarée, le Joueur Actif
+                  doit résoudre complètement le déplacement de l’Unité Cible.
+                </li>
+                <li>
+                  Une fois que l’Unité Cible a fini son déplacement, le
+                  Joueur Réactif peut déplacer chaque Figurine de l’Unité
+                  Réactive de jusqu’à un nombre de pouces égal à la Valeur de
+                  Base de sa Caractéristique d’Initiative, droit vers l’Unité
+                  Cible, sans finir à 1 pouce de la moindre Figurine ennemie
+                  qui ne fait pas partie de l’Unité Cible.
+                </li>
+                <li>
+                  Une fois ce déplacement fini, le Joueur Réactif peut placer
+                  un Gabarit d’Explosion de 3 pouces en Contact Socle à Socle
+                  avec une seule Figurine de l’Unité Réactive, sans couvrir
+                  entièrement ni partiellement avec ce Gabarit la moindre
+                  Figurine ne faisant pas partie de l’Unité Cible.
+                </li>
+                <li>
+                  Une fois ce Gabarit d’Explosion placé, l’Unité Cible subit
+                  un nombre de Touches automatiques égal au nombre de ses
+                  Figurines entièrement ou partiellement couvertes par le
+                  Gabarit. On résout ces Touches avec une Force égale à la
+                  Caractéristique de Points de Coque de Base la plus élevée
+                  d’une Figurine de l’Unité Réactive, une PA de 3 et des
+                  Dégâts de 2.
+                </li>
+              </ol>
+
+              <h3>Orientation de Bouclier</h3>
+              <p>
+                <em
+                  >Presque unique parmi les projecteurs de champs d’énergie
+                  dont use le Mechanicum, le bouclier ionique directionnel
+                  que procurent les harnois de Chevalier peut être réorienté
+                  en plein combat, afin qu’un pilote habile puisse le
+                  focaliser de sorte à détourner une attaque qui aurait été
+                  susceptible de l’abattre, bien que ce soit au prix de
+                  laisser ses autres faces exposées.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet au Joueur Réactif d’améliorer de +1
+                  la Sauvegarde Invulnérable d’un Chevalier contre une seule
+                  Attaque de Tir, mais en modifiant de −1 sa Sauvegarde
+                  Invulnérable contre toutes les Attaques de Tir suivantes à
+                  ce Tour de Joueur.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> à la Phase de Tir, à l’Étape
+                  3 de la séquence d’Attaque de Tir de n’importe quelle
+                  Attaque de Tir faite par le Joueur Actif contre une Unité
+                  composée uniquement de Figurines de Sous-type Chevalier.
+                </li>
+                <li><strong>Coût :</strong> gratuite.</li>
+                <li>
+                  <strong>Cible :</strong> toujours l’Unité qui était la
+                  cible de l’Attaque de Tir ayant déclenché la Réaction.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <ol class="etapes">
+                <li>
+                  Toutes les Figurines de l’Unité Réactive améliorent
+                  immédiatement de +1 la Sauvegarde Invulnérable dont elles
+                  bénéficient contre les Attaques de Tir faites contre leur
+                  Arc Avant, pour la durée de l’Attaque de Tir qui a
+                  déclenché la Réaction.
+                </li>
+                <li>
+                  Le Joueur Actif finit de résoudre l’Attaque de Tir
+                  originelle qui a déclenché la Réaction.
+                </li>
+                <li>
+                  Une fois cette Attaque de Tir résolue, toutes les Figurines
+                  de l’Unité Réactive modifient de −1 l’ensemble des
+                  Sauvegardes Invulnérables dont elles bénéficient contre les
+                  Attaques de Tir faites contre leur Arc Avant, pour le reste
+                  du Tour du Joueur Actif.
+                </li>
+              </ol>
+
+              <h3>Joute !</h3>
+              <p>
+                <em
+                  >L’histoire relate de longue date comment des chevaliers
+                  livrent bataille en chargeant droit devant eux, et sur les
+                  champs de bataille de l’Âge des Ténèbres, la réaction la
+                  plus courante d’un chevalier à l’approche d’un ennemi
+                  désireux de s’en prendre à ses frères d’armes est de donner
+                  l’assaut lui aussi.</em
+                >
+              </p>
+              <p>
+                <strong
+                  >Cette Réaction permet à l’Unité Réactive de Charger une
+                  Unité ennemie qui a déclaré une Charge.</strong
+                >
+              </p>
+              <ul>
+                <li>
+                  <strong>Déclencheur :</strong> à la fin de l’Étape 3 du
+                  processus de Charge de toute Charge déclarée par le Joueur
+                  Actif où l’Unité Assaillante se trouve à 12 pouces d’une
+                  Unité sous le contrôle du Joueur Réactif, composée
+                  uniquement de Figurines de Sous-type Chevalier et qui n’est
+                  pas la cible de la Charge.
+                </li>
+                <li>
+                  <strong>Coût :</strong> 1 point d’Attribution de Réactions,
+                  à payer dès la déclaration.
+                </li>
+                <li>
+                  <strong>Cible :</strong> l’Unité Cible est toujours l’Unité
+                  dont la Charge déclenche la Réaction. L’Unité Réactive est
+                  toujours une Unité sous le contrôle du Joueur Réactif
+                  située à 12 pouces d’au moins une Figurine de l’Unité
+                  Cible, composée uniquement de Figurines de Sous-type
+                  Chevalier et qui n’est pas la cible de la Charge.
+                </li>
+              </ul>
+              <p><strong>Processus</strong></p>
+              <ol class="etapes">
+                <li>
+                  Une fois cette Réaction déclarée, le Joueur Réactif fait un
+                  Jet de Charge pour l’Unité Réactive.
+                </li>
+                <li>
+                  Si le résultat est suffisant pour amener une Figurine de
+                  l’Unité Réactive en Contact Socle à Socle avec une Figurine
+                  de l’Unité Cible, on fait un Mouvement de Charge et les
+                  Unités sont Verrouillées en Combat. Aucune Figurine de
+                  l’Unité Cible ne peut revendiquer de bonus dû à une Règle
+                  Spéciale qui exige d’avoir réussi une Charge, tandis que
+                  les Figurines de l’Unité Réactive gagnent les bonus des
+                  éventuelles Règles Spéciales qui s’appliquent en cas de
+                  Charge réussie.
+                </li>
+                <li>
+                  Si le résultat n’est pas suffisant pour amener la moindre
+                  Figurine de l’Unité Réactive en Contact Socle à Socle avec
+                  une Figurine de l’Unité Cible, on ne fait aucun Mouvement
+                  de Charge et les Joueurs passent à l’Étape 4 du processus
+                  de Charge.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

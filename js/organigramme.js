@@ -39,6 +39,7 @@ const Organigramme = (() => {
     faction: "legio-astartes", // id FACTIONS (seule Legio Astartes est jouable pour l'instant)
     allegeance: "loyaliste", // "loyaliste" | "renegat" (Vrais Croyants)
     legion: "", // id LEGIONS ou "" (Choisir Légion)
+    maisonnee: "", // id MAISONNEES ou "" (Choisir Maisonnée, Chevaliers Questoris seulement)
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
     detachements: [],
   };
@@ -49,15 +50,19 @@ const Organigramme = (() => {
   const LEGIONS_INDISPONIBLES = [];
 
   // Factions du menu « Faction » (p. 282, « Armée » au Livre de Règles) :
-  // Legio Astartes et Legio Titanicus sont transcrites, les autres
-  // restent grisées en attendant leur livre d'armée respectif.
+  // Legio Astartes, Legio Titanicus et Chevaliers Questoris sont
+  // activées, les autres restent grisées en attendant leur livre
+  // d'armée respectif. Chevaliers Questoris n'a pas encore d'unité
+  // transcrite (voir MAISONNEES/SKINS_MAISONNEE ci-dessous) : le menu
+  // « Maisonnée » qui remplace le menu Légion pour cette Faction pose
+  // seulement le cadre (skin, état, organigramme vierge) en attendant.
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
     ["legio-titanicus", "Legio Titanicus", true],
     ["legio-custodes", "Legio Custodes", false],
     ["solar-auxilia", "Solar Auxilia", false],
     ["mechanicum", "Mechanicum", false],
-    ["chevaliers-questoris", "Chevaliers Questoris", false],
+    ["chevaliers-questoris", "Chevaliers Questoris", true],
   ];
 
   const LEGIONS = [
@@ -79,6 +84,17 @@ const Organigramme = (() => {
     ["XVIII", "XVIII – Salamanders"],
     ["XIX", "XIX – Raven Guard"],
     ["XX", "XX – Alpha Legion"],
+  ];
+
+  // Types de Maisonnée du livre d'armée Chevaliers Questoris, choisis
+  // à la place d'une Légion pour cette Faction (menu « Maisonnée »,
+  // voir construireParametres) : à la différence d'une Légion, le
+  // type de Maisonnée n'impose pas d'Allégeance (le joueur la choisit
+  // librement via le menu Allégeance, comme pour toute autre Faction).
+  const MAISONNEES = [
+    ["imperialis", "Questoris Imperialis"],
+    ["mechanicum", "Questoris Mechanicum"],
+    ["mendicus", "Questoris Mendicus"],
   ];
 
   /* Skins thématiques (page unites.html) : quand une Légion listée ici
@@ -320,6 +336,34 @@ const Organigramme = (() => {
     ],
   };
 
+  /* Skins des types de Maisonnée (livre d'armée Chevaliers Questoris) :
+     même mécanique que SKINS_LEGION (classe posée sur <body>, recolore
+     --accent/--accent-clair/--fond-secondaire/--carte-hover, voir
+     css/style.css), mais rattachée à etat.maisonnee plutôt qu'à
+     etat.legion, et sans blason dédié (aucune bannière héraldique
+     disponible pour l'instant : pas d'icône posée sur le titre de
+     page, contrairement à une Légion ou à Legio Titanicus). */
+  const SKINS_MAISONNEE = {
+    imperialis: {
+      classe: "skin-legion-questoris-imperialis",
+      nom: "Questoris Imperialis",
+      devise:
+        "Liées par serment à un monde ou une noblesse impériale, ces Maisonnées mettent leurs Chevaliers directement au service de l'Empereur.",
+    },
+    mechanicum: {
+      classe: "skin-legion-questoris-mechanicum",
+      nom: "Questoris Mechanicum",
+      devise:
+        "Inféodées à un Monde-Forge, ces Maisonnées doivent à l'Adeptus Mechanicus la Manufacture Sacrée de leurs Chevaliers — et leur obéissance.",
+    },
+    mendicus: {
+      classe: "skin-legion-questoris-mendicus",
+      nom: "Questoris Mendicus",
+      devise:
+        "Sans monde ni serment fixe, ces Maisonnées errantes louent leurs lames au plus offrant, de champ de bataille en champ de bataille.",
+    },
+  };
+
   /* Blasons de Légion (assets/logo_legions/*.png) : bannières
      héraldiques officielles, une par Légion. La clé est le slug
      `icone` de SKINS_LEGION ci-dessus ; la valeur est le nom de
@@ -411,7 +455,9 @@ const Organigramme = (() => {
   // jusqu'ici codé en dur sous l'id "principal" (initialiser,
   // reinitialiserArmeeAvecConfirmation).
   function idDetachementPrincipal() {
-    return etat.faction === "legio-titanicus" ? "ordinal-titanique" : "principal";
+    if (etat.faction === "legio-titanicus") return "ordinal-titanique";
+    if (etat.faction === "chevaliers-questoris") return "maisonnees-chevaliers";
+    return "principal";
   }
 
   // Ce type de Détachement doit-il être proposé/accepté pour la Faction
@@ -1260,6 +1306,8 @@ const Organigramme = (() => {
         raison = "Exige une figurine de Sous-type Sergent.";
       } else if (avantage.etatMajor && occ && !aSousType(occ, "État-major")) {
         raison = "Exige une figurine de Sous-type État-major.";
+      } else if (avantage.chevalier && occ && !aSousType(occ, "Chevalier")) {
+        raison = "Exige une Unité de Sous-type Chevalier.";
       } else if (
         avantage.typesRequis &&
         occ &&
@@ -1365,6 +1413,13 @@ const Organigramme = (() => {
       // seule option valide pour cette Case.
       resultat.push({ avantage, grise: raison !== "", raison });
     }
+    // Options disponibles d'abord, grisées ensuite (tri stable : l'ordre
+    // relatif au sein de chaque groupe reste celui d'AVANTAGES_PRINCIPAUX,
+    // « Aucun avantage choisi » — jamais grisé — reste donc toujours en
+    // tête). Purement un tri d'affichage du menu déroulant ci-dessous
+    // (construireCarteDetachement) : ne change ni la valeur sélectionnée
+    // ni la logique de grisage elle-même.
+    resultat.sort((a, b) => (a.grise === b.grise ? 0 : a.grise ? 1 : -1));
     return resultat;
   }
 
@@ -1432,8 +1487,60 @@ const Organigramme = (() => {
         origineAvantage: nouvelId,
       });
     }
+    retirerDetachementsAvantageInvalide();
     actualiser();
     return null;
+  }
+
+  /* Retire tout Détachement dont la condition `requiertAvantage` n'est
+     plus remplie nulle part dans l'Armée (ex : Serre d'Armigères,
+     débloqué par Preux Aspirant) après un changement d'Avantage
+     Principal — contrairement à requiertAllegeance/requiertRiteDeGuerre,
+     simplement signalés en erreur par validerArmee() sans retrait
+     automatique (choix assumé : un changement d'Allégeance ou de Rite de
+     Guerre affecte potentiellement toute l'Armée, alors qu'un Avantage
+     ne concerne qu'un Détachement précis). Demande confirmation avant de
+     retirer un Détachement non vide (comme le bouton « Retirer le
+     détachement », voir construireDetachementDOM) ; si l'utilisateur
+     refuse, le Détachement reste en l'état et validerArmee() continue de
+     le signaler en erreur. Boucle jusqu'à stabilisation : retirer un
+     Détachement retire aussi ses Unités, ce qui peut à son tour invalider
+     un AUTRE Détachement dont l'unique Avantage qualifiant s'y trouvait
+     (ex : Bannière d'Appui elle-même débloquée par un Avantage porté par
+     une Unité de Serre d'Armigères — cas hypothétique, non rencontré
+     aujourd'hui, mais couvert par cette boucle). */
+  function retirerDetachementsAvantageInvalide() {
+    let retire = true;
+    while (retire) {
+      retire = false;
+      for (const det of etat.detachements) {
+        const type = typeDe(det);
+        if (
+          !type.requiertAvantage ||
+          etat.detachements.some((d) =>
+            d.cases.some((c) => c.avantage === type.requiertAvantage),
+          )
+        )
+          continue;
+        const occupees = det.cases.filter((c) => c.uniteUid !== null);
+        if (
+          occupees.length > 0 &&
+          !window.confirm(
+            "« " +
+              type.nom +
+              " » n'est plus débloqué (l'Avantage Principal requis a été retiré) et contient " +
+              occupees.length +
+              " unité(s) : elles seront retirées de la liste. Continuer ?",
+          )
+        ) {
+          continue;
+        }
+        for (const c of occupees) hooks.retirerInstance(c.uniteUid);
+        etat.detachements = etat.detachements.filter((d) => d.uid !== det.uid);
+        retire = true;
+        break; // etat.detachements muté : on relance une passe propre
+      }
+    }
   }
 
   /* ----------------------------------------------------------
@@ -1449,6 +1556,7 @@ const Organigramme = (() => {
           faction: etat.faction,
           allegeance: etat.allegeance,
           legion: etat.legion,
+          maisonnee: etat.maisonnee,
           riteDeGuerre: etat.riteDeGuerre,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
@@ -1493,6 +1601,13 @@ const Organigramme = (() => {
         (donnees.legion === "" || LEGIONS.some(([v]) => v === donnees.legion))
       ) {
         etat.legion = donnees.legion;
+      }
+      if (
+        typeof donnees.maisonnee === "string" &&
+        (donnees.maisonnee === "" ||
+          MAISONNEES.some(([v]) => v === donnees.maisonnee))
+      ) {
+        etat.maisonnee = donnees.maisonnee;
       }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
@@ -1780,10 +1895,12 @@ const Organigramme = (() => {
         }
         etat.faction = nouvelleFaction;
         etat.detachements = [creerDetachement(idDetachementPrincipal())];
-        // Légion et Rite de Guerre n'ont de sens que pour Legio
-        // Astartes : ils repartent à zéro, comme la liste d'armée.
+        // Légion/Rite de Guerre (Legio Astartes) et Maisonnée
+        // (Chevaliers Questoris) n'ont de sens que pour leur propre
+        // Faction : ils repartent à zéro, comme la liste d'armée.
         etat.legion = "";
         etat.riteDeGuerre = "";
+        etat.maisonnee = "";
       }
       actualiser();
     });
@@ -1908,6 +2025,38 @@ const Organigramme = (() => {
         });
         ligne.appendChild(groupeParametre(labelRite, selectRite));
       }
+    } else if (etat.faction === "chevaliers-questoris") {
+      // Maisonnée (livre d'armée Chevaliers Questoris) : remplace le
+      // menu Légion pour cette Faction (MAISONNEES ci-dessus). Aucune
+      // unité n'étant encore transcrite pour Chevaliers Questoris, ce
+      // menu pose seulement le skin/état — l'organigramme reste vide
+      // d'unités proposables quelle que soit la Maisonnée choisie.
+      const labelMaisonnee = el("label", null, "Maisonnée");
+      const selectMaisonnee = document.createElement("select");
+      selectMaisonnee.id = "maisonnee-armee";
+      labelMaisonnee.htmlFor = selectMaisonnee.id;
+      ajouterOption(selectMaisonnee, "", "Choisir Maisonnée");
+      for (const [valeur, texte] of MAISONNEES) {
+        ajouterOption(selectMaisonnee, valeur, texte);
+      }
+      selectMaisonnee.value = etat.maisonnee;
+      selectMaisonnee.addEventListener("change", () => {
+        const nouvelleMaisonnee = selectMaisonnee.value;
+        if (nouvelleMaisonnee !== etat.maisonnee) {
+          if (
+            !reinitialiserArmeeAvecConfirmation(
+              "Changer de Maisonnée réinitialise la liste d'armée et les " +
+                "détachements sélectionnés. Continuer ?",
+            )
+          ) {
+            selectMaisonnee.value = etat.maisonnee;
+            return;
+          }
+        }
+        etat.maisonnee = nouvelleMaisonnee;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelMaisonnee, selectMaisonnee));
     }
 
     const labelAllegeance = el("label", null, "Allégeance");
@@ -1950,8 +2099,12 @@ const Organigramme = (() => {
       document.body.classList.remove(info.classe);
     }
     document.body.classList.remove(SKIN_TITANICUS.classe);
+    for (const info of Object.values(SKINS_MAISONNEE)) {
+      document.body.classList.remove(info.classe);
+    }
     const skinLegion = SKINS_LEGION[etat.legion];
     const skinTitan = etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
+    const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
     const titre = document.querySelector("h1.titre-page");
     if (titre) {
       // querySelectorAll (pas querySelector) : Legio Titanicus pose DEUX
@@ -2006,6 +2159,16 @@ const Organigramme = (() => {
       entete.appendChild(rouage);
       banniere.appendChild(entete);
       if (skinTitan.devise) banniere.appendChild(el("em", null, skinTitan.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinMaison) {
+      // Pas de blason (aucune bannière héraldique dédiée pour l'instant,
+      // voir SKINS_MAISONNEE) : bandeau texte seul, comme une Légion ou
+      // Legio Titanicus sans icône.
+      document.body.classList.add(skinMaison.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinMaison.nom);
+      banniere.appendChild(entete);
+      if (skinMaison.devise) banniere.appendChild(el("em", null, skinMaison.devise));
       conteneur.appendChild(banniere);
     }
   }
@@ -2561,6 +2724,12 @@ const Organigramme = (() => {
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
     legionActuelle: () => etat.legion,
+    // Maisonnée choisie dans les paramètres de la partie ("" = aucune,
+    // Faction Chevaliers Questoris uniquement) : consommée par
+    // js/unites.js pour verrouiller le sélecteur « Unité à ajouter »
+    // tant qu'aucune Maisonnée n'est choisie, comme legionActuelle()
+    // ci-dessus pour Legio Astartes.
+    maisonneeActuelle: () => etat.maisonnee,
     // Rite de Guerre choisi (id d'un RITES_DE_GUERRE[legion], ou ""
     // si aucun choisi / Légion sans choix de Rite de Guerre) :
     // consommée par js/unites.js pour la page de garde du PDF/Word,

@@ -78,6 +78,22 @@ const ENTETES_VEHICULE = [
   "PC",
   "Capacité de Transport",
 ];
+// Profil de Véhicule de Sous-type Chevalier (voir pages/vehicule.html
+// #sous-types) : CC/F/I/A en plus du profil de véhicule standard, mais
+// seulement deux Faces de Blindage (Avant/Arrière, pas de Flanc) — voir
+// `profilChevalier` dans js/unites-data.js et construireTableProfil
+// ci-dessous.
+const ENTETES_CHEVALIER = [
+  "M",
+  "CC",
+  "CT",
+  "F",
+  "Blindage Avant",
+  "Blindage Arrière",
+  "I",
+  "A",
+  "PC",
+];
 // Profil de Titan (Legio Titanicus) : une ligne par Profil (Tête,
 // Carapace, Bras, Jambes…), chacune avec son propre Blindage
 // Principal/Exposé — à ne pas confondre avec le profil de véhicule
@@ -601,6 +617,15 @@ function construireTableProfil(unite, instance) {
         valeurs: [p.M, p.CT, p.avant, p.flanc, p.arriere, p.PC, p.transport],
       },
     ];
+  } else if (variante.profilChevalier) {
+    const p = variante.profilChevalier;
+    entetes = ENTETES_CHEVALIER;
+    lignes = [
+      {
+        libelle: null,
+        valeurs: [p.M, p.CC, p.CT, p.F, p.avant, p.arriere, p.I, p.A, p.PC],
+      },
+    ];
   } else if (variante.profilsVehicule) {
     // Profil de Titan : la CT des Profils de Bras (et de Carapace au-
     // delà du Warhound) dépend de l'Équipage choisi (option "choix"
@@ -667,7 +692,9 @@ function construireTableProfil(unite, instance) {
       // caractéristiques d'infanterie (A, CC, Cd, CT) : les colonnes
       // de profilVehicule n'ont pas la même signification à index égal.
       const car =
-        variante.profilVehicule || variante.profilsVehicule
+        variante.profilVehicule ||
+        variante.profilsVehicule ||
+        variante.profilChevalier
           ? null
           : ENTETES_PROFIL[indiceCol];
       const td = el("td", null, String(v));
@@ -1067,12 +1094,15 @@ function construireFiche(unite, instance) {
     construireLigneRegles(unite.equipementLibelle || "Équipement", equipement),
   );
   fiche.appendChild(construireTablesArmes(equipement));
-  // [Allégeance] et [Legiones Astartes] sont communs à toutes les
-  // unités de la Légion : ne pas les afficher sur la fiche évite de
-  // les y répéter systématiquement. La ligne disparaît s'il ne reste
-  // aucun trait propre à l'unité.
+  // [Allégeance], [Legiones Astartes] et [Questoris Familia] sont
+  // communs à toutes les unités de la Légion/Faction : ne pas les
+  // afficher sur la fiche évite de les y répéter systématiquement. La
+  // ligne disparaît s'il ne reste aucun trait propre à l'unité.
   const traitsAffiches = unite.traits.filter(
-    (trait) => trait !== "[Allégeance]" && trait !== "[Legiones Astartes]",
+    (trait) =>
+      trait !== "[Allégeance]" &&
+      trait !== "[Legiones Astartes]" &&
+      trait !== "[Questoris Familia]",
   );
   if (traitsAffiches.length > 0) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
@@ -1511,9 +1541,10 @@ function actualiserTotal() {
 // id de l'unité proposée par défaut dans « Unité à ajouter » avant
 // toute saisie/sélection, selon la Faction actuelle (etat.faction,
 // js/organigramme.js) : Praetor (Quartier Général générique) pour
-// Legio Astartes, Titan Warlord pour Legio Titanicus. Une Faction sans
-// valeur dédiée ici retombe sur la première unité disponible (voir
-// initialiserChoixUnite, qui construit la liste réellement affichée).
+// Legio Astartes, Titan Warlord pour Legio Titanicus, Chevalier Acastus
+// Astérius pour Chevaliers Questoris. Une Faction sans valeur dédiée ici
+// retombe sur la première unité disponible (voir initialiserChoixUnite,
+// qui construit la liste réellement affichée).
 // Contrairement à uniteAccessible ci-dessus, pas de garde `orgaPret` :
 // Organigramme (le module) existe déjà quand ce fichier s'exécute
 // (chargé avant, voir organigramme.js), que sa méthode initialiser()
@@ -1524,7 +1555,9 @@ function actualiserTotal() {
 // Praetor le temps d'une interaction supplémentaire.
 function idUniteParDefautPourFaction() {
   const faction = Organigramme.factionActuelle();
-  return faction === "legio-titanicus" ? "titan-warlord" : "praetor";
+  if (faction === "legio-titanicus") return "titan-warlord";
+  if (faction === "chevaliers-questoris") return "chevalier-acastus-asterius";
+  return "praetor";
 }
 
 // Rebranché par initialiserChoixUnite() sur sa propre sélection par
@@ -1553,8 +1586,24 @@ function actualiserVerrouLegion() {
     derniereFactionCombobox = factionActuelle;
     reinitialiserChoixUniteParDefaut();
   }
-  const legionRequise = factionActuelle === "legio-astartes";
-  const peutAjouter = !legionRequise || Organigramme.legionActuelle() !== "";
+  const legionManquante =
+    factionActuelle === "legio-astartes" && Organigramme.legionActuelle() === "";
+  // Même verrou que la Légion ci-dessus, pour la Maisonnée (Faction
+  // Chevaliers Questoris, menu « Maisonnée » des paramètres de la
+  // partie) : les Unités de cette Faction n'ont pas de Trait propre à
+  // une Maisonnée (voir uniteAccessible), donc rien ne les filtre
+  // automatiquement — le verrou en amont est donc la seule façon
+  // d'imposer ce choix avant d'ajouter une Unité.
+  const maisonneeManquante =
+    factionActuelle === "chevaliers-questoris" &&
+    Organigramme.maisonneeActuelle() === "";
+  // Faction sans aucune unité transcrite pour l'instant (ex : Chevaliers
+  // Questoris, en attendant son livre d'armée) : le verrou se déclenche
+  // aussi dans ce cas, plutôt que de laisser un champ vide/trompeur et
+  // un bouton « Ajouter » sans effet (voir uniteAccessible ci-dessus).
+  const aucuneUniteAccessible = !UNITES.some((u) => uniteAccessible(u));
+  const peutAjouter =
+    !legionManquante && !maisonneeManquante && !aucuneUniteAccessible;
   champUnite.disabled = !peutAjouter;
   boutonUnite.disabled = !peutAjouter;
   boutonUnite2.disabled = !peutAjouter;
@@ -1562,13 +1611,25 @@ function actualiserVerrouLegion() {
     document.getElementById("choix-unite-liste").hidden = true;
     champUnite.setAttribute("aria-expanded", "false");
   }
-  const messageVerrou =
+  const MESSAGE_LEGION_MANQUANTE =
     "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités.";
+  const MESSAGE_MAISONNEE_MANQUANTE =
+    "Choisissez d'abord une Maisonnée dans les paramètres de la partie pour pouvoir ajouter des unités.";
+  const MESSAGE_AUCUNE_UNITE =
+    "Aucune unité n'est encore disponible pour cette Faction.";
   const messageAjout = document.getElementById("ajout-message");
   if (!peutAjouter) {
-    messageAjout.textContent = messageVerrou;
+    messageAjout.textContent = legionManquante
+      ? MESSAGE_LEGION_MANQUANTE
+      : maisonneeManquante
+        ? MESSAGE_MAISONNEE_MANQUANTE
+        : MESSAGE_AUCUNE_UNITE;
     messageAjout.hidden = false;
-  } else if (messageAjout.textContent === messageVerrou) {
+  } else if (
+    messageAjout.textContent === MESSAGE_LEGION_MANQUANTE ||
+    messageAjout.textContent === MESSAGE_MAISONNEE_MANQUANTE ||
+    messageAjout.textContent === MESSAGE_AUCUNE_UNITE
+  ) {
     messageAjout.hidden = true;
   }
 }
@@ -2437,11 +2498,15 @@ function initialiserChoixUnite() {
   // actualiserVerrouLegion à chaque changement de Faction réel.
   function reinitialiserSelectionParDefaut() {
     const idVoulu = idUniteParDefautPourFaction();
+    // Uniquement parmi les unités réellement accessibles (uniteAccessible) :
+    // une Faction sans unité transcrite (ex : Chevaliers Questoris) ne doit
+    // pas retomber sur la première unité du tableau UNITES, forcément
+    // inaccessible et donc trompeuse une fois affichée dans le champ.
+    const accessibles = entrees.filter((e) => e.unite && uniteAccessible(e.unite));
     const defaut =
-      entrees.find((e) => e.unite && e.unite.id === idVoulu) ||
-      entrees.find((e) => e.unite);
+      accessibles.find((e) => e.unite.id === idVoulu) || accessibles[0];
     uniteId = defaut ? defaut.unite.id : null;
-    if (defaut) champ.value = libelle(defaut.unite);
+    champ.value = defaut ? libelle(defaut.unite) : "";
   }
   reinitialiserChoixUniteParDefaut = reinitialiserSelectionParDefaut;
 
@@ -2718,13 +2783,16 @@ function initialiser() {
   const messageAjout = document.getElementById("ajout-message");
 
   boutonAjouter.addEventListener("click", () => {
-    // Filet de sécurité : le bouton est normalement désactivé tant
-    // qu'aucune Légion n'est choisie pour une Armée Legio Astartes (voir
-    // actualiserVerrouLegion) — les autres Factions transcrites (Legio
-    // Titanicus) n'ont pas cette notion.
+    // Filet de sécurité : le bouton est normalement désactivé tant que le
+    // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
+    // une Armée Legio Astartes, Maisonnée manquante pour une Armée
+    // Chevaliers Questoris, ou Faction sans aucune unité accessible).
     if (
-      Organigramme.factionActuelle() === "legio-astartes" &&
-      Organigramme.legionActuelle() === ""
+      (Organigramme.factionActuelle() === "legio-astartes" &&
+        Organigramme.legionActuelle() === "") ||
+      (Organigramme.factionActuelle() === "chevaliers-questoris" &&
+        Organigramme.maisonneeActuelle() === "") ||
+      !UNITES.some((u) => uniteAccessible(u))
     )
       return;
     const unite = uniteChoisie();

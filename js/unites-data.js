@@ -27,6 +27,13 @@
 
    Un profil = { M, CC, CT, F, E, PV, I, A, Cd, Sf, Vo, Int, Sv, Inv }
    Un profil de véhicule = { M, CT, avant, flanc, arriere, PC, transport }
+   Un profil de Véhicule de Sous-type Chevalier (livre d'armée Chevaliers
+   Questoris) : `profilChevalier` sur la variante, { M, CC, CT, F,
+   avant, arriere, I, A, PC } — CC/F/I/A en plus du profil de véhicule
+   standard, mais seulement deux Faces de Blindage (Avant/Arrière, pas
+   de Flanc ni de Capacité de Transport), voir ENTETES_CHEVALIER et
+   construireTableProfil dans js/unites.js ainsi que pages/vehicule.html
+   #sous-types (règles du Sous-type Chevalier).
    Un profil de Titan (Legio Titanicus) : `profilsVehicule` sur la
    variante, tableau de { nom, M, CT, principal, expose, PC, transport }
    — une ligne par Profil de Titan (Tête, Carapace, Bras, Jambes…),
@@ -15051,6 +15058,573 @@ const UNITES = [
         cout: 0,
         ajoute:
           "Griffe énergétique Arioch de Bras avec un Méga-bolter Vulcan de Bras (les deux Bras)",
+      },
+    ],
+  },
+
+  /* ============================================================
+     UNITÉS — CHEVALIERS QUESTORIS
+     Transcription depuis l'Arsenal des Maisonnées de Chevaliers.
+     Faction distincte de Legio Astartes (champ `faction:
+     "chevaliers-questoris"`, voir MODÈLE DE DONNÉES en tête de fichier
+     et uniteAccessible dans js/unites.js). Aucune Maisonnée (Questoris
+     Imperialis/Mechanicum/Mendicus, voir SKINS_MAISONNEE dans
+     js/organigramme.js) n'est précisée sur ces unités : comme
+     [Legiones Astartes] pour un Dreadnought Contemptor, le Trait
+     [Questoris Familia] est un générique valable pour les trois.
+
+     Les 9 Chevaliers (catégorie "Seigneurs des Batailles", placés via
+     le Détachement de Seigneur des Batailles — factionLibre, voir
+     organigramme-data.js) utilisent `profilChevalier` (M/CC/CT/F +
+     Blindage Avant/Arrière + I/A/PC, voir ENTETES_CHEVALIER et
+     construireTableProfil dans js/unites.js, ainsi que la règle du
+     Sous-type Chevalier sur pages/vehicule.html#sous-types). Les 3
+     Armigères (catégorie "Engins de Guerre", Détachement Auxiliaire
+     Appui Lourd — rendu factionLibre pour l'occasion) sont de Type
+     Marcheur, avec un profil de Figurine standard comme un Dreadnought.
+
+     Limite connue : les caractéristiques de Tir/Mêlée de la plupart
+     des armes listées ici (Affût à conversion Desolator, Mortier
+     Karacnos, Découpeur de phase Atrapos, Canon Infernus d'Achéron,
+     Pince de siège Hekaton…) ne sont pas encore transcrites dans
+     l'Arsenal (js/armes-data.js) : elles apparaissent donc dans
+     l'Équipement de la fiche, mais sans table de caractéristiques
+     (voir trouverArmeDansTexte dans js/unites.js — une arme absente de
+     l'Arsenal n'apparaît simplement dans aucune table).
+     ---------------------------------------------------------- */
+  {
+    id: "chevalier-acastus-asterius",
+    nom: "Chevalier Acastus Astérius",
+    categorie: "Seigneurs des Batailles",
+    cout: 750,
+    composition: "1 Chevalier Astérius",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Affût à conversion Desolator de Coque (Avant)",
+      "Mortier Karacnos Dorsal (Avant)",
+      "Deux couleuvrines volkites de Coque (Avant)",
+      "Bouclier répulsif ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Chevalier Astérius compte parmi les engins de destruction les plus formidables et massifs dont disposent les Maisons, doté d'un armement à conversion lourd pouvant réduire en poussière les plus grands édifices, et même menacer les titans. Les systèmes d'armes secondaires du Chevalier Astérius sont eux aussi redoutables : un mortier Karacnos monté sur sa carapace, capable d'anéantir des phalanges entières de troupes en formation, tout comme les couleuvrines volkites de son torse. Seuls les plus forts d'esprit osent essayer de contrôler le feu rageur qui agite l'esprit de la machine d'un Chevalier Astérius et ne tarde pas à les gagner.",
+    variantes: [
+      {
+        nom: "Chevalier Astérius",
+        cout: 0,
+        profilChevalier: { M: 10, CC: 3, CT: 4, F: 10, avant: 14, arriere: 11, I: 2, A: 3, PC: 18 },
+        regles: ["Autoréparation (4+)", "Colosse", "Explose (4+)", "Tir Indépendant"],
+        type: "Véhicule (Chevalier, Lourd)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-acastus-porphyrion",
+    nom: "Chevalier Acastus Porphyrion",
+    categorie: "Seigneurs des Batailles",
+    cout: 725,
+    composition: "1 Chevalier Porphyrion",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Batterie à onde neutronique de Coque (Avant)",
+      "Batterie lance-missiles Ironstorm Dorsale (Avant)",
+      "Deux autocanons de Coque (Avant)",
+      "Bouclier ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Même au pic de la Grande Croisade, peu de Maisonnées étaient en mesure de mobiliser en service les harnois Acastus les plus lourdement équipés et protégés, l'un des châssis les plus imposants avec lesquels un humain seul pouvait entrer en interface. La variante Porphyrion en particulier servit souvent d'assurance suprême de l'autorité d'une Maisonnée sur ses descendants, même si pour certaines, son poids et son arsenal purement dédié au tir (malgré sa magnitude) étaient des inconvénients qu'on ne pouvait ignorer. D'autres soulignèrent que la taille et la puissance du Porphyrion, rivalisant avec celles d'un titan éclaireur, repoussaient les limites de ce qu'on pouvait raisonnablement confier à une Maisonnée.",
+    variantes: [
+      {
+        nom: "Chevalier Porphyrion",
+        cout: 0,
+        profilChevalier: { M: 10, CC: 3, CT: 4, F: 10, avant: 14, arriere: 11, I: 2, A: 3, PC: 18 },
+        regles: ["Autoréparation (5+)", "Colosse", "Explose (5+)", "Tir Indépendant"],
+        type: "Véhicule (Chevalier, Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "paire",
+        id: "autocanons-laser",
+        libelle:
+          "Remplacer les deux autocanons de Coque (Avant) par deux canons laser de Coque (Avant)",
+        cout: 10,
+        remplaceListe: ["Deux autocanons de Coque (Avant)"],
+        ajoute: "Deux canons laser de Coque (Avant)",
+      },
+      {
+        type: "choix",
+        id: "dorsale-porphyrion",
+        libelle: "Batterie lance-missiles Ironstorm Dorsale (Avant)",
+        remplace: "Batterie lance-missiles Ironstorm Dorsale (Avant)",
+        choix: [
+          { nom: "— Batterie lance-missiles Ironstorm Dorsale (Avant) (gratuit) —", cout: 0 },
+          { nom: "Lance-missiles Hyperios Dorsal (Avant)", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "chevalier-cerastus-atrapos",
+    nom: "Chevalier Cerastus Atrapos",
+    categorie: "Seigneurs des Batailles",
+    cout: 600,
+    composition: "1 Chevalier Atrapos",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Canon à singularité graviton de Coque (Avant)",
+      "Découpeur de phase Atrapos de Coque (Avant)",
+      "Bouclier répulsif ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "C'est un honneur rare pour une Maisonnée que de compter dans ses rangs un Chevalier Atrapos, un modèle Cerastus de provenance ancienne et d'une puissance ahurissante, qu'il s'agisse d'une relique récupérée des cryptes d'un ennemi vaincu ou d'un don exceptionnel fait par un monde-forge. Lors des guerres catalysmiques de l'Hérésie d'Horus, il fut courant que des harnois Atrapos soient employés contre des Chevaliers ennemis, ou pour aller exécuter des descendants dévoyés de leur Maison, l'appétit de destruction de leur esprit de la machine n'étant rassasié qu'en apportant la ruine à des adversaires aussi prééminents.",
+    variantes: [
+      {
+        nom: "Chevalier Atrapos",
+        cout: 0,
+        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-cerastus-lancier",
+    nom: "Chevalier Cerastus Lancier",
+    categorie: "Seigneurs des Batailles",
+    cout: 480,
+    composition: "1 Chevalier Lancier",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: ["Lance-choc de Coque (Avant)", "Gantelet-bouclier ionique", "Bouclier ionique"],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Lancier est le plus célèbre des harnois de Chevalier type Cerastus, un châssis hautement sophistiqué, qui surpasse de loin en célérité la classe Questoris plus pesante. Les Chevaliers Cerastus semblent n'avoir été conçus que pour la guerre, non comme protecteurs, mais comme des conquérants et des outils de destruction, marque de la violence qui imprégna les prémices de l'Ère des Luttes. Le Lancier est tenu en haute estime par les preux les plus impétueux des Maisons, son puissant gantelet-bouclier ionique et sa lance-choc étant parfaitement adaptés à affronter l'ennemi face à face, là où un seul coup ajusté sépare le pilote de sa mort.",
+    variantes: [
+      {
+        nom: "Chevalier Lancier",
+        cout: 0,
+        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-cerastus-acheron",
+    nom: "Chevalier Cerastus Achéron",
+    categorie: "Seigneurs des Batailles",
+    cout: 500,
+    composition: "1 Chevalier Achéron",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Canon Infernus d'Achéron de Coque (Avant)",
+      "Bolter lourd jumelé de Coque (Avant)",
+      "Poing tronçonneur Reaper",
+      "Bouclier ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Chevalier Cerastus Achéron est une vision inquiétante, un faucheur de vies soigneusement conçu pour non seulement détruire mais inspirer la terreur. Sa présence avertit l'ennemi qu'aucun quartier ne lui sera fait, car de telles armes ne sont déployées qu'en mission d'extermination, pour renverser ses ouvrages et passer ses terres à la flamme. Les rares pilotes ayant goût à ces montures lugubres sont des guerriers à la volonté de fer, sachant réprimer les murmures sinistres de leur esprit de la machine, ou des âmes torturées, appréciant les pulsions malveillantes de ce harnois et le carnage qu'il sème sur le champ de bataille.",
+    variantes: [
+      {
+        nom: "Chevalier Achéron",
+        cout: 0,
+        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        regles: ["Autoréparation (5+)", "Explose (4+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-cerastus-castigateur",
+    nom: "Chevalier Cerastus Castigateur",
+    categorie: "Seigneurs des Batailles",
+    cout: 480,
+    composition: "1 Chevalier Castigateur",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Canon à bolts de Castigateur jumelé de Coque (Avant)",
+      "Lame de guerre Tempest",
+      "Bouclier ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Armé du redoutable canon à bolts éponyme, le Chevalier Cerastus Castigateur est employé par les Maisonnées face aux hordes d'adversaires infimes qui pourraient submerger même un puissant Chevalier par leur seul nombre. C'est un formidable combattant, capable d'anéantir les formations d'infanterie sous une pluie grondante de projectiles à masse réactive, et d'équarrir avec aisance les véhicules légers à coups de lame énergétique. Parmi ses semblables, le Castigateur est aussi renommé pour la nature sévère des esprits de la machine qui l'habitent, dont la vigueur est délicate à éveiller, mais presque impossible à arrêter.",
+    variantes: [
+      {
+        nom: "Chevalier Castigateur",
+        cout: 0,
+        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-questoris-styrix",
+    nom: "Chevalier Questoris Styrix",
+    categorie: "Seigneurs des Batailles",
+    cout: 455,
+    composition: "1 Chevalier Styrix",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Chieorovile volkite de Coque (Avant)",
+      "Fusil à gravitons de Coque (Avant)",
+      "Radioactiveur de Coque (Avant)",
+      "Pince de siège Hekaton",
+      "Bouclier répulsif ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Associé aux pires massacres de l'Ère des Luttes et de la Grande Croisade qui suivit, le Styrix flétrit la réputation de tout pilote qui se lie à lui. Au combat, son chieorovile volkite réduit en cendre des pans entiers d'infanterie, et sa pince de siège Hekaton éventre bunkers et véhicules pour exposer encore d'autres victimes que son fusil à gravitons pulvérisera ou que son radioactiveur fera bouillir vives. Cette efficacité macabre dans le massacre à grande échelle des troupes au sol est considérée par certains comme déshonorante pour un vrai chevalier, mais bon nombre de Maisonnées Questoris n'ont pas de tels scrupules.",
+    variantes: [
+      {
+        nom: "Chevalier Styrix",
+        cout: 0,
+        profilChevalier: { M: 10, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 3, A: 4, PC: 10 },
+        regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  {
+    id: "chevalier-questoris-magaera",
+    nom: "Chevalier Questoris Magaera",
+    categorie: "Seigneurs des Batailles",
+    cout: 460,
+    composition: "1 Chevalier Magaera",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Canon à foudre de Coque (Avant)",
+      "Fusil à plasma phasé de Coque (Avant)",
+      "Radioactiveur de Coque (Avant)",
+      "Pince de siège Hekaton",
+      "Bouclier répulsif ionique",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Chevalier Magaera est une merveille technologique rarement vue au-dehors des Maisons vassales du Mechanicum, lequel protège jalousement les secrets de sa création. Armé d'un canon à foudre pulvérisant aussi bien l'infanterie lourde que les véhicules, et d'une griffe de siège pouvant éventrer les fortifications les plus épaisses, le Chevalier Magaera est souvent placé à l'avant des assauts que livrent les Maisonnées. Toutefois, à cause des niveaux excessifs d'irradiation suintant du noyau du réacteur, et du risque d'explosions internes catastrophiques en cas de dégâts lourds, en piloter un est motif de réjouissance autant que d'inquiétude.",
+    variantes: [
+      {
+        nom: "Chevalier Magaera",
+        cout: 0,
+        profilChevalier: { M: 10, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 3, A: 4, PC: 10 },
+        regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [],
+  },
+
+  /* Chevalier Questoris (harnois de base) : deux emplacements d'arme
+     obligatoires ("armement-1"/"armement-2", même liste de choix) en
+     plus de la mitrailleuse de Coque (Avant, elle-même remplaçable) et
+     d'une monture Dorsale facultative — transcrit sur le modèle du
+     Dreadnought Contemptor (bras-1/bras-2, voir plus haut), faute d'un
+     autre précédent d'« au moins deux choix dans la même liste, doublons
+     autorisés » dans ce fichier (voir le MODÈLE DE DONNÉES, type
+     "choix"). Le livre ne numérote pas ces deux emplacements : les noms
+     d'équipement ci-dessous ajoutent « (Armement 1/2) » uniquement pour
+     les distinguer sur la fiche, sans changer leur effet de jeu. */
+  {
+    id: "chevalier-questoris",
+    nom: "Chevalier Questoris",
+    categorie: "Seigneurs des Batailles",
+    cout: 400,
+    composition: "1 Chevalier Questoris",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: [
+      "Mitrailleuse de Coque (Avant)",
+      "Bouclier ionique",
+      "Tronçonneuse Reaper (Armement 1)",
+      "Tronçonneuse Reaper (Armement 2)",
+    ],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Chevalier Questoris était le harnois le plus courant dans l'Imperium du temps où l'Hérésie d'Horus éclata. Sa popularité parmi les nobles descendants des Maisonnées Questoris était telle que le modèle fut reconfiguré avec diverses options d'armes et d'améliorations de coque, d'une myriade de façons, baptisées de noms tels que Paladin, Errant, Vigilant, Galant et Croisé selon les traditions, les lignées et leurs styles de combat. Guère différents des engins antiques emportés vers les astres par les premiers colons de la Longue Marche, les Chevaliers Questoris sont l'incarnation même de l'héritage des Maisonnées de Chevaliers.",
+    variantes: [
+      {
+        nom: "Chevalier Questoris",
+        cout: 0,
+        profilChevalier: { M: 12, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 4, A: 4, PC: 10 },
+        regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
+        type: "Véhicule (Chevalier)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "mitrailleuse",
+        libelle: "Mitrailleuse de Coque (Avant)",
+        remplace: "Mitrailleuse de Coque (Avant)",
+        choix: [
+          { nom: "— Mitrailleuse de Coque (Avant) (gratuit) —", cout: 0 },
+          { nom: "Multi-laser de Coque (Avant)", cout: 5 },
+          { nom: "Fuseur de Coque (Avant)", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "armement-1",
+        libelle: "Armement 1",
+        remplace: "Tronçonneuse Reaper (Armement 1)",
+        choix: [
+          { nom: "— Tronçonneuse Reaper (Armement 1) (gratuit) —", cout: 0 },
+          { nom: "Gantelet Thunderstrike (Armement 1)", cout: 10 },
+          { nom: "Impulseur laser de Coque (Avant) (Armement 1)", cout: 15 },
+          {
+            nom: "Obusier à tir rapide de Coque (Avant) et mitrailleuse Coaxiale (Armement 1)",
+            cout: 5,
+          },
+          {
+            nom: "Canon gatling Avenger de Coque (Avant) et lance-flammes lourd Coaxial (Armement 1)",
+            cout: 10,
+          },
+          { nom: "Canon thermique de Coque (Avant) (Armement 1)", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "armement-2",
+        libelle: "Armement 2",
+        remplace: "Tronçonneuse Reaper (Armement 2)",
+        choix: [
+          { nom: "— Tronçonneuse Reaper (Armement 2) (gratuit) —", cout: 0 },
+          { nom: "Gantelet Thunderstrike (Armement 2)", cout: 10 },
+          { nom: "Impulseur laser de Coque (Avant) (Armement 2)", cout: 15 },
+          {
+            nom: "Obusier à tir rapide de Coque (Avant) et mitrailleuse Coaxiale (Armement 2)",
+            cout: 5,
+          },
+          {
+            nom: "Canon gatling Avenger de Coque (Avant) et lance-flammes lourd Coaxial (Armement 2)",
+            cout: 10,
+          },
+          { nom: "Canon thermique de Coque (Avant) (Armement 2)", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "monture-dorsale",
+        libelle: "Monture Dorsale (facultative)",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune monture Dorsale —", cout: 0 },
+          { nom: "Autocanon Icarus jumelé Dorsal (Avant, Arrière)", cout: 20 },
+          { nom: "Nacelle lance-missiles Ironstorm Dorsale (Avant, Arrière)", cout: 15 },
+          { nom: "Nacelle lance-roquettes Stormspear Dorsale (Avant, Arrière)", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  /* Armigères : homologues plus agiles et plus légers du Chevalier
+     Questoris, catégorie "Engins de Guerre" (Détachement Auxiliaire
+     Appui Lourd, factionLibre — voir organigramme-data.js) et Type
+     Marcheur, comme un Dreadnought (profil de Figurine standard). */
+  {
+    id: "armigere-moirax",
+    nom: "Armigère Moirax",
+    categorie: "Engins de Guerre",
+    cout: 165,
+    composition: "1 Armigère Moirax",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: ["Fourneau Rad"],
+    faction: "chevaliers-questoris",
+    notes:
+      "La variante d'Armigère dite Moirax, peu employée avant les heures les plus sombres de l'Hérésie d'Horus, fut le plus fréquemment envoyée au combat par les Maisonnées endenturées au Mechanicum. Le fourneau Rad au cœur de la machine, et les fuites de réacteur et dysfonctionnements ambariques critiques qui en résultaient, menaient très souvent à la contamination de l'esprit de la machine et du pilote, souvent considéré inférieur et sacrifiable par son seigneur. Bien que toute autre faveur leur fût assurée, ces pilotes se voyaient exclus d'une place à la Cour Questoris et du droit de perpétuer leur lignée.",
+    variantes: [
+      {
+        nom: "Armigère Moirax",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 7,
+          I: 3,
+          A: 3,
+          Cd: 12,
+          Sf: 10,
+          Vo: 5,
+          Int: 5,
+          Sv: "3+",
+          Inv: "5+",
+        },
+        regles: ["Massif (8)", "Explose (5+)", "Avance Implacable", "Mouvement à Couvert"],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "armement-1",
+        libelle: "Armement 1",
+        ajoute: true,
+        obligatoire: true,
+        desactiveSiOptionActive: "paire-gyges",
+        choix: [
+          { nom: "Pince de siège Gyges et irradieur (Armement 1)", cout: 0 },
+          { nom: "Veuglaire volkite (Armement 1)", cout: 0 },
+          { nom: "Mousquet à foudre (Armement 1)", cout: 5 },
+          { nom: "Pulsar à gravitons (Armement 1)", cout: 15 },
+          { nom: "Faisceau de conversion Moirax (Armement 1)", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "armement-2",
+        libelle: "Armement 2",
+        ajoute: true,
+        obligatoire: true,
+        desactiveSiOptionActive: "paire-gyges",
+        choix: [
+          { nom: "Pince de siège Gyges et irradieur (Armement 2)", cout: 0 },
+          { nom: "Veuglaire volkite (Armement 2)", cout: 0 },
+          { nom: "Mousquet à foudre (Armement 2)", cout: 5 },
+          { nom: "Pulsar à gravitons (Armement 2)", cout: 15 },
+          { nom: "Faisceau de conversion Moirax (Armement 2)", cout: 20 },
+        ],
+      },
+      {
+        // Alternative aux deux choix d'Armement ci-dessus (« on doit
+        // sélectionner une des options suivantes » : soit Armement 1 +
+        // Armement 2, soit cette Paire) : les verrouille tant qu'elle
+        // est cochée, sur le modèle de bras-arioch-combo (Titan
+        // Warlord, plus haut).
+        type: "case",
+        id: "paire-gyges",
+        libelle:
+          "Paire de pinces de siège Gyges et deux irradieurs (remplace les deux Armements ci-dessus)",
+        cout: 10,
+        ajoute: "Paire de pinces de siège Gyges et deux irradieurs (les deux Armements)",
+      },
+    ],
+  },
+
+  {
+    id: "armigere-hastaire",
+    nom: "Armigère Hastaire",
+    categorie: "Engins de Guerre",
+    cout: 150,
+    composition: "1 Armigère Hastaire",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: ["Lance thermique", "Mitrailleuse", "Tronçonneur Reaper"],
+    faction: "chevaliers-questoris",
+    notes:
+      "Le Chevalier Armigère est un homologue plus agile et plus léger du Chevalier Questoris, et combattit souvent au côté de tels alliés durant la Grande Croisade, pour éliminer les menaces émanant d'ennemis que les Chevaliers plus grands n'identifiaient pas, comme les essaims d'infanterie tentant de franchir la barrière protectrice de leurs boucliers ioniques afin de venir poser des explosifs directement sur leur armature. Les Armigères Hastaires sont armés de lances thermiques menaçantes et de redoutables tronçonneurs Reaper, bien adaptés à la nature belliqueuse et agressive de leurs pilotes.",
+    variantes: [
+      {
+        nom: "Armigère Hastaire",
+        cout: 0,
+        profil: {
+          M: 10,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 7,
+          I: 4,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 5,
+          Int: 5,
+          Sv: "3+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (8)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Mouvement à Couvert",
+          "Attaque de Flanc",
+        ],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "mitrailleuse",
+        libelle: "Remplacer la mitrailleuse",
+        remplace: "Mitrailleuse",
+        choix: [
+          { nom: "— Conserver la mitrailleuse —", cout: 0 },
+          { nom: "Fuseur", cout: 10 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "armigere-helverien",
+    nom: "Armigère Helvérien",
+    categorie: "Engins de Guerre",
+    cout: 150,
+    composition: "1 Armigère Helvérien",
+    traits: ["[Allégeance]", "[Questoris Familia]"],
+    equipement: ["Deux autocanons Phaëton", "Mitrailleuse"],
+    faction: "chevaliers-questoris",
+    notes:
+      "L'Armigère Helvérien est une plateforme de feu à mouvement rapide emportant une paire d'autocanons Phaëton, et conçue pour lâcher des grêles de tirs lourds en cavalant autour des forces ennemies. Les pilotes chargés de ce devoir protecteur sont rarement issus des lignées principales d'une Maisonnée, et peuvent en être de lointains cousins ayant prouvé leur valeur, lors de tournois ou sur le champ de bataille. Certaines Maisonnées s'abaisseront même à recruter de talentueux prisonniers de guerre, ou les descendants capturés de Maisons rivales, espérant tous atteindre un jour le rang d'Aspirant et rallier la Maisonnée à proprement parler.",
+    variantes: [
+      {
+        nom: "Armigère Helvérien",
+        cout: 0,
+        profil: {
+          M: 10,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 7,
+          I: 4,
+          A: 2,
+          Cd: 10,
+          Sf: 10,
+          Vo: 5,
+          Int: 5,
+          Sv: "3+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (8)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Mouvement à Couvert",
+          "Attaque de Flanc",
+        ],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "mitrailleuse",
+        libelle: "Remplacer la mitrailleuse",
+        remplace: "Mitrailleuse",
+        choix: [
+          { nom: "— Conserver la mitrailleuse —", cout: 0 },
+          { nom: "Fuseur", cout: 10 },
+        ],
       },
     ],
   },
