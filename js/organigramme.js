@@ -59,10 +59,10 @@ const Organigramme = (() => {
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
     ["legio-titanicus", "Legio Titanicus", true],
+    ["chevaliers-questoris", "Chevaliers Questoris", true],
     ["legio-custodes", "Legio Custodes", false],
     ["solar-auxilia", "Solar Auxilia", false],
     ["mechanicum", "Mechanicum", false],
-    ["chevaliers-questoris", "Chevaliers Questoris", true],
   ];
 
   const LEGIONS = [
