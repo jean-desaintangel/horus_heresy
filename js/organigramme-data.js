@@ -474,8 +474,8 @@ const TYPES_DETACHEMENTS = [
   /* Premier Détachement d'Apex réservé à une Légion sur le site.
      Composition confirmée par Jean : 4 Cases (Troupes principale ×2,
      Elite ×2), sans restriction d'unité. Condition de sélection du
-     livre : Allégeance Renégate (« Traitre » dans le menu Allégeance
-     des paramètres de la partie, voir etat.allegeance) ET au moins 1
+     livre : Allégeance Renégate (menu Allégeance des paramètres de la
+     partie, voir etat.allegeance) ET au moins 1
      Avantage Principal Vrais Croyants choisi sur une Case de l'Armée
      — vérifiée par `requiertAllegeance`/`requiertAvantage`
      (disponibilite()/validerArmee(), js/organigramme.js). */
@@ -484,7 +484,7 @@ const TYPES_DETACHEMENTS = [
     nom: "Conclave Exalté",
     famille: "apex",
     texte:
-      "Des Troupes et des unités d'Élite corrompues par le Warp. Réservé aux Armées d'Allégeance Renégate (Traitre) ayant choisi l'Avantage Principal Vrais Croyants sur au moins une Case.",
+      "Des Troupes et des unités d'Élite corrompues par le Warp. Réservé aux Armées d'Allégeance Renégate ayant choisi l'Avantage Principal Vrais Croyants sur au moins une Case.",
     requiertAllegeance: "renegat",
     requiertAvantage: "vrais-croyants",
     cases: [

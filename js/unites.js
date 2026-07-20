@@ -1815,7 +1815,7 @@ async function chargerImageDataURL(chemin) {
 function texteIdentiteLegion(skin) {
   let texte =
     skin.allegeance === "renegat"
-      ? "Allégeance : Renégate (Traitre)"
+      ? "Allégeance : Renégate"
       : "Allégeance : Loyaliste";
   if (skin.monde && skin.monde !== "—") texte += " · Monde Natal : " + skin.monde;
   return texte;

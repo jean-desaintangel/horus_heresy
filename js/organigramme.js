@@ -866,9 +866,7 @@ const Organigramme = (() => {
         possible: false,
         raison:
           "Réservé aux Armées d'Allégeance " +
-          (type.requiertAllegeance === "renegat"
-            ? "Renégate (Traitre)"
-            : "Loyaliste") +
+          (type.requiertAllegeance === "renegat" ? "Renégate" : "Loyaliste") +
           ".",
       };
     }
@@ -1120,9 +1118,7 @@ const Organigramme = (() => {
           "« " +
             type.nom +
             " » nécessite une Armée d'Allégeance " +
-            (type.requiertAllegeance === "renegat"
-              ? "Renégate (Traitre)"
-              : "Loyaliste") +
+            (type.requiertAllegeance === "renegat" ? "Renégate" : "Loyaliste") +
             ".",
         );
       }
@@ -1920,7 +1916,7 @@ const Organigramme = (() => {
     labelAllegeance.htmlFor = selectAllegeance.id;
     for (const [valeur, texte] of [
       ["loyaliste", "Loyaliste"],
-      ["renegat", "Traitre"],
+      ["renegat", "Renégat"],
     ]) {
       ajouterOption(selectAllegeance, valeur, texte);
     }
@@ -2447,7 +2443,7 @@ const Organigramme = (() => {
         "Limite : " +
           etat.limite +
           " pts · Allégeance : " +
-          (etat.allegeance === "renegat" ? "Traitre" : "Loyaliste") +
+          (etat.allegeance === "renegat" ? "Renégat" : "Loyaliste") +
           " · Total : " +
           coutTotalArmee() +
           " pts",
