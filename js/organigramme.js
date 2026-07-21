@@ -448,6 +448,18 @@ const Organigramme = (() => {
     return typeParId(det.typeId);
   }
 
+  // Légion « pertinente » pour les Cases de ce Détachement — celle du
+  // Détachement Allié (`legionAlliee`, menu « Légion Alliée » de sa
+  // carte) pour ses propres Cases, celle de l'Armée (etat.legion) pour
+  // tout autre Détachement. Même règle que caseAccepte() (variable
+  // `legionRequise`) pour la Légion requise d'une Unité. Consommée par
+  // avantagesPossibles() pour ne proposer les Avantages d'Arsenal de
+  // Légion (`traitRequis`) que pour la Légion à laquelle cette Case
+  // peut effectivement donner accès.
+  function legionPertinentePourCase(det) {
+    return typeDe(det).id === "allie" ? det.legionAlliee : etat.legion;
+  }
+
   // id du type de Détachement Principal correspondant à la Faction
   // actuelle (etat.faction) : "principal" (Legiones Astartes) ou
   // "ordinal-titanique" (Legio Titanicus, livre d'armée Legio
@@ -467,7 +479,9 @@ const Organigramme = (() => {
   // champ est absent, voir MODÈLE DE DONNÉES dans organigramme-data.js).
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
-    return type.factionLibre || (type.faction || "legio-astartes") === etat.faction;
+    return (
+      type.factionLibre || (type.faction || "legio-astartes") === etat.faction
+    );
   }
 
   function trouverDetachement(uid) {
@@ -587,7 +601,8 @@ const Organigramme = (() => {
     //   détachement est justement la façon d'en aligner un sans lui).
     const factionUnite = unite.faction || "legio-astartes";
     if (type.id === "allie") {
-      if (factionUnite !== (det.factionAlliee || "legio-astartes")) return false;
+      if (factionUnite !== (det.factionAlliee || "legio-astartes"))
+        return false;
     } else if (type.factionLibre) {
       if (
         type.id === "seigneur-batailles" &&
@@ -606,7 +621,8 @@ const Organigramme = (() => {
     // Détachement Allié qui l'accueille (menu « Légion Alliée » de sa
     // carte, vide tant qu'elle n'est pas choisie).
     if (unite.legion) {
-      const legionRequise = type.id === "allie" ? det.legionAlliee : etat.legion;
+      const legionRequise =
+        type.id === "allie" ? det.legionAlliee : etat.legion;
       if (unite.legion !== legionRequise) return false;
     }
     const restriction = type.restrictions && type.restrictions[caseOrga.role];
@@ -907,7 +923,10 @@ const Organigramme = (() => {
           " dans l'Armée (n'importe quelle Case).",
       };
     }
-    if (type.requiertAllegeance && etat.allegeance !== type.requiertAllegeance) {
+    if (
+      type.requiertAllegeance &&
+      etat.allegeance !== type.requiertAllegeance
+    ) {
       return {
         possible: false,
         raison:
@@ -1044,7 +1063,8 @@ const Organigramme = (() => {
     // Seigneur des Batailles peut alors consommer tous les Points.
     const seigneurs = coutSeigneurs();
     const plafond25 = Math.ceil(etat.limite * 0.25);
-    const quotaSeigneursIgnore = idDetachementPrincipal() === "ordinal-titanique";
+    const quotaSeigneursIgnore =
+      idDetachementPrincipal() === "ordinal-titanique";
     if (!quotaSeigneursIgnore && etat.limite >= 3000 && seigneurs > plafond25) {
       erreurs.push(
         "Quota Seigneur de Guerre + Seigneur des Batailles dépassé : " +
@@ -1236,7 +1256,8 @@ const Organigramme = (() => {
       for (const caseOrga of det.cases) {
         if (caseOrga.avantage !== "aucun") {
           parId[caseOrga.avantage] = (parId[caseOrga.avantage] || 0) + 1;
-          parIdArmee[caseOrga.avantage] = (parIdArmee[caseOrga.avantage] || 0) + 1;
+          parIdArmee[caseOrga.avantage] =
+            (parIdArmee[caseOrga.avantage] || 0) + 1;
         }
       }
       for (const avantage of AVANTAGES_PRINCIPAUX) {
@@ -1281,7 +1302,33 @@ const Organigramme = (() => {
     const type = typeDe(det);
     const occ = occupant(caseOrga);
     const resultat = [];
+    const legionCase = legionPertinentePourCase(det);
     for (const avantage of AVANTAGES_PRINCIPAUX) {
+      // Avantages d'Arsenal réservés à une AUTRE Légion (`traitRequis`,
+      // un par Légion) ou Avantages de Rang de Maisonnée réservés à une
+      // AUTRE Faction que Chevaliers Questoris (`chevalier`) : masqués
+      // entièrement plutôt que grisés — les proposer grisés noierait le
+      // menu sous une vingtaine d'options sans rapport avec la partie en
+      // cours (p. 283, arsenaux propres à chaque Légion). Une Unité
+      // portant elle-même le Trait exigé (ex : figurine réservée à une
+      // Légion) reste éligible même si la Légion de l'Armée/du
+      // Détachement Allié diffère.
+      if (
+        avantage.chevalier &&
+        (occ.unite.faction || "legio-astartes") !== "chevaliers-questoris"
+      ) {
+        continue;
+      }
+      if (
+        avantage.traitRequis &&
+        !occ.unite.traits.includes(avantage.traitRequis) &&
+        !(
+          SKINS_LEGION[legionCase] &&
+          SKINS_LEGION[legionCase].nom === avantage.traitRequis
+        )
+      ) {
+        continue;
+      }
       let raison = "";
       if (
         type.avantagesAutorises &&
@@ -1320,7 +1367,8 @@ const Organigramme = (() => {
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
       } else if (avantage.roleRequis && caseOrga.role !== avantage.roleRequis) {
-        raison = "Réservé aux Cases de Rôle Tactique " + avantage.roleRequis + ".";
+        raison =
+          "Réservé aux Cases de Rôle Tactique " + avantage.roleRequis + ".";
       } else if (
         avantage.uniteRequise &&
         !(
@@ -1328,7 +1376,8 @@ const Organigramme = (() => {
           avantage.uniteRequise.some(
             (u) =>
               u.id === occ.unite.id &&
-              (u.variante === undefined || u.variante === occ.instance.variante),
+              (u.variante === undefined ||
+                u.variante === occ.instance.variante),
           )
         )
       ) {
@@ -1352,7 +1401,9 @@ const Organigramme = (() => {
         const de = (nom) => (/^[aeiouhàâéèêëîïôùûü]/i.test(nom) ? "d'" : "de ");
         raison =
           "Réservé à une Figurine " +
-          noms.map((nom, i) => (i === 0 ? "" : "ou ") + de(nom) + nom).join(" ") +
+          noms
+            .map((nom, i) => (i === 0 ? "" : "ou ") + de(nom) + nom)
+            .join(" ") +
           ".";
       } else if (
         avantage.traitRequis &&
@@ -1360,11 +1411,13 @@ const Organigramme = (() => {
           occ &&
           (occ.unite.traits.includes(avantage.traitRequis) ||
             // Unité générique (Trait « [Legiones Astartes] ») : compte
-            // comme ayant le Trait de la Légion choisie pour la partie
-            // (ex : Centurion en Armée Death Guard).
+            // comme ayant le Trait de la Légion pertinente pour cette
+            // Case (ex : Centurion en Armée Death Guard ; Centurion
+            // générique dans un Détachement Allié Iron Hands compte
+            // comme ayant le Trait Iron Hands, pas celui de l'Armée).
             (occ.unite.traits.includes("[Legiones Astartes]") &&
-              SKINS_LEGION[etat.legion] &&
-              SKINS_LEGION[etat.legion].nom === avantage.traitRequis))
+              SKINS_LEGION[legionCase] &&
+              SKINS_LEGION[legionCase].nom === avantage.traitRequis))
         )
       ) {
         raison =
@@ -1420,6 +1473,20 @@ const Organigramme = (() => {
     // (construireCarteDetachement) : ne change ni la valeur sélectionnée
     // ni la logique de grisage elle-même.
     resultat.sort((a, b) => (a.grise === b.grise ? 0 : a.grise ? 1 : -1));
+    // Faction Chevaliers Questoris : une dizaine d'Avantages de Rang de
+    // Maisonnée se partagent le menu, la plupart réservés à 0-1 par
+    // Armée (`unParArmee`) — dès qu'un premier est choisi quelque part,
+    // presque tous les autres se retrouveraient grisés en même temps et
+    // noieraient le menu. On les masque donc entièrement plutôt que de
+    // les griser, comme pour les Avantages d'une autre Légion ci-dessus.
+    // L'option actuellement choisie sur cette Case reste toujours
+    // affichée (même grisée), pour que le menu déroulant continue de
+    // refléter fidèlement caseOrga.avantage.
+    if (etat.faction === "chevaliers-questoris") {
+      return resultat.filter(
+        ({ avantage, grise }) => !grise || avantage.id === caseOrga.avantage,
+      );
+    }
     return resultat;
   }
 
@@ -1586,7 +1653,9 @@ const Organigramme = (() => {
         etat.limite = donnees.limite;
       if (
         typeof donnees.faction === "string" &&
-        FACTIONS.some(([v, , disponible]) => v === donnees.faction && disponible)
+        FACTIONS.some(
+          ([v, , disponible]) => v === donnees.faction && disponible,
+        )
       ) {
         etat.faction = donnees.faction;
       }
@@ -1719,7 +1788,8 @@ const Organigramme = (() => {
     for (const det of etat.detachements) {
       const extraIdx = det.cases.findIndex((c) => c.extra);
       if (extraIdx === -1) continue;
-      const origine = det.cases[extraIdx].origineAvantage || "benefice-logistique";
+      const origine =
+        det.cases[extraIdx].origineAvantage || "benefice-logistique";
       const encoreAccorde = det.cases.some(
         (c) => !c.extra && c.avantage === origine,
       );
@@ -2103,7 +2173,8 @@ const Organigramme = (() => {
       document.body.classList.remove(info.classe);
     }
     const skinLegion = SKINS_LEGION[etat.legion];
-    const skinTitan = etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
+    const skinTitan =
+      etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
     const titre = document.querySelector("h1.titre-page");
     if (titre) {
@@ -2141,10 +2212,14 @@ const Organigramme = (() => {
       banniere.appendChild(entete);
       banniere.appendChild(
         document.createTextNode(
-          " · Primarque : " + skinLegion.primarque + " · Monde Natal : " + skinLegion.monde,
+          " · Primarque : " +
+            skinLegion.primarque +
+            " · Monde Natal : " +
+            skinLegion.monde,
         ),
       );
-      if (skinLegion.devise) banniere.appendChild(el("em", null, skinLegion.devise));
+      if (skinLegion.devise)
+        banniere.appendChild(el("em", null, skinLegion.devise));
       conteneur.appendChild(banniere);
     } else if (skinTitan) {
       document.body.classList.add(skinTitan.classe);
@@ -2158,7 +2233,8 @@ const Organigramme = (() => {
       rouage.setAttribute("aria-hidden", "true");
       entete.appendChild(rouage);
       banniere.appendChild(entete);
-      if (skinTitan.devise) banniere.appendChild(el("em", null, skinTitan.devise));
+      if (skinTitan.devise)
+        banniere.appendChild(el("em", null, skinTitan.devise));
       conteneur.appendChild(banniere);
     } else if (skinMaison) {
       // Pas de blason (aucune bannière héraldique dédiée pour l'instant,
@@ -2168,7 +2244,8 @@ const Organigramme = (() => {
       const banniere = el("p", "legion-banniere");
       const entete = el("strong", "legion-item", skinMaison.nom);
       banniere.appendChild(entete);
-      if (skinMaison.devise) banniere.appendChild(el("em", null, skinMaison.devise));
+      if (skinMaison.devise)
+        banniere.appendChild(el("em", null, skinMaison.devise));
       conteneur.appendChild(banniere);
     }
   }
@@ -2194,7 +2271,10 @@ const Organigramme = (() => {
         " · Quota Seigneur de Guerre + Seigneurs des Batailles : " +
         (idDetachementPrincipal() === "ordinal-titanique"
           ? coutSeigneurs() + " pts (ignoré — Ordinal Titanique)"
-          : coutSeigneurs() + " / " + Math.ceil(etat.limite * 0.25) + " pts (25 %)"),
+          : coutSeigneurs() +
+            " / " +
+            Math.ceil(etat.limite * 0.25) +
+            " pts (25 %)"),
     );
     conteneur.appendChild(texte);
 
@@ -2355,6 +2435,38 @@ const Organigramme = (() => {
         hooks.retirerInstance(uid);
       }
       det.legionAlliee = nouvelle;
+      // Avantage d'Arsenal devenu invalide (unité générique dont le
+      // Trait « [Legiones Astartes] » comptait comme celui de l'ancienne
+      // Légion Alliée, voir avantagesPossibles) : retiré, sinon il
+      // resterait appliqué (bonus concret sur la fiche, js/unites.js)
+      // sans plus apparaître dans le menu déroulant « Avantage
+      // Principal » de sa Case. Une case ajoutée (`ajouteCase`) encore
+      // occupée n'est pas retirée pour ne pas perdre l'unité qui s'y
+      // trouve (même garde que changerAvantage) : l'Avantage reste alors
+      // affiché tel quel, à corriger manuellement.
+      for (const c of det.cases) {
+        if (c.avantage === "aucun") continue;
+        const avantageActuel = avantageParId(c.avantage);
+        if (!avantageActuel || !avantageActuel.traitRequis) continue;
+        const occCase = occupant(c);
+        if (
+          occCase &&
+          occCase.unite.traits.includes(avantageActuel.traitRequis)
+        )
+          continue;
+        if (
+          SKINS_LEGION[nouvelle] &&
+          SKINS_LEGION[nouvelle].nom === avantageActuel.traitRequis
+        )
+          continue;
+        if (avantageActuel.ajouteCase) {
+          const extraIdx = det.cases.findIndex((x) => x.extra);
+          if (extraIdx !== -1 && det.cases[extraIdx].uniteUid !== null)
+            continue;
+          if (extraIdx !== -1) det.cases.splice(extraIdx, 1);
+        }
+        c.avantage = "aucun";
+      }
       actualiser();
     });
     label.appendChild(select);

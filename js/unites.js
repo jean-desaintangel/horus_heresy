@@ -211,7 +211,10 @@ function uniteAccessible(unite) {
   if (
     factionActuelle !== factionUnite &&
     !factionsAllieesActuelles.includes(factionUnite) &&
-    !(unite.categorie === "Seigneurs des Batailles" && factionUnite === "legio-titanicus")
+    !(
+      unite.categorie === "Seigneurs des Batailles" &&
+      factionUnite === "legio-titanicus"
+    )
   )
     return false;
   if (unite.legion) {
@@ -733,7 +736,9 @@ function construireTableProfil(unite, instance) {
 function construireLigneFiche(titre, elements, classeSupplementaire) {
   const p = el(
     "p",
-    classeSupplementaire ? "fiche-ligne " + classeSupplementaire : "fiche-ligne",
+    classeSupplementaire
+      ? "fiche-ligne " + classeSupplementaire
+      : "fiche-ligne",
   );
   p.appendChild(el("strong", null, titre + " : "));
   p.appendChild(document.createTextNode(elements.join(" · ")));
@@ -878,8 +883,9 @@ function construireIndexArmes() {
     for (const categorie of categories) {
       for (const arme of categorie.armes) {
         const separateur = arme.nom.indexOf(" — ");
-        const nomBase = (separateur === -1 ? arme.nom : arme.nom.slice(0, separateur))
-          .replace(/\s*\([^)]*\)\s*$/, "");
+        const nomBase = (
+          separateur === -1 ? arme.nom : arme.nom.slice(0, separateur)
+        ).replace(/\s*\([^)]*\)\s*$/, "");
         index.push({
           nom: arme.nom,
           nomBase,
@@ -1208,7 +1214,8 @@ function synchroniserConfig(carte, unite, instance) {
 // fiche des unités dont rien n'a changé.
 function rafraichirFicheEtPoints(carte, unite, instance) {
   const ancienneFiche = carte.querySelector(".unite-fiche");
-  if (ancienneFiche) ancienneFiche.replaceWith(construireFiche(unite, instance));
+  if (ancienneFiche)
+    ancienneFiche.replaceWith(construireFiche(unite, instance));
   carte.querySelector(".unite-points").textContent =
     coutInstance(unite, instance) + " pts";
   if (window.cablerInfoBulles) window.cablerInfoBulles(carte);
@@ -1587,7 +1594,8 @@ function actualiserVerrouLegion() {
     reinitialiserChoixUniteParDefaut();
   }
   const legionManquante =
-    factionActuelle === "legio-astartes" && Organigramme.legionActuelle() === "";
+    factionActuelle === "legio-astartes" &&
+    Organigramme.legionActuelle() === "";
   // Même verrou que la Légion ci-dessus, pour la Maisonnée (Faction
   // Chevaliers Questoris, menu « Maisonnée » des paramètres de la
   // partie) : les Unités de cette Faction n'ont pas de Trait propre à
@@ -1680,7 +1688,10 @@ function actualiserSelectsCases() {
     // serait un gâchis pur pour la quasi-totalité des unités, qui n'ont
     // rien à mettre à jour.
     const avantageActuel = Organigramme.avantageDe(instance.uid);
-    if (configModifiee || dernierAvantageParUid.get(instance.uid) !== avantageActuel) {
+    if (
+      configModifiee ||
+      dernierAvantageParUid.get(instance.uid) !== avantageActuel
+    ) {
       rafraichirFicheEtPoints(carte, unite, instance);
     }
   }
@@ -1816,17 +1827,17 @@ function donneesCarte(carte) {
 // dans js/organigramme.js) : un bloc par détachement, avec le libellé
 // de ses Cases occupées.
 function donneesResume(conteneur) {
-  return Array.from(
-    conteneur.querySelectorAll(".orga-resume-detachement"),
-  ).map((bloc) => {
-    const h3 = bloc.querySelector("h3");
-    return {
-      titre: h3 ? h3.textContent.trim() : "",
-      items: Array.from(bloc.querySelectorAll("li")).map((li) =>
-        li.textContent.trim(),
-      ),
-    };
-  });
+  return Array.from(conteneur.querySelectorAll(".orga-resume-detachement")).map(
+    (bloc) => {
+      const h3 = bloc.querySelector("h3");
+      return {
+        titre: h3 ? h3.textContent.trim() : "",
+        items: Array.from(bloc.querySelectorAll("li")).map((li) =>
+          li.textContent.trim(),
+        ),
+      };
+    },
+  );
 }
 
 /* ---------- Export PDF (js/vendor/jspdf*, voir LICENCES.txt) ----------
@@ -1844,9 +1855,7 @@ function donneesResume(conteneur) {
 // tout appel à doc.text/splitTextToSize/autoTable, pour ne jamais
 // laisser passer un contresens silencieux sur une fiche imprimée.
 function assainirPDF(texte) {
-  return String(texte)
-    .replace(/★/g, "*")
-    .replace(/⚠/g, "!");
+  return String(texte).replace(/★/g, "*").replace(/⚠/g, "!");
 }
 
 // Charge une image locale (chemin relatif, ex. un blason de Légion
@@ -1878,7 +1887,8 @@ function texteIdentiteLegion(skin) {
     skin.allegeance === "renegat"
       ? "Allégeance : Renégate"
       : "Allégeance : Loyaliste";
-  if (skin.monde && skin.monde !== "—") texte += " · Monde Natal : " + skin.monde;
+  if (skin.monde && skin.monde !== "—")
+    texte += " · Monde Natal : " + skin.monde;
   return texte;
 }
 
@@ -1985,7 +1995,11 @@ async function genererPDF() {
         lineWidth: 0.5,
         textColor: [0, 0, 0],
       },
-      headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: "bold" },
+      headStyles: {
+        fillColor: [40, 40, 40],
+        textColor: 255,
+        fontStyle: "bold",
+      },
       alternateRowStyles: { fillColor: [242, 242, 242] },
     });
     y = doc.lastAutoTable.finalY + 8;
@@ -2057,8 +2071,12 @@ async function genererPDF() {
   // Organigramme.skinActuel/cheminLogoActuel, js/organigramme.js).
   const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
   if (skin) {
-    const logoDataUrl = await chargerImageDataURL(Organigramme.cheminLogoActuel());
-    const nomLegionTexte = assainirPDF(Organigramme.legionActuelle() + " – " + skin.nom);
+    const logoDataUrl = await chargerImageDataURL(
+      Organigramme.cheminLogoActuel(),
+    );
+    const nomLegionTexte = assainirPDF(
+      Organigramme.legionActuelle() + " – " + skin.nom,
+    );
     let largeurLogo = 0;
     let hauteurLogo = 0;
     let proprietes = null;
@@ -2066,7 +2084,10 @@ async function genererPDF() {
       try {
         proprietes = doc.getImageProperties(logoDataUrl);
         hauteurLogo = 50;
-        largeurLogo = Math.min((proprietes.width / proprietes.height) * hauteurLogo, 90);
+        largeurLogo = Math.min(
+          (proprietes.width / proprietes.height) * hauteurLogo,
+          90,
+        );
       } catch {
         // Format d'image non géré par jsPDF (rare) : on continue sans blason.
         proprietes = null;
@@ -2081,9 +2102,20 @@ async function genererPDF() {
     assurerEspace(hauteurBloc + 8);
     const xBloc = contentX + (contentW - largeurBloc) / 2;
     if (proprietes) {
-      doc.addImage(logoDataUrl, proprietes.fileType || "PNG", xBloc, y, largeurLogo, hauteurLogo);
+      doc.addImage(
+        logoDataUrl,
+        proprietes.fileType || "PNG",
+        xBloc,
+        y,
+        largeurLogo,
+        hauteurLogo,
+      );
     }
-    doc.text(nomLegionTexte, xBloc + largeurLogo + ECART, y + hauteurBloc / 2 + 6);
+    doc.text(
+      nomLegionTexte,
+      xBloc + largeurLogo + ECART,
+      y + hauteurBloc / 2 + 6,
+    );
     y += hauteurBloc + 8;
 
     paragrapheCentre(texteIdentiteLegion(skin), 9.5);
@@ -2094,7 +2126,9 @@ async function genererPDF() {
     // nom, voir SKIN_TITANICUS.blasons/creerIconeTitan dans
     // js/organigramme.js) et sans ligne Allégeance/Monde Natal (sans
     // objet pour cette Faction).
-    const skinTitan = Organigramme.skinTitanActuel ? Organigramme.skinTitanActuel() : null;
+    const skinTitan = Organigramme.skinTitanActuel
+      ? Organigramme.skinTitanActuel()
+      : null;
     if (skinTitan) {
       const HAUTEUR_LOGO = 50;
       const ECART = 10;
@@ -2154,7 +2188,11 @@ async function genererPDF() {
 
   const total = document.getElementById("total-armee");
   if (total) paragraphe(total.textContent.trim(), 11, "bold");
-  paragraphe("Générée le " + new Date().toLocaleDateString("fr-FR"), 9, "italic");
+  paragraphe(
+    "Générée le " + new Date().toLocaleDateString("fr-FR"),
+    9,
+    "italic",
+  );
   y += 6;
   const resume = document.getElementById("orga-resume");
   if (resume && resume.textContent.trim()) {
@@ -2175,8 +2213,9 @@ async function genererPDF() {
   // générique de la Légion. Absent pour les Légions/Rites dont le
   // contenu n'est pas encore transcrit.
   const contenuRite =
-    RITE_DE_GUERRE_LEGION[Organigramme.riteActuel ? Organigramme.riteActuel() : ""] ||
-    RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+    RITE_DE_GUERRE_LEGION[
+      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
+    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
   if (contenuRite) {
     y += 4;
     titreSection("Rite de Guerre : " + contenuRite.nomRite, 12);
@@ -2241,7 +2280,10 @@ function carteWordHTML(donnees) {
     echapperHTML(donnees.points) +
     "</span></div>";
   if (donnees.compositionTexte) {
-    html += "<p class=\"composition\">" + echapperHTML(donnees.compositionTexte) + "</p>";
+    html +=
+      '<p class="composition">' +
+      echapperHTML(donnees.compositionTexte) +
+      "</p>";
   }
   if (donnees.caseTexte) {
     html +=
@@ -2253,12 +2295,15 @@ function carteWordHTML(donnees) {
   for (const bloc of donnees.blocs) {
     if (bloc.type === "table") {
       html += "<table><thead><tr>";
-      for (const entete of bloc.entetes) html += "<th>" + echapperHTML(entete) + "</th>";
+      for (const entete of bloc.entetes)
+        html += "<th>" + echapperHTML(entete) + "</th>";
       html += "</tr></thead><tbody>";
       for (const ligne of bloc.lignes) {
         html +=
           "<tr>" +
-          ligne.map((cellule) => "<td>" + echapperHTML(cellule) + "</td>").join("") +
+          ligne
+            .map((cellule) => "<td>" + echapperHTML(cellule) + "</td>")
+            .join("") +
           "</tr>";
       }
       html += "</tbody></table>";
@@ -2323,10 +2368,13 @@ async function genererWordHTML() {
   // js/organigramme.js).
   const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
   if (skin) {
-    const logoDataUrl = await chargerImageDataURL(Organigramme.cheminLogoActuel());
+    const logoDataUrl = await chargerImageDataURL(
+      Organigramme.cheminLogoActuel(),
+    );
     corps += '<table class="legion-table"><tr>';
     if (logoDataUrl) {
-      corps += '<td><img class="legion-logo" src="' + logoDataUrl + '" alt=""></td>';
+      corps +=
+        '<td><img class="legion-logo" src="' + logoDataUrl + '" alt=""></td>';
     }
     corps +=
       '<td><span class="legion-nom">' +
@@ -2334,32 +2382,48 @@ async function genererWordHTML() {
       "</span></td>";
     corps += "</tr></table>";
     corps +=
-      '<p class="legion-identite">' + echapperHTML(texteIdentiteLegion(skin)) + "</p>";
+      '<p class="legion-identite">' +
+      echapperHTML(texteIdentiteLegion(skin)) +
+      "</p>";
   } else {
     // Identité de Faction Legio Titanicus : même principe qu'une
     // Légion ci-dessus, mais avec DEUX blasons (un par cellule de part
     // et d'autre du nom) et sans ligne Allégeance/Monde Natal (sans
     // objet pour cette Faction) — voir SKIN_TITANICUS/creerIconeTitan
     // dans js/organigramme.js.
-    const skinTitan = Organigramme.skinTitanActuel ? Organigramme.skinTitanActuel() : null;
+    const skinTitan = Organigramme.skinTitanActuel
+      ? Organigramme.skinTitanActuel()
+      : null;
     if (skinTitan) {
       const chemins = Organigramme.cheminsLogoTitanActuel();
-      const logosDataUrl = await Promise.all(chemins.map((c) => chargerImageDataURL(c)));
+      const logosDataUrl = await Promise.all(
+        chemins.map((c) => chargerImageDataURL(c)),
+      );
       corps += '<table class="legion-table"><tr>';
       if (logosDataUrl[0]) {
-        corps += '<td><img class="legion-logo" src="' + logosDataUrl[0] + '" alt=""></td>';
+        corps +=
+          '<td><img class="legion-logo" src="' +
+          logosDataUrl[0] +
+          '" alt=""></td>';
       }
       corps +=
-        '<td><span class="legion-nom">' + echapperHTML(skinTitan.nom) + "</span></td>";
+        '<td><span class="legion-nom">' +
+        echapperHTML(skinTitan.nom) +
+        "</span></td>";
       if (logosDataUrl[1]) {
-        corps += '<td><img class="legion-logo" src="' + logosDataUrl[1] + '" alt=""></td>';
+        corps +=
+          '<td><img class="legion-logo" src="' +
+          logosDataUrl[1] +
+          '" alt=""></td>';
       }
       corps += "</tr></table>";
     }
   }
 
   const total = document.getElementById("total-armee");
-  if (total) corps += "<p><strong>" + echapperHTML(total.textContent.trim()) + "</strong></p>";
+  if (total)
+    corps +=
+      "<p><strong>" + echapperHTML(total.textContent.trim()) + "</strong></p>";
   corps +=
     "<p><em>Générée le " +
     echapperHTML(new Date().toLocaleDateString("fr-FR")) +
@@ -2368,8 +2432,10 @@ async function genererWordHTML() {
   if (resume && resume.textContent.trim()) {
     corps += "<h2>Structure de l'armée</h2>";
     for (const detachement of donneesResume(resume)) {
-      corps += "<p><strong>" + echapperHTML(detachement.titre) + "</strong></p><ul>";
-      for (const item of detachement.items) corps += "<li>" + echapperHTML(item) + "</li>";
+      corps +=
+        "<p><strong>" + echapperHTML(detachement.titre) + "</strong></p><ul>";
+      for (const item of detachement.items)
+        corps += "<li>" + echapperHTML(item) + "</li>";
       corps += "</ul>";
     }
   }
@@ -2383,16 +2449,20 @@ async function genererWordHTML() {
   // générique de la Légion. Absent pour les Légions/Rites dont le
   // contenu n'est pas encore transcrit.
   const contenuRite =
-    RITE_DE_GUERRE_LEGION[Organigramme.riteActuel ? Organigramme.riteActuel() : ""] ||
-    RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+    RITE_DE_GUERRE_LEGION[
+      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
+    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
   if (contenuRite) {
-    corps += "<h2>Rite de Guerre : " + echapperHTML(contenuRite.nomRite) + "</h2>";
+    corps +=
+      "<h2>Rite de Guerre : " + echapperHTML(contenuRite.nomRite) + "</h2>";
     contenuRite.sections.forEach((section, indice) => {
       // Ligne vide entre les blocs Tactica de Légion / Posture /
       // Réaction Avancée (aucune avant le premier).
       if (indice > 0) corps += '<p class="rite-sep">&nbsp;</p>';
       corps +=
-        '<p class="rite-titre"><strong>' + echapperHTML(section.titre) + "</strong></p>";
+        '<p class="rite-titre"><strong>' +
+        echapperHTML(section.titre) +
+        "</strong></p>";
       for (const p of section.paragraphes) {
         corps +=
           p.style === "bold"
@@ -2414,7 +2484,7 @@ async function genererWordHTML() {
   return (
     "<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' " +
     "xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
-    "<head><meta charset=\"utf-8\"><title>Liste d'armée — Horus Heresy</title>" +
+    '<head><meta charset="utf-8"><title>Liste d\'armée — Horus Heresy</title>' +
     "<style>" +
     style +
     "</style></head><body>" +
@@ -2502,7 +2572,9 @@ function initialiserChoixUnite() {
     // une Faction sans unité transcrite (ex : Chevaliers Questoris) ne doit
     // pas retomber sur la première unité du tableau UNITES, forcément
     // inaccessible et donc trompeuse une fois affichée dans le champ.
-    const accessibles = entrees.filter((e) => e.unite && uniteAccessible(e.unite));
+    const accessibles = entrees.filter(
+      (e) => e.unite && uniteAccessible(e.unite),
+    );
     const defaut =
       accessibles.find((e) => e.unite.id === idVoulu) || accessibles[0];
     uniteId = defaut ? defaut.unite.id : null;
@@ -2541,7 +2613,9 @@ function initialiserChoixUnite() {
           (factionB === factionCourante ? 0 : 1);
         if (diffFaction !== 0) return diffFaction;
         if (factionA !== factionB) {
-          return ordreFactions.indexOf(factionA) - ordreFactions.indexOf(factionB);
+          return (
+            ordreFactions.indexOf(factionA) - ordreFactions.indexOf(factionB)
+          );
         }
         return (
           (a.unite.legion === legionCourante ? 0 : 1) -
@@ -2846,6 +2920,20 @@ function initialiser() {
   restaurer();
   for (const instance of armee)
     listeCartes.appendChild(construireCarte(instance));
+  // orgaPret DOIT passer à true avant Organigramme.initialiser() (pas
+  // après) : cet appel restaure lui-même etat.faction/etat.legion depuis
+  // le stockage puis déclenche aussitôt surChangement() (actualiserSelectsCases
+  // → actualiserVerrouLegion → reinitialiserSelectionParDefaut, plus
+  // haut) — donc AVANT que ce code n'atteigne la ligne orgaPret = true
+  // ci-dessous si elle restait après cet appel. `hooks` est déjà
+  // renseigné à ce moment-là (première ligne de Organigramme.
+  // initialiser()), donc aucun appel prématuré à hooks.* ne peut se
+  // produire. Sans ce réordonnancement, uniteAccessible() retombait sur
+  // la Faction par défaut ("legio-astartes") pendant cet appel-là, et la
+  // sélection par défaut du sélecteur « Unité à ajouter » se figeait sur
+  // Praetor au lieu de Chevalier Acastus Astérius/Titan Warlord après un
+  // rafraîchissement de page ayant restauré une autre Faction.
+  orgaPret = true;
   Organigramme.initialiser({
     getArmee: () => armee,
     trouverUnite,
@@ -2853,7 +2941,6 @@ function initialiser() {
     retirerInstance,
     surChangement: actualiserSelectsCases,
   });
-  orgaPret = true;
   actualiserTotal();
 }
 
