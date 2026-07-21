@@ -61,7 +61,9 @@
      un choix (autre que « conserver ») est sélectionné. Chaque choix
      = { nom, cout } (+ éventuellement `remplace` propre au choix).
      `ajoute: true` = le choix s'ajoute sans rien remplacer.
-   - "case"  : case à cocher simple. { cout, ajoute }.
+   - "case"  : case à cocher simple. { cout, ajoute }. `ajoute` peut
+     être un tableau (plusieurs objets/Règles Spéciales accordés à la
+     fois, ex : Décurion Locus — scanner augure + Frappe Localisée).
    - "paire" : case à cocher qui remplace PLUSIEURS équipements
      à la fois (ex : paire de griffes Lightning). { cout, ajoute,
      remplaceListe: [...] }.
@@ -71,13 +73,31 @@
    - variantesExclues : indices de variantes qui n'ont PAS accès
      à l'option (ex : cyber-familier interdit aux Réacteurs).
    - desactiveSiOptionActive : id d'une autre option de la même
-     unité qui, une fois active, verrouille complètement celle-ci —
-     aucune contribution à l'équipement ni au coût, champ grisé et
-     remis à zéro (voir optionPermise dans js/unites.js). Sert aux
-     options qui s'excluent mutuellement au sein d'une même unité
-     (ex : Titan Warlord, la Griffe énergétique Arioch avec Méga-
-     bolter Vulcan occupe à elle seule les deux emplacements d'Arme
-     de Bras et verrouille donc les deux choix normaux).
+     unité (ou TABLEAU d'id) qui, une fois active, verrouille
+     complètement celle-ci — aucune contribution à l'équipement ni au
+     coût, champ grisé et remis à zéro (voir optionPermise dans
+     js/unites.js). Sert aux options qui s'excluent mutuellement au
+     sein d'une même unité (ex : Titan Warlord, la Griffe énergétique
+     Arioch avec Méga-bolter Vulcan occupe à elle seule les deux
+     emplacements d'Arme de Bras et verrouille donc les deux choix
+     normaux ; forme tableau utilisée par les 4 améliorations de
+     Décurion de Légion, mutuellement exclusives entre elles — voir
+     optionsDecurionLegion plus bas).
+   - requiertLegion : id LEGIONS (js/organigramme.js) réservant
+     l'option à cette Légion (ou une Légion Alliée) — ex : Décurion
+     Sagittar (VII, Imperial Fists) et Lanius (XVI, Sons of Horus).
+   - requiertEquipUnDe : tableau d'objets, généralise `requiertEquip`
+     (js/unites.js, optionRealisable) à un « OU » — l'option exige la
+     présence d'AU MOINS UN des objets listés dans l'équipement final
+     (ex : Décurion sur Sicaran, ouvert seulement à l'autocanon
+     accélérateur jumelé de base ou au canon rotatif Punisher).
+   - requiertPivotArme / interditPivotArme : conditionnent l'option à
+     la présence (hors Lanceur Havoc sur Pivot) ou à l'absence d'une
+     Arme sur Pivot déjà choisie via l'option "pivot" de la même unité
+     (optionPivotLegion ci-dessous) — voir armeSurPivotChoisie dans
+     js/unites.js. Décurion Defensor exige une Arme sur Pivot ;
+     Sagittar et Lanius exigent l'absence de toute Arme sur Pivot (ils
+     en accordent une propre à l'amélioration).
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -415,8 +435,12 @@ function optionsMissileEtProjecteurs() {
 
 // Idem, complété par l'objet de la liste des Armes sur Pivot de
 // Légion que partagent Falchion, Fellblade, Glaive, Typhon et
-// Cerberus.
-function optionPivotLegion() {
+// Cerberus. `verrouillePar` (facultatif) : id d'option (ou tableau)
+// qui verrouille ce choix quand elle est active — sert aux Décurion
+// Sagittar/Lanius (Predator, Sicaran, Kratos), qui accordent leur
+// propre Arme sur Pivot et rendent donc ce choix générique redondant
+// une fois sélectionnés (voir optionsDecurionLegion ci-dessous).
+function optionPivotLegion(verrouillePar) {
   return {
     type: "choix",
     id: "pivot",
@@ -426,11 +450,95 @@ function optionPivotLegion() {
       { nom: "— Aucun —", cout: 0 },
       ...depuisListes(LISTES_EQUIPEMENT.pivot),
     ],
+    ...(verrouillePar ? { desactiveSiOptionActive: verrouillePar } : {}),
   };
 }
 
 function optionsVehiculeSuperLourdPivot() {
   return [optionPivotLegion(), ...optionsMissileEtProjecteurs()];
+}
+
+/* Améliorations de Décurion de Légion (livre d'armée, add-on récent) :
+   Décurion Defensor, Locus, Sagittar (réservé au Trait Imperial
+   Fists) et Décurion Lanius (réservé au Trait Sons of Horus).
+   Sélectionnables pour Predator, Sicaran et Char d'Assaut Kratos —
+   voir leurs fiches plus bas. Mutuellement exclusives (une seule par
+   Figurine, livre d'armée) via desactiveSiOptionActive croisé. Sur
+   Sicaran, `sicaran: true` restreint l'amélioration aux Figurines
+   ayant conservé l'autocanon accélérateur jumelé de base OU choisi le
+   canon rotatif Punisher (requiertEquipUnDe), comme précisé par le
+   livre — sans effet sur Predator/Kratos. Coûts en Points : voir
+   REGLES_DIVERSES (js/regles-data.js) pour le texte des Règles
+   Spéciales accordées, et pages/unites.html #decurion pour le détail
+   complet des 4 améliorations. */
+function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
+  const idsDecurion = [
+    "decurion-defensor",
+    "decurion-locus",
+    "decurion-sagittar",
+    "decurion-lanius",
+  ];
+  const autres = (id) => idsDecurion.filter((autre) => autre !== id);
+  const restrictionSicaran = sicaran
+    ? {
+        requiertEquipUnDe: [
+          "Autocanon accélérateur jumelé",
+          "Canon rotatif Punisher",
+        ],
+      }
+    : {};
+  return [
+    {
+      type: "case",
+      id: "decurion-defensor",
+      libelle:
+        "Décurion Defensor (+" +
+        defensor +
+        " pts, requiert une Arme sur Pivot autre qu'un Lanceur Havoc sur Pivot)",
+      cout: defensor,
+      ajoute: "Défense de Point",
+      requiertPivotArme: true,
+      desactiveSiOptionActive: autres("decurion-defensor"),
+      ...restrictionSicaran,
+    },
+    {
+      type: "case",
+      id: "decurion-locus",
+      libelle: "Décurion Locus (+" + locus + " pts)",
+      cout: locus,
+      ajoute: ["Scanner augure", "Frappe Localisée"],
+      desactiveSiOptionActive: autres("decurion-locus"),
+      ...restrictionSicaran,
+    },
+    {
+      type: "case",
+      id: "decurion-sagittar",
+      libelle:
+        "Décurion Sagittar (+" +
+        sagittar +
+        " pts, réservé au Trait Imperial Fists, requiert l'absence de toute Arme sur Pivot)",
+      cout: sagittar,
+      ajoute: ["Canon d'assaut Iliastus sur Pivot", "Scanner augure"],
+      requiertLegion: "VII",
+      interditPivotArme: true,
+      desactiveSiOptionActive: autres("decurion-sagittar"),
+      ...restrictionSicaran,
+    },
+    {
+      type: "case",
+      id: "decurion-lanius",
+      libelle:
+        "Décurion Lanius (+" +
+        lanius +
+        " pts, réservé au Trait Sons of Horus, requiert l'absence de toute Arme sur Pivot)",
+      cout: lanius,
+      ajoute: ["Canon à bolts Banestrike sur Pivot", "Mise au Pas Brutal"],
+      requiertLegion: "XVI",
+      interditPivotArme: true,
+      desactiveSiOptionActive: autres("decurion-lanius"),
+      ...restrictionSicaran,
+    },
+  ];
 }
 
 /* Remplace les deux bolters lourds Latéraux (équipement de départ
@@ -6787,8 +6895,9 @@ const UNITES = [
         ],
       },
       optionLaterauxLegion(),
-      optionPivotLegion(),
+      optionPivotLegion(["decurion-sagittar", "decurion-lanius"]),
       ...optionsFinBlinde({ missile: "Tourelle" }),
+      ...optionsDecurionLegion({ defensor: 30, locus: 40, sagittar: 30, lanius: 30 }),
     ],
   },
 
@@ -6871,8 +6980,15 @@ const UNITES = [
         ],
       },
       optionLaterauxLegion(),
-      optionPivotLegion(),
+      optionPivotLegion(["decurion-sagittar", "decurion-lanius"]),
       ...optionsFinBlinde({ missile: "Tourelle", bulldozer: false }),
+      ...optionsDecurionLegion({
+        defensor: 20,
+        locus: 30,
+        sagittar: 30,
+        lanius: 25,
+        sicaran: true,
+      }),
     ],
   },
 
@@ -6920,8 +7036,9 @@ const UNITES = [
         ],
       },
       optionLaterauxLegion(),
-      optionPivotLegion(),
+      optionPivotLegion(["decurion-sagittar", "decurion-lanius"]),
       ...optionsFinBlinde({ missile: "Tourelle" }),
+      ...optionsDecurionLegion({ defensor: 20, locus: 30, sagittar: 30, lanius: 25 }),
     ],
   },
 

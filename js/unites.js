@@ -302,23 +302,26 @@ function quantiteUtilisee(unite, instance, opt) {
 
 /* Une option est-elle accessible à la variante choisie, et pas
    verrouillée par une AUTRE option de la même unité ?
-   `desactiveSiOptionActive: idOption` verrouille complètement cette
-   option (aucune contribution à l'équipement ni au coût, champ grisé
-   et remis à zéro par synchroniserConfig) tant que l'option visée
-   est active — ex : Titan Warlord, Griffe énergétique Arioch avec
-   Méga-bolter Vulcan (une seule Arme de Bras occupant les deux
-   emplacements) verrouille les deux choix d'Arme de Bras normaux
-   tant qu'elle est cochée (voir js/unites-data.js). Centralisé ici
-   car optionPermise est déjà le filtre commun à equipementFinal,
-   coutInstance ET optionRealisable. */
+   `desactiveSiOptionActive: idOption` (ou tableau d'id) verrouille
+   complètement cette option (aucune contribution à l'équipement ni au
+   coût, champ grisé et remis à zéro par synchroniserConfig) tant
+   qu'UNE des options visées est active — ex : Titan Warlord, Griffe
+   énergétique Arioch avec Méga-bolter Vulcan (une seule Arme de Bras
+   occupant les deux emplacements) verrouille les deux choix d'Arme de
+   Bras normaux tant qu'elle est cochée ; forme tableau utilisée par
+   les 4 améliorations de Décurion de Légion, mutuellement exclusives
+   entre elles (voir optionsDecurionLegion dans js/unites-data.js).
+   Centralisé ici car optionPermise est déjà le filtre commun à
+   equipementFinal, coutInstance ET optionRealisable. */
 function optionPermise(opt, instance) {
   if (opt.variantesExclues && opt.variantesExclues.includes(instance.variante))
     return false;
-  if (
-    opt.desactiveSiOptionActive &&
-    instance.valeurs[opt.desactiveSiOptionActive]
-  )
-    return false;
+  if (opt.desactiveSiOptionActive) {
+    const ids = Array.isArray(opt.desactiveSiOptionActive)
+      ? opt.desactiveSiOptionActive
+      : [opt.desactiveSiOptionActive];
+    if (ids.some((id) => instance.valeurs[id])) return false;
+  }
   return true;
 }
 
@@ -350,7 +353,15 @@ function equipementFinal(unite, instance, sansOption = null) {
       // (ex : "Sergent : Arme énergétique").
       equip.push((opt.prefixeFiche || "") + nomCourt(choix.nom));
     } else if (opt.type === "case") {
-      if (val && opt.ajoute) equip.push(opt.ajoute);
+      // `ajoute` accepte aussi un tableau : une amélioration de
+      // Décurion de Légion accorde souvent plusieurs objets/Règles
+      // Spéciales à la fois (ex : scanner augure + Frappe Localisée
+      // pour le Décurion Locus, voir optionsDecurionLegion dans
+      // js/unites-data.js).
+      if (val && opt.ajoute) {
+        if (Array.isArray(opt.ajoute)) equip.push(...opt.ajoute);
+        else equip.push(opt.ajoute);
+      }
     } else if (opt.type === "paire") {
       if (val) {
         opt.remplaceListe.forEach(retirer);
@@ -365,6 +376,21 @@ function equipementFinal(unite, instance, sansOption = null) {
   return equip;
 }
 
+// Nom (sans le suffixe "(liste ...)") de l'Arme sur Pivot actuellement
+// choisie via l'option "pivot" (optionPivotLegion, js/unites-data.js),
+// ou null si « — Aucun — » est sélectionné (ou si l'unité n'a pas
+// cette option). Sert aux Décurion Defensor (exige une Arme sur Pivot,
+// sauf Lanceur Havoc) et Sagittar/Lanius (exigent l'absence de toute
+// Arme sur Pivot), qui dépendent d'une AUTRE option de la même
+// Figurine plutôt que de leur propre équipement — voir
+// optionsDecurionLegion dans js/unites-data.js.
+function armeSurPivotChoisie(unite, instance) {
+  const optPivot = unite.options.find((o) => o.id === "pivot");
+  if (!optPivot) return null;
+  const val = instance.valeurs.pivot;
+  return val ? nomCourt(optPivot.choix[val].nom) : null;
+}
+
 /* Une option est-elle actuellement réalisable ? (grise le champ
    sinon). Exemples : la baïonnette exige de conserver le bolter ;
    la paire de griffes exige que bolter ET pistolet soient encore
@@ -372,7 +398,16 @@ function equipementFinal(unite, instance, sansOption = null) {
    `requiertAbsenceUnite: idUnite` interdit l'option tant que cette
    autre unité fait partie de la liste (ex : Khârn ne peut échanger
    La Trancheuse contre La Carnassière Reforgée que si Angron n'est
-   pas dans la même Armée). */
+   pas dans la même Armée) ; `requiertLegion: idLegion` réserve
+   l'option à la Légion (ou une Légion Alliée) indiquée (ex : Décurion
+   Sagittar/Lanius, réservés Imperial Fists/Sons of Horus) ;
+   `requiertEquipUnDe: [...]` généralise requiertEquip à un « OU » de
+   plusieurs objets (ex : Décurion sur Sicaran, ouvert à l'autocanon
+   accélérateur jumelé DE BASE ou au canon rotatif Punisher, mais pas
+   aux autres remplacements de tourelle) ; `requiertPivotArme`/
+   `interditPivotArme` conditionnent l'option à la présence/l'absence
+   d'une Arme sur Pivot déjà choisie via l'option "pivot" (voir
+   armeSurPivotChoisie ci-dessus). */
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
   if (
@@ -380,12 +415,32 @@ function optionRealisable(unite, instance, opt) {
     armee.some((i) => i.uniteId === opt.requiertAbsenceUnite)
   )
     return false;
+  if (opt.requiertLegion) {
+    if (!orgaPret || typeof Organigramme === "undefined") return false;
+    const legionOk =
+      Organigramme.legionActuelle() === opt.requiertLegion ||
+      Organigramme.legionsAlliees().includes(opt.requiertLegion);
+    if (!legionOk) return false;
+  }
+  if (opt.requiertPivotArme) {
+    const pivot = armeSurPivotChoisie(unite, instance);
+    if (!pivot || pivot.startsWith("Lanceur Havoc sur Pivot")) return false;
+  }
+  if (opt.interditPivotArme && armeSurPivotChoisie(unite, instance))
+    return false;
   const equipSansElle = equipementFinal(unite, instance, opt.id);
   // requiertEquip est comparé en « contient » : "combi-bolter"
   // reconnaît aussi "Poing énergétique Gravis et combi-bolter".
   if (
     opt.requiertEquip &&
     !equipSansElle.some((e) => e.includes(opt.requiertEquip))
+  )
+    return false;
+  if (
+    opt.requiertEquipUnDe &&
+    !opt.requiertEquipUnDe.some((requis) =>
+      equipSansElle.some((e) => e.includes(requis)),
+    )
   )
     return false;
   if (

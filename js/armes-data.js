@@ -144,6 +144,26 @@ const ARMES_TIR = [
         regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
         traits: "Auto",
       },
+      /* Décurion Sagittar (livre d'armée, Legiones Astartes ayant le
+         Trait Imperial Fists, voir optionsDecurionLegion dans
+         js/unites-data.js) : le canon d'assaut Iliastus sur Pivot
+         qu'accorde cette amélioration gagne Antiaérien et Précision
+         (6+) en plus de son profil standard — nom distinct de la
+         version ci-dessus ("sur Pivot") pour que construireTablesArmes
+         (js/unites.js) ne fusionne pas les deux tables de
+         caractéristiques sous un même montage. */
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot — Tir soutenu",
+        stats: ["24", "3", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Antiaérien, Précision (6+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot — Tir maximal",
+        stats: ["24", "5", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Surcharge (1), Antiaérien, Précision (6+)",
+        traits: "Auto",
+      },
       {
         nom: "Autocanon Gravis",
         stats: ["48", "3", "8", "4", "2"],
@@ -411,6 +431,16 @@ const ARMES_TIR = [
         stats: ["24", "5", "5", "3", "1"],
         regles: "Brèche (6+)",
         traits: "Bolts, Assaut",
+      },
+      {
+        // Décurion Lanius (livre d'armée, Legiones Astartes ayant le
+        // Trait Sons of Horus, voir optionsDecurionLegion dans
+        // js/unites-data.js) : arme sur Pivot accordée par cette
+        // amélioration.
+        nom: "Canon à bolts Banestrike",
+        stats: ["24", "4", "6", "4", "2"],
+        regles: "Brèche (6+)",
+        traits: "Bolts",
       },
       /* --- Arsenal des Maisonnées de Chevaliers et des Legios
          Titaniques. --- */

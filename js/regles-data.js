@@ -1185,4 +1185,26 @@ const REGLES_DIVERSES = [
     texte:
       "Réaction Psychique (Bénédiction) qui donne à une Unité un Jet de Mitigation de Dégâts de Dissimulation. Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif qui cible une Unité incluant au moins une Figurine ayant le Trait Raptora (Coût : 1 Point d'Attribution de Réactions, payé seulement si le Test de Volonté est réussi). Le Focus doit être une Figurine ayant le Trait Raptora de l'Unité ciblée ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de la Sous-phase : toutes les Figurines de l'Unité Cible gagnent un Jet de Mitigation de Dégâts de Dissimulation de 4+ contre toute Blessure subie.",
   },
+
+  /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de
+     Type Véhicule sélectionnées : Predator, Sicaran, Char d'Assaut
+     Kratos — voir optionsDecurionLegion dans js/unites-data.js et
+     pages/unites.html #decurion). Defensor et Locus sont ouverts à
+     toute Légion ; Sagittar (Imperial Fists) et Lanius (Sons of
+     Horus) sont réservés au Trait de Légion indiqué. --- */
+  {
+    nom: "Défense de Point",
+    texte:
+      "Quand une Figurine ayant cette Règle Spéciale est la Cible d'une Charge, à l'Étape 4 de la Procédure de Charge, une Figurine ayant cette Règle Spéciale peut faire une Attaque de Volée supplémentaire. Cette Attaque de Volée supplémentaire se fait comme une Attaque de Tir séparée, après avoir résolu sa première Attaque de Volée, et le Joueur en Contrôle ne peut choisir qu'une Arme sur Pivot pour faire des attaques au cours de cette seconde Attaque de Volée. Si la moindre Figurine est Retirée comme Perte suite aux Attaques de Tir de cette Figurine au cours de cette Attaque de Volée, l'Unité Assaillante soustrait 1 au résultat de tout Jet de Charge fait à cette Phase.",
+  },
+  {
+    nom: "Frappe Localisée",
+    texte:
+      "Quand on effectue une Réaction Répliquer pour une Figurine ayant cette Règle Spéciale, on traite toutes ses Armes de Tourelle comme des Armes Défensives quelles que soient leurs Caractéristiques. Si l'Arme de Tourelle d'une Figurine ayant cette Règle Spéciale est déjà une Arme Défensive, le Joueur en Contrôle de la Figurine peut à la place ajouter +1 aux Jets de Touche faits pour le Groupe de Tirs de l'Arme quand il effectue cette Réaction.",
+  },
+  {
+    nom: "Mise au Pas Brutal",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut cibler une Unité amie avec une Attaque de Tir, et l'Unité ciblée perd le Statut Tactique En Déroute. Au début de la Sous-phase de Déplacement, le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale peut choisir une Unité de son Armée ayant le Statut Tactique En Déroute qui se trouve à 12 pouces de la Figurine ayant cette Règle Spéciale. S'il le fait, la Figurine ayant cette Règle Spéciale fait immédiatement une Attaque de Tir, qui ne cible que l'Unité choisie, avec le canon à bolts Banestrike seulement. Cette Attaque de Tir n'entraîne aucun Test de Commandement. Une fois cette Attaque de Tir résolue, l'Unité Cible perd le Statut Tactique En Déroute.",
+  },
 ];
