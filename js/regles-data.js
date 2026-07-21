@@ -199,6 +199,11 @@ const REGLES_DIVERSES = [
       "L'unité ne marque que 1 point de victoire sur un objectif, + X si elle est retirée comme perte ou fait battre en retraite une unité ennemie.",
   },
   {
+    nom: "Bouclier",
+    texte:
+      "Trait qui donne accès à la Réaction avancée des Legiones Astartes « Mur de Bouclier » (coût 1 Point d'Attribution de Réactions), déclarable au début de l'Étape 3 d'une Attaque de Tir ou de l'Étape 4 (Attaques de Volée) d'une Charge faite par l'adversaire : si la majorité des Figurines de l'Unité visée ont ce Trait, l'Unité gagne +1 en Endurance pour la durée de la Phase.",
+  },
+  {
     nom: "Charge désordonnée",
     texte:
       "L'unité ne bénéficie ni du mouvement de positionnement ni de l'attaque de mêlée bonus lors de la charge.",
@@ -1192,6 +1197,26 @@ const REGLES_DIVERSES = [
      pages/unites.html #decurion). Defensor et Locus sont ouverts à
      toute Légion ; Sagittar (Imperial Fists) et Lanius (Sons of
      Horus) sont réservés au Trait de Légion indiqué. --- */
+  {
+    nom: "Décurion Defensor",
+    texte:
+      "Amélioration de Décurion de Légion (Predator, Sicaran, Char d'Assaut Kratos), ouverte à toute Légion : requiert que la Figurine soit dotée d'une Arme sur Pivot autre qu'un Lanceur Havoc sur Pivot. Une Figurine qui la possède gagne la Règle Spéciale « Défense de Point ».",
+  },
+  {
+    nom: "Décurion Locus",
+    texte:
+      "Amélioration de Décurion de Légion (Predator, Sicaran, Char d'Assaut Kratos), ouverte à toute Légion. Une Figurine qui la possède gagne un scanner augure et la Règle Spéciale « Frappe Localisée ».",
+  },
+  {
+    nom: "Décurion Sagittar",
+    texte:
+      "Amélioration de Décurion de Légion (Predator, Sicaran, Char d'Assaut Kratos), réservée au Trait de Légion Imperial Fists : requiert l'absence de toute Arme sur Pivot. Une Figurine qui la possède gagne un canon d'assaut Iliastus sur Pivot (avec Antiaérien et Précision (6+)) et un scanner augure.",
+  },
+  {
+    nom: "Décurion Lanius",
+    texte:
+      "Amélioration de Décurion de Légion (Predator, Sicaran, Char d'Assaut Kratos), réservée au Trait de Légion Sons of Horus : requiert l'absence de toute Arme sur Pivot. Une Figurine qui la possède gagne un canon à bolts Banestrike sur Pivot et la Règle Spéciale « Mise au Pas Brutal ».",
+  },
   {
     nom: "Défense de Point",
     texte:

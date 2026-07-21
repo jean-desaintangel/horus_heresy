@@ -820,20 +820,43 @@ function construireLigneFiche(titre, elements, classeSupplementaire) {
 // équipement : habille chaque entrée reconnue d'un .regle-tag portant
 // sa définition (voir ci-dessus). Utilisée pour les lignes "Règles
 // spéciales", "Traits" et "Équipement" de la fiche récap.
-function construireLigneRegles(titre, regles) {
+// `avecArmes` (réservé à la ligne "Équipement", où le fallback ne
+// risque pas de tomber sur un faux positif parmi des Traits/Règles
+// Spéciales) : si aucune Règle Spéciale/Trait connu ne correspond à
+// l'entrée entière, retente sur une arme de l'Arsenal reconnue
+// n'importe où dans son texte (trouverArmeDansTexte, comme
+// ajouterLibelleOption pour le panneau d'options) — seul le nom de
+// l'arme est alors habillé, avec un résumé de son profil (resumeArme)
+// en info-bulle ; la table de caractéristiques complète reste
+// affichée juste en dessous (construireTablesArmes).
+function construireLigneRegles(titre, regles, avecArmes) {
   const p = el("p", "fiche-ligne");
   p.appendChild(el("strong", null, titre + " : "));
   regles.forEach((regle, i) => {
     if (i > 0) p.appendChild(document.createTextNode(" · "));
     const definition = trouverDefinitionRegle(regle);
-    if (!definition) {
-      p.appendChild(document.createTextNode(regle));
+    if (definition) {
+      const tag = el("span", "regle-tag", regle);
+      tag.tabIndex = 0;
+      tag.appendChild(el("span", "tooltip", definition));
+      p.appendChild(tag);
       return;
     }
-    const tag = el("span", "regle-tag", regle);
-    tag.tabIndex = 0;
-    tag.appendChild(el("span", "tooltip", definition));
-    p.appendChild(tag);
+    const correspondanceArme = avecArmes ? trouverArmeDansTexte(regle) : null;
+    if (correspondanceArme) {
+      if (correspondanceArme.avant)
+        p.appendChild(document.createTextNode(correspondanceArme.avant));
+      const tag = el("span", "regle-tag", correspondanceArme.trouve);
+      tag.tabIndex = 0;
+      tag.appendChild(
+        el("span", "tooltip", resumeArme(correspondanceArme.arme)),
+      );
+      p.appendChild(tag);
+      if (correspondanceArme.apres)
+        p.appendChild(document.createTextNode(correspondanceArme.apres));
+      return;
+    }
+    p.appendChild(document.createTextNode(regle));
   });
   return p;
 }
@@ -852,6 +875,50 @@ function ajouterTypeTag(parent, nom) {
   tag.tabIndex = 0;
   tag.appendChild(el("span", "tooltip", definition));
   parent.appendChild(tag);
+}
+
+// Ajoute le libellé d'une option "case"/"paire" (panneau de config
+// d'une unité) à son <label>, habillé d'un .regle-tag portant sa
+// définition s'il en existe une — comme ajouterTypeTag, mais le
+// libellé se termine souvent par une parenthèse de coût/condition
+// (ex : « Décurion Defensor (+30 pts, requiert une Arme sur Pivot
+// autre qu'un Lanceur Havoc sur Pivot) ») qui doit rester en texte
+// brut hors de l'info-bulle : seul le nom avant cette parenthèse
+// finale est habillé. Deux sources de définition, dans cet ordre :
+// 1) une Règle Spéciale/Trait connu (REGLES_DIVERSES — ex : les 4
+//    améliorations de Décurion de Légion, Vexillum, Cyber-familier) ;
+// 2) à défaut, une arme de l'Arsenal reconnue n'importe où dans le
+//    libellé (trouverArmeDansTexte — ex : Bombes à fusion, Missile
+//    traqueur) : seul le nom de l'arme est habillé, avec un résumé de
+//    son profil (resumeArme) en info-bulle, la table complète restant
+//    réservée à la fiche récap une fois l'option cochée.
+function ajouterLibelleOption(label, libelle) {
+  const definition = trouverDefinitionRegle(libelle);
+  if (definition) {
+    const correspondance = libelle.match(/^(.*?)(\s*\([^)]*\))?$/);
+    const tag = el("span", "regle-tag", correspondance[1]);
+    tag.tabIndex = 0;
+    tag.appendChild(el("span", "tooltip", definition));
+    label.appendChild(tag);
+    if (correspondance[2])
+      label.appendChild(document.createTextNode(correspondance[2]));
+    return;
+  }
+  const correspondanceArme = trouverArmeDansTexte(libelle);
+  if (correspondanceArme) {
+    if (correspondanceArme.avant)
+      label.appendChild(document.createTextNode(correspondanceArme.avant));
+    const tag = el("span", "regle-tag", correspondanceArme.trouve);
+    tag.tabIndex = 0;
+    tag.appendChild(
+      el("span", "tooltip", resumeArme(correspondanceArme.arme)),
+    );
+    label.appendChild(tag);
+    if (correspondanceArme.apres)
+      label.appendChild(document.createTextNode(correspondanceArme.apres));
+    return;
+  }
+  label.appendChild(document.createTextNode(libelle));
 }
 
 // Ligne "Type" de la fiche récap : habille chaque Type et Sous-type de
@@ -990,6 +1057,22 @@ function trouverArmeDansTexte(texte) {
     apres: texte.slice(i + longueur),
     arme,
   };
+}
+
+// Résumé sur une seule ligne du profil d'une arme trouvée par
+// trouverArmeDansTexte (mêmes abréviations d'en-têtes que les tables
+// de l'Arsenal, ENTETES_TIR/ENTETES_MELEE) — sert d'info-bulle aux
+// options d'équipement (ajouterLibelleOption) : une table complète
+// (construireTableArmes) n'a pas sa place dans une info-bulle, la
+// table détaillée reste visible sur la fiche récap une fois l'option
+// cochée.
+function resumeArme(arme) {
+  let texte = arme.entetes
+    .map((titre, i) => titre + " " + arme.stats[i])
+    .join(" · ");
+  if (arme.regles && arme.regles !== "-") texte += " — " + arme.regles;
+  if (arme.traits && arme.traits !== "-") texte += " [" + arme.traits + "]";
+  return texte;
 }
 
 // Cellule "Règles spéciales" d'une ligne d'arme : chaque règle est
@@ -1152,7 +1235,11 @@ function construireFiche(unite, instance) {
   }
   const equipement = equipementFinal(unite, instance);
   fiche.appendChild(
-    construireLigneRegles(unite.equipementLibelle || "Équipement", equipement),
+    construireLigneRegles(
+      unite.equipementLibelle || "Équipement",
+      equipement,
+      true,
+    ),
   );
   fiche.appendChild(construireTablesArmes(equipement));
   // [Allégeance], [Legiones Astartes] et [Questoris Familia] sont
@@ -1458,11 +1545,11 @@ function construireConfig(carte, unite, instance) {
           actualiserCarte(carte, unite, instance);
         });
         label.appendChild(caseACocher);
+        label.appendChild(document.createTextNode(" "));
+        ajouterLibelleOption(label, opt.libelle);
         label.appendChild(
           document.createTextNode(
-            " " +
-              opt.libelle +
-              " — " +
+            " — " +
               libelleCout(opt.cout) +
               (opt.parFigurine && opt.cout > 0 ? "/figurine" : ""),
           ),

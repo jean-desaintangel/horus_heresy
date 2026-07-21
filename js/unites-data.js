@@ -496,7 +496,7 @@ function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
         defensor +
         " pts, requiert une Arme sur Pivot autre qu'un Lanceur Havoc sur Pivot)",
       cout: defensor,
-      ajoute: "Défense de Point",
+      ajoute: ["Décurion Defensor", "Défense de Point"],
       requiertPivotArme: true,
       desactiveSiOptionActive: autres("decurion-defensor"),
       ...restrictionSicaran,
@@ -506,7 +506,7 @@ function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
       id: "decurion-locus",
       libelle: "Décurion Locus (+" + locus + " pts)",
       cout: locus,
-      ajoute: ["Scanner augure", "Frappe Localisée"],
+      ajoute: ["Décurion Locus", "Scanner augure", "Frappe Localisée"],
       desactiveSiOptionActive: autres("decurion-locus"),
       ...restrictionSicaran,
     },
@@ -518,7 +518,11 @@ function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
         sagittar +
         " pts, réservé au Trait Imperial Fists, requiert l'absence de toute Arme sur Pivot)",
       cout: sagittar,
-      ajoute: ["Canon d'assaut Iliastus sur Pivot", "Scanner augure"],
+      ajoute: [
+        "Décurion Sagittar",
+        "Canon d'assaut Iliastus sur Pivot",
+        "Scanner augure",
+      ],
       requiertLegion: "VII",
       interditPivotArme: true,
       desactiveSiOptionActive: autres("decurion-sagittar"),
@@ -532,7 +536,11 @@ function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
         lanius +
         " pts, réservé au Trait Sons of Horus, requiert l'absence de toute Arme sur Pivot)",
       cout: lanius,
-      ajoute: ["Canon à bolts Banestrike sur Pivot", "Mise au Pas Brutal"],
+      ajoute: [
+        "Décurion Lanius",
+        "Canon à bolts Banestrike sur Pivot",
+        "Mise au Pas Brutal",
+      ],
       requiertLegion: "XVI",
       interditPivotArme: true,
       desactiveSiOptionActive: autres("decurion-lanius"),
