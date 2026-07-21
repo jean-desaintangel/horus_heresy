@@ -2609,9 +2609,10 @@ const Organigramme = (() => {
           )) {
             const opt = ajouterOption(selectAv, avantage.id, avantage.nom);
             opt.disabled = grise;
-            if (grise) opt.title = raison;
+            opt.title = grise ? raison : avantage.texte;
           }
           selectAv.value = caseOrga.avantage;
+          selectAv.title = (avantageParId(caseOrga.avantage) || {}).texte || "";
           selectAv.addEventListener("change", () => {
             const erreur = changerAvantage(det, indice, selectAv.value);
             if (erreur) {
