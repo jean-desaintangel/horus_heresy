@@ -21,7 +21,8 @@
    Un type de détachement = {
      id        : identifiant unique,
      nom       : nom affiché,
-     famille   : "principal" | "additionnel" | "auxiliaire" | "apex",
+     famille   : "principal" | "additionnel" | "auxiliaire" | "apex" |
+                 "narratif",
      texte     : description (info-bulle),
      max       : nombre maximal par armée (absent = illimité),
      cases     : [{ role, principale }, ...] — l'organigramme du
@@ -120,6 +121,29 @@
                  Détachement dans le calcul des crédits — ex :
                  Confrérie du Phénix, dont les Cases QG/État-major ne
                  doivent débloquer aucun Auxiliaire/Apex).
+     legionLibre : true — dispense ce type de la vérification de
+                 Légion faite pour les unités réservées (champ
+                 `legion`, js/unites-data.js) : accepte n'importe quelle
+                 Légion sur n'importe quelle Case, quelle que soit la
+                 Légion choisie dans les paramètres de la partie
+                 (vérifié par caseAccepte() dans js/organigramme.js —
+                 seul le Détachement Narratif l'utilise à ce jour).
+     exempteLimite : true — les Unités placées dans ce Détachement ne
+                 comptent ni dans la Limite de Points de la partie
+                 (coutTotalArmee()), ni dans le quota combiné Seigneur
+                 de Guerre + Seigneur des Batailles (coutSeigneurs()),
+                 ni dans la restriction « aucun Seigneur de Guerre sous
+                 3000 pts » (validerArmee(), js/organigramme.js) : un
+                 pur bac à sable sans impact sur le budget de la
+                 partie (Détachement Narratif).
+     casesLibres : true — ce Détachement démarre sans Case (`cases: []`
+                 ci-dessous) et le joueur en ajoute/retire librement
+                 depuis sa carte (bouton « + Ajouter une case »,
+                 construireDetachementDOM() dans js/organigramme.js),
+                 chacune avec un Rôle Tactique choisi une à une parmi
+                 TOUS les Rôles (aucune exclusion, contrairement aux
+                 Cases ajoutées par l'Avantage Bénéfice Logistique) —
+                 seul le Détachement Narratif l'utilise à ce jour.
    }
    ============================================================ */
 
@@ -420,6 +444,32 @@ const TYPES_DETACHEMENTS = [
     // par une Case d'État-major alliée piochent dans le même crédit
     // partagé que ceux du Détachement Principal (voir calculerCredits())
     // sans être eux-mêmes rattachés à la Faction/Légion de cet Allié.
+  },
+
+  /* ---------- Détachement Narratif ----------
+     Détachement optionnel (un seul par Armée, à côté du Détachement
+     Principal habituel qui reste inchangé) pour les Armées purement
+     narratives : le joueur y ajoute autant de Cases qu'il veut, chacune
+     d'un Rôle Tactique choisi librement (`casesLibres`, voir MODÈLE DE
+     DONNÉES), sans restriction de Faction (`factionLibre`) ni de Légion
+     (`legionLibre`). Ses Unités sont entièrement exemptées de la Limite
+     de Points et des quotas (`exempteLimite`) et ses Cases ne
+     débloquent aucun Détachement Auxiliaire/d'Apex (`pasDeCredit`) :
+     un pur bac à sable, sans le moindre impact sur le reste de
+     l'Armée. */
+  {
+    id: "narratif",
+    nom: "Détachement Narratif",
+    famille: "narratif",
+    factionLibre: true,
+    legionLibre: true,
+    exempteLimite: true,
+    pasDeCredit: true,
+    casesLibres: true,
+    max: 1,
+    texte:
+      "Détachement libre pour les Armées purement narratives : ajoutez-y autant de Cases que vous voulez, chacune d'un Rôle Tactique choisi librement (État-major, Troupes, Élite, Suite…), sans restriction de Faction ni de Légion. Les Unités qui l'occupent sont entièrement exemptées de la Limite de Points de la partie et de tous les quotas (Seigneur de Guerre + Seigneur des Batailles 25 %, Alliés 50 %) ; elles ne débloquent aucun Détachement Auxiliaire ou d'Apex. Un seul par Armée.",
+    cases: [],
   },
 
   /* ---------- Détachements Additionnels de Maisonnées de Chevaliers

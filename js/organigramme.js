@@ -620,7 +620,7 @@ const Organigramme = (() => {
     // de Guerre/des Batailles, Auxiliaires, Apex), ou celle propre au
     // Détachement Allié qui l'accueille (menu « Légion Alliée » de sa
     // carte, vide tant qu'elle n'est pas choisie).
-    if (unite.legion) {
+    if (unite.legion && !type.legionLibre) {
       const legionRequise =
         type.id === "allie" ? det.legionAlliee : etat.legion;
       if (unite.legion !== legionRequise) return false;
@@ -662,7 +662,7 @@ const Organigramme = (() => {
     for (const det of etat.detachements) {
       det.cases.forEach((caseOrga, indice) => {
         if (caseOrga.uniteUid !== null) return;
-        if (caseOrga.extra && !caseOrga.role) return; // rôle pas encore choisi
+        if ((caseOrga.extra || caseOrga.libre) && !caseOrga.role) return; // rôle pas encore choisi
         if (!caseAccepte(det, caseOrga, unite)) return;
         // Une unité de Quartier Général visant une Case Principale
         // d'État-major n'y est légale que via l'Avantage Principal
@@ -994,12 +994,39 @@ const Organigramme = (() => {
     return hooks.coutInstance(hooks.trouverUnite(instance.uniteId), instance);
   }
 
+  // Une Unité placée dans un Détachement `exempteLimite` (Détachement
+  // Narratif) ne compte ni dans la Limite de Points, ni dans les
+  // quotas ci-dessous — voir MODÈLE DE DONNÉES, js/organigramme-data.js.
+  function estExempteLimite(uid) {
+    return etat.detachements.some(
+      (det) =>
+        typeDe(det).exempteLimite && det.cases.some((c) => c.uniteUid === uid),
+    );
+  }
+
   function coutTotalArmee() {
     return hooks
       .getArmee()
       .reduce(
         (somme, i) =>
-          somme + hooks.coutInstance(hooks.trouverUnite(i.uniteId), i),
+          estExempteLimite(i.uid)
+            ? somme
+            : somme + hooks.coutInstance(hooks.trouverUnite(i.uniteId), i),
+        0,
+      );
+  }
+
+  // Coût des Unités exemptées de la Limite de Points (Détachement
+  // Narratif) : affiché à part dans construireBarre() pour ne pas
+  // laisser croire que ces points ont disparu sans trace.
+  function coutExempteLimite() {
+    return hooks
+      .getArmee()
+      .reduce(
+        (somme, i) =>
+          estExempteLimite(i.uid)
+            ? somme + hooks.coutInstance(hooks.trouverUnite(i.uniteId), i)
+            : somme,
         0,
       );
   }
@@ -1007,6 +1034,7 @@ const Organigramme = (() => {
   // Coût combiné des Rôles Seigneur de Guerre + Seigneur des Batailles.
   function coutSeigneurs() {
     return hooks.getArmee().reduce((somme, i) => {
+      if (estExempteLimite(i.uid)) return somme;
       const unite = hooks.trouverUnite(i.uniteId);
       if (
         unite.categorie === "Seigneurs des Batailles" ||
@@ -1096,6 +1124,7 @@ const Organigramme = (() => {
         .getArmee()
         .some(
           (i) =>
+            !estExempteLimite(i.uid) &&
             hooks.trouverUnite(i.uniteId).categorie === "Seigneur de Guerre",
         );
       if (sdg)
@@ -1692,6 +1721,7 @@ const Organigramme = (() => {
               avantage: c.avantage,
               extra: c.extra,
               origineAvantage: c.origineAvantage || null,
+              libre: c.libre || false,
             })),
           })),
         }),
@@ -1783,6 +1813,25 @@ const Organigramme = (() => {
           }
         }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
+        // Détachement `casesLibres` (Détachement Narratif) : contrairement
+        // à l'unique case `extra` ci-dessous, on restaure ICI autant de
+        // Cases `libre` que sauvegardées (nombre variable, choisi par le
+        // joueur) — det.cases est vide au départ (type.cases: []).
+        if (type.casesLibres) {
+          for (const sauvee of casesSauvees) {
+            if (!sauvee || !sauvee.libre) continue;
+            det.cases.push({
+              role: typeof sauvee.role === "string" ? sauvee.role : null,
+              principale: false,
+              uniteUid: Number.isInteger(sauvee.uniteUid)
+                ? sauvee.uniteUid
+                : null,
+              avantage: "aucun",
+              extra: false,
+              libre: true,
+            });
+          }
+        }
         // Case supplémentaire d'un Avantage `ajouteCase` éventuelle
         // (Bénéfice Logistique, Le Salaire de la Traîtrise).
         const extraSauvee = casesSauvees.find((c) => c && c.extra);
@@ -2312,6 +2361,7 @@ const Organigramme = (() => {
   function construireBarre(conteneur) {
     conteneur.replaceChildren();
     const total = coutTotalArmee();
+    const totalExempte = coutExempteLimite();
     const credits = calculerCredits();
     const erreurs = validerArmee(credits);
 
@@ -2331,7 +2381,10 @@ const Organigramme = (() => {
           : coutSeigneurs() +
             " / " +
             Math.ceil(etat.limite * 0.25) +
-            " pts (25 %)"),
+            " pts (25 %)") +
+        (totalExempte > 0
+          ? " · Détachement Narratif : " + totalExempte + " pts (hors Limite)"
+          : ""),
     );
     conteneur.appendChild(texte);
 
@@ -2565,6 +2618,17 @@ const Organigramme = (() => {
         }
         for (const c of occupees) hooks.retirerInstance(c.uniteUid);
         etat.detachements = etat.detachements.filter((d) => d.uid !== det.uid);
+        // Le Détachement Narratif remplace visuellement le Détachement
+        // Principal à sa sélection (voir construireAjoutDetachements) :
+        // le retirer restaure le Détachement Principal normal de la
+        // Faction en cours, pour ne jamais laisser l'Armée sans Case
+        // Principale.
+        if (
+          type.id === "narratif" &&
+          !etat.detachements.some((d) => typeDe(d).famille === "principal")
+        ) {
+          etat.detachements.unshift(creerDetachement(idDetachementPrincipal()));
+        }
         actualiser();
       });
       entete.appendChild(retirer);
@@ -2612,14 +2676,18 @@ const Organigramme = (() => {
       // Tactique (tout sauf QG, État-major, Seigneurs — p. 283), sauf
       // si l'Avantage d'origine restreint la liste à quelques Rôles
       // précis (`rolesCaseAjoutee`, ex : Logisticae des Ultramarines,
-      // limité à Transport/Transport Lourd).
-      if (caseOrga.extra) {
+      // limité à Transport/Transport Lourd). Une Case `libre` (ajoutée
+      // à la demande sur un Détachement `casesLibres`, ex : Détachement
+      // Narratif) suit le même principe de sélection, mais SANS
+      // exclusion : tous les Rôles Tactiques y sont proposés.
+      if (caseOrga.extra || caseOrga.libre) {
         const origineExtra = avantageParId(caseOrga.origineAvantage);
-        const rolesPossiblesExtra =
-          (origineExtra && origineExtra.rolesCaseAjoutee) ||
-          Object.keys(ROLES_TACTIQUES).filter(
-            (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
-          );
+        const rolesPossiblesExtra = caseOrga.libre
+          ? Object.keys(ROLES_TACTIQUES)
+          : (origineExtra && origineExtra.rolesCaseAjoutee) ||
+            Object.keys(ROLES_TACTIQUES).filter(
+              (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
+            );
         const selectRole = document.createElement("select");
         selectRole.className = "orga-case-role-select";
         selectRole.setAttribute(
@@ -2689,10 +2757,58 @@ const Organigramme = (() => {
       } else {
         contenu.appendChild(el("p", "orga-case-libre", "— Case libre —"));
       }
+      // Case `libre` (Détachement Narratif) : le joueur peut la retirer
+      // à tout moment, contrairement à une Case `extra` (liée à un
+      // Avantage) que seule liberer() gère automatiquement.
+      if (caseOrga.libre) {
+        const retirerCase = el(
+          "button",
+          "unite-retirer",
+          "Retirer cette case",
+        );
+        retirerCase.type = "button";
+        retirerCase.addEventListener("click", () => {
+          if (
+            caseOrga.uniteUid !== null &&
+            !window.confirm(
+              "Cette case contient une unité : elle sera retirée de la liste. Continuer ?",
+            )
+          ) {
+            return;
+          }
+          if (caseOrga.uniteUid !== null) hooks.retirerInstance(caseOrga.uniteUid);
+          det.cases.splice(indice, 1);
+          actualiser();
+        });
+        contenu.appendChild(retirerCase);
+      }
       li.appendChild(contenu);
       liste.appendChild(li);
     });
     carte.appendChild(liste);
+
+    // Détachement `casesLibres` (Détachement Narratif) : bouton
+    // d'ajout d'une Case supplémentaire, en nombre illimité.
+    if (type.casesLibres) {
+      const ajouterCase = el(
+        "button",
+        "bouton-secondaire",
+        "+ Ajouter une case",
+      );
+      ajouterCase.type = "button";
+      ajouterCase.addEventListener("click", () => {
+        det.cases.push({
+          role: null,
+          principale: false,
+          uniteUid: null,
+          avantage: "aucun",
+          extra: false,
+          libre: true,
+        });
+        actualiser();
+      });
+      carte.appendChild(ajouterCase);
+    }
     return carte;
   }
 
@@ -2718,6 +2834,7 @@ const Organigramme = (() => {
       ["additionnel", "Détachements additionnels"],
       ["auxiliaire", "Détachements Auxiliaires"],
       ["apex", "Détachements d'Apex"],
+      ["narratif", "Détachement Narratif"],
     ];
     for (const [famille, titreFamille] of familles) {
       const groupe = document.createElement("details");
@@ -2735,7 +2852,8 @@ const Organigramme = (() => {
         const { possible, raison } = disponibilite(type, credits);
         const bouton = el(
           "button",
-          "bouton-secondaire orga-ajout-bouton",
+          "bouton-secondaire orga-ajout-bouton" +
+            (type.id === "narratif" ? " orga-ajout-bouton--narratif" : ""),
           "+ " + type.nom,
         );
         bouton.type = "button";
@@ -2744,7 +2862,26 @@ const Organigramme = (() => {
         bouton.title = possible ? type.texte : raison;
         if (!possible) bouton.setAttribute("aria-disabled", "true");
         bouton.addEventListener("click", () => {
-          etat.detachements.push(creerDetachement(type.id));
+          if (type.id === "narratif") {
+            // Le Détachement Narratif remplace visuellement le
+            // Détachement Principal en cours : sa sélection vide la
+            // liste d'armée ET tous les détachements déjà présents
+            // (Principal, additionnels, auxiliaires, apex) — voir
+            // demande de Jean. Confirmation obligatoire, comme tout
+            // changement destructeur du site (Faction, Vider la liste).
+            if (
+              !window.confirm(
+                "Le Détachement Narratif remplace le Détachement Principal et TOUS les autres détachements de l'Armée : la liste d'unités et les détachements en cours seront vidés. Continuer ?",
+              )
+            ) {
+              return;
+            }
+            for (const instance of [...hooks.getArmee()])
+              hooks.retirerInstance(instance.uid);
+            etat.detachements = [creerDetachement(type.id)];
+          } else {
+            etat.detachements.push(creerDetachement(type.id));
+          }
           actualiser();
         });
         ligne.appendChild(bouton);
@@ -2963,6 +3100,14 @@ const Organigramme = (() => {
       etat.detachements
         .filter((d) => typeDe(d).id === "allie" && d.legionAlliee)
         .map((d) => d.legionAlliee),
+    // Un Détachement Narratif est-il présent dans l'Armée ? Consommée
+    // par js/unites.js (uniteAccessible) pour lever, dès qu'il est
+    // présent, les vérifications de Faction/Légion/Allégeance du
+    // sélecteur « Unité à ajouter » — ce Détachement acceptant
+    // n'importe quelle Unité (caseAccepte() reste seul juge du
+    // placement réel dans les AUTRES détachements de l'Armée).
+    narratifPresent: () =>
+      etat.detachements.some((d) => typeDe(d).id === "narratif"),
     // Ordre canonique des Factions (menu « Faction » des paramètres de
     // la partie, FACTIONS ci-dessus) : consommé par js/unites.js pour
     // regrouper, dans la liste « Unité à ajouter », les unités d'autres

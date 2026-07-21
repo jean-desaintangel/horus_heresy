@@ -175,65 +175,78 @@ function estPersonnageNomme(unite) {
    entre-temps (elle redevient alors non disponible pour un second
    ajout, comme n'importe quelle unité déjà présente). */
 function uniteAccessible(unite) {
-  // Faction réservée (champ `faction`, ex : "legio-titanicus") : sans ce
-  // champ, une unité reste réservée à Legio Astartes (livre d'armée
-  // transcrit ici depuis le début). Tant que l'organigramme n'est pas
-  // prêt (restauration initiale), on suppose Legio Astartes — la
-  // valeur par défaut de l'état (js/organigramme.js) — pour ne pas
-  // masquer les unités Legio Astartes à ce moment-là.
-  // Exception (livre d'armée Legio Titanicus) : un Titan (Rôle
-  // Tactique Seigneurs des Batailles, Faction Legio Titanicus) reste
-  // accessible quelle que soit la Faction de l'Armée, car le
-  // Détachement de Seigneur des Batailles accepte n'importe quelle
-  // Faction (`factionLibre` dans js/organigramme-data.js) — c'est la
-  // façon d'aligner un Titan isolé dans une Armée qui remplit son
-  // Détachement Principal selon une autre Liste d'Armée. À sens
-  // UNIQUE : une unité Seigneurs des Batailles Legio Astartes (ex :
-  // Fellblade) reste réservée à Legio Astartes comme toute autre
-  // unité de ce livre — sous Legio Titanicus, seuls les Titans
-  // apparaissent dans ce Rôle Tactique. caseAccepte()
-  // (js/organigramme.js) reste seul juge du placement réel (ex :
-  // aucune unité Legio Titanicus dans ce détachement si le
-  // Détachement Principal est l'Ordinal Titanique, voir sa règle 1).
-  // Autre exception : la Faction propre à un Détachement Allié (menu
-  // « Faction Alliée » de sa carte, ex : Legio Astartes alliée à une
-  // Armée Legio Titanicus) rend elle aussi accessibles les unités de
-  // cette Faction-là, en plus de celle de l'Armée.
-  const factionActuelle =
-    orgaPret && typeof Organigramme !== "undefined"
-      ? Organigramme.factionActuelle()
-      : "legio-astartes";
-  const factionsAllieesActuelles =
-    orgaPret && typeof Organigramme !== "undefined"
-      ? Organigramme.factionsAlliees()
-      : [];
-  const factionUnite = unite.faction || "legio-astartes";
-  if (
-    factionActuelle !== factionUnite &&
-    !factionsAllieesActuelles.includes(factionUnite) &&
-    !(
-      unite.categorie === "Seigneurs des Batailles" &&
-      factionUnite === "legio-titanicus"
+  // Détachement Narratif présent dans l'Armée (js/organigramme.js) :
+  // ce Détachement acceptant n'importe quelle Unité, sans restriction
+  // de Faction/Légion/Allégeance (voir js/organigramme-data.js), les
+  // vérifications ci-dessous n'ont plus lieu d'être — caseAccepte()
+  // reste seul juge du placement réel dans les AUTRES détachements de
+  // l'Armée (un Titan Legio Titanicus reste par ex. inutilisable dans
+  // le Détachement Principal Legio Astartes, faute de Case libre).
+  const narratifDisponible =
+    orgaPret &&
+    typeof Organigramme !== "undefined" &&
+    Organigramme.narratifPresent();
+  if (!narratifDisponible) {
+    // Faction réservée (champ `faction`, ex : "legio-titanicus") : sans ce
+    // champ, une unité reste réservée à Legio Astartes (livre d'armée
+    // transcrit ici depuis le début). Tant que l'organigramme n'est pas
+    // prêt (restauration initiale), on suppose Legio Astartes — la
+    // valeur par défaut de l'état (js/organigramme.js) — pour ne pas
+    // masquer les unités Legio Astartes à ce moment-là.
+    // Exception (livre d'armée Legio Titanicus) : un Titan (Rôle
+    // Tactique Seigneurs des Batailles, Faction Legio Titanicus) reste
+    // accessible quelle que soit la Faction de l'Armée, car le
+    // Détachement de Seigneur des Batailles accepte n'importe quelle
+    // Faction (`factionLibre` dans js/organigramme-data.js) — c'est la
+    // façon d'aligner un Titan isolé dans une Armée qui remplit son
+    // Détachement Principal selon une autre Liste d'Armée. À sens
+    // UNIQUE : une unité Seigneurs des Batailles Legio Astartes (ex :
+    // Fellblade) reste réservée à Legio Astartes comme toute autre
+    // unité de ce livre — sous Legio Titanicus, seuls les Titans
+    // apparaissent dans ce Rôle Tactique. caseAccepte()
+    // (js/organigramme.js) reste seul juge du placement réel (ex :
+    // aucune unité Legio Titanicus dans ce détachement si le
+    // Détachement Principal est l'Ordinal Titanique, voir sa règle 1).
+    // Autre exception : la Faction propre à un Détachement Allié (menu
+    // « Faction Alliée » de sa carte, ex : Legio Astartes alliée à une
+    // Armée Legio Titanicus) rend elle aussi accessibles les unités de
+    // cette Faction-là, en plus de celle de l'Armée.
+    const factionActuelle =
+      orgaPret && typeof Organigramme !== "undefined"
+        ? Organigramme.factionActuelle()
+        : "legio-astartes";
+    const factionsAllieesActuelles =
+      orgaPret && typeof Organigramme !== "undefined"
+        ? Organigramme.factionsAlliees()
+        : [];
+    const factionUnite = unite.faction || "legio-astartes";
+    if (
+      factionActuelle !== factionUnite &&
+      !factionsAllieesActuelles.includes(factionUnite) &&
+      !(
+        unite.categorie === "Seigneurs des Batailles" &&
+        factionUnite === "legio-titanicus"
+      )
     )
-  )
-    return false;
-  if (unite.legion) {
-    if (!orgaPret || typeof Organigramme === "undefined") return false;
-    const legionOk =
-      Organigramme.legionActuelle() === unite.legion ||
-      Organigramme.legionsAlliees().includes(unite.legion);
-    if (!legionOk) return false;
-  }
-  if (
-    unite.traits &&
-    (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
-  ) {
-    if (!orgaPret || typeof Organigramme === "undefined") return false;
-    const allegeance = Organigramme.allegeanceActuelle();
-    if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste")
       return false;
-    if (unite.traits.includes("Renégat") && allegeance !== "renegat")
-      return false;
+    if (unite.legion) {
+      if (!orgaPret || typeof Organigramme === "undefined") return false;
+      const legionOk =
+        Organigramme.legionActuelle() === unite.legion ||
+        Organigramme.legionsAlliees().includes(unite.legion);
+      if (!legionOk) return false;
+    }
+    if (
+      unite.traits &&
+      (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
+    ) {
+      if (!orgaPret || typeof Organigramme === "undefined") return false;
+      const allegeance = Organigramme.allegeanceActuelle();
+      if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste")
+        return false;
+      if (unite.traits.includes("Renégat") && allegeance !== "renegat")
+        return false;
+    }
   }
   if (
     unite.excluAvec &&
@@ -1772,7 +1785,15 @@ function actualiserVerrouLegion() {
     derniereFactionCombobox = factionActuelle;
     reinitialiserChoixUniteParDefaut();
   }
+  // Un Détachement Narratif présent dispense ces deux verrous (comme
+  // uniteAccessible) : toutes les Unités du site y sont sélectionnables
+  // sans avoir à choisir de Légion/Maisonnée (voir demande de Jean).
+  const narratifDisponible =
+    orgaPret &&
+    typeof Organigramme !== "undefined" &&
+    Organigramme.narratifPresent();
   const legionManquante =
+    !narratifDisponible &&
     factionActuelle === "legio-astartes" &&
     Organigramme.legionActuelle() === "";
   // Même verrou que la Légion ci-dessus, pour la Maisonnée (Faction
@@ -1782,6 +1803,7 @@ function actualiserVerrouLegion() {
   // automatiquement — le verrou en amont est donc la seule façon
   // d'imposer ce choix avant d'ajouter une Unité.
   const maisonneeManquante =
+    !narratifDisponible &&
     factionActuelle === "chevaliers-questoris" &&
     Organigramme.maisonneeActuelle() === "";
   // Faction sans aucune unité transcrite pour l'instant (ex : Chevaliers
@@ -2827,6 +2849,7 @@ function initialiserChoixUnite() {
   const LIBELLES_FACTION = {
     "legio-astartes": "Legio Astartes",
     "legio-titanicus": "Legio Titanicus",
+    "chevaliers-questoris": "Chevaliers Questoris",
   };
 
   function rendre() {
@@ -3039,12 +3062,14 @@ function initialiser() {
     // Filet de sécurité : le bouton est normalement désactivé tant que le
     // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
     // une Armée Legio Astartes, Maisonnée manquante pour une Armée
-    // Chevaliers Questoris, ou Faction sans aucune unité accessible).
+    // Chevaliers Questoris, ou Faction sans aucune unité accessible) —
+    // sauf Détachement Narratif présent, qui dispense ces deux verrous.
     if (
-      (Organigramme.factionActuelle() === "legio-astartes" &&
-        Organigramme.legionActuelle() === "") ||
-      (Organigramme.factionActuelle() === "chevaliers-questoris" &&
-        Organigramme.maisonneeActuelle() === "") ||
+      (!Organigramme.narratifPresent() &&
+        ((Organigramme.factionActuelle() === "legio-astartes" &&
+          Organigramme.legionActuelle() === "") ||
+          (Organigramme.factionActuelle() === "chevaliers-questoris" &&
+            Organigramme.maisonneeActuelle() === ""))) ||
       !UNITES.some((u) => uniteAccessible(u))
     )
       return;

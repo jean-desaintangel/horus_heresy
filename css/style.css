@@ -72,6 +72,10 @@
   --titre-contraste: #6b4f1f;
   --acier: #6b6b85; /* bordures, éléments secondaires */
   --acier-clair: #45455f;
+  /* --narratif (orange) ≈ 4.6:1 sur --fond/--carte : réservé au
+     Détachement Narratif (bordure de carte, bouton d'ajout) pour le
+     distinguer nettement de tout le reste de l'organigramme. */
+  --narratif: #a35a00;
   --texte: #2c2a24; /* texte courant */
   --texte-doux: #5c584c; /* texte secondaire */
   --carte: #ffffff; /* fond des cartes */
@@ -2677,6 +2681,12 @@ body.skin-legion-questoris-mendicus {
   border-left-color: var(--acier-clair);
 }
 
+.orga-detachement--narratif {
+  border-left-color: var(--narratif);
+  border-left-width: 6px;
+  background: color-mix(in srgb, var(--narratif) 6%, var(--carte));
+}
+
 .orga-detachement-entete {
   display: flex;
   flex-wrap: wrap;
@@ -2853,6 +2863,13 @@ body.skin-legion-questoris-mendicus {
   color: var(--accent);
 }
 
+/* Titre du groupe « Détachement Narratif » : en rouge en permanence
+   (pas seulement au survol) pour rester bien visible dans le panneau
+   « Ajouter un détachement », comme sa carte et son bouton d'ajout. */
+.orga-ajout-groupe[data-famille="narratif"] summary {
+  color: var(--accent);
+}
+
 .orga-ajout-groupe .orga-ajout-boutons {
   margin-top: 0.3rem;
 }
@@ -2861,6 +2878,22 @@ body.skin-legion-questoris-mendicus {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+/* Bouton d'ajout du Détachement Narratif : coloré en orange pour
+   rester bien visible parmi les autres Détachements additionnels
+   (voir construireAjoutDetachements, js/organigramme.js). */
+.orga-ajout-bouton--narratif {
+  color: var(--narratif);
+  border-color: var(--narratif);
+  font-weight: 700;
+}
+
+.orga-ajout-bouton--narratif:hover,
+.orga-ajout-bouton--narratif:focus-visible {
+  background: color-mix(in srgb, var(--narratif) 12%, var(--carte));
+  border-color: var(--narratif);
+  color: var(--narratif);
 }
 
 .orga-ajout-bouton:disabled {
