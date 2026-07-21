@@ -1526,6 +1526,11 @@ function construireConfig(carte, unite, instance) {
             else liste.splice(liste.indexOf(indice), 1);
             actualiserCarte(carte, unite, instance);
           });
+          // Seul un clic direct sur la case doit la (dé)cocher, pas le
+          // reste de la ligne (comportement natif des <label>).
+          label.addEventListener("click", (e) => {
+            if (e.target !== caseACocher) e.preventDefault();
+          });
           label.appendChild(caseACocher);
           label.appendChild(
             document.createTextNode(
@@ -1570,6 +1575,11 @@ function construireConfig(carte, unite, instance) {
         caseACocher.addEventListener("change", () => {
           instance.valeurs[opt.id] = caseACocher.checked;
           actualiserCarte(carte, unite, instance);
+        });
+        // Seul un clic direct sur la case doit la (dé)cocher, pas le
+        // reste de la ligne (comportement natif des <label>).
+        label.addEventListener("click", (e) => {
+          if (e.target !== caseACocher) e.preventDefault();
         });
         label.appendChild(caseACocher);
         label.appendChild(document.createTextNode(" "));
