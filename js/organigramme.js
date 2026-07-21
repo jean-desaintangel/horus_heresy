@@ -340,25 +340,28 @@ const Organigramme = (() => {
      même mécanique que SKINS_LEGION (classe posée sur <body>, recolore
      --accent/--accent-clair/--fond-secondaire/--carte-hover, voir
      css/style.css), mais rattachée à etat.maisonnee plutôt qu'à
-     etat.legion, et sans blason dédié (aucune bannière héraldique
-     disponible pour l'instant : pas d'icône posée sur le titre de
-     page, contrairement à une Légion ou à Legio Titanicus). */
+     etat.legion. `blason` (assets/logo_chevaliers/*.png) est posé sur le
+     titre de page comme pour une Légion ou Legio Titanicus, voir
+     creerIconeMaisonnee ci-dessous. */
   const SKINS_MAISONNEE = {
     imperialis: {
       classe: "skin-legion-questoris-imperialis",
       nom: "Questoris Imperialis",
+      blason: "logo.png",
       devise:
         "Liées par serment à un monde ou une noblesse impériale, ces Maisonnées mettent leurs Chevaliers directement au service de l'Empereur.",
     },
     mechanicum: {
       classe: "skin-legion-questoris-mechanicum",
       nom: "Questoris Mechanicum",
+      blason: "logo_2.png",
       devise:
         "Inféodées à un Monde-Forge, ces Maisonnées doivent à l'Adeptus Mechanicus la Manufacture Sacrée de leurs Chevaliers — et leur obéissance.",
     },
     mendicus: {
       classe: "skin-legion-questoris-mendicus",
       nom: "Questoris Mendicus",
+      blason: "logo_3.png",
       devise:
         "Sans monde ni serment fixe, ces Maisonnées errantes louent leurs lames au plus offrant, de champ de bataille en champ de bataille.",
     },
@@ -426,6 +429,21 @@ const Organigramme = (() => {
       : "legion-icon";
     img.src = "../assets/logo_titan/" + blason.fichier;
     img.title = blason.nom;
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
+  }
+
+  /* Équivalent de creerIconeLegion ci-dessus pour un blason de
+     SKINS_MAISONNEE (assets/logo_chevaliers/*.png). `skin` = une entrée
+     de SKINS_MAISONNEE. */
+  function creerIconeMaisonnee(skin, classeSupplementaire) {
+    const img = document.createElement("img");
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src = "../assets/logo_chevaliers/" + skin.blason;
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.loading = "lazy";
@@ -2305,6 +2323,11 @@ const Organigramme = (() => {
             "legion-icon--titre legion-icon--titre-droite",
           ),
         );
+      } else if (skinMaison) {
+        titre.insertBefore(
+          creerIconeMaisonnee(skinMaison, "legion-icon--titre"),
+          titre.firstChild,
+        );
       }
     }
     if (skinLegion) {
@@ -2343,12 +2366,11 @@ const Organigramme = (() => {
         banniere.appendChild(el("em", null, skinTitan.devise));
       conteneur.appendChild(banniere);
     } else if (skinMaison) {
-      // Pas de blason (aucune bannière héraldique dédiée pour l'instant,
-      // voir SKINS_MAISONNEE) : bandeau texte seul, comme une Légion ou
-      // Legio Titanicus sans icône.
       document.body.classList.add(skinMaison.classe);
       const banniere = el("p", "legion-banniere");
-      const entete = el("strong", "legion-item", skinMaison.nom);
+      const entete = el("strong", "legion-item");
+      entete.appendChild(creerIconeMaisonnee(skinMaison));
+      entete.appendChild(document.createTextNode(skinMaison.nom));
       banniere.appendChild(entete);
       if (skinMaison.devise)
         banniere.appendChild(el("em", null, skinMaison.devise));

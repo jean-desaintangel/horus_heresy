@@ -144,6 +144,32 @@ function cablerInfoBulles(racine) {
 window.cablerInfoBulles = cablerInfoBulles;
 
 /* ----------------------------------------------------------
+   CLIN D'ŒIL — Erebus
+   Tape "Erebus" (accents/majuscules ignorés) dans une barre de
+   recherche du site (armes.html #recherche, regles.html #recherche,
+   unites.html #choix-unite) : son portrait apparaît sous le champ.
+   Purement décoratif — un simple écouteur "input" de plus sur ces
+   mêmes champs, sans toucher à leur propre logique de filtre
+   (armes.js/regles.js/unites.js).
+   ---------------------------------------------------------- */
+function activerClinDoeilErebus() {
+  document.querySelectorAll("#recherche, #choix-unite").forEach((champ) => {
+    const image = document.createElement("img");
+    image.src = RACINE_SITE + "assets/img/erebus.jpg";
+    image.alt = "Erebus";
+    image.className = "erebus-easter-egg";
+
+    const cible = champ.closest(".unite-combobox") || champ;
+    cible.insertAdjacentElement("afterend", image);
+
+    champ.addEventListener("input", () => {
+      const correspond = normaliserTexte(champ.value.trim()) === "erebus";
+      image.classList.toggle("visible", correspond);
+    });
+  });
+}
+
+/* ----------------------------------------------------------
    RACINE DU SITE
    Déduite de l'URL réelle de ce script (résolue en absolu par le
    navigateur) plutôt que codée en dur : fonctionne aussi bien depuis
@@ -314,14 +340,18 @@ document.addEventListener("DOMContentLoaded", () => {
    blason(s) devant h1.titre-page attendent DOMContentLoaded (élément
    pas forcément déjà présent dans <head>-relative timing, et moins
    critique côté flash vu leur petite taille).
-   Deux skins possibles, mutuellement exclusifs (une Armée Legio
-   Titanicus n'a pas de Légion, `legion` reste "" dans la sauvegarde) :
+   Trois skins possibles, mutuellement exclusifs (une Armée Legio
+   Titanicus ou Chevaliers Questoris n'a pas de Légion, `legion` reste
+   "" dans la sauvegarde) :
    - Légion Astartes : un seul blason (assets/logo_legions/*.png, voir
      LOGOS_LEGION dans organigramme.js pour la légende des coquilles de
      noms de fichiers conservées telles quelles), posé à gauche.
    - Faction Legio Titanicus (SKIN_TITANICUS, organigramme.js) : deux
      blasons (assets/logo_titan/1.png et 2.png), posés à gauche ET à
      droite du titre.
+   - Faction Chevaliers Questoris (SKINS_MAISONNEE, organigramme.js) :
+     un seul blason (assets/logo_chevaliers/*.png, un fichier par
+     Maisonnée), posé à gauche, comme une Légion.
    ---------------------------------------------------------- */
 (function appliquerSkinLegionGlobal() {
   const LOGOS_LEGION = {
@@ -398,10 +428,27 @@ document.addEventListener("DOMContentLoaded", () => {
     donnees.faction === "chevaliers-questoris" &&
     ["imperialis", "mechanicum", "mendicus"].includes(donnees.maisonnee)
   ) {
-    // Maisonnée Questoris (SKINS_MAISONNEE, organigramme.js) : pas de
-    // blason dédié (aucune bannière héraldique disponible pour
-    // l'instant), seule la palette suit le joueur d'une page à l'autre.
+    // Maisonnée Questoris (SKINS_MAISONNEE, organigramme.js) : même
+    // logique de blason qu'une Légion, avec le fichier propre à chaque
+    // Maisonnée (assets/logo_chevaliers/*.png).
+    const LOGOS_MAISONNEE = {
+      imperialis: "logo",
+      mechanicum: "logo_2",
+      mendicus: "logo_3",
+    };
     document.body.classList.add("skin-legion-questoris-" + donnees.maisonnee);
+    document.addEventListener("DOMContentLoaded", () => {
+      const titre = document.querySelector("h1.titre-page");
+      if (!titre || titre.querySelector(".legion-icon")) return;
+      titre.insertBefore(
+        creerBlason(
+          "logo_chevaliers",
+          LOGOS_MAISONNEE[donnees.maisonnee],
+          "legion-icon--titre",
+        ),
+        titre.firstChild,
+      );
+    });
   }
 })();
 
@@ -476,6 +523,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // dans le HTML au chargement (voir définition de cablerInfoBulles
   // plus haut dans ce fichier).
   cablerInfoBulles();
+
+  activerClinDoeilErebus();
 
   /* ----------------------------------------------------------
      ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)

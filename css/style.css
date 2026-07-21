@@ -1183,6 +1183,22 @@ button:focus-visible,
   margin-bottom: 1rem;
 }
 
+/* Clin d'œil : portrait d'Erebus, affiché par js/main.js
+   (activerClinDoeilErebus) quand on tape son nom dans une barre de
+   recherche du site. */
+.erebus-easter-egg {
+  display: none;
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto 1.2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--ombre);
+}
+
+.erebus-easter-egg.visible {
+  display: block;
+}
+
 .regle {
   background: var(--carte);
   border: 1px solid var(--acier);
