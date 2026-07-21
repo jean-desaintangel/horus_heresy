@@ -921,6 +921,34 @@ function ajouterLibelleOption(label, libelle) {
   label.appendChild(document.createTextNode(libelle));
 }
 
+// Ajoute le nom d'une variante (fieldset "Variante" du panneau de
+// config d'une unité, ex : « Centurion » / « Centurion à Réacteurs »)
+// à son <label>, en habillant le suffixe « Réacteurs » d'une info-
+// bulle (REGLES_DIVERSES) s'il y figure, pour expliquer ce que la
+// variante ajoute sans avoir à la sélectionner d'abord — le reste du
+// nom (Sous-type Antigrav, Massif (2), Frappe en Profondeur…) n'est
+// visible qu'une fois la variante choisie (ligne "Règles spéciales"
+// de la fiche récap). Recherche fixe sur "Réacteurs" (pas de recherche
+// générique dans tout le glossaire, contrairement à
+// ajouterLibelleOption) : un nom de variante est un nom de Figurine,
+// pas un libellé d'option — le risque de faux positif y serait trop
+// grand pour une recherche libre.
+function ajouterNomVariante(label, nom) {
+  const definition = trouverDefinitionRegle("Réacteurs");
+  const indice = definition ? nom.indexOf("Réacteurs") : -1;
+  if (indice === -1) {
+    label.appendChild(document.createTextNode(nom));
+    return;
+  }
+  if (indice > 0) label.appendChild(document.createTextNode(nom.slice(0, indice)));
+  const tag = el("span", "regle-tag", nom.slice(indice, indice + "Réacteurs".length));
+  tag.tabIndex = 0;
+  tag.appendChild(el("span", "tooltip", definition));
+  label.appendChild(tag);
+  const reste = nom.slice(indice + "Réacteurs".length);
+  if (reste) label.appendChild(document.createTextNode(reste));
+}
+
 // Ligne "Type" de la fiche récap : habille chaque Type et Sous-type de
 // Figurine d'une info-bulle, comme construireLigneRegles pour les
 // Règles Spéciales. `typeBrut` (variante.type) suit le format "Type
@@ -1443,13 +1471,12 @@ function construireConfig(carte, unite, instance) {
         actualiserCarte(carte, unite, instance);
       });
       label.appendChild(radio);
-      label.appendChild(
-        document.createTextNode(
-          " " +
-            variante.nom +
-            (variante.cout > 0 ? " (+" + variante.cout + " pts)" : ""),
-        ),
-      );
+      label.appendChild(document.createTextNode(" "));
+      ajouterNomVariante(label, variante.nom);
+      if (variante.cout > 0)
+        label.appendChild(
+          document.createTextNode(" (+" + variante.cout + " pts)"),
+        );
       groupe.appendChild(label);
     });
     config.appendChild(groupe);

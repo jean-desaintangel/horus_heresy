@@ -199,6 +199,11 @@ const REGLES_DIVERSES = [
       "L'unité ne marque que 1 point de victoire sur un objectif, + X si elle est retirée comme perte ou fait battre en retraite une unité ennemie.",
   },
   {
+    nom: "Réacteurs",
+    texte:
+      "Gagne le Sous-type Antigrav, une Valeur de Mouvement de 12 pouces, et les Règles Spéciales « Massif (2) » et « Frappe en Profondeur », contre un coût en Points supplémentaire (généralement +20).",
+  },
+  {
     nom: "Bouclier",
     texte:
       "Trait qui donne accès à la Réaction avancée des Legiones Astartes « Mur de Bouclier » (coût 1 Point d'Attribution de Réactions), déclarable au début de l'Étape 3 d'une Attaque de Tir ou de l'Étape 4 (Attaques de Volée) d'une Charge faite par l'adversaire : si la majorité des Figurines de l'Unité visée ont ce Trait, l'Unité gagne +1 en Endurance pour la durée de la Phase.",
