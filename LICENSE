@@ -1,28 +1,21 @@
-Licence d’utilisation non commerciale – Logiciel propriétaire
+MIT License
 
-Copyright © 2026 Jean de SAINT ANGEL. Tous droits réservés.
+Copyright (c) 2026 Jean de SAINT ANGEL
 
-Le présent logiciel, ainsi que l’ensemble des fichiers qui le composent (code source HTML, CSS, JavaScript, scripts, ressources, etc.), est protégé par le droit d’auteur.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-L’auteur concède à l’utilisateur un droit d’utilisation gratuit, personnel, non exclusif et non transférable du logiciel, pour un usage privé.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Interdiction d’utilisation commerciale
-Toute utilisation du logiciel, de tout ou partie de son code ou de ses ressources, à des fins commerciales est strictement interdite.
-
-Est notamment interdite, sans que cette liste soit limitative :
-– la vente du logiciel ou de services fondés sur ce logiciel ;
-– la location, le prêt ou la mise à disposition payante du logiciel ;
-– l’intégration du logiciel dans une offre rémunérée (site web, application, plateforme) sans accord écrit préalable de l’auteur.
-
-Interdiction de redistribution publique sans accord
-Toute diffusion publique du logiciel (publication sur un dépôt public, site web, plateforme de téléchargement, etc.) est soumise à l’autorisation écrite préalable de l’auteur.
-
-Absence de garantie
-Le logiciel est fourni « en l’état », sans aucune garantie, expresse ou implicite, notamment de qualité marchande, d’adéquation à un usage particulier ou d’absence de défauts. L’auteur ne pourra être tenu responsable de quelconques dommages résultant de l’utilisation ou de l’impossibilité d’utilisation du logiciel.
-
-Univers et éléments tiers
-Les noms, univers et éléments de jeu liés à « Warhammer : The Horus Heresy » restent la propriété de Games Workshop Ltd. Ce logiciel n’est pas un produit officiel et n’est pas affilié à Games Workshop.
-
-Les documents et ressources externes conservent la licence de leurs auteurs respectifs.
-
-Toute utilisation du logiciel implique l’acceptation pleine et entière des présentes conditions.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

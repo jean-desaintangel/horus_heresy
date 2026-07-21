@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Formulaire de contact du site
+    url: https://jean-desaintangel.github.io/horus_heresy/pages/contact.html
+    about: Pour signaler une erreur ou poser une question sans passer par GitHub.
