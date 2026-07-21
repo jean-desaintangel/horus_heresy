@@ -1610,6 +1610,63 @@ const Organigramme = (() => {
     }
   }
 
+  /* Retire les Détachements d'Apex/Auxiliaires devenus surnuméraires
+     après le retrait d'une unité de Quartier Général ou d'État-major :
+     leur crédit de déblocage (p. 283-284) a disparu avec elle. Appelée
+     uniquement quand la Case libérée était bien de ce Rôle (voir
+     libererEtActualiser) — un retrait sans rapport avec ces Cases ne
+     déclenche jamais ce nettoyage. Retire en priorité les Détachements
+     vides, sinon demande confirmation (même message que le bouton
+     « Retirer le détachement », voir construireDetachementDOM) ; un
+     refus laisse le Détachement en trop, alors signalé en erreur par
+     validerArmee(). Boucle jusqu'à stabilisation : retirer un
+     Détachement retire aussi ses unités, ce qui peut à son tour libérer
+     une AUTRE Case QG/État-major (cas rare mais possible si un
+     Détachement Auxiliaire en porte une). */
+  function retirerDetachementsCreditInsuffisant() {
+    let retire = true;
+    while (retire) {
+      retire = false;
+      const credits = calculerCredits();
+      let famille = null;
+      if (credits.apexRestants < 0) famille = "apex";
+      else if (credits.auxRestants < 0) famille = "auxiliaire";
+      if (!famille) continue;
+      const candidats = etat.detachements.filter((d) => {
+        const type = typeDe(d);
+        if (famille === "apex") return type.famille === "apex";
+        return (
+          type.famille === "auxiliaire" &&
+          !(type.deblocage && type.deblocage.caseRole === "Appui")
+        );
+      });
+      if (candidats.length === 0) continue;
+      candidats.sort(
+        (a, b) =>
+          a.cases.filter((c) => c.uniteUid !== null).length -
+          b.cases.filter((c) => c.uniteUid !== null).length,
+      );
+      const cible = candidats[0];
+      const type = typeDe(cible);
+      const occupees = cible.cases.filter((c) => c.uniteUid !== null);
+      if (
+        occupees.length > 0 &&
+        !window.confirm(
+          "Le retrait de cette unité fait perdre le crédit de déblocage de « " +
+            type.nom +
+            " » (p. 283-284) et ce Détachement contient " +
+            occupees.length +
+            " unité(s) : elles seront retirées de la liste. Continuer ?",
+        )
+      ) {
+        continue; // refus : le Détachement en trop reste, signalé par validerArmee()
+      }
+      for (const c of occupees) hooks.retirerInstance(c.uniteUid);
+      etat.detachements = etat.detachements.filter((d) => d.uid !== cible.uid);
+      retire = true;
+    }
+  }
+
   /* ----------------------------------------------------------
      PERSISTANCE (localStorage) — les uid d'unités sont stables :
      js/unites.js les conserve dans sa propre sauvegarde.
@@ -2923,9 +2980,20 @@ const Organigramme = (() => {
     },
     assigner,
     // Retrait d'une unité de la liste : on libère sa case puis on
-    // laisse js/unites.js supprimer la carte, avant d'actualiser.
+    // laisse js/unites.js supprimer la carte, avant d'actualiser. Si la
+    // Case libérée était de Rôle Quartier Général ou État-major, le
+    // crédit de déblocage qu'elle apportait (p. 283-284) disparaît avec
+    // elle : on retire alors le(s) Détachement(s) Auxiliaire(s)/Apex
+    // devenu(s) surnuméraire(s) — voir retirerDetachementsCreditInsuffisant.
     libererEtActualiser(uniteUid) {
+      const assignation = assignationDe(uniteUid);
+      const roleLibere = assignation
+        ? trouverDetachement(assignation.detUid).cases[assignation.indice].role
+        : null;
       liberer(uniteUid);
+      if (roleLibere === "Quartier Général" || roleLibere === "État-major") {
+        retirerDetachementsCreditInsuffisant();
+      }
       actualiser();
     },
     // « Vider la liste » : libère toutes les cases (les détachements
