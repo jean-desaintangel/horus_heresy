@@ -704,4 +704,17 @@ document.addEventListener("DOMContentLoaded", () => {
       bouton.setAttribute("aria-expanded", String(!ouverte));
     });
   });
+
+  /* ----------------------------------------------------------
+     4. TITRE D'ONGLET EN ABSENCE
+     Quand l'utilisateur quitte l'onglet (change d'onglet, minimise),
+     document.title devient un message d'ambiance ; il reprend son
+     titre d'origine dès le retour sur l'onglet.
+     ---------------------------------------------------------- */
+  const titreOriginal = document.title;
+  document.addEventListener("visibilitychange", () => {
+    document.title = document.hidden
+      ? "Reviens, faible mortel..."
+      : titreOriginal;
+  });
 });
