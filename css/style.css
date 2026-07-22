@@ -260,8 +260,11 @@ img {
   list-style: none;
   gap: 0.3rem;
   padding: 0.5rem 0;
+  max-height: calc(100dvh - var(--nav-height, 70px) - 1rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
-
 .nav-menu.ouvert {
   display: flex;
 }
