@@ -3023,6 +3023,16 @@ const Organigramme = (() => {
     if (sectionTutoriel) {
       sectionTutoriel.hidden = etat.faction !== "legio-astartes";
     }
+    // Même logique pour le tutoriel Chevaliers Questoris (Détachement
+    // Principal de Maisonnées de Chevaliers, paradigmes, vœux…) : masqué
+    // entièrement tant que cette Faction n'est pas sélectionnée.
+    const sectionTutorielQuestoris = document.getElementById(
+      "construction-armee-questoris",
+    );
+    if (sectionTutorielQuestoris) {
+      sectionTutorielQuestoris.hidden =
+        etat.faction !== "chevaliers-questoris";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");

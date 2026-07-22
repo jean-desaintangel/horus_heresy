@@ -3298,7 +3298,7 @@ const AVANTAGES_PRINCIPAUX = [
      de Vœu Questoris mentionnées dans le livre (« on ne peut pas
      déclarer de Vœu Questoris autre que… ») sont purement descriptives
      ici : les Vœux Questoris ne sont pas un choix modélisé par ce site
-     (voir pages/chevaliers-questoris.html). --- */
+     (voir le tutoriel Chevaliers Questoris sur pages/unites.html). --- */
   {
     id: "preux-martial",
     nom: "Preux Martial (Rang de Maisonnée)",

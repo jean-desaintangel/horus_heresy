@@ -41,8 +41,6 @@ horus_heresy/
 │   ├── vehicule.html        # Règles des Véhicules (blindage, transports,
 │   │                        # Sous-types dont Chevalier…)
 │   ├── titan.html           # Règles des Titans (Legio Titanicus)
-│   ├── chevaliers-questoris.html # Règles des Chevaliers Questoris
-│   │                        # (Paradigmes de Maisonnée, Vœux, Réactions)
 │   ├── psy.html             # Aptitudes Psychiques (Pouvoirs, Périls du Warp…)
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
