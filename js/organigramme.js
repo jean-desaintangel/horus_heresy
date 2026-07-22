@@ -1080,21 +1080,6 @@ const Organigramme = (() => {
       );
   }
 
-  // Coût des Unités exemptées de la Limite de Points (Détachement
-  // Narratif) : affiché à part dans construireBarre() pour ne pas
-  // laisser croire que ces points ont disparu sans trace.
-  function coutExempteLimite() {
-    return hooks
-      .getArmee()
-      .reduce(
-        (somme, i) =>
-          estExempteLimite(i.uid)
-            ? somme + hooks.coutInstance(hooks.trouverUnite(i.uniteId), i)
-            : somme,
-        0,
-      );
-  }
-
   // Coût combiné des Rôles Seigneur de Guerre + Seigneur des Batailles.
   function coutSeigneurs() {
     return hooks.getArmee().reduce((somme, i) => {
@@ -2430,7 +2415,6 @@ const Organigramme = (() => {
   function construireBarre(conteneur) {
     conteneur.replaceChildren();
     const total = coutTotalArmee();
-    const totalExempte = coutExempteLimite();
     const credits = calculerCredits();
     const erreurs = validerArmee(credits);
 
@@ -2450,10 +2434,7 @@ const Organigramme = (() => {
           : coutSeigneurs() +
             " / " +
             Math.ceil(etat.limite * 0.25) +
-            " pts (25 %)") +
-        (totalExempte > 0
-          ? " · Détachement Narratif : " + totalExempte + " pts (hors Limite)"
-          : ""),
+            " pts (25 %)"),
     );
     conteneur.appendChild(texte);
 
