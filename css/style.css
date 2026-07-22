@@ -1199,6 +1199,34 @@ button:focus-visible,
   display: block;
 }
 
+/* Clin d'œil : bandeau « Magnus did nothing wrong », affiché par
+   js/organigramme.js (activerBandeauMagnus) tant que la Légion active
+   de l'Armée est les Thousand Sons (XV). pointer-events: none pour ne
+   bloquer aucune interaction sous la barre. */
+.magnus-banniere {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: var(--carte);
+  border-top: 1px solid var(--titre);
+  color: var(--texte-doux);
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+  box-shadow: var(--ombre);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.magnus-banniere.visible {
+  opacity: 1;
+}
+
 .regle {
   background: var(--carte);
   border: 1px solid var(--acier);

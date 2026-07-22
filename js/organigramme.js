@@ -395,6 +395,52 @@ const Organigramme = (() => {
     "alpha-legion": "alpha_legion",
   };
 
+  /* ----------------------------------------------------------
+     CLIN D'ŒIL — « Magnus did nothing wrong »
+     Bandeau flottant, purement cosmétique, affiché tant que la Légion
+     active de l'Armée est les Thousand Sons (XV) : quelques répliques
+     de déni comique du fandom défilent en bas d'écran. Retiré dès
+     qu'on change de Légion/Faction.
+     construireParametres() (plus bas) est rappelée à chaque
+     actualiser(), donc potentiellement très souvent : activerBandeau-
+     Magnus() est idempotente pour ne pas relancer le cycle de phrases
+     ni empiler les intervalles à chaque re-rendu — seul un changement
+     réel d'état (absent -> présent ou l'inverse) a un effet.
+     ---------------------------------------------------------- */
+  const PHRASES_MAGNUS = [
+    "Magnus did nothing wrong.",
+    "L'Empereur n'a jamais répondu à ses avertissements.",
+    "Tzeentch aussi n'a rien fait de mal.",
+    "Prospero ne méritait pas ça.",
+    "Il a juste changé de forme, c'est tout.",
+  ];
+  let intervalleMagnus = null;
+  function activerBandeauMagnus(actif) {
+    let bandeau = document.getElementById("magnus-banniere");
+    if (actif) {
+      if (bandeau) return; // déjà affiché : ne pas relancer le cycle
+      bandeau = el("p", "magnus-banniere");
+      bandeau.id = "magnus-banniere";
+      document.body.appendChild(bandeau);
+      let indice = 0;
+      const afficherPhrase = () => {
+        bandeau.classList.remove("visible");
+        window.setTimeout(() => {
+          bandeau.textContent = PHRASES_MAGNUS[indice];
+          bandeau.classList.add("visible");
+          indice = (indice + 1) % PHRASES_MAGNUS.length;
+        }, 300);
+      };
+      afficherPhrase();
+      intervalleMagnus = window.setInterval(afficherPhrase, 8000);
+    } else {
+      if (!bandeau) return;
+      window.clearInterval(intervalleMagnus);
+      intervalleMagnus = null;
+      bandeau.remove();
+    }
+  }
+
   /* Image du blason (bannière héraldique complète, déjà en couleur :
      contrairement à l'ancien sprite ligne, elle ne suit pas --accent).
      `skin` = une entrée de SKINS_LEGION. Purement décorative dans les
@@ -2297,6 +2343,7 @@ const Organigramme = (() => {
       document.body.classList.remove(info.classe);
     }
     const skinLegion = SKINS_LEGION[etat.legion];
+    activerBandeauMagnus(etat.legion === "XV");
     const skinTitan =
       etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
