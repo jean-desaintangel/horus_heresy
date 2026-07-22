@@ -265,6 +265,14 @@ const SOURCES_SITE = [
     href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-questoris-2025-fre",
   },
   {
+    texte: "Liber Auxilia",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-auxilia-2025-fre",
+  },
+  {
+    texte: "Liber Mechanicum",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-mechanicum-2025-fre",
+  },
+  {
     texte: "Unités Legacies",
     href: "https://assets.warhammer-community.com/eng_30-10_thehorusheresy_aod_legacies-rosvjdnd1o-gqos8xkdx7.pdf",
   },
