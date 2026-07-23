@@ -2316,27 +2316,26 @@ body.skin-legion-vi {
 }
 
 /* VII — Imperial Fists (Primarque Rogal Dorn, monde natal Terra/Inwit) :
-   or/jaune plus franc (teinte rapprochée du jaune pur, 55° de teinte,
-   contre 43° pour l'ancien bronze sombre — --accent reste assez foncé
-   pour le texte blanc de .bouton-principal, ~5.5:1 ; --accent-clair,
-   plus clair pour le survol, retombe à ~3.7:1 : un jaune vif n'a
-   jamais un bon contraste avec du blanc, compromis assumé), blason en
-   muraille crénelée (défense inébranlable). */
+   teinte calée sur le jaune du blason (assets/logo_legions/imperial_fists.png,
+   dominante #e9ac2d, ~40° de teinte) déclinée en plus foncé pour --accent
+   (texte blanc de .bouton-principal, ~5.5:1) et plus clair pour
+   --accent-clair (survol, ~3.7:1), blason en muraille crénelée
+   (défense inébranlable). */
 body.skin-legion-vii {
-  --accent: #746b06;
-  --accent-clair: #918608;
-  --fond-secondaire: #f0e3ae;
-  --carte-hover: #f8f0d0;
+  --accent: #76520a;
+  --accent-clair: #97690c;
+  --fond-secondaire: #eee0c4;
+  --carte-hover: #f4ead7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(116, 107, 6, 0.12) 0%,
+      rgba(118, 82, 10, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(
       circle at 0% 100%,
-      rgba(184, 150, 47, 0.08) 0%,
+      rgba(233, 172, 45, 0.1) 0%,
       transparent 50%
     );
 }
