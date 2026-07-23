@@ -2388,11 +2388,13 @@ const Organigramme = (() => {
       const entete = el("strong", "legion-item");
       entete.appendChild(creerIconeTitan(skinTitan.blasons[0]));
       entete.appendChild(document.createTextNode(skinTitan.nom));
-      // Rouage Mechanicum décoratif (héraldique Titanicus) : purement
-      // ornemental, comme les blasons ci-dessus (aria-hidden).
-      const rouage = el("span", "legion-titan-cog", "⚙");
-      rouage.setAttribute("aria-hidden", "true");
-      entete.appendChild(rouage);
+      // Second blason Legio Titanicus (assets/logo_titan/2.png), à la
+      // suite du nom — purement ornemental, comme le premier blason
+      // ci-dessus (aria-hidden), remplace l'ancien rouage Mechanicum
+      // en texte (⚙).
+      entete.appendChild(
+        creerIconeTitan(skinTitan.blasons[1], "legion-titan-cog"),
+      );
       banniere.appendChild(entete);
       if (skinTitan.devise)
         banniere.appendChild(el("em", null, skinTitan.devise));
@@ -2887,18 +2889,23 @@ const Organigramme = (() => {
       ["narratif", "Détachement Narratif"],
     ];
     for (const [famille, titreFamille] of familles) {
+      const typesFamille = TYPES_DETACHEMENTS.filter(
+        (t) =>
+          t.famille === famille &&
+          (!t.legion || t.legion === etat.legion) &&
+          typeDisponiblePourFaction(t),
+      );
+      // Aucun type de ce groupe n'est disponible pour la Faction/Légion
+      // actuelle (ex. Détachements d'Apex pour Legio Titanicus) : on
+      // n'affiche pas un groupe vide, réduit à son seul titre replié.
+      if (typesFamille.length === 0) continue;
       const groupe = document.createElement("details");
       groupe.className = "orga-ajout-groupe";
       groupe.dataset.famille = famille;
       groupe.open = famille in etatsOuverts ? etatsOuverts[famille] : false;
       groupe.appendChild(el("summary", null, titreFamille));
       const ligne = el("div", "orga-ajout-boutons");
-      for (const type of TYPES_DETACHEMENTS.filter(
-        (t) =>
-          t.famille === famille &&
-          (!t.legion || t.legion === etat.legion) &&
-          typeDisponiblePourFaction(t),
-      )) {
+      for (const type of typesFamille) {
         const { possible, raison } = disponibilite(type, credits);
         const bouton = el(
           "button",
