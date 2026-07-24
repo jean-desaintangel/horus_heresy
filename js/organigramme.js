@@ -2896,11 +2896,7 @@ const Organigramme = (() => {
       // à tout moment, contrairement à une Case `extra` (liée à un
       // Avantage) que seule liberer() gère automatiquement.
       if (caseOrga.libre) {
-        const retirerCase = el(
-          "button",
-          "unite-retirer",
-          "Retirer cette case",
-        );
+        const retirerCase = el("button", "unite-retirer", "Retirer cette case");
         retirerCase.type = "button";
         retirerCase.addEventListener("click", () => {
           if (
@@ -2911,7 +2907,8 @@ const Organigramme = (() => {
           ) {
             return;
           }
-          if (caseOrga.uniteUid !== null) hooks.retirerInstance(caseOrga.uniteUid);
+          if (caseOrga.uniteUid !== null)
+            hooks.retirerInstance(caseOrga.uniteUid);
           det.cases.splice(indice, 1);
           actualiser();
         });
@@ -3120,8 +3117,7 @@ const Organigramme = (() => {
       "construction-armee-questoris",
     );
     if (sectionTutorielQuestoris) {
-      sectionTutorielQuestoris.hidden =
-        etat.faction !== "chevaliers-questoris";
+      sectionTutorielQuestoris.hidden = etat.faction !== "chevaliers-questoris";
     }
     // Même logique pour le tutoriel Legio Titanicus (liste d'armée,
     // Ordinal Titanique, allégeance…) : masqué entièrement tant que

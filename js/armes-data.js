@@ -1974,7 +1974,8 @@ const ARMES_TIR = [
         // Arme de l'Unité Excindio (Dark Angels).
         nom: "Lanceur de canistres à phosphex Athanax",
         stats: ["24", "1", "6", "4", "1"],
-        regles: 'Explosion (3"), Barrage (2), Fixation (3), Empoisonnée (2+), Phage (E)',
+        regles:
+          'Explosion (3"), Barrage (2), Fixation (3), Empoisonnée (2+), Phage (E)',
         traits: "Rad",
       },
       {

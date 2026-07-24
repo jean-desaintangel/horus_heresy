@@ -4223,8 +4223,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourd-siege",
-        libelle:
-          "Figurines : lance-flammes lourd à la place du combi-bolter",
+        libelle: "Figurines : lance-flammes lourd à la place du combi-bolter",
         cout: 5,
         parTranche: 1,
         groupe: "tir",
@@ -4233,8 +4232,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "autocanon-reaper-siege",
-        libelle:
-          "Figurines : autocanon Reaper à la place du combi-bolter",
+        libelle: "Figurines : autocanon Reaper à la place du combi-bolter",
         cout: 15,
         parTranche: 1,
         groupe: "tir",
@@ -4243,8 +4241,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "blaster-a-plasma-siege",
-        libelle:
-          "Figurines : blaster à plasma à la place du combi-bolter",
+        libelle: "Figurines : blaster à plasma à la place du combi-bolter",
         cout: 10,
         parTranche: 1,
         groupe: "tir",
@@ -4273,7 +4270,8 @@ const UNITES = [
       {
         type: "case",
         id: "harnais-sergent",
-        libelle: "Le Sergent Terminator Tartaros peut recevoir un harnais à grenades",
+        libelle:
+          "Le Sergent Terminator Tartaros peut recevoir un harnais à grenades",
         cout: 5,
         ajoute: "Harnais à grenades (Sergent Terminator Tartaros)",
       },
@@ -4502,7 +4500,8 @@ const UNITES = [
       {
         type: "case",
         id: "bombes-fusion-sergent",
-        libelle: "Le Sergent Destructeur Mortalis peut recevoir des bombes à fusion",
+        libelle:
+          "Le Sergent Destructeur Mortalis peut recevoir des bombes à fusion",
         cout: 10,
         ajoute: "Bombes à fusion (Sergent Destructeur Mortalis)",
       },
@@ -4582,7 +4581,8 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-mortalis",
-        ajoute: "Fusil à gravitons (à la place d'un pistolet bolter, une Figurine)",
+        ajoute:
+          "Fusil à gravitons (à la place d'un pistolet bolter, une Figurine)",
       },
       {
         type: "quantite",
@@ -4603,7 +4603,8 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "lourde-mortalis",
-        ajoute: "Pistolet à plasma (à la place d'un pistolet bolter, une Figurine)",
+        ajoute:
+          "Pistolet à plasma (à la place d'un pistolet bolter, une Figurine)",
       },
     ],
   },
@@ -4684,8 +4685,7 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-melee",
-        libelle:
-          "Sergent Destructeur d'Assaut : remplacer l'épée tronçonneuse",
+        libelle: "Sergent Destructeur d'Assaut : remplacer l'épée tronçonneuse",
         ajoute: true,
         prefixeFiche: "Sergent Destructeur d'Assaut : ",
         choix: [
@@ -4724,7 +4724,8 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "melee-assaut",
-        ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse, une Figurine)",
+        ajoute:
+          "Sabre charnabal (à la place de l'épée tronçonneuse, une Figurine)",
       },
       {
         type: "quantite",
@@ -4740,7 +4741,8 @@ const UNITES = [
       {
         type: "case",
         id: "bombes-fusion-sergent",
-        libelle: "Le Sergent Destructeur d'Assaut peut recevoir des bombes à fusion",
+        libelle:
+          "Le Sergent Destructeur d'Assaut peut recevoir des bombes à fusion",
         cout: 10,
         ajoute: "Bombes à fusion (Sergent Destructeur d'Assaut)",
       },
@@ -4771,7 +4773,8 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "lourde-assaut",
-        ajoute: "Pistolet à plasma (à la place d'un pistolet bolter, une Figurine)",
+        ajoute:
+          "Pistolet à plasma (à la place d'un pistolet bolter, une Figurine)",
       },
     ],
   },
@@ -7212,7 +7215,8 @@ const UNITES = [
         cout: 0,
         parTranche: 3,
         groupe: "special-mor-deythan",
-        ajoute: "Pistolet à plasma (à la place du bolter Némésis, une Figurine)",
+        ajoute:
+          "Pistolet à plasma (à la place du bolter Némésis, une Figurine)",
       },
       {
         type: "quantite",
@@ -7709,7 +7713,8 @@ const UNITES = [
       {
         type: "case",
         id: "bombes-fusion-champion",
-        libelle: "Le Champion Griffe du Faucon peut recevoir des bombes à fusion",
+        libelle:
+          "Le Champion Griffe du Faucon peut recevoir des bombes à fusion",
         cout: 10,
         ajoute: "Bombes à fusion (Champion Griffe du Faucon)",
       },
@@ -7824,7 +7829,8 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "pistolet-fils",
-        ajoute: "Pistolet à plasma (à la place du pistolet bolter, une Figurine)",
+        ajoute:
+          "Pistolet à plasma (à la place du pistolet bolter, une Figurine)",
       },
       {
         type: "quantite",
@@ -9029,8 +9035,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "multi-fuseur",
-        libelle:
-          "Figurines : multi-fuseur à la place du bolter lourd",
+        libelle: "Figurines : multi-fuseur à la place du bolter lourd",
         cout: 20,
         parTranche: 1,
         ajoute: "Multi-fuseur (à la place du bolter lourd)",
@@ -9094,7 +9099,11 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Infiltration (9)", "Mouvement à Couvert", "Unité d'Appui (2)"],
+        regles: [
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Unité d'Appui (2)",
+        ],
         type: "Sergent Éclaireur : Infanterie (Sergent, Léger, Tirailleurs) · Éclaireur : Infanterie (Léger, Tirailleurs)",
       },
     ],
@@ -9176,7 +9185,10 @@ const UNITES = [
     cout: 140,
     composition: "1 Basilisk de Légion",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Canon Earthshaker d'Axe Central", "Bolter lourd de Coque (Avant)"],
+    equipement: [
+      "Canon Earthshaker d'Axe Central",
+      "Bolter lourd de Coque (Avant)",
+    ],
     notes:
       "La plupart des commandants légionnaires manifestaient une nette préférence pour la nouvelle génération de chars d'artillerie, plus rapides et plus faciles à entretenir, capables de suivre le rythme des doctrines de bataille mobiles et dynamiques employées durant la Grande Croisade. Malgré cela, de nombreuses Légions conservaient des formations de réserve de modèles d'artillerie mobile plus anciens, tels que les Basilisks, que l'on rappelait depuis les échelons arrière pour prendre part aux sièges prolongés. Leur manque relatif de mobilité était jugé secondaire face à leurs canons immenses, capables de pilonner méthodiquement des positions ennemies fixes à distance dans ce genre de situations.",
     variantes: [
@@ -9206,7 +9218,10 @@ const UNITES = [
     cout: 150,
     composition: "1 Medusa de Légion",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Mortier Medusa d'Axe Central", "Bolter lourd de Coque (Avant)"],
+    equipement: [
+      "Mortier Medusa d'Axe Central",
+      "Bolter lourd de Coque (Avant)",
+    ],
     notes:
       "Le Medusa de Légion partage de nombreux composants avec le Basilisk, mais se voit doté, à la place du canon Earthshaker à longue portée, d'un mortier de siège à gros calibre. Ce faisant, le Medusa sacrifie la portée au profit d'une puissance destructrice pure, un compromis encore accentué par le fait qu'il est monté sur une plateforme relativement peu blindée et lente. Malgré cela, ces chars vénérables furent sollicités pour fournir un appui-feu rapproché sur les lignes de front des innombrables batailles de l'Hérésie d'Horus, leurs équipages connaissant que trop bien les vulnérabilités des véhicules qu'ils pilotaient.",
     variantes: [
@@ -11545,7 +11560,8 @@ const UNITES = [
         libelle:
           "Champion Saccageur : peut échanger son pistolet bolter contre un pistolet à plasma",
         cout: 5,
-        ajoute: "Pistolet à plasma (à la place du pistolet bolter, Champion Saccageur seulement)",
+        ajoute:
+          "Pistolet à plasma (à la place du pistolet bolter, Champion Saccageur seulement)",
       },
       {
         type: "choix",
@@ -11624,7 +11640,11 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Gabarit de Souffle", "Porteurs de la Main Sanglante", "Devoir Amer"],
+        regles: [
+          "Gabarit de Souffle",
+          "Porteurs de la Main Sanglante",
+          "Devoir Amer",
+        ],
         type: "Lié du Sang : Infanterie (Sergent) · Ravageur : Infanterie",
       },
     ],
@@ -11689,7 +11709,8 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde-ravageur",
-        ajoute: "Marteau Thunder (à la place d'un pistolet bolter, un Ravageur)",
+        ajoute:
+          "Marteau Thunder (à la place d'un pistolet bolter, un Ravageur)",
       },
       {
         type: "choix",
@@ -11853,7 +11874,8 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde-ravageur",
-        ajoute: "Marteau Thunder (à la place d'un pistolet bolter, un Ravageur)",
+        ajoute:
+          "Marteau Thunder (à la place d'un pistolet bolter, un Ravageur)",
       },
       {
         type: "choix",
@@ -13053,7 +13075,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Emperor's Children"],
     notes:
       "En raison de leur inclination à rechercher et affronter directement les meilleurs guerriers de tout ennemi qui leur faisait face, certaines formations de Lames Palatines délaissaient le déploiement mécanisé habituel au profit du Jump Pack. Cet équipement était le plus souvent utilisé dans les situations où il leur permettait de traverser le terrain le plus accidenté, voire de contourner des ennemis de moindre importance pour défier les adversaires de leur choix.",
-    equipement: ["Lame palatine (voir Liber Hereticus, page 138)", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lame palatine (voir Liber Hereticus, page 138)",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Lames Palatines Aquilae",
@@ -13112,7 +13139,10 @@ const UNITES = [
           { nom: "— Conserver la lame palatine —", cout: 0 },
           { nom: "Arme énergétique (à la place de la lame palatine)", cout: 0 },
           { nom: "Rapière Phénix (à la place de la lame palatine)", cout: 0 },
-          { nom: "Lance énergétique Phénix (à la place de la lame palatine)", cout: 0 },
+          {
+            nom: "Lance énergétique Phénix (à la place de la lame palatine)",
+            cout: 0,
+          },
         ],
       },
       {
@@ -13152,7 +13182,11 @@ const UNITES = [
     traits: ["Loyaliste", "Emperor's Children", "Écran de Fumée"],
     notes:
       "L'un des membres de la première génération des Emperor's Children, Rylanor eut le rare honneur de combattre aux côtés de l'Empereur, les faits d'armes de Roma et de Thule gravés sur son armure. Son histoire fut celle de sa Légion : il fut le premier à porter l'étendard Palatin au combat aux côtés de son Primarque nouvellement retrouvé. Quand il tomba, grièvement blessé au combat contre les Aeldari, son salut fut son internement dans un Dreadnought de sa Légion. Rylanor devint l'Ancien des Rites de sa Légion, présidant les Cérémonials d'Induction des Emperor's Children tout en prêtant main-forte à la ligne de bataille durant de nombreuses décennies, jusqu'à ce que la traîtrise du Maître de Guerre déchire sa Légion de l'intérieur. Quand l'atrocité d'Isstvan III survint, la loyauté inébranlable de Rylanor envers l'Empereur le marqua pour la mort aux yeux de son Primarque, et il fut affecté à la première vague d'assaut ; mais il survécut au premier coup meurtrier de la trahison. Une fois les combats engagés, Rylanor devint rapidement une cible prioritaire pour les Traîtres, sa puissance vouant à la mort nombre de ses anciens frères d'armes où qu'il combatte, tandis que sa seule présence devenait un cri de ralliement pour les Emperor's Children loyaux luttant jusqu'au bout. Donné pour détruit à plusieurs reprises, Rylanor, toujours plus endommagé, endura d'une manière ou d'une autre le plus gros des combats sur Isstvan III, mais son destin final demeure inconnu.",
-    equipement: ["Canon d'assaut Kheres", "Poing énergétique Gravis", "Lance-flammes lourd"],
+    equipement: [
+      "Canon d'assaut Kheres",
+      "Poing énergétique Gravis",
+      "Lance-flammes lourd",
+    ],
     variantes: [
       {
         nom: "Rylanor",
@@ -13173,7 +13207,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (6)", "Explose (5+)", "Avance Implacable", "Haine Vengeresse"],
+        regles: [
+          "Massif (6)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Haine Vengeresse",
+        ],
         type: "Marcheur (Unique)",
       },
     ],
@@ -13245,7 +13284,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-lourde-uniforme",
-        libelle: "Toute l'unité : objet de la liste suivante (même objet pour toutes les Figurines)",
+        libelle:
+          "Toute l'unité : objet de la liste suivante (même objet pour toutes les Figurines)",
         ajoute: true,
         obligatoire: true,
         parFigurine: true,
@@ -13259,7 +13299,8 @@ const UNITES = [
       {
         type: "choix",
         id: "novaetor-cac",
-        libelle: "Le Novaetor : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Le Novaetor : objet de la liste des Armes de Mêlée de Sergent de Légion",
         ajoute: true,
         prefixeFiche: "Novaetor : ",
         choix: [
@@ -13277,7 +13318,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Tueur de Soleils, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Tueur de Soleils, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Tueur de Soleils : ",
         choix: [
@@ -13863,7 +13905,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "plasma-legacy",
-        libelle: "Figurines (une par tranche de cinq) : fusil à plasma (Legacy)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fusil à plasma (Legacy)",
         cout: 10,
         parTranche: 5,
         groupe: "special-legacy",
@@ -13881,7 +13924,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder-legacy",
-        libelle: "Figurines (une par tranche de cinq) : Marteau Thunder (Legacy)",
+        libelle:
+          "Figurines (une par tranche de cinq) : Marteau Thunder (Legacy)",
         cout: 10,
         parTranche: 5,
         groupe: "special-legacy",
@@ -13982,10 +14026,12 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-solarite",
-        libelle: "Figurines : gantelet énergétique Solarite (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique Solarite (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
-        ajoute: "Gantelet énergétique Solarite (à la place de l'arme énergétique)",
+        ajoute:
+          "Gantelet énergétique Solarite (à la place de l'arme énergétique)",
       },
       {
         type: "case",
@@ -14018,7 +14064,15 @@ const UNITES = [
       {
         nom: "Ætos Dios",
         cout: 0,
-        profilVehicule: { M: 18, CT: 4, avant: 13, flanc: 13, arriere: 13, PC: 18, transport: 32 },
+        profilVehicule: {
+          M: 18,
+          CT: 4,
+          avant: 13,
+          flanc: 13,
+          arriere: 13,
+          PC: 18,
+          transport: 32,
+        },
         regles: [
           "Baie de Transport Thunderhawk (voir Liber Astartes, page 118)",
           "Boucliers Void (1)",
@@ -14185,7 +14239,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder-legacy",
-        libelle: "Figurines : Marteau Thunder (Legacy, à la place de la hache légatine)",
+        libelle:
+          "Figurines : Marteau Thunder (Legacy, à la place de la hache légatine)",
         cout: 10,
         parTranche: 1,
         ajoute: "Marteau Thunder (Legacy) (à la place de la hache légatine)",
@@ -14320,7 +14375,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "hache-legatine-legacy",
-        libelle: "Figurines (une par tranche de cinq) : hache légatine (Legacy, à la place de l'épée énergétique)",
+        libelle:
+          "Figurines (une par tranche de cinq) : hache légatine (Legacy, à la place de l'épée énergétique)",
         cout: 5,
         parTranche: 5,
         ajoute: "Hache légatine (Legacy) (à la place de l'épée énergétique)",
@@ -14354,7 +14410,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Ultramarines"],
     notes:
       "Là où les unités d'assaut de bien d'autres Légions sont connues pour leur sauvagerie, les Locutarus se distinguent par une discipline et une rigueur universelles. Leur entraînement élève le maniement de la lame au rang d'art, mais au lieu de se concentrer sur l'habileté individuelle de chaque guerrier, les Locutarus s'entraînent en unité dans la synchronicité, pour que chaque coup soit parfaitement calculé et coordonné. Lors des batailles rangées, les escouades d'Assaut Locutarus sont souvent tenues en réserve, leurs officiers attendant le moment parfait pour les engager, et en une seule Charge faisant pencher l'issue du combat en faveur des Ultramarines. La Lame de la Sagesse — La Lame de la Sagesse est une stratégie d'assaut avancée conçue pour la première fois durant la Grande Croisade. Les Locutarus lancent une Charge parfaitement synchronisée contre des ennemis immobilisés par le tir d'une redoutable précision d'unités Ultramarines en soutien mutuel, et anéantissent rapidement leurs adversaires dans un déluge de coups d'épée experts. Épée énergétique Argean — forgée par les maîtres artisans d'Heliopolis sur Macragge, l'épée énergétique Argean que porte chaque Locutarus est une arme d'artificier qui sert autant de marque de courage et d'honneur que d'outil de guerre mortel.",
-    equipement: ["Pistolet bolter", "Épée énergétique Argean", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Épée énergétique Argean",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade d'Assaut Locutarus",
@@ -14399,7 +14460,12 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Massif (2)", "Frappe en Profondeur", "Précision (6+)", "La Lame de la Sagesse"],
+        regles: [
+          "Massif (2)",
+          "Frappe en Profondeur",
+          "Précision (6+)",
+          "La Lame de la Sagesse",
+        ],
         type: "Chef de Frappe Locutarus : Infanterie (Champion, Antigrav) · Locutarus : Infanterie (Antigrav)",
       },
     ],
@@ -14407,7 +14473,8 @@ const UNITES = [
       {
         type: "choix",
         id: "chef-melee",
-        libelle: "Chef de Frappe Locutarus : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Chef de Frappe Locutarus : objet de la liste des Armes de Mêlée de Sergent de Légion",
         ajoute: true,
         prefixeFiche: "Chef de Frappe Locutarus : ",
         choix: [
@@ -14422,7 +14489,8 @@ const UNITES = [
       {
         type: "choix",
         id: "chef-pistolet",
-        libelle: "Chef de Frappe Locutarus : objet de la liste des Pistolets de Légion",
+        libelle:
+          "Chef de Frappe Locutarus : objet de la liste des Pistolets de Légion",
         ajoute: true,
         prefixeFiche: "Chef de Frappe Locutarus : ",
         choix: [
@@ -14459,7 +14527,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Ultramarines"],
     notes:
       "Les guerriers des Fulmentarus sont équipés d'armures Terminator modèle Cataphractii, renforcées pour porter tout un ensemble de systèmes de ciblage qui leur permettent à chacun de combiner leurs tirs de façon parfaitement coordonnée. Associés à la Batterie de missiles Fulmentarus, ces capteurs font des Fulmentarus une redoutable unité d'assaut lourd, qui, sans le déclenchement de l'Hérésie d'Horus, aurait peut-être un jour intégré le service à travers toutes les Legiones Astartes. Viseur Péritarque — le viseur péritarque est un système de pistage sophistiqué qui compile les arcs de balayage de multiples unités d'augure portées à travers une escouade pour former une superposition de projections de trajectoire détaillées, garantissant des verrouillages de cible inéluctables. Quand une Unité qui inclut des Figurines dotées d'un Viseur Péritarque est sélectionnée pour faire une Attaque de Tir, si cette Unité est restée Stationnaire lors de la Phase de Mouvement précédente de son Joueur en Contrôle, aucun Jet de Mitigation de Dégâts de Dissimulation ne peut être fait contre les attaques faites dans le cadre de cette Attaque de Tir. De plus, le Joueur en Contrôle peut faire un Test d'Intelligence pour cette Unité : en cas de réussite, jusqu'à la résolution complète de cette Attaque de Tir, la caractéristique de Capacité de Tir de Base des Figurines de cette Unité dotées d'un Viseur Péritarque est modifiée de +1. Batterie de missiles Fulmentarus — conçue à partir de l'étude et du perfectionnement du lance-missiles Cyclone employé pour la première fois par les Tyrans de Siège Terminators, la Batterie de missiles Fulmentarus utilise des missiles à éclats longue portée pour soumettre des ennemis dont le blindage ou l'endurance innée les rendent insensibles aux armes de moindre puissance, ou des missiles à plasma Hellfire avancés qui explosent à l'intérieur de leur cible.",
-    equipement: ["Combi-bolter", "Batterie de missiles Fulmentarus", "Viseur Péritarque"],
+    equipement: [
+      "Combi-bolter",
+      "Batterie de missiles Fulmentarus",
+      "Viseur Péritarque",
+    ],
     variantes: [
       {
         nom: "Escouade Terminator Fulmentarus",
@@ -14518,7 +14590,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "arme-energetique",
-        libelle: "Figurines : arme énergétique (à la place du Viseur Péritarque)",
+        libelle:
+          "Figurines : arme énergétique (à la place du Viseur Péritarque)",
         cout: 0,
         parTranche: 1,
         groupe: "melee",
@@ -14527,7 +14600,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place du Viseur Péritarque)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place du Viseur Péritarque)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -14536,7 +14610,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poing-tronconneur",
-        libelle: "Figurines : poing tronçonneur (à la place du Viseur Péritarque)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place du Viseur Péritarque)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -14545,9 +14620,11 @@ const UNITES = [
       {
         type: "case",
         id: "marteau-thunder",
-        libelle: "Sergent Fulmentarus : Marteau Thunder (à la place du Viseur Péritarque)",
+        libelle:
+          "Sergent Fulmentarus : Marteau Thunder (à la place du Viseur Péritarque)",
         cout: 10,
-        ajoute: "Sergent Fulmentarus : Marteau Thunder (à la place du Viseur Péritarque)",
+        ajoute:
+          "Sergent Fulmentarus : Marteau Thunder (à la place du Viseur Péritarque)",
       },
     ],
     legion: "XIII",
@@ -14624,7 +14701,8 @@ const UNITES = [
       {
         type: "choix",
         id: "sergent-melee",
-        libelle: "Sergent Destructeur Némésis : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Sergent Destructeur Némésis : objet de la liste des Armes de Mêlée de Sergent de Légion",
         remplace: "Épée tronçonneuse (Sergent Destructeur Némésis seulement)",
         prefixeFiche: "Sergent Destructeur Némésis : ",
         choix: [
@@ -14635,7 +14713,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Destructeur Némésis, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Destructeur Némésis, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Destructeur Némésis : ",
         choix: [
@@ -14673,7 +14752,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "chargeur-volkite",
-        libelle: "Figurines (une par tranche de cinq) : chargeur volkite (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : chargeur volkite (à la place du bolter mortifère)",
         cout: 5,
         parTranche: 5,
         groupe: "lourd",
@@ -14682,7 +14762,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes (à la place du bolter mortifère)",
         cout: 5,
         parTranche: 5,
         groupe: "lourd",
@@ -14691,7 +14772,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusil-plasma",
-        libelle: "Figurines (une par tranche de cinq) : fusil à plasma (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fusil à plasma (à la place du bolter mortifère)",
         cout: 10,
         parTranche: 5,
         groupe: "lourd",
@@ -14700,7 +14782,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fuseur",
-        libelle: "Figurines (une par tranche de cinq) : fuseur (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fuseur (à la place du bolter mortifère)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
@@ -14709,7 +14792,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusil-gravitons",
-        libelle: "Figurines (une par tranche de cinq) : fusil à gravitons (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fusil à gravitons (à la place du bolter mortifère)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
@@ -14721,7 +14805,8 @@ const UNITES = [
         // (pas d'encart WARGEAR sur cette fiche) — à compléter depuis le
         // livre au besoin.
         id: "lascutter",
-        libelle: "Figurines (une par tranche de cinq) : Lascutter (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : Lascutter (à la place du bolter mortifère)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
@@ -14730,7 +14815,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "bolter-lourd",
-        libelle: "Figurines (une par tranche de cinq) : bolter lourd (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : bolter lourd (à la place du bolter mortifère)",
         cout: 10,
         parTranche: 5,
         groupe: "lourd",
@@ -14739,11 +14825,13 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-missiles-destructeur",
-        libelle: "Figurines (une par tranche de cinq) : Lance-missiles de Destructeur — Missile Rad (à la place du bolter mortifère)",
+        libelle:
+          "Figurines (une par tranche de cinq) : Lance-missiles de Destructeur — Missile Rad (à la place du bolter mortifère)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
-        ajoute: "Lance-missiles de Destructeur — Missile Rad (à la place du bolter mortifère)",
+        ajoute:
+          "Lance-missiles de Destructeur — Missile Rad (à la place du bolter mortifère)",
       },
     ],
     legion: "XIII",
@@ -14758,7 +14846,11 @@ const UNITES = [
     traits: ["Loyaliste", "Ultramarines", "Écran de Fumée"],
     notes:
       "Telemechrus n'avait servi sa Légion que dix ans quand il fut enchâssé dans un Dreadnought Contemptor. Au moment de la trahison des Word Bearers à Calth, il se trouvait en animation suspendue, hébergé dans la soute d'un vaisseau de transport dans le cadre du contingent. Quand ce vaisseau fut détruit, le caisson de transport contenant son châssis désactivé chuta à travers l'orbite et s'écrasa à la surface. Au lieu d'être détruit par l'impact, Telemechrus fut réveillé par des transmissions vox d'urgence, émergeant de son container fracassé miraculeusement indemne avant de rejoindre les batailles pour repousser l'assaut traître des Word Bearers.",
-    equipement: ["Canon d'assaut Kheres", "Poing énergétique Gravis", "Combi-bolter"],
+    equipement: [
+      "Canon d'assaut Kheres",
+      "Poing énergétique Gravis",
+      "Combi-bolter",
+    ],
     variantes: [
       {
         nom: "Telemechrus Honoré",
@@ -14779,7 +14871,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (6)", "Explose (5+)", "Avance Implacable", "Haine (Word Bearers)"],
+        regles: [
+          "Massif (6)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Haine (Word Bearers)",
+        ],
         type: "Marcheur (Unique)",
       },
     ],
@@ -15163,7 +15260,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Interemptor, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Interemptor, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Interemptor : ",
         choix: [
@@ -15291,7 +15389,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder-legacy",
-        libelle: "Figurines : Marteau Thunder (Legacy, à la place de l'espadon terranique)",
+        libelle:
+          "Figurines : Marteau Thunder (Legacy, à la place de l'espadon terranique)",
         cout: 10,
         parTranche: 1,
         ajoute: "Marteau Thunder (Legacy) (à la place de l'espadon terranique)",
@@ -15391,33 +15490,40 @@ const UNITES = [
       {
         type: "quantite",
         id: "paire-griffes-lightning",
-        libelle: "Figurines : paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
         cout: 5,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
+        ajoute:
+          "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "espadon-terranique",
-        libelle: "Figurines : espadon terranique (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : espadon terranique (à la place de la lame de guerre Calibanite)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Espadon terranique (à la place de la lame de guerre Calibanite)",
+        ajoute:
+          "Espadon terranique (à la place de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de la lame de guerre Calibanite)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
+        ajoute:
+          "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "marteau-thunder",
-        libelle: "Figurines : Marteau Thunder (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : Marteau Thunder (à la place de la lame de guerre Calibanite)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -15506,33 +15612,40 @@ const UNITES = [
       {
         type: "quantite",
         id: "paire-griffes-lightning",
-        libelle: "Figurines : paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
         cout: 5,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
+        ajoute:
+          "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "espadon-terranique",
-        libelle: "Figurines : espadon terranique (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : espadon terranique (à la place de la lame de guerre Calibanite)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Espadon terranique (à la place de la lame de guerre Calibanite)",
+        ajoute:
+          "Espadon terranique (à la place de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de la lame de guerre Calibanite)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
+        ajoute:
+          "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
       },
       {
         type: "quantite",
         id: "marteau-thunder",
-        libelle: "Figurines : Marteau Thunder (à la place de la lame de guerre Calibanite)",
+        libelle:
+          "Figurines : Marteau Thunder (à la place de la lame de guerre Calibanite)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -15560,7 +15673,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Dark Angels"],
     notes:
       "Parmi les Ordres du Cercle Intérieur de la Ire Légion, celui des Griffes Brisées comptait le moins d'adeptes, mais non par manque d'importance. Ils étaient chargés de consigner le récit des batailles menées contre la redoutable Rangda et, dans le sillage de la destruction de cette souche xenos, ces chevaliers furent chargés de garder le butin de ces victoires. À mesure que se déroulaient les événements de l'Hérésie d'Horus, les devoirs de l'Ordre des Griffes Brisées furent étendus, de petits groupes gardant des caveaux de stase contenant des reliques prises à des ennemis vaincus de la Ire Légion, empêchant qu'elles ne tombent aux mains de ceux qui s'opposaient à l'Imperium.",
-    equipement: ["Espadon terranique", "Lance-plasma", "Harnais à grenades (Précepteur de l'Ordre seulement)"],
+    equipement: [
+      "Espadon terranique",
+      "Lance-plasma",
+      "Harnais à grenades (Précepteur de l'Ordre seulement)",
+    ],
     variantes: [
       {
         nom: "Cenobium de Chevaliers du Cercle Intérieur — Ordre des Griffes Brisées",
@@ -15605,7 +15722,12 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique", "Ordre des Griffes Brisées"],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Ordre des Griffes Brisées",
+        ],
         type: "Précepteur de l'Ordre : Infanterie (Sergent, Lourd) · Cénobite de l'Ordre : Infanterie (Lourd)",
       },
     ],
@@ -15613,7 +15735,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder-legacy",
-        libelle: "Figurines : Marteau Thunder (Legacy, à la place de l'espadon terranique)",
+        libelle:
+          "Figurines : Marteau Thunder (Legacy, à la place de l'espadon terranique)",
         cout: 10,
         parTranche: 1,
         ajoute: "Marteau Thunder (Legacy) (à la place de l'espadon terranique)",
@@ -15711,7 +15834,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Dark Angels", "Écran de Fumée"],
     notes:
       "La Firewing existe pour mener une guerre rapide et silencieuse, pour étouffer la capacité de résistance de l'ennemi, lui voler sa volonté de se battre à coups de frappes de précision, et obtenir des renseignements clés pour l'usage d'autres forces. Les Enigmatii sont les praticiens les plus accomplis de ce style de guerre, opérant en petites unités d'élite pour éliminer les chefs ennemis, désorganiser leurs lignes d'avance et jeter le trouble dans leurs plans. Armés et équipés des meilleures armes et du meilleur équipement disponibles, ils constituent une menace mortelle pour quiconque le Lion juge assez dangereux pour mériter leur attention.",
-    equipement: ["Lame chargeuse Calibanite", "Pistolet à aiguilles", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lame chargeuse Calibanite",
+      "Pistolet à aiguilles",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Cabale Enigmatus de la Firewing",
@@ -16046,7 +16174,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de la hache énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de la hache énergétique)",
         cout: 5,
         parTranche: 1,
         ajoute: "Gantelet énergétique (à la place de la hache énergétique)",
@@ -16054,7 +16183,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder",
-        libelle: "Figurines (une par tranche de cinq) : Marteau Thunder (à la place de la hache énergétique)",
+        libelle:
+          "Figurines (une par tranche de cinq) : Marteau Thunder (à la place de la hache énergétique)",
         cout: 5,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -16063,7 +16193,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "grande-lame-givre",
-        libelle: "Figurines (une par tranche de cinq) : grande lame de givre (à la place de la hache énergétique)",
+        libelle:
+          "Figurines (une par tranche de cinq) : grande lame de givre (à la place de la hache énergétique)",
         cout: 10,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -16161,7 +16292,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de la hache de givre)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de la hache de givre)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -16170,7 +16302,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poing-tronconneur",
-        libelle: "Figurines : poing tronçonneur (à la place de la hache de givre)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de la hache de givre)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -16179,7 +16312,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder",
-        libelle: "Figurines : Marteau Thunder (à la place de la hache de givre)",
+        libelle:
+          "Figurines : Marteau Thunder (à la place de la hache de givre)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -16228,9 +16362,11 @@ const UNITES = [
       {
         type: "case",
         id: "grande-lame-givre",
-        libelle: "Thegn : grande lame de givre (à la place de la hache de givre)",
+        libelle:
+          "Thegn : grande lame de givre (à la place de la hache de givre)",
         cout: 5,
-        ajoute: "Thegn : grande lame de givre (à la place de la hache de givre)",
+        ajoute:
+          "Thegn : grande lame de givre (à la place de la hache de givre)",
       },
       {
         type: "case",
@@ -16631,7 +16767,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (2)", "Gabarit de Souffle", "Avance Implacable", "Contournement"],
+        regles: [
+          "Massif (2)",
+          "Gabarit de Souffle",
+          "Avance Implacable",
+          "Contournement",
+        ],
         type: "Cavalerie (État-major)",
       },
       {
@@ -16684,15 +16825,19 @@ const UNITES = [
       {
         type: "case",
         id: "bolter-jumele",
-        libelle: "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
+        libelle:
+          "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
         cout: 15,
-        ajoute: "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
+        ajoute:
+          "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
         type: "choix",
         id: "bolter-lourd",
-        libelle: "Tireur de Runes sur Jetbike Scimitar : remplacer le bolter lourd",
-        remplace: "Bolter lourd (Tireur de Runes sur Jetbike Scimitar seulement)",
+        libelle:
+          "Tireur de Runes sur Jetbike Scimitar : remplacer le bolter lourd",
+        remplace:
+          "Bolter lourd (Tireur de Runes sur Jetbike Scimitar seulement)",
         prefixeFiche: "Tireur de Runes sur Jetbike Scimitar : ",
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
@@ -16788,7 +16933,13 @@ const UNITES = [
     traits: ["[Allégeance]", "Space Wolves"],
     notes:
       "Serviteurs et chefs du Culte de Morkai — l'aspect fenrisien du loup de la mort —, les Porte-Parole des Morts sont ceux qui inspirent la crainte, les maîtres de la discipline et les gardiens de la culture et de l'histoire de la Légion. Ces prêtres de Fenris, trempés dans le sang, portent des masques ésotériques et des symboles étranges. Chaque Porte-Parole des Morts prête un funeste serment avant la bataille, et ses incantations chantées peuvent s'enraciner dans l'esprit de la Légion, avec des résultats mortels. Cette Figurine peut être remplacée par 1 Porte-Parole des Morts avec Jump Pack, pour +20 Points.",
-    equipement: ["Pistolet bolter", "Crozius Arcanum", "Narthecium", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Crozius Arcanum",
+      "Narthecium",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Porte-Parole des Morts",
@@ -16895,7 +17046,13 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (2)", "Gabarit de Souffle", "Avance Implacable", "Contournement", "Médic (5+)"],
+        regles: [
+          "Massif (2)",
+          "Gabarit de Souffle",
+          "Avance Implacable",
+          "Contournement",
+          "Médic (5+)",
+        ],
         type: "Cavalerie (État-major)",
       },
       {
@@ -16925,9 +17082,11 @@ const UNITES = [
       {
         type: "case",
         id: "bolter-jumele",
-        libelle: "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
+        libelle:
+          "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
         cout: 15,
-        ajoute: "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
+        ajoute:
+          "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
         type: "case",
@@ -16939,8 +17098,10 @@ const UNITES = [
       {
         type: "choix",
         id: "bolter-lourd",
-        libelle: "Porte-Parole des Morts sur Jetbike Scimitar : remplacer le bolter lourd",
-        remplace: "Bolter lourd (Porte-Parole des Morts sur Jetbike Scimitar seulement)",
+        libelle:
+          "Porte-Parole des Morts sur Jetbike Scimitar : remplacer le bolter lourd",
+        remplace:
+          "Bolter lourd (Porte-Parole des Morts sur Jetbike Scimitar seulement)",
         prefixeFiche: "Porte-Parole des Morts sur Jetbike Scimitar : ",
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
@@ -16983,7 +17144,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "4+",
         },
-        regles: ["Massif (2)", "Avance Implacable", "Lent et Méthodique", "Médic (5+)"],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Médic (5+)",
+        ],
         type: "Infanterie (État-major, Lourd)",
       },
       {
@@ -17038,7 +17204,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Space Wolves"],
     notes:
       "Beaucoup pensaient les Space Wolves individualistes incapables de discipline et de cohésion, mais rien n'était plus éloigné de la vérité. Leurs tactiques exigeaient une coordination suprême, et la soif de gloire de chaque guerrier passait après les besoins de la meute. Ces traits s'incarnaient tous dans les Meutes de Chasseurs Jorlund. Rapides et agiles, elles fondaient sur les lignes ennemies, poussant leurs adversaires devant elles à grand renfort de torrents de feu grondants. Ceux qui n'étaient pas consumés par les flammes étaient abattus par les hurlantes Meutes de Chasseurs tandis qu'elles passaient à la cible suivante. Tempête Ravageuse — guidées par une foi inébranlable dans les augures des voyants de guerre, les Meutes de Chasseurs Jorlund accompagnent les forces d'avant-garde de la VIe Légion et devancent la ligne de bataille pour incinérer leurs ennemis d'une flamme purificatrice. Quand une Unité qui inclut des Figurines ayant cette Règle Spéciale est sélectionnée pour faire une Attaque de Tir, si cinq Figurines ou plus font des attaques avec des lance-flammes légers, ces lance-flammes légers gagnent la Règle Spéciale Panique (1) jusqu'à la résolution de cette Attaque de Tir.",
-    equipement: ["Lance-flammes léger", "Épée tronçonneuse", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lance-flammes léger",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Meute de Chasseurs Jorlund",
@@ -17083,7 +17254,12 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Contournement", "Mouvement à Couvert", "Avant-garde (3)", "Tempête Ravageuse"],
+        regles: [
+          "Contournement",
+          "Mouvement à Couvert",
+          "Avant-garde (3)",
+          "Tempête Ravageuse",
+        ],
         type: "Maître-chasseur : Infanterie (Sergent) · Chasseur : Infanterie",
       },
     ],
@@ -17091,9 +17267,11 @@ const UNITES = [
       {
         type: "case",
         id: "maitre-pistolet-plasma",
-        libelle: "Maître-chasseur : pistolet à plasma (à la place du lance-flammes léger)",
+        libelle:
+          "Maître-chasseur : pistolet à plasma (à la place du lance-flammes léger)",
         cout: 5,
-        ajoute: "Maître-chasseur : pistolet à plasma (à la place du lance-flammes léger)",
+        ajoute:
+          "Maître-chasseur : pistolet à plasma (à la place du lance-flammes léger)",
       },
       {
         type: "choix",
@@ -17111,7 +17289,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes (à la place du lance-flammes léger)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes (à la place du lance-flammes léger)",
         cout: 5,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -17120,7 +17299,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "serpentine-volkite",
-        libelle: "Figurines (une par tranche de cinq) : serpentine volkite (à la place du lance-flammes léger)",
+        libelle:
+          "Figurines (une par tranche de cinq) : serpentine volkite (à la place du lance-flammes léger)",
         cout: 5,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -17446,37 +17626,45 @@ const UNITES = [
       {
         type: "quantite",
         id: "griffe-lightning",
-        libelle: "Figurines : griffe Lightning (à la place de la hache énergétique d'artificier)",
+        libelle:
+          "Figurines : griffe Lightning (à la place de la hache énergétique d'artificier)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Griffe Lightning (à la place de la hache énergétique d'artificier)",
+        ajoute:
+          "Griffe Lightning (à la place de la hache énergétique d'artificier)",
       },
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de la hache énergétique d'artificier)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de la hache énergétique d'artificier)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Gantelet énergétique (à la place de la hache énergétique d'artificier)",
+        ajoute:
+          "Gantelet énergétique (à la place de la hache énergétique d'artificier)",
       },
       {
         type: "quantite",
         id: "poing-tronconneur",
-        libelle: "Figurines : poing tronçonneur (à la place de la hache énergétique d'artificier)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de la hache énergétique d'artificier)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Poing tronçonneur (à la place de la hache énergétique d'artificier)",
+        ajoute:
+          "Poing tronçonneur (à la place de la hache énergétique d'artificier)",
       },
       {
         type: "quantite",
         id: "paire-griffes-lightning",
-        libelle: "Figurines : paire de griffes Lightning (à la place de la hache énergétique d'artificier et du combi-bolter)",
+        libelle:
+          "Figurines : paire de griffes Lightning (à la place de la hache énergétique d'artificier et du combi-bolter)",
         cout: 10,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (à la place de la hache énergétique d'artificier et du combi-bolter)",
+        ajoute:
+          "Paire de griffes Lightning (à la place de la hache énergétique d'artificier et du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         remplace: "du combi-bolter",
@@ -17484,7 +17672,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourd",
-        libelle: "Figurines (une par tranche de trois) : lance-flammes lourd (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de trois) : lance-flammes lourd (à la place du combi-bolter)",
         cout: 5,
         parTranche: 3,
         groupe: "lourd",
@@ -17493,7 +17682,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusil-gravitons",
-        libelle: "Figurines (une par tranche de trois) : fusil à gravitons (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de trois) : fusil à gravitons (à la place du combi-bolter)",
         cout: 10,
         parTranche: 3,
         groupe: "lourd",
@@ -17502,7 +17692,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "eclateur-gravitons",
-        libelle: "Figurines (une par tranche de trois) : déchiqueteur à gravitons (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de trois) : déchiqueteur à gravitons (à la place du combi-bolter)",
         cout: 15,
         parTranche: 3,
         groupe: "lourd",
@@ -17514,7 +17705,8 @@ const UNITES = [
         // « Plasma blaster » : profil d'arme non donné dans l'extrait
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
         // depuis le livre au besoin.
-        libelle: "Figurines (une par tranche de trois) : blaster à plasma (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de trois) : blaster à plasma (à la place du combi-bolter)",
         cout: 10,
         parTranche: 3,
         groupe: "lourd",
@@ -17523,7 +17715,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "autocanon-reaper",
-        libelle: "Figurines (une par tranche de trois) : Autocanon Reaper (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de trois) : Autocanon Reaper (à la place du combi-bolter)",
         cout: 15,
         parTranche: 3,
         groupe: "lourd",
@@ -17790,7 +17983,10 @@ const UNITES = [
           { nom: "Hache énergétique d'artificier", cout: 15 },
           { nom: "Fusil à pompe Astartes", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
-          ...depuisListes(LISTES_EQUIPEMENT.officier, LISTES_EQUIPEMENT.combinees),
+          ...depuisListes(
+            LISTES_EQUIPEMENT.officier,
+            LISTES_EQUIPEMENT.combinees,
+          ),
         ],
       },
       {
@@ -17809,7 +18005,8 @@ const UNITES = [
       {
         type: "paire",
         id: "griffes",
-        libelle: "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        libelle:
+          "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
         cout: 20,
         ajoute: "Paire de griffes Lightning",
         remplaceListe: ["Bolter", "Pistolet bolter"],
@@ -17897,16 +18094,19 @@ const UNITES = [
       {
         type: "quantite",
         id: "hache-artificier",
-        libelle: "Figurines : hache énergétique d'artificier (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : hache énergétique d'artificier (à la place de l'arme énergétique)",
         cout: 0,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Hache énergétique d'artificier (à la place de l'arme énergétique)",
+        ajoute:
+          "Hache énergétique d'artificier (à la place de l'arme énergétique)",
       },
       {
         type: "quantite",
         id: "griffe-lightning",
-        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : griffe Lightning (à la place de l'arme énergétique)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -17915,7 +18115,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -17924,7 +18125,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poing-tronconneur",
-        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -17951,13 +18153,17 @@ const UNITES = [
       {
         type: "choix",
         id: "augmentor-arme-lourde",
-        libelle: "Augmentor : objet de la liste suivante (à la place du combi-bolter)",
+        libelle:
+          "Augmentor : objet de la liste suivante (à la place du combi-bolter)",
         ajoute: true,
         prefixeFiche: "Augmentor : ",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Couleuvrine volkite (à la place du combi-bolter)", cout: 10 },
-          { nom: "Déchiqueteur à gravitons (à la place du combi-bolter)", cout: 15 },
+          {
+            nom: "Déchiqueteur à gravitons (à la place du combi-bolter)",
+            cout: 15,
+          },
         ],
       },
       {
@@ -18684,10 +18890,12 @@ const UNITES = [
       {
         type: "quantite",
         id: "paire-griffes-lightning-legacy",
-        libelle: "Figurines : paire de griffes Lightning (Legacy, à la place du pistolet bolter et de la hache tronçonneuse)",
+        libelle:
+          "Figurines : paire de griffes Lightning (Legacy, à la place du pistolet bolter et de la hache tronçonneuse)",
         cout: 10,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (Legacy) (à la place du pistolet bolter et de la hache tronçonneuse)",
+        ajoute:
+          "Paire de griffes Lightning (Legacy) (à la place du pistolet bolter et de la hache tronçonneuse)",
       },
       {
         type: "case",
@@ -18841,7 +19049,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "hache-tronconneuse",
-        libelle: "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
         cout: 0,
         parTranche: 1,
         groupe: "melee",
@@ -18850,7 +19059,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "arme-energetique",
-        libelle: "Figurines : arme énergétique (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : arme énergétique (à la place de l'épée tronçonneuse)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -18859,7 +19069,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'épée tronçonneuse)",
         cout: 15,
         parTranche: 1,
         groupe: "melee",
@@ -18868,9 +19079,11 @@ const UNITES = [
       {
         type: "case",
         id: "etendard",
-        libelle: "Un Chef de Guerre : étendard de Légion (à la place du bolter Banestrike)",
+        libelle:
+          "Un Chef de Guerre : étendard de Légion (à la place du bolter Banestrike)",
         cout: 20,
-        ajoute: "Un Chef de Guerre : étendard de Légion (à la place du bolter Banestrike)",
+        ajoute:
+          "Un Chef de Guerre : étendard de Légion (à la place du bolter Banestrike)",
       },
     ],
     legion: "XVI",
@@ -18887,7 +19100,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Sons of Horus"],
     notes:
       "Évolution des escouades de Destroyers et d'Assaut, les escouades de Ravageurs Agresseurs à réacteur dorsal incarnaient à bien des égards la manière de faire la guerre des Sons of Horus. Fortement influencées par les tactiques de la guerre des gangs incessante et bouillonnante de Cthonia, les unités Ravageuses Agresseurs se spécialisaient dans des assauts d'une rapidité fulgurante qui mutilaient et paralysaient un ennemi, éliminant les chefs et semant la panique et le désordre chez quiconque survivait. De ces unités, les Ravageurs Catuléens furent les plus tristement célèbres durant les premières batailles de l'Hérésie d'Horus, actifs à la fois sur Isstvan III et V, mais il y en eut bien d'autres.",
-    equipement: ["Hache tronçonneuse", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Hache tronçonneuse",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Ravageurs Agresseurs",
@@ -18932,7 +19150,12 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Précision (6+)", "Avant-garde (3)", "Massif (2)", "Frappe en Profondeur"],
+        regles: [
+          "Précision (6+)",
+          "Avant-garde (3)",
+          "Massif (2)",
+          "Frappe en Profondeur",
+        ],
         type: "Chef Ravageur : Infanterie (Sergent, Antigrav) · Ravageur : Infanterie (Antigrav)",
       },
     ],
@@ -18944,7 +19167,10 @@ const UNITES = [
         remplace: "Hache tronçonneuse",
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
-          { nom: "Épée tronçonneuse (à la place de la hache tronçonneuse)", cout: 0 },
+          {
+            nom: "Épée tronçonneuse (à la place de la hache tronçonneuse)",
+            cout: 0,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
         ],
       },
@@ -18997,10 +19223,12 @@ const UNITES = [
       {
         type: "quantite",
         id: "paire-griffes-lightning",
-        libelle: "Figurines : paire de griffes Lightning (à la place du pistolet bolter et de la hache tronçonneuse)",
+        libelle:
+          "Figurines : paire de griffes Lightning (à la place du pistolet bolter et de la hache tronçonneuse)",
         cout: 10,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (à la place du pistolet bolter et de la hache tronçonneuse)",
+        ajoute:
+          "Paire de griffes Lightning (à la place du pistolet bolter et de la hache tronçonneuse)",
       },
       {
         type: "case",
@@ -19532,7 +19760,8 @@ const UNITES = [
           "L'Iconoclaste peut échanger son lance-flammes léger akkadique contre un pistolet à plasma",
         cout: 5,
         remplace: "Lance-flammes Léger Akkadique",
-        ajoute: "Pistolet à plasma (à la place du lance-flammes léger akkadique)",
+        ajoute:
+          "Pistolet à plasma (à la place du lance-flammes léger akkadique)",
       },
     ],
     legion: "XVII",
@@ -20296,7 +20525,10 @@ const UNITES = [
           // Death Guard Legacy Wargear (death_guards_wargear.pdf) :
           // ajoutée à la liste des Armes Combinées de Légion pour toute
           // Figurine ayant le Trait Death Guard.
-          { nom: "Combi-lance-flammes alchim (liste Armes Combinées)", cout: 0 },
+          {
+            nom: "Combi-lance-flammes alchim (liste Armes Combinées)",
+            cout: 0,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.combinees).map((o) => ({
             ...o,
             cout: 0,
@@ -20467,7 +20699,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourd-alchim",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes lourd alchim (à la place du bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes lourd alchim (à la place du bolter)",
         cout: 10,
         parTranche: 5,
         ajoute: "Lance-flammes lourd alchim (à la place du bolter)",
@@ -20482,7 +20715,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Empoisonneur Mortus, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Empoisonneur Mortus, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Empoisonneur Mortus : ",
         choix: [
@@ -20979,7 +21213,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-leger-legacy",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes léger (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes léger (Legacy, à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "pistolet-legacy",
@@ -20988,7 +21223,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "pistolet-etherfeu-legacy",
-        libelle: "Figurines (une par tranche de cinq) : pistolet à étherfeu (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : pistolet à étherfeu (Legacy, à la place du pistolet bolter)",
         cout: 10,
         parTranche: 5,
         groupe: "pistolet-legacy",
@@ -21186,7 +21422,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "garde-arme-energetique",
-        libelle: "Figurines : arme énergétique (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : arme énergétique (à la place de l'épée tronçonneuse)",
         cout: 10,
         parTranche: 1,
         groupe: "garde-melee",
@@ -21195,7 +21432,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "garde-gantelet",
-        libelle: "Figurines : gantelet énergétique (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'épée tronçonneuse)",
         cout: 15,
         parTranche: 1,
         groupe: "garde-melee",
@@ -21204,7 +21442,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "garde-arquebuse-volkite",
-        libelle: "Figurines (une par tranche de cinq) : arquebuse volkite (à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : arquebuse volkite (à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "garde-tir",
@@ -21213,7 +21452,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "garde-canon-rotor",
-        libelle: "Figurines (une par tranche de cinq) : canon rotor (à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : canon rotor (à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "garde-tir",
@@ -21229,7 +21469,8 @@ const UNITES = [
       {
         type: "choix",
         id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Garde de Vie, deux max dans l'unité)",
+        libelle:
+          "Équipement de Légion (1er Garde de Vie, deux max dans l'unité)",
         ajoute: true,
         prefixeFiche: "Garde de Vie : ",
         choix: [
@@ -21262,10 +21503,21 @@ const UNITES = [
     composition: "1 Destin Ammitara, 4 Intercesseurs",
     effectif: { base: 5, max: 10, cout: 27 },
     equipementLibelle: "Équipement (chaque figurine)",
-    traits: ["[Allégeance]", "Thousand Sons", "Psyker", "Corvidae", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Thousand Sons",
+      "Psyker",
+      "Corvidae",
+      "Écran de Fumée",
+    ],
     notes:
       "L'existence même de la secte connue sous le nom d'Ammitara Occulte était parfois mise en doute, tant le groupe cultivait le secret et une réputation trouble au-delà des frontières de sa Légion. Même au sein des rangs des Thousand Sons, on en parlait à mots couverts, si tant est qu'on le reconnaisse, comme en attestèrent plus tard les éléments recueillis dans les décombres de Prospero. L'Ammitara était en réalité les crocs acérés de l'Ordre des Aveugles, peut-être la division la plus cachée et la plus obscure des Thousand Sons, vouée à l'intoxication, à la reconnaissance, et pour certains même à l'espionnage au-delà de la Légion, les Cabales d'Intercession de l'Ammitara se spécialisant dans un autre art sombre de la guerre : l'assassinat.",
-    equipement: ["Pistolet bolter", "Bolter Némésis", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Pistolet bolter",
+      "Bolter Némésis",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Cabale d'Intercession Occulte Ammitara",
@@ -21310,7 +21562,11 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Infiltration (9)", "Mouvement à Couvert", "Unité d'Appui (2)"],
+        regles: [
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Unité d'Appui (2)",
+        ],
         type: "Destin Ammitara : Infanterie (Sergent, Léger, Tirailleurs) · Intercesseur : Infanterie (Léger, Tirailleurs)",
       },
     ],
@@ -21346,7 +21602,8 @@ const UNITES = [
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
         // depuis le livre au besoin.
         id: "fuseur",
-        libelle: "Figurines (jusqu'à deux par tranche de cinq) : fuseur (à la place du Bolter Némésis)",
+        libelle:
+          "Figurines (jusqu'à deux par tranche de cinq) : fuseur (à la place du Bolter Némésis)",
         cout: 15,
         parTranche: 5,
         parTrancheMax: 2,
@@ -21356,7 +21613,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusil-plasma",
-        libelle: "Figurines (jusqu'à deux par tranche de cinq) : fusil à plasma (à la place du Bolter Némésis)",
+        libelle:
+          "Figurines (jusqu'à deux par tranche de cinq) : fusil à plasma (à la place du Bolter Némésis)",
         cout: 10,
         parTranche: 5,
         parTrancheMax: 2,
@@ -21366,7 +21624,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "blaster-etherfeu",
-        libelle: "Figurines (jusqu'à deux par tranche de cinq) : blaster à étherfeu (à la place du Bolter Némésis)",
+        libelle:
+          "Figurines (jusqu'à deux par tranche de cinq) : blaster à étherfeu (à la place du Bolter Némésis)",
         cout: 15,
         parTranche: 5,
         parTrancheMax: 2,
@@ -21662,11 +21921,13 @@ const UNITES = [
       {
         type: "quantite",
         id: "combi-legacy",
-        libelle: "Figurines : Bolter Banestrike (Legacy, à la place du combi-bolter Banestrike)",
+        libelle:
+          "Figurines : Bolter Banestrike (Legacy, à la place du combi-bolter Banestrike)",
         cout: 5,
         parTranche: 1,
         groupe: "combi-legacy",
-        ajoute: "Bolter Banestrike (Legacy) (à la place du combi-bolter Banestrike)",
+        ajoute:
+          "Bolter Banestrike (Legacy) (à la place du combi-bolter Banestrike)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         groupe: "combi-legacy",
@@ -21675,9 +21936,11 @@ const UNITES = [
       {
         type: "case",
         id: "primat-pistolet-inferno",
-        libelle: "Primat Chasseur de Têtes : Pistolet Inferno (à la place du pistolet bolter)",
+        libelle:
+          "Primat Chasseur de Têtes : Pistolet Inferno (à la place du pistolet bolter)",
         cout: 10,
-        ajoute: "Primat Chasseur de Têtes : Pistolet Inferno (à la place du pistolet bolter)",
+        ajoute:
+          "Primat Chasseur de Têtes : Pistolet Inferno (à la place du pistolet bolter)",
       },
     ],
     legion: "XX",
@@ -21917,7 +22180,12 @@ const UNITES = [
     traits: ["Renégat", "Alpha Legion", "Maître de la Légion"],
     notes:
       "Consul-Delegatus de l'Alpha Legion. Autilon Skorr fut fréquemment dépêché pour exiger la Compliance de mondes nouvellement découverts au nom de l'Imperium. Les mondes qui refusaient sombraient invariablement dans le désordre en quelques semaines, et finissaient par capituler. Après le déclenchement de l'Hérésie d'Horus, Skorr continua de jouer ce rôle, jusqu'à la débâcle d'Epsilon-Stranivar IX, où les forces disparates d'une douzaine de groupes de bataille Loyalistes repoussèrent ses forces. Le prestige de Skorr en fut entaché, et il tomba rapidement en disgrâce, tant auprès du Maître de Guerre que de son Primarque. Désespéré de retrouver sa gloire passée, il saisit la campagne de Mezoa comme une chance de rédemption. Rime-shard — l'arme personnelle de Skorr, connue sous le nom de Rime-shard, prend la forme d'une hache à long manche à la lame courbe semi-translucide. Bien qu'incorporant des composants communs issus de Mondes-Forges connus, on suppute que cette arme est une fusion non autorisée de patrons STC impériaux et de technologie xenos prohibée.",
-    equipement: ["Rime-shard", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Rime-shard",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Autilon Skorr",
@@ -21957,7 +22225,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Alpha Legion", "Écran de Fumée"],
     notes:
       "Bien que désigné officieusement Escouade Furtive Effrit, la réalité de l'organisation et du rôle de cet échelon d'élite de la XXe Légion est bien plus complexe et échappe aux conventions simples. De tels détachements, composés d'individus hautement capables, choisis pour leurs aptitudes innées à la discrétion, à la subterfuge et à la reconnaissance, sont chargés de missions périlleuses sur le champ de bataille, depuis l'observation rapprochée de commandants ennemis jusqu'aux frappes de perturbation contre des machines de guerre vulnérables. Dans ce rôle, ils sont fréquemment infiltrés derrière les lignes ennemies pendant des mois, avec guère plus d'équipement que ce que peuvent transporter des Légionnaires isolés. Hurlement de l'Hydre — projetées depuis des réseaux de perturbation confiés aux équipes d'infiltration avancée d'élite, les Hurlements de l'Hydre sont un ensemble d'ondes ciblées et de signaux perturbateurs sur une multitude de fréquences. Utilisant des systèmes que l'on croit dérivés d'Intelligences Abominables proscrites datant de l'Âge des Ténèbres, ces émissions peuvent submerger les communications, les réseaux de balayage et de coordination ennemis, ce qui, à moins d'être spécifiquement contré, rend inutilisables des pans entiers de l'équipement standard de la Légion.",
-    equipement: ["Fusil à pompe Banestrike", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Fusil à pompe Banestrike",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Cadre de Perturbation Effrit",
@@ -22010,7 +22283,8 @@ const UNITES = [
       {
         type: "choix",
         id: "principal-melee",
-        libelle: "Principal : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        libelle:
+          "Principal : objet de la liste des Armes de Mêlée de Sergent de Légion",
         ajoute: true,
         prefixeFiche: "Principal : ",
         choix: [
@@ -22024,7 +22298,8 @@ const UNITES = [
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
         // depuis le livre au besoin.
         id: "bolter-nemesis",
-        libelle: "Figurines : Bolter Némésis (à la place du fusil à pompe Banestrike)",
+        libelle:
+          "Figurines : Bolter Némésis (à la place du fusil à pompe Banestrike)",
         cout: 10,
         parTranche: 1,
         ajoute: "Bolter Némésis (à la place du fusil à pompe Banestrike)",
@@ -23148,10 +23423,12 @@ const UNITES = [
       {
         type: "quantite",
         id: "lame-tronconneuse-legacy",
-        libelle: "Figurines : Lame tronçonneuse (Legacy, voir Liber Hereticus p.171, à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : Lame tronçonneuse (Legacy, voir Liber Hereticus p.171, à la place de l'épée tronçonneuse)",
         cout: 5,
         parTranche: 1,
-        ajoute: "Lame tronçonneuse (Legacy) (à la place de l'épée tronçonneuse)",
+        ajoute:
+          "Lame tronçonneuse (Legacy) (à la place de l'épée tronçonneuse)",
       },
     ],
     legion: "VIII",
@@ -23247,23 +23524,28 @@ const UNITES = [
       {
         type: "quantite",
         id: "lame-tronconneuse-legacy",
-        libelle: "Figurines : Lame tronçonneuse (Legacy, voir Liber Hereticus p.171, à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : Lame tronçonneuse (Legacy, voir Liber Hereticus p.171, à la place de l'épée tronçonneuse)",
         cout: 5,
         parTranche: 1,
-        ajoute: "Lame tronçonneuse (Legacy) (à la place de l'épée tronçonneuse)",
+        ajoute:
+          "Lame tronçonneuse (Legacy) (à la place de l'épée tronçonneuse)",
       },
       {
         type: "quantite",
         id: "paires-griffes-legacy",
-        libelle: "Figurines : paire de griffes Lightning (Legacy, à la place du pistolet bolter et de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : paire de griffes Lightning (Legacy, à la place du pistolet bolter et de l'épée tronçonneuse)",
         cout: 10,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (Legacy) (à la place du pistolet bolter et de l'épée tronçonneuse)",
+        ajoute:
+          "Paire de griffes Lightning (Legacy) (à la place du pistolet bolter et de l'épée tronçonneuse)",
       },
       {
         type: "quantite",
         id: "lance-flammes-legacy",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes (Legacy, à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "special-legacy",
@@ -23272,7 +23554,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fuseur-legacy",
-        libelle: "Figurines (une par tranche de cinq) : fuseur (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fuseur (Legacy, à la place du pistolet bolter)",
         cout: 15,
         parTranche: 5,
         groupe: "special-legacy",
@@ -23281,7 +23564,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "fusil-plasma-legacy",
-        libelle: "Figurines (une par tranche de cinq) : fusil à plasma (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : fusil à plasma (Legacy, à la place du pistolet bolter)",
         cout: 10,
         parTranche: 5,
         groupe: "special-legacy",
@@ -23290,7 +23574,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "pistolet-plasma-legacy",
-        libelle: "Figurines (une par tranche de cinq) : pistolet à plasma (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : pistolet à plasma (Legacy, à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "special-legacy",
@@ -23299,7 +23584,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "serpentine-volkite-legacy",
-        libelle: "Figurines (une par tranche de cinq) : serpentine volkite (Legacy, à la place du pistolet bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : serpentine volkite (Legacy, à la place du pistolet bolter)",
         cout: 5,
         parTranche: 5,
         groupe: "special-legacy",
@@ -23381,7 +23667,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "lance-flammes-lourd",
-        libelle: "Figurines (une par tranche de cinq) : lance-flammes lourd (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes lourd (à la place du combi-bolter)",
         cout: 10,
         parTranche: 5,
         groupe: "lourd",
@@ -23390,7 +23677,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "autocanon-reaper",
-        libelle: "Figurines (une par tranche de cinq) : Autocanon Reaper (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : Autocanon Reaper (à la place du combi-bolter)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
@@ -23402,7 +23690,8 @@ const UNITES = [
         // « Plasma blaster » : profil d'arme non donné dans l'extrait
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
         // depuis le livre au besoin.
-        libelle: "Figurines (une par tranche de cinq) : blaster à plasma (à la place du combi-bolter)",
+        libelle:
+          "Figurines (une par tranche de cinq) : blaster à plasma (à la place du combi-bolter)",
         cout: 15,
         parTranche: 5,
         groupe: "lourd",
@@ -23427,16 +23716,19 @@ const UNITES = [
       {
         type: "quantite",
         id: "chainglaive-nostraman",
-        libelle: "Figurines : Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
         cout: 0,
         parTranche: 1,
         groupe: "melee",
-        ajoute: "Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
+        ajoute:
+          "Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
       },
       {
         type: "quantite",
         id: "gantelet-energetique",
-        libelle: "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -23445,7 +23737,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "griffe-lightning",
-        libelle: "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : griffe Lightning (à la place de l'arme énergétique)",
         cout: 5,
         parTranche: 1,
         groupe: "melee",
@@ -23454,7 +23747,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "poing-tronconneur",
-        libelle: "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -23463,7 +23757,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "marteau-thunder",
-        libelle: "Figurines : Marteau Thunder (à la place de l'arme énergétique)",
+        libelle:
+          "Figurines : Marteau Thunder (à la place de l'arme énergétique)",
         cout: 10,
         parTranche: 1,
         groupe: "melee",
@@ -23472,17 +23767,21 @@ const UNITES = [
       {
         type: "quantite",
         id: "paire-griffes-lightning",
-        libelle: "Figurines : paire de griffes Lightning (à la place de l'arme énergétique et du combi-bolter)",
+        libelle:
+          "Figurines : paire de griffes Lightning (à la place de l'arme énergétique et du combi-bolter)",
         cout: 15,
         parTranche: 1,
-        ajoute: "Paire de griffes Lightning (à la place de l'arme énergétique et du combi-bolter)",
+        ajoute:
+          "Paire de griffes Lightning (à la place de l'arme énergétique et du combi-bolter)",
       },
       {
         type: "case",
         id: "hache-bourreau",
-        libelle: "Atramentar Trucidor : hache du Bourreau (à la place de l'arme énergétique)",
+        libelle:
+          "Atramentar Trucidor : hache du Bourreau (à la place de l'arme énergétique)",
         cout: 10,
-        ajoute: "Atramentar Trucidor : Hache du Bourreau (à la place de l'arme énergétique)",
+        ajoute:
+          "Atramentar Trucidor : Hache du Bourreau (à la place de l'arme énergétique)",
       },
     ],
     legion: "VIII",

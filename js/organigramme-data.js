@@ -660,12 +660,20 @@ const TYPES_DETACHEMENTS = [
     faction: "solar-auxilia",
     texte:
       "Débloqué quand une Section d'État-major Veletaris occupe une Case d'État-major. Cases d'Élite : Sections d'Assaut ou d'Avant-garde Veletaris uniquement. Cases d'Appui : Escadrons d'Hermes Veletaris uniquement.",
-    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-veletaris"] },
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["sa-etat-major-veletaris"],
+    },
     restrictions: {
       Elite: ["sa-assaut-veletaris", "sa-avant-garde-veletaris"],
       Appui: ["sa-hermes-veletaris"],
     },
-    cases: [_caseOrga("Elite"), _caseOrga("Elite"), _caseOrga("Appui"), _caseOrga("Appui")],
+    cases: [
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
   },
   {
     id: "tercio-infanterie",
@@ -688,7 +696,10 @@ const TYPES_DETACHEMENTS = [
     faction: "solar-auxilia",
     texte:
       "Débloqué quand une Section d'État-major Artillerie occupe une Case d'État-major. Cases d'Appui : Sections de Rapier, Chars d'Artillerie Basilisk ou Chars d'Artillerie Medusa uniquement.",
-    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-artillerie"] },
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["sa-etat-major-artillerie"],
+    },
     restrictions: {
       Appui: ["sa-rapier", "sa-basilisk", "sa-medusa"],
     },
@@ -706,7 +717,11 @@ const TYPES_DETACHEMENTS = [
       Reco: ["sa-sentinelles-legeres-hermes"],
       "Engins de Guerre": ["sa-sentinelles-aethon"],
     },
-    cases: [_caseOrga("Reco"), _caseOrga("Reco"), _caseOrga("Engins de Guerre")],
+    cases: [
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+      _caseOrga("Engins de Guerre"),
+    ],
   },
   {
     id: "tercio-blinde",
@@ -740,9 +755,18 @@ const TYPES_DETACHEMENTS = [
       "Débloqué quand un Magos, un Magos sur Abéant ou un Arcuitor Magisterium occupe une Case d'État-major.",
     deblocage: {
       caseRole: "État-major",
-      uniteIds: ["mech-magos", "mech-magos-abeant", "mech-arcuitor-magisterium"],
+      uniteIds: [
+        "mech-magos",
+        "mech-magos-abeant",
+        "mech-arcuitor-magisterium",
+      ],
     },
-    cases: [_caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui")],
+    cases: [
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
   },
   {
     id: "cadre-apprentis",
@@ -753,10 +777,19 @@ const TYPES_DETACHEMENTS = [
       "Débloqué quand un Magos, un Magos sur Abéant ou un Arcuitor Magisterium occupe une Case d'État-major. Cases de Troupes : Unités de Technoprêtre uniquement.",
     deblocage: {
       caseRole: "État-major",
-      uniteIds: ["mech-magos", "mech-magos-abeant", "mech-arcuitor-magisterium"],
+      uniteIds: [
+        "mech-magos",
+        "mech-magos-abeant",
+        "mech-arcuitor-magisterium",
+      ],
     },
     restrictions: { Troupes: ["mech-technopretre"] },
-    cases: [_caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Troupes")],
+    cases: [
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+    ],
   },
 
   /* ---------- Détachements d'Apex (p. 284) ----------
@@ -826,7 +859,10 @@ const TYPES_DETACHEMENTS = [
       "Débloqué quand un Champion de Légion — à pied ou Monté (Motard / Motojet Scimitar) — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
     // « Champion sur Scimitar » (js/unites-data.js) compte comme une
     // Unité de Champion de Légion pour ce déblocage (voir sa note).
-    deblocage: { caseRole: "État-major", uniteIds: ["champion", "champion-monte"] },
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["champion", "champion-monte"],
+    },
     cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports")],
   },
   {
@@ -1202,7 +1238,11 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Le fardeau du devoir pèse lourdement sur les guerriers de la Deathwing, qui firent autrefois le serment de ne reculer devant aucun obstacle pour accomplir leur mission. Les Conclaves de la Deathwing comptent parmi les divisions les plus puissantes de la Ire Légion.",
-    cases: [_caseOrga("Suites", true), _caseOrga("Elite"), _caseOrga("Assaut Lourd")],
+    cases: [
+      _caseOrga("Suites", true),
+      _caseOrga("Elite"),
+      _caseOrga("Assaut Lourd"),
+    ],
     legion: "I",
   },
   /* Icônes identifiées par comparaison avec la légende des Rôles
@@ -1370,7 +1410,10 @@ const TYPES_DETACHEMENTS = [
     texte:
       "La Case de Suite de ce Détachement ne peut servir qu'à sélectionner une Unité d'Escouade d'État-major Terminator Cataphractii ou Tartaros. Les Cases d'Assaut Lourd ne peuvent servir qu'à sélectionner des Unités d'Escouade Terminator Cataphractii ou Tartaros. Seul l'Avantage Principal Atramentar peut être choisi sur les Cases Principales de ce Détachement.",
     restrictions: {
-      Suites: ["escouade-etat-major-cataphractii", "escouade-etat-major-tartaros"],
+      Suites: [
+        "escouade-etat-major-cataphractii",
+        "escouade-etat-major-tartaros",
+      ],
       "Assaut Lourd": ["terminators-cataphractii", "terminators-tartaros"],
     },
     avantagesAutorises: ["atramentar"],
@@ -1387,7 +1430,8 @@ const TYPES_DETACHEMENTS = [
     id: "convocation-de-prospero",
     nom: "Convocation de Prospero",
     famille: "auxiliaire",
-    texte: "Des Troupes, une unité d'Attaque Rapide, une unité d'Élite et une unité de Transport Lourd.",
+    texte:
+      "Des Troupes, une unité d'Attaque Rapide, une unité d'Élite et une unité de Transport Lourd.",
     cases: [
       _caseOrga("Troupes", true),
       _caseOrga("Attaque Rapide"),
@@ -1763,7 +1807,8 @@ const RITE_DE_GUERRE_LEGION = {
           },
           { texte: "Un Mur Inexpugnable", style: "bold" },
           {
-            texte: "Le Joueur en Contrôle peut limiter les Dégâts subis en Défi.",
+            texte:
+              "Le Joueur en Contrôle peut limiter les Dégâts subis en Défi.",
             style: "bold",
           },
           {
@@ -2055,7 +2100,7 @@ const RITE_DE_GUERRE_LEGION = {
           },
           {
             texte:
-              "Les Figurines ayant cette Règle Spéciale doivent ajouter +2\" à la distance de tout Mouvement de Positionnement, jusqu'à un maximum de 6\".",
+              'Les Figurines ayant cette Règle Spéciale doivent ajouter +2" à la distance de tout Mouvement de Positionnement, jusqu\'à un maximum de 6".',
           },
         ],
       },
@@ -3163,7 +3208,10 @@ const AVANTAGES_PRINCIPAUX = [
   {
     id: "resistance-anormale",
     nom: "Résistance Anormale (Death Guard)",
-    uniteRequise: [{ id: "centurion" }, { id: "centurion-terminator", variante: 0 }],
+    uniteRequise: [
+      { id: "centurion" },
+      { id: "centurion-terminator", variante: 0 },
+    ],
     traitRequis: "Death Guard",
     unParArmee: true,
     texte:
