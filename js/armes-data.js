@@ -881,6 +881,17 @@ const ARMES_TIR = [
         traits: "Gravitons",
       },
       {
+        // Iron Hands Legacy Wargear (iron_hands_wargear.pdf) : ajouté à
+        // la liste des Armes Spéciales de Légion pour toute Figurine
+        // ayant le Trait Iron Hands (+15 Points). Arme de l'Escouade
+        // Terminator Gorgone/Escouade d'Immortels de Medusa (voir
+        // js/unites-data.js).
+        nom: "Déchiqueteur à gravitons",
+        stats: ["18", "2", "6", "4", "1"],
+        regles: "Brèche (6+), Choc (Fixée), Fixation (1)",
+        traits: "Assaut, Gravitons",
+      },
+      {
         // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
         // Unités Taghmata doivent utiliser cette version de l'arme.
         nom: "Fusil à gravitons (Mechanicum)",
@@ -1917,6 +1928,90 @@ const ARMES_TIR = [
         regles: "Souffle, Brèche (5+), Surcharge (1)",
         traits: "Plasma",
       },
+      /* --- Dark Angels Legacy Wargear (dark_angels_wargear.pdf) :
+         ajouté à la liste des Armes Spéciales de Légion pour toute
+         Figurine ayant le Trait Dark Angels (+15 Points). Non câblé sur
+         une Unité générique de Légion pour l'instant (voir
+         js/unites-data.js, unités Legacy réservées à la Ire Légion). --- */
+      {
+        nom: "Répéteur à plasma — Tir soutenu",
+        stats: ["12", "3", "5", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Plasma",
+      },
+      {
+        nom: "Répéteur à plasma — Tir maximal",
+        stats: ["12", "3", "6", "4", "1"],
+        regles: "Brèche (5+), Surcharge (1)",
+        traits: "Plasma",
+      },
+      /* --- Arsenal des Dark Angels (Ire Légion) : Excindio, Cabale
+         Enigmatus de la Firewing (voir js/unites-data.js, unités
+         réservées à cette Légion). --- */
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Lanceur de canistres à phosphex Athanax",
+        stats: ["24", "1", "6", "4", "1"],
+        regles: 'Explosion (3"), Barrage (2), Fixation (3), Empoisonnée (2+), Phage (E)',
+        traits: "Rad",
+      },
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Déchiqueteur à induction nerveuse Tyrhenius",
+        stats: ["18", "10", "1", "-", "1"],
+        regles: "Empoisonnée (2+), Panique (1)",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Canon à impulsion atomique Magaron",
+        stats: ["24", "3", "8", "2", "1"],
+        regles: "Fléau des Blindages, Choc (Supprimée)",
+        traits: "Assaut",
+      },
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Projecteur de flux à gravitons Cytheron",
+        stats: ["Souffle", "1", "7", "4", "2"],
+        regles: "Souffle, Brèche (5+), Choc (Fixée), Fixation (3)",
+        traits: "Assaut, Gravitons",
+      },
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Nettoyeur irad",
+        stats: ["Souffle", "1", "2", "5", "1"],
+        regles: "Souffle, Phage (E), Empoisonnée (2+), Panique (1)",
+        traits: "Rad",
+      },
+      {
+        // Arme de l'Unité Cabale Enigmatus de la Firewing (Dark Angels).
+        nom: "Pistolet à aiguilles",
+        stats: ["12", "2", "2", "-", "1"],
+        regles: "Empoisonnée (3+), Pistolet, Fixation (1)",
+        traits: "Assaut, Aiguille",
+      },
+      {
+        // Arme de l'Unité Cabale Enigmatus de la Firewing (Dark Angels) :
+        // profil Frag, voir aussi Krak et Stase ci-dessous.
+        nom: "Lance-missiles Enigmatus — Frag",
+        stats: ["24", "1", "3", "6", "1"],
+        regles: 'Explosion (3")',
+        traits: "Assaut",
+      },
+      {
+        // Profil Krak, voir aussi Frag ci-dessus et Stase ci-dessous.
+        nom: "Lance-missiles Enigmatus — Krak",
+        stats: ["24", "1", "6", "4", "2"],
+        regles: "-",
+        traits: "Assaut",
+      },
+      {
+        // Profil Stase, voir aussi Frag et Krak ci-dessus.
+        nom: "Lance-missiles Enigmatus — Stase",
+        stats: ["24", "1", "4", "-", "2"],
+        regles: 'Explosion (3"), Sonner (3)',
+        traits: "Assaut, Stase",
+      },
       {
         // Arsenal des Maisonnées de Chevaliers et des Legios Titaniques.
         nom: "Fusil à plasma phasé",
@@ -2481,6 +2576,46 @@ const ARMES_TIR = [
         stats: ["24", "1", "6", "4", "2"],
         regles: 'Explosion (3"), Brèche (6+)',
         traits: "Psychique, Assaut",
+      },
+      /* --- Thousand Sons Legacy Wargear (thousand_sons_wargear.pdf) :
+         Pistolet/Bolter Asphyx ajoutés en échange du pistolet
+         bolter/bolter pour toute Figurine ayant le Trait Thousand Sons
+         (+2/+3 Points par Figurine) ; Pistolet à étherfeu ajouté aux
+         listes d'Officier de Légion et de Pistolets de Légion ; Blaster
+         à étherfeu ajouté à la liste des Armes Spéciales de Légion (voir
+         js/unites-data.js, Cabale de Numérologistes, Cabale d'Intercession
+         Occulte Ammitara, Cabale du Khenetai Occulte). --- */
+      {
+        nom: "Pistolet Asphyx",
+        stats: ["8", "1", "4", "5", "1"],
+        regles: "Pistolet, Vulnérante (6+)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Bolter Asphyx",
+        stats: ["18", "2", "4", "5", "1"],
+        regles: "Vulnérante (6+)",
+        traits: "Bolts",
+      },
+      {
+        nom: "Pistolet à étherfeu",
+        stats: ["10", "1", "6", "4", "2"],
+        regles: "Pistolet, Brèche (6+)",
+        traits: "Assaut, Psychique",
+      },
+      {
+        nom: "Blaster à étherfeu",
+        stats: ["18", "2", "6", "4", "2"],
+        regles: "Brèche (6+)",
+        traits: "Psychique",
+      },
+      {
+        // Ajouté à la liste des Armes Lourdes de Légion (Legacy Wargear,
+        // +20 Points). Distinct du Canon à étherfeu ci-dessus.
+        nom: "Canon Magna à étherfeu",
+        stats: ["24", "1", "6", "4", "2"],
+        regles: 'Explosion (5"), Brèche (6+)',
+        traits: "Psychique",
       },
       {
         // Arme Psychique (Arcane de Prospero Pavoni, Thousand Sons).
@@ -3549,6 +3684,28 @@ const ARMES_MELEE = [
         stats: ["1", "A", "+2", "2", "2"],
         regles: "Atout du Duelliste (2)",
         traits: "Énergétique, Épée de l'Ordre",
+      },
+      {
+        // Arme de l'Unité Excindio (Dark Angels).
+        nom: "Griffes Excindio",
+        stats: ["1", "A", "+1", "3", "2"],
+        regles: "Brèche (5+), Fauchage (2)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de l'Unité Cabale Enigmatus de la Firewing (Dark Angels) :
+        // profil Non chargée, voir aussi Chargée ci-dessous.
+        nom: "Lame chargeuse Calibanite — Non chargée",
+        stats: ["+2", "A", "F", "4", "1"],
+        regles: "-",
+        traits: "Épée de l'Ordre",
+      },
+      {
+        // Profil Chargée, voir aussi Non chargée ci-dessus.
+        nom: "Lame chargeuse Calibanite — Chargée",
+        stats: ["-1", "A", "+1", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Épée de l'Ordre",
       },
       {
         // Arsenal des Space Wolves (VIe Légion) : échange contre une

@@ -232,8 +232,66 @@ Règles Spéciales :
   mortifère (ex : Mortifier bolter → Bolter mortifère)
 - Peritarch (targeter) → Péritarque (ex : Peritarch targeter → Viseur
   Péritarque) ; Targeter → Viseur
-- Lascutter → nom seul, pas de profil (aucune fiche ne le donne dans
-  les extraits fournis jusqu'ici)
+- Lascutter → **Découpeur laser** (résolu : profil déjà existant dans
+  l'Arsenal, utilisé par l'Escouade d'Immortels de Medusa — corriger si
+  vu ailleurs comme « nom seul »)
+- Outflank → Contournement (nom seul, pas de texte complet connu)
+- Stun (règle d'arme) → Sonner (X) (terme déjà établi, pas un nouveau
+  nom)
+- Reaping Blow (X) → Fauchage (X) (terme déjà établi)
+- Needle (trait d'arme) → Aiguille
+- Sword of the Order (trait d'arme) → Épée de l'Ordre (terme déjà
+  établi, cf. L'Épée du Lion/La Lame du Loup)
+- Un même Statut « Choc (X) » peut avoir plusieurs variantes suivant
+  l'arme (Fixée, Neutralisée, Sonnée, Supprimée...) : chercher si la
+  variante existe déjà avant d'en traduire une nouvelle.
+- Prime Advantage / Prime Force Organisation Slot (Dark Angels
+  Terminator Paladin of the Hekatonystika) : mécanique non modélisée
+  dans ce fichier, à ne pas confondre avec Cases Principales/Détachement
+  Auxiliaire ou d'Apex (js/organigramme-data.js) — non transcrite tant
+  qu'aucune Unité concrète n'en a besoin.
+- Reaver (Sons of Horus) → Ravageur (terme déjà établi, cf. Escouade
+  d'Attaque Ravageuse) ; Chieftain → Chef de Guerre.
+- Jump Pack : pas de ligne d'équipement dédiée dans ce fichier — encodé
+  uniquement via le Sous-type « Antigrav » du champ `type`, comme pour
+  les autres Unités à réacteur dorsal déjà transcrites.
+- Deux Unités Legacy peuvent recouper une Unité déjà existante sous un
+  nom anglais proche mais distinct (« Reaver ATTACK Squad » du wargear
+  PDF ≠ la nouvelle « Reaver AGGRESSOR Squad » du PDF principal, mais
+  correspond à l'Escouade d'Attaque Ravageuse déjà présente) : vérifier
+  studieusement lequel des deux réceptionne chaque ajout Legacy avant
+  d'écrire quoi que ce soit.
+- Graviton shredder → Déchiqueteur à gravitons · Volkite culverin →
+  réutilise « Couleuvrine volkite » déjà existante (mêmes stats)
+  · Legion standard → Étendard de Légion (terme déjà établi)
+- Iron Father (Iron Hands) → titre gardé tel quel (pas de « Père de
+  Fer »), sur le même principe que Forgeguerre/Warsmith mais non
+  traduit — aligné sur l'anglais faute de précédent contraire.
+- Une armurerie Legacy peut viser une liste NOMMÉE et bornée d'Unités
+  génériques inexistantes dans ce fichier (ex : Armure Terminator
+  Gorgone → « Iron Father » + 12 profils « Tartaros [rôle] » : aucun
+  des deux n'existe ici en dehors de la variante Legacy elle-même) :
+  documenter le gap en commentaire plutôt que d'inventer les Unités
+  manquantes ou de forcer l'option sur une Unité qui ne correspond pas
+  vraiment (ex : ne pas donner une Armure Terminator à une Figurine en
+  Armure Artificer dont c'est justement le trait distinctif).
+- **Rending (X+) → Vulnérante (X+), PAS Lacération (X+).** Ce sont deux
+  Règles Spéciales distinctes déjà dans le glossaire : Shred (X+) =
+  Lacération (+1 dégât si jet de blessure ≥ X) ; Rending (X+) =
+  Vulnérante (jet de touche ≥ X blesse automatiquement, sans jet de
+  blessure). Bien vérifier le mot anglais exact avant de traduire.
+- Æther-fire (Thousand Sons) → **étherfeu** (un seul mot, sans trait
+  d'union ni espace), déjà établi (Canon à étherfeu, Castellax-Achea) :
+  Æther-fire pistol/blaster/magna-cannon → Pistolet/Blaster/Canon Magna
+  à étherfeu.
+- `ARCANE_DE_PROSPERO` (constante partagée, `unites-data.js`) est un
+  choix de Culte/sous-faction (Raptora, Pyrae, Pavoni, Corvidae,
+  Athanéen), PAS une sélection de Pouvoirs Psychiques nommés
+  individuels — ce fichier ne modélise pas les Pouvoirs Psychiques un
+  par un. Une Unité dont la fiche donne des Pouvoirs Psychiques fixes
+  (ex : Numérologiste) n'a pas accès à ce choix ; les noms des Pouvoirs
+  eux-mêmes n'ont pas de glossaire dédié, les citer tels quels dans la
+  Règle Spéciale qui les accorde suffit.
 
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

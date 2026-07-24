@@ -432,6 +432,61 @@ const REGLES_DIVERSES = [
       "La Lame de la Sagesse est une stratégie d'assaut avancée conçue pour la première fois durant la Grande Croisade. Les Locutarus lancent une Charge parfaitement synchronisée contre des ennemis immobilisés par le tir d'une redoutable précision d'unités Ultramarines en soutien mutuel, et anéantissent rapidement leurs adversaires dans un déluge de coups d'épée experts. Les Figurines ayant cette Règle Spéciale gagnent un bonus quand elles sont Verrouillées en Combat avec des Unités ayant des Statuts Tactiques : quand elles sont Verrouillées en Combat avec une Unité qui inclut au moins une Figurine ayant un Statut Tactique quelconque, les Figurines ayant cette Règle Spéciale dans ce Combat gagnent un modificateur supplémentaire de +1 à leur caractéristique d'Attaques jusqu'à la fin de la Phase.",
   },
   {
+    // Cenobium de Chevaliers du Cercle Intérieur — Ordre des Griffes
+    // Brisées (Ire Légion, Dark Angels) : voir js/unites-data.js.
+    nom: "Ordre des Griffes Brisées",
+    texte:
+      "De tous les guerriers de la Ire Légion, l'Ordre des Griffes Brisées était le plus expérimenté dans la lutte contre les formes biologiques monstrueuses des Rangda, endurci à leur horreur indescriptible. Bien que ces chevaliers eussent vu leur nombre décliner au déclenchement de l'Hérésie d'Horus, leur expérience chèrement acquise du combat contre l'inhumain allait se révéler inestimable. Tant qu'une Figurine ayant cette Règle Spéciale fait partie d'une Unité Verrouillée en Combat avec une Unité ennemie qui inclut une ou plusieurs Figurines de Type Marcheur, de Type Automate ou de Sous-type Maléfique : cette Figurine a sa caractéristique d'Endurance modifiée de +1 ; et pour tout Test de Caractéristique utilisant les caractéristiques de Commandement, Sang-froid, Volonté ou Intelligence de cette Figurine, le Joueur en Contrôle peut ignorer les modificateurs négatifs à cette caractéristique.",
+  },
+  {
+    // Excindio (Ire Légion, Dark Angels) : voir js/unites-data.js.
+    nom: "Rage Vengeresse",
+    texte:
+      "Bien que chaque Excindio soit habituellement maintenu sous contrainte technologique, il est nécessaire au combat de relâcher ces restrictions pour libérer toute sa puissance. S'il est suffisamment endommagé cependant, même les garde-fous stricts imposés par ses contrôleurs peuvent être outrepassés par ses systèmes adaptatifs complexes. La fureur qui en résulte est aussi dangereuse pour ses alliés que pour son ennemi, jusqu'à ce qu'elle puisse être ramenée sous contrôle. Tant qu'une Figurine ayant cette Règle Spéciale a une caractéristique de Points de Vie Actuels de 4 ou moins, à chacune des Phases de Tir de son Joueur en Contrôle, elle doit faire une Attaque de Tir ciblant l'Unité amie ou ennemie la plus proche ayant une Ligne de Vue sur la Figurine. Une telle Attaque de Tir doit utiliser toutes les Armes qui sont à portée d'au moins une Figurine de l'Unité Cible.",
+  },
+  {
+    // Excindio (Ire Légion, Dark Angels) : Type de Figurine, voir
+    // js/unites-data.js.
+    nom: "Artificia",
+    texte:
+      "Ces créatures ressemblent extérieurement aux automates du Mechanicum, mais sous leur peau de métal, elles n'ont rien de commun avec eux. Les Artificia ne sont pas de grossiers serviteurs de métal, mais un esprit vivant forgé dans l'acier et conditionné à haïr toute autre forme de vie. Les Figurines de Type Artificia ne peuvent gagner aucun Statut Cybertheurgique, mais peuvent gagner des Statuts Tactiques ou d'autres types d'effets de Statut. Quand elle cible une Unité qui inclut des Figurines de Type Artificia, la Règle Spéciale Empoisonnée (X) ne se déclenche que sur un Test de Blessure dont le résultat est un « 6 » avant application des modificateurs, quelle que soit la Valeur de X de cette variante de la Règle Spéciale.",
+  },
+  {
+    // Cabale Enigmatus de la Firewing (Ire Légion, Dark Angels) : voir
+    // js/unites-data.js.
+    nom: "Marqué pour la Mort (X)",
+    texte:
+      "Certaines cohortes de guerriers prennent le champ de bataille avec une cible précise désignée pour destruction. Ces actions peuvent être motivées par un désir de vengeance, pour régler un différend, ou simplement résulter des ordres exprès de leurs supérieurs dans l'intérêt d'une stratégie plus large. À la fin de l'Étape de Déclaration des Réserves de la Mission, le Joueur en Contrôle de toute Unité ayant cette Règle Spéciale peut choisir une Unité de l'Armée du Joueur Adverse : cette Unité devient l'Unité « Marquée ». Une fois par Bataille, le Joueur en Contrôle marque des Points de Victoire supplémentaires égaux à la Valeur de X si une Unité amie ayant cette Règle Spéciale marque des Points de Victoire grâce à la Règle Spéciale Avant-garde (X) quand l'Unité ennemie qui remplit les conditions de la Règle Spéciale Avant-garde (X) est l'Unité Marquée.",
+  },
+  {
+    // Escouade des Chefs de Guerre (XVIe Légion, Sons of Horus) : voir
+    // js/unites-data.js.
+    nom: "Honneur Avant Tout",
+    texte:
+      "Les Chefs de Guerre des Sons of Horus avaient gagné leur rang par la loyauté, l'honneur et une violence sans merci, leur dévouement et leur qualité éprouvés contre d'innombrables ennemis sans jamais être pris en défaut. Leur devoir était de veiller à ce que nul n'interfère quand leur seigneur cherchait à prouver sa suprématie en combat singulier, abattant quiconque chercherait à porter un coup déshonorant contre celui qu'ils protégeaient. Quand une Figurine ayant rejoint une Unité qui inclut des Figurines ayant cette Règle Spéciale prend part à un Défi, toutes les Figurines de cette Unité ayant cette Règle Spéciale gagnent un bonus de +1 à tous les Tests de Blessure faits durant la Sous-phase de Frappe suivante de cette Phase d'Assaut.",
+  },
+  {
+    // Escouade Terminator Morlock (Xe Légion, Iron Hands) : voir
+    // js/unites-data.js.
+    nom: "Destinée de la Gorgone",
+    texte:
+      "Si la mort de Ferrus Manus éveilla une froide fureur dans le cœur de tous les Iron Hands, ceux de sa suite Avernienne la ressentirent plus intensément encore, cherchant les membres de la IIIe Légion pour exercer leur vengeance sur eux. Quand elle fait partie d'une Armée qui n'inclut pas Ferrus Manus, une Figurine ayant cette Règle Spéciale a la Règle Spéciale Haine (Emperor's Children).",
+  },
+  {
+    // Cabale de Numérologistes (XVe Légion, Thousand Sons) : voir
+    // js/unites-data.js.
+    nom: "Ordre des Numérologistes",
+    texte:
+      "Les Numérologistes des Thousand Sons étaient membres de l'Ordre de la Ruine, qui remplissait un rôle similaire à celui des Techmarines dans les autres Légions. Ils étaient en outre réputés pour leur acuité tactique, élaborant des stratégies et influençant le cours de la bataille. Une grande part de leur succès pouvait être attribuée aux capacités psychiques des Numérologistes, qui employaient à la fois des capacités de divination et de télépathie pour prédire les mouvements ennemis et relayer ces changements à leurs alliés. Une Figurine ayant cette Règle Spéciale possède les Pouvoirs Psychiques suivants, mais une Unité qui inclut une Figurine ayant cette Règle Spéciale ne peut pas se voir attribuer d'Arcane Prosperine comme normalement. De plus, elle a les Traits Télépathe et Devin : Bénédiction de Prescience (Discipline Divination), Explosion Mentale (Discipline Télépathie).",
+  },
+  {
+    // Cabale de Numérologistes (XVe Légion, Thousand Sons) : voir
+    // js/unites-data.js.
+    nom: "Gardes de Vie",
+    texte:
+      "Habituellement déployés avec les éléments arrière de la XVe Légion durant la Grande Croisade, les Numérologistes virent un service bien plus fréquent en première ligne durant l'Hérésie d'Horus. Pour minimiser les risques, ils allaient au combat accompagnés d'un cadre de Gardes de Vie spécialisés chargés de les protéger pendant qu'ils vaquaient à leurs tâches. Tant qu'une Figurine Numérologiste fait partie d'une Unité qui inclut des Figurines ayant cette Règle Spéciale, les Blessures causées dans le cadre d'une Attaque de Tir faite par une Arme ou une Figurine ayant la Règle Spéciale Précision (X) ne peuvent pas être allouées à cette Figurine Numérologiste.",
+  },
+  {
     nom: "Médic (X)",
     texte:
       "Détermine la difficulté des Jets de Rétablissement (le nombre à atteindre) pour cette unité, sans en accorder par elle-même.",
