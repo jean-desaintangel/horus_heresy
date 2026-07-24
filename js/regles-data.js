@@ -215,7 +215,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Écran de fumée (réaction)",
-    texte: "Jet de mitigation de dégâts de Dissimulation (5+) contre les tirs.",
+    texte:
+      "Donne un Jet de Mitigation de Dégâts de Dissimulation contre les tirs. Le Joueur Réactif peut déclarer cette Réaction Avancée à la Phase de Tir, au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif, pour une Figurine qui a le Trait Écran de Fumée (coût : 1 Point d'Attribution de Réactions). Pour la durée de cette Attaque de Tir, toutes les Figurines de l'Unité ciblée qui ont majoritairement ce Trait gagnent un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre les Blessures, Touches Pénétrantes ou Touches Superficielles infligées.",
   },
   {
     nom: "Explose (X)",
@@ -1278,5 +1279,346 @@ const REGLES_DIVERSES = [
     nom: "Lance-leurres",
     texte:
       "Une Figurine dotée de lance-leurres gagne un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre toute Touche infligée au cours d'une Réaction Interception.",
+  },
+
+  /* --- Arsenal des Solar Auxilia (Liber Auxilia) : Règles Spéciales
+     d'Unité, transcrites depuis des scans à l'impression dense — texte
+     condensé au mécanisme central plutôt que reproduit mot pour mot ;
+     à revérifier contre le livre en cas de doute. --- */
+  {
+    nom: "Ordre Serré",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale et le Trait Tercio d'Infanterie augmente de +1 la valeur de X de la variante Ligne (X) que possèdent les autres Figurines amies de la même Unité.",
+  },
+  {
+    nom: "Tenir la Ligne",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale et le Trait Tercio Véletaris confère la Règle Spéciale Ligne (X) aux autres Figurines amies de la même Unité, X étant égal au nombre de Figurines de l'Unité.",
+  },
+  {
+    nom: "Frappe Préventive",
+    texte:
+      "Avant que les unités de manœuvre ennemies n'aient le temps de se déployer, les Sections d'Éclaireurs Hermes qui ont le Trait Tercio d'Éclaireurs gagnent la Règle Spéciale Orage de Feu tant qu'aucune Figurine amie ayant cette Règle Spéciale ne se trouve à moins de 18\" d'une Figurine ennemie.",
+  },
+  {
+    nom: "Lance-grenade Hermes",
+    texte:
+      'À l\'Étape de Volée de la Procédure de Charge, une Figurine dotée d\'un lance-grenade Hermes peut faire une attaque unique avec le profil Frag ou Krak de cette Arme, à la place d\'une Attaque de Tir normale.',
+  },
+  {
+    nom: "État-major Suprême de Cohorte",
+    texte:
+      "Si le Détachement Principal d'une Armée est issu de la Liste d'Armée des Solar Auxilia et inclut au moins une Figurine ayant ce Trait, l'Armée gagne un Point de Réaction bonus.",
+  },
+
+  /* --- Réactions Avancées et Posture des Solar Auxilia (Liber
+     Auxilia, p. 106-108), accessibles à toute Unité/Figurine qui a le
+     Trait Solar Auxilia. Condensées au mécanisme central (Déclencheur/
+     Coût/Cible/Processus fondus en un seul texte) plutôt que
+     reproduites in extenso, comme les autres Réactions Avancées déjà
+     présentes ci-dessus (Frappe Fatale, Chercheur d'Expiation…). --- */
+  {
+    nom: "Formez les Rangs !",
+    texte:
+      "Réaction Avancée des Solar Auxilia qui resserre les rangs d'une Unité pour lui conférer une Sauvegarde Invulnérable temporaire. Le Joueur Réactif peut la déclarer à la Sous-phase de Déplacement de la Phase de Mouvement pour une Unité sous son contrôle dont la moindre Figurine a le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions). Chaque Figurine de l'Unité Réactive se Déplace pour finir en Contact Socle à Socle avec au moins deux autres Figurines de la même Unité ; l'Unité gagne alors une Sauvegarde Invulnérable de 5+ contre toutes les Attaques de Tir pour le reste du Tour du Joueur Actif.",
+  },
+  {
+    nom: "Appui Feu !",
+    texte:
+      "Réaction Avancée qui éloigne une Unité du danger en ripostant avec une Arme de Barrage amie. Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif contre une Unité sous son contrôle uniquement composée de Figurines qui ont le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions) : l'Unité Cible se Déplace de sa Caractéristique d'Initiative en pouces en s'éloignant, puis une seule Figurine amie dotée d'une Arme ayant la Règle Spéciale Barrage (X) et à 12 pouces de la Cible fait aussitôt une Attaque de Tir contre l'Unité qui a déclenché la Réaction.",
+  },
+  {
+    nom: "Baïonnettes aux Canons !",
+    texte:
+      "Réaction Avancée qui permet à une Unité de Solar Auxilia de riposter à la baïonnette contre une Charge ratée. Le Joueur Réactif peut la déclarer à la fin de l'Étape 5 d'une Charge dont le Jet de Charge a échoué, pour l'Unité qui en était la Cible, composée uniquement de Figurines qui ont le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions) : chaque Figurine de l'Unité Réactive dotée d'une Arme ayant le Trait Baïonnette fait ses attaques de mêlée contre l'Unité Assaillante au Rang d'Initiative correspondant, les Figurines Retirées comme Pertes comptant pour la Résolution de Combat.",
+  },
+  {
+    nom: "Salve Méprisante",
+    texte:
+      "Posture de Défi des Solar Auxilia qui permet de répondre au pistolet plutôt qu'au corps à corps. Une Figurine engagée en Défi qui a le Trait Solar Auxilia peut choisir cette Posture pour faire une unique Attaque de Tir au pistolet contre la Figurine adverse en Défi, dont les Blessures ne peuvent être allouées qu'à cette dernière. Si cette Attaque de Tir la retire comme Perte, on passe directement à l'Étape de Gloire sans Jet de Concentration ; sinon, l'Adversaire gagne automatiquement l'Avantage en Défi.",
+  },
+
+  /* --- Doctrines de Cohorte (Liber Auxilia, p. 11-16) : un unique
+     choix optionnel par Armée Solar Auxilia (menu « Doctrine de
+     Cohorte », js/organigramme.js). Tactica de Cohorte et Détachements
+     Additionnels condensés en un seul texte par Doctrine. --- */
+  {
+    nom: "Cohorte Ultima",
+    texte:
+      "Doctrine de Cohorte axée sur la masse d'infanterie. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine suivent la Règle Spéciale Manœuvres Coordonnées : à chaque Phase de Mouvement, de Tir et d'Assaut, la première Réaction déclarée dont l'Unité Réactive est une Section de Ryeliers a un coût en Points de Réaction modifié de -1 (minimum 0), et une Section de Ryeliers peut effectuer une Réaction de plus par Phase pour un Point d'Attribution de Réactions de moins. Débloque, pour chaque Détachement Auxiliaire de Tercio d'Infanterie de la Feuille d'Armée, un Détachement Auxiliaire de Tercio d'Infanterie supplémentaire sans occuper de Case d'État-major.",
+  },
+  {
+    nom: "Cohorte Solaire",
+    texte:
+      "Doctrine de Cohorte axée sur l'assaut débarqué. Les Figurines ayant le Trait Solar Auxilia et la Règle Spéciale Avant-garde (X) d'une Armée qui adhère à cette Doctrine ne rendent pas Désordonnée une Charge déclarée pour une Unité entièrement composée de telles Figurines au Tour de Joueur où elle Débarque d'un Dracosan. Débloque, pour chaque Détachement Auxiliaire de Tercio Veletaris de la Feuille d'Armée, un Détachement Auxiliaire de Tercio Veletaris supplémentaire sans occuper de Case d'État-major.",
+  },
+  {
+    nom: "Cohorte de Reconnaissance",
+    texte:
+      "Doctrine de Cohorte axée sur les escadrons de Sentinelles. Les Figurines de Type Cavalerie ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine peuvent Contrôler ou Contester des Objectifs, se déplacer plus loin au cours d'une Réaction Se Dérober, et portent leur Caractéristique d'Initiative à 5 pour cette Réaction. Débloque, pour chaque Détachement Auxiliaire de Tercio d'Éclaireurs de la Feuille d'Armée, un Détachement Auxiliaire de Tercio d'Éclaireurs supplémentaire sans occuper de Case d'État-major.",
+  },
+  {
+    nom: "Cohorte Mécanisée",
+    texte:
+      "Doctrine de Cohorte axée sur le soutien blindé. Les Figurines de Type Véhicule (hors Sous-type Aéronef) ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine peuvent se Déplacer tout en bénéficiant de la Règle Spéciale Lourde (X) ; si elles ne se déplacent pas de plus de 4 pouces à la Phase de Mouvement et ne Foncent pas, elles comptent comme étant à l'Arrêt ce Tour pour toute variante Lourde (X) de leurs Armes. Débloque, pour chaque Détachement Auxiliaire de Tercio Blindé de la Feuille d'Armée, un Détachement Auxiliaire de Tercio Blindé supplémentaire sans occuper de Case d'État-major.",
+  },
+  {
+    nom: "Cohorte de Siège",
+    texte:
+      "Doctrine de Cohorte axée sur l'artillerie lourde. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine améliorent de +1 la valeur de X de la Règle Spéciale Fixation (X) de leurs Armes ayant la Règle Spéciale Barrage (X), et de toute Arme dotée à la fois de Barrage (X) et Fixation (X). Débloque, pour chaque Détachement Auxiliaire de Tercio d'Artillerie de la Feuille d'Armée, un Détachement Auxiliaire de Tercio d'Artillerie supplémentaire sans occuper de Case d'État-major.",
+  },
+  {
+    nom: "Cohorte de Fer",
+    texte:
+      "Doctrine de Cohorte qui intègre des automates du Mechanicum aux Sections de Ryeliers. Chaque Figurine d'une Unité de Section de Ryeliers d'une Armée qui adhère à cette Doctrine gagne la Règle Spéciale Sacrifiable (1). Débloque le Détachement Auxiliaire de Tercio de Fer, qui permet de sélectionner des Unités de Manipule Castellax Destructor, de Technoprêtre, de Manipule de Combat Castellax ou de Cohorte Thallax (Liber Mechanicum, non transcrites sur ce site) — les Figurines sélectionnées y remplacent leur Trait [Mechanicum]/Cybernetica/Reductor par le Trait de Faction Tercio de Fer.",
+  },
+
+  /* --- Réactions Avancées « Legiones Auxilia » (livre Legiones
+     Auxilia intégré au Liber Auxilia, p. 70-84) : accessibles quand une
+     Armée Solar Auxilia adopte la Désignation de Legiones Auxilia
+     correspondante, réservée aux Détachements Principaux dont la
+     moindre Figurine n'a pas d'autre Trait [Legiones Astartes] que
+     celui de la Légion indiquée. Non câblées à un sélecteur dédié sur
+     ce site (contrairement au Rite de Guerre) : condensées ici en
+     référence, une par Légion transcrite dans ce livre. --- */
+  {
+    nom: "Combinaison Interarmes",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Haute Garde d'Ultramar (XIIIe Légion, Ultramarines). Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir du Joueur Actif contre une Unité sous son contrôle composée uniquement de Figurines qui ont le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions). L'Unité Réactive fait aussitôt une Attaque de Tir contre l'Unité Assaillante ; si elle lui fait perdre au moins un Point de Vie après Sauvegardes et Mitigations, la Charge de cette dernière devient aussitôt une Charge Désordonnée.",
+  },
+  {
+    nom: "Perdurer",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Ambaxtoi de Barbarus (XIVe Légion, Death Guard). Le Joueur Réactif peut la déclarer à la Phase de Tir, à la fin de l'Étape 11 d'une Attaque de Tir du Joueur Actif qui entraînerait un Test de Panique pour Pertes contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions), pour éviter ce Test : l'Unité Réactive fait ensuite une Attaque de Tir au Jugé contre une Unité ennemie en Ligne de Vue au choix du Joueur Réactif, puis le Test de Panique évité est résolu normalement.",
+  },
+  {
+    nom: "Diversion",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Vindictaires Sparatoi (XXe Légion, Alpha Legion). Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir du Joueur Actif contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions), si une autre Unité amie sans Massif (X) se trouve à 12 pouces et est à portée de toutes les Armes déclarées par le Joueur Actif : le Joueur Actif doit aussitôt faire un Test de Sang-froid pour l'Unité Cible d'origine ; s'il échoue, l'Attaque de Tir se poursuit contre cette autre Unité, désormais Cible à sa place.",
+  },
+  {
+    nom: "Déplacement",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Vélites de Therion (XIXe Légion, Raven Guard). Le Joueur Réactif peut la déclarer au début de l'Étape 4 du processus de Charge de n'importe quelle Charge déclarée par le Joueur Actif qui cible une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive se Déplace jusqu'à sa Caractéristique d'Initiative en pouces en Cohésion, puis fait une Attaque de Volée contre l'Unité qui a déclaré la Charge, ses Armes de Tir gagnant le Trait Assaut pour l'occasion, avant que le Joueur Actif ne passe normalement à l'Étape 4 de la Charge.",
+  },
+  {
+    nom: "Harangue du Maître de Guerre",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Chasseurs de Têtes Cthoniens (XVIe Légion, Sons of Horus). Le Joueur Réactif peut la déclarer à la Sous-phase de Déroute de la Phase de Mouvement, quand une Unité sous son contrôle composée uniquement de Figurines qui ont le Trait Solar Auxilia fait son Mouvement de Retraite (coût : 1 Point d'Attribution de Réactions) : cette Unité fait un Déplacement vers une ou plusieurs Unités ennemies voisines au lieu de Foncer normalement, puis chaque Unité amie composée uniquement de Figurines ayant le Trait Solar Auxilia à 12 pouces peut à son tour se Déplacer d'un nombre de pouces égal à sa Caractéristique d'Initiative, en Cohésion, ce Déplacement comptant comme une Réaction à ce Tour de Bataille.",
+  },
+  {
+    nom: "Choc Psy",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Gardespire Prosperienne (XVe Légion, Thousand Sons). Le Joueur Réactif peut la déclarer à la Phase de Tir, à la fin de l'Étape 11 d'une Attaque de Tir du Joueur Actif qui entraînerait un Test de Panique pour Pertes contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive subit aussitôt un résultat du Tableau des Périls du Warp, puis on résout immédiatement un autre résultat du Tableau des Périls du Warp contre l'Unité qui a fait l'Attaque de Tir, avant que la Phase de Tir du Joueur Actif ne continue normalement.",
+  },
+
+  /* --- Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : Règles
+     Spéciales d'Unité citées par les profils du livre. --- */
+  {
+    nom: "Méditation Martiale",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut relancer un Jet de Concentration raté en Défi, une fois par Défi.",
+  },
+  {
+    nom: "Rite de la Pensée Pure",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale ignore les effets de la Règle Spéciale Peur (X), et ne peut jamais gagner le Statut Tactique En Déroute : elle est Retirée comme Perte à la place si elle devait le gagner.",
+  },
+  {
+    nom: "Égide de Souffrance",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale ignore les modificateurs négatifs à ses Caractéristiques dus à une perte de Points de Vie.",
+  },
+  {
+    nom: "Boucliers Réfracteurs Phasés",
+    texte: "Une Figurine ayant cette Règle Spéciale gagne une Sauvegarde Invulnérable de 5+.",
+  },
+  {
+    nom: "Compact",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale ne bloque pas les Lignes de Vue, et ne peut être choisie comme Cible d'une Attaque de Tir tant qu'une autre Figurine de Type non-Automate de son Unité est plus proche du tireur et en Ligne de Vue.",
+  },
+  {
+    nom: "Autonomie Limitée",
+    texte:
+      "Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ne peut jamais Contrôler ni Contester un Objectif, et ne peut pas être choisie comme Cible d'une Charge tant qu'une autre Unité ennemie est une Cible valide.",
+  },
+  {
+    nom: "Automates Réparateurs",
+    texte:
+      "Au lieu de faire une Attaque de Tir ou de Mêlée, une Figurine ayant cette Règle Spéciale peut tenter de réparer une Figurine amie de Type Véhicule ou Automate à 3 pouces, comme la Règle Spéciale Guerrier-artisan (2).",
+  },
+  {
+    nom: "Maître des Machines",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut relancer une fois par Rite invoqué un Test d'Invocation raté pour un Rite Cybertheurgique qu'elle connaît.",
+  },
+  {
+    nom: "Trône de Commandement",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale confère un bonus de +1 aux Tests de Commandement des Figurines amies à 12 pouces qui ont un Trait de Faction Mechanicum.",
+  },
+  {
+    // Arme de personnage (Archimagos Draykavac, Mechanicum).
+    nom: "Héritage de Ruse",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut être retirée du jeu sans donner de Point de Victoire à l'Adversaire. À la Sous-phase des Effets de la Phase de Fin de n'importe quel Tour où le Joueur en Contrôle est le Joueur Actif, il a le droit d'activer cette Règle Spéciale (impossible si la Figurine est Verrouillée en Combat) : on fait un Test de Sang-froid pour elle, avec +1 par Unité ennemie à 12\", +1 par Statut Tactique (hors En Déroute) auquel elle est sujette, et -2 si elle est sujette au Statut Tactique En Déroute. Si le Test est réussi, la Figurine est aussitôt retirée du jeu sans compter comme Perte ; s'il est raté, il ne se passe rien et on pourra retenter à un Tour ultérieur.",
+  },
+  {
+    // Arme de personnage (Archimagos Draykavac, Mechanicum).
+    nom: "Assaut au Liquifractor",
+    texte:
+      "Posture disponible à une Figurine qui a cette Règle Spéciale tant qu'elle est engagée en Défi. Si elle la choisit, le Joueur en Contrôle jette un Dé additionnel à l'Étape de Concentration et défausse le résultat le plus élevé ; puis, à l'Étape de Frappe, la Figurine fait une Attaque de Tir avec son Liquifractor avant que le protagoniste et l'antagoniste ne fassent la moindre attaque. Cette Attaque de Tir doit cibler la Figurine adverse en Défi et toutes les Blessures infligées doivent lui être allouées ; on considère qu'elle se trouve à une portée de 1\" et en Ligne de Vue.",
+  },
+  {
+    nom: "Contrôleur (X)",
+    texte:
+      "Une Figurine ayant le Trait Cybertheurge et cette Règle Spéciale peut Invoquer jusqu'à X Rites Cybertheurgiques par Tour de Bataille, au lieu d'un seul.",
+  },
+
+  /* --- Cybertheurgie (Liber Mechanicum, p. 53-65) : condensée au
+     mécanisme central plutôt que reproduite in extenso — le livre
+     reste la référence en cas de doute. --- */
+  {
+    nom: "Cybertheurge",
+    texte:
+      "Seule une Figurine qui a ce Trait peut Invoquer un Rite Cybertheurgique, et seulement un Rite qu'elle connaît (listé sur son Profil ou pris en Option). Une fois par Tour de Bataille, en tant que Joueur Actif, elle peut Invoquer un Rite Cybertheurgique qu'elle connaît, avant son propre Déplacement, avant une de ses Attaques de Tir, ou avant de déclarer une Charge pour son Unité — via un Test d'Invocation (Test d'Intelligence modifié par la Difficulté du Rite et divers facteurs de Ligne de Vue/portée/Trait), qui applique les effets du Rite à l'Unité Cible en cas de réussite.",
+  },
+  {
+    nom: "Rétroaction Cybertheurgique",
+    texte:
+      "Certains Rites ou Statuts Cybertheurgiques infligent une Rétroaction Cybertheurgique à une Unité : chaque Figurine subit 1 Blessure avec une PA de « - » et des Dégâts de 1, sans Jet de Blessure ni Sauvegarde de Couvert/Invulnérable (Sauvegardes d'Armure autorisées). Une Figurine de Type Véhicule ne subit qu'une seule Touche Superficielle par Rétroaction Cybertheurgique, sans Jet de Pénétration de Blindage.",
+  },
+  {
+    nom: "Statut Cybertheurgique : Accélérer",
+    texte:
+      "Une Figurine sujette à ce Statut gagne +1 à ses Caractéristiques de Mouvement et d'Initiative (ou +3 à sa Caractéristique de Mouvement si elle en a une de Base 0 ou « - », sans effet si elle n'en a pas).",
+  },
+  {
+    nom: "Statut Cybertheurgique : Fortifier",
+    texte:
+      "Une Figurine sujette à ce Statut gagne +1 à ses Caractéristiques de Force et d'Endurance (ou +1 à la Valeur de Blindage d'une Face choisie par le Joueur en Contrôle si elle n'a pas de Caractéristique d'Endurance, sans dépasser 14).",
+  },
+  {
+    nom: "Statut Cybertheurgique : Guider",
+    texte: "Une Figurine sujette à ce Statut gagne +1 à ses Caractéristiques de Capacité de Tir et de Capacité de Combat.",
+  },
+  {
+    nom: "Statut Cybertheurgique : Négation",
+    texte:
+      "Une Figurine sujette à ce Statut Cybertheurgique Hétérodoxe ne gagne ni bonus ni malus. Quand il s'applique à au moins une Figurine d'une Unité, on défausse tous les autres Statuts Cybertheurgiques de l'ensemble des Figurines de ladite Unité (Rétroaction Cybertheurgique immédiate, qu'il y en ait eu ou non), et aucune de ces Figurines ne peut gagner de nouveau Statut Cybertheurgique tant qu'au moins une Figurine de l'Unité reste sujette à Négation.",
+  },
+  {
+    nom: "Hétérodoxe",
+    texte:
+      "Une Figurine qui a ce Trait doit avoir le Trait d'Allégeance Renégat, et peut sélectionner des Rites/Statuts Cybertheurgiques Hétérodoxes en plus des Rites Standard/de Sous-faction qu'elle connaît déjà. Une Figurine qui a le Trait Malagra ne peut jamais avoir le Trait Hétérodoxe.",
+  },
+  {
+    nom: "Maléfique",
+    texte:
+      "Une Unité entièrement composée de Figurines de ce Sous-type ne peut jamais gagner de Statut Tactique, et ne peut être Ralliée que par une Figurine qui peut elle-même gagner des Statuts Tactiques et se retrouver En Déroute ; quand elle est censée gagner un Statut Tactique, elle subit à la place D3 Blessures automatiques (PA 2, Dégâts 1, aucune Sauvegarde possible). Les Figurines de ce Sous-type ne sont pas affectées par les Règles Spéciales qui modifient négativement leur Commandement, leur Volonté ou leur Intelligence, et aucune Figurine qui n'est pas elle-même Maléfique ne peut rejoindre, ni être rejointe par, une telle Figurine.",
+  },
+
+  /* --- Techno-arcanes Majeurs (Liber Mechanicum, p. 45-51) : chacun
+     confère un Bénéfice d'Arcane passif et débloque un Détachement
+     d'Apex thématique quand une Figurine de Rôle Tactique Quartier
+     Général qui a ce Trait est incluse dans l'Armée (voir js/
+     organigramme-data.js — non câblé en Détachement interactif ici,
+     le débloqueur étant un Trait choisi en Option et non une Unité
+     précise). Options d'Arcane (avantages/postures propres à chaque
+     Techno-arcane) condensées dans le même paragraphe. --- */
+  {
+    nom: "Archimandrite",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane L'Engramme d'Autorité (+1 aux Caractéristiques de Base de Commandement et de Sang-froid, et peut rejoindre des Unités d'un Trait de Faction différent sans pénalité). Option d'Arcane Theurgika Maximus (+10 Points, Quartier Général seulement) : la Figurine peut Invoquer deux Rites Cybertheurgiques par Tour, en ignorant les restrictions de Trait de Faction. Débloque le Détachement d'Apex Le Cœur du Pouvoir (Suites) si une Figurine Archimandrite occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Cybernetica",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane Le Deus Machina (une Unité qui inclut au moins un Archimagos/Magos/Technoprêtre et une Figurine de Type Automate qui ont ce Trait peut Contrôler ou Contester un Objectif). Avantage Principal du Mechanicum Parangon de Métal (Unité entièrement Cybernetica seulement) : +4 Commandement/Intelligence/Volonté, +1 Initiative/Capacité de Combat et Sous-type Sergent à une Figurine. Débloque le Détachement d'Apex Manipule de Commandement (Elite, Automates uniquement) si une Figurine Cybernetica occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Lacrymaerta",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane Une Servitude Sans Fin (utilise Guerrier-artisan (X) pour rendre des Points de Vie aux Figurines de Type Infanterie, en plus de Coque/Véhicule/Marcheur/Automate ; les Figurines de Cénacle de Technoserfs ciblées gagnent en outre une option de Réassembler, ajoutant des Figurines à l'Unité). Avantage Principal du Mechanicum Spécimens de Choix (Unité entièrement Lacrymaerta d'Infanterie seulement) : +2 Force, +1 Points de Vie de Base. Débloque le Détachement d'Apex La Panoplie de Cruauté (Assaut Lourd, Unités de Cohorte d'Ursarax uniquement) si une Figurine Lacrymaerta occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Myrmidax",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane La Force des Âges (+1 Points de Vie de Base, gagne Méditation Martiale et Avance Implacable, et Massif (3) — ou +3 à une valeur de Massif (X) déjà présente — pour le Sous-type Champion). Posture du Mechanicum La Voie du Myrmidon : Attaque de Tir bonus avant les autres attaques en Défi, avec une seule Arme dépourvue d'Explosion (X)/Souffle/Barrage. Débloque le Détachement d'Apex L'Ost de Destruction (Elite, Unités ayant le Trait Myrmidax uniquement) si une Figurine Myrmidax occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Malagra",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane Même les Immortels Peuvent Avoir Peur (-1 Capacité de Combat/Capacité de Tir aux Figurines ennemies de Sous-type [Maléfique] à 12\" d'une Unité comprenant une Figurine Malagra, sans effet sur les Unités entièrement Maléfique). Posture du Mechanicum Pouvoir de l'Esprit de la Machine (répartit le bonus de la variante Guerrier-artisan (X) de la Figurine sous contrôle entre Capacité de Combat/Force/Attaques/Initiative, après un Test d'Intelligence). Débloque le Détachement d'Apex Supplice du Jugement (Quartier Général, Unités d'Arcuitor Magisterium uniquement, non liées aux Détachements Auxiliaires) si une Figurine Malagra occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Macrotek",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane Protecteur de Fer (une Figurine amie de Type Véhicule non Super-lourd à 3\" d'une Figurine Macrotek gagne une Sauvegarde Invulnérable de 6+, non cumulable). Avantage Principal du Mechanicum Convoyeur Principal (Unité composée d'une seule Figurine de Type Véhicule non Super-lourd seulement) : +1 Blindage Avant/Flanc (max 14), +2 Points de Coque, et +2 Capacité de Transport si Sous-type Transport. Débloque le Détachement d'Apex Phalange de Fer (Blindés, Figurines de Type Véhicule dotées de l'Avantage Convoyeur Principal uniquement) si une Figurine Macrotek occupe une Case de Quartier Général.",
+  },
+  {
+    nom: "Reductor",
+    texte:
+      "Techno-arcane Majeur : Bénéfice d'Arcane Brise-muraille (+1 à la Force de toutes les Touches infligées par une Unité comprenant une Figurine Reductor contre un Bâtiment, une Fortification ou un Véhicule à l'Arrêt ; interdit la Réaction Avancée Mur de Boucliers! pour l'Unité Cible). Avantage Principal du Mechanicum Principe Thallaxi (Unité de Cohorte de Thallax seulement) : Sauvegarde Invulnérable de Base à 5+ et +1 Commandement de Base. Débloque le Détachement d'Apex Cohorte de Commandement Thallax (Quartier Général, Unités de Cohorte de Thallax uniquement) si une Figurine Reductor occupe une Case de Quartier Général.",
+  },
+
+  /* --- Rites Cybertheurgiques nommés (Liber Mechanicum, p. 56-65) :
+     chacun a une Difficulté et une Portée propres au Test d'Invocation
+     (voir Cybertheurge ci-dessus), condensées ici avec l'Effet. --- */
+  {
+    nom: "Rite : Interruption de Programme",
+    texte:
+      "Rite Cybertheurgique Standard (Difficulté 4, Portée 18\") : cible une Unité amie non Verrouillée en Combat, de Type Automate/Véhicule ou ayant le Trait Cybertheurge, sans Figurine de Sous-type Super-lourd ou Chevalier. Confère à toutes ses Figurines un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (avec Rétroaction Cybertheurgique s'il n'a pas servi à une Réaction).",
+  },
+  {
+    nom: "Rite : Purge de Cogitateur",
+    texte:
+      "Rite Cybertheurgique Standard (Difficulté 3, Portée 12\") : cible une Unité ennemie non Verrouillée en Combat, de Type Automate/Marcheur/Véhicule ou ayant le Trait Cybertheurge. Retire aussitôt tous les Statuts Cybertheurgiques de l'Unité Cible (Rétroaction Cybertheurgique au retrait, infligeant alors 2 Blessures par Figurine au lieu d'une).",
+  },
+  {
+    nom: "Rite : Réacteurs Suralimentés",
+    texte:
+      "Rite Cybertheurgique Standard (Difficulté 2, Portée 12\") : mêmes Cible et effet que le Rite Interruption de Programme (Statut Accélérer, Fortifier ou Guider), mais ne peut pas cibler une Unité qui inclut une Figurine de Sous-type Super-lourd ou Chevalier ; se résout immédiatement.",
+  },
+  {
+    nom: "Rite : Protocoles Oméga",
+    texte:
+      "Rite Cybertheurgique Lacrymaerta (Difficulté 4, Portée 12\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Retire tous ses Statuts Cybertheurgiques (Rétroaction Cybertheurgique au retrait) ; si une Figurine de l'Unité Cible est Retirée comme Perte par cette Rétroaction, toutes les autres Unités présentes à 6\" (amies et ennemies) subissent chacune deux Touches de Force 6, PA 5, Dégâts 1, qui ne comptent pas pour la Résolution de Combat.",
+  },
+  {
+    nom: "Rite : Protocoles de la Chair",
+    texte:
+      "Rite Cybertheurgique Lacrymaerta (Difficulté 2, Portée 12\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Confère le Statut Cybertheurgique Accélérer ou Fortifier, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+  },
+  {
+    nom: "Rite : Portail Déverrouillé",
+    texte:
+      "Rite Cybertheurgique Reductor (Difficulté 3, Portée 6\") : cible un Bâtiment, une Fortification, ou une Unité non Verrouillée en Combat composée d'une seule Figurine de Type Véhicule. Force toutes les Figurines Embarquées de l'Unité Cible à Débarquer d'Urgence aussitôt, puis inflige une Rétroaction Cybertheurgique à l'Unité Cible ; se résout immédiatement.",
+  },
+  {
+    nom: "Rite : Coupure d'Antalgique",
+    texte:
+      "Rite Cybertheurgique Reductor (Difficulté 3, Portée 24\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Reductor. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+  },
+  {
+    nom: "Rite : Fureur des Âges",
+    texte:
+      "Rite Cybertheurgique Ésotérique, réservé aux Cybertheurges Myrmidax (Difficulté 2, Portée 6\") : cible une Unité amie composée uniquement de Figurines qui ont le Trait Myrmidax, y compris Verrouillée en Combat. Confère le Statut Cybertheurgique Fortifier ou Guider, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+  },
+  {
+    nom: "Rite : Châtier l'Esprit de la Machine",
+    texte:
+      "Rite Cybertheurgique Ésotérique, accessible aux Cybertheurges de toute Sous-faction (Difficulté 4, Portée 18\") : cible une Unité ennemie non Verrouillée en Combat, sans Figurine de Type Parangon ni de Sous-type Super-lourd. Confère un même Statut Tactique au choix (Sonnée ou Neutralisée) à toutes les Figurines de l'Unité Cible ; si l'Invocation échoue, l'Unité qui inclut le Focus subit une Rétroaction Cybertheurgique.",
+  },
+  {
+    nom: "Rite : Amplification Éthérique",
+    texte:
+      "Rite Cybertheurgique Hétérodoxe, +10 Points (Difficulté 2, Portée 6\") : cible une Unité amie entièrement composée de Figurines de Sous-type Maléfique, y compris Verrouillée en Combat. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+  },
+  {
+    nom: "Rite : Infection d'Anticode",
+    texte:
+      "Rite Cybertheurgique Hétérodoxe, +10 Points (Difficulté 3, Portée 18\") : cible une Unité ennemie non Verrouillée en Combat, comprenant au moins une Figurine sujette à un Statut Cybertheurgique autre que Négation. Confère le Statut Cybertheurgique Négation à toutes les Figurines de l'Unité Cible.",
   },
 ];

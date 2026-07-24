@@ -646,6 +646,119 @@ const TYPES_DETACHEMENTS = [
     cases: [_caseOrga("Attaque Rapide"), _caseOrga("Attaque Rapide")],
   },
 
+  /* ---------- Détachements Auxiliaires des Solar Auxilia (Liber
+     Auxilia, p. 18-19) : chacun débloqué par une Section d'État-major
+     précise occupant une Case d'État-major, à la place des options
+     standard ci-dessus — même mécanique que Cadre de Vétérans/Demi-
+     compagnie Reco plus haut. `faction` explicite par clarté, bien que
+     les Unités de `deblocage.uniteIds` soient déjà propres aux Solar
+     Auxilia. ---------- */
+  {
+    id: "tercio-veletaris",
+    nom: "Tercio Veletaris",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    texte:
+      "Débloqué quand une Section d'État-major Veletaris occupe une Case d'État-major. Cases d'Élite : Sections d'Assaut ou d'Avant-garde Veletaris uniquement. Cases d'Appui : Escadrons d'Hermes Veletaris uniquement.",
+    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-veletaris"] },
+    restrictions: {
+      Elite: ["sa-assaut-veletaris", "sa-avant-garde-veletaris"],
+      Appui: ["sa-hermes-veletaris"],
+    },
+    cases: [_caseOrga("Elite"), _caseOrga("Elite"), _caseOrga("Appui"), _caseOrga("Appui")],
+  },
+  {
+    id: "tercio-infanterie",
+    nom: "Tercio d'Infanterie",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    texte:
+      "Débloqué quand une Section d'État-major de Ligne occupe une Case d'État-major. Cases de Troupes : Sections de Ryeliers uniquement. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement.",
+    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-ligne"] },
+    restrictions: {
+      Troupes: ["sa-ryeliers"],
+      Reco: ["sa-sentinelles-legeres-hermes"],
+    },
+    cases: [_caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Reco")],
+  },
+  {
+    id: "tercio-artillerie",
+    nom: "Tercio d'Artillerie",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    texte:
+      "Débloqué quand une Section d'État-major Artillerie occupe une Case d'État-major. Cases d'Appui : Sections de Rapier, Chars d'Artillerie Basilisk ou Chars d'Artillerie Medusa uniquement.",
+    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-artillerie"] },
+    restrictions: {
+      Appui: ["sa-rapier", "sa-basilisk", "sa-medusa"],
+    },
+    cases: [_caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui")],
+  },
+  {
+    id: "tercio-eclaireurs",
+    nom: "Tercio d'Éclaireurs",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    texte:
+      "Débloqué quand une Section d'État-major Hermes occupe une Case d'État-major. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement. Cases d'Engin de Guerre : Escadrons de Sentinelles Lourdes Aethon uniquement.",
+    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-hermes"] },
+    restrictions: {
+      Reco: ["sa-sentinelles-legeres-hermes"],
+      "Engins de Guerre": ["sa-sentinelles-aethon"],
+    },
+    cases: [_caseOrga("Reco"), _caseOrga("Reco"), _caseOrga("Engins de Guerre")],
+  },
+  {
+    id: "tercio-blinde",
+    nom: "Tercio Blindé",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    texte:
+      "Débloqué quand une Section d'État-major Blindé occupe une Case d'État-major. Cases de Blindés : Chars de Frappe Leman Russ, Chars d'Assaut Leman Russ ou Chars Lourds Malcador uniquement.",
+    deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-blinde"] },
+    restrictions: {
+      Blindés: ["sa-leman-russ-frappe", "sa-leman-russ-assaut", "sa-malcador"],
+    },
+    cases: [_caseOrga("Blindés"), _caseOrga("Blindés"), _caseOrga("Blindés")],
+  },
+
+  /* ---------- Détachements Auxiliaires des Taghmata du Mechanicum
+     (Liber Mechanicum, p. 16) : accessibles à tout Détachement
+     Principal, Allié ou de Seigneur des Batailles de la Liste
+     d'Armée des Taghmata du Mechanicum, débloqués quand un des trois
+     choix d'État-major (Magos, Magos sur Abéant, Arcuitor Magisterium)
+     occupe une Case d'État-major. « Cohorte du Taghmata » : composition
+     exacte incertaine sur le scan fourni (icônes peu lisibles) — 4
+     Cases d'Appui retenues par défaut, à vérifier contre le livre.
+     ---------- */
+  {
+    id: "cohorte-du-taghmata",
+    nom: "Cohorte du Taghmata",
+    famille: "auxiliaire",
+    faction: "mechanicum",
+    texte:
+      "Débloqué quand un Magos, un Magos sur Abéant ou un Arcuitor Magisterium occupe une Case d'État-major.",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["mech-magos", "mech-magos-abeant", "mech-arcuitor-magisterium"],
+    },
+    cases: [_caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui")],
+  },
+  {
+    id: "cadre-apprentis",
+    nom: "Cadre d'Apprentis",
+    famille: "auxiliaire",
+    faction: "mechanicum",
+    texte:
+      "Débloqué quand un Magos, un Magos sur Abéant ou un Arcuitor Magisterium occupe une Case d'État-major. Cases de Troupes : Unités de Technoprêtre uniquement.",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["mech-magos", "mech-magos-abeant", "mech-arcuitor-magisterium"],
+    },
+    restrictions: { Troupes: ["mech-technopretre"] },
+    cases: [_caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Troupes")],
+  },
+
   /* ---------- Détachements d'Apex (p. 284) ----------
      1 par Case de Quartier Général remplie (à la place d'un
      Détachement Auxiliaire, jamais les deux — p. 283). */

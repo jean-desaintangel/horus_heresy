@@ -41,6 +41,7 @@ const Organigramme = (() => {
     legion: "", // id LEGIONS ou "" (Choisir Légion)
     maisonnee: "", // id MAISONNEES ou "" (Choisir Maisonnée, Chevaliers Questoris seulement)
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
+    doctrineCohorte: "", // id DOCTRINES_DE_COHORTE ou "" (Solar Auxilia seulement)
     detachements: [],
   };
 
@@ -61,8 +62,8 @@ const Organigramme = (() => {
     ["legio-titanicus", "Legio Titanicus", true],
     ["chevaliers-questoris", "Chevaliers Questoris", true],
     ["legio-custodes", "Legio Custodes", false],
-    ["solar-auxilia", "Solar Auxilia", false],
-    ["mechanicum", "Mechanicum", false],
+    ["solar-auxilia", "Solar Auxilia", true],
+    ["mechanicum", "Mechanicum", true],
   ];
 
   const LEGIONS = [
@@ -95,6 +96,21 @@ const Organigramme = (() => {
     ["imperialis", "Questoris Imperialis"],
     ["mechanicum", "Questoris Mechanicum"],
     ["mendicus", "Questoris Mendicus"],
+  ];
+
+  // Doctrines de Cohorte (livre d'armée Solar Auxilia, Liber Auxilia
+  // p. 11-16) : un unique choix optionnel par Armée Solar Auxilia, sans
+  // effet sur l'accessibilité des Unités — texte de Règle Spéciale
+  // (Tactica de Cohorte + Détachements Additionnels) documenté dans
+  // js/regles-data.js plutôt que reproduit ici (voir sélecteur "Doctrine
+  // de Cohorte" dans construireParametres).
+  const DOCTRINES_DE_COHORTE = [
+    ["ultima", "Cohorte Ultima"],
+    ["solaire", "Cohorte Solaire"],
+    ["reconnaissance", "Cohorte de Reconnaissance"],
+    ["mecanisee", "Cohorte Mécanisée"],
+    ["siege", "Cohorte de Siège"],
+    ["fer", "Cohorte de Fer"],
   ];
 
   /* Skins thématiques (page unites.html) : quand une Légion listée ici
@@ -536,15 +552,33 @@ const Organigramme = (() => {
     return "principal";
   }
 
+  // Faction implicite d'un Détachement Type qui ne déclare pas son
+  // propre champ `faction` (principal, poing-blinde, seigneur-guerre,
+  // avant-garde…) : Legio Astartes, Solar Auxilia (Liber Auxilia) ET
+  // Mechanicum (Liber Mechanicum) partagent le même Organigramme de
+  // Force de Croisade (p. 283) et ses Détachements Auxiliaires/d'Apex
+  // standard, contrairement à Legio Titanicus (Ordinal Titanique) et
+  // Chevaliers Questoris (Détachement Principal de Maisonnées), qui
+  // ont chacun le leur — d'où le repli par défaut sur "legio-astartes"
+  // tant que l'Armée n'est ni Solar Auxilia ni Mechanicum. Utilisé par
+  // typeDisponiblePourFaction() et caseAccepte().
+  function factionCroisadeParDefaut() {
+    return etat.faction === "solar-auxilia" || etat.faction === "mechanicum"
+      ? etat.faction
+      : "legio-astartes";
+  }
+
   // Ce type de Détachement doit-il être proposé/accepté pour la Faction
   // actuelle (etat.faction) ? Même règle par défaut que caseAccepte()
   // pour les unités : `factionLibre` dispense de la vérification,
-  // sinon le type est réservé à `faction` (ou à Legio Astartes si ce
-  // champ est absent, voir MODÈLE DE DONNÉES dans organigramme-data.js).
-  // Utilisé par construireAjoutDetachements() et suggestionPourRole().
+  // sinon le type est réservé à `faction` (ou à factionCroisadeParDefaut()
+  // si ce champ est absent, voir MODÈLE DE DONNÉES dans
+  // organigramme-data.js). Utilisé par construireAjoutDetachements() et
+  // suggestionPourRole().
   function typeDisponiblePourFaction(type) {
     return (
-      type.factionLibre || (type.faction || "legio-astartes") === etat.faction
+      type.factionLibre ||
+      (type.faction || factionCroisadeParDefaut()) === etat.faction
     );
   }
 
@@ -675,7 +709,7 @@ const Organigramme = (() => {
       ) {
         return false;
       }
-    } else if (factionUnite !== (type.faction || "legio-astartes")) {
+    } else if (factionUnite !== (type.faction || factionCroisadeParDefaut())) {
       return false;
     }
     // Légion (p. 283) : une unité réservée à une Légion (champ
@@ -1760,6 +1794,7 @@ const Organigramme = (() => {
           legion: etat.legion,
           maisonnee: etat.maisonnee,
           riteDeGuerre: etat.riteDeGuerre,
+          doctrineCohorte: etat.doctrineCohorte,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
@@ -1813,6 +1848,13 @@ const Organigramme = (() => {
           MAISONNEES.some(([v]) => v === donnees.maisonnee))
       ) {
         etat.maisonnee = donnees.maisonnee;
+      }
+      if (
+        typeof donnees.doctrineCohorte === "string" &&
+        (donnees.doctrineCohorte === "" ||
+          DOCTRINES_DE_COHORTE.some(([v]) => v === donnees.doctrineCohorte))
+      ) {
+        etat.doctrineCohorte = donnees.doctrineCohorte;
       }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
@@ -2126,6 +2168,7 @@ const Organigramme = (() => {
         etat.legion = "";
         etat.riteDeGuerre = "";
         etat.maisonnee = "";
+        etat.doctrineCohorte = "";
       }
       actualiser();
     });
@@ -2300,6 +2343,28 @@ const Organigramme = (() => {
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelMaisonnee, selectMaisonnee));
+    } else if (etat.faction === "solar-auxilia") {
+      // Doctrine de Cohorte (livre d'armée Solar Auxilia, Liber
+      // Auxilia p. 11-16) : un unique choix optionnel par Armée, sans
+      // effet sur l'accessibilité des Unités (contrairement à
+      // Légion/Maisonnée ci-dessus) — pas de réinitialisation de
+      // l'Armée au changement. Son texte de Règle Spéciale (Tactica
+      // de Cohorte + Détachements Additionnels) est documenté dans
+      // js/regles-data.js plutôt que reproduit ici.
+      const labelDoctrine = el("label", null, "Doctrine de Cohorte");
+      const selectDoctrine = document.createElement("select");
+      selectDoctrine.id = "doctrine-cohorte-armee";
+      labelDoctrine.htmlFor = selectDoctrine.id;
+      ajouterOption(selectDoctrine, "", "Aucune Doctrine de Cohorte");
+      for (const [valeur, texte] of DOCTRINES_DE_COHORTE) {
+        ajouterOption(selectDoctrine, valeur, texte);
+      }
+      selectDoctrine.value = etat.doctrineCohorte;
+      selectDoctrine.addEventListener("change", () => {
+        etat.doctrineCohorte = selectDoctrine.value;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelDoctrine, selectDoctrine));
     }
 
     const labelAllegeance = el("label", null, "Allégeance");
@@ -3066,6 +3131,25 @@ const Organigramme = (() => {
     );
     if (sectionTutorielTitanicus) {
       sectionTutorielTitanicus.hidden = etat.faction !== "legio-titanicus";
+    }
+    // Même logique pour le tutoriel Solar Auxilia (Doctrines de
+    // Cohorte, Détachements de Tercio, Réactions/Posture, Désignations
+    // de Legiones Auxilia…) : masqué entièrement tant que cette
+    // Faction n'est pas sélectionnée.
+    const sectionTutorielAuxilia = document.getElementById(
+      "construction-armee-solar-auxilia",
+    );
+    if (sectionTutorielAuxilia) {
+      sectionTutorielAuxilia.hidden = etat.faction !== "solar-auxilia";
+    }
+    // Même logique pour le tutoriel Mechanicum (Techno-arcanes
+    // Majeurs, Cybertheurgie, Détachements Auxiliaires…) : masqué
+    // entièrement tant que cette Faction n'est pas sélectionnée.
+    const sectionTutorielMechanicum = document.getElementById(
+      "construction-armee-mechanicum",
+    );
+    if (sectionTutorielMechanicum) {
+      sectionTutorielMechanicum.hidden = etat.faction !== "mechanicum";
     }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));

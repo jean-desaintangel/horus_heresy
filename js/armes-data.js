@@ -2581,6 +2581,65 @@ const ARMES_TIR = [
         regles: "-",
         traits: "-",
       },
+      /* --- Arsenal des Taghmata du Mechanicum (Liber Mechanicum) :
+         armes de personnages/Unités uniques (Scorpion d'Airain, Engin
+         Démon Kytan, Decimator, Archimagos Draykavac). --- */
+      {
+        // Arme du Scorpion d'Airain.
+        nom: "Canon Despoiler",
+        stats: ["24", "1", "9", "3", "3"],
+        regles: "Lourde (D), Fléau des Blindages",
+        traits: "-",
+      },
+      {
+        // Arme du Scorpion d'Airain.
+        nom: "Canon Hellmaw jumelé",
+        stats: ["18", "4", "7", "4", "2"],
+        regles: "-",
+        traits: "Flammes",
+      },
+      {
+        // Arme optionnelle du Massacreur de Sang.
+        nom: "Harpon empaleur",
+        stats: ["12", "1", "6", "3", "2"],
+        regles: "Fléau des Blindages",
+        traits: "-",
+      },
+      {
+        // Arme optionnelle du Decimator.
+        nom: "Pétard brûlemânes",
+        stats: ["8", "1", "5", "3", "1"],
+        regles: 'Explosion (3"), Empoisonnée (3+)',
+        traits: "Assaut",
+      },
+      {
+        // Arme de personnage (Archimagos Draykavac) : profil détaillé
+        // dans sa Règle Spéciale « Assaut au Liquifractor ».
+        nom: "Liquifractor",
+        stats: ["1", "3", "2", "6", "1"],
+        regles: "Phage (E & F), Empoisonnée (2+), Brèche (4+)",
+        traits: "-",
+      },
+      {
+        // Arme principale du Krios Venator.
+        nom: "Pulsar plombeur",
+        stats: ["24", "1", "9", "3", "2"],
+        regles: "Lourde (D), Fléau des Blindages, Antiaérien",
+        traits: "-",
+      },
+      {
+        nom: "Incinérateur volkite",
+        stats: ["15", "1", "6", "3", "2"],
+        regles: "Déflagration (6)",
+        traits: "Volkite",
+      },
+      {
+        nom: "Fusil à foudre",
+        stats: ["24", "1", "7", "3", "2"],
+        regles:
+          'Explosion (3"), Lacération (5+), Brèche (5+), Neutralisation (0)',
+        traits: "Électro",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
@@ -4124,6 +4183,69 @@ const ARMES_MELEE = [
         nom: "L'Épée Noire",
         stats: ["1", "A", "+2", "2", "1"],
         regles: "Touche Critique (6+), Atout du Duelliste (2)",
+        traits: "-",
+      },
+      /* --- Arsenal des Taghmata du Mechanicum (Liber Mechanicum) :
+         armes de personnages/Unités uniques. --- */
+      {
+        // Arme du Scorpion d'Airain.
+        nom: "Pinces Hellcrusher",
+        stats: ["-3", "3", "+3", "2", "3"],
+        regles: "Fléau des Blindages",
+        traits: "-",
+      },
+      {
+        // Arme de l'Engin Démon Kytan.
+        nom: "Fondoir de massacre",
+        stats: ["-2", "4", "+4", "2", "3"],
+        regles: "Fléau des Blindages, Lacération (5+)",
+        traits: "-",
+      },
+      {
+        nom: "Lames de Massacreur",
+        stats: ["1", "4", "+2", "3", "1"],
+        regles: "Lacération (5+)",
+        traits: "-",
+      },
+      {
+        // Arme par défaut du Decimator (deux exemplaires).
+        nom: "Pince Decimator",
+        stats: ["-1", "2", "+2", "2", "2"],
+        regles: "Fléau des Blindages",
+        traits: "-",
+      },
+      {
+        // Arme du Manipule de Combat Domitar.
+        nom: "Poings de Domitar",
+        stats: ["-2", "A", "+3", "2", "3"],
+        regles: "Brèche (6+)",
+        traits: "-",
+      },
+      {
+        // Arme de la Cohorte d'Ursarax.
+        nom: "Paire de griffes d'Ursarax",
+        stats: ["1", "+1", "+2", "3", "2"],
+        regles: "Lacération (5+)",
+        traits: "-",
+      },
+      {
+        // Arme optionnelle de l'Armigère Moirax.
+        nom: "Pince de siège Gyges",
+        stats: ["-2", "A", "+3", "2", "3"],
+        regles: "Fléau des Blindages, Détonation",
+        traits: "-",
+      },
+      {
+        nom: "Vouglaire volkite",
+        stats: ["+1", "A", "7", "2", "2"],
+        regles: "Déflagration (6)",
+        traits: "Volkite",
+      },
+      {
+        // Arme de l'Escadron de Stratos Vultarax.
+        nom: "Serres dendrites",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Lacération (5+)",
         traits: "-",
       },
     ],
