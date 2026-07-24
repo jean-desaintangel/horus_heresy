@@ -1979,6 +1979,33 @@ const ARMES_TIR = [
         regles: 'Explosion (3"), Sonner (3)',
         traits: "Assaut, Stase",
       },
+      /* --- Arsenal des Ultramarines (XIIIe Légion) : Escouade
+         Terminator Fulmentarus, Escouade de Destructeurs Némésis (voir
+         js/unites-data.js, unités réservées à cette Légion). --- */
+      {
+        nom: "Bolter mortifère",
+        stats: ["18", "2", "4", "5", "1"],
+        regles: "Panique (1)",
+        traits: "Bolts",
+      },
+      {
+        // Arme de l'Unité Terminator Fulmentarus (Ultramarines) : profil
+        // Missiles à éclats, voir aussi Missiles à plasma Hellfire
+        // ci-dessous.
+        nom: "Batterie de missiles Fulmentarus — Missiles à éclats",
+        stats: ["36", "4", "4", "5", "1"],
+        regles: "Suppressif (1)",
+        traits: "Missile",
+      },
+      {
+        // Arme de l'Unité Terminator Fulmentarus (Ultramarines) : profil
+        // Missiles à plasma Hellfire, voir aussi Missiles à éclats
+        // ci-dessus.
+        nom: "Batterie de missiles Fulmentarus — Missiles à plasma Hellfire",
+        stats: ["36", "2", "7", "4", "1"],
+        regles: "Brèche (5+)",
+        traits: "Missile, Plasma",
+      },
       /* --- Arsenal des Maisonnées de Chevaliers et des Legios
          Titaniques. --- */
       {
@@ -3170,6 +3197,13 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arme de l'Unité Escouade d'Assaut Locutarus (Ultramarines).
+        nom: "Épée énergétique Argean",
+        stats: ["I", "A", "F", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
         // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
         // Auxilia doivent utiliser cette version de l'arme.
         nom: "Épée énergétique (Solar Auxilia)",
@@ -4066,6 +4100,17 @@ const ARMES_MELEE = [
         nom: "La Lance Pâle",
         stats: ["+1", "A", "+1", "2", "2"],
         regles: "Touche Critique (5+), Fléau des Blindages, Phage (F)",
+        traits: "Énergétique",
+      },
+      {
+        // Arme de personnage (Autilon Skorr, Consul-Delegatus de
+        // l'Alpha Legion) : profil donné tel quel sur sa fiche, sous
+        // l'intitulé « Ranged Weapon » alors que ses colonnes (IM/AM/SM)
+        // sont celles d'une arme de Mêlée — coquille du PDF source,
+        // transcrite ici dans la bonne table.
+        nom: "Rime-shard",
+        stats: ["1", "A", "+2", "2", "1"],
+        regles: "-",
         traits: "Énergétique",
       },
       {

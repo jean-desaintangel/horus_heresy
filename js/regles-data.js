@@ -392,6 +392,46 @@ const REGLES_DIVERSES = [
       "La signification rituelle de la flamme purificatrice était centrale pour les nombreuses sous-sectes du Culte Promethéen qui émergèrent dans le sillage du Massacre de la Zone de Largage, employées avec des résultats effroyables sur les champs de bataille de l'Hérésie d'Horus. Les Figurines ayant cette Règle Spéciale peuvent faire des Attaques de Volée avec les Armes ayant le Trait Flammes. Toute arme ayant le Trait Flammes que possède une Figurine ayant cette Règle Spéciale gagne aussi le Trait Assaut, et ignore les effets de la Règle Spéciale Limitée (X) lors des Attaques de Volée.",
   },
   {
+    // Ætos Dios (VIIe Légion, Imperial Fists) : voir js/unites-data.js.
+    nom: "Ætos Praetoria",
+    texte:
+      "Le Ætos Dios ne peut être inclus que dans une Armée qui inclut également Rogal Dorn. Si le Ætos Dios est inclus dans une Armée de cette façon, Rogal Dorn doit commencer la bataille Embarqué à son bord.",
+  },
+  {
+    // Atramentar Écorchés (VIIIe Légion, Night Lords) : voir
+    // js/unites-data.js.
+    nom: "Enveloppé de Meurtre",
+    texte:
+      "Pour les guerriers des Atramentar, aucun acte n'est en dessous d'eux, et tout semblant de combat honorable a depuis longtemps été abandonné. Ne cherchant qu'à achever leur ennemi de la manière la plus douloureuse et la plus indigne possible, ils usent de duperie et de ruse pour porter des attaques perfides et déloyales, ne faisant jamais face à leur adversaire dans un engagement loyal, allant même jusqu'à pousser leurs propres frères devant un coup fatal pour se ménager une contre-attaque. Quand le Joueur en Contrôle désigne comme Cible d'une Charge faite par une Unité entièrement composée de Figurines ayant cette Règle Spéciale une Unité ennemie déjà Verrouillée en Combat, les Figurines ayant cette Règle Spéciale modifient leur Distance de Mouvement de Mise en Place de +1\", jusqu'à un maximum de 6\", jusqu'à la résolution de ce Mouvement de Charge.",
+  },
+  {
+    // Atramentar Écorchés (VIIIe Légion, Night Lords) : voir
+    // js/unites-data.js.
+    nom: "Fidélité Jurée",
+    texte:
+      "Les Atramentar n'avaient pas juré fidélité à leur Légion ni à leur Primarque, mais à Sevatar seul. Au combat, ils suivaient ses ordres sans discussion, sans remords ni hésitation. C'était un rare exemple de loyauté au sein d'une Légion réputée pour sa traîtrise et son absence d'honneur. Quand elle est incluse dans une Armée où une Figurine de Sevatar a été sélectionnée dans le Détachement Principal et se trouve sur le champ de bataille, le Joueur en Contrôle d'une Unité Atramentar Écorchés peut toujours utiliser la Caractéristique de Commandement de Base de Sevatar à la place de celle de l'Unité pour tout Test de Commandement de cette Unité.",
+  },
+  {
+    // Autilon Skorr (XXe Légion, Alpha Legion) : voir js/unites-data.js.
+    nom: "Consul-Delegatus",
+    texte:
+      "Les exigences de la Grande Croisade nécessitaient parfois que de jeunes officiers au sein des Légions se voient accorder des niveaux d'autorité extraordinaires pour mener à bien leurs objectifs. Se voyant habituellement confier la juridiction sur des forces plus importantes, voire des forces qui relèveraient normalement du contrôle des plus hauts échelons du commandement ou même des Primarques eux-mêmes, de tels guerriers firent leurs preuves maintes et maintes fois. Une Armée ne peut jamais inclure plus d'une Figurine ayant cette Règle Spéciale. Si une Figurine ayant cette Règle Spéciale occupe une Case de Quartier Général ou d'État-major d'un Détachement de l'Organigramme de Force de Croisade, le Joueur en Contrôle peut choisir un Détachement Apex au lieu du Détachement Auxiliaire habituellement débloqué par cette Case. De plus, une Figurine ayant cette Règle Spéciale compte comme un Choix de Haut Commandement pour toute version de l'Objectif Secondaire Éliminer le Seigneur de Guerre (X).",
+  },
+  {
+    // Cadre de Perturbation Effrit (XXe Légion, Alpha Legion) : voir
+    // js/unites-data.js.
+    nom: "Hurlement de l'Hydre",
+    texte:
+      "Projetées depuis des réseaux de perturbation confiés aux équipes d'infiltration avancée d'élite, les Hurlements de l'Hydre sont un ensemble d'ondes ciblées et de signaux perturbateurs sur une multitude de fréquences. Utilisant des systèmes que l'on croit dérivés d'Intelligences Abominables proscrites datant de l'Âge des Ténèbres, ces émissions peuvent submerger les communications, les réseaux de balayage et de coordination ennemis, ce qui, à moins d'être spécifiquement contré, rend inutilisables des pans entiers de l'équipement standard de la Légion. Pour tout Test de Sang-froid ou d'Intelligence fait par une Unité ayant au moins une Figurine à moins de 12\" d'au moins une Figurine ennemie ayant cette Règle Spéciale, le Joueur en Contrôle doit lancer un Dé supplémentaire et défausser le résultat le plus faible.",
+  },
+  {
+    // Escouade d'Assaut Locutarus (XIIIe Légion, Ultramarines) : voir
+    // js/unites-data.js.
+    nom: "La Lame de la Sagesse",
+    texte:
+      "La Lame de la Sagesse est une stratégie d'assaut avancée conçue pour la première fois durant la Grande Croisade. Les Locutarus lancent une Charge parfaitement synchronisée contre des ennemis immobilisés par le tir d'une redoutable précision d'unités Ultramarines en soutien mutuel, et anéantissent rapidement leurs adversaires dans un déluge de coups d'épée experts. Les Figurines ayant cette Règle Spéciale gagnent un bonus quand elles sont Verrouillées en Combat avec des Unités ayant des Statuts Tactiques : quand elles sont Verrouillées en Combat avec une Unité qui inclut au moins une Figurine ayant un Statut Tactique quelconque, les Figurines ayant cette Règle Spéciale dans ce Combat gagnent un modificateur supplémentaire de +1 à leur caractéristique d'Attaques jusqu'à la fin de la Phase.",
+  },
+  {
     nom: "Médic (X)",
     texte:
       "Détermine la difficulté des Jets de Rétablissement (le nombre à atteindre) pour cette unité, sans en accorder par elle-même.",
