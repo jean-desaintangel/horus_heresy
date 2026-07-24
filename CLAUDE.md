@@ -73,6 +73,20 @@ Champs courants : `id`, `nom`, `legacy`, `faction` (par défaut
 (plusieurs, ex. Sergent + Troupier) ou `profilVehicule`/`profilsVehicule`
 pour un Véhicule, + `regles`, `type`), `options`, `legion`.
 
+**Piège vécu deux fois (Sons of Horus, Emperor's Children) : pour une
+Unité à plusieurs rôles (Sergent + Troupier), `variantes` reste un
+tableau à **UN SEUL** élément contenant `profils` (pluriel, un tableau
+de `{ nom, profil }`) + `regles` + `type` partagés. ÉCRIRE DEUX
+ÉLÉMENTS DE `variantes` (un par rôle, chacun avec son propre `profil`
+singulier) EST FAUX : ça perd `regles`/`type`/`options` pour l'Unité et
+casse le rendu de la fiche. Le tableau à deux éléments de `variantes`
+n'existe que pour un choix RÉEL de configuration (ex : Centurion normal
+OU à Réacteurs, Draykavac normal OU sur Abéant — deux Figurines
+différentes qu'on ne prend jamais ensemble), jamais pour Sergent +
+Troupier de la même Unité. Après avoir écrit une nouvelle Unité
+multi-profils, relire immédiatement le JSON du bloc `variantes` pour
+confirmer qu'il n'y a qu'un seul élément.**
+
 **Types d'options** (tableau `options`) :
 
 - `case` : case à cocher, coût fixe, `ajoute` (string ou tableau) affiché
@@ -292,6 +306,35 @@ Règles Spéciales :
   (ex : Numérologiste) n'a pas accès à ce choix ; les noms des Pouvoirs
   eux-mêmes n'ont pas de glossaire dédié, les citer tels quels dans la
   Règle Spéciale qui les accorde suffit.
+- Volkite culverin → réutilise « Couleuvrine volkite » (arme d'appui
+  lourde) ; Volkite caliver → réutilise « Arquebuse volkite » (arme
+  portable) — deux armes Volkite distinctes déjà existantes, ne pas les
+  confondre.
+- Phoenix rapier (Emperor's Children) → nouvelle arme « Rapière
+  Phénix » ; Phoenix power spear → réutilise « Lance énergétique
+  Phénix » déjà existante (mêmes règles, ne pas dupliquer).
+- Sun Killer → Tueur de Soleils · Headless (nom de Règle Spéciale) →
+  Sans Tête (nom seul, pas de texte complet connu) · Designated Quarry
+  → Proie Désignée · Vengeful Hate → Haine Vengeresse.
+- Firestorm → **Gabarit de Souffle** confirmé applicable partout où le
+  nom anglais « Firestorm » apparaît comme Règle Spéciale (pas propre
+  aux Salamanders — revu sur les Casters/Speakers montés Space Wolves).
+- Speaker of the Dead (Space Wolves) → Porte-Parole des Morts · Caster
+  of Runes → Tireur de Runes (Unité déjà existante, variante Sac de
+  Saut/Montée/Terminator ajoutée séparément, même nom de base).
+- Crozius Arcanum, Narthecium → gardés tels quels (Latin), pas de
+  profil d'Arme ni de traduction dans ce fichier.
+- Attention aux armes de personnage à NE PAS réutiliser pour une Unité
+  générique : « Wolf teeth and claws » de la Meute de Loups Fenrisiens
+  est un profil plus faible et distinct de « Crocs et Griffes »
+  (l'arme propre à Freki/Geri) malgré un nom anglais quasi identique —
+  nouvelle entrée « Crocs et griffes de loup » créée exprès.
+- Alchem (Death Guard) → **alchim** (déjà établi : Projecteur alchim,
+  Lance-flammes lourd alchim) — Alchem flamer/combi-flamer →
+  Lance-flammes/Combi-lance-flammes alchim ; Alchem caster → réutilise
+  Projecteur alchim déjà existant (même profil).
+- Poison-master → Maître Empoisonneur · Mortus Poisoner → Empoisonneur
+  Mortus.
 
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

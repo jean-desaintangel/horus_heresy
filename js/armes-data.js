@@ -2511,10 +2511,41 @@ const ARMES_TIR = [
         traits: "Assaut",
       },
       {
-        // Arme de l'Escouade Terminator du Linceul (Death Guard).
+        // Arme de l'Escouade Terminator du Linceul (Death Guard). Aussi
+        // « Alchem caster » de l'armurerie Legacy générale de la Death
+        // Guard (Liber Hereticus p.208, +5 Points, listes d'Officier et
+        // de Pistolets de Légion) : même profil, réutilisé tel quel.
         nom: "Projecteur alchim",
         stats: ["Souffle", "1", "3", "-", "1"],
         regles: "Souffle, Pistolet, Empoisonnée (2+)",
+        traits: "Assaut",
+      },
+      {
+        // Death Guard Legacy Wargear (death_guards_wargear.pdf) :
+        // ajouté à la liste des Armes Spéciales de Légion pour toute
+        // Figurine ayant le Trait Death Guard (+5 Points). Arme de
+        // l'Escouade des Empoisonneurs Mortus (voir js/unites-data.js).
+        nom: "Lance-flammes alchim",
+        stats: ["Souffle", "4", "5", "1", "1"],
+        regles: "Souffle, Empoisonnée (2+)",
+        traits: "Assaut",
+      },
+      {
+        // Death Guard Legacy Wargear : profil Bolter, voir aussi Lance-
+        // flammes alchim (Secondaire) ci-dessous. Ajouté à la liste des
+        // Armes Combinées de Légion pour toute Figurine Death Guard
+        // (+10 Points).
+        nom: "Combi-lance-flammes alchim — Bolter (Principal)",
+        stats: ["24", "2", "4", "5", "1"],
+        regles: "Combi",
+        traits: "Bolts",
+      },
+      {
+        // Profil Lance-flammes alchim (Secondaire), voir aussi Bolter
+        // (Principal) ci-dessus.
+        nom: "Combi-lance-flammes alchim — Lance-flammes alchim (Secondaire)",
+        stats: ["Souffle", "4", "5", "1", "1"],
+        regles: "Souffle, Empoisonnée (2+), Limitée (1), Combi",
         traits: "Assaut",
       },
       {
@@ -3641,6 +3672,18 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Emperor's Children Legacy Wargear
+        // (emperors_children_wargear.pdf) : ajoutée aux listes
+        // d'Équipement d'Officier de Légion et d'Armes de Mêlée de
+        // Sergent de Légion pour toute Figurine ayant le Trait
+        // Emperor's Children (+15 Points). Aussi portée par l'Escouade
+        // de Lames Palatines Aquilae — voir js/unites-data.js.
+        nom: "Rapière Phénix",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Impact (D), Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
         // Arsenal des Ultramarines (XIIIe Légion) : échange contre une
         // hache légatine pour toute Figurine de Sous-type État-major,
         // Champion ou Sergent ayant le Trait Ultramarines, +5 Points
@@ -4407,6 +4450,14 @@ const ARMES_MELEE = [
         nom: "Crocs et Griffes",
         stats: ["1", "A", "F", "4", "2"],
         regles: "Brèche (6+)",
+        traits: "-",
+      },
+      {
+        // Arme de l'Unité Meute de Loups Fenrisiens (Space Wolves) :
+        // profil plus modeste que celui de Freki/Geri ci-dessus.
+        nom: "Crocs et griffes de loup",
+        stats: ["1", "A", "F", "5", "1"],
+        regles: "-",
         traits: "-",
       },
       {

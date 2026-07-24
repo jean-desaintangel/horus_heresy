@@ -487,6 +487,27 @@ const REGLES_DIVERSES = [
       "Habituellement déployés avec les éléments arrière de la XVe Légion durant la Grande Croisade, les Numérologistes virent un service bien plus fréquent en première ligne durant l'Hérésie d'Horus. Pour minimiser les risques, ils allaient au combat accompagnés d'un cadre de Gardes de Vie spécialisés chargés de les protéger pendant qu'ils vaquaient à leurs tâches. Tant qu'une Figurine Numérologiste fait partie d'une Unité qui inclut des Figurines ayant cette Règle Spéciale, les Blessures causées dans le cadre d'une Attaque de Tir faite par une Arme ou une Figurine ayant la Règle Spéciale Précision (X) ne peuvent pas être allouées à cette Figurine Numérologiste.",
   },
   {
+    // Rylanor l'Inébranlable (IIIe Légion, Emperor's Children) : voir
+    // js/unites-data.js.
+    nom: "Haine Vengeresse",
+    texte:
+      "Pour sa loyauté envers l'Empereur, la IIIe Légion désigna Rylanor pour être détruit, mais il refusa de mourir sur Isstvan. Au lieu de cela, sa haine se distilla, et son géniteur en vint à incarner la trahison qu'il avait subie. Rylanor peut prendre part à un Défi quand Fulgrim est le Provocateur. Si une Figurine ayant cette Règle Spéciale est Verrouillée en Combat avec une Unité ennemie qui inclut Fulgrim ou Fulgrim Transfiguré, la Figurine ayant cette Règle Spéciale est considérée comme éligible pour prendre part à un Défi. Dans un tel Défi, si Fulgrim ou Fulgrim Transfiguré est le Provocateur, Rylanor doit être le Provoqué.",
+  },
+  {
+    // Escouade Tueurs de Soleils (IIIe Légion, Emperor's Children) :
+    // voir js/unites-data.js.
+    nom: "Proie Désignée",
+    texte:
+      "Les escouades Tueurs de Soleils ne prenaient jamais le champ de bataille sans cibles définies et, quelle que soit l'issue de la bataille, elles considéraient comme un échec de ne pas abattre ces ennemis précis. À de rares occasions, plusieurs escouades de Tueurs de Soleils opéraient dans le même secteur, rivalisant entre elles pour traquer et éliminer le plus grand ennemi. Une fois par Bataille, avant de faire une Attaque de Tir lors de la Phase de Tir de son Joueur en Contrôle, le Joueur en Contrôle d'une Unité ayant cette Règle Spéciale qui n'a pas Bougé lors de la Phase de Mouvement précédente peut choisir une Unité ennemie de Type Véhicule comme Proie Désignée de cette Unité. Quand l'Unité ayant cette Règle Spéciale fait une Attaque de Tir qui cible une Unité ennemie sélectionnée comme sa Proie Désignée, la caractéristique de Capacité de Tir de toutes les Figurines ayant cette Règle Spéciale dans l'Unité faisant l'Attaque de Tir est modifiée de +1 pendant la durée de la Phase en cours.",
+  },
+  {
+    // Meute de Chasseurs Jorlund (VIe Légion, Space Wolves) : voir
+    // js/unites-data.js.
+    nom: "Tempête Ravageuse",
+    texte:
+      "Guidées par une foi inébranlable dans les augures des voyants de guerre, les Meutes de Chasseurs Jorlund accompagnent les forces d'avant-garde de la VIe Légion et devancent la ligne de bataille pour incinérer leurs ennemis d'une flamme purificatrice. Quand une Unité qui inclut des Figurines ayant cette Règle Spéciale est sélectionnée pour faire une Attaque de Tir, si cinq Figurines ou plus font des attaques avec des lance-flammes légers, ces lance-flammes légers gagnent la Règle Spéciale Panique (1) jusqu'à la résolution de cette Attaque de Tir.",
+  },
+  {
     nom: "Médic (X)",
     texte:
       "Détermine la difficulté des Jets de Rétablissement (le nombre à atteindre) pour cette unité, sans en accorder par elle-même.",
