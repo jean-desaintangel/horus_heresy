@@ -126,7 +126,7 @@ const REGLES_ARMES = [
   {
     nom: "Explosion (X)",
     texte:
-      "Utilise un gabarit pour toucher plusieurs figurines d'un coup, avec un seul jet de touche pour tout le gabarit (à ne pas confondre avec Explose (X), qui décrit une figurine qui explose).",
+      "Avant les Jets de Touche, le Joueur attaquant place un Gabarit d'Explosion (taille X) de sorte que son trou central soit entièrement au-dessus du Socle d'une Figurine de l'Unité Cible, puis fait un seul Jet de Touche pour tout le Gabarit. S'il est réussi, chaque Figurine recouverte au moins partiellement subit une Touche, y compris dans une autre Unité (amie ou ennemie) — celle-ci forme alors un Groupe de Tirs à part, résolu après l'attaque en cours. S'il est raté, aucune Touche n'est infligée mais le Gabarit est dévié (Dé de Déviation) : chaque Unité alors recouverte subit quand même une Touche par Figurine concernée. À ne pas confondre avec Explose (X), qui décrit une figurine qui explose.",
   },
   {
     nom: "Force (X)",
@@ -160,7 +160,7 @@ const REGLES_ARMES = [
   {
     nom: "Souffle",
     texte:
-      "Utilise un gabarit de flammes : pas de jet de touche, chaque figurine sous le gabarit est automatiquement touchée.",
+      "Utilise un Gabarit de Souffle (le Gabarit de Flammes standard, sauf autre gabarit précisé entre parenthèses — voir Autres Gabarits) à la place d'un Jet de Touche : on le place extrémité étroite au contact du Socle de la Figurine attaquante et extrémité large vers la cible, sans jamais le faire Dévier. Le Joueur attaquant choisit librement son orientation du moment qu'il touche au moins une Figurine de l'Unité Cible — cela peut aussi toucher des Figurines amies. Toute Figurine recouverte au moins partiellement subit une Touche automatique.",
   },
   {
     nom: "Surcharge (X)",
@@ -1307,6 +1307,11 @@ const REGLES_DIVERSES = [
     nom: "Grenades Frag",
     texte:
       "À l'Étape de Volée de la Procédure de Charge, une Figurine dotée de grenades Frag peut faire une attaque unique (P6, PF1, FT3, PA6, D1, Explosion (3\"), Assaut) à la place d'une Attaque de Tir normale.",
+  },
+  {
+    nom: "Gabarits de Souffle et d'Explosion",
+    texte:
+      "Deux familles de gabarits mesurent certains effets d'Armes à la place du mètre ruban. Les Gabarits d'Explosion (circulaires, plusieurs tailles) se placent à distance de la Figurine attaquante puis dévient pour leur position finale (voir Explosion (X)). Les Gabarits de Souffle (en forme de larme) se placent extrémité étroite au contact du Socle de la Figurine attaquante et ne dévient jamais (voir Souffle). Dans les deux cas, une Figurine est dite « sous » le Gabarit dès que son Socle (ou sa Coque) est recouvert ne serait-ce que partiellement, en tenant le Gabarit parallèle au Champ de Bataille pour en juger.",
   },
   {
     nom: "Autres Gabarits",
