@@ -202,6 +202,14 @@ const ARMES_TIR = [
         regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
         traits: "Auto",
       },
+      {
+        // Arme de l'Escouade Terminator Indomitus (Legacies, générique
+        // Legiones Astartes).
+        nom: "Canon d'assaut Proteus",
+        stats: ["24", "3", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Auto",
+      },
       /* Décurion Sagittar (livre d'armée, Legiones Astartes ayant le
          Trait Imperial Fists, voir optionsDecurionLegion dans
          js/unites-data.js) : le canon d'assaut Iliastus sur Pivot
@@ -1351,6 +1359,20 @@ const ARMES_TIR = [
         traits: "Fusion",
       },
       {
+        // Arme du Dreadnought Castra Ferrum (Legacies, générique
+        // Legiones Astartes).
+        nom: "Lance-missiles Gravis — Frag",
+        stats: ["48", "1", "4", "6", "1"],
+        regles: 'Lourde (FT), Explosion (5")',
+        traits: "Missile",
+      },
+      {
+        nom: "Lance-missiles Gravis — Krak",
+        stats: ["48", "2", "8", "3", "1"],
+        regles: "Lourde (D)",
+        traits: "Missile",
+      },
+      {
         nom: "Magnacanon à fusion",
         stats: ["36", "1", "9", "2", "4"],
         regles: "Lourde (FT), Fusion (8)",
@@ -2382,6 +2404,39 @@ const ARMES_TIR = [
         stats: ["36", "1", "4", "4", "1"],
         regles: 'Explosion (5"), Barrage (2), Sonner (2), Force (FT)',
         traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline du Diabolisme, Word Bearers).
+        nom: "Feu Infernal",
+        stats: ["12", "D3", "7", "4", "1"],
+        regles: "Brèche (6+), Déflagration, Force (D)",
+        traits: "Psychique",
+      },
+      {
+        // Legacy Wargear Word Bearers : ajouté à la liste des Pistolets
+        // de Légion pour toute Figurine du Trait Word Bearers.
+        nom: "Pistolet à Feu Warp",
+        stats: ["12", "1", "5", "4", "1"],
+        regles: "Pistolet, Brèche (5+), Lacération (6+)",
+        traits: "Assaut, Plasma",
+      },
+      {
+        // Legacy Wargear Word Bearers : ajouté à la liste des Armes
+        // Spéciales de Légion pour toute Figurine du Trait Word Bearers.
+        nom: "Blaster à Feu Warp",
+        stats: ["24", "2", "5", "4", "1"],
+        regles: "Brèche (5+), Lacération (6+)",
+        traits: "Plasma",
+      },
+      {
+        // Legacy Wargear Word Bearers : ajouté à la liste des Armes
+        // Lourdes de Légion pour toute Figurine du Trait Word Bearers.
+        // Non encore câblé sur une Unité générique de Légion (voir
+        // CLAUDE.md, section Word Bearers).
+        nom: "Projecteur à Feu Warp",
+        stats: ["36", "1", "5", "4", "1"],
+        regles: 'Lourde (FT), Explosion (3"), Brèche (5+), Lacération (6+)',
+        traits: "Plasma",
       },
       {
         // Arme de personnage (Jaghatai Khan, Primarque des White Scars).
@@ -3597,6 +3652,13 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arme de l'Unité Cour des Ofanim (Blood Angels, Legacy).
+        nom: "Lame du Jugement",
+        stats: ["1", "A", "+2", "3", "1"],
+        regles: "Brèche (5+), Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
         // Arsenal des Blood Angels : échange contre une épée/hache/
         // lance/masse énergétique pour toute Figurine de Sous-type
         // État-major, Champion ou Sergent ayant le Trait Blood Angels,
@@ -3929,6 +3991,17 @@ const ARMES_MELEE = [
         nom: "Serres Souillées",
         stats: ["1", "A", "F", "3", "1"],
         regles: "Brèche (6+), Lacération (6+), Phage (F)",
+        traits: "Psychique",
+      },
+      {
+        // Legacy Wargear Word Bearers : ajoutée à la liste d'Équipement
+        // d'Officier de Légion et à la liste des Armes de Mêlée de
+        // Sergent de Légion pour toute Figurine du Trait Word Bearers.
+        // Non encore câblée sur une Unité générique de Légion (voir
+        // CLAUDE.md, section Word Bearers).
+        nom: "Arme Souillée",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (6+), Phage (F)",
         traits: "Psychique",
       },
       {

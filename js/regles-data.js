@@ -1800,4 +1800,44 @@ const REGLES_DIVERSES = [
     texte:
       "Rite Cybertheurgique Hétérodoxe, +10 Points (Difficulté 3, Portée 18\") : cible une Unité ennemie non Verrouillée en Combat, comprenant au moins une Figurine sujette à un Statut Cybertheurgique autre que Négation. Confère le Statut Cybertheurgique Négation à toutes les Figurines de l'Unité Cible.",
   },
+  {
+    nom: "Damné",
+    texte:
+      "Certains cultistes sont si dévoués aux Puissances Ruineuses qu'ils considèrent même les plus monstrueusement corrompus par le Warp parmi les leurs comme des parangons bénis qu'ils doivent guider sur le droit chemin. Une Figurine ayant cette Règle Spéciale peut rejoindre des Unités de Sous-type Maléfique comme si elle avait ce Sous-type ; tant qu'elle fait partie d'une telle Unité, elle est considérée comme ayant ce Sous-type.",
+  },
+  {
+    nom: "Discipline du Diabolisme",
+    texte:
+      "Au début de l'Hérésie d'Horus, les Word Bearers étaient comme des enfants exultant avec un nouveau jouet, maniant le pouvoir du Warp sans retenue et avec peu de conscience du prix réel qu'il exigerait d'eux. Une Figurine ayant la Discipline du Diabolisme gagne la Règle Spéciale Peur (1), l'Arme Psychique Feu Infernal, le Pouvoir Psychique Canalisation Ténébreuse, et le Trait « Diaboliste ».",
+  },
+  {
+    nom: "Canalisation Ténébreuse",
+    texte:
+      "Pouvoir Psychique (Bénédiction) : puisant dans les profondeurs tourmentées du Warp, le Diaboliste confère des bénédictions maléfiques aux Légionnaires de la XVIIe, les nourrissant d'une énergie ténébreuse tout en les rendant toujours plus monstrueux aux yeux de leurs ennemis. Le Joueur Actif peut choisir de le Manifester au début de la Sous-Phase de Combat de sa Phase d'Assaut ; le Foyer doit être une Figurine ayant le Trait Diaboliste sous son contrôle, et l'Unité Cible doit être une Unité du Joueur Réactif comptant au moins une Figurine à 12 pouces du Foyer et en Ligne de Vue de celui-ci, entièrement composée de Figurines ayant le Trait Word Bearers. En cas de Manifestation réussie, toutes les Figurines de l'Unité Cible gagnent les Règles Spéciales En Feu (1) et Insensible à la Douleur (6+) jusqu'à la fin de la Phase d'Assaut.",
+  },
+  {
+    nom: "Baies de Transport Auxiliaires",
+    texte:
+      "Les Transporteurs Thunderhawk sont équipés d'armatures flexibles, capables d'acheminer rapidement au combat divers véhicules Legiones Astartes, tout en participant à leur récupération et à celle d'autre matériel lourd. Un Transporteur Thunderhawk peut transporter certaines Figurines de Type Véhicule en plus de l'Infanterie. En plus de toute autre Figurine Embarquée sur une Figurine ayant cette Règle Spéciale, elle peut également avoir Embarquée sur elle l'une des Figurines suivantes : jusqu'à deux Figurines Rhino, ou une Figurine Porteur Land Raider ou Land Raider Explorator.",
+  },
+  {
+    nom: "Invocation de la Tempête Ravageuse",
+    texte:
+      "Les Karaoghlanlar étaient souvent accompagnés au combat par un Devin de l'Orage, qui marquait rituellement leur armure avant la bataille, afin que leur esprit ne soit pas souillé par les actes qu'ils devaient accomplir. Cette accordance permettait également aux Devins de l'Orage de les rejoindre par la pensée, leur portant secours plus aisément même dans le tumulte de la bataille. Une Unité qui inclut une Figurine ayant cette Règle Spéciale peut être sélectionnée comme Cible du Pouvoir Psychique Appel du Vent de la Discipline Appel de l'Orage tant qu'elle compte au moins une Figurine à 24 pouces du Foyer au lieu de 12, et même si aucune de ses Figurines n'a de Ligne de Vue au Foyer.",
+  },
+  {
+    nom: "Ombres du Jugement",
+    texte:
+      "Alors que les membres des Ofanim étaient des escrimeurs accomplis, c'est en Défi que leur véritable talent se révélait. Tant qu'une Figurine ayant cette Règle Spéciale est engagée dans un Défi, elle gagne les Règles Spéciales Atout du Duelliste (1) et Insensible à la Douleur (5+).",
+  },
+  {
+    nom: "Porteurs de la Main Sanglante",
+    texte:
+      "Ceux qui portaient la marque de la main sanglante s'efforçaient d'incarner la fureur et la soif de sang qui leur avait valu cet honneur, jusqu'à l'instant où ils tombaient sur le champ de bataille, entourés des corps déchiquetés de leurs ennemis. Donne un bonus à la Résolution de Combat : quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, on marque 1 Point de Résolution de Combat pour chaque Unité impliquée dans ce Combat qui inclut une Figurine ayant cette Règle Spéciale.",
+  },
+  {
+    nom: "Moissonneur de Chair",
+    texte:
+      "Les Procurateurs ratissaient le champ de bataille en quête de composants organiques, prélevés sur les morts, pour alimenter des rituels profanes ; les organes remportés en combat singulier détenaient un pouvoir particulier, attirant l'attention des créatures du Warp les plus puissantes et les plus agressives. Une Figurine ayant cette Règle Spéciale peut gagner des Points de Moisson de Chair : elle en gagne 1 chaque fois qu'une Unité qui l'inclut est sélectionnée pour Consolider, si des Figurines ennemies de ce Combat avaient le Type Infanterie ou Cavalerie (2 à la place si une Figurine de Type Parangon a été Retirée comme Perte pendant ce Combat). Si une Figurine ayant des Points de Moisson de Chair est Retirée comme Perte, elle perd tous ses Points de Moisson de Chair. Lors de l'Étape de Décision du Vainqueur, à la fin de la Bataille, le Joueur en Contrôle de toute Figurine ayant cette Règle Spéciale marque un nombre de Points de Victoire égal au nombre de Points de Moisson de Chair que possède l'une de ces Figurines, choisie par lui.",
+  },
 ];
