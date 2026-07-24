@@ -28,7 +28,7 @@ function chargerSelectionArmes() {
   try {
     const brut = localStorage.getItem(CLE_SELECTION_ARMES);
     return brut ? new Set(JSON.parse(brut)) : new Set();
-  } catch (erreur) {
+  } catch {
     return new Set();
   }
 }
@@ -39,7 +39,7 @@ function sauvegarderSelectionArmes() {
       CLE_SELECTION_ARMES,
       JSON.stringify([...selectionArmes]),
     );
-  } catch (erreur) {
+  } catch {
     /* stockage indisponible (navigation privée, quota…) : on ignore */
   }
 }
@@ -151,35 +151,7 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
       tr.appendChild(td);
     });
 
-    const tdRegles = document.createElement("td");
-    tdRegles.className = "gauche";
-    if (arme.regles && arme.regles !== "-") {
-      arme.regles.split(",").forEach((token, i) => {
-        const intitule = token.trim();
-        if (i > 0) tdRegles.appendChild(document.createTextNode(", "));
-
-        const definition = trouverDefinitionRegle(intitule);
-        if (!definition) {
-          tdRegles.appendChild(document.createTextNode(intitule));
-          return;
-        }
-
-        const tag = document.createElement("span");
-        tag.className = "regle-tag";
-        tag.tabIndex = 0;
-        tag.textContent = intitule;
-
-        const bulle = document.createElement("span");
-        bulle.className = "tooltip";
-        bulle.textContent = definition;
-        tag.appendChild(bulle);
-
-        tdRegles.appendChild(tag);
-      });
-    } else {
-      tdRegles.textContent = "-";
-    }
-    tr.appendChild(tdRegles);
+    tr.appendChild(construireCelluleReglesArme(arme.regles));
 
     const tdTraits = document.createElement("td");
     tdTraits.className = "gauche";

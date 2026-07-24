@@ -2729,11 +2729,7 @@ const Organigramme = (() => {
 
     const entete = el("header", "orga-detachement-entete");
     const titre = el("h3");
-    const nomEtInfo = el("span", "regle-tag");
-    nomEtInfo.tabIndex = 0;
-    nomEtInfo.appendChild(document.createTextNode(type.nom));
-    nomEtInfo.appendChild(el("span", "tooltip", type.texte));
-    titre.appendChild(nomEtInfo);
+    titre.appendChild(creerRegleTag(type.nom, type.texte));
     entete.appendChild(titre);
 
     if (type.famille !== "principal") {

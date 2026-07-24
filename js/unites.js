@@ -849,22 +849,19 @@ function construireLigneRegles(titre, regles, avecArmes) {
     if (i > 0) p.appendChild(document.createTextNode(" · "));
     const definition = trouverDefinitionRegle(regle);
     if (definition) {
-      const tag = el("span", "regle-tag", regle);
-      tag.tabIndex = 0;
-      tag.appendChild(el("span", "tooltip", definition));
-      p.appendChild(tag);
+      p.appendChild(creerRegleTag(regle, definition));
       return;
     }
     const correspondanceArme = avecArmes ? trouverArmeDansTexte(regle) : null;
     if (correspondanceArme) {
       if (correspondanceArme.avant)
         p.appendChild(document.createTextNode(correspondanceArme.avant));
-      const tag = el("span", "regle-tag", correspondanceArme.trouve);
-      tag.tabIndex = 0;
-      tag.appendChild(
-        el("span", "tooltip", resumeArme(correspondanceArme.arme)),
+      p.appendChild(
+        creerRegleTag(
+          correspondanceArme.trouve,
+          resumeArme(correspondanceArme.arme),
+        ),
       );
-      p.appendChild(tag);
       if (correspondanceArme.apres)
         p.appendChild(document.createTextNode(correspondanceArme.apres));
       return;
@@ -884,10 +881,7 @@ function ajouterTypeTag(parent, nom) {
     parent.appendChild(document.createTextNode(nom));
     return;
   }
-  const tag = el("span", "regle-tag", nom);
-  tag.tabIndex = 0;
-  tag.appendChild(el("span", "tooltip", definition));
-  parent.appendChild(tag);
+  parent.appendChild(creerRegleTag(nom, definition));
 }
 
 // Ajoute le libellé d'une option "case"/"paire" (panneau de config
@@ -909,10 +903,7 @@ function ajouterLibelleOption(label, libelle) {
   const definition = trouverDefinitionRegle(libelle);
   if (definition) {
     const correspondance = libelle.match(/^(.*?)(\s*\([^)]*\))?$/);
-    const tag = el("span", "regle-tag", correspondance[1]);
-    tag.tabIndex = 0;
-    tag.appendChild(el("span", "tooltip", definition));
-    label.appendChild(tag);
+    label.appendChild(creerRegleTag(correspondance[1], definition));
     if (correspondance[2])
       label.appendChild(document.createTextNode(correspondance[2]));
     return;
@@ -921,12 +912,12 @@ function ajouterLibelleOption(label, libelle) {
   if (correspondanceArme) {
     if (correspondanceArme.avant)
       label.appendChild(document.createTextNode(correspondanceArme.avant));
-    const tag = el("span", "regle-tag", correspondanceArme.trouve);
-    tag.tabIndex = 0;
-    tag.appendChild(
-      el("span", "tooltip", resumeArme(correspondanceArme.arme)),
+    label.appendChild(
+      creerRegleTag(
+        correspondanceArme.trouve,
+        resumeArme(correspondanceArme.arme),
+      ),
     );
-    label.appendChild(tag);
     if (correspondanceArme.apres)
       label.appendChild(document.createTextNode(correspondanceArme.apres));
     return;
@@ -953,11 +944,11 @@ function ajouterNomVariante(label, nom) {
     label.appendChild(document.createTextNode(nom));
     return;
   }
-  if (indice > 0) label.appendChild(document.createTextNode(nom.slice(0, indice)));
-  const tag = el("span", "regle-tag", nom.slice(indice, indice + "Réacteurs".length));
-  tag.tabIndex = 0;
-  tag.appendChild(el("span", "tooltip", definition));
-  label.appendChild(tag);
+  if (indice > 0)
+    label.appendChild(document.createTextNode(nom.slice(0, indice)));
+  label.appendChild(
+    creerRegleTag(nom.slice(indice, indice + "Réacteurs".length), definition),
+  );
   const reste = nom.slice(indice + "Réacteurs".length);
   if (reste) label.appendChild(document.createTextNode(reste));
 }
@@ -1116,32 +1107,8 @@ function resumeArme(arme) {
   return texte;
 }
 
-// Cellule "Règles spéciales" d'une ligne d'arme : chaque règle est
-// séparée par une virgule et habillée d'un .regle-tag portant sa
-// définition (voir trouverDefinitionRegle dans js/main.js), exactement
-// comme la colonne "Règles spéciales" des tables d'armes de l'Arsenal
-// (page armes.html, voir construireCategorieArmes dans js/armes.js).
-function construireCelluleReglesArme(regles) {
-  const td = el("td", "gauche");
-  if (!regles || regles === "-") {
-    td.textContent = "-";
-    return td;
-  }
-  regles.split(",").forEach((token, i) => {
-    const intitule = token.trim();
-    if (i > 0) td.appendChild(document.createTextNode(", "));
-    const definition = trouverDefinitionRegle(intitule);
-    if (!definition) {
-      td.appendChild(document.createTextNode(intitule));
-      return;
-    }
-    const tag = el("span", "regle-tag", intitule);
-    tag.tabIndex = 0;
-    tag.appendChild(el("span", "tooltip", definition));
-    td.appendChild(tag);
-  });
-  return td;
-}
+// construireCelluleReglesArme (cellule "Règles spéciales" d'une ligne
+// d'arme) est partagée avec l'Arsenal — voir js/main.js.
 
 // Table des caractéristiques d'un groupe d'armes partageant le même
 // jeu d'en-têtes (Tir ou Mêlée), sur le modèle de construireTableProfil.
@@ -2093,6 +2060,22 @@ function texteIdentiteLegion(skin) {
   return texte;
 }
 
+// Contenu du Rite de Guerre de la Légion choisie (Tactica de Légion,
+// Posture, Réaction Avancée — voir RITE_DE_GUERRE_LEGION,
+// js/organigramme-data.js), partagé par la page de garde PDF et Word.
+// Certaines Légions ont un contenu différent selon le Rite de Guerre
+// précis choisi (ex : Legio Hereticus World Eaters) : on cherche
+// d'abord une entrée pour ce Rite précis (id RITES_DE_GUERRE), puis on
+// retombe sur l'entrée générique de la Légion. Retourne undefined pour
+// les Légions/Rites dont le contenu n'est pas encore transcrit.
+function contenuRiteDeGuerreActuel() {
+  return (
+    RITE_DE_GUERRE_LEGION[
+      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
+    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()]
+  );
+}
+
 async function genererPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "pt", format: "a4" });
@@ -2405,18 +2388,7 @@ async function genererPDF() {
     }
   }
 
-  // Contenu du Rite de Guerre de la Légion choisie (Tactica de
-  // Légion, Posture, Réaction Avancée — voir RITE_DE_GUERRE_LEGION,
-  // js/organigramme-data.js). Certaines Légions ont un contenu
-  // différent selon le Rite de Guerre précis choisi (ex : Legio
-  // Hereticus World Eaters) : on cherche d'abord une entrée pour ce
-  // Rite précis (id RITES_DE_GUERRE), puis on retombe sur l'entrée
-  // générique de la Légion. Absent pour les Légions/Rites dont le
-  // contenu n'est pas encore transcrit.
-  const contenuRite =
-    RITE_DE_GUERRE_LEGION[
-      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
-    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+  const contenuRite = contenuRiteDeGuerreActuel();
   if (contenuRite) {
     y += 4;
     titreSection("Rite de Guerre : " + contenuRite.nomRite, 12);
@@ -2641,18 +2613,7 @@ async function genererWordHTML() {
     }
   }
 
-  // Contenu du Rite de Guerre de la Légion choisie (Tactica de
-  // Légion, Posture, Réaction Avancée — voir RITE_DE_GUERRE_LEGION,
-  // js/organigramme-data.js). Certaines Légions ont un contenu
-  // différent selon le Rite de Guerre précis choisi (ex : Legio
-  // Hereticus World Eaters) : on cherche d'abord une entrée pour ce
-  // Rite précis (id RITES_DE_GUERRE), puis on retombe sur l'entrée
-  // générique de la Légion. Absent pour les Légions/Rites dont le
-  // contenu n'est pas encore transcrit.
-  const contenuRite =
-    RITE_DE_GUERRE_LEGION[
-      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
-    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()];
+  const contenuRite = contenuRiteDeGuerreActuel();
   if (contenuRite) {
     corps +=
       "<h2>Rite de Guerre : " + echapperHTML(contenuRite.nomRite) + "</h2>";
@@ -2754,7 +2715,11 @@ function initialiserChoixUnite() {
   }
 
   const libelle = (unite) =>
-    unite.nom + (unite.legacy ? " (Legacies)" : "") + " — " + unite.cout + " pts";
+    unite.nom +
+    (unite.legacy ? " (Legacies)" : "") +
+    " — " +
+    unite.cout +
+    " pts";
   const idOption = (unite) => "choix-unite-option-" + unite.id;
 
   let uniteId = null;

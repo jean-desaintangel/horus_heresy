@@ -113,6 +113,50 @@ function trouverDefinitionRegle(intitule) {
   return null;
 }
 
+/**
+ * Cellule "Règles spéciales" d'une ligne d'arme : chaque règle
+ * (séparée par une virgule dans la donnée brute) est habillée d'un
+ * .regle-tag portant sa définition (trouverDefinitionRegle) en
+ * info-bulle. Utilisée par les tables de l'Arsenal (js/armes.js) et
+ * les fiches récap d'unité (js/unites.js) — même colonne, même rendu.
+ * @param {string} regles
+ * @returns {HTMLTableCellElement}
+ */
+function construireCelluleReglesArme(regles) {
+  const td = el("td", "gauche");
+  if (!regles || regles === "-") {
+    td.textContent = "-";
+    return td;
+  }
+  regles.split(",").forEach((token, i) => {
+    const intitule = token.trim();
+    if (i > 0) td.appendChild(document.createTextNode(", "));
+    const definition = trouverDefinitionRegle(intitule);
+    if (!definition) {
+      td.appendChild(document.createTextNode(intitule));
+      return;
+    }
+    td.appendChild(creerRegleTag(intitule, definition));
+  });
+  return td;
+}
+
+/**
+ * Construit un .regle-tag focalisable portant sa définition en
+ * info-bulle (voir cablerInfoBulles/trouverDefinitionRegle) : motif
+ * répété partout où une Règle Spéciale, un Trait ou une arme reconnue
+ * doit être signalée sur une fiche (js/unites.js, js/organigramme.js).
+ * @param {string} texte - libellé affiché
+ * @param {string} definition - texte de l'info-bulle
+ * @returns {HTMLSpanElement}
+ */
+function creerRegleTag(texte, definition) {
+  const tag = el("span", "regle-tag", texte);
+  tag.tabIndex = 0;
+  tag.appendChild(el("span", "tooltip", definition));
+  return tag;
+}
+
 /* ----------------------------------------------------------
    ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
    Chaque case .orga-boite (organigramme, unites.html) et chaque
@@ -283,7 +327,7 @@ const SOURCES_SITE = [
     texte: "logo Legio Titanicus",
     href: "https://fr.pinterest.com/pin/53409945577919499/",
   },
-    {
+  {
     texte: "Images des Primarques",
     href: "https://www.facebook.com/groups/769030825014568/user/100000271415071/",
   },
