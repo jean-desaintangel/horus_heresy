@@ -283,6 +283,10 @@ const SOURCES_SITE = [
     texte: "logo Legio Titanicus",
     href: "https://fr.pinterest.com/pin/53409945577919499/",
   },
+    {
+    texte: "Images des Primarques",
+    href: "https://www.facebook.com/groups/769030825014568/user/100000271415071/",
+  },
 ];
 
 // Remplit le <footer> (lien de signalement + mentions légales + sources).

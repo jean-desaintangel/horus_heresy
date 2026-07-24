@@ -2753,7 +2753,8 @@ function initialiserChoixUnite() {
     }
   }
 
-  const libelle = (unite) => unite.nom + " — " + unite.cout + " pts";
+  const libelle = (unite) =>
+    unite.nom + (unite.legacy ? " (Legacies)" : "") + " — " + unite.cout + " pts";
   const idOption = (unite) => "choix-unite-option-" + unite.id;
 
   let uniteId = null;

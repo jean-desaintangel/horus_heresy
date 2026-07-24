@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primarques Loyalistes — Horus Heresy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-bg: #0a0908;
+        --color-surface: #12100e;
+        --color-surface-2: #181513;
+        --color-surface-offset: #1e1a17;
+        --color-border: oklch(0.55 0.02 60 / 0.18);
+        --color-text: #d8d0c4;
+        --color-text-muted: #a29b8d;
+        --color-text-faint: #6b6459;
+        --color-gold: #c9a13b;
+        --color-gold-bright: #e8c667;
+        --color-blood: #7a1f1f;
+        --color-blood-bright: #a83232;
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --font-display: "Cinzel", "Times New Roman", serif;
+        --font-body: "EB Garamond", Georgia, serif;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-10: 2.5rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
+        --space-24: 6rem;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        background:
+          radial-gradient(
+            ellipse at 20% 0%,
+            oklch(0.18 0.02 40 / 0.5),
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at 80% 100%,
+            oklch(0.15 0.03 20 / 0.4),
+            transparent 55%
+          ),
+          var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-body);
+        font-size: 18px;
+        line-height: 1.6;
+        min-height: 100vh;
+        background-attachment: fixed;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      ::selection {
+        background: var(--color-gold);
+        color: #000;
+      }
+      :focus-visible {
+        outline: 2px solid var(--color-gold-bright);
+        outline-offset: 3px;
+      }
+
+      header {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: var(--space-16) var(--space-4) var(--space-10);
+        border-bottom: 1px solid var(--color-border);
+        background: linear-gradient(
+          180deg,
+          oklch(0.1 0.02 40 / 0.6),
+          transparent
+        );
+      }
+      .eyabbr {
+        font-family: var(--font-display);
+        font-size: clamp(0.7rem, 0.6rem + 0.3vw, 0.85rem);
+        letter-spacing: 0.35em;
+        color: var(--color-gold);
+        text-transform: uppercase;
+        margin-bottom: var(--space-4);
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: clamp(2.2rem, 1.5rem + 3vw, 4.2rem);
+        letter-spacing: 0.05em;
+        color: var(--color-gold-bright);
+        text-shadow:
+          0 0 24px oklch(0.7 0.15 80 / 0.35),
+          0 2px 0 #000;
+        text-transform: uppercase;
+        line-height: 1.1;
+      }
+      header p.sub {
+        margin-top: var(--space-4);
+        color: var(--color-text-muted);
+        font-style: italic;
+        font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+        max-width: 60ch;
+        margin-inline: auto;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 var(--space-6) var(--space-24);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+        gap: var(--space-6);
+        margin-top: var(--space-8);
+      }
+
+      .card {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        aspect-ratio: 2/3;
+        cursor: pointer;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        transition:
+          transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.35s ease;
+      }
+      .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: none;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .card::after {
+        content: none;
+      }
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-6px);
+        box-shadow:
+          0 18px 40px oklch(0 0 0 / 0.55),
+          0 0 0 1px oklch(0.65 0.12 80 / 0.4);
+      }
+      .card:hover img,
+      .card:focus-visible img {
+        filter: grayscale(0) contrast(1.1) brightness(1);
+        transform: scale(1.05);
+      }
+      .card.expurged {
+        border-color: var(--color-blood);
+      }
+      .card.expurged:hover,
+      .card.expurged:focus-visible {
+      }
+
+      .card-label {
+        display: none;
+      }
+      .card-name {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(0.95rem, 0.85rem + 0.3vw, 1.15rem);
+        color: #f1e9d6;
+        letter-spacing: 0.03em;
+        text-shadow: 0 2px 6px #000;
+        line-height: 1.15;
+      }
+      .card-legion-hint {
+        font-size: 0.75rem;
+        color: var(--color-gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .card-expurged-tag {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-8deg);
+        background: oklch(0.3 0.08 20 / 0.9);
+        color: #fbeaea;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-family: var(--font-display);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+      }
+
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: var(--space-10) var(--space-4);
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-faint);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+      }
+
+      @media (max-width: 600px) {
+        header {
+          padding: var(--space-10) var(--space-4) var(--space-8);
+        }
+        .grid {
+          grid-template-columns: repeat(
+            auto-fill,
+            minmax(min(160px, 100%), 1fr)
+          );
+          gap: var(--space-4);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* MODALE IMAGE + BOUTON DORÉ */
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        z-index: 999;
+      }
+
+      .modal.is-open {
+        display: block;
+      }
+
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+        backdrop-filter: blur(6px);
+      }
+
+      .modal-content {
+        position: relative;
+        z-index: 1;
+        max-width: min(900px, 92vw);
+        max-height: 92vh;
+        margin: 4vh auto;
+        padding: 1rem;
+        background: var(--color-surface);
+        border: 1px solid var(--color-gold);
+        border-radius: 1rem;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .modal-content img {
+        width: 100%;
+        max-height: 72vh;
+        object-fit: contain;
+        border-radius: 0.75rem;
+      }
+
+      .modal-title {
+        font-family: var(--font-display);
+        color: var(--color-gold-bright);
+        text-align: center;
+        font-size: 1.3rem;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.8rem;
+        border: none;
+        background: transparent;
+        color: var(--color-text);
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      .confirm-btn {
+        border: none;
+        padding: 0.9rem 1.4rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #1a1204;
+        background: linear-gradient(
+          180deg,
+          var(--color-gold-bright),
+          var(--color-gold)
+        );
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          opacity 0.2s ease;
+      }
+
+      .confirm-btn:hover:not([disabled]) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+      }
+
+      .confirm-btn[disabled] {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .expurged-reason {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+        color: var(--color-text-faint);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="eyabbr">Horus Heresy</div>
+      <h1>Choix de la légion</h1>
+      <p class="sub">
+        Dix-huit légions. Dix-huit destins forgés dans le feu de la Grande
+        Croisade.
+      </p>
+    </header>
+
+    <main>
+      <div class="grid" id="grid" role="list"></div>
+
+      <!-- Modale image + validation -->
+      <div class="modal" id="imageModal" aria-hidden="true">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+
+        <div
+          class="modal-content"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalTitle"
+        >
+          <button
+            class="modal-close"
+            id="modalClose"
+            type="button"
+            aria-label="Fermer la fenêtre"
+          >
+            ×
+          </button>
+
+          <img id="modalImage" src="" alt="" />
+          <h2 id="modalTitle" class="modal-title"></h2>
+
+          <button class="confirm-btn" id="confirmChoice" type="button">
+            Valider le choix
+          </button>
+          <div class="expurged-reason" id="expurgedReason"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Horus Heresy</p>
+    </footer>
+
+    <script>
+      const primarchs = [
+        {
+          id: 1,
+          name: "Lion El'Jonson",
+          legion: "I – Dark Angels",
+          legionId: "I",
+          img: "../assets/logo_legions/lion.jpg",
+        },
+        {
+          id: 2,
+          name: "Inconnue",
+          legion: "II – Expurgée",
+          img: "../assets/logo_legions/II_legion.jpg",
+          expurged: true,
+        },
+        {
+          id: 3,
+          name: "Fulgrim",
+          legion: "III – Emperor's Children",
+          legionId: "III",
+          img: "../assets/logo_legions/fulgrim.jpg",
+        },
+        {
+          id: 4,
+          name: "Perturabo",
+          legion: "IV – Iron Warriors",
+          legionId: "IV",
+          img: "../assets/logo_legions/perturabo.jpg",
+        },
+        {
+          id: 5,
+          name: "Jaghatai Khan",
+          legion: "V – White Scars",
+          legionId: "V",
+          img: "../assets/logo_legions/khan.jpg",
+        },
+        {
+          id: 6,
+          name: "Leman Russ",
+          legion: "VI – Space Wolves",
+          legionId: "VI",
+          img: "../assets/logo_legions/russ.jpg",
+        },
+        {
+          id: 7,
+          name: "Rogal Dorn",
+          legion: "VII – Imperial Fists",
+          legionId: "VII",
+          img: "../assets/logo_legions/dorn.jpg",
+        },
+        {
+          id: 8,
+          name: "Konrad Curze",
+          legion: "VIII – Night Lords",
+          legionId: "VIII",
+          img: "../assets/logo_legions/konrad.jpg",
+        },
+        {
+          id: 9,
+          name: "Sanguinius",
+          legion: "IX – Blood Angels",
+          legionId: "IX",
+          img: "../assets/logo_legions/sanguinius.jpg",
+        },
+        {
+          id: 10,
+          name: "Ferrus Manus",
+          legion: "X – Iron Hands",
+          legionId: "X",
+          img: "../assets/logo_legions/ferrus.jpg",
+        },
+        {
+          id: 11,
+          name: "Inconnue",
+          legion: "XI – Expurgée",
+          img: "../assets/logo_legions/XI_legion.jpg",
+          expurged: true,
+        },
+        {
+          id: 12,
+          name: "Angron",
+          legion: "XII – World Eaters",
+          legionId: "XII",
+          img: "../assets/logo_legions/angron.jpg",
+        },
+        {
+          id: 13,
+          name: "Roboute Guilliman",
+          legion: "XIII – Ultramarines",
+          legionId: "XIII",
+          img: "../assets/logo_legions/guilliman.jpg",
+        },
+        {
+          id: 14,
+          name: "Mortarion",
+          legion: "XIV – Death Guard",
+          legionId: "XIV",
+          img: "../assets/logo_legions/mortarion.jpg",
+        },
+        {
+          id: 15,
+          name: "Magnus le Rouge",
+          legion: "XV – Thousand Sons",
+          legionId: "XV",
+          img: "../assets/logo_legions/magnus.jpg",
+        },
+        {
+          id: 16,
+          name: "Horus Lupercal",
+          legion: "XVI – Luna Wolves",
+          legionId: "XVI",
+          img: "../assets/logo_legions/horus.jpg",
+        },
+        {
+          id: 17,
+          name: "Lorgar",
+          legion: "XVII – Word Bearers",
+          legionId: "XVII",
+          img: "../assets/logo_legions/lorgar.jpg",
+        },
+        {
+          id: 18,
+          name: "Vulkan",
+          legion: "XVIII – Salamanders",
+          legionId: "XVIII",
+          img: "../assets/logo_legions/vulkan.jpg",
+        },
+        {
+          id: 19,
+          name: "Corvus Corax",
+          legion: "XIX – Raven Guard",
+          legionId: "XIX",
+          img: "../assets/logo_legions/corvus.jpg",
+        },
+        {
+          id: 200,
+          name: "Alpharius Omegon",
+          legion: "XX – Alpha Legion",
+          legionId: "XX",
+          img: "../assets/logo_legions/alpharius.jpg",
+        },
+      ];
+
+      const grid = document.getElementById("grid");
+      const modal = document.getElementById("imageModal");
+      const modalImage = document.getElementById("modalImage");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalClose = document.getElementById("modalClose");
+      const modalBackdrop = document.getElementById("modalBackdrop");
+      const confirmChoice = document.getElementById("confirmChoice");
+      const expurgedReason = document.getElementById("expurgedReason");
+
+      let selectedPrimarch = null;
+
+      // Création des cartes
+      primarchs.forEach((p) => {
+        const card = document.createElement("button");
+        card.className = "card";
+        card.setAttribute("type", "button");
+        card.setAttribute("aria-label", `${p.name} — afficher en grand`);
+        card.dataset.id = p.id;
+
+        if (p.expurged) {
+          card.classList.add("expurged");
+          card.setAttribute("aria-disabled", "true");
+        }
+
+        card.innerHTML = `
+    <img src="${p.img}" alt="Portrait du Primarque ${p.name}" loading="lazy" decoding="async" width="400" height="600">
+    <span class="card-label">
+      <span class="card-name">${p.name}</span>
+      <span class="card-legion-hint">${p.legion}</span>
+    </span>
+  `;
+
+        card.addEventListener("click", () => {
+          const img = card.querySelector("img"); // image actuelle (loyaliste ou démon)
+          openModal(p, img.src, img.alt);
+        });
+
+        grid.appendChild(card);
+      });
+
+      // Ouvre la modale avec l'image ACTUELLE
+      function openModal(p, currentSrc, currentAlt) {
+        selectedPrimarch = p;
+        modalImage.src = currentSrc || p.img;
+        modalImage.alt = currentAlt || `Portrait agrandi de ${p.name}`;
+        modalTitle.textContent = p.legion;
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+
+        if (p.expurged) {
+          confirmChoice.setAttribute("disabled", "true");
+          expurgedReason.textContent =
+            "Cette légion a été expurgée des archives. Son choix ne peut être validé.";
+        } else {
+          confirmChoice.removeAttribute("disabled");
+          expurgedReason.textContent = "";
+        }
+
+        confirmChoice.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      // Fermeture modale
+      modalClose.addEventListener("click", closeModal);
+      modalBackdrop.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("is-open"))
+          closeModal();
+      });
+
+      // Validation : redirige vers unites.html en pré-sélectionnant la
+      // Légion choisie dans le menu déroulant « Choisir Légion »
+      // (paramètre lu par js/organigramme.js, Organigramme.initialiser).
+      confirmChoice.addEventListener("click", () => {
+        if (!selectedPrimarch) return;
+        if (selectedPrimarch.expurged) return;
+        if (!selectedPrimarch.legionId) return;
+        window.location.href =
+          "unites.html?legion=" +
+          encodeURIComponent(selectedPrimarch.legionId);
+      });
+
+      // --- EASTER EGG : taper "chaos" -> 4 démons ---
+
+      let typedBuffer = "";
+      const chaosTargets = [
+        {
+          selector: '.card[data-id="15"] img',
+          newSrc: "../assets/logo_legions/magnus_demon.jpg",
+          newAlt: "Portrait démoniaque de Magnus le Rouge",
+        },
+        {
+          selector: '.card[data-id="3"] img',
+          newSrc: "../assets/logo_legions/fulgrim_demon.jpg",
+          newAlt: "Portrait démoniaque de Fulgrim",
+        },
+        {
+          selector: '.card[data-id="12"] img',
+          newSrc: "../assets/logo_legions/angron_demon.jpg",
+          newAlt: "Portrait démoniaque d\'Angron",
+        },
+        {
+          selector: '.card[data-id="14"] img',
+          newSrc: "../assets/logo_legions/mortarion_demon.jpg",
+          newAlt: "Portrait démoniaque de Mortarion",
+        },
+      ];
+
+      document.addEventListener("keydown", (e) => {
+        // Buffer pour le mot "chaos"
+        if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+          typedBuffer += e.key.toLowerCase();
+          if (typedBuffer.length > 5) {
+            typedBuffer = typedBuffer.slice(-5);
+          }
+
+          if (typedBuffer === "chaos") {
+            chaosTargets.forEach((t) => {
+              const img = document.querySelector(t.selector);
+              if (img) {
+                img.src = t.newSrc; // changement de src = nouvelle image [web:2][web:10]
+                img.alt = t.newAlt;
+              }
+            });
+          }
+        }
+
+        if (e.key === "Escape") {
+          typedBuffer = "";
+        }
+      });
+    </script>
+    <!-- Default Statcounter code for Horus Heresy
+https://jean-desaintangel.github.io/horus_heresy/ -->
+    <script type="text/javascript">
+      var sc_project = 13337655;
+      var sc_invisible = 1;
+      var sc_security = "7b1ddd1f";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
+  </body>
+</html>

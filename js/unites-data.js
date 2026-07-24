@@ -1503,6 +1503,7 @@ const UNITES = [
   {
     id: "champion-monte",
     nom: "Champion sur Scimitar",
+    legacy: true,
     categorie: "État-major",
     cout: 145,
     composition: "1 Champion de Légion Motard",
@@ -2825,6 +2826,7 @@ const UNITES = [
   {
     id: "garde-sanguinienne",
     nom: "Garde Sanguinienne",
+    legacy: true,
     categorie: "Suites",
     cout: 205,
     composition: "5 Gardes Sanguiniens",
@@ -5434,6 +5436,7 @@ const UNITES = [
   {
     id: "escouade-deliverers",
     nom: "Escouade de Terminator Deliverers",
+    legacy: true,
     categorie: "Elite",
     cout: 215,
     composition: "1 Chieftain Deliverer, 4 Deliverers",

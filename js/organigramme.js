@@ -2168,6 +2168,24 @@ const Organigramme = (() => {
         opt.disabled = !disponible;
       }
       selectLegion.value = etat.legion;
+      // Le choix d'une Légion se fait désormais via la galerie de
+      // portraits de pages/choix_legion.html plutôt que dans la liste
+      // déroulante native : un mousedown intercepté empêche le menu de
+      // s'ouvrir, et le clic (qui suit toujours le mousedown) redirige
+      // vers cette page. Le retour (voir plus bas, lecture du paramètre
+      // ?legion= à l'initialisation) pré-remplit ce même menu.
+      selectLegion.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+      });
+      selectLegion.addEventListener("click", () => {
+        window.location.href = "choix_legion.html";
+      });
+      selectLegion.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          window.location.href = "choix_legion.html";
+        }
+      });
       selectLegion.addEventListener("change", () => {
         const nouvelleLegion = selectLegion.value;
         if (nouvelleLegion !== etat.legion) {
@@ -3040,6 +3058,15 @@ const Organigramme = (() => {
       sectionTutorielQuestoris.hidden =
         etat.faction !== "chevaliers-questoris";
     }
+    // Même logique pour le tutoriel Legio Titanicus (liste d'armée,
+    // Ordinal Titanique, allégeance…) : masqué entièrement tant que
+    // cette Faction n'est pas sélectionnée.
+    const sectionTutorielTitanicus = document.getElementById(
+      "construction-armee-titanicus",
+    );
+    if (sectionTutorielTitanicus) {
+      sectionTutorielTitanicus.hidden = etat.faction !== "legio-titanicus";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");
@@ -3068,6 +3095,33 @@ const Organigramme = (() => {
     initialiser(hooksFournis) {
       hooks = hooksFournis;
       restaurerOrga();
+      // Retour depuis pages/choix_legion.html (paramètre ?legion=) :
+      // pré-remplit directement l'état plutôt que de simuler un clic sur
+      // le menu déroulant Légion. Pas de window.confirm ici (ce cas ne
+      // survient qu'à l'arrivée sur la page, et le joueur vient de
+      // choisir explicitement cette Légion sur l'autre page) : on retire
+      // directement les unités et détachements existants dès que la
+      // Légion (ou la Faction) change réellement, même logique que
+      // reinitialiserArmeeAvecConfirmation mais sans confirmation. Le
+      // paramètre est retiré de l'URL une fois appliqué, pour ne pas se
+      // réappliquer à un rechargement ultérieur de la même page.
+      const legionDepuisUrl = new URLSearchParams(location.search).get(
+        "legion",
+      );
+      if (legionDepuisUrl && LEGIONS.some(([v]) => v === legionDepuisUrl)) {
+        const changeReel =
+          etat.faction !== "legio-astartes" || etat.legion !== legionDepuisUrl;
+        etat.faction = "legio-astartes";
+        etat.legion = legionDepuisUrl;
+        const skinChoisi = SKINS_LEGION[etat.legion];
+        if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
+        if (changeReel) {
+          for (const instance of [...hooks.getArmee()])
+            hooks.retirerInstance(instance.uid);
+          etat.detachements = [creerDetachement(idDetachementPrincipal())];
+        }
+        history.replaceState(null, "", location.pathname + location.hash);
+      }
       // Le Détachement Principal est obligatoire et unique (p. 283) : on
       // le crée s'il manque, ou on le remplace si son type ne correspond
       // plus à la Faction actuelle (ex : partie restaurée après un

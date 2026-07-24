@@ -924,6 +924,13 @@ const REGLES_DIVERSES = [
       "Restaure davantage de Points de Vie ou de Coque quand la Figurine utilise la Règle Spéciale Guerrier-artisan (X). Chaque fois que le Joueur en Contrôle d'une Figurine dotée d'un servobras choisit l'option Réparer quand il active la Règle Spéciale Guerrier-artisan (X) pour cette Figurine, le nombre de Points de Coque ou de Points de Vie que gagne la Figurine Cible augmente de +1.",
   },
   {
+    // Arsenal des Taghmata du Mechanicum (Liber Mechanicum), non
+    // transcrit ailleurs sur ce site.
+    nom: "Panoplie machinator",
+    texte:
+      "Permet d'utiliser deux fois la Règle Spéciale Guerrier-artisan (X) au même Tour. Chaque fois que le Joueur en Contrôle d'une Figurine dotée d'une panoplie machinator choisit d'utiliser la Règle Spéciale Guerrier-artisan (X), il peut l'utiliser deux fois, sur la même Unité Cible ou sur deux Unités Cibles différentes, avec des effets éventuellement différents (toutes les cibles doivent être valides).",
+  },
+  {
     nom: "Relais Vox d'État-major",
     texte:
       "Confère un bonus aux Jets de Réserves et peut servir à accorder d'autres bénéfices. Tant qu'une Figurine dotée d'un relais vox d'état-major se trouve sur le Champ de Bataille, avant de faire un Jet de Réserves pour une Unité en Réserves, le Joueur en Contrôle peut faire activer ce relais vox d'état-major par la Figurine : s'il le fait, il peut modifier de +1 le résultat du Jet de Réserves (un seul relais vox d'état-major activable par Jet de Réserves). De plus, à la Sous-phase des Effets de la Phase de Début, le Joueur en Contrôle d'une Figurine dotée d'un relais vox d'état-major peut faire un Test d'Intelligence pour ladite Figurine (Caractéristique d'Intelligence de 8 si elle est de Type Véhicule). Si ce Test est réussi, il peut choisir une Unité amie composée uniquement de Figurines avec le même Trait de Faction que la Figurine dotée du relais vox d'état-major, et lui donner jusqu'à la fin de ce Tour soit la Règle Spéciale Ligne (1) (perdant Avant-garde (X) si elle la possédait), soit Avant-garde (1) (perdant Ligne (X) si elle la possédait).",
@@ -1236,5 +1243,40 @@ const REGLES_DIVERSES = [
     nom: "Mise au Pas Brutal",
     texte:
       "Une Figurine ayant cette Règle Spéciale peut cibler une Unité amie avec une Attaque de Tir, et l'Unité ciblée perd le Statut Tactique En Déroute. Au début de la Sous-phase de Déplacement, le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale peut choisir une Unité de son Armée ayant le Statut Tactique En Déroute qui se trouve à 12 pouces de la Figurine ayant cette Règle Spéciale. S'il le fait, la Figurine ayant cette Règle Spéciale fait immédiatement une Attaque de Tir, qui ne cible que l'Unité choisie, avec le canon à bolts Banestrike seulement. Cette Attaque de Tir n'entraîne aucun Test de Commandement. Une fois cette Attaque de Tir résolue, l'Unité Cible perd le Statut Tactique En Déroute.",
+  },
+
+  /* --- Arsenal des Solar Auxilia (Liber Auxilia) : étendards de
+     tercio et réseau vox, non transcrits ailleurs sur ce site (voir
+     js/organigramme-data.js, Unités Solar Auxilia non transcrites).
+     --- */
+  {
+    nom: "Vexillum Auxilia",
+    texte:
+      "Un vexillum auxilia fait passer de 25 % à 50 % le seuil de Pertes qui déclenche un Test de Panique pour l'Unité à la Phase de Tir.",
+  },
+  {
+    nom: "Vexillum des Cohortes",
+    texte:
+      "Un vexillum des cohortes fait passer de 25 % à 50 % le seuil de Pertes qui déclenche un Test de Panique pour l'Unité à la Phase de Tir, et il retire le Statut Tactique En Déroute aux Unités Solar Auxilia quand elles achèvent un Mouvement de Retraite dans les 12 pouces.",
+  },
+  {
+    nom: "Vox Internodal",
+    texte:
+      "Permet de retirer des Statuts à la Phase de Début. Si une Figurine amie sur le Champ de Bataille est dotée d'un vox d'état-major, le Joueur en Contrôle peut activer un vox internodal une fois par Tour de Joueur pour retirer un seul Statut à toutes les Figurines de l'Unité dotée de ce vox internodal.",
+  },
+  {
+    nom: "Bombardement de Précision",
+    texte:
+      "Réduit la distance de Déviation des Attaques de Tir faites par les Figurines voisines ayant le Trait Tercio d'Artillerie, en soustrayant la Capacité de Tir de la Figurine attaquante au résultat total des Dés jetés pour connaître la distance de Déviation.",
+  },
+  {
+    nom: "Combat Blindé",
+    texte:
+      "Les Figurines ayant cette Règle Spéciale confèrent la Règle Spéciale Autoréparation (4+) aux Figurines voisines qui ont le Trait Tercio Blindé.",
+  },
+  {
+    nom: "Lance-leurres",
+    texte:
+      "Une Figurine dotée de lance-leurres gagne un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre toute Touche infligée au cours d'une Réaction Interception.",
   },
 ];
