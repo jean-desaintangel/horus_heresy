@@ -219,7 +219,8 @@ const ARMES_TIR = [
       {
         nom: "Canon d'assaut Iliastus sur Pivot — Tir maximal",
         stats: ["24", "5", "6", "4", "1"],
-        regles: "Lourde (PF), Brèche (6+), Surcharge (1), Antiaérien, Précision (6+)",
+        regles:
+          "Lourde (PF), Brèche (6+), Surcharge (1), Antiaérien, Précision (6+)",
         traits: "Auto",
       },
       {
@@ -1064,7 +1065,8 @@ const ARMES_TIR = [
         // Arsenal des Maisonnées de Chevaliers et des Legios Titaniques.
         nom: "Canon Infernus d'Achéron",
         stats: ["Souffle", "1", "7", "4", "1"],
-        regles: "Souffle (Fournaise), Lourde (PA), Lacération (5+), Panique (2)",
+        regles:
+          "Souffle (Fournaise), Lourde (PA), Lacération (5+), Panique (2)",
         traits: "Flammes",
       },
       /* --- Arsenal des Solar Auxilia (Liber Auxilia). --- */
@@ -1988,7 +1990,8 @@ const ARMES_TIR = [
       {
         nom: "Radioactiveur",
         stats: ["Souffle", "1", "5", "4", "2"],
-        regles: "Souffle, Panique (2), Phage (E), Empoisonnée (2+), Brèche (6+)",
+        regles:
+          "Souffle, Panique (2), Phage (E), Empoisonnée (2+), Brèche (6+)",
         traits: "Rad",
       },
       {
@@ -2009,7 +2012,8 @@ const ARMES_TIR = [
       {
         nom: "Engin à irradiation",
         stats: ["Souffle", "1", "4", "5", "1"],
-        regles: "Souffle, Lourde (PA), Phage (E), Empoisonnée (2+), Panique (1)",
+        regles:
+          "Souffle, Lourde (PA), Phage (E), Empoisonnée (2+), Panique (1)",
         traits: "Rad",
       },
       {
@@ -2309,6 +2313,24 @@ const ARMES_TIR = [
         traits: "Flammes, Fusion",
       },
       {
+        // Arme de l'Escouade Sanctifier (Salamanders, Legacy) : profil
+        // Munitions Standard, voir aussi Munitions Obsidite ci-dessous.
+        // « Suppressif (X) » : texte complet non donné dans l'extrait
+        // Legacy fourni, à compléter depuis le livre au besoin.
+        nom: "Canon rotor Obsidite — Munitions Standard",
+        stats: ["24", "3", "3", "-", "1"],
+        regles: "Lourde (PF), Suppressif (1)",
+        traits: "Auto",
+      },
+      {
+        // Arme de l'Escouade Sanctifier (Salamanders, Legacy) : profil
+        // Munitions Obsidite, voir aussi Munitions Standard ci-dessus.
+        nom: "Canon rotor Obsidite — Munitions Obsidite",
+        stats: ["18", "2", "3", "5", "1"],
+        regles: "Lourde (PF), Surcharge (1), Brèche (6+), Touche Critique (6+)",
+        traits: "Auto",
+      },
+      {
         // Arme de personnage (Seigneur Commandant Eidolon, Emperor's
         // Children).
         nom: "Cri Mortel",
@@ -2531,6 +2553,54 @@ const ARMES_TIR = [
         stats: ["48", "1", "9", "3", "1"],
         regles: "Lourde (D), Fléau des Blindages",
         traits: "Missile",
+      },
+      /* --- Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+         armement additionnel disponible à toute Figurine ayant le
+         Trait Iron Warriors (Pistolet/Bolter à shrapnels en échange
+         du pistolet bolter/bolter, Masse à gravitons sur les listes
+         d'Officier/Sergent de Légion, Canon à shrapnels ajouté aux
+         listes d'Armes Sponson/sur Pivot de Légion). Câblé sur les
+         Unités Iron Warriors des livres d'armée qui ont l'équipement
+         de base correspondant (voir js/unites-data.js : Forgeguerre en
+         Armure Artificer, Nârik Dreygur, Iron Havocs, Le Tourmenteur)
+         — pas encore proposé aux Unités génériques de Légion (Escouade
+         Tactique, Escouade de Soutien, etc.) même quand leur Trait de
+         Légion est Iron Warriors, faute d'un mécanisme de liste
+         d'équipement conditionnelle par Légion dans ce fichier ; ni au
+         Canon à shrapnels sur la liste générique des Armes Lourdes de
+         Légion (LISTES_EQUIPEMENT.lourdes), qu'aucune Unité IV Légion
+         de ce fichier n'utilise directement pour l'instant. --- */
+      {
+        nom: "Pistolet à shrapnels",
+        stats: ["10", "1", "4", "-", "1"],
+        regles: "Fixation (0)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Bolter à shrapnels",
+        stats: ["18", "2", "4", "-", "1"],
+        regles: "Fixation (0)",
+        traits: "Bolts",
+      },
+      {
+        // Arme de l'Unité Iron Havocs (Iron Warriors) : profil donné
+        // tel quel sur sa fiche (encart WARGEAR) — identique au Canon
+        // à shrapnels jumelé du Domitar-Ferrum ci-dessus, hormis
+        // Fixation (0) au lieu de (1) (arme non jumelée).
+        nom: "Canon à shrapnels",
+        stats: ["36", "3", "5", "5", "1"],
+        regles: "Fixation (0), Lacération (6+)",
+        traits: "Bolts",
+      },
+      {
+        // Arme du Tormentor (Iron Warriors) : Shadowsword converti,
+        // profil donné tel quel sur sa fiche — distinct des Canons
+        // Volcano titaniques de l'Arsenal des Titans (pas de Trait
+        // Stratégique, pas de règle Énergivore).
+        nom: "Canon Volcano (Shadowsword)",
+        stats: ["120", "1", "13", "2", "12"],
+        regles: 'Explosion (3"), Macro-auspex',
+        traits: "Laser",
       },
       /* --- Arsenal des Night Lords (VIIIe Légion) : Konrad Curze,
          Escouade Terminator Contekar (voir js/unites-data.js, unités
@@ -3746,6 +3816,27 @@ const ARMES_MELEE = [
         stats: ["-2", "A", "+4", "2", "2"],
         regles: "Fléau des Blindages, Choc (Fixée)",
         traits: "Gravitons",
+      },
+      {
+        // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+        // ajoutée aux listes d'Équipement d'Officier de Légion et
+        // d'Armes de Mêlée de Sergent de Légion pour toute Figurine
+        // ayant le Trait Iron Warriors, +15 Points. Câblée pour
+        // l'instant sur le Forgeguerre en Armure Artificer ci-dessous
+        // uniquement (voir js/unites-data.js) — pas encore ajoutée aux
+        // listes génériques LISTES_EQUIPEMENT.officier/meleeSergent.
+        nom: "Masse à gravitons",
+        stats: ["-1", "A", "+3", "3", "1"],
+        regles: "Fléau des Blindages, Choc (Fixée)",
+        traits: "Gravitons",
+      },
+      {
+        // Arme de personnage (Nârik Dreygur, Le Fossoyeur, Iron
+        // Warriors) : profil donné tel quel sur sa fiche.
+        nom: "Gantelet à gravitons",
+        stats: ["-3", "A", "+3", "2", "2"],
+        regles: "Choc (Fixée)",
+        traits: "Gravitons, Énergétique",
       },
       {
         // Arme de l'Unité Terminator Contekar (Night Lords), option à

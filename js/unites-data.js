@@ -400,7 +400,8 @@ function optionBaionnette(arme = "Bolter") {
   return {
     type: "choix",
     id: "baionnette",
-    libelle: "Baïonnette (uniquement si la Figurine a un " + armeMinuscule + ")",
+    libelle:
+      "Baïonnette (uniquement si la Figurine a un " + armeMinuscule + ")",
     requiertEquip: arme,
     ajoute: true,
     choix: [
@@ -2907,7 +2908,8 @@ const UNITES = [
       {
         type: "quantite",
         id: "bouclier-combat",
-        libelle: "Figurines : bouclier de combat (à la place du pistolet bolter)",
+        libelle:
+          "Figurines : bouclier de combat (à la place du pistolet bolter)",
         cout: 2,
         parTranche: 1,
         groupe: "pistolet",
@@ -2934,7 +2936,8 @@ const UNITES = [
           "Par tranche de cinq Figurines : lame de parangon à la place de l'arme de Perdition (une Figurine)",
         cout: 15,
         parTranche: 5,
-        ajoute: "Lame de parangon (à la place de l'arme de Perdition, une Figurine)",
+        ajoute:
+          "Lame de parangon (à la place de l'arme de Perdition, une Figurine)",
       },
       {
         type: "case",
@@ -5538,7 +5541,8 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "arme-lourde",
-        ajoute: "Lance-flammes lourd (à la place du combi-bolter, une Figurine)",
+        ajoute:
+          "Lance-flammes lourd (à la place du combi-bolter, une Figurine)",
       },
       {
         type: "quantite",
@@ -6929,7 +6933,12 @@ const UNITES = [
       optionLaterauxLegion(),
       optionPivotLegion(["decurion-sagittar", "decurion-lanius"]),
       ...optionsFinBlinde({ missile: "Tourelle" }),
-      ...optionsDecurionLegion({ defensor: 30, locus: 40, sagittar: 30, lanius: 30 }),
+      ...optionsDecurionLegion({
+        defensor: 30,
+        locus: 40,
+        sagittar: 30,
+        lanius: 30,
+      }),
     ],
   },
 
@@ -7070,7 +7079,12 @@ const UNITES = [
       optionLaterauxLegion(),
       optionPivotLegion(["decurion-sagittar", "decurion-lanius"]),
       ...optionsFinBlinde({ missile: "Tourelle" }),
-      ...optionsDecurionLegion({ defensor: 20, locus: 30, sagittar: 30, lanius: 25 }),
+      ...optionsDecurionLegion({
+        defensor: 20,
+        locus: 30,
+        sagittar: 30,
+        lanius: 25,
+      }),
     ],
   },
 
@@ -8966,7 +8980,429 @@ const UNITES = [
         type: "Maître Pyrodrac : Infanterie (Sergent, Lourd) · Pyrodrac : Infanterie (Lourd)",
       },
     ],
+    options: [
+      // Salamanders Legacy Wargear (salamanders_wargear.pdf), section
+      // « Firedrake Terminator Squad ».
+      {
+        type: "quantite",
+        id: "arme-energetique-legacy",
+        libelle:
+          "Figurines : arme énergétique (Legacy, à la place du Marteau Thunder forgé)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute:
+          "Arme énergétique (Legacy) (à la place du Marteau Thunder forgé)",
+      },
+      {
+        type: "quantite",
+        id: "gantelet-energetique-legacy",
+        libelle:
+          "Figurines : gantelet énergétique (Legacy, à la place du Marteau Thunder forgé)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute:
+          "Gantelet énergétique (Legacy) (à la place du Marteau Thunder forgé)",
+      },
+      {
+        type: "quantite",
+        id: "poing-tronconneur-legacy",
+        libelle:
+          "Figurines : poing tronçonneur (Legacy, à la place du Marteau Thunder forgé)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute:
+          "Poing tronçonneur (Legacy) (à la place du Marteau Thunder forgé)",
+      },
+      {
+        type: "quantite",
+        id: "combi-bolter",
+        libelle:
+          "Figurines : Écaille de Drac contre un combi-bolter (Legacy, perd le Trait Bouclier)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "bouclier",
+        ajoute:
+          "Combi-bolter (Legacy, à la place de l'Écaille de Drac — perd le Trait Bouclier)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        groupe: "bouclier",
+        remplace: "de l'Écaille de Drac (Legacy, perd le Trait Bouclier)",
+      }),
+      {
+        type: "quantite",
+        id: "lance-flammes-lourd",
+        libelle:
+          "Figurines (une par tranche de cinq) : Écaille de Drac contre un lance-flammes lourd forgé (Legacy, +10 Points, perd le Trait Bouclier)",
+        cout: 10,
+        parTranche: 5,
+        ajoute:
+          "Lance-flammes lourd forgé (Legacy, à la place de l'Écaille de Drac — perd le Trait Bouclier)",
+      },
+    ],
+    legion: "XVIII",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS LEGACY RÉSERVÉES À LA XVIIIe LÉGION (SALAMANDERS)
+     Transcrit depuis salamanders.pdf et salamanders_wargear.pdf
+     (Warhammer: The Horus Heresy — Legacies of the Age of Darkness,
+     texte uniquement disponible en anglais : traduction maison, à
+     recouper avec une version française si elle paraît un jour).
+     Marquées legacy: true (comme Garde Sanguinienne) pour s'afficher
+     avec la mention « (Legacies) » dans le menu déroulant « Unité à
+     ajouter ». Voir js/armes-data.js pour leurs armes propres.
+     ---------------------------------------------------------- */
+  {
+    id: "cassian-dracos-reborn",
+    nom: "Cassian Dracos Ressuscité",
+    legacy: true,
+    categorie: "Quartier Général",
+    cout: 220,
+    composition: "1 Cassian Dracos",
+    traits: ["Loyaliste", "Salamanders", "Écran de Fumée", "Cybertheurge"],
+    notes:
+      "Seigneur de la XVIIIe Légion aux jours précédant le retour de Vulkan, Cassian fut condamné à la demi-vie éternelle d'un Dreadnought après avoir subi des blessures mortelles lors de la bataille finale de l'ancienne Légion des Salamanders. La coque dans laquelle il fut enchâssé, forgée par Vulkan lui-même, n'a d'égale à nul autre patron de Dreadnought et est capable d'auto-réparations limitées. Au Massacre de la Zone de Largage, Dracos déferla sur les lignes Traîtres, revivant sa première mort tandis que la XVIIIe Légion faisait de nouveau face à l'annihilation. Laissant une traînée de morts derrière lui, Dracos ne fut arrêté que par une frappe de lance orbitale qui vitrifia tout un champ de bataille. Horus et ses généraux quittèrent Isstvan certains que la vie de l'ancien seigneur de guerre s'était achevée avec son Primarque et sa Légion, et pendant un an Dracos resta enseveli dans la poussière vitrifiée de la Dépression d'Urgall. Sauvé par des guerriers de sa propre Légion venus chercher des nouvelles de Vulkan, Cassian Dracos allait renaître, arraché au cœur ténébreux d'Isstvan V et de retour sur le champ de bataille. Il n'était plus celui qu'il avait été, désormais fantasque et imprévisible de tempérament, chargé d'une rage inextinguible et d'un besoin de vengeance. Par sa force brute et un nouveau pouvoir sur l'animus simple des automates de combat, il allait se révéler une épine redoutable dans le flanc des ambitions d'Horus.",
+    equipement: [
+      "Paire de poings énergétiques Gravis",
+      "Deux lance-flammes lourds forgés",
+    ],
+    variantes: [
+      {
+        nom: "Cassian Dracos",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 5,
+          F: 7,
+          E: 7,
+          PV: 8,
+          I: 3,
+          A: 4,
+          Cd: 12,
+          Sf: 12,
+          Vo: 6,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (6)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Guerrier-artisan (1)",
+          "Armure Écaille de Drac",
+          "Murmures d'Isstvan",
+        ],
+        type: "Marcheur (Unique)",
+      },
+    ],
     options: [],
+    legion: "XVIII",
+  },
+  {
+    id: "escouade-adherents",
+    nom: "Escouade des Adhérents",
+    legacy: true,
+    categorie: "Troupes",
+    cout: 85,
+    composition: "1 Avocat, 4 Adhérents",
+    effectif: { base: 5, max: 10, cout: 15 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Salamanders"],
+    notes:
+      "Après le Massacre de la Zone de Largage, nombre de Salamanders se tournèrent vers le Culte Promethéen comme source de conviction renouvelée, y compris la secte résurrectionniste apparue sur Nocturne et les tristement célèbres Disciples de la Flamme. Connues sous de nombreux noms, les plus véhémentes de ces « Adhérents » formèrent des unités ad hoc de guerriers fanatiques, semble-t-il avec la bénédiction de leurs officiers commandants. De telles cohortes portèrent leur ferveur sur d'innombrables champs de bataille, livrant les forces Traîtres aux flammes partout où elles pouvaient être trouvées, bien que cette quête de vengeance sans repos en fît un allié imprévisible.",
+    equipement: [
+      "Combi-lance-flammes",
+      "Pistolet bolter",
+      "Épée tronçonneuse (Avocat seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Escouade des Adhérents",
+        cout: 0,
+        profils: [
+          {
+            nom: "Adhérent",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Avocat",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Avant-garde (2)", "Credo de la Flamme"],
+        type: "Avocat : Infanterie (Sergent) · Adhérent : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "avocat-melee",
+        libelle:
+          "Avocat : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        remplace: "Épée tronçonneuse (Avocat seulement)",
+        prefixeFiche: "Avocat : ",
+        choix: [
+          { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "quantite",
+        id: "lance-flammes-lourd",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes lourd forgé (à la place du combi-lance-flammes)",
+        cout: 10,
+        parTranche: 5,
+        ajoute: "Lance-flammes lourd forgé (à la place du combi-lance-flammes)",
+      },
+      {
+        type: "case",
+        id: "bombes-fusion",
+        libelle: "Avocat : bombes à fusion",
+        cout: 10,
+        ajoute: "Avocat : bombes à fusion",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Adhérent : vexillum",
+        cout: 10,
+        ajoute: "Un Adhérent : vexillum",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Adhérent, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Adhérent : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Adhérent)",
+        ajoute: true,
+        prefixeFiche: "Adhérent : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+    ],
+    legion: "XVIII",
+  },
+  {
+    id: "escouade-sanctificateurs",
+    nom: "Escouade des Sanctificateurs",
+    legacy: true,
+    categorie: "Elite",
+    cout: 90,
+    composition: "1 Consécrateur, 4 Sanctificateurs",
+    effectif: { base: 5, max: 10, cout: 16 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Salamanders"],
+    notes:
+      "L'une des subdivisions apparues pour largement remplacer les Compagnies de Destroyers de l'ancienne XVIIIe Légion, les escouades dites « Sanctificateur » étaient des unités temporaires composées de Légionnaires vétérans, équipés d'un éventail d'armes qui leur permettait une souplesse tactique au-delà de celle des configurations d'escouade standard. Employées là où Vulkan ne tolérait pas le déploiement des derniers Destroyers de sa Légion — la cadre xénos honnie des « Scoria » — les Sanctificateurs étaient spécialisés dans les opérations de pacification et de confinement, appelés à traquer et éliminer leurs ennemis au cœur de ruches labyrinthiques ou de vaisseaux-cavernes.",
+    equipement: [
+      "Bolter",
+      "Pistolet bolter",
+      "Épée tronçonneuse (Consécrateur seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Escouade des Sanctificateurs",
+        cout: 0,
+        profils: [
+          {
+            nom: "Sanctificateur",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Consécrateur",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Gabarit de Souffle", "Avant-garde (3)"],
+        type: "Consécrateur : Infanterie (Sergent) · Sanctificateur : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "deux-pistolets-bolter",
+        libelle:
+          "Figurines : deux pistolets bolter (à la place du bolter et du pistolet bolter)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute:
+          "Deux pistolets bolter (à la place du bolter et du pistolet bolter)",
+      },
+      {
+        type: "quantite",
+        id: "deux-serpentines-volkites",
+        libelle:
+          "Figurines : deux serpentines volkites (à la place du bolter et du pistolet bolter)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute:
+          "Deux serpentines volkites (à la place du bolter et du pistolet bolter)",
+      },
+      {
+        type: "quantite",
+        id: "deux-lance-flammes-legers",
+        libelle:
+          "Figurines : deux lance-flammes légers (à la place du bolter et du pistolet bolter)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "tir",
+        ajoute:
+          "Deux lance-flammes légers (à la place du bolter et du pistolet bolter)",
+      },
+      {
+        type: "quantite",
+        id: "canon-rotor-obsidite",
+        libelle:
+          "Figurines (une par tranche de cinq) : canon rotor Obsidite (à la place du bolter)",
+        cout: 10,
+        parTranche: 5,
+        ajoute: "Canon rotor Obsidite (à la place du bolter)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        groupe: "melee-sanctificateur",
+        parTranche: 5,
+        remplace: "de l'épée tronçonneuse",
+      }),
+      {
+        type: "case",
+        id: "consecrateur-lance-flammes",
+        libelle:
+          "Consécrateur : échanger son bolter et son pistolet bolter contre deux lance-flammes légers forgés",
+        cout: 15,
+        ajoute:
+          "Consécrateur : deux lance-flammes légers forgés (à la place du bolter et du pistolet bolter)",
+      },
+      {
+        type: "choix",
+        id: "consecrateur-melee",
+        libelle:
+          "Consécrateur : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        remplace: "Épée tronçonneuse (Consécrateur seulement)",
+        prefixeFiche: "Consécrateur : ",
+        choix: [
+          { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Sanctificateur : vexillum",
+        cout: 10,
+        ajoute: "Un Sanctificateur : vexillum",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle:
+          "Équipement de Légion (1er Sanctificateur, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Sanctificateur : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Sanctificateur)",
+        ajoute: true,
+        prefixeFiche: "Sanctificateur : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      optionBombesFusionUnite(),
+    ],
     legion: "XVIII",
   },
 
@@ -9290,7 +9726,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Emperor's Children"],
     notes:
       "Confrérie guerrière regroupant les meilleurs bretteurs de la Légion, les Lames Palatines étaient en dehors de la structure rigide de l'organisation militaire des Emperor's Children. Nombre de guerriers rêvaient de rejoindre cette société de duellistes, que Fulgrim appréciait particulièrement. À la discrétion des commandants de Légion, les membres des Lames Palatines combattaient ensemble sur le champ de bataille, servant d'exemple d'excellence et de perfection dans les arts de la guerre en affrontant les meilleurs guerriers de l'ennemi pour faire la preuve de leur incontestable supériorité.",
-    equipement: ["Lame palatine", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lame palatine",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Lames Palatines",
@@ -9347,7 +9788,10 @@ const UNITES = [
         remplace: "Lame palatine",
         choix: [
           { nom: "— Conserver la lame palatine —", cout: 0 },
-          { nom: "Lance énergétique Phénix (à la place de la lame palatine)", cout: 0 },
+          {
+            nom: "Lance énergétique Phénix (à la place de la lame palatine)",
+            cout: 0,
+          },
         ],
       },
       {
@@ -11838,7 +12282,11 @@ const UNITES = [
     notes:
       "Premier Capitaine des Sons of Horus, Grand Maréchal des Justaerin. Ezekyle Abaddon était un guerrier hors pair et le commandant des Terminators Justaerin. Semblable à bien des égards à son Primarque, il partageait notamment avec Horus une sauvagerie au combat et un sens inné de la tactique qui lui valurent presque autant de victoires que son Primarque. Jadis considéré comme un héros de l'Imperium, Abaddon était avant tout dévoué à Horus, et il le suivit de plein gré sur la voie de la damnation.",
     traits: ["Renégat", "Sons of Horus", "Maître de la Légion"],
-    equipement: ["Combi-bolter Banestrike", "Harnais à grenades", "Griffe Énergétique Cthonienne"],
+    equipement: [
+      "Combi-bolter Banestrike",
+      "Harnais à grenades",
+      "Griffe Énergétique Cthonienne",
+    ],
     variantes: [
       {
         nom: "Ezekyle Abaddon",
@@ -11877,7 +12325,8 @@ const UNITES = [
         libelle:
           "Échanger gratuitement le combi-bolter Banestrike et le harnais à grenades contre une lame de parangon",
         cout: 0,
-        ajoute: "Lame de parangon (à la place du combi-bolter Banestrike et du harnais à grenades)",
+        ajoute:
+          "Lame de parangon (à la place du combi-bolter Banestrike et du harnais à grenades)",
         remplaceListe: ["Combi-bolter Banestrike", "Harnais à grenades"],
       },
     ],
@@ -11892,7 +12341,13 @@ const UNITES = [
     notes:
       "« L'Autre » Horus Aximand, Capitaine de la 5e Compagnie, Demi-lune du Mournival. Surnommé « L'Autre Horus » en raison de sa ressemblance saisissante avec le Maître de Guerre, Aximand était un capitaine de haut rang, membre du Mournival d'Horus. Suite au massacre de ses ex-frères sur Isstvan III, les rêves d'Aximand furent hantés par des apparitions de son frère Garviel Loken, et il en vint à douter en secret du bien-fondé de la cause du Maître de Guerre.",
     traits: ["Renégat", "Sons of Horus", "Maître de la Légion", "Bouclier"],
-    equipement: ["Deuil-de-Tout", "Bolter Banestrike", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Deuil-de-Tout",
+      "Bolter Banestrike",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Horus Aximand",
@@ -11969,7 +12424,8 @@ const UNITES = [
     categorie: "Quartier Général",
     cout: 205,
     composition: "1 Vheren Ashurhaddon",
-    notes: "Maître des Vrais Fils, Capitaine-cadre des Sons of Horus, Le Premier Ravageur.",
+    notes:
+      "Maître des Vrais Fils, Capitaine-cadre des Sons of Horus, Le Premier Ravageur.",
     traits: ["Renégat", "Sons of Horus"],
     equipement: [
       "La Hache Serpentis",
@@ -12017,7 +12473,12 @@ const UNITES = [
     // figé (comme les autres personnages nommés de cette section),
     // au lieu du [Allégeance] des unités d'escouade génériques.
     traits: ["Loyaliste", "Sons of Horus", "Maître de la Légion"],
-    equipement: ["Lame de parangon", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lame de parangon",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Garviel Loken",
@@ -12054,7 +12515,12 @@ const UNITES = [
     notes:
       "Ces sinistres guerriers étaient les yeux du Maître de Guerre, recrutés parmi les Légionnaires les plus dévoués à sa cause et dépêchés dans les étoiles pour superviser et guider les forces qui faisaient allégeance à Horus. Ils étaient chargés de donner l'exemple en montrant ce que le Maître de Guerre attendait de ses partisans et en exécutant sans pitié ceux qui échouaient. Leur présence était un présage de victoire pour les renégats.",
     traits: ["Renégat", "Sons of Horus"],
-    equipement: ["Sceptre de Sombre Autorité", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Sceptre de Sombre Autorité",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Émissaire Noir",
@@ -12185,7 +12651,10 @@ const UNITES = [
         remplace: "Combi-bolter Banestrike",
         choix: [
           { nom: "— Conserver le combi-bolter Banestrike —", cout: 0 },
-          { nom: "Chargeur volkite (à la place du combi-bolter Banestrike)", cout: 0 },
+          {
+            nom: "Chargeur volkite (à la place du combi-bolter Banestrike)",
+            cout: 0,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -12196,14 +12665,26 @@ const UNITES = [
         remplace: "Arme énergétique",
         choix: [
           { nom: "— Conserver l'arme énergétique —", cout: 0 },
-          { nom: "Griffe Lightning (à la place de l'arme énergétique)", cout: 5 },
+          {
+            nom: "Griffe Lightning (à la place de l'arme énergétique)",
+            cout: 5,
+          },
           {
             nom: "Hache énergétique carsoraine (à la place de l'arme énergétique)",
             cout: 5,
           },
-          { nom: "Gantelet énergétique (à la place de l'arme énergétique)", cout: 10 },
-          { nom: "Poing tronçonneur (à la place de l'arme énergétique)", cout: 10 },
-          { nom: "Marteau Thunder (à la place de l'arme énergétique)", cout: 10 },
+          {
+            nom: "Gantelet énergétique (à la place de l'arme énergétique)",
+            cout: 10,
+          },
+          {
+            nom: "Poing tronçonneur (à la place de l'arme énergétique)",
+            cout: 10,
+          },
+          {
+            nom: "Marteau Thunder (à la place de l'arme énergétique)",
+            cout: 10,
+          },
         ],
       },
       {
@@ -12270,7 +12751,12 @@ const UNITES = [
     notes:
       "Évolution des escouades de Nettoyeurs, les Ravageurs constituaient à bien des égards l'archétype des méthodes de combat des Sons of Horus. Influencées par les tribus de Cthonia, les unités Ravageuses étaient spécialisées dans les assauts rapides voués à paralyser l'ennemi en abattant les commandants pour plonger les survivants dans la confusion. Chaque unité Ravageuse était dans les faits une bande de guerre, dont les membres se battaient comme des individus plutôt que comme des soldats. La plus tristement célèbre est sans doute celle des Ravageurs Catuléens, qui se distinguèrent sur Isstvan III et V, où ils massacrèrent nombre de Loyalistes.",
     equipementLibelle: "Équipement (chaque figurine)",
-    equipement: ["Hache tronçonneuse", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Hache tronçonneuse",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade d'Attaque Ravageuse",
@@ -12327,7 +12813,10 @@ const UNITES = [
         remplace: "Hache tronçonneuse",
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
-          { nom: "Épée tronçonneuse (à la place de la hache tronçonneuse)", cout: 0 },
+          {
+            nom: "Épée tronçonneuse (à la place de la hache tronçonneuse)",
+            cout: 0,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
         ],
       },
@@ -12375,7 +12864,13 @@ const UNITES = [
     composition: "1 Lorgar",
     notes:
       "Primarque des Word Bearers, L'Aurélien, Le Doré, La Voix de la Vérité. Lorgar Aurélien, le Fils Doré, qui seul parmi ses frères maniait le pouvoir de la dévotion comme une arme, était le seigneur de la Légion des Word Bearers. Il conquit des mondes par la seule force de son verbe et de son charisme, les convertissant à la vénération de l'Empereur, qu'il voyait comme le sauveur divin de l'Humanité.",
-    traits: ["Renégat", "Word Bearers", "Psyker", "Maître de la Légion", "Anathemata"],
+    traits: [
+      "Renégat",
+      "Word Bearers",
+      "Psyker",
+      "Maître de la Légion",
+      "Anathemata",
+    ],
     equipement: ["Illuminarum", "Dévotion", "Grenades Frag"],
     variantes: [
       {
@@ -12420,7 +12915,12 @@ const UNITES = [
     notes:
       "Premier Capitaine des Word Bearers, Maître de la Foi, Prêtre-roi de Colchis. Méprisé par beaucoup au sein de sa Légion, qui le traitaient de « demi-Astartes », Kor Phaeron était le père adoptif de Lorgar, à qui il inculqua les traditions de Colchis. Quand la XVIIe Légion fut unie à son Primarque, Kor Phaeron était trop vieux pour suivre le processus d'implantation complet, mais son Primarque l'estimait tant qu'il reçut les plus puissantes augmentations biologiques accessibles à un homme de son âge sans en faire un Space Marine, et il fut nommé Premier Capitaine.",
     traits: ["Renégat", "Word Bearers", "Maître de la Légion"],
-    equipement: ["Griffes du Patriarche", "Digi-lance-flammes", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Griffes du Patriarche",
+      "Digi-lance-flammes",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Kor Phaeron",
@@ -12460,9 +12960,15 @@ const UNITES = [
     // Coût encore À VÉRIFIER (non visible sur les captures fournies).
     cout: 165,
     composition: "1 Erebus",
-    notes: "Prêtre Noir, Émissaire du Maître de Guerre, Enfant de la Vérité Primordiale.",
+    notes:
+      "Prêtre Noir, Émissaire du Maître de Guerre, Enfant de la Vérité Primordiale.",
     traits: ["Renégat", "Word Bearers", "Psyker", "Anathemata"],
-    equipement: ["Crux Malefica", "Pistolet à plasma", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Crux Malefica",
+      "Pistolet à plasma",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Erebus",
@@ -12483,7 +12989,11 @@ const UNITES = [
           Sv: "2+",
           Inv: "4+",
         },
-        regles: ["Discipline Anathemata", "Seigneur des Bénis", "Émissaire du Chaos"],
+        regles: [
+          "Discipline Anathemata",
+          "Seigneur des Bénis",
+          "Émissaire du Chaos",
+        ],
         type: "Infanterie (Unique, État-major)",
       },
     ],
@@ -12621,7 +13131,12 @@ const UNITES = [
     traits: ["Renégat", "Word Bearers"],
     notes:
       "Les Gal Vorbak sont issus de ce qu'il reste du Chapitre du Soleil Denté de la Légion des Word Bearers, qui explorèrent les profondeurs de l'Œil de la Terreur et en revinrent à jamais transfigurés. Leur psyché infiltrée par des créatures des ténèbres de l'Éther, les survivants furent rebaptisés Gal Vorbak, ou « Fils Bénis » dans la langue de Colchis. Au combat, leurs mains se transforment en serres et leur bouche en gueule écumante garnie de crocs. Avant même que cette transformation se soit achevée, ces tueurs écumants bondissent sur l'ennemi pour le tailler en pièces.",
-    equipement: ["Serres Souillées", "Bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Serres Souillées",
+      "Bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Gal Vorbak",
@@ -12703,7 +13218,12 @@ const UNITES = [
     notes:
       "Opérant aux côtés des Destructeurs Word Bearers, le Cercle de Cendres est une formation unique créée dans un seul but : la destruction de la culture, de l'éducation et de la foi. Ces Space Marines sont des iconoclastes, chargés en dehors du champ de bataille de traquer les œuvres des fausses doctrines et ceux qui les diffusent pour les vouer aux flammes purificatrices. Sur le champ de bataille, leur mission est tout aussi importante, car ils traquent les chefs charismatiques, prêtres, bannières et champions pour les jeter à terre avec leurs haches-crocs et les détruire avec une ferveur brutale.",
     equipementLibelle: "Équipement (chaque figurine)",
-    equipement: ["Lance-flammes Léger Akkadique", "Hache-croc", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Lance-flammes Léger Akkadique",
+      "Hache-croc",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade du Cercle de Cendres",
@@ -12766,7 +13286,8 @@ const UNITES = [
           "L'Iconoclaste peut échanger son lance-flammes léger akkadique contre un pistolet Inferno",
         cout: 15,
         remplace: "Lance-flammes Léger Akkadique",
-        ajoute: "Pistolet Inferno (à la place du lance-flammes léger akkadique)",
+        ajoute:
+          "Pistolet Inferno (à la place du lance-flammes léger akkadique)",
       },
       {
         type: "case",
@@ -13494,7 +14015,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Thousand Sons"],
     notes:
       "Les Castellax-Achea avançaient aux côtés des guerriers de la Légion pour leur apporter un appui feu non négligeable, mais aussi pour servir de paratonnerre psychique. Si un Légionnaire puisait trop d'énergie dans la Warp, l'excédent pouvait être transmis à l'automate, ce qui protégeait le guerrier et augmentait la puissance des armes de ces sentinelles inorganiques.",
-    equipement: ["Canon à bolts Asphyx", "Griffes de force Achea", "Deux bolters"],
+    equipement: [
+      "Canon à bolts Asphyx",
+      "Griffes de force Achea",
+      "Deux bolters",
+    ],
     variantes: [
       {
         nom: "Castellax-Achea",
@@ -13564,7 +14089,12 @@ const UNITES = [
     categorie: "Seigneur de Guerre",
     cout: 465,
     composition: "1 Alpharius",
-    traits: ["[Allégeance]", "Alpha Legion", "Écran de Fumée", "Maître de la Légion"],
+    traits: [
+      "[Allégeance]",
+      "Alpha Legion",
+      "Écran de Fumée",
+      "Maître de la Légion",
+    ],
     equipement: [
       "La Lance Pâle",
       "La Hargne de l'Hydre",
@@ -14238,6 +14768,35 @@ const UNITES = [
         cout: 10,
         ajoute: "Omniscope",
       },
+      // Options additionnelles Iron Warriors Legacy Wargear
+      // (iron_warriors_wargear.pdf), section « Tyrant Siege Terminator
+      // Squad ».
+      {
+        type: "case",
+        id: "harnais",
+        libelle: "Maître de Siège : harnais à grenades",
+        cout: 5,
+        ajoute: "Maître de Siège : harnais à grenades",
+      },
+      {
+        type: "quantite",
+        id: "paires-griffes",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace le combi-bolter et le gantelet énergétique)",
+        cout: 10,
+        parTranche: 1,
+        ajoute:
+          "Paire de griffes Lightning (à la place du combi-bolter et du gantelet énergétique)",
+      },
+      {
+        type: "quantite",
+        id: "poing-tronconneur",
+        libelle:
+          "Figurines : poing tronçonneur (à la place du gantelet énergétique)",
+        cout: 0,
+        parTranche: 1,
+        ajoute: "Poing tronçonneur (à la place du gantelet énergétique)",
+      },
     ],
     legion: "IV",
   },
@@ -14251,7 +14810,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Iron Warriors", "Bouclier"],
     notes:
       "Un des produits les plus visibles du génie de Perturabo lorsqu'il fut délivré des contraintes imposées par le Clergé de Mars fut le Cercle de Fer, également appelé Domitar-Ferrum. Ces automates furent initialement déployés en tant que gardes du corps du Primarque après la Bataille de Phall, car il estimait que ses propres fils lui avaient failli. Variantes du modèle Domitar/Conqueror, ils étaient conçus pour être les instruments de la volonté de leur créateur, et adaptés aux méthodes de guerre du Primarque. Initialement déployés aux côtés de leur maître, au fil de leur production, ils furent employés ailleurs au sein de la Légion.",
-    equipement: ["Broyeur à gravitons", "Canon à shrapnels jumelé", "Bouclier de combat Karceri"],
+    equipement: [
+      "Broyeur à gravitons",
+      "Canon à shrapnels jumelé",
+      "Bouclier de combat Karceri",
+    ],
     variantes: [
       {
         nom: "Manipule du Cercle de Fer",
@@ -14283,6 +14846,503 @@ const UNITES = [
       },
     ],
     options: [],
+    legion: "IV",
+  },
+
+  /* ----------------------------------------------------------
+     UNITÉS LEGACY RÉSERVÉES À LA IVe LÉGION (IRON WARRIORS)
+     Transcrit depuis iron_warriors.pdf et iron_warriors_wargear.pdf
+     (Warhammer: The Horus Heresy — Legacies of the Age of Darkness,
+     texte uniquement disponible en anglais : traduction maison, à
+     recouper avec une version française si elle paraît un jour).
+     Marquées legacy: true (comme Garde Sanguinienne) pour s'afficher
+     avec la mention « (Legacies) » dans le menu déroulant « Unité à
+     ajouter ». Voir js/armes-data.js pour leurs armes propres.
+     ---------------------------------------------------------- */
+  {
+    id: "forgeguerre-armure-artificer",
+    nom: "Forgeguerre en Armure Artificer",
+    legacy: true,
+    categorie: "Quartier Général",
+    cout: 140,
+    composition: "1 Forgeguerre en Armure Artificer",
+    traits: ["[Allégeance]", "Iron Warriors", "Maître de la Légion"],
+    notes:
+      "Certains Forgeguerres préféraient la mobilité que leur offrait une armure plus légère à celle de leurs frères vêtus de plaques Terminator. Non moins doués pour autant, ces guerriers étaient tout aussi capables d'évaluer une fortification et de la faire tomber. Cette Figurine compte comme une Figurine Forgeguerre pour la sélection du Détachement Apex Le Marteau d'Olympia.",
+    equipement: [
+      "Bolter",
+      "Pistolet bolter",
+      "Servobras",
+      "Contrôleur de cortex",
+      "Cognis-signum",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Forgeguerre en Armure Artificer",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Guerrier-artisan (2)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Remplacer le bolter",
+        remplace: "Bolter",
+        choix: [
+          { nom: "— Conserver le bolter —", cout: 0 },
+          { nom: "Lame de parangon", cout: 15 },
+          { nom: "Pistolet archéotech", cout: 15 },
+          { nom: "Fusil à pompe Astartes", cout: 2 },
+          { nom: "Chargeur volkite", cout: 2 },
+          // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+          // Masse à gravitons ajoutée à la liste d'Équipement d'Officier
+          // de Légion (+15 Points), Bolter à shrapnels en échange direct
+          // du bolter pour toute Figurine Iron Warriors (+3 Points).
+          { nom: "Masse à gravitons (Legacy)", cout: 15 },
+          { nom: "Bolter à shrapnels (Legacy)", cout: 3 },
+          ...depuisListes(
+            LISTES_EQUIPEMENT.officier,
+            LISTES_EQUIPEMENT.combinees,
+          ),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          { nom: "Lame de parangon", cout: 15 },
+          { nom: "Pistolet archéotech", cout: 15 },
+          // Iron Warriors Legacy Wargear : Masse à gravitons (liste
+          // d'Officier de Légion, +15 Points), Pistolet à shrapnels en
+          // échange direct du pistolet bolter (+2 Points).
+          { nom: "Masse à gravitons (Legacy)", cout: 15 },
+          { nom: "Pistolet à shrapnels (Legacy)", cout: 2 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+        ],
+      },
+      {
+        type: "paire",
+        id: "griffes",
+        libelle:
+          "Paire de griffes Lightning (remplace le bolter et le pistolet bolter)",
+        cout: 20,
+        ajoute: "Paire de griffes Lightning",
+        remplaceListe: ["Bolter", "Pistolet bolter"],
+      },
+      optionBombesFusion(),
+      optionBaionnette(),
+      {
+        type: "case",
+        id: "cyber-familier",
+        libelle: "Cyber-familier",
+        cout: 10,
+        ajoute: "Cyber-familier",
+      },
+    ],
+    legion: "IV",
+  },
+  {
+    id: "narik-dreygur",
+    nom: "Nârik Dreygur",
+    legacy: true,
+    categorie: "État-major",
+    cout: 115,
+    composition: "1 Nârik Dreygur",
+    traits: ["Loyaliste", "Iron Warriors"],
+    notes:
+      "L'Arpenteur des Tombes, le Pion du Revenant. Autrefois commandant respecté, Dreygur mena sa compagnie durant quatre-vingt-dix ans avant d'être abattu sur les champs de bataille d'Isstvan V. Sa défaite lui coûta la faveur de Perturabo, qui écarta le commandant brisé. Ayant perdu la faveur de son Primarque et son corps brisé reconstruit à coups d'augmétiques, il fut initié aux mystères technologiques de l'Apolakron. Dreygur, désormais connu comme l'Arpenteur des Tombes, rejoignit la guerre en tant que Consul Praevian. Rejeté par son Primarque et ses frères, il en vint rapidement à préférer la compagnie de ses charges automates, qui lui montraient plus de loyauté que ceux qu'il appelait ses « frères ». Gantelet à gravitons — incorporé à la plaque de bataille de Dreygur, cet énorme gantelet motorisé est doté de brutales serres de fer en guise de doigts ; le gant tout entier crépite d'un champ d'énergie de perturbation à la volonté de son porteur.",
+    equipement: [
+      "Gantelet à gravitons",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Contrôleur de cortex",
+    ],
+    variantes: [
+      {
+        nom: "Nârik Dreygur",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 9,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Guerrier-artisan (1)",
+          "Insensible à la Douleur (5+)",
+          "Maître des Automates (voir Liber Hereticus, page 37)",
+        ],
+        type: "Infanterie (Unique, État-major, Lourd)",
+      },
+    ],
+    options: [
+      // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+      // échange générique disponible à toute Figurine Iron Warriors
+      // dotée d'un pistolet bolter.
+      {
+        type: "case",
+        id: "pistolet-shrapnels",
+        libelle: "Pistolet à shrapnels (Legacy, à la place du pistolet bolter)",
+        cout: 2,
+        ajoute: "Pistolet à shrapnels (Legacy) (à la place du pistolet bolter)",
+      },
+    ],
+    legion: "IV",
+  },
+  {
+    id: "cohorte-dominators",
+    nom: "Cohorte de Dominators Iron Warriors",
+    legacy: true,
+    categorie: "Suites",
+    cout: 255,
+    composition: "5 Dominators",
+    effectif: { base: 5, max: 10, cout: 45 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Iron Warriors"],
+    notes:
+      "Autrefois honorés entre tous comme sans égal parmi leurs frères et investis du rôle de garde rapprochée de leur géniteur, les Dominators, ou Tyranthikos, furent relevés de leur charge la plus prisée après les événements de la Bataille de Phall. Le dévoilement par Perturabo de ses automates du « Cercle de Fer » supplanta l'ancienne garde du corps du Primarque et renvoya les guerriers vétérans en première ligne de la campagne du Maître de Guerre vers Terra. Leur expérience du combat éclipsée par les moteurs logiques calculateurs du Cercle de Fer, et leur honneur souillé, les Dominators devinrent de plus en plus amers.",
+    equipement: ["Combi-bolter", "Marteau Thunder"],
+    variantes: [
+      {
+        nom: "Dominator",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 5,
+          PV: 2,
+          I: 4,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 7,
+          Int: 7,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Sacrifiable (1)",
+          "Haine (Automates)",
+          "Ceux Jadis Honorés",
+        ],
+        type: "Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "lance-flammes-lourd",
+        libelle:
+          "Figurines (une par tranche de cinq) : lance-flammes lourd (à la place du combi-bolter)",
+        cout: 10,
+        parTranche: 5,
+        groupe: "lourd",
+        ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "multi-fuseur",
+        libelle:
+          "Figurines (une par tranche de cinq) : multi-fuseur (à la place du combi-bolter)",
+        cout: 15,
+        parTranche: 5,
+        groupe: "lourd",
+        ajoute: "Multi-fuseur (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "autocanon-reaper",
+        libelle:
+          "Figurines (une par tranche de cinq) : Autocanon Reaper (à la place du combi-bolter)",
+        cout: 15,
+        parTranche: 5,
+        groupe: "lourd",
+        ajoute: "Autocanon Reaper (à la place du combi-bolter)",
+      },
+      {
+        type: "quantite",
+        id: "poing-tronconneur",
+        libelle:
+          "Figurines : poing tronçonneur (à la place du marteau Thunder)",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Poing tronçonneur (à la place du marteau Thunder)",
+      },
+      {
+        type: "quantite",
+        id: "chargeur-volkite",
+        libelle: "Figurines : chargeur volkite (à la place du combi-bolter)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "combi",
+        ajoute: "Chargeur volkite (à la place du combi-bolter)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        groupe: "combi",
+        remplace: "du combi-bolter",
+      }),
+    ],
+    legion: "IV",
+  },
+  {
+    id: "iron-havocs",
+    nom: "Iron Havocs",
+    legacy: true,
+    categorie: "Appui",
+    cout: 135,
+    composition: "1 Sergent Iron Havoc, 4 Iron Havocs",
+    effectif: { base: 5, max: 10, cout: 25 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Iron Warriors"],
+    notes:
+      "Parmi la plupart des Legiones Astartes, le rôle principal des escouades de soutien lourd est de saturer une zone ou une cible ennemie sous un déluge de tir, oblitérant l'ennemi à grand renfort de puissance de feu. Les Iron Havocs de la IVe Légion sont toutefois une formation d'élite ayant élevé ces tactiques presque au rang d'art. Ces guerriers comptent parmi les meilleurs tireurs des Iron Warriors, alliant précision d'obus et de tir explosif tandis qu'ils avancent aux côtés des cadres d'assaut de la Légion. Les Iron Havocs sont souvent rattachés aux éléments de tête de tout assaut, où leur précision inégalée leur permet de nettoyer fortifications et points forts d'infanterie ennemis avec une efficacité meurtrière, ouvrant la voie que les Iron Warriors balaient ensuite de tout survivant.",
+    equipement: [
+      "Canon à shrapnels",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Iron Havocs",
+        cout: 0,
+        profils: [
+          {
+            nom: "Iron Havoc",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Iron Havoc",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 1,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Unité d'Appui (1)", "Ferrum Occularis"],
+        type: "Sergent Iron Havoc : Infanterie (Sergent) · Iron Havoc : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sergent-melee",
+        libelle:
+          "Sergent Iron Havoc : objet de la liste des Armes de Mêlée de Sergent de Légion",
+        ajoute: true,
+        prefixeFiche: "Sergent Iron Havoc : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+        ],
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Iron Havoc : vexillum",
+        cout: 10,
+        ajoute: "Un Iron Havoc : vexillum",
+      },
+      // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+      // échange générique disponible à toute Figurine Iron Warriors
+      // dotée d'un pistolet bolter.
+      {
+        type: "quantite",
+        id: "pistolet-shrapnels",
+        libelle:
+          "Figurines : pistolet à shrapnels (Legacy, à la place du pistolet bolter)",
+        cout: 2,
+        parTranche: 1,
+        ajoute: "Pistolet à shrapnels (Legacy) (à la place du pistolet bolter)",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1",
+        libelle: "Équipement de Légion (1er Iron Havoc, deux max dans l'unité)",
+        ajoute: true,
+        prefixeFiche: "Iron Havoc : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2",
+        libelle: "Équipement de Légion (2e Iron Havoc)",
+        ajoute: true,
+        prefixeFiche: "Iron Havoc : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 10 },
+          { nom: "Scanner augure", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-lourde-uniforme",
+        libelle:
+          "Toute l'unité : remplacer le canon à shrapnels (même choix pour toutes les Figurines)",
+        ajoute: true,
+        parFigurine: true,
+        prefixeFiche: "Toute l'unité : ",
+        choix: [
+          { nom: "— Conserver le canon à shrapnels —", cout: 0 },
+          { nom: "Autocanon", cout: 10 },
+          { nom: "Lance-missiles", cout: 5 },
+          { nom: "Canon laser", cout: 15 },
+        ],
+      },
+    ],
+    legion: "IV",
+  },
+  {
+    id: "le-tourmenteur",
+    nom: "Le Tourmenteur",
+    legacy: true,
+    categorie: "Seigneurs des Batailles",
+    cout: 700,
+    composition: "1 Le Tourmenteur",
+    traits: ["Renégat", "Iron Warriors", "Écran de Fumée"],
+    notes:
+      "Le Tourmenteur est un prodige de conversion d'un char super-lourd Shadowsword, maintenu par la Légion des Iron Warriors même après l'abandon de ce type de véhicule au sein des Légions. Utilisé comme véhicule de commandement mobile, aussi résilient que meurtrier, la superstructure et le moteur du véhicule ont été radicalement remaniés pour accueillir Perturabo à sa juste échelle, ainsi que ses gardes du corps du Cercle de Fer. Aucune machine à tuer plus efficace n'existait dans le parc de véhicules des Iron Warriors. Cette Figurine a des Points d'Accès sur la Face Arrière.",
+    equipement: [
+      "Canon Volcano (Shadowsword) d'Axe Central",
+      "Bolter lourd jumelé de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Le Tourmenteur",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: 14,
+        },
+        regles: ["Antre du Tyran de Fer", "Macro-auspex", "Boucliers Void (1)"],
+        type: "Véhicule (Unique, Transport, Super-lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "sponsons",
+        libelle: "Doter cette Figurine d'une des options suivantes",
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          {
+            nom: "Deux canons laser et deux bolters lourds jumelés (Sponsons)",
+            cout: 40,
+          },
+          {
+            nom: "Deux canons laser et deux lance-flammes lourds jumelés (Sponsons)",
+            cout: 40,
+          },
+          // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+          // ajoutée à la liste des Armes Sponson de Légion (+10 Points).
+          { nom: "Deux canons à shrapnels (Sponsons, Legacy)", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle:
+          "Doter cette Figurine d'un objet de la liste des Armes sur Pivot de Légion",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          // Iron Warriors Legacy Wargear : ajoutée à la liste des Armes
+          // sur Pivot de Légion (+15 Points).
+          { nom: "Canon à shrapnels sur Pivot (Legacy)", cout: 15 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      {
+        type: "case",
+        id: "hunter-killer",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+    ],
     legion: "IV",
   },
 
@@ -14345,7 +15405,12 @@ const UNITES = [
     notes:
       "Premier Capitaine des Night Lords, Le Prince des Corbeaux, et Maître des Atramentar. Jago Sevatarion a le triste honneur d'être le premier Renégat à s'être jamais écrié « Mort au faux Empereur ». Aussi doué qu'arrogant, Sevatar est un combattant cruel, imperméable au concept d'honneur. Cette attitude se reflète dans son apparence, soigneusement étudiée pour inspirer la crainte. Son armure bleu nuit est ornée de peaux écorchées et son heaume est sculpté en forme de crâne grimaçant. Ce visage morbide dissimule non seulement l'âme d'un meurtrier, mais aussi un don de pouvoirs psychiques latents qui, bien qu'il les réprime, permettent à Sevatar d'accroître encore ses capacités de combattant.",
     traits: ["Renégat", "Night Lords", "Maître de la Légion"],
-    equipement: ["Murmure de la Nuit", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Murmure de la Nuit",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Sevatar",
@@ -14366,7 +15431,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "4+",
         },
-        regles: ["Précision (4+)", "Peur (2)", "Combattant Déloyal", "Songes Ténébreux"],
+        regles: [
+          "Précision (4+)",
+          "Peur (2)",
+          "Combattant Déloyal",
+          "Songes Ténébreux",
+        ],
         type: "Infanterie (Unique, État-major)",
       },
     ],
@@ -14441,7 +15511,8 @@ const UNITES = [
       {
         type: "choix",
         id: "dissident-arme-cac",
-        libelle: "Le Dissident : échanger sa lame tronçonneuse contre une griffe énergétique Escaton",
+        libelle:
+          "Le Dissident : échanger sa lame tronçonneuse contre une griffe énergétique Escaton",
         ajoute: true,
         prefixeFiche: "Dissident : ",
         choix: [
@@ -14459,7 +15530,10 @@ const UNITES = [
         remplace: "Caviteur volkite",
         choix: [
           { nom: "— Conserver le caviteur volkite —", cout: 0 },
-          { nom: "Lance-flammes lourd (à la place du caviteur volkite)", cout: 0 },
+          {
+            nom: "Lance-flammes lourd (à la place du caviteur volkite)",
+            cout: 0,
+          },
         ],
       },
     ],
@@ -14476,7 +15550,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Night Lords"],
     notes:
       "Tortionnaires et bourreaux, écorcheurs et mutilateurs, les escouades Terreur accueillent dans leurs rangs les Night Lords les plus calculateurs et les plus imaginatifs. À la fois jugés et bourreaux parés de nuit et d'orage, ils étaient dotés d'un arsenal adapté à leurs effroyables méthodes de combat. Beaucoup arboraient également les gantelets rouges des morts en sursis, condamnés pour des actes répréhensibles mais néanmoins autorisés à continuer de servir tant que leurs talents étaient utiles au maître macabre des Night Lords.",
-    equipement: ["Épée tronçonneuse", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Épée tronçonneuse",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade Terreur",
@@ -14534,11 +15613,20 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           { nom: "Bolter (à la place de l'épée tronçonneuse)", cout: 0 },
-          { nom: "Chargeur volkite (à la place de l'épée tronçonneuse)", cout: 2 },
+          {
+            nom: "Chargeur volkite (à la place de l'épée tronçonneuse)",
+            cout: 2,
+          },
           { nom: "Canon rotor (à la place de l'épée tronçonneuse)", cout: 5 },
           { nom: "Lance-flammes (à la place de l'épée tronçonneuse)", cout: 5 },
-          { nom: "Hache tronçonneuse (à la place de l'épée tronçonneuse)", cout: 0 },
-          { nom: "Vouge tronçonneur (à la place de l'épée tronçonneuse)", cout: 5 },
+          {
+            nom: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
+            cout: 0,
+          },
+          {
+            nom: "Vouge tronçonneur (à la place de l'épée tronçonneuse)",
+            cout: 5,
+          },
         ],
       },
       {
@@ -14560,7 +15648,10 @@ const UNITES = [
         prefixeFiche: "Bourreau : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
-          { nom: "Pistolet désintégrateur (à la place du pistolet bolter)", cout: 10 },
+          {
+            nom: "Pistolet désintégrateur (à la place du pistolet bolter)",
+            cout: 10,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
         ],
       },
@@ -14586,7 +15677,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Night Lords"],
     notes:
       "Les Rapaces Nocturnes sont moins une force d'élite qu'une coterie de meurtriers unis par des préférences et des méthodes de combat communes. Les Rapaces Nocturnes éprouvent une joie mauvaise à survoler le champ de bataille tels des oiseaux de proie en quête de victimes et se délectent de l'effroyable moment de lucidité qui s'empare d'une victime quand elle voit la mort fondre sur elle. Au combat, ils s'ornent de trophées morbides et se parent de la peau écorchée de leurs victimes, pour frapper l'effroi dans leurs adversaires.",
-    equipement: ["Épée tronçonneuse", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Épée tronçonneuse",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Escouade de Rapaces Nocturnes",
@@ -14631,7 +15727,13 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Impact (I)", "Peur (1)", "Avant-garde (4)", "Massif (2)", "Frappe en Profondeur"],
+        regles: [
+          "Impact (I)",
+          "Peur (1)",
+          "Avant-garde (4)",
+          "Massif (2)",
+          "Frappe en Profondeur",
+        ],
         type: "Maître de Chasse : Infanterie (Sergent, Antigrav) · Rapace Nocturne : Infanterie (Antigrav)",
       },
     ],
@@ -14643,7 +15745,10 @@ const UNITES = [
         remplace: "Épée tronçonneuse",
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
-          { nom: "Vouge tronçonneur (à la place de l'épée tronçonneuse)", cout: 5 },
+          {
+            nom: "Vouge tronçonneur (à la place de l'épée tronçonneuse)",
+            cout: 5,
+          },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
         ],
       },
@@ -14720,7 +15825,13 @@ const UNITES = [
           { nom: "Électromasse", cout: 0 },
         ],
       },
-      { type: "case", id: "grenades-rad", libelle: "Grenades Rad", cout: 10, ajoute: "Grenades Rad" },
+      {
+        type: "case",
+        id: "grenades-rad",
+        libelle: "Grenades Rad",
+        cout: 10,
+        ajoute: "Grenades Rad",
+      },
       {
         type: "case",
         id: "cyber-familier",
@@ -14874,7 +15985,12 @@ const UNITES = [
     categorie: "Seigneurs des Batailles",
     cout: 750,
     composition: "1 Titan Warhound",
-    traits: ["[Allégeance]", "Legio Titanicus", "Titan Éclaireur", "[Équipage]"],
+    traits: [
+      "[Allégeance]",
+      "Legio Titanicus",
+      "Titan Éclaireur",
+      "[Équipage]",
+    ],
     equipement: [],
     faction: "legio-titanicus",
     variantes: [
@@ -14882,12 +15998,49 @@ const UNITES = [
         nom: "Titan Warhound",
         cout: 0,
         profilsVehicule: [
-          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 8, transport: "—" },
-          { nom: "Carapace", M: "—", CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
-          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 12, expose: 10, PC: 8, transport: "—" },
-          { nom: "Jambes", M: 20, CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
+          {
+            nom: "Tête",
+            M: "—",
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 8,
+            transport: "—",
+          },
+          {
+            nom: "Carapace",
+            M: "—",
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 10,
+            transport: "—",
+          },
+          {
+            nom: "Bras",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 12,
+            expose: 10,
+            PC: 8,
+            transport: "—",
+          },
+          {
+            nom: "Jambes",
+            M: 20,
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 10,
+            transport: "—",
+          },
         ],
-        regles: ["Cor Titanique (1)", "Réparateurs (D3)", "Boucliers Void Titaniques (2)"],
+        regles: [
+          "Cor Titanique (1)",
+          "Réparateurs (D3)",
+          "Boucliers Void Titaniques (2)",
+        ],
         type: "Véhicule (Titan)",
       },
     ],
@@ -14947,10 +16100,44 @@ const UNITES = [
         nom: "Titan Reaver",
         cout: 0,
         profilsVehicule: [
-          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 10, transport: "—" },
-          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 15, expose: 14, PC: 12, transport: "—" },
-          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 10, transport: "—" },
-          { nom: "Jambes", M: 15, CT: "—", principal: 15, expose: 14, PC: 12, transport: "—" },
+          {
+            nom: "Tête",
+            M: "—",
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 10,
+            transport: "—",
+          },
+          {
+            nom: "Carapace",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 15,
+            expose: 14,
+            PC: 12,
+            transport: "—",
+          },
+          {
+            nom: "Bras",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 14,
+            expose: 12,
+            PC: 10,
+            transport: "—",
+          },
+          {
+            nom: "Jambes",
+            M: 15,
+            CT: "—",
+            principal: 15,
+            expose: 14,
+            PC: 12,
+            transport: "—",
+          },
         ],
         regles: [
           "Cor Titanique (2)",
@@ -15029,10 +16216,44 @@ const UNITES = [
         nom: "Titan Warbringer Némésis",
         cout: 0,
         profilsVehicule: [
-          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 12, transport: "—" },
-          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 16, expose: 14, PC: 18, transport: "—" },
-          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 12, transport: "—" },
-          { nom: "Jambes", M: 10, CT: "—", principal: 15, expose: 14, PC: 14, transport: "—" },
+          {
+            nom: "Tête",
+            M: "—",
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 12,
+            transport: "—",
+          },
+          {
+            nom: "Carapace",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 16,
+            expose: 14,
+            PC: 18,
+            transport: "—",
+          },
+          {
+            nom: "Bras",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 14,
+            expose: 12,
+            PC: 12,
+            transport: "—",
+          },
+          {
+            nom: "Jambes",
+            M: 10,
+            CT: "—",
+            principal: 15,
+            expose: 14,
+            PC: 14,
+            transport: "—",
+          },
         ],
         regles: [
           "Cor Titanique (3)",
@@ -15119,10 +16340,44 @@ const UNITES = [
         nom: "Titan Warlord",
         cout: 0,
         profilsVehicule: [
-          { nom: "Tête", M: "—", CT: "—", principal: 14, expose: 12, PC: 14, transport: "—" },
-          { nom: "Carapace", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 15, expose: 14, PC: 18, transport: "—" },
-          { nom: "Bras", M: "—", CT: 3, ctParEquipage: [3, 4, 5], principal: 14, expose: 12, PC: 14, transport: "—" },
-          { nom: "Jambes", M: 12, CT: "—", principal: 15, expose: 14, PC: 16, transport: "—" },
+          {
+            nom: "Tête",
+            M: "—",
+            CT: "—",
+            principal: 14,
+            expose: 12,
+            PC: 14,
+            transport: "—",
+          },
+          {
+            nom: "Carapace",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 15,
+            expose: 14,
+            PC: 18,
+            transport: "—",
+          },
+          {
+            nom: "Bras",
+            M: "—",
+            CT: 3,
+            ctParEquipage: [3, 4, 5],
+            principal: 14,
+            expose: 12,
+            PC: 14,
+            transport: "—",
+          },
+          {
+            nom: "Jambes",
+            M: 12,
+            CT: "—",
+            principal: 15,
+            expose: 14,
+            PC: 16,
+            transport: "—",
+          },
         ],
         regles: [
           "Cor Titanique (4)",
@@ -15261,8 +16516,23 @@ const UNITES = [
       {
         nom: "Chevalier Astérius",
         cout: 0,
-        profilChevalier: { M: 10, CC: 3, CT: 4, F: 10, avant: 14, arriere: 11, I: 2, A: 3, PC: 18 },
-        regles: ["Autoréparation (4+)", "Colosse", "Explose (4+)", "Tir Indépendant"],
+        profilChevalier: {
+          M: 10,
+          CC: 3,
+          CT: 4,
+          F: 10,
+          avant: 14,
+          arriere: 11,
+          I: 2,
+          A: 3,
+          PC: 18,
+        },
+        regles: [
+          "Autoréparation (4+)",
+          "Colosse",
+          "Explose (4+)",
+          "Tir Indépendant",
+        ],
         type: "Véhicule (Chevalier, Lourd)",
       },
     ],
@@ -15289,8 +16559,23 @@ const UNITES = [
       {
         nom: "Chevalier Porphyrion",
         cout: 0,
-        profilChevalier: { M: 10, CC: 3, CT: 4, F: 10, avant: 14, arriere: 11, I: 2, A: 3, PC: 18 },
-        regles: ["Autoréparation (5+)", "Colosse", "Explose (5+)", "Tir Indépendant"],
+        profilChevalier: {
+          M: 10,
+          CC: 3,
+          CT: 4,
+          F: 10,
+          avant: 14,
+          arriere: 11,
+          I: 2,
+          A: 3,
+          PC: 18,
+        },
+        regles: [
+          "Autoréparation (5+)",
+          "Colosse",
+          "Explose (5+)",
+          "Tir Indépendant",
+        ],
         type: "Véhicule (Chevalier, Lourd)",
       },
     ],
@@ -15310,7 +16595,10 @@ const UNITES = [
         libelle: "Batterie lance-missiles Ironstorm Dorsale (Avant)",
         remplace: "Batterie lance-missiles Ironstorm Dorsale (Avant)",
         choix: [
-          { nom: "— Batterie lance-missiles Ironstorm Dorsale (Avant) (gratuit) —", cout: 0 },
+          {
+            nom: "— Batterie lance-missiles Ironstorm Dorsale (Avant) (gratuit) —",
+            cout: 0,
+          },
           { nom: "Lance-missiles Hyperios Dorsal (Avant)", cout: 10 },
         ],
       },
@@ -15336,7 +16624,17 @@ const UNITES = [
       {
         nom: "Chevalier Atrapos",
         cout: 0,
-        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        profilChevalier: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 9,
+          avant: 13,
+          arriere: 11,
+          I: 4,
+          A: 4,
+          PC: 12,
+        },
         regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15351,7 +16649,11 @@ const UNITES = [
     cout: 480,
     composition: "1 Chevalier Lancier",
     traits: ["[Allégeance]", "[Questoris Familia]"],
-    equipement: ["Lance-choc de Coque (Avant)", "Gantelet-bouclier ionique", "Bouclier ionique"],
+    equipement: [
+      "Lance-choc de Coque (Avant)",
+      "Gantelet-bouclier ionique",
+      "Bouclier ionique",
+    ],
     faction: "chevaliers-questoris",
     notes:
       "Le Lancier est le plus célèbre des harnois de Chevalier type Cerastus, un châssis hautement sophistiqué, qui surpasse de loin en célérité la classe Questoris plus pesante. Les Chevaliers Cerastus semblent n'avoir été conçus que pour la guerre, non comme protecteurs, mais comme des conquérants et des outils de destruction, marque de la violence qui imprégna les prémices de l'Ère des Luttes. Le Lancier est tenu en haute estime par les preux les plus impétueux des Maisons, son puissant gantelet-bouclier ionique et sa lance-choc étant parfaitement adaptés à affronter l'ennemi face à face, là où un seul coup ajusté sépare le pilote de sa mort.",
@@ -15359,7 +16661,17 @@ const UNITES = [
       {
         nom: "Chevalier Lancier",
         cout: 0,
-        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        profilChevalier: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 9,
+          avant: 13,
+          arriere: 11,
+          I: 4,
+          A: 4,
+          PC: 12,
+        },
         regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15387,7 +16699,17 @@ const UNITES = [
       {
         nom: "Chevalier Achéron",
         cout: 0,
-        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        profilChevalier: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 9,
+          avant: 13,
+          arriere: 11,
+          I: 4,
+          A: 4,
+          PC: 12,
+        },
         regles: ["Autoréparation (5+)", "Explose (4+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15414,7 +16736,17 @@ const UNITES = [
       {
         nom: "Chevalier Castigateur",
         cout: 0,
-        profilChevalier: { M: 14, CC: 4, CT: 4, F: 9, avant: 13, arriere: 11, I: 4, A: 4, PC: 12 },
+        profilChevalier: {
+          M: 14,
+          CC: 4,
+          CT: 4,
+          F: 9,
+          avant: 13,
+          arriere: 11,
+          I: 4,
+          A: 4,
+          PC: 12,
+        },
         regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15443,7 +16775,17 @@ const UNITES = [
       {
         nom: "Chevalier Styrix",
         cout: 0,
-        profilChevalier: { M: 10, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 3, A: 4, PC: 10 },
+        profilChevalier: {
+          M: 10,
+          CC: 4,
+          CT: 4,
+          F: 8,
+          avant: 13,
+          arriere: 11,
+          I: 3,
+          A: 4,
+          PC: 10,
+        },
         regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15472,7 +16814,17 @@ const UNITES = [
       {
         nom: "Chevalier Magaera",
         cout: 0,
-        profilChevalier: { M: 10, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 3, A: 4, PC: 10 },
+        profilChevalier: {
+          M: 10,
+          CC: 4,
+          CT: 4,
+          F: 8,
+          avant: 13,
+          arriere: 11,
+          I: 3,
+          A: 4,
+          PC: 10,
+        },
         regles: ["Autoréparation (4+)", "Explose (5+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15510,7 +16862,17 @@ const UNITES = [
       {
         nom: "Chevalier Questoris",
         cout: 0,
-        profilChevalier: { M: 12, CC: 4, CT: 4, F: 8, avant: 13, arriere: 11, I: 4, A: 4, PC: 10 },
+        profilChevalier: {
+          M: 12,
+          CC: 4,
+          CT: 4,
+          F: 8,
+          avant: 13,
+          arriere: 11,
+          I: 4,
+          A: 4,
+          PC: 10,
+        },
         regles: ["Autoréparation (5+)", "Explose (6+)", "Avant-garde (2)"],
         type: "Véhicule (Chevalier)",
       },
@@ -15575,8 +16937,14 @@ const UNITES = [
         choix: [
           { nom: "— Aucune monture Dorsale —", cout: 0 },
           { nom: "Autocanon Icarus jumelé Dorsal (Avant, Arrière)", cout: 20 },
-          { nom: "Nacelle lance-missiles Ironstorm Dorsale (Avant, Arrière)", cout: 15 },
-          { nom: "Nacelle lance-roquettes Stormspear Dorsale (Avant, Arrière)", cout: 10 },
+          {
+            nom: "Nacelle lance-missiles Ironstorm Dorsale (Avant, Arrière)",
+            cout: 15,
+          },
+          {
+            nom: "Nacelle lance-roquettes Stormspear Dorsale (Avant, Arrière)",
+            cout: 10,
+          },
         ],
       },
     ],
@@ -15617,7 +16985,12 @@ const UNITES = [
           Sv: "3+",
           Inv: "5+",
         },
-        regles: ["Massif (8)", "Explose (5+)", "Avance Implacable", "Mouvement à Couvert"],
+        regles: [
+          "Massif (8)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Mouvement à Couvert",
+        ],
         type: "Marcheur",
       },
     ],
@@ -15663,7 +17036,8 @@ const UNITES = [
         libelle:
           "Paire de pinces de siège Gyges et deux irradieurs (remplace les deux Armements ci-dessus)",
         cout: 10,
-        ajoute: "Paire de pinces de siège Gyges et deux irradieurs (les deux Armements)",
+        ajoute:
+          "Paire de pinces de siège Gyges et deux irradieurs (les deux Armements)",
       },
     ],
   },
@@ -15900,7 +17274,7 @@ const UNITES = [
     categorie: "État-major",
     cout: 100,
     composition: "1 Capitaine Auxilia, 4 Compagnons",
-    effectif: { base: 5, max: 9, cout: 12 },
+    effectif: { base: 5, max: 8, cout: 12 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
@@ -15928,9 +17302,9 @@ const UNITES = [
               A: 3,
               Cd: 9,
               Sf: 8,
-              Vo: 8,
-              Int: 7,
-              Sv: "3+",
+              Vo: 7,
+              Int: 6,
+              Sv: "4+",
               Inv: "5+",
             },
           },
@@ -15994,7 +17368,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Infanterie"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Infanterie quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: ["Rifle laser — Salve (Maître de Troupe seulement)", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Rifle laser — Salve (Maître de Troupe seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Section d'État-major de Ligne",
@@ -16066,20 +17444,24 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "État-major",
     cout: 75,
-    composition: "1 Primat d'État-major, 4 Veletarii",
-    effectif: { base: 5, max: 9, cout: 12 },
+    composition: "1 Primat-chef, 4 Veletarii",
+    effectif: { base: 5, max: 8, cout: 12 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio Véletaris"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio Veletaris quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: ["Chargeur volkite (Primat d'État-major seulement)", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Chargeur volkite (Primat-chef seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Section d'État-major Veletaris",
         cout: 0,
         profils: [
           {
-            nom: "Primat d'État-major",
+            nom: "Primat-chef",
             profil: {
               M: 6,
               CC: 4,
@@ -16118,7 +17500,7 @@ const UNITES = [
           },
         ],
         regles: ["Tenir la Ligne"],
-        type: "Primat d'État-major : Infanterie (Sergent) · Veletarius : Infanterie",
+        type: "Primat-chef : Infanterie (Sergent) · Veletarius : Infanterie",
       },
     ],
     options: [
@@ -16143,7 +17525,12 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Éclaireurs"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Éclaireurs quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: ["Arquebuse volkite", "Grenades Frag", "Grenades Krak", "Lance-grenade Hermes — Frag"],
+    equipement: [
+      "Arquebuse volkite",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Lance-grenade Hermes — Frag",
+    ],
     variantes: [
       {
         nom: "Section d'État-major Hermes",
@@ -16220,7 +17607,11 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Artillerie"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Artillerie quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: ["Rifle laser — Salve (Maître d'Artillerie seulement)", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Rifle laser — Salve (Maître d'Artillerie seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Section d'État-major Artillerie",
@@ -16286,7 +17677,12 @@ const UNITES = [
     categorie: "État-major",
     cout: 150,
     composition: "1 Char d'État-major Blindé",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio Blindé quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
     equipement: ["Obusier de Tourelle", "Bolter lourd de Coque (Avant)"],
@@ -16294,7 +17690,15 @@ const UNITES = [
       {
         nom: "Char d'État-major Blindé",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 13, arriere: 10, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
         regles: ["Autoréparation (4+)", "Combat Blindé"],
         type: "Véhicule",
       },
@@ -16390,7 +17794,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-lourde",
-        libelle: "Par tranche de cinq Figurines : chargeur volkite d'une Figurine → arme lourde",
+        libelle:
+          "Par tranche de cinq Figurines : chargeur volkite d'une Figurine → arme lourde",
         parTranche: 5,
         choix: [
           { nom: "— Conserver le chargeur volkite —", cout: 0 },
@@ -16612,13 +18017,26 @@ const UNITES = [
     categorie: "Appui",
     cout: 120,
     composition: "1 Basilisk",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Artillerie", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio d'Artillerie",
+      "Écran de Fumée",
+    ],
     equipement: ["Canon Earthshaker d'Axe Central"],
     variantes: [
       {
         nom: "Basilisk",
         cout: 0,
-        profilVehicule: { M: 10, CT: 3, avant: 12, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule",
       },
@@ -16647,13 +18065,26 @@ const UNITES = [
     categorie: "Appui",
     cout: 140,
     composition: "1 Medusa",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Artillerie", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio d'Artillerie",
+      "Écran de Fumée",
+    ],
     equipement: ["Mortier Medusa d'Axe Central"],
     variantes: [
       {
         nom: "Medusa",
         cout: 0,
-        profilVehicule: { M: 10, CT: 3, avant: 12, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule",
       },
@@ -16780,7 +18211,12 @@ const UNITES = [
           Sv: "3+",
           Inv: "—",
         },
-        regles: ["Massif (2)", "Avance Implacable", "Mouvement à Couvert", "Avant-garde (2)"],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Mouvement à Couvert",
+          "Avant-garde (2)",
+        ],
         type: "Cavalerie",
       },
     ],
@@ -16842,7 +18278,15 @@ const UNITES = [
       {
         nom: "Allège Arvus",
         cout: 0,
-        profilVehicule: { M: 30, CT: 3, avant: 11, flanc: 11, arriere: 11, PC: 4, transport: 12 },
+        profilVehicule: {
+          M: 30,
+          CT: 3,
+          avant: 11,
+          flanc: 11,
+          arriere: 11,
+          PC: 4,
+          transport: 12,
+        },
         regles: ["Transport Léger"],
         type: "Véhicule (Transport Léger, Aéronef)",
       },
@@ -16862,7 +18306,15 @@ const UNITES = [
       {
         nom: "Dracosan",
         cout: 0,
-        profilVehicule: { M: 12, CT: 3, avant: 13, flanc: 13, arriere: 11, PC: 7, transport: 22 },
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 7,
+          transport: 22,
+        },
         regles: ["Transport Léger"],
         type: "Véhicule (Transport)",
       },
@@ -16896,7 +18348,11 @@ const UNITES = [
     effectif: { base: 1, max: 4, cout: 32 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
-    equipement: ["Multi-laser (Solar Auxilia)", "Grenades Frag", "Grenades Krak"],
+    equipement: [
+      "Multi-laser (Solar Auxilia)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
     variantes: [
       {
         nom: "Sentinelle Légère Hermes",
@@ -16917,7 +18373,12 @@ const UNITES = [
           Sv: "4+",
           Inv: "—",
         },
-        regles: ["Massif (2)", "Avance Implacable", "Mouvement à Couvert", "Attaque de Flanc"],
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Mouvement à Couvert",
+          "Attaque de Flanc",
+        ],
         type: "Cavalerie (Léger)",
       },
     ],
@@ -16944,12 +18405,23 @@ const UNITES = [
     cout: 160,
     composition: "1 Primaris-Lightning",
     traits: ["[Allégeance]", "Solar Auxilia", "Intercepteur"],
-    equipement: ["Canon laser jumelé d'Axe Central", "Six missiles Hellstrike d'Axe Central"],
+    equipement: [
+      "Canon laser jumelé d'Axe Central",
+      "Six missiles Hellstrike d'Axe Central",
+    ],
     variantes: [
       {
         nom: "Primaris-Lightning",
         cout: 0,
-        profilVehicule: { M: 26, CT: 3, avant: 11, flanc: 11, arriere: 11, PC: 4, transport: "—" },
+        profilVehicule: {
+          M: 26,
+          CT: 3,
+          avant: 11,
+          flanc: 11,
+          arriere: 11,
+          PC: 4,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule (Aéronef)",
       },
@@ -16964,12 +18436,23 @@ const UNITES = [
     cout: 120,
     composition: "1 Thunderbolt",
     traits: ["[Allégeance]", "Solar Auxilia"],
-    equipement: ["Canon laser jumelé d'Axe Central", "Deux autocanons Gravis (Solar Auxilia) d'Axe Central"],
+    equipement: [
+      "Canon laser jumelé d'Axe Central",
+      "Deux autocanons Gravis (Solar Auxilia) d'Axe Central",
+    ],
     variantes: [
       {
         nom: "Thunderbolt",
         cout: 0,
-        profilVehicule: { M: 22, CT: 3, avant: 12, flanc: 12, arriere: 12, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 22,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 5,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule (Aéronef)",
       },
@@ -16985,13 +18468,26 @@ const UNITES = [
     categorie: "Blindés",
     cout: 140,
     composition: "1 Leman Russ",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
     equipement: ["Obusier de Tourelle", "Bolter lourd de Coque (Avant)"],
     variantes: [
       {
         nom: "Char de Frappe Leman Russ",
         cout: 0,
-        profilVehicule: { M: 10, CT: 3, avant: 14, flanc: 13, arriere: 10, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule",
       },
@@ -17027,13 +18523,29 @@ const UNITES = [
     categorie: "Blindés",
     cout: 140,
     composition: "1 Leman Russ",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
-    equipement: ["Macro-sacre volkite (Solar Auxilia) de Tourelle", "Bolter lourd de Coque (Avant)"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
+    equipement: [
+      "Macro-sacre volkite (Solar Auxilia) de Tourelle",
+      "Bolter lourd de Coque (Avant)",
+    ],
     variantes: [
       {
         nom: "Char d'Assaut Leman Russ",
         cout: 0,
-        profilVehicule: { M: 10, CT: 3, avant: 14, flanc: 13, arriere: 10, PC: 6, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule",
       },
@@ -17069,13 +18581,26 @@ const UNITES = [
     categorie: "Blindés",
     cout: 215,
     composition: "1 Malcador",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
     equipement: ["Obusier de Coque (Avant)"],
     variantes: [
       {
         nom: "Malcador",
         cout: 0,
-        profilVehicule: { M: 12, CT: 3, avant: 13, flanc: 13, arriere: 11, PC: 7, transport: "—" },
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 7,
+          transport: "—",
+        },
         regles: ["Tir Indépendant"],
         type: "Véhicule",
       },
@@ -17111,13 +18636,29 @@ const UNITES = [
     categorie: "Blindés",
     cout: 240,
     composition: "1 Malcador Infernus",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
-    equipement: ["Canon Infernus d'Axe Central", "Deux multi-lasers (Solar Auxilia) Latéraux"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
+    equipement: [
+      "Canon Infernus d'Axe Central",
+      "Deux multi-lasers (Solar Auxilia) Latéraux",
+    ],
     variantes: [
       {
         nom: "Malcador Infernus",
         cout: 0,
-        profilVehicule: { M: 12, CT: 3, avant: 13, flanc: 13, arriere: 10, PC: 7, transport: "—" },
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 13,
+          flanc: 13,
+          arriere: 10,
+          PC: 7,
+          transport: "—",
+        },
         regles: ["Tir Indépendant"],
         type: "Véhicule",
       },
@@ -17146,13 +18687,29 @@ const UNITES = [
     categorie: "Blindés",
     cout: 225,
     composition: "1 Valdor",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Blindé", "Écran de Fumée"],
-    equipement: ["Laser à neutrons (Solar Auxilia) d'Axe Central", "Multi-laser (Solar Auxilia) Latéral (Droite)"],
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Tercio Blindé",
+      "Écran de Fumée",
+    ],
+    equipement: [
+      "Laser à neutrons (Solar Auxilia) d'Axe Central",
+      "Multi-laser (Solar Auxilia) Latéral (Droite)",
+    ],
     variantes: [
       {
         nom: "Valdor",
         cout: 0,
-        profilVehicule: { M: 12, CT: 3, avant: 13, flanc: 13, arriere: 11, PC: 7, transport: "—" },
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 7,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule",
       },
@@ -17165,8 +18722,14 @@ const UNITES = [
         remplace: "Multi-laser (Solar Auxilia) Latéral (Droite)",
         choix: [
           { nom: "— Conserver le multi-laser Latéral —", cout: 0 },
-          { nom: "Autocanon Gravis (Solar Auxilia) Latéral (Droite)", cout: 10 },
-          { nom: "Lance-flammes lourd (Solar Auxilia) Latéral (Droite)", cout: 0 },
+          {
+            nom: "Autocanon Gravis (Solar Auxilia) Latéral (Droite)",
+            cout: 10,
+          },
+          {
+            nom: "Lance-flammes lourd (Solar Auxilia) Latéral (Droite)",
+            cout: 0,
+          },
           { nom: "Canon laser (Solar Auxilia) Latéral (Droite)", cout: 5 },
         ],
       },
@@ -17212,7 +18775,15 @@ const UNITES = [
       {
         nom: "Stormhammer",
         cout: 0,
-        profilVehicule: { M: 10, CT: 3, avant: 14, flanc: 13, arriere: 12, PC: 16, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
         regles: [],
         type: "Véhicule (Super-lourd)",
       },
@@ -17388,40 +18959,47 @@ const UNITES = [
     nom: "Archimagos Scoria",
     faction: "mechanicum",
     categorie: "Quartier Général",
-    cout: 180,
-    composition: "1 Archimagos Scoria",
-    traits: ["[Allégeance]", "Macrotek", "Cybertheurge"],
+    cout: 410,
+    composition: "1 Scoria",
+    traits: ["Renégat", "Archimandrite", "Cybertheurge", "Hétérodoxe"],
     notes:
-      "Profil reconstruit par cohérence avec les autres Archimagi (aucune fiche photographiée dans les scans fournis) : à vérifier en priorité contre le livre.",
-    equipement: ["Grenades Frag", "Faisceau de conversion (< 15 pas)"],
+      "Les détails concernant la vie d'Anacharis Scoria ont disparu, mais des documents fragmentaires indiquent qu'il était un Magos Dominus au service de Xana quelque trente ans avant l'Hérésie d'Horus. On pense qu'il reçut le titre de Magister Vodien, maître d'archive de la doctrine religieuse sur son monde mystérieux, mais quelque temps après il fut renversé, jusqu'à ce qu'une opération secrète des Loyalistes, l'Incursion de Xana, tourne au désastre, ce qui lui permit de lancer un coup d'État pour éliminer le Synode de Xana. Il en ressortit plus puissant que jamais. Archimagos du Domaine Xanain — malgré son apparence monstrueuse, Scoria comptait parmi les meilleurs cybertheurges originaires des mondes-forges du nord-ouest galactique : il a des Rites Cybertheurgiques précis, et connaît les Rites Cybertheurgiques suivants : Réacteurs Suralimentés, Purge de Cogitateur, Infection d'Anticode.",
+    equipement: [
+      "Serres scoriennes",
+      "Le Sceptre Vodien",
+      "Pistolet archéotech jumelé",
+      "Pulseur à photons",
+    ],
     variantes: [
       {
-        nom: "Archimagos Scoria",
+        nom: "Scoria",
         cout: 0,
         profil: {
-          M: 6,
-          CC: 5,
+          M: 9,
+          CC: 6,
           CT: 6,
-          F: 6,
+          F: 7,
           E: 6,
-          PV: 6,
-          I: 4,
-          A: 4,
-          Cd: 9,
+          PV: 5,
+          I: 5,
+          A: 3,
+          Cd: 10,
           Sf: 10,
-          Vo: 9,
+          Vo: 10,
           Int: 10,
           Sv: "2+",
           Inv: "4+",
         },
         regles: [
           "Insensible à la Douleur (5+)",
-          "Contrôleur (2)",
+          "Guerrier Éternel (1)",
           "Guerrier-artisan (4)",
-          "Protocoles de Tir (2)",
-          "Maître des Machines",
+          "Peur (2)",
+          "Impact (A)",
+          "Theurgika Maxima (voir page 45)",
+          "Archimagos du Domaine Xanain",
         ],
-        type: "Infanterie (État-major)",
+        type: "Marcheur (Champion, Unique)",
       },
     ],
     options: [],
@@ -17436,7 +19014,13 @@ const UNITES = [
     notes:
       "Cette Figurine peut être remplacée par 1 Draykavac sur Abéant pour +20 Points. S'il en vint à être un des membres les plus honnis du Mechanicum Noir, Draykavac était globalement inconnu avant que la guerre civile provoquée par la trahison du Maître de Guerre ne déchire l'Imperium.",
     traits: ["Renégat", "Archimandrite", "Cybertheurge", "Hétérodoxe"],
-    equipement: ["Grenades Frag", "Lame de parangon", "Fusil à gravitons", "Contrôleur de cortex", "Panoplie machinator"],
+    equipement: [
+      "Grenades Frag",
+      "Lame de parangon",
+      "Fusil à gravitons",
+      "Contrôleur de cortex",
+      "Panoplie machinator",
+    ],
     variantes: [
       {
         nom: "Draykavac",
@@ -17497,7 +19081,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-surcout",
-        libelle: "Doit être doté d'une des options suivantes sans surcoût en Points",
+        libelle:
+          "Doit être doté d'une des options suivantes sans surcoût en Points",
         remplace: "Fusil à gravitons",
         choix: [
           { nom: "Fusil à gravitons", cout: 0 },
@@ -17539,7 +19124,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Insensible à la Douleur (5+)", "Contrôleur (2)", "Maître des Machines", "Protocoles de Tir (2)"],
+        regles: [
+          "Insensible à la Douleur (5+)",
+          "Contrôleur (2)",
+          "Maître des Machines",
+          "Protocoles de Tir (2)",
+        ],
         type: "Infanterie (État-major)",
       },
     ],
@@ -17700,7 +19290,7 @@ const UNITES = [
     categorie: "Suites",
     cout: 100,
     composition: "4 Scyllax",
-    effectif: { base: 4, max: 12, cout: 2 },
+    effectif: { base: 4, max: 12, cout: 25 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Mechanicum]"],
     equipement: ["Panoplie de combat Scyllax", "Fourneau Rad"],
@@ -17724,7 +19314,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Impact (A)", "Explose (6+)", "Compact", "Boucliers Réfracteurs Phasés"],
+        regles: [
+          "Impact (A)",
+          "Explose (6+)",
+          "Compact",
+          "Boucliers Réfracteurs Phasés",
+        ],
         type: "Automate",
       },
     ],
@@ -17733,10 +19328,11 @@ const UNITES = [
       {
         type: "quantite",
         id: "bolter",
-        libelle: "Par tranche de deux Figurines : bolter à la place du Fourneau Rad",
-        parTranche: 2,
+        libelle: "Figurines : bolter à la place du Fourneau Rad",
+        parTranche: 1,
         cout: 2,
-        ajoute: "Bolter (Mechanicum) (à la place du Fourneau Rad, une Figurine)",
+        ajoute:
+          "Bolter (Mechanicum) (à la place du Fourneau Rad, une Figurine)",
       },
     ],
   },
@@ -17747,7 +19343,7 @@ const UNITES = [
     categorie: "Suites",
     cout: 40,
     composition: "4 Echidnax",
-    effectif: { base: 4, max: 12, cout: 2 },
+    effectif: { base: 4, max: 12, cout: 10 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Mechanicum]"],
     equipement: ["Servo-harnais"],
@@ -17786,10 +19382,14 @@ const UNITES = [
     categorie: "Elite",
     cout: 100,
     composition: "1 Domitar",
-    effectif: { base: 1, max: 3, cout: 100 },
+    effectif: { base: 1, max: 4, cout: 100 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Lance-missiles Cyclone (Mechanicum) — Frag", "Marteaux à gravitons", "Poings de Domitar"],
+    equipement: [
+      "Lance-missiles Cyclone (Mechanicum) — Frag",
+      "Marteaux à gravitons",
+      "Poings de Domitar",
+    ],
     variantes: [
       {
         nom: "Domitar",
@@ -17808,7 +19408,7 @@ const UNITES = [
           Vo: 4,
           Int: 4,
           Sv: "2+",
-          Inv: "4+",
+          Inv: "5+",
         },
         regles: [
           "Massif (4)",
@@ -17880,7 +19480,12 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Massif (3)", "Avance Implacable", "Avant-garde (2)", "Méditation Martiale"],
+        regles: [
+          "Massif (3)",
+          "Avance Implacable",
+          "Avant-garde (2)",
+          "Méditation Martiale",
+        ],
         type: "Secutor : Infanterie · Seigneur Secutor : Infanterie (Champion, Lourd)",
       },
     ],
@@ -17979,7 +19584,10 @@ const UNITES = [
     cout: 125,
     composition: "1 Decimator",
     traits: ["Renégat", "Cybernetica"],
-    equipement: ["Deux lance-flammes lourds", "Pince Decimator (deux exemplaires)"],
+    equipement: [
+      "Deux lance-flammes lourds",
+      "Pince Decimator (deux exemplaires)",
+    ],
     variantes: [
       {
         nom: "Decimator",
@@ -18000,7 +19608,14 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (7)", "Avance Implacable", "Explose (6+)", "Impact (A)", "Avant-garde (2)", "Protocoles de Tir (2)"],
+        regles: [
+          "Massif (7)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Impact (A)",
+          "Avant-garde (2)",
+          "Protocoles de Tir (2)",
+        ],
         type: "Automate (Maléfique)",
       },
     ],
@@ -18027,10 +19642,10 @@ const UNITES = [
     categorie: "Assaut Lourd",
     cout: 100,
     composition: "2 Castellax",
-    effectif: { base: 2, max: 8, cout: 50 },
+    effectif: { base: 2, max: 6, cout: 50 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Deux bolters", "Canon à bolts Mauler", "Lance-choc (Tir) (deux exemplaires)"],
+    equipement: ["Deux bolters", "Canon à bolts Mauler", "Chargeurs-choc"],
     variantes: [
       {
         nom: "Castellax",
@@ -18051,7 +19666,14 @@ const UNITES = [
           Sv: "2+",
           Inv: "4+",
         },
-        regles: ["Massif (4)", "Avance Implacable", "Explose (6+)", "Protocoles de Tir (3)", "Brise-blindage (4+)", "Boucliers Réfracteurs Phasés"],
+        regles: [
+          "Massif (4)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Protocoles de Tir (3)",
+          "Brise-blindage (4+)",
+          "Boucliers Réfracteurs Phasés",
+        ],
         type: "Automate",
       },
     ],
@@ -18059,16 +19681,19 @@ const UNITES = [
       {
         type: "case",
         id: "canon-darkfire",
-        libelle: "Toute Figurine : échanger ses bolts Mauler contre un canon Darkfire",
+        libelle:
+          "Toute Figurine : échanger ses bolts Mauler contre un canon Darkfire",
         cout: 15,
         ajoute: "Canon Darkfire (à la place du canon à bolts Mauler)",
       },
       {
         type: "case",
         id: "multi-fuseur",
-        libelle: "Toute Figurine : échanger ses bolts Mauler contre un multi-fuseur",
+        libelle:
+          "Toute Figurine : échanger ses bolts Mauler contre un multi-fuseur",
         cout: 10,
-        ajoute: "Multi-fuseur (Mechanicum) (à la place du canon à bolts Mauler)",
+        ajoute:
+          "Multi-fuseur (Mechanicum) (à la place du canon à bolts Mauler)",
       },
     ],
   },
@@ -18082,7 +19707,11 @@ const UNITES = [
     effectif: { base: 6, max: 9, cout: 25 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Lacrymaerta"],
-    equipement: ["Paire de griffes d'Ursarax", "Incinérateur volkite", "Grenades Frag"],
+    equipement: [
+      "Paire de griffes d'Ursarax",
+      "Incinérateur volkite",
+      "Grenades Frag",
+    ],
     variantes: [
       {
         nom: "Cohorte d'Ursarax",
@@ -18172,7 +19801,13 @@ const UNITES = [
           Sv: "3+",
           Inv: "6+",
         },
-        regles: ["Massif (5)", "Mouvement à Couvert", "Impact (A)", "Explose (6+)", "Avant-garde (1)"],
+        regles: [
+          "Massif (5)",
+          "Mouvement à Couvert",
+          "Impact (A)",
+          "Explose (6+)",
+          "Avant-garde (1)",
+        ],
         type: "Automate (Maléfique)",
       },
     ],
@@ -18219,7 +19854,12 @@ const UNITES = [
           Sv: "3+",
           Inv: "—",
         },
-        regles: ["Insensible à la Douleur (6+)", "Contrôleur (1)", "Maître des Machines", "Protocoles de Tir (2)"],
+        regles: [
+          "Insensible à la Douleur (6+)",
+          "Contrôleur (1)",
+          "Maître des Machines",
+          "Protocoles de Tir (2)",
+        ],
         type: "Infanterie (Sergent, Spécialiste)",
       },
     ],
@@ -18274,7 +19914,11 @@ const UNITES = [
           Sv: "6+",
           Inv: "—",
         },
-        regles: ["Sacrifiable (2)", "Rite de la Pensée Pure", "Insensible à la Douleur (6+)"],
+        regles: [
+          "Sacrifiable (2)",
+          "Rite de la Pensée Pure",
+          "Insensible à la Douleur (6+)",
+        ],
         type: "Infanterie",
       },
     ],
@@ -18368,10 +20012,10 @@ const UNITES = [
     categorie: "Appui",
     cout: 100,
     composition: "2 Castellax",
-    effectif: { base: 2, max: 8, cout: 50 },
+    effectif: { base: 2, max: 10, cout: 50 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Deux bolters", "Canon à bolts Mauler", "Lance-choc (Tir) (deux exemplaires)"],
+    equipement: ["Deux bolters", "Canon à bolts Mauler", "Chargeurs-choc"],
     variantes: [
       {
         nom: "Castellax",
@@ -18392,7 +20036,14 @@ const UNITES = [
           Sv: "2+",
           Inv: "4+",
         },
-        regles: ["Massif (4)", "Avance Implacable", "Explose (6+)", "Protocoles de Tir (3)"],
+        regles: [
+          "Massif (4)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Protocoles de Tir (3)",
+          "Brise-blindage (4+)",
+          "Boucliers Réfracteurs Phasés",
+        ],
         type: "Automate",
       },
     ],
@@ -18400,15 +20051,19 @@ const UNITES = [
       {
         type: "case",
         id: "lames",
-        libelle: "Toute Figurine : échanger ses bolters contre une paire de lames énergétiques",
-        cout: 10,
-        ajoute: "Épée énergétique (paire, à la place des bolters)",
+        libelle:
+          "Toute Figurine : échanger ses chargeurs-choc contre une paire de lames énergétiques",
+        cout: 0,
+        ajoute: "Épée énergétique (paire, à la place des chargeurs-choc)",
       },
       {
-        type: "case",
+        type: "quantite",
         id: "lance-flammes",
-        libelle: "Toute Figurine : échanger un bolter contre un lance-flammes",
+        libelle:
+          "Figurines : bolter par un lance-flammes (jusqu'à deux par Figurine)",
         cout: 5,
+        parTranche: 1,
+        parTrancheMax: 2,
         ajoute: "Lance-flammes (Mechanicum) (à la place d'un bolter)",
       },
     ],
@@ -18422,10 +20077,12 @@ const UNITES = [
     categorie: "Engins de Guerre",
     cout: 225,
     composition: "1 Thanatar",
-    effectif: { base: 1, max: 4, cout: 225 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Lance-choc (Tir) (deux exemplaires)", "Canon à bolts Mauler jumelé"],
+    equipement: [
+      "Chargeurs-choc (deux exemplaires)",
+      "Canon à bolts Mauler jumelé",
+    ],
     variantes: [
       {
         nom: "Thanatar",
@@ -18446,7 +20103,14 @@ const UNITES = [
           Sv: "2+",
           Inv: "—",
         },
-        regles: ["Massif (9)", "Avance Implacable", "Explose (6+)", "Unité d'Appui (1)", "Protocoles de Tir (2)", "Orage de Feu"],
+        regles: [
+          "Massif (9)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Unité d'Appui (1)",
+          "Protocoles de Tir (2)",
+          "Orage de Feu",
+        ],
         type: "Automate (Lourd)",
       },
     ],
@@ -18457,7 +20121,10 @@ const UNITES = [
         libelle: "Doit être dotée d'une des deux options suivantes",
         choix: [
           { nom: "Configuration Cavas : mortier à plasma", cout: 0 },
-          { nom: "Configuration Calix : laser lourd Sollex et bélier à gravitons", cout: 20 },
+          {
+            nom: "Configuration Calix : laser lourd Sollex et bélier à gravitons",
+            cout: 20,
+          },
         ],
       },
     ],
@@ -18491,7 +20158,12 @@ const UNITES = [
           Sv: "3+",
           Inv: "5+",
         },
-        regles: ["Massif (8)", "Explose (5+)", "Mouvement à Couvert", "Avance Implacable"],
+        regles: [
+          "Massif (8)",
+          "Explose (5+)",
+          "Mouvement à Couvert",
+          "Avance Implacable",
+        ],
         type: "Marcheur",
       },
     ],
@@ -18528,9 +20200,11 @@ const UNITES = [
       {
         type: "case",
         id: "faisceau-moirax",
-        libelle: "Faisceau de conversion Moirax et une paire de pinces de siège Gyges et deux irradieurs",
+        libelle:
+          "Faisceau de conversion Moirax et une paire de pinces de siège Gyges et deux irradieurs",
         cout: 10,
-        ajoute: "Faisceau de conversion Moirax (< 15 pas), paire de pinces de siège Gyges et deux irradieurs",
+        ajoute:
+          "Faisceau de conversion Moirax (< 15 pas), paire de pinces de siège Gyges et deux irradieurs",
       },
     ],
   },
@@ -18545,12 +20219,25 @@ const UNITES = [
     composition: "1 Triaros",
     traits: ["[Allégeance]", "[Mechanicum]"],
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
-    equipement: ["Arquebuse volkite d'Axe Central (deux exemplaires)", "Canon à bolts Mauler jumelé sur Pivot", "Bouclier répulsif", "Projecteurs"],
+    equipement: [
+      "Arquebuse volkite d'Axe Central (deux exemplaires)",
+      "Canon à bolts Mauler jumelé sur Pivot",
+      "Bouclier répulsif",
+      "Projecteurs",
+    ],
     variantes: [
       {
         nom: "Triaros",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 12, arriere: 12, PC: 7, transport: 22 },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 12,
+          arriere: 12,
+          PC: 7,
+          transport: 22,
+        },
         regles: ["Autoréparation (4+)", "Bélier-choc"],
         type: "Véhicule (Transport)",
       },
@@ -18561,7 +20248,8 @@ const UNITES = [
         id: "missile",
         libelle: "Deux missiles traqueurs de Coque (Avant)",
         cout: 10,
-        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        ajoute:
+          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
       },
     ],
   },
@@ -18577,7 +20265,11 @@ const UNITES = [
     effectif: { base: 2, max: 8, cout: 45 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Épée énergétique (deux exemplaires)", "Canon rotor jumelé", "Fusil à foudre"],
+    equipement: [
+      "Épée énergétique (deux exemplaires)",
+      "Canon rotor jumelé",
+      "Fusil à foudre",
+    ],
     variantes: [
       {
         nom: "Vorax",
@@ -18630,10 +20322,13 @@ const UNITES = [
     categorie: "Attaque Rapide",
     cout: 100,
     composition: "1 Vultarax",
-    effectif: { base: 1, max: 4, cout: 100 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Électro-éclateur", "Lance-missiles Vultarax — Explosion aérienne", "Serres dendrites"],
+    equipement: [
+      "Électro-éclateur",
+      "Lance-missiles Vultarax — Explosion aérienne",
+      "Serres dendrites",
+    ],
     variantes: [
       {
         nom: "Vultarax",
@@ -18654,7 +20349,13 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (6)", "Avance Implacable", "Explose (6+)", "Protocoles de Tir (2)", "Orage de Feu"],
+        regles: [
+          "Massif (6)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Protocoles de Tir (2)",
+          "Orage de Feu",
+        ],
         type: "Automate (Antigrav)",
       },
     ],
@@ -18670,12 +20371,25 @@ const UNITES = [
     cout: 235,
     composition: "1 Karacnos",
     traits: ["[Allégeance]", "Macrotek"],
-    equipement: ["Batterie de mortiers Karacnos de Coque (Avant)", "Mousquet à foudre Latéral (deux exemplaires)", "Bouclier répulsif", "Projecteurs"],
+    equipement: [
+      "Batterie de mortiers Karacnos de Coque (Avant)",
+      "Mousquet à foudre Latéral (deux exemplaires)",
+      "Bouclier répulsif",
+      "Projecteurs",
+    ],
     variantes: [
       {
         nom: "Karacnos",
         cout: 0,
-        profilVehicule: { M: 10, CT: 4, avant: 14, flanc: 12, arriere: 12, PC: 7, transport: "—" },
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 12,
+          arriere: 12,
+          PC: 7,
+          transport: "—",
+        },
         regles: ["Autoréparation (4+)", "Bélier-choc", "Explose (6+)"],
         type: "Véhicule",
       },
@@ -18686,7 +20400,8 @@ const UNITES = [
         id: "missile",
         libelle: "Deux missiles traqueurs de Coque (Avant)",
         cout: 10,
-        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        ajoute:
+          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
       },
     ],
   },
@@ -18703,7 +20418,15 @@ const UNITES = [
       {
         nom: "Krios",
         cout: 0,
-        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Autoréparation (4+)"],
         type: "Véhicule (Rapide)",
       },
@@ -18714,7 +20437,8 @@ const UNITES = [
         id: "missile",
         libelle: "Deux missiles traqueurs de Coque (Avant)",
         cout: 10,
-        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        ajoute:
+          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
       },
       {
         type: "case",
@@ -18738,7 +20462,15 @@ const UNITES = [
       {
         nom: "Krios Venator",
         cout: 0,
-        profilVehicule: { M: 14, CT: 4, avant: 13, flanc: 12, arriere: 10, PC: 5, transport: "—" },
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
         regles: ["Autoréparation (4+)"],
         type: "Véhicule (Rapide)",
       },
@@ -18749,7 +20481,8 @@ const UNITES = [
         id: "missile",
         libelle: "Deux missiles traqueurs de Coque (Avant)",
         cout: 10,
-        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        ajoute:
+          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
       },
       {
         type: "case",
@@ -18770,7 +20503,12 @@ const UNITES = [
     cout: 600,
     composition: "1 Scorpion d'Airain",
     traits: ["Renégat", "Archimandrite"],
-    equipement: ["Canon Scorpion", "Canon Despoiler", "Canon Hellmaw jumelé", "Pinces Hellcrusher"],
+    equipement: [
+      "Canon Scorpion",
+      "Canon Despoiler",
+      "Canon Hellmaw jumelé",
+      "Pinces Hellcrusher",
+    ],
     variantes: [
       {
         nom: "Scorpion d'Airain",
@@ -18833,7 +20571,13 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Avance Implacable", "Explose (4+)", "Unité d'Appui (1)", "Vif (2)", "Mouvement à Couvert"],
+        regles: [
+          "Avance Implacable",
+          "Explose (4+)",
+          "Unité d'Appui (1)",
+          "Vif (2)",
+          "Mouvement à Couvert",
+        ],
         type: "Automate (Maléfique, Inarrêtable)",
       },
     ],

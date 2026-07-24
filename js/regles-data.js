@@ -333,6 +333,65 @@ const REGLES_DIVERSES = [
     texte: "Donne une réaction supplémentaire.",
   },
   {
+    // Escouade Iron Havocs (IVe Légion, Iron Warriors) : viseurs
+    // spécialisés recoupant flux de données, conditions atmosphériques
+    // et mouvements prédictifs des cibles (voir js/unites-data.js).
+    nom: "Ferrum Occularis",
+    texte:
+      "Les Blessures infligées par une Figurine ayant cette Règle Spéciale peuvent ignorer les Sauvegardes de Couvert. Les Sauvegardes de Couvert ne peuvent pas être utilisées contre des blessures non sauvegardées infligées par une Attaque de Tir faite par une Figurine ayant cette Règle Spéciale, si cette Figurine faisait partie d'une Unité restée Stationnaire lors de la Phase de Mouvement précédente de son Joueur en Contrôle.",
+  },
+  {
+    // 0-1 Cohorte de Dominators (IVe Légion, Iron Warriors) : anciens
+    // gardes du corps de Perturabo, supplantés par les automates du
+    // Cercle de Fer (voir js/unites-data.js).
+    nom: "Ceux Jadis Honorés",
+    texte:
+      "Les Cohortes de Dominators existent au purgatoire, dépouillées des honneurs jadis accordés par leur Primarque et condamnées à servir en première ligne des assauts les plus éprouvants. Autrefois gardes du corps de Perturabo lui-même et tenus en haute estime par leur Primarque et leur Légion, leur échec à la Bataille de Phall les réduisit à l'état misérable dans lequel ils se trouvaient durant l'Hérésie d'Horus. Les automates du Cercle de Fer, qui les avaient remplacés comme garde du corps de Perturabo, leur rappelaient sans cesse leurs échecs lors des premiers combats de l'Hérésie d'Horus et devinrent la cible d'un dédain malveillant. Une Unité qui inclut des Figurines ayant cette Règle Spéciale ne peut jamais être rejointe par une Figurine de Perturabo.",
+  },
+  {
+    // Le Tourmenteur (IVe Légion, Iron Warriors) : Shadowsword converti
+    // en centre de commandement mobile de Perturabo (voir
+    // js/unites-data.js).
+    nom: "Antre du Tyran de Fer",
+    texte:
+      "Perturabo était connu pour utiliser Le Tourmenteur comme centre de commandement mobile, ses automates gardes du corps se logeant dans des compartiments de transport spécialement modifiés à l'intérieur de sa coque pendant qu'il dirigeait ses forces. Seules les Figurines de Perturabo ou de Domitar-Ferrum peuvent Embarquer sur une Figurine ayant cette Règle Spéciale.",
+  },
+  {
+    // Perturabo, Primarque des Iron Warriors (voir js/unites-data.js) :
+    // Réaction propre au Défi.
+    nom: "Le Briseur",
+    texte:
+      "Perturabo s'intéressait rarement aux notions d'honneur sur le champ de bataille pour se consacrer aux sinistres mathématiques du carnage. Même quand un champion ennemi tentait de le provoquer en duel, Perturabo préférait souvent ordonner à ses troupes de crépiter l'impudent de bolts au lieu de s'abaisser à l'abattre lui-même. Cette Réaction permet à une Unité amie de faire une Attaque de Tir ciblant une Figurine en Défi avec Perturabo. Tant qu'une Figurine ayant cette Règle Spéciale est en Défi, son Joueur en Contrôle peut choisir cette Posture : Le Briseur — on ne peut choisir cette Posture qu'à la première Étape de Confrontation d'un Défi. Si elle adopte cette Posture, cette Figurine ne fait pas d'attaques à l'Étape de Frappe qui suit ; à la place, le Joueur en Contrôle de cette Figurine peut choisir une seule Unité amie composée de Figurines ayant le Trait Iron Warriors, située à 12\" de cette Figurine ennemie impliquée dans ce Défi et non Verrouillée en Combat, et faire une Attaque de Tir avec cette Unité. Les attaques se résolvent en tant que Tirs au Jugé, ne peuvent pas utiliser d'Armes ayant la Règle Spéciale Explosion (X) ou la Caractéristique de Portée Souffle, et on ne peut allouer les Blessures de cette Attaque de Tir qu'à la Figurine adverse du Défi.",
+  },
+  {
+    // Perturabo, Primarque des Iron Warriors (voir js/unites-data.js) :
+    // Règle Spéciale d'Armée.
+    nom: "Sire des Iron Warriors",
+    texte:
+      "Sur son monde d'adoption, Perturabo était un seigneur de guerre et un stratège hors pair, et il était considéré comme étant un des meilleurs artificiers parmi les Primarques. Cependant, au combat, c'était son implacable sens de la discipline qui influait le plus sur sa Légion, car ceux qui combattaient à ses côtés ne connaissaient que trop bien le prix de l'échec ou la couardise aux yeux du Seigneur de Fer. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Tactique et/ou d'Escouade Brécheuse, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal de cette Armée sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines de la même Armée qui ont le Trait Infanterie et le Trait Iron Warriors : jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie de cette Armée qui ont le Trait Iron Warriors ont la Règle Spéciale Sacrifiable (1) ; si elles ont déjà la Règle Spéciale Sacrifiable (X), la Valeur de X augmente de 1.",
+  },
+  {
+    // Cassian Dracos Ressuscité (XVIIIe Légion, Salamanders) : voir
+    // js/unites-data.js.
+    nom: "Armure Écaille de Drac",
+    texte:
+      "Vulkan forgea personnellement les plaques de l'armure de Cassian Dracos, lui conférant une robustesse bien supérieure à celle des Dreadnoughts plus ordinaires. Sa surface complexe pouvait résister à la chaleur et aux radiations bien mieux que toute autre armure. Les Blessures portant un Trait Flammes, Plasma, Fuseur ou Volkite allouées à une Figurine ayant cette Règle Spéciale ont leur caractéristique de Dégâts ramenée à 1.",
+  },
+  {
+    // Cassian Dracos Ressuscité (XVIIIe Légion, Salamanders) : voir
+    // js/unites-data.js.
+    nom: "Murmures d'Isstvan",
+    texte:
+      "Enseveli sous la surface d'Isstvan V pendant près d'un an, Cassian Dracos fut tourmenté par la solitude et la connaissance de ses propres échecs. À son émergence, il était transformé, doté d'un nouveau pouvoir sur l'animus des machines et des volontés faibles. Cassian Dracos Ressuscité a le Trait Cybertheurge et ne peut utiliser que le Rite Cybertheurgique Infection de Code-Rebut (voir Liber Mechanicum, page 65). Quand ce Rite Cybertheurgique est invoqué pour Cassian Dracos, celui-ci est considéré comme ayant le Trait Hétérodoxe même s'il n'a pas le Trait Renégat.",
+  },
+  {
+    // Escouade des Adhérents (XVIIIe Légion, Salamanders) : voir
+    // js/unites-data.js.
+    nom: "Credo de la Flamme",
+    texte:
+      "La signification rituelle de la flamme purificatrice était centrale pour les nombreuses sous-sectes du Culte Promethéen qui émergèrent dans le sillage du Massacre de la Zone de Largage, employées avec des résultats effroyables sur les champs de bataille de l'Hérésie d'Horus. Les Figurines ayant cette Règle Spéciale peuvent faire des Attaques de Volée avec les Armes ayant le Trait Flammes. Toute arme ayant le Trait Flammes que possède une Figurine ayant cette Règle Spéciale gagne aussi le Trait Assaut, et ignore les effets de la Règle Spéciale Limitée (X) lors des Attaques de Volée.",
+  },
+  {
     nom: "Médic (X)",
     texte:
       "Détermine la difficulté des Jets de Rétablissement (le nombre à atteindre) pour cette unité, sans en accorder par elle-même.",
@@ -1030,7 +1089,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Spécialiste",
-    texte: "Une Figurine de Sous-type Spécialiste peut rejoindre et quitter des Unités.",
+    texte:
+      "Une Figurine de Sous-type Spécialiste peut rejoindre et quitter des Unités.",
   },
   {
     nom: "Sergent",
@@ -1044,7 +1104,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Champion",
-    texte: "Une Figurine de Sous-type Champion peut Lancer et Relever des Défis.",
+    texte:
+      "Une Figurine de Sous-type Champion peut Lancer et Relever des Défis.",
   },
   {
     nom: "Unique",
@@ -1089,7 +1150,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Bouclier Magnéto-inverseur",
     texte:
-      "Réduit d'1\" (minimum 1\") la distance de Charge des Unités ennemies qui chargent une Unité majoritairement équipée, laquelle gagne aussi le Trait Bouclier.",
+      'Réduit d\'1" (minimum 1") la distance de Charge des Unités ennemies qui chargent une Unité majoritairement équipée, laquelle gagne aussi le Trait Bouclier.',
   },
   {
     nom: "Bouclier Répulsif",
@@ -1109,7 +1170,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Cor Titanique (X)",
     texte:
-      'Une fois par Bataille, réduit de X les Caractéristiques de Commandement, Volonté, Sang-froid et Intelligence des Figurines ennemies à 24" de la Figurine qui l\'active.',
+      "Une fois par Bataille, réduit de X les Caractéristiques de Commandement, Volonté, Sang-froid et Intelligence des Figurines ennemies à 24\" de la Figurine qui l'active.",
   },
   {
     nom: "Structure Renforcée (X)",
@@ -1129,7 +1190,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Grenades Frag",
     texte:
-      'À l\'Étape de Volée de la Procédure de Charge, une Figurine dotée de grenades Frag peut faire une attaque unique (P6, PF1, FT3, PA6, D1, Explosion (3"), Assaut) à la place d\'une Attaque de Tir normale.',
+      "À l'Étape de Volée de la Procédure de Charge, une Figurine dotée de grenades Frag peut faire une attaque unique (P6, PF1, FT3, PA6, D1, Explosion (3\"), Assaut) à la place d'une Attaque de Tir normale.",
   },
   {
     nom: "Autres Gabarits",
@@ -1303,7 +1364,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Lance-grenade Hermes",
     texte:
-      'À l\'Étape de Volée de la Procédure de Charge, une Figurine dotée d\'un lance-grenade Hermes peut faire une attaque unique avec le profil Frag ou Krak de cette Arme, à la place d\'une Attaque de Tir normale.',
+      "À l'Étape de Volée de la Procédure de Charge, une Figurine dotée d'un lance-grenade Hermes peut faire une attaque unique avec le profil Frag ou Krak de cette Arme, à la place d'une Attaque de Tir normale.",
   },
   {
     nom: "État-major Suprême de Cohorte",
@@ -1431,7 +1492,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Boucliers Réfracteurs Phasés",
-    texte: "Une Figurine ayant cette Règle Spéciale gagne une Sauvegarde Invulnérable de 5+.",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale gagne une Sauvegarde Invulnérable de 5+.",
   },
   {
     nom: "Compact",
@@ -1501,7 +1563,8 @@ const REGLES_DIVERSES = [
   },
   {
     nom: "Statut Cybertheurgique : Guider",
-    texte: "Une Figurine sujette à ce Statut gagne +1 à ses Caractéristiques de Capacité de Tir et de Capacité de Combat.",
+    texte:
+      "Une Figurine sujette à ce Statut gagne +1 à ses Caractéristiques de Capacité de Tir et de Capacité de Combat.",
   },
   {
     nom: "Statut Cybertheurgique : Négation",
@@ -1579,17 +1642,17 @@ const REGLES_DIVERSES = [
   {
     nom: "Rite : Réacteurs Suralimentés",
     texte:
-      "Rite Cybertheurgique Standard (Difficulté 2, Portée 12\") : mêmes Cible et effet que le Rite Interruption de Programme (Statut Accélérer, Fortifier ou Guider), mais ne peut pas cibler une Unité qui inclut une Figurine de Sous-type Super-lourd ou Chevalier ; se résout immédiatement.",
+      'Rite Cybertheurgique Standard (Difficulté 2, Portée 12") : mêmes Cible et effet que le Rite Interruption de Programme (Statut Accélérer, Fortifier ou Guider), mais ne peut pas cibler une Unité qui inclut une Figurine de Sous-type Super-lourd ou Chevalier ; se résout immédiatement.',
   },
   {
     nom: "Rite : Protocoles Oméga",
     texte:
-      "Rite Cybertheurgique Lacrymaerta (Difficulté 4, Portée 12\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Retire tous ses Statuts Cybertheurgiques (Rétroaction Cybertheurgique au retrait) ; si une Figurine de l'Unité Cible est Retirée comme Perte par cette Rétroaction, toutes les autres Unités présentes à 6\" (amies et ennemies) subissent chacune deux Touches de Force 6, PA 5, Dégâts 1, qui ne comptent pas pour la Résolution de Combat.",
+      'Rite Cybertheurgique Lacrymaerta (Difficulté 4, Portée 12") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Retire tous ses Statuts Cybertheurgiques (Rétroaction Cybertheurgique au retrait) ; si une Figurine de l\'Unité Cible est Retirée comme Perte par cette Rétroaction, toutes les autres Unités présentes à 6" (amies et ennemies) subissent chacune deux Touches de Force 6, PA 5, Dégâts 1, qui ne comptent pas pour la Résolution de Combat.',
   },
   {
     nom: "Rite : Protocoles de la Chair",
     texte:
-      "Rite Cybertheurgique Lacrymaerta (Difficulté 2, Portée 12\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Confère le Statut Cybertheurgique Accélérer ou Fortifier, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+      'Rite Cybertheurgique Lacrymaerta (Difficulté 2, Portée 12") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Lacrymaerta. Confère le Statut Cybertheurgique Accélérer ou Fortifier, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).',
   },
   {
     nom: "Rite : Portail Déverrouillé",
@@ -1599,12 +1662,12 @@ const REGLES_DIVERSES = [
   {
     nom: "Rite : Coupure d'Antalgique",
     texte:
-      "Rite Cybertheurgique Reductor (Difficulté 3, Portée 24\") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Reductor. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+      'Rite Cybertheurgique Reductor (Difficulté 3, Portée 24") : cible une Unité amie non Verrouillée en Combat, entièrement composée de Figurines Reductor. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).',
   },
   {
     nom: "Rite : Fureur des Âges",
     texte:
-      "Rite Cybertheurgique Ésotérique, réservé aux Cybertheurges Myrmidax (Difficulté 2, Portée 6\") : cible une Unité amie composée uniquement de Figurines qui ont le Trait Myrmidax, y compris Verrouillée en Combat. Confère le Statut Cybertheurgique Fortifier ou Guider, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+      'Rite Cybertheurgique Ésotérique, réservé aux Cybertheurges Myrmidax (Difficulté 2, Portée 6") : cible une Unité amie composée uniquement de Figurines qui ont le Trait Myrmidax, y compris Verrouillée en Combat. Confère le Statut Cybertheurgique Fortifier ou Guider, retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).',
   },
   {
     nom: "Rite : Châtier l'Esprit de la Machine",
@@ -1614,7 +1677,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Rite : Amplification Éthérique",
     texte:
-      "Rite Cybertheurgique Hétérodoxe, +10 Points (Difficulté 2, Portée 6\") : cible une Unité amie entièrement composée de Figurines de Sous-type Maléfique, y compris Verrouillée en Combat. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).",
+      'Rite Cybertheurgique Hétérodoxe, +10 Points (Difficulté 2, Portée 6") : cible une Unité amie entièrement composée de Figurines de Sous-type Maléfique, y compris Verrouillée en Combat. Confère un même Statut Cybertheurgique au choix (Accélérer, Fortifier ou Guider), retiré à la prochaine Phase de Début (Rétroaction Cybertheurgique au retrait).',
   },
   {
     nom: "Rite : Infection d'Anticode",

@@ -4,13 +4,92 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Primarques Loyalistes — Horus Heresy</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
-      rel="stylesheet"
+    <meta
+      name="description"
+      content="Choisissez votre légion loyaliste pour le guide d'initiation Horus Heresy 3e édition : les dix-huit primarques et leurs légions."
+    />
+    <link rel="icon" type="image/png" href="../assets/img/eye-of-horus.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Choix de la légion — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Choisissez votre légion loyaliste parmi les dix-huit primarques pour le guide d'initiation Horus Heresy 3e édition."
+    />
+    <meta
+      property="og:image"
+      content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
     />
     <style>
+      /* Polices auto-hébergées (RGPD : aucune requête vers Google Fonts,
+         cohérent avec le reste du site — voir css/style.css). */
+      @font-face {
+        font-family: "Cinzel";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("../assets/fonts/cinzel-latin-500-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Cinzel";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("../assets/fonts/cinzel-latin-600-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Cinzel";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("../assets/fonts/cinzel-latin-700-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Cinzel";
+        font-style: normal;
+        font-weight: 900;
+        font-display: swap;
+        src: url("../assets/fonts/cinzel-latin-900-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "EB Garamond";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("../assets/fonts/ebgaramond-latin-400-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "EB Garamond";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("../assets/fonts/ebgaramond-latin-500-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "EB Garamond";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("../assets/fonts/ebgaramond-latin-600-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "EB Garamond";
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url("../assets/fonts/ebgaramond-latin-400-italic.woff2")
+          format("woff2");
+      }
       :root {
         --color-bg: #0a0908;
         --color-surface: #12100e;
@@ -19,7 +98,10 @@
         --color-border: oklch(0.55 0.02 60 / 0.18);
         --color-text: #d8d0c4;
         --color-text-muted: #a29b8d;
-        --color-text-faint: #6b6459;
+        /* #6b6459 initial ne donnait que 3,4:1 sur --color-bg (texte
+           courant 0.8rem/0.85rem) : sous le seuil AA de 4,5:1 (WCAG
+           1.4.3). Éclairci à #857c6a (~4,8:1), même teinte discrète. */
+        --color-text-faint: #857c6a;
         --color-gold: #c9a13b;
         --color-gold-bright: #e8c667;
         --color-blood: #7a1f1f;
@@ -49,6 +131,23 @@
       html {
         scroll-behavior: smooth;
         -webkit-font-smoothing: antialiased;
+      }
+      /* Lien d'évitement (WCAG 2.4.1) : caché hors écran, révélé au
+         focus clavier — même principe que .lien-evitement dans
+         css/style.css, adapté à la palette sombre de cette page. */
+      .lien-evitement {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 2000;
+        background: var(--color-blood-bright);
+        color: #fff;
+        padding: 0.6rem 1rem;
+        border-radius: 0 0 var(--radius-sm) 0;
+        text-decoration: none;
+      }
+      .lien-evitement:focus {
+        left: 0;
       }
       body {
         background:
@@ -352,6 +451,7 @@
     </style>
   </head>
   <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
     <header>
       <div class="eyabbr">Horus Heresy</div>
       <h1>Choix de la légion</h1>
@@ -361,7 +461,7 @@
       </p>
     </header>
 
-    <main>
+    <main id="contenu">
       <div class="grid" id="grid" role="list"></div>
 
       <!-- Modale image + validation -->
@@ -625,8 +725,7 @@
         if (selectedPrimarch.expurged) return;
         if (!selectedPrimarch.legionId) return;
         window.location.href =
-          "unites.html?legion=" +
-          encodeURIComponent(selectedPrimarch.legionId);
+          "unites.html?legion=" + encodeURIComponent(selectedPrimarch.legionId);
       });
 
       // --- EASTER EGG : taper "chaos" -> 4 démons ---
@@ -693,7 +792,11 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
     ></script>
     <noscript
       ><div class="statcounter">
-        <a title="Web Analytics" href="https://statcounter.com/" target="_blank"
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           ><img
             class="statcounter"
             src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
