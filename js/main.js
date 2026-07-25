@@ -427,6 +427,46 @@ function activerClinDoeilErebus() {
 }
 
 /* ----------------------------------------------------------
+   CLIN D'ŒIL — Nuit Éternelle (Konrad Curze)
+   Taper "night" au clavier (accents/majuscules ignorés, n'importe où
+   sur le site) bascule un thème sombre en hommage au Night Haunter et
+   à sa philosophie de la peur comme outil de contrôle. Purement
+   décoratif — une seule classe sur <body> ; la palette et la brume
+   rampante sont entièrement gérées par CSS (voir "Nuit Éternelle" dans
+   css/style.css).
+   Buffer des 5 dernières touches tapées (comme un code Konami),
+   ignoré tant que le focus est dans un champ de saisie (input,
+   textarea, contenteditable) pour ne pas basculer le thème pendant
+   qu'on tape "night" dans une barre de recherche par coïncidence.
+   Remis à zéro après un basculement pour ne pas re-basculer en boucle
+   si l'utilisateur laisse "night" au clavier (ex : "nightnight").
+   ---------------------------------------------------------- */
+function activerNuitEternelle() {
+  const SEQUENCE = ["n", "i", "g", "h", "t"];
+  let buffer = [];
+
+  document.addEventListener("keydown", (evenement) => {
+    const cible = evenement.target;
+    const dansChampDeSaisie =
+      cible &&
+      (cible.tagName === "INPUT" ||
+        cible.tagName === "TEXTAREA" ||
+        cible.isContentEditable);
+    // e.key.length === 1 ne garde que les caractères imprimables
+    // (rejette Shift, Tab, Escape, flèches...).
+    if (dansChampDeSaisie || evenement.key.length !== 1) return;
+
+    buffer.push(evenement.key.toLowerCase());
+    if (buffer.length > SEQUENCE.length) buffer.shift();
+
+    if (buffer.join("") === SEQUENCE.join("")) {
+      document.body.classList.toggle("nuit-eternelle");
+      buffer = [];
+    }
+  });
+}
+
+/* ----------------------------------------------------------
    RACINE DU SITE
    Déduite de l'URL réelle de ce script (résolue en absolu par le
    navigateur) plutôt que codée en dur : fonctionne aussi bien depuis
@@ -1037,6 +1077,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cablerInfoBulles();
 
   activerClinDoeilErebus();
+  activerNuitEternelle();
 
   /* ----------------------------------------------------------
      ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)
