@@ -587,6 +587,7 @@
           legion: "XIII – Ultramarines",
           legionId: "XIII",
           img: "../assets/logo_legions/guilliman.jpg",
+          tooltip: "Toujours en train d'écrire un nouveau Codex quelque part.",
         },
         {
           id: 14,
@@ -657,6 +658,7 @@
         card.setAttribute("type", "button");
         card.setAttribute("aria-label", `${p.name} — afficher en grand`);
         card.dataset.id = p.id;
+        if (p.tooltip) card.title = p.tooltip;
 
         if (p.expurged) {
           card.classList.add("expurged");
