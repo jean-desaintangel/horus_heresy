@@ -42,6 +42,7 @@ const Organigramme = (() => {
     maisonnee: "", // id MAISONNEES ou "" (Choisir Maisonnée, Chevaliers Questoris seulement)
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
     doctrineCohorte: "", // id DOCTRINES_DE_COHORTE ou "" (Solar Auxilia seulement)
+    designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
     detachements: [],
   };
 
@@ -59,11 +60,11 @@ const Organigramme = (() => {
   // seulement le cadre (skin, état, organigramme vierge) en attendant.
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
+    ["legio-custodes", "Legio Custodes", false],
     ["legio-titanicus", "Legio Titanicus", true],
     ["chevaliers-questoris", "Chevaliers Questoris", true],
-    ["legio-custodes", "Legio Custodes", false],
-    ["solar-auxilia", "Solar Auxilia", true],
     ["mechanicum", "Mechanicum", true],
+    ["solar-auxilia", "Solar Auxilia", true],
   ];
 
   const LEGIONS = [
@@ -99,10 +100,15 @@ const Organigramme = (() => {
   ];
 
   // Doctrines de Cohorte (livre d'armée Solar Auxilia, Liber Auxilia
-  // p. 11-16) : un unique choix optionnel par Armée Solar Auxilia, sans
-  // effet sur l'accessibilité des Unités — texte de Règle Spéciale
-  // (Tactica de Cohorte + Détachements Additionnels) documenté dans
-  // js/regles-data.js plutôt que reproduit ici (voir sélecteur "Doctrine
+  // p. 11-16) : un unique choix par Armée Solar Auxilia, rendu
+  // obligatoire dans l'outil avant de pouvoir ajouter des Unités
+  // (demande du proprio) — voir le verrou dans actualiserVerrouLegion
+  // (js/unites.js), même principe que la Légion/Maisonnée pour les
+  // autres Factions. Sans effet sur l'accessibilité d'une Unité en
+  // particulier (aucun champ Unité ne filtre sur une Doctrine précise)
+  // — texte de Règle Spéciale (Tactica de Cohorte + Détachements
+  // Additionnels) documenté dans js/regles-data.js plutôt que reproduit
+  // ici (voir sélecteur "Doctrine
   // de Cohorte" dans construireParametres).
   const DOCTRINES_DE_COHORTE = [
     ["ultima", "Cohorte Ultima"],
@@ -1795,6 +1801,7 @@ const Organigramme = (() => {
           maisonnee: etat.maisonnee,
           riteDeGuerre: etat.riteDeGuerre,
           doctrineCohorte: etat.doctrineCohorte,
+          designationAuxilia: etat.designationAuxilia,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
@@ -1855,6 +1862,15 @@ const Organigramme = (() => {
           DOCTRINES_DE_COHORTE.some(([v]) => v === donnees.doctrineCohorte))
       ) {
         etat.doctrineCohorte = donnees.doctrineCohorte;
+      }
+      if (
+        typeof donnees.designationAuxilia === "string" &&
+        (donnees.designationAuxilia === "" ||
+          DESIGNATIONS_LEGIONES_AUXILIA.some(
+            (d) => d.id === donnees.designationAuxilia,
+          ))
+      ) {
+        etat.designationAuxilia = donnees.designationAuxilia;
       }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
@@ -2169,6 +2185,7 @@ const Organigramme = (() => {
         etat.riteDeGuerre = "";
         etat.maisonnee = "";
         etat.doctrineCohorte = "";
+        etat.designationAuxilia = "";
       }
       actualiser();
     });
@@ -2345,26 +2362,76 @@ const Organigramme = (() => {
       ligne.appendChild(groupeParametre(labelMaisonnee, selectMaisonnee));
     } else if (etat.faction === "solar-auxilia") {
       // Doctrine de Cohorte (livre d'armée Solar Auxilia, Liber
-      // Auxilia p. 11-16) : un unique choix optionnel par Armée, sans
-      // effet sur l'accessibilité des Unités (contrairement à
-      // Légion/Maisonnée ci-dessus) — pas de réinitialisation de
-      // l'Armée au changement. Son texte de Règle Spéciale (Tactica
-      // de Cohorte + Détachements Additionnels) est documenté dans
-      // js/regles-data.js plutôt que reproduit ici.
+      // Auxilia p. 11-16) : un unique choix par Armée, obligatoire
+      // avant de pouvoir ajouter des Unités (voir le verrou dans
+      // actualiserVerrouLegion, js/unites.js). Aucune Unité n'est
+      // réservée à une Doctrine précise, mais un changement réinitialise
+      // quand même l'Armée (comme Légion/Maisonnée/Rite de Guerre
+      // ci-dessus), sur demande explicite du proprio. Son texte de
+      // Règle Spéciale (Tactica de Cohorte + Détachements Additionnels)
+      // est documenté dans js/regles-data.js plutôt que reproduit ici.
       const labelDoctrine = el("label", null, "Doctrine de Cohorte");
       const selectDoctrine = document.createElement("select");
       selectDoctrine.id = "doctrine-cohorte-armee";
       labelDoctrine.htmlFor = selectDoctrine.id;
-      ajouterOption(selectDoctrine, "", "Aucune Doctrine de Cohorte");
+      ajouterOption(selectDoctrine, "", "Choisir Doctrine de Cohorte");
       for (const [valeur, texte] of DOCTRINES_DE_COHORTE) {
         ajouterOption(selectDoctrine, valeur, texte);
       }
       selectDoctrine.value = etat.doctrineCohorte;
       selectDoctrine.addEventListener("change", () => {
-        etat.doctrineCohorte = selectDoctrine.value;
+        const nouvelleDoctrine = selectDoctrine.value;
+        if (nouvelleDoctrine !== etat.doctrineCohorte) {
+          if (
+            !reinitialiserArmeeAvecConfirmation(
+              "Changer de Doctrine de Cohorte réinitialise la liste " +
+                "d'armée et les détachements sélectionnés. Continuer ?",
+            )
+          ) {
+            selectDoctrine.value = etat.doctrineCohorte;
+            return;
+          }
+        }
+        etat.doctrineCohorte = nouvelleDoctrine;
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelDoctrine, selectDoctrine));
+
+      // Désignation de Legiones Auxilia (livre Legiones Auxilia intégré
+      // au Liber Auxilia, p. 50-84) : contrairement à la Doctrine de
+      // Cohorte ci-dessus, un choix facultatif — pas de verrou d'ajout
+      // d'Unité dans actualiserVerrouLegion (js/unites.js) s'il reste
+      // vide. Utilisé pour la page de garde du PDF/Word (voir
+      // contenuDesignationAuxiliaActuelle, js/unites.js) ; voir la note
+      // sur DESIGNATIONS_LEGIONES_AUXILIA (js/organigramme-data.js) pour
+      // la restriction de composition du Détachement Principal non
+      // vérifiée automatiquement ici.
+      const labelDesignation = el(
+        "label",
+        null,
+        "Désignation de Legiones Auxilia",
+      );
+      const selectDesignation = document.createElement("select");
+      selectDesignation.id = "designation-auxilia-armee";
+      labelDesignation.htmlFor = selectDesignation.id;
+      ajouterOption(
+        selectDesignation,
+        "",
+        "Aucune Désignation de Legiones Auxilia",
+      );
+      for (const designation of DESIGNATIONS_LEGIONES_AUXILIA) {
+        ajouterOption(
+          selectDesignation,
+          designation.id,
+          designation.nom + " (" + designation.legionNom + ")",
+        );
+      }
+      selectDesignation.value = etat.designationAuxilia;
+      selectDesignation.addEventListener("change", () => {
+        etat.designationAuxilia = selectDesignation.value;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelDesignation, selectDesignation));
     }
 
     const labelAllegeance = el("label", null, "Allégeance");
@@ -3234,6 +3301,20 @@ const Organigramme = (() => {
     // tant qu'aucune Maisonnée n'est choisie, comme legionActuelle()
     // ci-dessus pour Legio Astartes.
     maisonneeActuelle: () => etat.maisonnee,
+    // Doctrine de Cohorte choisie ("" = aucune, Faction Solar Auxilia
+    // uniquement) : consommée par js/unites.js pour verrouiller le
+    // sélecteur « Unité à ajouter » tant qu'aucune Doctrine n'est
+    // choisie, même principe que maisonneeActuelle() ci-dessus pour
+    // Chevaliers Questoris.
+    doctrineCohorteActuelle: () => etat.doctrineCohorte,
+    // Désignation de Legiones Auxilia choisie ("" = aucune, Faction
+    // Solar Auxilia uniquement, choix facultatif — voir
+    // DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) :
+    // consommée par js/unites.js pour la page de garde du PDF/Word
+    // (même principe que riteActuel() ci-dessous pour Legio Astartes),
+    // sans effet sur l'accessibilité des Unités ni verrou d'ajout,
+    // contrairement à doctrineCohorteActuelle() ci-dessus.
+    designationAuxiliaActuelle: () => etat.designationAuxilia,
     // Rite de Guerre choisi (id d'un RITES_DE_GUERRE[legion], ou ""
     // si aucun choisi / Légion sans choix de Rite de Guerre) :
     // consommée par js/unites.js pour la page de garde du PDF/Word,

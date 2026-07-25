@@ -669,10 +669,11 @@ const TYPES_DETACHEMENTS = [
       Appui: ["sa-hermes-veletaris"],
     },
     cases: [
-      _caseOrga("Elite"),
+      _caseOrga("Elite", true),
       _caseOrga("Elite"),
       _caseOrga("Appui"),
-      _caseOrga("Appui"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
     ],
   },
   {
@@ -687,7 +688,13 @@ const TYPES_DETACHEMENTS = [
       Troupes: ["sa-ryeliers"],
       Reco: ["sa-sentinelles-legeres-hermes"],
     },
-    cases: [_caseOrga("Troupes"), _caseOrga("Troupes"), _caseOrga("Reco")],
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Reco"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
+    ],
   },
   {
     id: "tercio-artillerie",
@@ -3056,6 +3063,143 @@ const RITE_DE_GUERRE_LEGION = {
     ],
   },
 };
+
+/* ----------------------------------------------------------
+   DÉSIGNATIONS DE LEGIONES AUXILIA (livre Legiones Auxilia intégré
+   au Liber Auxilia, p. 50-84) : menu « Désignation de Legiones
+   Auxilia » des paramètres de la partie (js/organigramme.js, Faction
+   Solar Auxilia uniquement), un choix optionnel par Armée — à la
+   différence de la Doctrine de Cohorte, aucune Unité n'en dépend pour
+   être ajoutable (voir actualiserVerrouLegion, js/unites.js). Chaque
+   Désignation donne accès à une Réaction Avancée thématique en partie
+   (texte condensé dans REGLES_DIVERSES, js/regles-data.js, indexé par
+   son nom `reaction` ci-dessous), en l'échange d'une autre Réaction
+   standard qu'elle rend indisponible (texte non reproduit ici — voir
+   le livre en cas de doute). `legion` = id LEGIONS. Une par Légion
+   couverte par ce livre (16 des 18 Légions de Space Marines ; II et
+   XI restent des Légions Perdues, non représentées).
+   Non modélisé (gap documenté plutôt qu'une fausse restriction) : la
+   règle p. 50 qui interdit cette Désignation dès qu'une Figurine du
+   Détachement Principal porte un Trait [Legiones Astartes] d'une
+   AUTRE Légion que celle indiquée — ce site ne vérifie pas les Traits
+   figurine par figurine (voir la même limitation documentée pour
+   `traitRequis` ci-dessous, AVANTAGES_PRINCIPAUX) ; le choix reste
+   donc libre ici, à valider soi-même contre le livre.
+   ---------------------------------------------------------- */
+const DESIGNATIONS_LEGIONES_AUXILIA = [
+  {
+    id: "chasseurs-calibanites",
+    nom: "Chasseurs Calibanites",
+    legion: "I",
+    legionNom: "Dark Angels",
+    reaction: "Abattez-le!",
+  },
+  {
+    id: "palatins-archites",
+    nom: "Palatins Archites",
+    legion: "III",
+    legionNom: "Emperor's Children",
+    reaction: "Redoubler",
+  },
+  {
+    id: "thorakites-selucides",
+    nom: "Thorakites Sélucides",
+    legion: "IV",
+    legionNom: "Iron Warriors",
+    reaction: "Endurer la Tourmente",
+  },
+  {
+    id: "limitanei-chogoriens",
+    nom: "Limitanei Chogoriens",
+    legion: "V",
+    legionNom: "White Scars",
+    reaction: "Terrain d'Élection",
+  },
+  {
+    id: "kaerls-fenrissiens",
+    nom: "Kaerls Fenrissiens",
+    legion: "VI",
+    legionNom: "Space Wolves",
+    reaction: "Frappe de Chasseur",
+  },
+  {
+    id: "phalangites-dinwit",
+    nom: "Phalangites d'Inwit",
+    legion: "VII",
+    legionNom: "Imperial Fists",
+    reaction: "Rempart Inexpugnable",
+  },
+  {
+    id: "damnatii-nostramiens",
+    nom: "Damnatii Nostramiens",
+    legion: "VIII",
+    legionNom: "Night Lords",
+    reaction: "Brouillard de Combat",
+  },
+  {
+    id: "elevatii-saiphains",
+    nom: "Elevatii Saiphains",
+    legion: "IX",
+    legionNom: "Blood Angels",
+    reaction: "Contre-assaut",
+  },
+  {
+    id: "suaire-de-chaines-medusien",
+    nom: "Suaire de Chaînes Médusien",
+    legion: "X",
+    legionNom: "Iron Hands",
+    reaction: "Augmentations Cérébrales",
+  },
+  {
+    id: "thraexii-nagrakals",
+    nom: "Thraexii Nagrakals",
+    legion: "XII",
+    legionNom: "World Eaters",
+    reaction: "Le Dû du Boucher",
+  },
+  {
+    id: "haute-garde-dultramar",
+    nom: "Haute Garde d'Ultramar",
+    legion: "XIII",
+    legionNom: "Ultramarines",
+    reaction: "Combinaison Interarmes",
+  },
+  {
+    id: "ambaxtoi-de-barbarus",
+    nom: "Ambaxtoi de Barbarus",
+    legion: "XIV",
+    legionNom: "Death Guard",
+    reaction: "Perdurer",
+  },
+  {
+    id: "gardespire-prosperienne",
+    nom: "Gardespire Prosperienne",
+    legion: "XV",
+    legionNom: "Thousand Sons",
+    reaction: "Choc Psy",
+  },
+  {
+    id: "chasseurs-de-tetes-cthoniens",
+    nom: "Chasseurs de Têtes Cthoniens",
+    legion: "XVI",
+    legionNom: "Sons of Horus",
+    reaction: "Harangue du Maître de Guerre",
+  },
+  {
+    id: "velites-de-therion",
+    nom: "Vélites de Therion",
+    legion: "XIX",
+    legionNom: "Raven Guard",
+    reaction: "Déplacement",
+  },
+  {
+    id: "vindictaires-sparatoi",
+    nom: "Vindictaires Sparatoi",
+    legion: "XX",
+    legionNom: "Alpha Legion",
+    reaction: "Diversion",
+  },
+];
 
 /* ----------------------------------------------------------
    AVANTAGES PRINCIPAUX (p. 283 + Légions Corrompues)

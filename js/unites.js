@@ -1752,9 +1752,10 @@ function actualiserVerrouLegion() {
     derniereFactionCombobox = factionActuelle;
     reinitialiserChoixUniteParDefaut();
   }
-  // Un Détachement Narratif présent dispense ces deux verrous (comme
+  // Un Détachement Narratif présent dispense ces verrous (comme
   // uniteAccessible) : toutes les Unités du site y sont sélectionnables
-  // sans avoir à choisir de Légion/Maisonnée (voir demande de Jean).
+  // sans avoir à choisir de Légion/Maisonnée/Doctrine (voir demande de
+  // Jean).
   const narratifDisponible =
     orgaPret &&
     typeof Organigramme !== "undefined" &&
@@ -1773,13 +1774,26 @@ function actualiserVerrouLegion() {
     !narratifDisponible &&
     factionActuelle === "chevaliers-questoris" &&
     Organigramme.maisonneeActuelle() === "";
+  // Même verrou, pour la Doctrine de Cohorte (Faction Solar Auxilia,
+  // menu « Doctrine de Cohorte » des paramètres de la partie) : les
+  // Unités Solar Auxilia n'ont pas de Trait propre à une Doctrine (voir
+  // uniteAccessible), donc rien ne les filtre automatiquement — le
+  // verrou en amont est donc la seule façon d'imposer ce choix avant
+  // d'ajouter une Unité.
+  const doctrineManquante =
+    !narratifDisponible &&
+    factionActuelle === "solar-auxilia" &&
+    Organigramme.doctrineCohorteActuelle() === "";
   // Faction sans aucune unité transcrite pour l'instant (ex : Chevaliers
   // Questoris, en attendant son livre d'armée) : le verrou se déclenche
   // aussi dans ce cas, plutôt que de laisser un champ vide/trompeur et
   // un bouton « Ajouter » sans effet (voir uniteAccessible ci-dessus).
   const aucuneUniteAccessible = !UNITES.some((u) => uniteAccessible(u));
   const peutAjouter =
-    !legionManquante && !maisonneeManquante && !aucuneUniteAccessible;
+    !legionManquante &&
+    !maisonneeManquante &&
+    !doctrineManquante &&
+    !aucuneUniteAccessible;
   champUnite.disabled = !peutAjouter;
   boutonUnite.disabled = !peutAjouter;
   boutonUnite2.disabled = !peutAjouter;
@@ -1791,6 +1805,8 @@ function actualiserVerrouLegion() {
     "Choisissez d'abord une Légion dans les paramètres de la partie pour pouvoir ajouter des unités.";
   const MESSAGE_MAISONNEE_MANQUANTE =
     "Choisissez d'abord une Maisonnée dans les paramètres de la partie pour pouvoir ajouter des unités.";
+  const MESSAGE_DOCTRINE_MANQUANTE =
+    "Choisissez d'abord une Doctrine de Cohorte dans les paramètres de la partie pour pouvoir ajouter des unités.";
   const MESSAGE_AUCUNE_UNITE =
     "Aucune unité n'est encore disponible pour cette Faction.";
   const messageAjout = document.getElementById("ajout-message");
@@ -1799,11 +1815,14 @@ function actualiserVerrouLegion() {
       ? MESSAGE_LEGION_MANQUANTE
       : maisonneeManquante
         ? MESSAGE_MAISONNEE_MANQUANTE
-        : MESSAGE_AUCUNE_UNITE;
+        : doctrineManquante
+          ? MESSAGE_DOCTRINE_MANQUANTE
+          : MESSAGE_AUCUNE_UNITE;
     messageAjout.hidden = false;
   } else if (
     messageAjout.textContent === MESSAGE_LEGION_MANQUANTE ||
     messageAjout.textContent === MESSAGE_MAISONNEE_MANQUANTE ||
+    messageAjout.textContent === MESSAGE_DOCTRINE_MANQUANTE ||
     messageAjout.textContent === MESSAGE_AUCUNE_UNITE
   ) {
     messageAjout.hidden = true;
@@ -2074,6 +2093,26 @@ function contenuRiteDeGuerreActuel() {
       Organigramme.riteActuel ? Organigramme.riteActuel() : ""
     ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()]
   );
+}
+
+// Désignation de Legiones Auxilia choisie (voir
+// DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) et le texte
+// condensé de sa Réaction Avancée (REGLES_DIVERSES, js/regles-data.js,
+// indexé par son nom `reaction`), partagés par la page de garde PDF et
+// Word — même principe que contenuRiteDeGuerreActuel() ci-dessus, mais
+// sans la structure Tactica/Posture/Réaction complète du Rite de
+// Guerre (ce livre ne donne qu'une seule Réaction par Désignation).
+// Retourne null si aucune Désignation n'est choisie, ou si son texte
+// de Réaction n'est pas (encore) dans REGLES_DIVERSES.
+function contenuDesignationAuxiliaActuelle() {
+  const id = Organigramme.designationAuxiliaActuelle
+    ? Organigramme.designationAuxiliaActuelle()
+    : "";
+  if (!id) return null;
+  const designation = DESIGNATIONS_LEGIONES_AUXILIA.find((d) => d.id === id);
+  if (!designation) return null;
+  const regle = REGLES_DIVERSES.find((r) => r.nom === designation.reaction);
+  return regle ? { designation, regle } : null;
 }
 
 async function genererPDF() {
@@ -2403,6 +2442,17 @@ async function genererPDF() {
     });
   }
 
+  const contenuDesignation = contenuDesignationAuxiliaActuelle();
+  if (contenuDesignation) {
+    y += 4;
+    titreSection(
+      "Désignation de Legiones Auxilia : " + contenuDesignation.designation.nom,
+      12,
+    );
+    paragraphe(contenuDesignation.regle.nom, 10.5, "bold");
+    paragraphe(contenuDesignation.regle.texte, 9);
+  }
+
   // --- Une carte par unité ---
   for (const carte of document.querySelectorAll("#liste-unites .unite-carte")) {
     cartePDF(donneesCarte(carte));
@@ -2632,6 +2682,19 @@ async function genererWordHTML() {
             : "<p>" + echapperHTML(p.texte) + "</p>";
       }
     });
+  }
+
+  const contenuDesignation = contenuDesignationAuxiliaActuelle();
+  if (contenuDesignation) {
+    corps +=
+      "<h2>Désignation de Legiones Auxilia : " +
+      echapperHTML(contenuDesignation.designation.nom) +
+      "</h2>";
+    corps +=
+      "<p><strong>" +
+      echapperHTML(contenuDesignation.regle.nom) +
+      "</strong></p>";
+    corps += "<p>" + echapperHTML(contenuDesignation.regle.texte) + "</p>";
   }
 
   // Une carte par page (comme le PDF, voir nouvellePage/cartePDF) : un
@@ -3028,14 +3091,17 @@ function initialiser() {
     // Filet de sécurité : le bouton est normalement désactivé tant que le
     // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
     // une Armée Legio Astartes, Maisonnée manquante pour une Armée
-    // Chevaliers Questoris, ou Faction sans aucune unité accessible) —
-    // sauf Détachement Narratif présent, qui dispense ces deux verrous.
+    // Chevaliers Questoris, Doctrine de Cohorte manquante pour une Armée
+    // Solar Auxilia, ou Faction sans aucune unité accessible) — sauf
+    // Détachement Narratif présent, qui dispense ces verrous.
     if (
       (!Organigramme.narratifPresent() &&
         ((Organigramme.factionActuelle() === "legio-astartes" &&
           Organigramme.legionActuelle() === "") ||
           (Organigramme.factionActuelle() === "chevaliers-questoris" &&
-            Organigramme.maisonneeActuelle() === ""))) ||
+            Organigramme.maisonneeActuelle() === "") ||
+          (Organigramme.factionActuelle() === "solar-auxilia" &&
+            Organigramme.doctrineCohorteActuelle() === ""))) ||
       !UNITES.some((u) => uniteAccessible(u))
     )
       return;

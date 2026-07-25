@@ -1556,13 +1556,67 @@ const REGLES_DIVERSES = [
   },
 
   /* --- Réactions Avancées « Legiones Auxilia » (livre Legiones
-     Auxilia intégré au Liber Auxilia, p. 70-84) : accessibles quand une
+     Auxilia intégré au Liber Auxilia, p. 50-84) : accessibles quand une
      Armée Solar Auxilia adopte la Désignation de Legiones Auxilia
-     correspondante, réservée aux Détachements Principaux dont la
-     moindre Figurine n'a pas d'autre Trait [Legiones Astartes] que
-     celui de la Légion indiquée. Non câblées à un sélecteur dédié sur
-     ce site (contrairement au Rite de Guerre) : condensées ici en
-     référence, une par Légion transcrite dans ce livre. --- */
+     correspondante (menu « Désignation de Legiones Auxilia » des
+     paramètres de la partie, voir DESIGNATIONS_LEGIONES_AUXILIA,
+     js/organigramme-data.js), réservée aux Détachements Principaux
+     dont la moindre Figurine n'a pas d'autre Trait [Legiones Astartes]
+     que celui de la Légion indiquée. Condensées ici en référence
+     (texte de règle uniquement, fluff omis) plutôt que reproduites
+     avec la structure Déclencheur/Coût/Cible/Processus intégrale du
+     livre — une par Légion transcrite dans ce livre, dans l'ordre des
+     Légions (voir la table des Légions, CLAUDE.md). --- */
+  {
+    nom: "Abattez-le!",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Chasseurs Calibanites (Ire Légion, Dark Angels). Le Joueur Réactif peut la déclarer à la fin de l'Étape 5 d'une Charge réussie du Joueur Actif dont l'Unité Assaillante inclut une Figurine de Type Marcheur/Automate ou de Sous-type Maléfique ayant Massif (3) ou plus, contre une Unité Cible composée uniquement de Figurines qui ont le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions) : chaque Figurine de l'Unité Réactive dotée d'une Arme ayant la Règle Spéciale Détonation attaque aussitôt l'Unité Assaillante comme si elle lui était Engagée à ce Rang d'Initiative, les Pertes infligées comptant pour la Résolution de Combat.",
+  },
+  {
+    nom: "Redoubler",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Palatins Archites (IIIe Légion, Emperor's Children). Le Joueur Réactif peut la déclarer à la Sous-phase de Moral de la Phase de Tir, quand une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) réussit un Test de Sang-froid ou de Commandement pour éviter un Statut Tactique (coût : 1 Point d'Attribution de Réactions) : cette Unité fait un Déplacement standard (sans Foncer), puis chaque Unité amie non-Véhicule ayant le Trait Solar Auxilia à 12 pouces peut à son tour se Déplacer d'un nombre de pouces égal à sa Caractéristique d'Initiative, ce Déplacement comptant comme une Réaction à ce Tour de Bataille.",
+  },
+  {
+    nom: "Endurer la Tourmente",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Thorakites Sélucides (IVe Légion, Iron Warriors). Le Joueur Réactif peut la déclarer à la Sous-phase de Moral de la Phase de Tir, quand une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie ou Cavalerie qui ont le Trait Solar Auxilia est censée gagner le Statut Tactique Fixée, Sonnée ou Neutralisée après un Test de Caractéristique raté (coût : 1 Point d'Attribution de Réactions) : l'Unité ne gagne pas ce Statut, comme si le Test avait été réussi.",
+  },
+  {
+    nom: "Terrain d'Élection",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Limitanei Chogoriens (Ve Légion, White Scars). Une fois par Bataille, le Joueur Réactif peut la déclarer gratuitement à la Sous-phase de Résolution de la Phase d'Assaut, quand un Test de Panique est raté pour une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia, dont au moins une Figurine est à 3 pouces d'un Objectif : l'Unité ne gagne pas le Statut En Déroute, et la Bataille passe directement à l'Étape de Répercussions, où le Joueur Réactif doit déclarer l'option Tenir pour cette Unité.",
+  },
+  {
+    nom: "Frappe de Chasseur",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Kaerls Fenrissiens (VIe Légion, Space Wolves). Une fois par Bataille, le Joueur Réactif peut la déclarer gratuitement quand une Unité ennemie finit d'entrer en jeu depuis les Réserves, en Ligne de Vue d'une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) : cette Unité se Déplace droit vers l'Unité ennemie (sans droit de Foncer) puis fait un Jet de Charge contre elle, avec Mouvement de Charge et Verrouillage en Combat en cas de succès.",
+  },
+  {
+    nom: "Rempart Inexpugnable",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Phalangites d'Inwit (VIIe Légion, Imperial Fists). Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir du Joueur Actif contre une Unité sous son contrôle composée uniquement de Figurines qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X), dont la majorité jouit de la Sauvegarde de Couvert (coût : 1 Point d'Attribution de Réactions) : toutes les Figurines de l'Unité Réactive gagnent +1 en Endurance (jusqu'à un maximum de 4) pour la durée de cette Phase de Tir.",
+  },
+  {
+    nom: "Brouillard de Combat",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Damnatii Nostramiens (VIIIe Légion, Night Lords). Le Joueur Réactif peut la déclarer à la Sous-phase de Moral de la Phase de Tir, quand une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia est censée gagner le Statut En Déroute après un Test de Commandement raté (coût : 1 Point d'Attribution de Réactions) : l'Unité ne gagne pas ce Statut, mais gagne aussitôt les Règles Spéciales Négligence et Impact (A) pour le reste de la Bataille, et perd toute version de Ligne (X) ainsi que ses éventuels Traits Tercio d'Infanterie/Vétéranis/d'Artillerie.",
+  },
+  {
+    nom: "Contre-assaut",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Elevatii Saiphains (IXe Légion, Blood Angels). Le Joueur Réactif peut la déclarer à l'Étape 2 de la Sous-phase de Déplacement, quand une Unité ennemie termine son Déplacement à 6 pouces et en Ligne de Vue d'une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive fait aussitôt un Jet de Charge contre cette Unité ennemie, sans Test de Sang-froid en cas d'échec.",
+  },
+  {
+    nom: "Augmentations Cérébrales",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Suaire de Chaînes Médusien (Xe Légion, Iron Hands). Le Joueur Réactif peut la déclarer à la Sous-phase de Moral de la Phase de Tir, ou à l'Étape Faire les Tests de Panique de la Phase d'Assaut, quand une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) est censée gagner le Statut En Déroute (coût : 1 Point d'Attribution de Réactions) : l'Unité ne gagne pas ce Statut, mais subit aussitôt D3 blessures automatiques ignorant les Sauvegardes d'Armure et de Couvert (Sauvegardes Invulnérables et Jets de Mitigation de Dégâts autorisés).",
+  },
+  {
+    nom: "Le Dû du Boucher",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Thraexii Nagrakals (XIIe Légion, World Eaters). Le Joueur Réactif peut la déclarer à la Sous-phase de Résolution de la Phase d'Assaut, quand une Unité ennemie se déplace dans le cadre d'une option de Répercussions de Désengagement ou de Retraite et se trouve en Ligne de Vue d'une Unité sous son contrôle composée uniquement de Figurines qui ont le Trait Solar Auxilia et ne sont pas Verrouillées en Combat (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive fait aussitôt une Attaque de Tir contre cette seule Unité ennemie.",
+  },
   {
     nom: "Combinaison Interarmes",
     texte:
@@ -1574,14 +1628,9 @@ const REGLES_DIVERSES = [
       "Réaction Avancée de la Désignation de Legiones Auxilia Ambaxtoi de Barbarus (XIVe Légion, Death Guard). Le Joueur Réactif peut la déclarer à la Phase de Tir, à la fin de l'Étape 11 d'une Attaque de Tir du Joueur Actif qui entraînerait un Test de Panique pour Pertes contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions), pour éviter ce Test : l'Unité Réactive fait ensuite une Attaque de Tir au Jugé contre une Unité ennemie en Ligne de Vue au choix du Joueur Réactif, puis le Test de Panique évité est résolu normalement.",
   },
   {
-    nom: "Diversion",
+    nom: "Choc Psy",
     texte:
-      "Réaction Avancée de la Désignation de Legiones Auxilia Vindictaires Sparatoi (XXe Légion, Alpha Legion). Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir du Joueur Actif contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions), si une autre Unité amie sans Massif (X) se trouve à 12 pouces et est à portée de toutes les Armes déclarées par le Joueur Actif : le Joueur Actif doit aussitôt faire un Test de Sang-froid pour l'Unité Cible d'origine ; s'il échoue, l'Attaque de Tir se poursuit contre cette autre Unité, désormais Cible à sa place.",
-  },
-  {
-    nom: "Déplacement",
-    texte:
-      "Réaction Avancée de la Désignation de Legiones Auxilia Vélites de Therion (XIXe Légion, Raven Guard). Le Joueur Réactif peut la déclarer au début de l'Étape 4 du processus de Charge de n'importe quelle Charge déclarée par le Joueur Actif qui cible une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive se Déplace jusqu'à sa Caractéristique d'Initiative en pouces en Cohésion, puis fait une Attaque de Volée contre l'Unité qui a déclaré la Charge, ses Armes de Tir gagnant le Trait Assaut pour l'occasion, avant que le Joueur Actif ne passe normalement à l'Étape 4 de la Charge.",
+      "Réaction Avancée de la Désignation de Legiones Auxilia Gardespire Prosperienne (XVe Légion, Thousand Sons). Le Joueur Réactif peut la déclarer à la Phase de Tir, à la fin de l'Étape 11 d'une Attaque de Tir du Joueur Actif qui entraînerait un Test de Panique pour Pertes contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive subit aussitôt un résultat du Tableau des Périls du Warp, puis on résout immédiatement un autre résultat du Tableau des Périls du Warp contre l'Unité qui a fait l'Attaque de Tir, avant que la Phase de Tir du Joueur Actif ne continue normalement.",
   },
   {
     nom: "Harangue du Maître de Guerre",
@@ -1589,9 +1638,14 @@ const REGLES_DIVERSES = [
       "Réaction Avancée de la Désignation de Legiones Auxilia Chasseurs de Têtes Cthoniens (XVIe Légion, Sons of Horus). Le Joueur Réactif peut la déclarer à la Sous-phase de Déroute de la Phase de Mouvement, quand une Unité sous son contrôle composée uniquement de Figurines qui ont le Trait Solar Auxilia fait son Mouvement de Retraite (coût : 1 Point d'Attribution de Réactions) : cette Unité fait un Déplacement vers une ou plusieurs Unités ennemies voisines au lieu de Foncer normalement, puis chaque Unité amie composée uniquement de Figurines ayant le Trait Solar Auxilia à 12 pouces peut à son tour se Déplacer d'un nombre de pouces égal à sa Caractéristique d'Initiative, en Cohésion, ce Déplacement comptant comme une Réaction à ce Tour de Bataille.",
   },
   {
-    nom: "Choc Psy",
+    nom: "Déplacement",
     texte:
-      "Réaction Avancée de la Désignation de Legiones Auxilia Gardespire Prosperienne (XVe Légion, Thousand Sons). Le Joueur Réactif peut la déclarer à la Phase de Tir, à la fin de l'Étape 11 d'une Attaque de Tir du Joueur Actif qui entraînerait un Test de Panique pour Pertes contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive subit aussitôt un résultat du Tableau des Périls du Warp, puis on résout immédiatement un autre résultat du Tableau des Périls du Warp contre l'Unité qui a fait l'Attaque de Tir, avant que la Phase de Tir du Joueur Actif ne continue normalement.",
+      "Réaction Avancée de la Désignation de Legiones Auxilia Vélites de Therion (XIXe Légion, Raven Guard). Le Joueur Réactif peut la déclarer au début de l'Étape 4 du processus de Charge de n'importe quelle Charge déclarée par le Joueur Actif qui cible une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions) : l'Unité Réactive se Déplace jusqu'à sa Caractéristique d'Initiative en pouces en Cohésion, puis fait une Attaque de Volée contre l'Unité qui a déclaré la Charge, ses Armes de Tir gagnant le Trait Assaut pour l'occasion, avant que le Joueur Actif ne passe normalement à l'Étape 4 de la Charge.",
+  },
+  {
+    nom: "Diversion",
+    texte:
+      "Réaction Avancée de la Désignation de Legiones Auxilia Vindictaires Sparatoi (XXe Légion, Alpha Legion). Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir du Joueur Actif contre une Unité sous son contrôle composée uniquement de Figurines de Type Infanterie qui ont le Trait Solar Auxilia mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions), si une autre Unité amie sans Massif (X) se trouve à 12 pouces et est à portée de toutes les Armes déclarées par le Joueur Actif : le Joueur Actif doit aussitôt faire un Test de Sang-froid pour l'Unité Cible d'origine ; s'il échoue, l'Attaque de Tir se poursuit contre cette autre Unité, désormais Cible à sa place.",
   },
 
   /* --- Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : Règles
