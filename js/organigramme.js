@@ -363,6 +363,24 @@ const Organigramme = (() => {
     ],
   };
 
+  /* Skin de la Faction Mechanicum (livre d'armée Mechanicum) : même
+     mécanique que SKIN_TITANICUS ci-dessus (classe posée sur <body>,
+     recolore --accent/--accent-clair/--fond-secondaire/--carte-hover),
+     rattachée à la FACTION plutôt qu'à une subdivision — ce livre
+     d'armée n'a pas de sous-identité dans ce site (à la différence de
+     Legio Astartes/Chevaliers Questoris/Solar Auxilia). Pas de
+     `blason`/`icone` : aucun asset dédié fourni pour l'instant (voir
+     LOGOS_LEGION/assets/logo_legions pour le mécanisme si un blason
+     est ajouté plus tard) — construireParametres n'insère donc aucune
+     image devant le titre de page pour ce skin, contrairement aux
+     autres. */
+  const SKIN_MECHANICUM = {
+    classe: "skin-legion-mechanicum",
+    nom: "Mechanicum",
+    devise:
+      "Serviteurs de l'Omnimessie, les Adeptes du Mechanicum vénèrent la Machine comme un dieu : chaque rouage, chaque circuit est une prière gravée dans le métal.",
+  };
+
   /* Skins des types de Maisonnée (livre d'armée Chevaliers Questoris) :
      même mécanique que SKINS_LEGION (classe posée sur <body>, recolore
      --accent/--accent-clair/--fond-secondaire/--carte-hover, voir
@@ -391,6 +409,51 @@ const Organigramme = (() => {
       blason: "logo_3.png",
       devise:
         "Sans monde ni serment fixe, ces Maisonnées errantes louent leurs lames au plus offrant, de champ de bataille en champ de bataille.",
+    },
+  };
+
+  /* Skins des Doctrines de Cohorte (Faction Solar Auxilia, livre
+     d'armée Solar Auxilia) : même mécanique que SKINS_MAISONNEE
+     ci-dessus, rattachée à etat.doctrineCohorte plutôt qu'à
+     etat.maisonnee. Pas de `blason`/`icone` (même raison que
+     SKIN_MECHANICUM ci-dessus : aucun asset dédié fourni). Clés =
+     valeurs de DOCTRINES_DE_COHORTE (js/organigramme-data.js). */
+  const SKINS_DOCTRINE_COHORTE = {
+    ultima: {
+      classe: "skin-legion-solar-ultima",
+      nom: "Cohorte Ultima",
+      devise:
+        "Les régiments d'élite de la Cohorte Ultima combattent aux côtés des Legiones Astartes elles-mêmes : leur discipline n'a rien à leur envier.",
+    },
+    solaire: {
+      classe: "skin-legion-solar-solaire",
+      nom: "Cohorte Solaire",
+      devise:
+        "Colonne vertébrale de l'infanterie de ligne du Solar Auxilia, la Cohorte Solaire tient le terrain conquis pied à pied, sans jamais reculer.",
+    },
+    reconnaissance: {
+      classe: "skin-legion-solar-reconnaissance",
+      nom: "Cohorte de Reconnaissance",
+      devise:
+        "Éclaireurs et unités légères de la Cohorte de Reconnaissance ouvrent la voie, frappent vite et se replient avant que l'ennemi ne réplique.",
+    },
+    mecanisee: {
+      classe: "skin-legion-solar-mecanisee",
+      nom: "Cohorte Mécanisée",
+      devise:
+        "Blindés et transports en tête, la Cohorte Mécanisée fond sur l'ennemi en colonnes d'acier avant que ses lignes n'aient pu se former.",
+    },
+    siege: {
+      classe: "skin-legion-solar-siege",
+      nom: "Cohorte de Siège",
+      devise:
+        "Artillerie lourde et Véhicules de siège en soutien, la Cohorte de Siège réduit bastions et fortifications à l'état de gravats, un obus après l'autre.",
+    },
+    fer: {
+      classe: "skin-legion-solar-fer",
+      nom: "Cohorte de Fer",
+      devise:
+        "Formée pour l'assaut le plus dur, la Cohorte de Fer avance sans faillir là où toute autre unité se briserait.",
     },
   };
 
@@ -2646,17 +2709,27 @@ const Organigramme = (() => {
     for (const info of Object.values(SKINS_MAISONNEE)) {
       document.body.classList.remove(info.classe);
     }
+    document.body.classList.remove(SKIN_MECHANICUM.classe);
+    for (const info of Object.values(SKINS_DOCTRINE_COHORTE)) {
+      document.body.classList.remove(info.classe);
+    }
     const skinLegion = SKINS_LEGION[etat.legion];
     activerBandeauMagnus(etat.legion === "XV");
     const skinTitan =
       etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
+    const skinMechanicum = etat.faction === "mechanicum" ? SKIN_MECHANICUM : null;
+    const skinDoctrine = SKINS_DOCTRINE_COHORTE[etat.doctrineCohorte] || null;
     const titre = document.querySelector("h1.titre-page");
     if (titre) {
       // querySelectorAll (pas querySelector) : Legio Titanicus pose DEUX
       // blasons sur le titre (gauche + droite ci-dessous), contre un
       // seul pour une Légion Astartes — il faut retirer les deux au
       // changement de Faction/Légion, pas juste le premier trouvé.
+      // Mechanicum/Doctrines de Cohorte n'ont pas de blason (voir
+      // SKIN_MECHANICUM/SKINS_DOCTRINE_COHORTE plus haut) : rien à
+      // insérer pour ces deux skins, juste le retrait des blasons
+      // d'un skin précédent.
       titre.querySelectorAll(".legion-icon").forEach((icone) => icone.remove());
       if (skinLegion) {
         titre.insertBefore(
@@ -2727,6 +2800,25 @@ const Organigramme = (() => {
       banniere.appendChild(entete);
       if (skinMaison.devise)
         banniere.appendChild(el("em", null, skinMaison.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinMechanicum) {
+      // Pas d'icône (aucun blason dédié, voir SKIN_MECHANICUM) : entête
+      // texte seul, contrairement aux autres skins ci-dessus.
+      document.body.classList.add(skinMechanicum.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinMechanicum.nom);
+      banniere.appendChild(entete);
+      if (skinMechanicum.devise)
+        banniere.appendChild(el("em", null, skinMechanicum.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinDoctrine) {
+      // Pas d'icône non plus (voir SKINS_DOCTRINE_COHORTE).
+      document.body.classList.add(skinDoctrine.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinDoctrine.nom);
+      banniere.appendChild(entete);
+      if (skinDoctrine.devise)
+        banniere.appendChild(el("em", null, skinDoctrine.devise));
       conteneur.appendChild(banniere);
     }
   }

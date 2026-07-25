@@ -717,6 +717,21 @@ document.addEventListener("DOMContentLoaded", () => {
         titre.firstChild,
       );
     });
+  } else if (donnees.faction === "mechanicum") {
+    // Faction Mechanicum (SKIN_MECHANICUM, organigramme.js) : pas de
+    // blason dédié (aucun asset fourni), juste la classe de palette.
+    document.body.classList.add("skin-legion-mechanicum");
+  } else if (
+    donnees.faction === "solar-auxilia" &&
+    ["ultima", "solaire", "reconnaissance", "mecanisee", "siege", "fer"].includes(
+      donnees.doctrineCohorte,
+    )
+  ) {
+    // Doctrine de Cohorte Solar Auxilia (SKINS_DOCTRINE_COHORTE,
+    // organigramme.js) : même absence de blason que Mechanicum ci-dessus.
+    document.body.classList.add(
+      "skin-legion-solar-" + donnees.doctrineCohorte,
+    );
   }
 })();
 

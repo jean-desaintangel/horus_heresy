@@ -2801,6 +2801,151 @@ body.skin-legion-questoris-mendicus {
     );
 }
 
+/* Mechanicum (Faction, livre d'armée Mechanicum) : skin de Faction sans
+   subdivision (comme Legio Titanicus ci-dessus, voir SKIN_MECHANICUM
+   dans js/organigramme.js) — terre cuite/rouille d'un Monde-Forge,
+   distincte du rouge des Maisonnées Questoris Mechanicum ci-dessus.
+   Pas de blason dédié (aucun asset fourni) : contrairement aux autres
+   skins, aucune image n'est posée sur le titre de page. */
+body.skin-legion-mechanicum {
+  --accent: #7a3418;
+  --accent-clair: #a8501f;
+  --fond-secondaire: #ecdccb;
+  --carte-hover: #f4ebe0;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(122, 52, 24, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+/* Doctrines de Cohorte (Faction Solar Auxilia, livre d'armée Solar
+   Auxilia) : même mécanique que les Maisonnées Questoris ci-dessus
+   (voir SKINS_DOCTRINE_COHORTE dans js/organigramme.js), rattachée à
+   etat.doctrineCohorte. Six teintes distinctes de tout le reste de la
+   palette (Légions/Titanicus/Questoris/Mechanicum), pas de blason
+   dédié non plus (même raison que Mechanicum ci-dessus). */
+body.skin-legion-solar-ultima {
+  --accent: #7a5a12;
+  --accent-clair: #a17e1c;
+  --fond-secondaire: #eee3c9;
+  --carte-hover: #f5ecda;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(122, 90, 18, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-solaire {
+  --accent: #a35a14;
+  --accent-clair: #c47a24;
+  --fond-secondaire: #f0e0c9;
+  --carte-hover: #f7ecda;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(163, 90, 20, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-reconnaissance {
+  --accent: #4a5c34;
+  --accent-clair: #647d47;
+  --fond-secondaire: #e3e8d8;
+  --carte-hover: #edf0e3;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(74, 92, 52, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-mecanisee {
+  --accent: #2e4a5c;
+  --accent-clair: #44697d;
+  --fond-secondaire: #dbe6ec;
+  --carte-hover: #e7eff3;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(46, 74, 92, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-siege {
+  --accent: #4a3828;
+  --accent-clair: #6b5138;
+  --fond-secondaire: #e6ded2;
+  --carte-hover: #efe9df;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(74, 56, 40, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-fer {
+  --accent: #2c2f38;
+  --accent-clair: #454a58;
+  --fond-secondaire: #dfe1e6;
+  --carte-hover: #eaebef;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(44, 47, 56, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
 /* ---------- Jauge de points + compteurs ---------- */
 .orga-total {
   font-weight: 700;
