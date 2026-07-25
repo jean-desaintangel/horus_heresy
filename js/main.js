@@ -764,7 +764,10 @@ function activerTableauFlottant() {
   const boutonFermer = document.createElement("button");
   boutonFermer.type = "button";
   boutonFermer.className = "table-flottante-fermer";
-  boutonFermer.setAttribute("aria-label", "Fermer le tableau de jet de blessure");
+  boutonFermer.setAttribute(
+    "aria-label",
+    "Fermer le tableau de jet de blessure",
+  );
   boutonFermer.textContent = "×";
   entete.append(titre, boutonFermer);
 
@@ -917,8 +920,10 @@ function activerTableauFlottant() {
     const rect = conteneur.getBoundingClientRect();
     const marge = 4;
     conteneur.style.left =
-      Math.min(Math.max(rect.left, marge), window.innerWidth - rect.width - marge) +
-      "px";
+      Math.min(
+        Math.max(rect.left, marge),
+        window.innerWidth - rect.width - marge,
+      ) + "px";
     conteneur.style.top =
       Math.min(
         Math.max(rect.top, marge),
