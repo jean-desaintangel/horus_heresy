@@ -2727,10 +2727,11 @@ body.skin-legion-titanicus .legion-banniere::before {
   );
 }
 
-/* Petit rouage Mechanicum décoratif à la suite du nom de Faction dans
-   le bandeau (voir construireParametres dans js/organigramme.js) :
-   posé en aria-hidden côté JS, comme toute icône purement décorative
-   de ce site. */
+/* Petit rouage décoratif à la suite du nom de Faction dans le bandeau
+   (voir construireParametres dans js/organigramme.js — partagé par les
+   skins Legio Titanicus et Mechanicum, chacun avec ses deux blasons
+   propres) : posé en aria-hidden côté JS, comme toute icône purement
+   décorative de ce site. */
 .legion-titan-cog {
   margin-left: 0.4rem;
   color: var(--titre);

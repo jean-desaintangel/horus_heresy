@@ -718,9 +718,25 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
   } else if (donnees.faction === "mechanicum") {
-    // Faction Mechanicum (SKIN_MECHANICUM, organigramme.js) : pas de
-    // blason dédié (aucun asset fourni), juste la classe de palette.
+    // Faction Mechanicum (SKIN_MECHANICUM, organigramme.js) : deux
+    // blasons comme Legio Titanicus ci-dessus (assets/logo_mechanicum/
+    // 1.png et 2.png).
     document.body.classList.add("skin-legion-mechanicum");
+    document.addEventListener("DOMContentLoaded", () => {
+      const titre = document.querySelector("h1.titre-page");
+      if (!titre || titre.querySelector(".legion-icon")) return;
+      titre.insertBefore(
+        creerBlason("logo_mechanicum", "1", "legion-icon--titre"),
+        titre.firstChild,
+      );
+      titre.appendChild(
+        creerBlason(
+          "logo_mechanicum",
+          "2",
+          "legion-icon--titre legion-icon--titre-droite",
+        ),
+      );
+    });
   } else if (
     donnees.faction === "solar-auxilia" &&
     ["ultima", "solaire", "reconnaissance", "mecanisee", "siege", "fer"].includes(

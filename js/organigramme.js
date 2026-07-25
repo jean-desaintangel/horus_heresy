@@ -365,20 +365,21 @@ const Organigramme = (() => {
 
   /* Skin de la Faction Mechanicum (livre d'armée Mechanicum) : même
      mécanique que SKIN_TITANICUS ci-dessus (classe posée sur <body>,
-     recolore --accent/--accent-clair/--fond-secondaire/--carte-hover),
-     rattachée à la FACTION plutôt qu'à une subdivision — ce livre
-     d'armée n'a pas de sous-identité dans ce site (à la différence de
-     Legio Astartes/Chevaliers Questoris/Solar Auxilia). Pas de
-     `blason`/`icone` : aucun asset dédié fourni pour l'instant (voir
-     LOGOS_LEGION/assets/logo_legions pour le mécanisme si un blason
-     est ajouté plus tard) — construireParametres n'insère donc aucune
-     image devant le titre de page pour ce skin, contrairement aux
-     autres. */
+     recolore --accent/--accent-clair/--fond-secondaire/--carte-hover,
+     DEUX blasons posés à gauche et à droite des titres — voir
+     `blasons`, assets/logo_mechanicum/1.png et 2.png), rattachée à la
+     FACTION plutôt qu'à une subdivision — ce livre d'armée n'a pas de
+     sous-identité dans ce site (à la différence de Legio Astartes/
+     Chevaliers Questoris/Solar Auxilia). */
   const SKIN_MECHANICUM = {
     classe: "skin-legion-mechanicum",
     nom: "Mechanicum",
     devise:
       "Serviteurs de l'Omnimessie, les Adeptes du Mechanicum vénèrent la Machine comme un dieu : chaque rouage, chaque circuit est une prière gravée dans le métal.",
+    blasons: [
+      { fichier: "1.png", nom: "Adeptus Mechanicus" },
+      { fichier: "2.png", nom: "Sigle du Culte Mechanicus" },
+    ],
   };
 
   /* Skins des types de Maisonnée (livre d'armée Chevaliers Questoris) :
@@ -564,6 +565,21 @@ const Organigramme = (() => {
       ? "legion-icon " + classeSupplementaire
       : "legion-icon";
     img.src = "../assets/logo_titan/" + blason.fichier;
+    img.title = blason.nom;
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
+  }
+
+  /* Équivalent de creerIconeTitan ci-dessus pour un blason de
+     SKIN_MECHANICUM.blasons (assets/logo_mechanicum/*.png). */
+  function creerIconeMechanicum(blason, classeSupplementaire) {
+    const img = document.createElement("img");
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src = "../assets/logo_mechanicum/" + blason.fichier;
     img.title = blason.nom;
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
@@ -2726,10 +2742,11 @@ const Organigramme = (() => {
       // blasons sur le titre (gauche + droite ci-dessous), contre un
       // seul pour une Légion Astartes — il faut retirer les deux au
       // changement de Faction/Légion, pas juste le premier trouvé.
-      // Mechanicum/Doctrines de Cohorte n'ont pas de blason (voir
-      // SKIN_MECHANICUM/SKINS_DOCTRINE_COHORTE plus haut) : rien à
-      // insérer pour ces deux skins, juste le retrait des blasons
-      // d'un skin précédent.
+      // Doctrines de Cohorte n'ont pas de blason (voir
+      // SKINS_DOCTRINE_COHORTE plus haut) : rien à insérer pour ce
+      // skin, juste le retrait des blasons d'un skin précédent.
+      // Mechanicum (SKIN_MECHANICUM) pose DEUX blasons comme Legio
+      // Titanicus (gauche + droite).
       titre.querySelectorAll(".legion-icon").forEach((icone) => icone.remove());
       if (skinLegion) {
         titre.insertBefore(
@@ -2751,6 +2768,17 @@ const Organigramme = (() => {
         titre.insertBefore(
           creerIconeMaisonnee(skinMaison, "legion-icon--titre"),
           titre.firstChild,
+        );
+      } else if (skinMechanicum) {
+        titre.insertBefore(
+          creerIconeMechanicum(skinMechanicum.blasons[0], "legion-icon--titre"),
+          titre.firstChild,
+        );
+        titre.appendChild(
+          creerIconeMechanicum(
+            skinMechanicum.blasons[1],
+            "legion-icon--titre legion-icon--titre-droite",
+          ),
         );
       }
     }
@@ -2802,11 +2830,16 @@ const Organigramme = (() => {
         banniere.appendChild(el("em", null, skinMaison.devise));
       conteneur.appendChild(banniere);
     } else if (skinMechanicum) {
-      // Pas d'icône (aucun blason dédié, voir SKIN_MECHANICUM) : entête
-      // texte seul, contrairement aux autres skins ci-dessus.
+      // Deux blasons comme Legio Titanicus ci-dessus (assets/
+      // logo_mechanicum/1.png et 2.png).
       document.body.classList.add(skinMechanicum.classe);
       const banniere = el("p", "legion-banniere");
-      const entete = el("strong", "legion-item", skinMechanicum.nom);
+      const entete = el("strong", "legion-item");
+      entete.appendChild(creerIconeMechanicum(skinMechanicum.blasons[0]));
+      entete.appendChild(document.createTextNode(skinMechanicum.nom));
+      entete.appendChild(
+        creerIconeMechanicum(skinMechanicum.blasons[1], "legion-titan-cog"),
+      );
       banniere.appendChild(entete);
       if (skinMechanicum.devise)
         banniere.appendChild(el("em", null, skinMechanicum.devise));
