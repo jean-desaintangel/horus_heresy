@@ -672,6 +672,31 @@ const Organigramme = (() => {
      RÈGLES — compatibilité unité ↔ case
      ---------------------------------------------------------- */
 
+  /* Trait de Faction Mechanicum (Techno-arcane Majeur) déjà établi au
+     sein d'un Détachement Auxiliaire/d'Apex par les Unités qui
+     l'occupent (Liber Mechanicum p. 13 : « toutes les Unités d'un même
+     Détachement Auxiliaire ou d'Apex […] doivent avoir la même
+     variante » — à la différence d'un Détachement Principal/Allié/de
+     Seigneur des Batailles, où rien n'impose l'uniformité, voir
+     caseAccepte ci-dessous). `excluUid` ignore une occupante précise
+     (sert à demander « que faudrait-il respecter SANS cette Unité-là »,
+     ex : traitFactionMechanicumRequisPour ci-dessous, qui exclut
+     l'Unité dont on cherche justement la contrainte). Retourne null si
+     aucune autre Unité du Détachement n'a encore de Trait résolu.
+     hooks.traitFactionMechanicumDe est fourni par js/unites.js
+     (Organigramme.initialiser). */
+  function traitFactionMechanicumEtabliDe(det, excluUid) {
+    if (!hooks.traitFactionMechanicumDe) return null;
+    for (const c of det.cases) {
+      if (c.uniteUid === null || c.uniteUid === excluUid) continue;
+      const occ = occupant(c);
+      if (!occ) continue;
+      const trait = hooks.traitFactionMechanicumDe(occ.unite, occ.instance);
+      if (trait) return trait;
+    }
+    return null;
+  }
+
   /* Une unité peut-elle occuper cette case ?
      1. Rôle Tactique identique (p. 282 : « Le Rôle Tactique de
         l'Unité doit correspondre à celui de la Case ») ;
@@ -724,6 +749,28 @@ const Organigramme = (() => {
       const legionRequise =
         type.id === "allie" ? det.legionAlliee : etat.legion;
       if (unite.legion !== legionRequise) return false;
+    }
+    // Trait de Faction Mechanicum (Techno-arcane Majeur, Liber
+    // Mechanicum p. 13) : uniformité exigée au sein d'un même
+    // Détachement Auxiliaire/d'Apex (voir traitFactionMechanicumEtabliDe
+    // ci-dessus). Ne bloque qu'une Unité déjà rattachée à un Techno-
+    // arcane FIXE différent (nom en dur dans `traits`, ex.
+    // "Cybernetica") ; une Unité générique (« [Mechanicum] » dans
+    // `traits`, Techno-arcane choisi par Unité via l'option "techno-
+    // arcane") reste toujours acceptée ici — elle s'aligne automatique-
+    // ment sur le Trait déjà établi, voir traitFactionMechanicumRequisPour
+    // et son utilisation dans synchroniserConfig (js/unites.js).
+    if (
+      (type.famille === "auxiliaire" || type.famille === "apex") &&
+      unite.faction === "mechanicum" &&
+      unite.traits &&
+      !unite.traits.includes("[Mechanicum]")
+    ) {
+      const traitFixe = unite.traits.find((t) =>
+        TRAITS_FACTION_MECHANICUM.includes(t),
+      );
+      const traitEtabli = traitFixe && traitFactionMechanicumEtabliDe(det);
+      if (traitEtabli && traitFixe !== traitEtabli) return false;
     }
     const restriction = type.restrictions && type.restrictions[caseOrga.role];
     if (restriction && !restriction.includes(unite.id)) return false;
@@ -824,6 +871,26 @@ const Organigramme = (() => {
       if (!det.cases.some((c) => c.uniteUid === uniteUid)) continue;
       const type = typeDe(det);
       return (type && type.traitAccorde) || null;
+    }
+    return null;
+  }
+
+  /* Trait de Faction Mechanicum déjà imposé à cette instance par les
+     AUTRES Unités de son Détachement Auxiliaire/d'Apex (voir
+     traitFactionMechanicumEtabliDe/caseAccepte ci-dessus), null si
+     l'Unité n'occupe aucune Case, si son Détachement n'est pas
+     Auxiliaire/d'Apex, ou si aucune autre Unité du Détachement n'a
+     encore de Trait résolu. Consommé par js/unites.js
+     (synchroniserConfig) pour aligner et griser le choix de
+     Techno-arcane Majeur d'une Unité générique une fois placée aux
+     côtés d'une autre déjà rattachée à un Trait. */
+  function traitFactionMechanicumRequisPour(uniteUid) {
+    for (const det of etat.detachements) {
+      const caseOrga = det.cases.find((c) => c.uniteUid === uniteUid);
+      if (!caseOrga) continue;
+      const type = typeDe(det);
+      if (type.famille !== "auxiliaire" && type.famille !== "apex") return null;
+      return traitFactionMechanicumEtabliDe(det, uniteUid);
     }
     return null;
   }
@@ -3403,6 +3470,7 @@ const Organigramme = (() => {
     assignationDe,
     avantageDe,
     traitDetachementDe,
+    traitFactionMechanicumRequisPour,
     // Faction choisie dans les paramètres de la partie (id FACTIONS) :
     // consommée par js/unites.js (uniteAccessible) pour filtrer les
     // unités réservées à une Faction (champ `faction` dans

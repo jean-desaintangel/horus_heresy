@@ -635,25 +635,48 @@ const ARCANE_DE_PROSPERO = {
   ],
 };
 
+// Les sept Traits de Faction Mechanicum (Techno-arcanes Majeurs, Liber
+// Mechanicum p. 13/45-51) : utile pour résoudre le Trait de Faction
+// effectif d'une Unité (voir traitFactionMechanicumDe, js/unites.js),
+// qu'elle soit rattachée à un Techno-arcane fixe (nom déjà présent en
+// dur dans `traits`, ex. "Cybernetica") ou générique via l'option
+// ci-dessous (« [Mechanicum] » dans `traits`, remplacé à l'affichage
+// par le choix fait sur la fiche).
+const TRAITS_FACTION_MECHANICUM = [
+  "Archimandrite",
+  "Cybernetica",
+  "Lacrymaerta",
+  "Myrmidax",
+  "Malagra",
+  "Macrotek",
+  "Reductor",
+];
+
 // Options communes aux Unités qui ont le Trait de Faction remplaçable
-// « [Mechanicum] » (Techno-arcane Majeur, un choix possible par Unité
-// — Liber Mechanicum p. 13). Déclarée hors du littéral UNITES (un
-// littéral de tableau ne peut contenir que des expressions, pas une
-// déclaration de fonction).
+// « [Mechanicum] » (Techno-arcane Majeur, un choix par Unité — Liber
+// Mechanicum p. 13 : « les Unités sélectionnées doivent avoir une
+// variante du Trait de Faction Mechanicum, mais il n'est pas nécessaire
+// qu'elles aient la même variante que les autres Unités du même
+// Détachement » — pas de verrou d'Armée, donc, mais un choix
+// obligatoire par Unité). `obligatoire: true` (voir la note sur ce
+// champ en tête de fichier) affiche l'indice 0 comme un vrai choix : il
+// n'y a délibérément PAS d'entrée « — Aucun — », toute Figurine DOIT
+// avoir un Techno-arcane. `horsEquipement: true` est un indicateur
+// propre à cette option (ignoré par optionRealisable/coutInstance,
+// consommé seulement par equipementFinal, js/unites.js) : le Trait
+// choisi remplace « [Mechanicum] » dans la liste `traits` de la fiche
+// récap (construireFiche, js/unites.js), PAS dans l'Équipement — donc
+// pas question de le faire passer par le mécanisme `remplace` habituel
+// (`choix.remplace`/`opt.remplace`), qui n'opère que sur l'Équipement.
+// Déclarée hors du littéral UNITES (un littéral de tableau ne peut
+// contenir que des expressions, pas une déclaration de fonction).
 const optionTechnoArcane = () => ({
   type: "choix",
   id: "techno-arcane",
   libelle: "Techno-arcane Majeur (Trait de Faction)",
-  remplace: "[Mechanicum]",
-  choix: [
-    { nom: "Archimandrite", cout: 0 },
-    { nom: "Cybernetica", cout: 0 },
-    { nom: "Lacrymaerta", cout: 0 },
-    { nom: "Myrmidax", cout: 0 },
-    { nom: "Malagra", cout: 0 },
-    { nom: "Macrotek", cout: 0 },
-    { nom: "Reductor", cout: 0 },
-  ],
+  obligatoire: true,
+  horsEquipement: true,
+  choix: TRAITS_FACTION_MECHANICUM.map((nom) => ({ nom, cout: 0 })),
 });
 
 /* ----------------------------------------------------------
@@ -28274,6 +28297,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionTechnoArcane(),
       {
         type: "case",
         id: "missile",

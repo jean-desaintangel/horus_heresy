@@ -400,6 +400,11 @@ function equipementFinal(unite, instance, sansOption = null) {
     const val = instance.valeurs[opt.id];
 
     if (opt.type === "choix") {
+      // `horsEquipement: true` (ex : Techno-arcane Majeur Mechanicum,
+      // js/unites-data.js) : cette option remplace un Trait, pas un
+      // objet d'Équipement — construireFiche (ci-dessous) s'en charge
+      // séparément, rien à faire ici.
+      if (opt.horsEquipement) continue;
       // `obligatoire: true` : l'indice 0 est un vrai choix (ex :
       // « toutes les figurines DOIVENT prendre une Arme Spéciale »),
       // il apparaît donc aussi sur la fiche.
@@ -1273,6 +1278,24 @@ function construireDefinitions(fiche) {
   return bloc;
 }
 
+// Trait de Faction Mechanicum effectif d'une Unité/instance (un des
+// sept TRAITS_FACTION_MECHANICUM, js/unites-data.js) : soit fixe (déjà
+// écrit en dur dans `traits`, ex. "Cybernetica" — Unité/Figurine nommée
+// propre à ce Techno-arcane), soit choisi via l'option "techno-arcane"
+// (`traits` contient alors le placeholder « [Mechanicum] », voir
+// optionTechnoArcane, js/unites-data.js). Retourne null hors Faction
+// Mechanicum ou si rien ne correspond (ne devrait pas arriver, toute
+// Unité Mechanicum ayant l'un ou l'autre — voir CLAUDE.md).
+function traitFactionMechanicumDe(unite, instance) {
+  if (unite.faction !== "mechanicum" || !unite.traits) return null;
+  if (unite.traits.includes("[Mechanicum]")) {
+    const opt = unite.options.find((o) => o.id === "techno-arcane");
+    if (!opt) return null;
+    return opt.choix[instance.valeurs["techno-arcane"]].nom;
+  }
+  return unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null;
+}
+
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
 function construireFiche(unite, instance) {
   const fiche = el("div", "unite-fiche");
@@ -1299,12 +1322,20 @@ function construireFiche(unite, instance) {
   // communs à toutes les unités de la Légion/Faction : ne pas les
   // afficher sur la fiche évite de les y répéter systématiquement. La
   // ligne disparaît s'il ne reste aucun trait propre à l'unité.
-  const traitsAffiches = unite.traits.filter(
-    (trait) =>
-      trait !== "[Allégeance]" &&
-      trait !== "[Legiones Astartes]" &&
-      trait !== "[Questoris Familia]",
-  );
+  // [Mechanicum] est différent : remplacé (pas juste masqué) par le
+  // Techno-arcane Majeur effectif de cette Unité (traitFactionMechanicumDe
+  // ci-dessus), fixe ou choisi via l'option "techno-arcane".
+  const traitMechanicum = traitFactionMechanicumDe(unite, instance);
+  const traitsAffiches = unite.traits
+    .filter(
+      (trait) =>
+        trait !== "[Allégeance]" &&
+        trait !== "[Legiones Astartes]" &&
+        trait !== "[Questoris Familia]",
+    )
+    .map((trait) =>
+      trait === "[Mechanicum]" && traitMechanicum ? traitMechanicum : trait,
+    );
   // Trait accordé par le Détachement Auxiliaire occupé (ex : Tercio
   // Véletaris), le cas échéant — s'ajoute à ceux propres à l'unité sans
   // les dupliquer (ex : l'Unité d'État-major qui débloque le Détachement
@@ -1375,13 +1406,36 @@ function synchroniserConfig(carte, unite, instance) {
     }
   }
 
+  // 1 ter. Techno-arcane Majeur Mechanicum (Trait de Faction) : si
+  // l'instance est placée dans un Détachement Auxiliaire/d'Apex qui
+  // impose déjà un Trait via d'autres Unités (Liber Mechanicum p. 13 —
+  // « toutes les Unités d'un même Détachement Auxiliaire ou d'Apex
+  // […] doivent avoir la même variante », voir
+  // traitFactionMechanicumRequisPour, js/organigramme.js), on aligne
+  // automatiquement le choix dessus plutôt que de laisser coexister
+  // deux variantes dans le même Détachement — le select correspondant
+  // est aussi grisé ci-dessous tant que cette contrainte s'applique.
+  const traitMechanicumRequis =
+    window.Organigramme && Organigramme.traitFactionMechanicumRequisPour
+      ? Organigramme.traitFactionMechanicumRequisPour(instance.uid)
+      : null;
+  if (traitMechanicumRequis && "techno-arcane" in instance.valeurs) {
+    const indiceRequis = TRAITS_FACTION_MECHANICUM.indexOf(traitMechanicumRequis);
+    if (indiceRequis !== -1 && instance.valeurs["techno-arcane"] !== indiceRequis) {
+      instance.valeurs["techno-arcane"] = indiceRequis;
+      modifie = true;
+    }
+  }
+
   // 2. Synchronise les champs du formulaire (valeur + grisé).
   for (const opt of unite.options) {
     const realisable = optionRealisable(unite, instance, opt);
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
       select.value = String(instance.valeurs[opt.id]);
-      select.disabled = !realisable;
+      select.disabled =
+        !realisable ||
+        (opt.id === "techno-arcane" && Boolean(traitMechanicumRequis));
     } else if (opt.type === "multi") {
       const cases = carte.querySelectorAll("[data-multi='" + opt.id + "']");
       const cochees = instance.valeurs[opt.id];
@@ -1547,6 +1601,14 @@ function construireConfig(carte, unite, instance) {
         select.addEventListener("change", () => {
           instance.valeurs[opt.id] = Number(select.value);
           actualiserCarte(carte, unite, instance);
+          // Le Techno-arcane Majeur choisi ici peut devenir le Trait
+          // requis pour d'AUTRES Unités du même Détachement Auxiliaire/
+          // d'Apex (voir traitFactionMechanicumRequisPour,
+          // js/organigramme.js) : rafraîchissement global en plus de
+          // celui, local, ci-dessus, pour qu'elles s'alignent/se
+          // grisent immédiatement (actualiserCarte ne touche que
+          // CETTE carte).
+          if (opt.id === "techno-arcane") actualiserSelectsCases();
         });
         ligne.appendChild(label);
         ligne.appendChild(select);
@@ -2180,6 +2242,33 @@ function contenuDoctrineCohorteActuelle() {
   return regle ? { nom: doctrine[1], regle } : null;
 }
 
+// Traits de Faction Mechanicum (Techno-arcanes Majeurs) réellement
+// présents dans l'Armée courante (via traitFactionMechanicumDe
+// ci-dessus), un par variante DISTINCTE — partagé par la page de garde
+// PDF et Word, même principe que contenuDoctrineCohorteActuelle()
+// ci-dessus, mais potentiellement plusieurs entrées : à la différence
+// de la Doctrine de Cohorte (un seul choix pour toute l'Armée), le
+// Trait de Faction Mechanicum se choisit par Unité (voir js/unites-
+// data.js) — rien n'empêche une Armée de mêler plusieurs Techno-
+// arcanes. Triées selon TRAITS_FACTION_MECHANICUM plutôt que l'ordre
+// d'ajout des Unités. Tableau vide si aucune Unité Mechanicum dans
+// l'Armée, ou si le texte d'un Trait n'est pas (encore) dans
+// REGLES_DIVERSES.
+function contenuTraitsFactionMechanicumActuels() {
+  const presents = new Set();
+  for (const inst of armee) {
+    const unite = trouverUnite(inst.uniteId);
+    const trait = unite && traitFactionMechanicumDe(unite, inst);
+    if (trait) presents.add(trait);
+  }
+  return TRAITS_FACTION_MECHANICUM.filter((nom) => presents.has(nom))
+    .map((nom) => {
+      const regle = REGLES_DIVERSES.find((r) => r.nom === nom);
+      return regle ? { nom, regle } : null;
+    })
+    .filter(Boolean);
+}
+
 // Désignation de Legiones Auxilia choisie (voir
 // DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) et le texte
 // condensé de sa Réaction Avancée (REGLES_DIVERSES, js/regles-data.js,
@@ -2534,6 +2623,12 @@ async function genererPDF() {
     paragraphe(contenuDoctrine.regle.texte, 9);
   }
 
+  for (const contenuTrait of contenuTraitsFactionMechanicumActuels()) {
+    y += 4;
+    titreSection("Trait de Faction : " + contenuTrait.nom, 12);
+    paragraphe(contenuTrait.regle.texte, 9);
+  }
+
   const contenuDesignation = contenuDesignationAuxiliaActuelle();
   if (contenuDesignation) {
     y += 4;
@@ -2781,6 +2876,12 @@ async function genererWordHTML() {
     corps +=
       "<h2>Doctrine de Cohorte : " + echapperHTML(contenuDoctrine.nom) + "</h2>";
     corps += "<p>" + echapperHTML(contenuDoctrine.regle.texte) + "</p>";
+  }
+
+  for (const contenuTrait of contenuTraitsFactionMechanicumActuels()) {
+    corps +=
+      "<h2>Trait de Faction : " + echapperHTML(contenuTrait.nom) + "</h2>";
+    corps += "<p>" + echapperHTML(contenuTrait.regle.texte) + "</p>";
   }
 
   const contenuDesignation = contenuDesignationAuxiliaActuelle();
@@ -3274,6 +3375,11 @@ function initialiser() {
     trouverUnite,
     coutInstance,
     retirerInstance,
+    // Résout le Trait de Faction Mechanicum effectif d'une instance
+    // (fixe ou choisi) : consommé par caseAccepte/traitFactionMechanicum
+    // RequisPour (js/organigramme.js) pour imposer l'uniformité au sein
+    // d'un Détachement Auxiliaire/d'Apex, voir CLAUDE.md.
+    traitFactionMechanicumDe,
     surChangement: actualiserSelectsCases,
   });
   actualiserTotal();

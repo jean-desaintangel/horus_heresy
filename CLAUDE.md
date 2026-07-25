@@ -609,5 +609,54 @@ Règles Spéciales :
   `armes-data.js`) ; tous les autres profils d'armes de bras déjà
   existants, réutilisés tels quels.
 
+- **Techno-arcane Majeur / Trait de Faction Mechanicum (Liber
+  Mechanicum p. 13/45-51)** : bug corrigé (2026-07-25) — l'option
+  `optionTechnoArcane()` (`js/unites-data.js`) posait `remplace:
+  "[Mechanicum]"`, mais ce mécanisme (`equipementFinal`,
+  `optionRealisable`, js/unites.js) n'opère que sur le tableau
+  `equipement`, jamais sur `traits` : comme « [Mechanicum] » n'apparaît
+  QUE dans `traits`, `optionRealisable` retournait toujours `false` et
+  le menu déroulant restait grisé en permanence sur toute Unité
+  générique (Archimagos, Magos, Technoprêtre, Manipule de Gardiens
+  Scyllax, Manipule Servo Echidnax, Armigère Moirax — le Convoyeur
+  Blindé Triaros avait carrément l'option manquante). Corrigé en
+  retirant `remplace` et en ajoutant `horsEquipement: true` (indicateur
+  propre à cette option, lu seulement par `equipementFinal` pour la
+  sauter entièrement) + `obligatoire: true` (le texte du livre — « les
+  Unités sélectionnées doivent avoir une variante du Trait de Faction
+  Mechanicum » — en fait un choix obligatoire par Unité, sans entrée
+  « — Aucun — »). Le remplacement de « [Mechanicum] » par le
+  Techno-arcane effectif (fixe ou choisi) se fait maintenant à
+  l'affichage, dans `construireFiche` via le nouvel helper
+  `traitFactionMechanicumDe(unite, instance)` (js/unites.js). Toute
+  nouvelle Unité Legacy Mechanicum générique doit inclure
+  `optionTechnoArcane()` dans ses `options` dès qu'elle porte
+  « [Mechanicum] » dans `traits` — sinon même bug que le Triaros.
+  Chaque Techno-arcane Majeur distinct présent dans l'Armée (pas
+  seulement un par Armée : le choix est par Unité, voir le tutoriel
+  Mechanicum de `pages/unites.html`) est listé sur la page de garde du
+  PDF/Word avec son texte complet (`contenuTraitsFactionMechanicumActuels`,
+  js/unites.js — même principe que Doctrine de Cohorte/Désignation de
+  Legiones Auxilia, mais potentiellement plusieurs entrées).
+  La contrainte d'uniformité — « toutes les Unités d'un même
+  Détachement Auxiliaire ou d'Apex doivent avoir la même variante »
+  (mais pas dans un Détachement Principal/Allié/de Seigneur des
+  Batailles, où les Unités peuvent différer) — EST vérifiée (demande
+  explicite du proprio de rester fidèle à la règle plutôt que de
+  simplifier en un choix unique d'Armée façon Légion) :
+  `caseAccepte()` (js/organigramme.js) refuse désormais qu'une Unité à
+  Techno-arcane FIXE (nom déjà en dur dans `traits`) rejoigne un
+  Détachement Auxiliaire/d'Apex dont une autre Unité a déjà établi un
+  Trait différent (`traitFactionMechanicumEtabliDe`) ; une Unité
+  générique (« [Mechanicum] ») reste toujours acceptée mais
+  `synchroniserConfig` (js/unites.js), via le hook
+  `traitFactionMechanicumRequisPour` (js/organigramme.js), aligne puis
+  grise automatiquement son option "techno-arcane" sur le Trait déjà
+  établi par les autres Unités du même Détachement — pas de blocage
+  frustrant, juste un alignement forcé. Le changement de Techno-arcane
+  d'une Unité déclenche un rafraîchissement global
+  (`actualiserSelectsCases`), pas seulement local, pour propager
+  immédiatement l'alignement aux autres cartes du même Détachement.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
