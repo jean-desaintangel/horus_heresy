@@ -683,6 +683,32 @@ document.addEventListener("DOMContentLoaded", () => {
     XX: "alpha_legion",
   };
 
+  // Blasons de Désignation de Legiones Auxilia (LOGOS_DESIGNATION_AUXILIA,
+  // js/organigramme.js) — dupliqués ici pour la même raison que
+  // LOGOS_LEGION ci-dessus (ce fichier n'est chargé que sur
+  // pages/unites.html). Clé = id DESIGNATIONS_LEGIONES_AUXILIA
+  // (js/organigramme-data.js), valeur = nom de fichier réel sous
+  // assets/logo_solar_auxilia/ (plusieurs ont une coquille ou un
+  // raccourci par rapport à l'id établi, conservées telles quelles).
+  const LOGOS_DESIGNATION_AUXILIA = {
+    "chasseurs-calibanites": "chasseur_calibanite",
+    "palatins-archites": "palatin_archites",
+    "thorakites-selucides": "thorakites_selucides",
+    "limitanei-chogoriens": "limitanei_chogoriens",
+    "kaerls-fenrissiens": "kaerls_fenrissiens",
+    "phalangites-dinwit": "phalangites_inwit",
+    "damnatii-nostramiens": "damnatii_nostariens",
+    "elevatii-saiphains": "elevatii_saiphains",
+    "suaire-de-chaines-medusien": "suaire_de_chaine_stheneen",
+    "thraexii-nagrakals": "thraexii_nagrakals",
+    "haute-garde-dultramar": "haute_garde_ultramar",
+    "ambaxtoi-de-barbarus": "ambaxtoi_de_barbarus",
+    "gardespire-prosperienne": "gardespire_prosperien",
+    "chasseurs-de-tetes-cthoniens": "chasseur_tete_chnotien",
+    "velites-de-therion": "velite_therion",
+    "vindictaires-sparatoi": "vindictaire_sparatoi",
+  };
+
   let donnees;
   try {
     const brut = localStorage.getItem("hh-armee-organigramme");
@@ -779,15 +805,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   } else if (
     donnees.faction === "solar-auxilia" &&
-    ["ultima", "solaire", "reconnaissance", "mecanisee", "siege", "fer"].includes(
-      donnees.doctrineCohorte,
-    )
+    typeof donnees.designationAuxilia === "string" &&
+    LOGOS_DESIGNATION_AUXILIA[donnees.designationAuxilia]
   ) {
-    // Doctrine de Cohorte Solar Auxilia (SKINS_DOCTRINE_COHORTE,
-    // organigramme.js) : même absence de blason que Mechanicum ci-dessus.
+    // Désignation de Legiones Auxilia Solar Auxilia (SKINS_DESIGNATION_
+    // AUXILIA, organigramme.js) : un seul blason à gauche du titre,
+    // comme une Légion Astartes ci-dessus (assets/logo_solar_auxilia/).
     document.body.classList.add(
-      "skin-legion-solar-" + donnees.doctrineCohorte,
+      "skin-legion-solar-" + donnees.designationAuxilia,
     );
+    document.addEventListener("DOMContentLoaded", () => {
+      const titre = document.querySelector("h1.titre-page");
+      if (!titre || titre.querySelector(".legion-icon")) return;
+      titre.insertBefore(
+        creerBlason(
+          "logo_solar_auxilia",
+          LOGOS_DESIGNATION_AUXILIA[donnees.designationAuxilia],
+          "legion-icon--titre",
+        ),
+        titre.firstChild,
+      );
+    });
   }
 })();
 

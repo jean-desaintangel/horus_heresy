@@ -2831,22 +2831,31 @@ body.skin-legion-mechanicum {
     );
 }
 
-/* Doctrines de Cohorte (Faction Solar Auxilia, livre d'armée Solar
-   Auxilia) : même mécanique que les Maisonnées Questoris ci-dessus
-   (voir SKINS_DOCTRINE_COHORTE dans js/organigramme.js), rattachée à
-   etat.doctrineCohorte. Six teintes distinctes de tout le reste de la
-   palette (Légions/Titanicus/Questoris/Mechanicum), pas de blason
-   dédié non plus (même raison que Mechanicum ci-dessus). */
-body.skin-legion-solar-ultima {
-  --accent: #7a5a12;
-  --accent-clair: #a17e1c;
-  --fond-secondaire: #eee3c9;
-  --carte-hover: #f5ecda;
+/* Désignations de Legiones Auxilia (Faction Solar Auxilia, livre
+   Legiones Auxilia intégré au Liber Auxilia p. 50-84) : remplace les
+   anciens skins de Doctrine de Cohorte (retirés — six teintes
+   génériques sans rapport avec le fluff réel des Cohortes) par un skin
+   par Désignation (voir SKINS_DESIGNATION_AUXILIA dans
+   js/organigramme.js), rattachée à etat.designationAuxilia plutôt qu'à
+   etat.doctrineCohorte. Chaque Désignation sert une Légion Astartes
+   précise (DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) :
+   la palette reprend donc à l'identique celle de la Légion de tutelle
+   (body.skin-legion-<légion> ci-dessus), le repère thématique le plus
+   naturel en l'absence de couleurs propres à chaque régiment auxiliaire.
+   Blason posé à gauche du titre, un par Désignation (assets/
+   logo_solar_auxilia/*.png, voir LOGOS_DESIGNATION_AUXILIA dans
+   js/organigramme.js pour la correspondance id → nom de fichier). */
+body.skin-legion-solar-chasseurs-calibanites {
+  /* Dark Angels */
+  --accent: #1f3a24;
+  --accent-clair: #2f5a38;
+  --fond-secondaire: #dde5dc;
+  --carte-hover: #e8eee7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(122, 90, 18, 0.12) 0%,
+      rgba(31, 58, 36, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2856,16 +2865,17 @@ body.skin-legion-solar-ultima {
     );
 }
 
-body.skin-legion-solar-solaire {
-  --accent: #a35a14;
-  --accent-clair: #c47a24;
-  --fond-secondaire: #f0e0c9;
-  --carte-hover: #f7ecda;
+body.skin-legion-solar-palatins-archites {
+  /* Emperor's Children */
+  --accent: #4a1a5c;
+  --accent-clair: #6b2b82;
+  --fond-secondaire: #e8dfe8;
+  --carte-hover: #f0e9f0;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(163, 90, 20, 0.12) 0%,
+      rgba(74, 26, 92, 0.1) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2875,16 +2885,17 @@ body.skin-legion-solar-solaire {
     );
 }
 
-body.skin-legion-solar-reconnaissance {
-  --accent: #4a5c34;
-  --accent-clair: #647d47;
-  --fond-secondaire: #e3e8d8;
-  --carte-hover: #edf0e3;
+body.skin-legion-solar-thorakites-selucides {
+  /* Iron Warriors */
+  --accent: #4a4a4a;
+  --accent-clair: #5f5f5f;
+  --fond-secondaire: #e6e2d8;
+  --carte-hover: #efece4;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(74, 92, 52, 0.12) 0%,
+      rgba(74, 74, 74, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2894,16 +2905,17 @@ body.skin-legion-solar-reconnaissance {
     );
 }
 
-body.skin-legion-solar-mecanisee {
-  --accent: #2e4a5c;
-  --accent-clair: #44697d;
-  --fond-secondaire: #dbe6ec;
-  --carte-hover: #e7eff3;
+body.skin-legion-solar-limitanei-chogoriens {
+  /* White Scars */
+  --accent: #a3341c;
+  --accent-clair: #b8481f;
+  --fond-secondaire: #f0e9df;
+  --carte-hover: #f7f1e7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(46, 74, 92, 0.12) 0%,
+      rgba(163, 52, 28, 0.1) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2913,16 +2925,17 @@ body.skin-legion-solar-mecanisee {
     );
 }
 
-body.skin-legion-solar-siege {
-  --accent: #4a3828;
-  --accent-clair: #6b5138;
-  --fond-secondaire: #e6ded2;
-  --carte-hover: #efe9df;
+body.skin-legion-solar-kaerls-fenrissiens {
+  /* Space Wolves */
+  --accent: #33454e;
+  --accent-clair: #4a626e;
+  --fond-secondaire: #dde6ea;
+  --carte-hover: #e8eff2;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(74, 56, 40, 0.12) 0%,
+      rgba(51, 69, 78, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(
@@ -2932,16 +2945,217 @@ body.skin-legion-solar-siege {
     );
 }
 
-body.skin-legion-solar-fer {
-  --accent: #2c2f38;
-  --accent-clair: #454a58;
-  --fond-secondaire: #dfe1e6;
-  --carte-hover: #eaebef;
+body.skin-legion-solar-phalangites-dinwit {
+  /* Imperial Fists */
+  --accent: #76520a;
+  --accent-clair: #97690c;
+  --fond-secondaire: #eee0c4;
+  --carte-hover: #f4ead7;
   background-image:
     radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
     radial-gradient(
       circle at 100% 100%,
-      rgba(44, 47, 56, 0.12) 0%,
+      rgba(118, 82, 10, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(233, 172, 45, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-damnatii-nostramiens {
+  /* Night Lords */
+  --accent: #10151f;
+  --accent-clair: #2b3550;
+  --fond-secondaire: #dfe1e8;
+  --carte-hover: #eceef2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(16, 21, 31, 0.14) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(138, 143, 156, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-elevatii-saiphains {
+  /* Blood Angels */
+  --accent: #7a0c0c;
+  --accent-clair: #b3281c;
+  --fond-secondaire: #ecd9c9;
+  --carte-hover: #f5e6da;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(122, 12, 12, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-suaire-de-chaines-medusien {
+  /* Iron Hands */
+  --accent: #2a1414;
+  --accent-clair: #4a2020;
+  --fond-secondaire: #e0dcdc;
+  --carte-hover: #e8e4e4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(42, 20, 20, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-thraexii-nagrakals {
+  /* World Eaters */
+  --accent: #8a3a12;
+  --accent-clair: #a04a19;
+  --fond-secondaire: #ecdfd0;
+  --carte-hover: #f3e8da;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(138, 58, 18, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-haute-garde-dultramar {
+  /* Ultramarines */
+  --accent: #1c3a6e;
+  --accent-clair: #2f5490;
+  --fond-secondaire: #dde3ee;
+  --carte-hover: #e8ecf4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 58, 110, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-ambaxtoi-de-barbarus {
+  /* Death Guard */
+  --accent: #3a4a2e;
+  --accent-clair: #52683f;
+  --fond-secondaire: #e2e6d8;
+  --carte-hover: #eaeee2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 74, 46, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-gardespire-prosperienne {
+  /* Thousand Sons */
+  --accent: #1c2f5c;
+  --accent-clair: #2f4a82;
+  --fond-secondaire: #e0dfee;
+  --carte-hover: #e8e7f4;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 47, 92, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-chasseurs-de-tetes-cthoniens {
+  /* Sons of Horus */
+  --accent: #3a3020;
+  --accent-clair: #5c4c30;
+  --fond-secondaire: #e6ddc9;
+  --carte-hover: #efe8d8;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 48, 32, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-velites-de-therion {
+  /* Raven Guard */
+  --accent: #1c1c22;
+  --accent-clair: #3a3a46;
+  --fond-secondaire: #e2e2e6;
+  --carte-hover: #ececef;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(28, 28, 34, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-solar-vindictaires-sparatoi {
+  /* Alpha Legion */
+  --accent: #123a3c;
+  --accent-clair: #1f5a5c;
+  --fond-secondaire: #d8e6e6;
+  --carte-hover: #e2eeee;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(18, 58, 60, 0.12) 0%,
       transparent 55%
     ),
     radial-gradient(

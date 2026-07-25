@@ -413,50 +413,36 @@ const Organigramme = (() => {
     },
   };
 
-  /* Skins des Doctrines de Cohorte (Faction Solar Auxilia, livre
-     d'armée Solar Auxilia) : même mécanique que SKINS_MAISONNEE
-     ci-dessus, rattachée à etat.doctrineCohorte plutôt qu'à
-     etat.maisonnee. Pas de `blason`/`icone` (même raison que
-     SKIN_MECHANICUM ci-dessus : aucun asset dédié fourni). Clés =
-     valeurs de DOCTRINES_DE_COHORTE (js/organigramme-data.js). */
-  const SKINS_DOCTRINE_COHORTE = {
-    ultima: {
-      classe: "skin-legion-solar-ultima",
-      nom: "Cohorte Ultima",
-      devise:
-        "Les régiments d'élite de la Cohorte Ultima combattent aux côtés des Legiones Astartes elles-mêmes : leur discipline n'a rien à leur envier.",
-    },
-    solaire: {
-      classe: "skin-legion-solar-solaire",
-      nom: "Cohorte Solaire",
-      devise:
-        "Colonne vertébrale de l'infanterie de ligne du Solar Auxilia, la Cohorte Solaire tient le terrain conquis pied à pied, sans jamais reculer.",
-    },
-    reconnaissance: {
-      classe: "skin-legion-solar-reconnaissance",
-      nom: "Cohorte de Reconnaissance",
-      devise:
-        "Éclaireurs et unités légères de la Cohorte de Reconnaissance ouvrent la voie, frappent vite et se replient avant que l'ennemi ne réplique.",
-    },
-    mecanisee: {
-      classe: "skin-legion-solar-mecanisee",
-      nom: "Cohorte Mécanisée",
-      devise:
-        "Blindés et transports en tête, la Cohorte Mécanisée fond sur l'ennemi en colonnes d'acier avant que ses lignes n'aient pu se former.",
-    },
-    siege: {
-      classe: "skin-legion-solar-siege",
-      nom: "Cohorte de Siège",
-      devise:
-        "Artillerie lourde et Véhicules de siège en soutien, la Cohorte de Siège réduit bastions et fortifications à l'état de gravats, un obus après l'autre.",
-    },
-    fer: {
-      classe: "skin-legion-solar-fer",
-      nom: "Cohorte de Fer",
-      devise:
-        "Formée pour l'assaut le plus dur, la Cohorte de Fer avance sans faillir là où toute autre unité se briserait.",
-    },
-  };
+  /* Skins des Désignations de Legiones Auxilia (livre Legiones Auxilia
+     intégré au Liber Auxilia p. 50-84) : remplace les anciens skins de
+     Doctrine de Cohorte (retirés — six teintes génériques sans rapport
+     avec le fluff réel des Cohortes) par un skin par Désignation
+     (DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js), rattachée
+     à etat.designationAuxilia plutôt qu'à etat.doctrineCohorte. Ce choix
+     restant facultatif (contrairement à la Doctrine de Cohorte), une
+     Armée Solar Auxilia sans Désignation choisie garde la palette par
+     défaut, sans skin.
+     Dérivée de DESIGNATIONS_LEGIONES_AUXILIA plutôt que retranscrite à la
+     main : chaque Désignation sert une Légion Astartes précise, la
+     couleur d'accent (`accent`) et la devise reprennent donc celles de
+     la Légion de tutelle (SKINS_LEGION ci-dessus) — le repère thématique
+     le plus naturel en l'absence de couleurs propres à chaque régiment
+     auxiliaire. `icone` (slug = id de la Désignation) sert de clé dans
+     LOGOS_DESIGNATION_AUXILIA ci-dessous pour retrouver le blason sous
+     assets/logo_solar_auxilia/, voir creerIconeDesignationAuxilia. */
+  const SKINS_DESIGNATION_AUXILIA = Object.fromEntries(
+    DESIGNATIONS_LEGIONES_AUXILIA.map((designation) => [
+      designation.id,
+      {
+        classe: "skin-legion-solar-" + designation.id,
+        icone: designation.id,
+        nom: designation.nom,
+        legionNom: designation.legionNom,
+        accent: SKINS_LEGION[designation.legion].accent,
+        devise: SKINS_LEGION[designation.legion].devise,
+      },
+    ]),
+  );
 
   /* Blasons de Légion (assets/logo_legions/*.png) : bannières
      héraldiques officielles, une par Légion. La clé est le slug
@@ -484,6 +470,33 @@ const Organigramme = (() => {
     salamanders: "salamenders",
     "raven-guard": "raven_guards",
     "alpha-legion": "alpha_legion",
+  };
+
+  /* Blasons de Désignation de Legiones Auxilia (assets/
+     logo_solar_auxilia/*.png) : même principe que LOGOS_LEGION
+     ci-dessus (clé = id de SKINS_DESIGNATION_AUXILIA, valeur = nom de
+     fichier réel — plusieurs ont une coquille ou un raccourci dans leur
+     nom par rapport à l'id établi ci-dessus, ex. "chasseur_calibanite.png"
+     pour "chasseurs-calibanites", "damnatii_nostariens.png" pour
+     "damnatii-nostramiens" — conservées telles quelles pour ne pas
+     casser le lien vers le fichier). */
+  const LOGOS_DESIGNATION_AUXILIA = {
+    "chasseurs-calibanites": "chasseur_calibanite",
+    "palatins-archites": "palatin_archites",
+    "thorakites-selucides": "thorakites_selucides",
+    "limitanei-chogoriens": "limitanei_chogoriens",
+    "kaerls-fenrissiens": "kaerls_fenrissiens",
+    "phalangites-dinwit": "phalangites_inwit",
+    "damnatii-nostramiens": "damnatii_nostariens",
+    "elevatii-saiphains": "elevatii_saiphains",
+    "suaire-de-chaines-medusien": "suaire_de_chaine_stheneen",
+    "thraexii-nagrakals": "thraexii_nagrakals",
+    "haute-garde-dultramar": "haute_garde_ultramar",
+    "ambaxtoi-de-barbarus": "ambaxtoi_de_barbarus",
+    "gardespire-prosperienne": "gardespire_prosperien",
+    "chasseurs-de-tetes-cthoniens": "chasseur_tete_chnotien",
+    "velites-de-therion": "velite_therion",
+    "vindictaires-sparatoi": "vindictaire_sparatoi",
   };
 
   /* ----------------------------------------------------------
@@ -596,6 +609,24 @@ const Organigramme = (() => {
       ? "legion-icon " + classeSupplementaire
       : "legion-icon";
     img.src = "../assets/logo_chevaliers/" + skin.blason;
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
+  }
+
+  /* Équivalent de creerIconeLegion ci-dessus pour un blason de
+     SKINS_DESIGNATION_AUXILIA (assets/logo_solar_auxilia/*.png, voir
+     LOGOS_DESIGNATION_AUXILIA ci-dessus). */
+  function creerIconeDesignationAuxilia(skin, classeSupplementaire) {
+    const img = document.createElement("img");
+    img.className = classeSupplementaire
+      ? "legion-icon " + classeSupplementaire
+      : "legion-icon";
+    img.src =
+      "../assets/logo_solar_auxilia/" +
+      (LOGOS_DESIGNATION_AUXILIA[skin.icone] || skin.icone) +
+      ".png";
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     img.loading = "lazy";
@@ -2726,7 +2757,7 @@ const Organigramme = (() => {
       document.body.classList.remove(info.classe);
     }
     document.body.classList.remove(SKIN_MECHANICUM.classe);
-    for (const info of Object.values(SKINS_DOCTRINE_COHORTE)) {
+    for (const info of Object.values(SKINS_DESIGNATION_AUXILIA)) {
       document.body.classList.remove(info.classe);
     }
     const skinLegion = SKINS_LEGION[etat.legion];
@@ -2735,18 +2766,18 @@ const Organigramme = (() => {
       etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
     const skinMechanicum = etat.faction === "mechanicum" ? SKIN_MECHANICUM : null;
-    const skinDoctrine = SKINS_DOCTRINE_COHORTE[etat.doctrineCohorte] || null;
+    const skinDesignation =
+      SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia] || null;
     const titre = document.querySelector("h1.titre-page");
     if (titre) {
       // querySelectorAll (pas querySelector) : Legio Titanicus pose DEUX
       // blasons sur le titre (gauche + droite ci-dessous), contre un
       // seul pour une Légion Astartes — il faut retirer les deux au
       // changement de Faction/Légion, pas juste le premier trouvé.
-      // Doctrines de Cohorte n'ont pas de blason (voir
-      // SKINS_DOCTRINE_COHORTE plus haut) : rien à insérer pour ce
-      // skin, juste le retrait des blasons d'un skin précédent.
       // Mechanicum (SKIN_MECHANICUM) pose DEUX blasons comme Legio
-      // Titanicus (gauche + droite).
+      // Titanicus (gauche + droite). Désignations de Legiones Auxilia
+      // (skinDesignation) posent un seul blason à gauche, comme une
+      // Légion Astartes ou une Maisonnée Questoris.
       titre.querySelectorAll(".legion-icon").forEach((icone) => icone.remove());
       if (skinLegion) {
         titre.insertBefore(
@@ -2779,6 +2810,11 @@ const Organigramme = (() => {
             skinMechanicum.blasons[1],
             "legion-icon--titre legion-icon--titre-droite",
           ),
+        );
+      } else if (skinDesignation) {
+        titre.insertBefore(
+          creerIconeDesignationAuxilia(skinDesignation, "legion-icon--titre"),
+          titre.firstChild,
         );
       }
     }
@@ -2844,14 +2880,19 @@ const Organigramme = (() => {
       if (skinMechanicum.devise)
         banniere.appendChild(el("em", null, skinMechanicum.devise));
       conteneur.appendChild(banniere);
-    } else if (skinDoctrine) {
-      // Pas d'icône non plus (voir SKINS_DOCTRINE_COHORTE).
-      document.body.classList.add(skinDoctrine.classe);
+    } else if (skinDesignation) {
+      document.body.classList.add(skinDesignation.classe);
       const banniere = el("p", "legion-banniere");
-      const entete = el("strong", "legion-item", skinDoctrine.nom);
+      const entete = el("strong", "legion-item");
+      entete.appendChild(creerIconeDesignationAuxilia(skinDesignation));
+      entete.appendChild(
+        document.createTextNode(
+          skinDesignation.nom + " (" + skinDesignation.legionNom + ")",
+        ),
+      );
       banniere.appendChild(entete);
-      if (skinDoctrine.devise)
-        banniere.appendChild(el("em", null, skinDoctrine.devise));
+      if (skinDesignation.devise)
+        banniere.appendChild(el("em", null, skinDesignation.devise));
       conteneur.appendChild(banniere);
     }
   }
