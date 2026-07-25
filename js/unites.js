@@ -2242,6 +2242,22 @@ function contenuDoctrineCohorteActuelle() {
   return regle ? { nom: doctrine[1], regle } : null;
 }
 
+// Nom d'affichage de la Doctrine de Cohorte choisie (Armée Solar
+// Auxilia), indépendamment de la présence de son texte complet dans
+// REGLES_DIVERSES (contrairement à contenuDoctrineCohorteActuelle()
+// ci-dessus, qui retourne null tant que ce texte manque) : utilisé pour
+// le titre centré de la page de garde PDF/Word (voir plus bas), qui
+// doit afficher le nom de la Cohorte même si son texte de Tactica n'est
+// pas encore transcrit. Retourne null si aucune Doctrine n'est choisie.
+function nomDoctrineCohorteActuelle() {
+  const id = Organigramme.doctrineCohorteActuelle
+    ? Organigramme.doctrineCohorteActuelle()
+    : "";
+  if (!id) return null;
+  const doctrine = DOCTRINES_DE_COHORTE.find(([valeur]) => valeur === id);
+  return doctrine ? doctrine[1] : null;
+}
+
 // Traits de Faction Mechanicum (Techno-arcanes Majeurs) réellement
 // présents dans l'Armée courante (via traitFactionMechanicumDe
 // ci-dessus), un par variante DISTINCTE — partagé par la page de garde
@@ -2580,6 +2596,75 @@ async function genererPDF() {
         );
       }
       y += hauteurBloc + 8;
+    } else {
+      // Identité de Désignation de Legiones Auxilia / Doctrine de
+      // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
+      // ci-dessus — blason + nom de la Désignation centrés sur une même
+      // ligne (voir Organigramme.skinDesignationActuel/
+      // cheminLogoDesignationActuel, js/organigramme.js), puis le nom
+      // de la Doctrine de Cohorte choisie centré en dessous, sur le
+      // modèle de la ligne Allégeance/Monde natal d'une Légion. La
+      // Désignation étant facultative (contrairement à la Doctrine,
+      // obligatoire), le nom de la Cohorte prend seul la place du titre
+      // (même taille/graisse que le nom de Légion/Désignation) quand
+      // aucune Désignation n'est choisie, pour que la page de garde
+      // Solar Auxilia garde toujours un titre centré.
+      const skinDesignation = Organigramme.skinDesignationActuel
+        ? Organigramme.skinDesignationActuel()
+        : null;
+      const nomCohorte = nomDoctrineCohorteActuelle();
+      if (skinDesignation) {
+        const logoDataUrl = await chargerImageDataURL(
+          Organigramme.cheminLogoDesignationActuel(),
+        );
+        const nomDesignationTexte = assainirPDF(skinDesignation.nom);
+        let largeurLogo = 0;
+        let hauteurLogo = 0;
+        let proprietes = null;
+        if (logoDataUrl) {
+          try {
+            proprietes = doc.getImageProperties(logoDataUrl);
+            hauteurLogo = 50;
+            largeurLogo = Math.min(
+              (proprietes.width / proprietes.height) * hauteurLogo,
+              90,
+            );
+          } catch {
+            proprietes = null;
+          }
+        }
+        const ECART = largeurLogo > 0 ? 10 : 0;
+        doc.setFont("times", "bold");
+        doc.setFontSize(16);
+        const largeurTexte = doc.getTextWidth(nomDesignationTexte);
+        const largeurBloc = largeurLogo + ECART + largeurTexte;
+        const hauteurBloc = Math.max(largeurLogo > 0 ? hauteurLogo : 0, 16);
+        assurerEspace(hauteurBloc + 8);
+        const xBloc = contentX + (contentW - largeurBloc) / 2;
+        if (proprietes) {
+          doc.addImage(
+            logoDataUrl,
+            proprietes.fileType || "PNG",
+            xBloc,
+            y,
+            largeurLogo,
+            hauteurLogo,
+          );
+        }
+        doc.text(
+          nomDesignationTexte,
+          xBloc + largeurLogo + ECART,
+          y + hauteurBloc / 2 + 6,
+        );
+        y += hauteurBloc + 8;
+        if (nomCohorte) {
+          paragrapheCentre("Cohorte : " + nomCohorte, 9.5);
+          y += 6;
+        }
+      } else if (nomCohorte) {
+        paragrapheCentre(nomCohorte, 16, "bold");
+        y += 8;
+      }
     }
   }
 
@@ -2767,6 +2852,7 @@ async function genererWordHTML() {
     .legion-logo { max-height: 50pt; max-width: 90pt; display: block; }
     .legion-nom { font-size: 16pt; font-weight: bold; }
     .legion-identite { text-align: center; font-size: 9.5pt; margin: 0 0 8pt; }
+    .cohorte-titre { text-align: center; font-size: 16pt; font-weight: bold; margin: 0 0 8pt; }
     .rite-titre { font-size: 11pt; margin-top: 8pt; }
     .rite-sep { margin: 0; font-size: 11pt; line-height: 11pt; }
   `;
@@ -2827,6 +2913,46 @@ async function genererWordHTML() {
           '" alt=""></td>';
       }
       corps += "</tr></table>";
+    } else {
+      // Identité de Désignation de Legiones Auxilia / Doctrine de
+      // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
+      // ci-dessus (voir Organigramme.skinDesignationActuel/
+      // cheminLogoDesignationActuel, js/organigramme.js) — logo + nom
+      // de la Désignation, puis nom de la Cohorte centré en dessous. La
+      // Désignation étant facultative (contrairement à la Doctrine,
+      // obligatoire), le nom de la Cohorte prend seul la place du titre
+      // (.cohorte-titre, même taille/graisse que .legion-nom) quand
+      // aucune Désignation n'est choisie.
+      const skinDesignation = Organigramme.skinDesignationActuel
+        ? Organigramme.skinDesignationActuel()
+        : null;
+      const nomCohorte = nomDoctrineCohorteActuelle();
+      if (skinDesignation) {
+        const logoDataUrl = await chargerImageDataURL(
+          Organigramme.cheminLogoDesignationActuel(),
+        );
+        corps += '<table class="legion-table"><tr>';
+        if (logoDataUrl) {
+          corps +=
+            '<td><img class="legion-logo" src="' +
+            logoDataUrl +
+            '" alt=""></td>';
+        }
+        corps +=
+          '<td><span class="legion-nom">' +
+          echapperHTML(skinDesignation.nom) +
+          "</span></td>";
+        corps += "</tr></table>";
+        if (nomCohorte) {
+          corps +=
+            '<p class="legion-identite">Cohorte : ' +
+            echapperHTML(nomCohorte) +
+            "</p>";
+        }
+      } else if (nomCohorte) {
+        corps +=
+          '<p class="cohorte-titre">' + echapperHTML(nomCohorte) + "</p>";
+      }
     }
   }
 

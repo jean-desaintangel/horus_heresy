@@ -3833,6 +3833,23 @@ const Organigramme = (() => {
       SKIN_TITANICUS.blasons.map(
         (blason) => "../assets/logo_titan/" + blason.fichier,
       ),
+    // Équivalent skinActuel/cheminLogoActuel ci-dessus, mais pour la
+    // Désignation de Legiones Auxilia choisie (SKINS_DESIGNATION_
+    // AUXILIA, Faction Solar Auxilia) plutôt qu'une Légion : null si
+    // aucune Désignation n'est choisie (choix facultatif, contrairement
+    // à la Légion pour Legio Astartes — voir plus haut). Consommée par
+    // js/unites.js pour la page de garde du PDF/Word.
+    skinDesignationActuel: () =>
+      SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia] || null,
+    cheminLogoDesignationActuel: () => {
+      const skin = SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia];
+      if (!skin) return null;
+      return (
+        "../assets/logo_solar_auxilia/" +
+        (LOGOS_DESIGNATION_AUXILIA[skin.icone] || skin.icone) +
+        ".png"
+      );
+    },
     // Factions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Faction a été choisie, doublons
     // possibles). Consommée par js/unites.js (uniteAccessible) pour
