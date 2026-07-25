@@ -2751,18 +2751,23 @@ body.skin-legion-questoris-mendicus {
   color: var(--titre-contraste);
 }
 
-/* Menu « Faction Alliée » (Détachement Allié d'une Armée Legio
-   Titanicus — voir construireSelectFactionAlliee dans
-   js/organigramme.js) et menu « Légion Alliée » (Détachement Allié,
-   Faction ≠ Détachement Principal — voir construireSelectLegionAlliee). */
+/* Menu « Faction Alliée » (toute Armée — voir
+   construireSelectFactionAlliee dans js/organigramme.js) et menus de
+   sous-identité alliée (Légion/Maisonnée/Doctrine de Cohorte, affichés
+   selon la Faction Alliée choisie — voir construireSelectLegionAlliee/
+   MaisonneeAlliee/DoctrineAlliee). */
 .orga-detachement-faction,
-.orga-detachement-legion {
+.orga-detachement-legion,
+.orga-detachement-maisonnee,
+.orga-detachement-doctrine {
   margin: -0.3rem 0 0.6rem;
   font-size: 0.85rem;
 }
 
 .orga-detachement-faction select,
-.orga-detachement-legion select {
+.orga-detachement-legion select,
+.orga-detachement-maisonnee select,
+.orga-detachement-doctrine select {
   margin-left: 0.4rem;
   padding: 0.2rem 0.4rem;
 }

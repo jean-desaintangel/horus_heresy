@@ -93,6 +93,24 @@ const Organigramme = (() => {
   // voir construireParametres) : à la différence d'une Légion, le
   // type de Maisonnée n'impose pas d'Allégeance (le joueur la choisit
   // librement via le menu Allégeance, comme pour toute autre Faction).
+  // Factions ayant une subdivision interne dans ce fichier (Légion,
+  // Maisonnée, Doctrine de Cohorte) : consommée par
+  // construireSelectFactionAlliee, p. 283 « Chaque Légion Astartes
+  // comptant comme une Faction distincte » généralisé à ces trois
+  // Factions — un Détachement Allié PEUT donc porter la même Faction
+  // que le Détachement Principal à condition de différer sur sa
+  // subdivision (Légion/Maisonnée/Doctrine Alliée, voir
+  // construireSelectLegionAlliee/MaisonneeAlliee/DoctrineAlliee
+  // ci-dessous). Les autres Factions (Legio Titanicus, Mechanicum)
+  // n'ont pas de subdivision ici : leur Détachement Allié doit porter
+  // une Faction strictement différente de celle du Détachement
+  // Principal.
+  const FACTIONS_AVEC_SOUS_IDENTITE = [
+    "legio-astartes",
+    "chevaliers-questoris",
+    "solar-auxilia",
+  ];
+
   const MAISONNEES = [
     ["imperialis", "Questoris Imperialis"],
     ["mechanicum", "Questoris Mechanicum"],
@@ -658,6 +676,16 @@ const Organigramme = (() => {
       // `factionAlliee` vaut "legio-astartes" (Legio Titanicus n'a pas
       // de subdivision en Légions).
       legionAlliee: type.id === "allie" ? "" : null,
+      // Maisonnée (Faction, p. 283 : chaque Maisonnée compte comme une
+      // Faction distincte, même principe que legionAlliee ci-dessus)
+      // propre à ce Détachement Allié — n'a de sens que si
+      // `factionAlliee` vaut "chevaliers-questoris". Sans objet (null)
+      // sinon.
+      maisonneeAlliee: type.id === "allie" ? "" : null,
+      // Doctrine de Cohorte (Faction, p. 283, même principe) propre à ce
+      // Détachement Allié — n'a de sens que si `factionAlliee` vaut
+      // "solar-auxilia". Sans objet (null) sinon.
+      doctrineCohorteAlliee: type.id === "allie" ? "" : null,
       cases: type.cases.map((c) => ({
         role: c.role,
         principale: Boolean(c.principale),
@@ -1929,6 +1957,8 @@ const Organigramme = (() => {
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
             legionAlliee: d.legionAlliee || null,
+            maisonneeAlliee: d.maisonneeAlliee || null,
+            doctrineCohorteAlliee: d.doctrineCohorteAlliee || null,
             cases: d.cases.map((c) => ({
               role: c.role,
               uniteUid: c.uniteUid,
@@ -2040,6 +2070,22 @@ const Organigramme = (() => {
               LEGIONS.some(([v]) => v === brute.legionAlliee))
           ) {
             det.legionAlliee = brute.legionAlliee;
+          }
+          if (
+            typeof brute.maisonneeAlliee === "string" &&
+            (brute.maisonneeAlliee === "" ||
+              MAISONNEES.some(([v]) => v === brute.maisonneeAlliee))
+          ) {
+            det.maisonneeAlliee = brute.maisonneeAlliee;
+          }
+          if (
+            typeof brute.doctrineCohorteAlliee === "string" &&
+            (brute.doctrineCohorteAlliee === "" ||
+              DOCTRINES_DE_COHORTE.some(
+                ([v]) => v === brute.doctrineCohorteAlliee,
+              ))
+          ) {
+            det.doctrineCohorteAlliee = brute.doctrineCohorteAlliee;
           }
         }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
@@ -2750,15 +2796,20 @@ const Organigramme = (() => {
   }
 
   /* Menu « Faction Alliée » d'une carte de Détachement Allié, affiché
-     uniquement pour une Armée Legio Titanicus (pour une Armée Legio
-     Astartes, la Faction Alliée reste "legio-astartes" — seule la
-     Légion varie, via construireSelectLegionAlliee ci-dessous, comme
-     avant l'ajout de ce menu). Legio Titanicus n'ayant pas de
-     subdivision en Légions, la Faction de l'Armée elle-même y est
-     exclue (une Faction Alliée doit différer de celle du Détachement
-     Principal, p. 283). Changer la sélection retire toutes les unités
-     déjà placées dans ce Détachement (leur Faction ne correspondrait
-     plus forcément à la nouvelle). */
+     pour toute Armée (peu importe sa propre Faction). Une Faction
+     alliée identique à celle du Détachement Principal reste
+     sélectionnable quand cette Faction a une subdivision interne dans
+     ce fichier (FACTIONS_AVEC_SOUS_IDENTITE : Légion pour Legio
+     Astartes, Maisonnée pour Chevaliers Questoris, Doctrine de Cohorte
+     pour Solar Auxilia) — la contrainte réelle « Faction Alliée doit
+     différer de celle du Détachement Principal » (p. 283, « Chaque
+     Légion Astartes comptant comme une Faction distincte ») se joue
+     alors sur le sous-menu correspondant (construireSelectLegionAlliee/
+     MaisonneeAlliee/DoctrineAlliee ci-dessous). Pour les autres
+     Factions (Legio Titanicus, Mechanicum, sans subdivision ici), la
+     Faction de l'Armée elle-même reste exclue. Changer la sélection
+     retire toutes les unités déjà placées dans ce Détachement (leur
+     Faction ne correspondrait plus forcément à la nouvelle). */
   function construireSelectFactionAlliee(det) {
     const ligne = el("p", "orga-detachement-faction");
     const label = el("label", null, "Faction Alliée ");
@@ -2766,13 +2817,14 @@ const Organigramme = (() => {
     select.setAttribute("aria-label", "Faction du Détachement Allié");
     ajouterOption(select, "", "— Choisir la Faction Alliée —");
     for (const [valeur, texte, disponible] of FACTIONS) {
-      const memeQueArmee = valeur === etat.faction;
-      const dispo = disponible && !memeQueArmee;
+      const identique = valeur === etat.faction;
+      const exclue = identique && !FACTIONS_AVEC_SOUS_IDENTITE.includes(valeur);
+      const dispo = disponible && !exclue;
       const opt = ajouterOption(
         select,
         valeur,
         texte +
-          (memeQueArmee
+          (exclue
             ? " (Faction du Détachement Principal)"
             : disponible
               ? ""
@@ -2802,7 +2854,13 @@ const Organigramme = (() => {
         hooks.retirerInstance(uid);
       }
       det.factionAlliee = nouvelle;
+      // Les trois sous-identités sont mutuellement exclusives selon la
+      // Faction Alliée choisie (une seule a un sens à la fois) :
+      // réinitialisées ensemble pour ne pas garder une Légion/Maisonnée/
+      // Doctrine orpheline d'une Faction Alliée précédente.
       det.legionAlliee = "";
+      det.maisonneeAlliee = "";
+      det.doctrineCohorteAlliee = "";
       actualiser();
     });
     label.appendChild(select);
@@ -2948,6 +3006,70 @@ const Organigramme = (() => {
     return ligne;
   }
 
+  /* Menu « Maisonnée Alliée » d'une carte de Détachement Allié, affiché
+     uniquement quand det.factionAlliee vaut "chevaliers-questoris" (p.
+     283, même principe que Légion Alliée ci-dessus, généralisé aux
+     Maisonnées). Contrairement à Légion Alliée, pas de redirection vers
+     une galerie (il n'y en a pas pour les Maisonnées) : menu déroulant
+     simple, sur le modèle du menu Maisonnée de construireParametres. Ni
+     Chevaliers Questoris ni Maisonnée ne filtrent aujourd'hui la moindre
+     Unité (aucun champ `unite.maisonnee`, et aucune Unité Chevaliers
+     Questoris transcrite) : changer la sélection ne retire donc aucune
+     Unité, à la différence de Légion/Faction Alliée. */
+  function construireSelectMaisonneeAlliee(det) {
+    const ligne = el("p", "orga-detachement-maisonnee");
+    const label = el("label", null, "Maisonnée Alliée ");
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "Maisonnée du Détachement Allié");
+    ajouterOption(select, "", "— Choisir la Maisonnée Alliée —");
+    for (const [valeur, texte] of MAISONNEES) {
+      const memeQueArmee = valeur === etat.maisonnee;
+      const opt = ajouterOption(
+        select,
+        valeur,
+        texte + (memeQueArmee ? " (Maisonnée du Détachement Principal)" : ""),
+      );
+      opt.disabled = memeQueArmee;
+    }
+    select.value = det.maisonneeAlliee || "";
+    select.addEventListener("change", () => {
+      det.maisonneeAlliee = select.value;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
+  /* Menu « Doctrine de Cohorte Alliée » d'une carte de Détachement
+     Allié, affiché uniquement quand det.factionAlliee vaut
+     "solar-auxilia" — même principe que construireSelectMaisonneeAlliee
+     ci-dessus, appliqué aux Doctrines de Cohorte (Solar Auxilia). */
+  function construireSelectDoctrineAlliee(det) {
+    const ligne = el("p", "orga-detachement-doctrine");
+    const label = el("label", null, "Doctrine de Cohorte Alliée ");
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "Doctrine de Cohorte du Détachement Allié");
+    ajouterOption(select, "", "— Choisir la Doctrine de Cohorte Alliée —");
+    for (const [valeur, texte] of DOCTRINES_DE_COHORTE) {
+      const memeQueArmee = valeur === etat.doctrineCohorte;
+      const opt = ajouterOption(
+        select,
+        valeur,
+        texte + (memeQueArmee ? " (Doctrine du Détachement Principal)" : ""),
+      );
+      opt.disabled = memeQueArmee;
+    }
+    select.value = det.doctrineCohorteAlliee || "";
+    select.addEventListener("change", () => {
+      det.doctrineCohorteAlliee = select.value;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
   // Carte d'un détachement : titre, cases, bouton retirer.
   function construireDetachementDOM(det) {
     const type = typeDe(det);
@@ -2995,11 +3117,13 @@ const Organigramme = (() => {
     }
     carte.appendChild(entete);
     if (type.id === "allie") {
-      if (etat.faction === "legio-titanicus") {
-        carte.appendChild(construireSelectFactionAlliee(det));
-      }
+      carte.appendChild(construireSelectFactionAlliee(det));
       if (det.factionAlliee === "legio-astartes") {
         carte.appendChild(construireSelectLegionAlliee(det));
+      } else if (det.factionAlliee === "chevaliers-questoris") {
+        carte.appendChild(construireSelectMaisonneeAlliee(det));
+      } else if (det.factionAlliee === "solar-auxilia") {
+        carte.appendChild(construireSelectDoctrineAlliee(det));
       }
     }
 

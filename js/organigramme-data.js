@@ -431,7 +431,7 @@ const TYPES_DETACHEMENTS = [
     // (Chevaliers Questoris, voir plus bas).
     excluAvec: ["maisonnees-chevaliers"],
     texte:
-      "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte, pour une Armée Legio Titanicus ; Chaque Légion Astartes comptant comme une Faction distincte, une Légion différente suffit pour une Armée Legio Astartes — menu « Légion Alliée »). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
+      "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte). Chaque Légion Astartes, Maisonnée de Chevaliers Questoris et Doctrine de Cohorte Solar Auxilia comptant comme une Faction distincte, la même Faction que le Détachement Principal reste choisissable à condition de différer sur cette subdivision (menu « Légion Alliée »/« Maisonnée Alliée »/« Doctrine de Cohorte Alliée », selon la Faction Alliée choisie). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [
       _caseOrga("État-major", true),
       _caseOrga("État-major"),
@@ -441,23 +441,29 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Troupes"),
     ],
     // Chaque Détachement Allié porte sa propre Faction (`factionAlliee`
-    // sur l'instance, menu « Faction Alliée » de sa carte — voir
-    // js/organigramme.js) : "legio-astartes" par défaut pour une Armée
-    // Legio Astartes (comme avant l'ajout de ce menu, seule la Légion
-    // varie alors — Faction = Légion, choix de Jean), vide tant qu'elle
-    // n'est pas choisie pour une Armée Legio Titanicus. Elle doit
-    // différer de la Faction de l'Armée (etat.faction) ; à Légio
-    // Astartes égal, sa propre Légion (`legionAlliee`) doit en plus
-    // différer de celle de l'Armée (etat.legion), chaque Légion comptant
-    // comme une Faction distincte. Les unités réservées à une Faction ou
-    // une Légion (champs `faction`/`legion`, js/unites-data.js) sont
-    // filtrées en conséquence par caseAccepte() : celles de l'Armée pour
-    // tout détachement non Allié, celles propres à chaque Détachement
-    // Allié pour les siens. L'Allégeance (Loyaliste/Renégat), elle,
-    // reste un réglage UNIQUE pour toute l'Armée (menu « Allégeance »
-    // des paramètres de la partie) : Principal et Alliés la partagent
-    // donc automatiquement, ce qui satisfait la règle « même Allégeance »
-    // sans champ dédié.
+    // sur l'instance, menu « Faction Alliée » de sa carte, affiché pour
+    // toute Armée — voir js/organigramme.js) : "legio-astartes" par
+    // défaut pour une Armée non Legio Titanicus (comme avant l'ajout de
+    // ce menu), vide tant qu'elle n'est pas choisie pour une Armée Legio
+    // Titanicus. Elle doit différer de la Faction de l'Armée
+    // (etat.faction), SAUF pour les trois Factions ayant une subdivision
+    // interne dans ce fichier (FACTIONS_AVEC_SOUS_IDENTITE,
+    // js/organigramme.js) : à Faction égale, sa propre subdivision doit
+    // alors différer de celle de l'Armée — Légion (`legionAlliee` vs
+    // etat.legion, Legio Astartes), Maisonnée (`maisonneeAlliee` vs
+    // etat.maisonnee, Chevaliers Questoris) ou Doctrine de Cohorte
+    // (`doctrineCohorteAlliee` vs etat.doctrineCohorte, Solar Auxilia),
+    // chacune comptant comme une Faction distincte. Les unités réservées
+    // à une Faction ou une Légion (champs `faction`/`legion`,
+    // js/unites-data.js) sont filtrées en conséquence par caseAccepte() :
+    // celles de l'Armée pour tout détachement non Allié, celles propres
+    // à chaque Détachement Allié pour les siens (Maisonnée/Doctrine ne
+    // filtrent aujourd'hui aucune Unité, faute de champ dédié sur les
+    // Unités — purement déclaratives, comme au niveau Armée).
+    // L'Allégeance (Loyaliste/Renégat), elle, reste un réglage UNIQUE
+    // pour toute l'Armée (menu « Allégeance » des paramètres de la
+    // partie) : Principal et Alliés la partagent donc automatiquement,
+    // ce qui satisfait la règle « même Allégeance » sans champ dédié.
     // Simplification assumée : les Détachements Auxiliaires débloqués
     // par une Case d'État-major alliée piochent dans le même crédit
     // partagé que ceux du Détachement Principal (voir calculerCredits())
