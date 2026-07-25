@@ -1,12 +1,13 @@
 /* ============================================================
    main.js — Scripts communs à toutes les pages
-   Auteur : Jean · Modifié : 2026-07-17
+   Auteur : Jean · Modifié : 2026-07-25
    Rôle   : menu mobile, accordéons, timeline, sections repliables,
-   et utilitaires partagés par les autres scripts (normalisation de
-   texte, fabrique DOM, définitions des règles spéciales).
+   tableau de jet de blessure flottant, et utilitaires partagés par
+   les autres scripts (normalisation de texte, fabrique DOM, tables
+   de référence, définitions des règles spéciales).
    Dépend : aucun (vanilla JS) — stylé par css/style.css.
    Chargé en defer AVANT les autres scripts : ses fonctions globales
-   sont donc disponibles pour js/regles.js, js/armes.js,
+   sont donc disponibles pour js/regles.js, js/armes.js, js/tables.js,
    js/organigramme.js et js/unites.js.
    ============================================================ */
 
@@ -68,6 +69,218 @@ function ajouterOption(select, valeur, texte) {
   opt.textContent = texte;
   select.appendChild(opt);
   return opt;
+}
+
+/* ----------------------------------------------------------
+   TABLES DE RÉFÉRENCE PARTAGÉES
+   La table de jet de blessure (Force vs Endurance) et le nécessaire
+   pour la rendre en <table> accessible (caption, scope, surbrillance
+   ligne/colonne au survol/tap) : utilisés à la fois par js/tables.js
+   (table complète de tir.html/assaut.html) et par le petit tableau
+   flottant plus bas dans ce fichier (activerTableauFlottant) — une
+   seule source pour cette donnée de jeu plutôt que deux copies à
+   tenir synchronisées. js/tables.js garde ses propres tables (CC, CT,
+   positionnement), qui n'ont besoin d'être affichées nulle part
+   ailleurs que sur leurs pages dédiées.
+   Sécurité : tout le texte est injecté via textContent (jamais
+   innerHTML), comme le reste de ce fichier.
+   ---------------------------------------------------------- */
+
+// Étiquettes des grandes tables matricielles (valeurs 1 à 10+) :
+// aussi utilisée par TABLE_CC (js/tables.js).
+const VALEURS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
+
+/* Table de blessure : Force de la touche vs Endurance de la cible.
+   '-' = blessure impossible. */
+const TABLE_BLESSURE = [
+  // End:  1     2     3     4     5     6     7     8     9     10+
+  ["4+", "5+", "6+", "6+", "-", "-", "-", "-", "-", "-"], // F 1
+  ["3+", "4+", "5+", "6+", "6+", "-", "-", "-", "-", "-"], // F 2
+  ["2+", "3+", "4+", "5+", "6+", "6+", "-", "-", "-", "-"], // F 3
+  ["2+", "2+", "3+", "4+", "5+", "6+", "6+", "-", "-", "-"], // F 4
+  ["2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+", "-", "-"], // F 5
+  ["2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+", "-"], // F 6
+  ["2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+"], // F 7
+  ["2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+"], // F 8
+  ["2+", "2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+"], // F 9
+  ["2+", "2+", "2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+"], // F 10+
+];
+
+/**
+ * Crée une <table> munie de son <caption>.
+ * @param {string} titre  - texte du caption (titre au-dessus de la table)
+ * @param {string} classe - classe CSS optionnelle de la table
+ * @returns {HTMLTableElement}
+ */
+function creerTable(titre, classe = "") {
+  const table = document.createElement("table");
+  if (classe) table.className = classe;
+  const caption = document.createElement("caption");
+  caption.textContent = titre;
+  table.appendChild(caption);
+  return table;
+}
+
+/**
+ * Enrobe la table dans un conteneur .table-scroll (défilement
+ * horizontal sur mobile) et l'insère dans le conteneur cible.
+ * @param {string} idConteneur - id de la div où insérer la table
+ * @param {HTMLTableElement} table
+ */
+function insererDansScroll(idConteneur, table) {
+  const conteneur = document.getElementById(idConteneur);
+  if (!conteneur) return;
+  const scroll = document.createElement("div");
+  scroll.className = "table-scroll";
+  scroll.appendChild(table);
+  conteneur.appendChild(scroll);
+}
+
+/**
+ * Construit une table "matrice" (CC ou Blessure).
+ * @param {string} idConteneur - id de la div où insérer la table
+ * @param {string} titre       - texte du caption
+ * @param {string} labelLigne  - libellé des lignes (ex: "CC attaquant")
+ * @param {string} labelCol    - libellé des colonnes (ex: "CC défenseur")
+ * @param {Array}  donnees     - tableau 2D des valeurs
+ */
+function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
+  const table = creerTable(titre, "table-matrice");
+
+  // --- En-tête : coin + valeurs de colonnes ---
+  const thead = document.createElement("thead");
+  const ligneEntete = document.createElement("tr");
+
+  const coin = document.createElement("th");
+  // textContent (et non innerHTML) : du texte brut n'a pas à passer
+  // par le parseur HTML — réflexe anti-XSS (voir l'en-tête du fichier).
+  coin.textContent = labelLigne + " \\ " + labelCol; // ex: "Attaquant \ Défenseur"
+  ligneEntete.appendChild(coin);
+
+  VALEURS.forEach((v) => {
+    const th = document.createElement("th");
+    th.scope = "col"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7) : association colonne
+    th.textContent = v;
+    ligneEntete.appendChild(th);
+  });
+  thead.appendChild(ligneEntete);
+  table.appendChild(thead);
+
+  // --- Corps : une ligne par valeur d'attaquant / de force ---
+  const tbody = document.createElement("tbody");
+  donnees.forEach((ligne, i) => {
+    const tr = document.createElement("tr");
+
+    // Première cellule = en-tête de ligne
+    const th = document.createElement("th");
+    th.scope = "row"; // Accessibilité (WCAG 1.3.1 / RGAA 5.7) : association ligne
+    th.textContent = VALEURS[i];
+    tr.appendChild(th);
+
+    ligne.forEach((valeur) => {
+      const td = document.createElement("td");
+      td.textContent = valeur;
+      if (valeur === "-") td.classList.add("impossible"); // grise les impossibles
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+
+  insererDansScroll(idConteneur, table);
+}
+
+/* ----------------------------------------------------------
+   SURBRILLANCE LIGNE + COLONNE AU SURVOL / AU TOUCHER
+   La ligne est gérée en CSS (tr:hover, souris uniquement). Pour la
+   colonne, on ajoute une classe à toutes les cellules du même index.
+
+   Un seul écouteur par <table> (plutôt qu'un par <td>) suffit :
+   c'est de la "délégation d'événements". evenement.target est la
+   cellule réellement survolée ; .closest("td") la retrouve même
+   si le survol démarre sur un enfant de la cellule.
+
+   Sur téléphone il n'existe pas de survol : un écran tactile ne
+   déclenche ni mouseover ni mouseout de façon fiable — mais par
+   compatibilité, un tap déclenche quand même un mouseover juste avant
+   le click. On garde donc, en plus des classes CSS, une référence
+   explicite "celluleFigee" par table : c'est elle (et non l'état des
+   classes, qui peut déjà avoir été posé par ce mouseover fantôme) qui
+   fait foi pour savoir si un tap doit épingler ou désépingler une case.
+   Cela évite qu'un tap sur téléphone n'allume puis n'éteigne aussitôt
+   la surbrillance dans la même série d'événements.
+
+   Résultat : au clic (souris) comme au tap (tactile), la case touchée
+   reste surlignée jusqu'au prochain tap — pratique pour garder un
+   repère pendant qu'on lit le tableau en jouant. Un second tap sur la
+   même case, un tap sur une autre case, ou un tap en dehors du
+   tableau, la désépingle.
+
+   `racine` (optionnel, document entier par défaut) restreint le
+   câblage à un seul conteneur : utile pour une table construite APRÈS
+   ce premier passage (ex : le tableau flottant, construit à la
+   demande au premier clic, bien après le DOMContentLoaded qui câble
+   les tables déjà présentes dans la page).
+   ---------------------------------------------------------- */
+function surlignerColonne(table, cellule) {
+  const index = cellule.cellIndex;
+  table.querySelectorAll("tr").forEach((tr) => {
+    const c = tr.cells[index];
+    if (c) c.classList.add("colonne-active");
+  });
+  cellule.classList.add("case-active");
+}
+
+function effacerSurbrillance(table) {
+  table.querySelectorAll(".colonne-active, .case-active").forEach((c) => {
+    c.classList.remove("colonne-active", "case-active");
+  });
+}
+
+function activerSurbrillanceColonnes(racine) {
+  // table -> cellule épinglée par un clic/tap (absente si aucune).
+  // Stockée en dehors de la boucle pour que le nettoyage "tap en
+  // dehors du tableau" ci-dessous puisse aussi oublier l'épingle,
+  // et pas seulement retirer les classes CSS.
+  const casesEpinglees = new Map();
+
+  (racine || document).querySelectorAll("table").forEach((table) => {
+    // Aperçu en direct pendant le survol (souris uniquement, ignoré si
+    // une case est déjà épinglée pour ne pas la perturber).
+    table.addEventListener("mouseover", (evenement) => {
+      if (casesEpinglees.get(table)) return;
+      const cellule = evenement.target.closest("td");
+      if (!cellule) return;
+      surlignerColonne(table, cellule);
+    });
+
+    table.addEventListener("mouseout", () => {
+      if (!casesEpinglees.get(table)) effacerSurbrillance(table);
+    });
+
+    // Souris ET tactile : un clic/tap épingle la surbrillance sur la case
+    table.addEventListener("click", (evenement) => {
+      const cellule = evenement.target.closest("td");
+      if (!cellule) return;
+
+      effacerSurbrillance(table);
+      if (casesEpinglees.get(table) === cellule) {
+        casesEpinglees.delete(table); // même case retouchée : on désépingle
+      } else {
+        casesEpinglees.set(table, cellule);
+        surlignerColonne(table, cellule);
+      }
+    });
+  });
+
+  // Un tap en dehors de toute table (de `racine`) désépingle la
+  // surbrillance (on réutilise effacerSurbrillance plutôt que de
+  // redupliquer le retrait des classes).
+  document.addEventListener("click", (evenement) => {
+    if (evenement.target.closest("table")) return;
+    casesEpinglees.clear();
+    (racine || document).querySelectorAll("table").forEach(effacerSurbrillance);
+  });
 }
 
 /* Index des définitions de règles spéciales (REGLES_ARMES +
@@ -507,6 +720,214 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 
+/* ----------------------------------------------------------
+   TABLEAU DE BLESSURE FLOTTANT — TOUTES LES PAGES SAUF
+   index.html, choix-legion.html (ne charge pas main.js, donc jamais
+   concernée) ET unites.html (organigramme déjà dense, pas la peine
+   d'y ajouter un widget de plus).
+   Un petit bouton rond (position: fixed) déplaçable à la souris comme
+   au doigt (Pointer Events, unifie souris/tactile/stylet) ; un simple
+   clic/tap (sans déplacement) bascule un panneau reprenant la table
+   de jet de blessure (VALEURS/TABLE_BLESSURE/construireMatrice, voir
+   plus haut dans ce fichier) — même rendu et même surbrillance au
+   survol/tap que sur tir.html/assaut.html, construite une seule fois
+   à la demande (premier clic) plutôt qu'au chargement de la page.
+   ---------------------------------------------------------- */
+function activerTableauFlottant() {
+  const PAGES_SANS_TABLEAU_FLOTTANT = ["", "index.html", "unites.html"];
+  const pageActuelle = location.pathname.split("/").pop();
+  if (PAGES_SANS_TABLEAU_FLOTTANT.includes(pageActuelle)) return;
+
+  const conteneur = el("div", "table-flottante");
+
+  const bouton = document.createElement("button");
+  bouton.type = "button";
+  bouton.className = "table-flottante-bouton";
+  bouton.title = "Jet de blessure";
+  bouton.setAttribute("aria-expanded", "false");
+  bouton.setAttribute("aria-label", "Afficher le tableau de jet de blessure");
+  bouton.textContent = "†";
+
+  const panneau = el("div", "table-flottante-panneau");
+  panneau.id = "table-flottante-panneau";
+  panneau.hidden = true;
+  panneau.setAttribute("role", "region");
+  bouton.setAttribute("aria-controls", panneau.id);
+
+  const entete = el("div", "table-flottante-entete");
+  const titre = el("h2", null, "Jet de blessure");
+  titre.id = "table-flottante-titre";
+  panneau.setAttribute("aria-labelledby", titre.id);
+  // Même convention que .modal-close (pages/choix-legion.html) : glyphe
+  // "×" en texte visible + aria-label pour l'accessible name (le
+  // libellé prime sur le texte affiché, WCAG 4.1.2).
+  const boutonFermer = document.createElement("button");
+  boutonFermer.type = "button";
+  boutonFermer.className = "table-flottante-fermer";
+  boutonFermer.setAttribute("aria-label", "Fermer le tableau de jet de blessure");
+  boutonFermer.textContent = "×";
+  entete.append(titre, boutonFermer);
+
+  const corps = el("div", "table-flottante-corps");
+  corps.id = "table-flottante-corps";
+  panneau.append(entete, corps);
+
+  conteneur.append(bouton, panneau);
+  document.body.appendChild(conteneur);
+
+  /* --- Ouverture/fermeture --- */
+  let tableConstruite = false;
+  function ouvrir() {
+    if (!tableConstruite) {
+      construireMatrice(
+        corps.id,
+        "Jet de blessure (Force de la touche contre Endurance de la cible)",
+        "Force",
+        "Endurance",
+        TABLE_BLESSURE,
+      );
+      activerSurbrillanceColonnes(panneau);
+      tableConstruite = true;
+    }
+    panneau.hidden = false;
+    positionnerPanneau();
+    bouton.setAttribute("aria-expanded", "true");
+    bouton.setAttribute("aria-label", "Masquer le tableau de jet de blessure");
+  }
+  function fermerPanneau() {
+    panneau.hidden = true;
+    bouton.setAttribute("aria-expanded", "false");
+    bouton.setAttribute("aria-label", "Afficher le tableau de jet de blessure");
+  }
+  function basculer() {
+    if (panneau.hidden) ouvrir();
+    else fermerPanneau();
+  }
+
+  // Le panneau s'ouvre au-dessus/à gauche du bouton par défaut ; on
+  // bascule sous/à droite quand la place manque (bouton glissé près
+  // d'un bord par un déplacement, voir plus bas).
+  function positionnerPanneau() {
+    const rect = conteneur.getBoundingClientRect();
+    const largeurPanneau = panneau.offsetWidth || 380;
+    const hauteurPanneau = panneau.offsetHeight || 320;
+    panneau.classList.toggle(
+      "table-flottante-panneau--bas",
+      rect.top < hauteurPanneau + 24,
+    );
+    panneau.classList.toggle(
+      "table-flottante-panneau--gauche",
+      rect.right - largeurPanneau < 8,
+    );
+  }
+
+  boutonFermer.addEventListener("click", () => {
+    fermerPanneau();
+    bouton.focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !panneau.hidden) {
+      fermerPanneau();
+      bouton.focus();
+    }
+  });
+  // Clic/tap en dehors du widget : referme (même esprit que le
+  // désépinglage "tap en dehors du tableau" d'activerSurbrillanceColonnes).
+  document.addEventListener("click", (e) => {
+    if (panneau.hidden || conteneur.contains(e.target)) return;
+    fermerPanneau();
+  });
+
+  /* --- Déplacement du bouton (souris/tactile/stylet unifiés) ---
+     Le conteneur démarre positionné via right/bottom (CSS) ; on ne
+     bascule vers left/top en pixels qu'au premier vrai déplacement,
+     pour ne jamais figer une position par défaut inutilement. Un
+     simple clic/tap (déplacement sous le seuil) bascule le panneau au
+     lieu de le déplacer — dissocié via le indicateur `deplace`. */
+  let etatDeplacement = null;
+  let dernierDeplacement = false;
+  const SEUIL_DEPLACEMENT = 6; // px : tolère un léger tremblement du doigt
+
+  bouton.addEventListener("pointerdown", (e) => {
+    const rect = conteneur.getBoundingClientRect();
+    etatDeplacement = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      origLeft: rect.left,
+      origTop: rect.top,
+      deplace: false,
+    };
+    bouton.setPointerCapture(e.pointerId);
+  });
+
+  bouton.addEventListener("pointermove", (e) => {
+    if (!etatDeplacement || e.pointerId !== etatDeplacement.pointerId) return;
+    const dx = e.clientX - etatDeplacement.startX;
+    const dy = e.clientY - etatDeplacement.startY;
+    if (!etatDeplacement.deplace && Math.hypot(dx, dy) < SEUIL_DEPLACEMENT) {
+      return;
+    }
+    etatDeplacement.deplace = true;
+    if (!conteneur.style.left) {
+      conteneur.style.right = "auto";
+      conteneur.style.bottom = "auto";
+    }
+    const marge = 4;
+    const left = Math.min(
+      Math.max(etatDeplacement.origLeft + dx, marge),
+      window.innerWidth - conteneur.offsetWidth - marge,
+    );
+    const top = Math.min(
+      Math.max(etatDeplacement.origTop + dy, marge),
+      window.innerHeight - conteneur.offsetHeight - marge,
+    );
+    conteneur.style.left = left + "px";
+    conteneur.style.top = top + "px";
+    if (!panneau.hidden) positionnerPanneau();
+  });
+
+  bouton.addEventListener("pointerup", (e) => {
+    if (!etatDeplacement || e.pointerId !== etatDeplacement.pointerId) return;
+    dernierDeplacement = etatDeplacement.deplace;
+    bouton.releasePointerCapture(e.pointerId);
+    etatDeplacement = null;
+  });
+  bouton.addEventListener("pointercancel", () => {
+    etatDeplacement = null;
+  });
+
+  // Un simple clic/tap (souris, tactile) ET l'activation clavier
+  // (Entrée/Espace, qui ne déclenche jamais d'événement pointer)
+  // passent tous les deux par ce seul écouteur "click" ; on ignore
+  // seulement celui qui suit immédiatement un vrai déplacement.
+  bouton.addEventListener("click", () => {
+    if (dernierDeplacement) {
+      dernierDeplacement = false;
+      return;
+    }
+    basculer();
+  });
+
+  // Reclampe la position dans le viewport après un redimensionnement/
+  // une rotation d'écran (seulement si le bouton a déjà été déplacé :
+  // sinon right/bottom suivent déjà le viewport tout seuls en CSS).
+  window.addEventListener("resize", () => {
+    if (!conteneur.style.left) return;
+    const rect = conteneur.getBoundingClientRect();
+    const marge = 4;
+    conteneur.style.left =
+      Math.min(Math.max(rect.left, marge), window.innerWidth - rect.width - marge) +
+      "px";
+    conteneur.style.top =
+      Math.min(
+        Math.max(rect.top, marge),
+        window.innerHeight - rect.height - marge,
+      ) + "px";
+    if (!panneau.hidden) positionnerPanneau();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
      1. MENU BURGER (mobile)
@@ -772,4 +1193,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ? "Reviens, faible mortel..."
       : titreOriginal;
   });
+
+  /* ----------------------------------------------------------
+     5. TABLEAU DE BLESSURE FLOTTANT
+     Voir activerTableauFlottant() plus haut dans ce fichier pour le
+     détail (pages concernées, déplacement, ouverture/fermeture).
+     ---------------------------------------------------------- */
+  activerTableauFlottant();
 });

@@ -765,6 +765,126 @@ td.impossible {
 }
 
 /* ============================================================
+   TABLEAU DE BLESSURE FLOTTANT (toutes les pages sauf index.html,
+   choix-legion.html et unites.html — voir activerTableauFlottant
+   dans js/main.js)
+   .table-flottante est le point d'ancrage position: fixed, déplacé en
+   JS (left/top en px) une fois que le bouton a été glissé ; tant
+   qu'il ne l'a pas été, right/bottom (ci-dessous) suivent seuls le
+   viewport. .table-flottante-panneau est positionné en absolute PAR
+   RAPPORT à ce point d'ancrage : il ne participe donc pas à la taille
+   du conteneur (offsetWidth/Height utilisés pour le glissement du
+   bouton restent ceux du bouton seul, panneau ouvert ou non).
+   z-index: 1500 > .nav (1000) pour rester au-dessus de la barre de
+   navigation, < .lien-evitement (2000, qui n'apparaît qu'au focus).
+   ============================================================ */
+.table-flottante {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1500;
+}
+
+.table-flottante-bouton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Cinzel", serif;
+  font-size: 1.3rem;
+  box-shadow: var(--ombre);
+  cursor: grab;
+  /* Le geste de glissement est entièrement géré en JS (Pointer
+     Events) : on empêche le navigateur d'interpréter le même geste
+     tactile comme un défilement/zoom de page. */
+  touch-action: none;
+  user-select: none;
+}
+
+.table-flottante-bouton:hover {
+  background: var(--accent-clair);
+}
+
+.table-flottante-bouton:active {
+  cursor: grabbing;
+}
+
+.table-flottante-panneau {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.6rem);
+  width: min(92vw, 380px);
+  max-height: min(70vh, 480px);
+  overflow-y: auto;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre);
+  padding: 0.7rem;
+}
+
+/* Bascules posées en JS (positionnerPanneau, js/main.js) quand la
+   place manque autour du bouton, ex. glissé près d'un bord. */
+.table-flottante-panneau--bas {
+  bottom: auto;
+  top: calc(100% + 0.6rem);
+}
+
+.table-flottante-panneau--gauche {
+  right: auto;
+  left: 0;
+}
+
+.table-flottante-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.table-flottante-entete h2 {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  color: var(--titre-contraste);
+}
+
+.table-flottante-fermer {
+  flex-shrink: 0;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  border: none;
+  background: none;
+  color: var(--texte-doux);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.table-flottante-fermer:hover {
+  background: var(--fond-secondaire);
+  color: var(--texte);
+}
+
+/* La table injectée (construireMatrice, js/main.js) réutilise déjà
+   .table-scroll/.table-matrice ; on resserre juste sa marge par
+   défaut (1rem) qui n'a pas lieu d'être dans ce petit panneau. */
+.table-flottante-corps .table-scroll {
+  margin: 0;
+}
+
+.table-flottante-corps caption {
+  font-size: 0.95rem;
+  padding-top: 0;
+}
+
+/* ============================================================
    ACCORDÉON (Cases Principales)
    Le CSS gère uniquement l'apparence ouverte/fermée via la
    classe .ouvert ; c'est js/main.js qui bascule cette classe au
