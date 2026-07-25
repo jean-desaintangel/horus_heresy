@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
     XV: "thousand_sons",
     XVI: "sons_of_horus",
     XVII: "word_bearers",
-    XVIII: "salamenders",
+    XVIII: "salamanders",
     XIX: "raven_guards",
     XX: "alpha_legion",
   };

@@ -448,9 +448,9 @@ const Organigramme = (() => {
      héraldiques officielles, une par Légion. La clé est le slug
      `icone` de SKINS_LEGION ci-dessus ; la valeur est le nom de
      fichier réel sous assets/logo_legions/ (quelques fichiers ont une
-     coquille dans leur nom — ex. "scpace_wolves.png",
-     "salamenders.png", conservées telles quelles pour ne pas casser
-     le lien vers le fichier). */
+     coquille dans leur nom — ex. "scpace_wolves.png", "raven_guards.png",
+     conservées telles quelles pour ne pas casser le lien vers le
+     fichier). */
   const LOGOS_LEGION = {
     "dark-angels": "dark_angels",
     "emperors-children": "emperor_children",
@@ -467,7 +467,7 @@ const Organigramme = (() => {
     "thousand-sons": "thousand_sons",
     "sons-of-horus": "sons_of_horus",
     "word-bearers": "word_bearers",
-    salamanders: "salamenders",
+    salamanders: "salamanders",
     "raven-guard": "raven_guards",
     "alpha-legion": "alpha_legion",
   };

@@ -2151,6 +2151,7 @@ footer p {
   border: 1px solid var(--acier);
   border-radius: var(--radius);
   background: var(--fond);
+  color: var(--texte);
   font: inherit;
   min-width: 0;
   max-width: 100%;
@@ -3387,6 +3388,7 @@ body.nuit-eternelle {
   border: 1px solid var(--acier);
   border-radius: var(--radius);
   background: var(--carte);
+  color: var(--texte);
   font: inherit;
   font-size: 0.82rem;
 }
@@ -3400,6 +3402,7 @@ body.nuit-eternelle {
   border: 1px solid var(--acier);
   border-radius: var(--radius);
   background: var(--carte);
+  color: var(--texte);
   font: inherit;
   font-size: 0.82rem;
 }
@@ -3542,6 +3545,7 @@ body.nuit-eternelle {
   border: 1px solid var(--acier);
   border-radius: var(--radius);
   background: var(--carte);
+  color: var(--texte);
   font: inherit;
   font-size: 0.85rem;
 }
