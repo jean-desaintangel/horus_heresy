@@ -2116,10 +2116,23 @@ footer p {
   margin-bottom: 1rem;
 }
 
+/* Empilé (label au-dessus du champ) par défaut sur mobile : un <select>
+   flex-item posé À CÔTÉ de son label ne se rétrécit jamais de façon
+   fiable sous la largeur de sa plus longue option une fois le label
+   lui-même réduit à son mot le plus long (vécu avec « Désignation de
+   Legiones Auxilia », dont les options dépassent 35 caractères — le
+   label se compressait mot par mot mais le <select> gardait sa largeur
+   intrinsèque et débordait du cadre/de l'écran). Empiler élimine le
+   partage de largeur entre label et champ : le champ reçoit toute la
+   largeur disponible de la carte pour se rétrécir. Repasse en ligne
+   (label + champ côte à côte) à partir de 601px, où la carte est assez
+   large pour ne plus poser ce problème. */
 .orga-parametre {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 0.3rem;
+  width: 100%;
   min-width: 0;
   max-width: 100%;
 }
@@ -2128,10 +2141,6 @@ footer p {
   font-weight: 700;
 }
 
-/* min-width: 0 — sans ça, un <select> (élément flex) ne se rétrécit
-   jamais sous la largeur de sa plus longue option (« Choisir un Rite
-   de Guerre ») et dépasse du cadre sur mobile au lieu de passer à la
-   ligne. */
 .orga-parametres input,
 .orga-parametres select {
   padding: 0.3rem 0.5rem;
@@ -2141,10 +2150,23 @@ footer p {
   font: inherit;
   min-width: 0;
   max-width: 100%;
+  width: 100%;
 }
 
 .orga-parametres input {
   width: 6.5rem;
+}
+
+@media (min-width: 601px) {
+  .orga-parametre {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+  }
+
+  .orga-parametres select {
+    width: auto;
+  }
 }
 
 /* ---------- Bandeau de contexte historique (skin de Légion) ---------- */
@@ -2892,12 +2914,19 @@ body.skin-legion-questoris-mendicus {
   font-size: 0.85rem;
 }
 
+/* max-width: 100% — options longues (« ... (Faction du Détachement
+   Principal) », « ... (Légion du Détachement Principal) »…) : sans ça,
+   ces <select> (éléments inline « atomiques ») gardent leur largeur
+   intrinsèque et débordent du cadre sur mobile au lieu de passer à la
+   ligne sous leur label, même problème que .orga-parametre plus haut. */
 .orga-detachement-faction select,
 .orga-detachement-legion select,
 .orga-detachement-maisonnee select,
 .orga-detachement-doctrine select {
   margin-left: 0.4rem;
   padding: 0.2rem 0.4rem;
+  max-width: 100%;
+  vertical-align: middle;
 }
 
 /* ---------- Cases d'un détachement ---------- */
