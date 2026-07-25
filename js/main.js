@@ -428,28 +428,30 @@ function activerClinDoeilErebus() {
 
 /* ----------------------------------------------------------
    CLIN D'ŒIL — Nuit Éternelle (Konrad Curze)
-   Taper "night" au clavier (accents/majuscules ignorés, n'importe où
-   sur le site) bascule un thème sombre en hommage au Night Haunter et
-   à sa philosophie de la peur comme outil de contrôle. Purement
+   Taper "night lord" au clavier (accents/majuscules ignorés, n'importe
+   où sur le site) bascule un thème sombre en hommage aux Night Lords et
+   à leur philosophie de la peur comme outil de contrôle. Purement
    décoratif — une seule classe sur <body> ; la palette est entièrement
    gérée par CSS (voir "Nuit Éternelle" dans css/style.css).
-   Buffer des 5 dernières touches tapées (comme un code Konami),
-   ignoré tant que le focus est dans un champ de saisie (input,
-   textarea, contenteditable) pour ne pas basculer le thème pendant
-   qu'on tape "night" dans une barre de recherche par coïncidence.
+   Buffer des N dernières touches tapées (comme un code Konami), ignoré
+   tant que le focus est dans un champ de saisie (input, textarea,
+   contenteditable) pour ne pas basculer le thème pendant qu'on tape
+   "night lord" dans une barre de recherche par coïncidence.
    Remis à zéro après un basculement pour ne pas re-basculer en boucle
-   si l'utilisateur laisse "night" au clavier (ex : "nightnight").
-   État persisté dans localStorage (même mécanisme que
-   "hh-armee-organigramme" plus bas) pour survivre à un rafraîchissement
-   de page et rester actif d'une page du site à l'autre.
+   si l'utilisateur laisse la séquence au clavier.
+   État persisté dans sessionStorage (pas localStorage : contrairement à
+   "hh-armee-organigramme" plus bas, ce thème doit survivre à un
+   rafraîchissement/changement de page MAIS s'arrêter à la fermeture du
+   site — sessionStorage est vidé par le navigateur à la fermeture de
+   l'onglet/fenêtre, exactement ce qu'il faut ici).
    ---------------------------------------------------------- */
 function activerNuitEternelle() {
   const CLE_STOCKAGE = "hh-nuit-eternelle";
-  const SEQUENCE = ["n", "i", "g", "h", "t"];
+  const SEQUENCE = "night lord".split("");
   let buffer = [];
 
   try {
-    if (localStorage.getItem(CLE_STOCKAGE) === "1") {
+    if (sessionStorage.getItem(CLE_STOCKAGE) === "1") {
       document.body.classList.add("nuit-eternelle");
     }
   } catch {
@@ -465,7 +467,7 @@ function activerNuitEternelle() {
         cible.tagName === "TEXTAREA" ||
         cible.isContentEditable);
     // e.key.length === 1 ne garde que les caractères imprimables
-    // (rejette Shift, Tab, Escape, flèches...).
+    // (rejette Shift, Tab, Escape, flèches...) — inclut l'espace.
     if (dansChampDeSaisie || evenement.key.length !== 1) return;
 
     buffer.push(evenement.key.toLowerCase());
@@ -474,7 +476,7 @@ function activerNuitEternelle() {
     if (buffer.join("") === SEQUENCE.join("")) {
       const actif = document.body.classList.toggle("nuit-eternelle");
       try {
-        localStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
+        sessionStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
       } catch {
         // stockage indisponible : le basculement reste effectif pour
         // cette page, juste pas mémorisé.

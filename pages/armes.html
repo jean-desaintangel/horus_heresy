@@ -48,7 +48,7 @@
       // déclenche la transition CSS de body.nuit-eternelle (le dégradé
       // blanc vers noir) à chaque changement de page.
       try {
-        if (localStorage.getItem("hh-nuit-eternelle") === "1") {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
           document.body.classList.add("nuit-eternelle");
         }
       } catch {}

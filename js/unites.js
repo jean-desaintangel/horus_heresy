@@ -2748,13 +2748,13 @@ async function genererPDF() {
       doc.addImage(
         tamponDataUrl,
         proprietesTampon.fileType || "PNG",
-        pageW - MARGE - TAILLE_TAMPON - 20,
-        MARGE + 30,
+        pageW - MARGE - TAILLE_TAMPON - 45,
+        MARGE + 40,
         TAILLE_TAMPON,
         TAILLE_TAMPON,
         undefined,
         undefined,
-        -18,
+        -45,
       );
       doc.restoreGraphicsState();
     } catch {
