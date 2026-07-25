@@ -108,22 +108,22 @@ Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci
 
 La page `pages/contact.html` permet aux visiteurs de signaler une erreur ou de proposer une amélioration. Le site étant **statique** (GitHub Pages, aucun serveur PHP), l'envoi du mail est délégué à [Formspree](https://formspree.io).
 
-## Contribuer / s'approprier le code
+## Contribuer
 
 Les contributions sont bienvenues : correction d'une valeur de jeu, faute d'orthographe, nouvelle unité dans le configurateur, amélioration d'accessibilité…
 
-1. **Forkez** le dépôt (bouton _Fork_ en haut de la page GitHub).
+1. **Forkez** le dépôt (bouton _Fork_ en haut de la page GitHub) — étape technique imposée par le workflow de Pull Request de GitHub.
 2. Créez une branche : `git checkout -b correction-profil-praetor`.
 3. Faites vos modifications (les fichiers `js/*-data.js` sont le point d'entrée le plus fréquent).
 4. Ouvrez une **Pull Request** en décrivant le changement et, pour une valeur de jeu, la **page du livre** qui fait référence.
 
-Vous voulez adapter le site pour une autre communauté (autre langue, autre système de jeu) ? Forkez et faites-vous plaisir — c'est prévu pour.
+Voir [CONTRIBUTING.md](CONTRIBUTING.md) pour le détail.
 
 ## Licence
 
-Le **code** (HTML, CSS, JS) est sous licence **[MIT](LICENSE)** : vous pouvez le copier, le modifier et le redistribuer librement, y compris commercialement, à condition de conserver la mention de copyright. C'est la licence la plus simple et la plus permissive pour encourager les forks.
+Ce code est publié **à titre de démonstration et de consultation uniquement** — voir [LICENSE](LICENSE). Aucune licence libre ou open source n'est accordée : sauf autorisation écrite préalable de l'auteur, copier, redistribuer ou réutiliser tout ou partie de ce dépôt (code, données de jeu transcrites, assets) dans un autre projet est interdit. Consulter le code, signaler un bug ou proposer une correction via Pull Request reste bien sûr bienvenu.
 
-⚠️ **La licence MIT ne couvre que le code.** Les noms, l'univers et les valeurs de jeu de _Warhammer : The Horus Heresy_ restent la propriété intellectuelle de **Games Workshop Ltd**. Les documents du dossier `assets/documents/` conservent la licence de leurs auteurs respectifs.
+⚠️ Par ailleurs, les noms, l'univers et les valeurs de jeu de _Warhammer : The Horus Heresy_ restent la propriété intellectuelle de **Games Workshop Ltd**. Les documents du dossier `assets/documents/` conservent la licence de leurs auteurs respectifs.
 
 ## Contact / crédits
 

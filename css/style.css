@@ -3170,11 +3170,7 @@ body.skin-legion-solar-vindictaires-sparatoi {
    clavier. Recolore les mêmes variables de rôle que les Skins de
    Légion ci-dessus (--fond, --texte, --carte...) plutôt que d'ajouter
    des propriétés en dur composant par composant : tout le site (nav,
-   cartes, organigramme...) suit sans règle supplémentaire.
-   La brume rampante est deux calques décoratifs superposés (::before/
-   ::after, plein écran, pointer-events: none, détail juste en dessous)
-   sous la nav (z-index 1000) et la modale (1500) pour ne jamais gêner
-   l'interaction. */
+   cartes, organigramme...) suit sans règle supplémentaire. */
 body.nuit-eternelle {
   --fond: #08080a;
   --fond-secondaire: #101014;
@@ -3197,98 +3193,6 @@ body.nuit-eternelle {
   transition:
     background-color 1s ease,
     color 1s ease;
-}
-
-/* Deux calques de brume superposés (::before/::after), tailles et
-   vitesses différentes : évite l'effet "une seule tache qui respire"
-   d'un calque unique et donne une vraie impression de profondeur/
-   dérive. mix-blend-mode: screen éclaircit le fond noir sous chaque
-   volute (comme de la fumée réelle éclairée par-derrière) au lieu de
-   simplement poser un dégradé gris plat dessus ; le flou important
-   (40-60px) fond les bords en volutes plutôt qu'en ellipses nettes. */
-body.nuit-eternelle::before,
-body.nuit-eternelle::after {
-  content: "";
-  position: fixed;
-  inset: -20%;
-  z-index: 1;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-body.nuit-eternelle::before {
-  background:
-    radial-gradient(
-      ellipse 45% 30% at 15% 25%,
-      rgba(190, 190, 210, 0.5) 0%,
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 40% 28% at 80% 15%,
-      rgba(190, 190, 210, 0.4) 0%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 50% 32% at 70% 85%,
-      rgba(190, 190, 210, 0.45) 0%,
-      transparent 65%
-    );
-  filter: blur(45px);
-  animation: brume-rampante-1 32s ease-in-out infinite alternate;
-}
-
-body.nuit-eternelle::after {
-  background:
-    radial-gradient(
-      ellipse 55% 35% at 30% 90%,
-      rgba(170, 175, 200, 0.42) 0%,
-      transparent 68%
-    ),
-    radial-gradient(
-      ellipse 42% 30% at 90% 60%,
-      rgba(170, 175, 200, 0.38) 0%,
-      transparent 64%
-    );
-  filter: blur(60px);
-  animation: brume-rampante-2 44s ease-in-out infinite alternate;
-}
-
-@keyframes brume-rampante-1 {
-  0% {
-    opacity: 0.55;
-    transform: translate(-6%, 3%) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(7%, -5%) scale(1.12);
-  }
-  100% {
-    opacity: 0.6;
-    transform: translate(-3%, 6%) scale(1.05);
-  }
-}
-
-@keyframes brume-rampante-2 {
-  0% {
-    opacity: 0.5;
-    transform: translate(5%, -4%) scale(1.04);
-  }
-  50% {
-    opacity: 0.9;
-    transform: translate(-8%, 5%) scale(1.1);
-  }
-  100% {
-    opacity: 0.55;
-    transform: translate(4%, -6%) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body.nuit-eternelle::before,
-  body.nuit-eternelle::after {
-    animation: none;
-    opacity: 0.65;
-  }
 }
 
 /* ---------- Jauge de points + compteurs ---------- */

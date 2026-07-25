@@ -431,9 +431,8 @@ function activerClinDoeilErebus() {
    Taper "night" au clavier (accents/majuscules ignorés, n'importe où
    sur le site) bascule un thème sombre en hommage au Night Haunter et
    à sa philosophie de la peur comme outil de contrôle. Purement
-   décoratif — une seule classe sur <body> ; la palette et la brume
-   rampante sont entièrement gérées par CSS (voir "Nuit Éternelle" dans
-   css/style.css).
+   décoratif — une seule classe sur <body> ; la palette est entièrement
+   gérée par CSS (voir "Nuit Éternelle" dans css/style.css).
    Buffer des 5 dernières touches tapées (comme un code Konami),
    ignoré tant que le focus est dans un champ de saisie (input,
    textarea, contenteditable) pour ne pas basculer le thème pendant
