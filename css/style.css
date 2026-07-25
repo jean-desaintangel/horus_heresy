@@ -3979,6 +3979,130 @@ body.nuit-eternelle .orga-case-unite a {
    ============================================================ */
 
 /* ============================================================
+   ARCHIVES SOUS SCELLEMENT (clin d'œil — voir activerArchivesScellees
+   et afficherMessageArchives dans js/main.js)
+   Habillage "terminal" : fond noir, texte vert phosphorescent,
+   scanlines + léger tremblement pour évoquer un vieux moniteur qui
+   grésille en affichant un message classifié.
+   z-index: 1800, au-dessus de .table-flottante (1500) et de .nav
+   (1000), sous .lien-evitement (2000, qui n'apparaît qu'au focus).
+   ============================================================ */
+.archives-fond {
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.archives-terminal {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  padding: 1.75rem 1.5rem;
+  border: 2px solid #00ff66;
+  border-radius: 4px;
+  background: #020403;
+  color: #00ff66;
+  font-family: "Courier New", ui-monospace, monospace;
+  text-shadow: 0 0 4px rgba(0, 255, 102, 0.8);
+  box-shadow:
+    0 0 30px rgba(0, 255, 102, 0.35),
+    inset 0 0 40px rgba(0, 255, 102, 0.08);
+  overflow: hidden;
+  animation: archives-tremblement 0.15s steps(2) infinite;
+}
+
+/* Scanlines : bandes horizontales fines, superposées au texte. */
+.archives-terminal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 102, 0.07) 0,
+    rgba(0, 255, 102, 0.07) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Bruit/grésillement : opacité clignotante par à-coups (steps). */
+.archives-terminal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 255, 102, 0.05) 0,
+    transparent 2px
+  );
+  animation: archives-bruit 0.5s steps(4) infinite;
+  pointer-events: none;
+}
+
+.archives-titre {
+  margin: 0 0 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00ff66;
+}
+
+.archives-texte {
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.archives-fermer {
+  display: block;
+  margin-left: auto;
+  padding: 0.4rem 1rem;
+  border: 1px solid #00ff66;
+  border-radius: 2px;
+  background: transparent;
+  color: #00ff66;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.archives-fermer:hover,
+.archives-fermer:focus-visible {
+  background: rgba(0, 255, 102, 0.15);
+}
+
+@keyframes archives-tremblement {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0.5px, -0.5px);
+  }
+  100% {
+    transform: translate(-0.5px, 0.5px);
+  }
+}
+
+@keyframes archives-bruit {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* ============================================================
    MOUVEMENT RÉDUIT (prefers-reduced-motion)
    Certaines personnes déclenchent nausées, vertiges ou migraines à la
    vue d'une animation ; d'autres perdent simplement le fil. Le système

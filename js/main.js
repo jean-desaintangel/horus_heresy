@@ -428,7 +428,7 @@ function activerClinDoeilErebus() {
 
 /* ----------------------------------------------------------
    CLIN D'ŒIL — Nuit Éternelle (Konrad Curze)
-   Taper "night lord" au clavier (accents/majuscules ignorés, n'importe
+   Taper "night lords" au clavier (accents/majuscules ignorés, n'importe
    où sur le site) bascule un thème sombre en hommage aux Night Lords et
    à leur philosophie de la peur comme outil de contrôle. Purement
    décoratif — une seule classe sur <body> ; la palette est entièrement
@@ -436,7 +436,7 @@ function activerClinDoeilErebus() {
    Buffer des N dernières touches tapées (comme un code Konami), ignoré
    tant que le focus est dans un champ de saisie (input, textarea,
    contenteditable) pour ne pas basculer le thème pendant qu'on tape
-   "night lord" dans une barre de recherche par coïncidence.
+   "night lords" dans une barre de recherche par coïncidence.
    Remis à zéro après un basculement pour ne pas re-basculer en boucle
    si l'utilisateur laisse la séquence au clavier.
    État persisté dans sessionStorage (pas localStorage : contrairement à
@@ -447,7 +447,7 @@ function activerClinDoeilErebus() {
    ---------------------------------------------------------- */
 function activerNuitEternelle() {
   const CLE_STOCKAGE = "hh-nuit-eternelle";
-  const SEQUENCE = "night lord".split("");
+  const SEQUENCE = "night lords".split("");
   let buffer = [];
 
   try {
@@ -484,6 +484,123 @@ function activerNuitEternelle() {
       buffer = [];
     }
   });
+}
+
+/* ----------------------------------------------------------
+   CLIN D'ŒIL — Archives sous scellement
+   Visiter tour.html, puis mouvement.html, puis tir.html, dans cet
+   ordre précis, affiche un message classifié dans une pop-up façon
+   terminal qui grésille (voir "ARCHIVES SOUS SCELLEMENT" dans
+   css/style.css). D'autres pages peuvent être visitées ENTRE les
+   trois (seules elles comptent pour la progression, le reste de la
+   navigation est ignoré) ; revisiter l'une des trois hors de son tour
+   (ex : mouvement.html deux fois de suite) remet la progression à
+   zéro — sauf tour.html, qui (re)démarre toujours une séquence.
+   Progression mémorisée dans sessionStorage, comme
+   activerNuitEternelle ci-dessus et pour la même raison : elle ne
+   doit pas se terminer dans un autre onglet, ni survivre à la
+   fermeture du site.
+   ---------------------------------------------------------- */
+const SEQUENCE_ARCHIVES = ["tour.html", "mouvement.html", "tir.html"];
+
+function activerArchivesScellees() {
+  const CLE_STOCKAGE = "hh-etape-archives";
+  const page = location.pathname.split("/").pop();
+  const indexPage = SEQUENCE_ARCHIVES.indexOf(page);
+  if (indexPage === -1) return; // page hors séquence : n'affecte pas la progression
+
+  let etape = 0;
+  try {
+    etape = parseInt(sessionStorage.getItem(CLE_STOCKAGE), 10) || 0;
+  } catch {
+    // stockage indisponible : la progression ne peut simplement pas
+    // survivre au changement de page, la séquence reste injouable.
+  }
+
+  if (indexPage === 0) {
+    etape = 1; // tour.html (re)démarre toujours la séquence
+  } else if (indexPage === etape) {
+    etape += 1; // page suivante attendue : la séquence progresse
+  } else {
+    etape = 0; // mauvais ordre : on repart de zéro
+  }
+
+  if (etape === SEQUENCE_ARCHIVES.length) {
+    afficherMessageArchives();
+    etape = 0; // rejouable
+  }
+
+  try {
+    sessionStorage.setItem(CLE_STOCKAGE, String(etape));
+  } catch {
+    // stockage indisponible : rien à mémoriser d'une page à l'autre.
+  }
+}
+
+/**
+ * Pop-up "terminal" affichant le message des Archives sous scellement.
+ * `inert` sur tous les autres enfants de <body> le temps de l'affichage
+ * (même mécanisme que `grid.inert` dans la modale de portraits de
+ * pages/choix-legion.html) plutôt qu'un piège de focus manuel : promet
+ * qu'aucun contrôle caché derrière le voile noir ne reste focalisable
+ * (WCAG 2.4.3 / RGAA 12.8). Le focus revient ensuite à l'élément qui
+ * avait le focus avant l'ouverture.
+ */
+function afficherMessageArchives() {
+  const declencheur = document.activeElement;
+  const enfantsBody = Array.from(document.body.children);
+
+  const fond = el("div", "archives-fond");
+  const terminal = el("div", "archives-terminal");
+  terminal.setAttribute("role", "alertdialog");
+  terminal.setAttribute("aria-modal", "true");
+  terminal.tabIndex = -1;
+
+  const titre = el(
+    "h2",
+    "archives-titre",
+    "Archives sous scellement de l’Empereur",
+  );
+  titre.id = "archives-titre";
+  terminal.setAttribute("aria-labelledby", titre.id);
+
+  const texte = el(
+    "p",
+    "archives-texte",
+    "Transmettre ce code à l’Administratum : Hydra Dominatus.",
+  );
+
+  const boutonFermer = document.createElement("button");
+  boutonFermer.type = "button";
+  boutonFermer.className = "archives-fermer";
+  boutonFermer.textContent = "Fermer";
+
+  function fermer() {
+    fond.remove();
+    enfantsBody.forEach((enfant) => {
+      enfant.inert = false;
+    });
+    document.removeEventListener("keydown", surEchap);
+    if (declencheur && document.contains(declencheur)) declencheur.focus();
+  }
+
+  function surEchap(evenement) {
+    if (evenement.key === "Escape") fermer();
+  }
+
+  boutonFermer.addEventListener("click", fermer);
+  fond.addEventListener("click", (evenement) => {
+    if (evenement.target === fond) fermer();
+  });
+  document.addEventListener("keydown", surEchap);
+
+  terminal.append(titre, texte, boutonFermer);
+  fond.appendChild(terminal);
+  enfantsBody.forEach((enfant) => {
+    enfant.inert = true;
+  });
+  document.body.appendChild(fond);
+  terminal.focus();
 }
 
 /* ----------------------------------------------------------
@@ -1136,6 +1253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activerClinDoeilErebus();
   activerNuitEternelle();
+  activerArchivesScellees();
 
   /* ----------------------------------------------------------
      ACCESSIBILITÉ — fermeture des info-bulles au clavier (WCAG 1.4.13)
