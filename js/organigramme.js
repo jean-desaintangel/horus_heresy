@@ -99,25 +99,12 @@ const Organigramme = (() => {
     ["mendicus", "Questoris Mendicus"],
   ];
 
-  // Doctrines de Cohorte (livre d'armée Solar Auxilia, Liber Auxilia
-  // p. 11-16) : un unique choix par Armée Solar Auxilia, rendu
+  // Doctrines de Cohorte : voir DOCTRINES_DE_COHORTE, js/organigramme-
+  // data.js (constante globale, chargée avant ce fichier) — rendu
   // obligatoire dans l'outil avant de pouvoir ajouter des Unités
   // (demande du proprio) — voir le verrou dans actualiserVerrouLegion
   // (js/unites.js), même principe que la Légion/Maisonnée pour les
-  // autres Factions. Sans effet sur l'accessibilité d'une Unité en
-  // particulier (aucun champ Unité ne filtre sur une Doctrine précise)
-  // — texte de Règle Spéciale (Tactica de Cohorte + Détachements
-  // Additionnels) documenté dans js/regles-data.js plutôt que reproduit
-  // ici (voir sélecteur "Doctrine
-  // de Cohorte" dans construireParametres).
-  const DOCTRINES_DE_COHORTE = [
-    ["ultima", "Cohorte Ultima"],
-    ["solaire", "Cohorte Solaire"],
-    ["reconnaissance", "Cohorte de Reconnaissance"],
-    ["mecanisee", "Cohorte Mécanisée"],
-    ["siege", "Cohorte de Siège"],
-    ["fer", "Cohorte de Fer"],
-  ];
+  // autres Factions.
 
   /* Skins thématiques (page unites.html) : quand une Légion listée ici
      est choisie, une classe est posée sur <body> (voir appliquerSkin
@@ -579,12 +566,21 @@ const Organigramme = (() => {
   // pour les unités : `factionLibre` dispense de la vérification,
   // sinon le type est réservé à `faction` (ou à factionCroisadeParDefaut()
   // si ce champ est absent, voir MODÈLE DE DONNÉES dans
-  // organigramme-data.js). Utilisé par construireAjoutDetachements() et
-  // suggestionPourRole().
+  // organigramme-data.js). `faction` prend le pas sur `factionLibre`
+  // quand les deux sont posés ensemble (ex : Tercio de Fer, Serre
+  // d'Automates, Maisnie Roturière) : ces Détachements restent MASQUÉS
+  // hors de leur propre Faction, `factionLibre` ne servant plus alors
+  // qu'à dispenser caseAccepte() de la vérification de Faction UNITÉ
+  // PAR UNITÉ sur leurs Cases (Unités Mechanicum/Solar Auxilia admises
+  // malgré la Faction Chevaliers Questoris/Solar Auxilia du
+  // Détachement) — à la différence des `factionLibre` sans `faction`
+  // ci-dessous (Seigneur des Batailles, Détachement Allié, Détachement
+  // Narratif, Appui Lourd), volontairement proposés dans TOUTE Faction.
+  // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
+    if (type.faction) return type.faction === etat.faction;
     return (
-      type.factionLibre ||
-      (type.faction || factionCroisadeParDefaut()) === etat.faction
+      type.factionLibre || factionCroisadeParDefaut() === etat.faction
     );
   }
 
@@ -817,6 +813,21 @@ const Organigramme = (() => {
     return null;
   }
 
+  /* Trait accordé par le Détachement Auxiliaire occupé par cette
+     instance (ex : Tercio Véletaris → Trait « Tercio Véletaris » pour
+     toutes les Figurines des Unités placées dans ce Détachement, Liber
+     Auxilia p.18-19), null si le Détachement occupé n'en accorde aucun
+     ou si l'unité n'occupe aucune Case. Consommé par js/unites.js pour
+     compléter la ligne « Traits » de la fiche récap. */
+  function traitDetachementDe(uniteUid) {
+    for (const det of etat.detachements) {
+      if (!det.cases.some((c) => c.uniteUid === uniteUid)) continue;
+      const type = typeDe(det);
+      return (type && type.traitAccorde) || null;
+    }
+    return null;
+  }
+
   /* Place une unité dans une case (en la retirant de son ancienne
      case s'il y en a une). Si la case est une Case Principale
      d'État-major et que l'unité est de Quartier Général, l'avantage
@@ -1003,6 +1014,21 @@ const Organigramme = (() => {
           "Réservé au Rite de Guerre « " +
           (rite ? rite.nom : type.requiertRiteDeGuerre) +
           " » (menu « Rite de Guerre » des paramètres de la partie).",
+      };
+    }
+    if (
+      type.requiertDoctrineCohorte &&
+      etat.doctrineCohorte !== type.requiertDoctrineCohorte
+    ) {
+      const doctrine = DOCTRINES_DE_COHORTE.find(
+        ([v]) => v === type.requiertDoctrineCohorte,
+      );
+      return {
+        possible: false,
+        raison:
+          "Réservé à la Doctrine de Cohorte « " +
+          (doctrine ? doctrine[1] : type.requiertDoctrineCohorte) +
+          " » (menu « Doctrine de Cohorte » des paramètres de la partie).",
       };
     }
     if (type.pointsMin && etat.limite < type.pointsMin) {
@@ -1342,6 +1368,28 @@ const Organigramme = (() => {
             " ».",
         );
       }
+      // Doctrine de Cohorte choisie dans les paramètres de la partie
+      // (menu « Doctrine de Cohorte », Faction Solar Auxilia
+      // uniquement) : un changement de Doctrine après coup rend le
+      // Détachement déjà présent invalide, comme pour le Rite de
+      // Guerre ci-dessus (ex : Tercio de Fer, réservé à la Doctrine de
+      // Cohorte de Fer).
+      if (
+        type.requiertDoctrineCohorte &&
+        etat.detachements.some((d) => d.typeId === type.id) &&
+        etat.doctrineCohorte !== type.requiertDoctrineCohorte
+      ) {
+        const doctrine = DOCTRINES_DE_COHORTE.find(
+          ([v]) => v === type.requiertDoctrineCohorte,
+        );
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » nécessite la Doctrine de Cohorte « " +
+            (doctrine ? doctrine[1] : type.requiertDoctrineCohorte) +
+            " ».",
+        );
+      }
       // Exclusion mutuelle entre deux types de Détachement (ex :
       // Confrérie du Phénix / Détachement de Seigneur de Guerre) :
       // signalée une seule fois par paire (type.id < autreId) pour
@@ -1556,6 +1604,14 @@ const Organigramme = (() => {
       } else if (avantage.renegat && etat.allegeance !== "renegat") {
         raison =
           "Réservé aux armées d'Allégeance Renégate (Légions Corrompues).";
+      } else if (
+        avantage.factionRequise &&
+        etat.faction !== avantage.factionRequise
+      ) {
+        const texteFaction =
+          (FACTIONS.find(([id]) => id === avantage.factionRequise) || [])[1] ||
+          avantage.factionRequise;
+        raison = "Réservé aux Armées de la Faction " + texteFaction + ".";
       } else if (
         avantage.unParDetachement &&
         caseOrga.avantage !== avantage.id &&
@@ -2229,7 +2285,7 @@ const Organigramme = (() => {
       }
       selectLegion.value = etat.legion;
       // Le choix d'une Légion se fait désormais via la galerie de
-      // portraits de pages/choix_legion.html plutôt que dans la liste
+      // portraits de pages/choix-legion.html plutôt que dans la liste
       // déroulante native : un mousedown intercepté empêche le menu de
       // s'ouvrir, et le clic (qui suit toujours le mousedown) redirige
       // vers cette page. Le retour (voir plus bas, lecture du paramètre
@@ -2238,12 +2294,12 @@ const Organigramme = (() => {
         e.preventDefault();
       });
       selectLegion.addEventListener("click", () => {
-        window.location.href = "choix_legion.html";
+        window.location.href = "choix-legion.html";
       });
       selectLegion.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          window.location.href = "choix_legion.html";
+          window.location.href = "choix-legion.html";
         }
       });
       selectLegion.addEventListener("change", () => {
@@ -2687,14 +2743,89 @@ const Organigramme = (() => {
     return ligne;
   }
 
+  /* Applique un changement de Légion Alliée sur `det` : retire les
+     unités désormais réservées à une autre Légion, nettoie les
+     Avantages d'Arsenal devenus invalides (Trait requis qui ne
+     correspond plus), et met à jour det.legionAlliee. Factorisé pour
+     être partagé par le menu déroulant ci-dessous (confirmation
+     demandée à l'utilisateur si des unités seraient perdues) et par le
+     retour depuis pages/choix-legion.html (`initialiser()`, API
+     PUBLIQUE plus bas) — le joueur y a déjà validé son choix
+     explicitement sur l'autre page, donc `confirmer: false`. Retourne
+     false si le changement a été annulé (confirmation refusée), true
+     sinon (y compris si `nouvelle` égale déjà det.legionAlliee).*/
+  function appliquerLegionAlliee(det, nouvelle, { confirmer } = {}) {
+    if (nouvelle === det.legionAlliee) return true;
+    const casesConcernees = det.cases.filter((c) => {
+      if (c.uniteUid === null) return false;
+      const occ = occupant(c);
+      return Boolean(occ && occ.unite.legion && occ.unite.legion !== nouvelle);
+    });
+    if (
+      confirmer &&
+      casesConcernees.length > 0 &&
+      !window.confirm(
+        "Changer la Légion Alliée retire " +
+          casesConcernees.length +
+          " unité(s) réservée(s) à l'ancienne Légion de ce Détachement. Continuer ?",
+      )
+    ) {
+      return false;
+    }
+    for (const c of casesConcernees) {
+      const uid = c.uniteUid;
+      liberer(uid);
+      hooks.retirerInstance(uid);
+    }
+    det.legionAlliee = nouvelle;
+    // Avantage d'Arsenal devenu invalide (unité générique dont le
+    // Trait « [Legiones Astartes] » comptait comme celui de l'ancienne
+    // Légion Alliée, voir avantagesPossibles) : retiré, sinon il
+    // resterait appliqué (bonus concret sur la fiche, js/unites.js)
+    // sans plus apparaître dans le menu déroulant « Avantage
+    // Principal » de sa Case. Une case ajoutée (`ajouteCase`) encore
+    // occupée n'est pas retirée pour ne pas perdre l'unité qui s'y
+    // trouve (même garde que changerAvantage) : l'Avantage reste alors
+    // affiché tel quel, à corriger manuellement.
+    for (const c of det.cases) {
+      if (c.avantage === "aucun") continue;
+      const avantageActuel = avantageParId(c.avantage);
+      if (!avantageActuel || !avantageActuel.traitRequis) continue;
+      const occCase = occupant(c);
+      if (occCase && occCase.unite.traits.includes(avantageActuel.traitRequis))
+        continue;
+      if (
+        SKINS_LEGION[nouvelle] &&
+        SKINS_LEGION[nouvelle].nom === avantageActuel.traitRequis
+      )
+        continue;
+      if (avantageActuel.ajouteCase) {
+        const extraIdx = det.cases.findIndex((x) => x.extra);
+        if (extraIdx !== -1 && det.cases[extraIdx].uniteUid !== null)
+          continue;
+        if (extraIdx !== -1) det.cases.splice(extraIdx, 1);
+      }
+      c.avantage = "aucun";
+    }
+    return true;
+  }
+
   /* Menu « Légion Alliée » d'une carte de Détachement Allié (p. 283 :
      Faction différente de celle du Détachement Principal). Suit
      exactement la logique du menu « Légion » des paramètres de la
-     partie (construireParametres) : seules les Légions ayant des
-     unités transcrites sont sélectionnables, et on y exclut en plus la
-     Légion de l'Armée elle-même. Changer la sélection retire du
-     détachement les unités réservées à l'ancienne Légion Alliée (les
-     unités génériques restent, elles ne dépendent d'aucune Légion). */
+     partie (construireParametres), y compris la redirection vers la
+     galerie de portraits de pages/choix-legion.html au lieu d'ouvrir la
+     liste déroulante native (un mousedown intercepté empêche le menu
+     de s'ouvrir) : l'index de `det` dans etat.detachements est passé en
+     paramètre `det` de l'URL (`cible=allie`) pour que le retour sache à
+     quel Détachement Allié appliquer le choix — voir la lecture de ces
+     paramètres dans initialiser() (API PUBLIQUE plus bas). Cet index
+     reste stable le temps de l'aller-retour : restaurerOrga() reforme
+     etat.detachements dans le même ordre que la sauvegarde, et rien
+     d'autre ne peut modifier cette Armée entre-temps (page différente,
+     même onglet). Seules les Légions ayant des unités transcrites sont
+     sélectionnables, et on y exclut en plus la Légion de l'Armée
+     elle-même. */
   function construireSelectLegionAlliee(det) {
     const ligne = el("p", "orga-detachement-legion");
     const label = el("label", null, "Légion Alliée ");
@@ -2720,64 +2851,28 @@ const Organigramme = (() => {
       opt.disabled = !disponible;
     }
     select.value = det.legionAlliee || "";
+    const versGalerie = () => {
+      window.location.href =
+        "choix-legion.html?cible=allie&det=" + etat.detachements.indexOf(det);
+    };
+    select.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+    });
+    select.addEventListener("click", versGalerie);
+    select.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        versGalerie();
+      }
+    });
+    // Filet de sécurité (comme selectLegion dans construireParametres) :
+    // si le menu s'ouvre malgré tout (mousedown non intercepté par le
+    // navigateur/l'OS) et qu'une valeur y est choisie directement, on
+    // l'applique quand même plutôt que de la laisser sans effet.
     select.addEventListener("change", () => {
-      const nouvelle = select.value;
-      if (nouvelle === det.legionAlliee) return;
-      const casesConcernees = det.cases.filter((c) => {
-        if (c.uniteUid === null) return false;
-        const occ = occupant(c);
-        return Boolean(
-          occ && occ.unite.legion && occ.unite.legion !== nouvelle,
-        );
-      });
-      if (
-        casesConcernees.length > 0 &&
-        !window.confirm(
-          "Changer la Légion Alliée retire " +
-            casesConcernees.length +
-            " unité(s) réservée(s) à l'ancienne Légion de ce Détachement. Continuer ?",
-        )
-      ) {
+      if (!appliquerLegionAlliee(det, select.value, { confirmer: true })) {
         select.value = det.legionAlliee || "";
         return;
-      }
-      for (const c of casesConcernees) {
-        const uid = c.uniteUid;
-        liberer(uid);
-        hooks.retirerInstance(uid);
-      }
-      det.legionAlliee = nouvelle;
-      // Avantage d'Arsenal devenu invalide (unité générique dont le
-      // Trait « [Legiones Astartes] » comptait comme celui de l'ancienne
-      // Légion Alliée, voir avantagesPossibles) : retiré, sinon il
-      // resterait appliqué (bonus concret sur la fiche, js/unites.js)
-      // sans plus apparaître dans le menu déroulant « Avantage
-      // Principal » de sa Case. Une case ajoutée (`ajouteCase`) encore
-      // occupée n'est pas retirée pour ne pas perdre l'unité qui s'y
-      // trouve (même garde que changerAvantage) : l'Avantage reste alors
-      // affiché tel quel, à corriger manuellement.
-      for (const c of det.cases) {
-        if (c.avantage === "aucun") continue;
-        const avantageActuel = avantageParId(c.avantage);
-        if (!avantageActuel || !avantageActuel.traitRequis) continue;
-        const occCase = occupant(c);
-        if (
-          occCase &&
-          occCase.unite.traits.includes(avantageActuel.traitRequis)
-        )
-          continue;
-        if (
-          SKINS_LEGION[nouvelle] &&
-          SKINS_LEGION[nouvelle].nom === avantageActuel.traitRequis
-        )
-          continue;
-        if (avantageActuel.ajouteCase) {
-          const extraIdx = det.cases.findIndex((x) => x.extra);
-          if (extraIdx !== -1 && det.cases[extraIdx].uniteUid !== null)
-            continue;
-          if (extraIdx !== -1) det.cases.splice(extraIdx, 1);
-        }
-        c.avantage = "aucun";
       }
       actualiser();
     });
@@ -3238,7 +3333,7 @@ const Organigramme = (() => {
     initialiser(hooksFournis) {
       hooks = hooksFournis;
       restaurerOrga();
-      // Retour depuis pages/choix_legion.html (paramètre ?legion=) :
+      // Retour depuis pages/choix-legion.html (paramètre ?legion=) :
       // pré-remplit directement l'état plutôt que de simuler un clic sur
       // le menu déroulant Légion. Pas de window.confirm ici (ce cas ne
       // survient qu'à l'arrivée sur la page, et le joueur vient de
@@ -3248,20 +3343,42 @@ const Organigramme = (() => {
       // reinitialiserArmeeAvecConfirmation mais sans confirmation. Le
       // paramètre est retiré de l'URL une fois appliqué, pour ne pas se
       // réappliquer à un rechargement ultérieur de la même page.
-      const legionDepuisUrl = new URLSearchParams(location.search).get(
-        "legion",
-      );
+      // `cible=allie&det=<indice>` (voir construireSelectLegionAlliee) :
+      // même origine, mais pour la Légion Alliée d'un seul Détachement
+      // Allié précis plutôt que pour la Légion de l'Armée entière —
+      // `indice` désigne sa position dans etat.detachements au moment du
+      // départ vers choix-legion.html, restaurerOrga() ci-dessus ayant
+      // reformé ce tableau dans le même ordre que la sauvegarde.
+      const paramsUrl = new URLSearchParams(location.search);
+      const legionDepuisUrl = paramsUrl.get("legion");
       if (legionDepuisUrl && LEGIONS.some(([v]) => v === legionDepuisUrl)) {
-        const changeReel =
-          etat.faction !== "legio-astartes" || etat.legion !== legionDepuisUrl;
-        etat.faction = "legio-astartes";
-        etat.legion = legionDepuisUrl;
-        const skinChoisi = SKINS_LEGION[etat.legion];
-        if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
-        if (changeReel) {
-          for (const instance of [...hooks.getArmee()])
-            hooks.retirerInstance(instance.uid);
-          etat.detachements = [creerDetachement(idDetachementPrincipal())];
+        if (paramsUrl.get("cible") === "allie") {
+          const detParam = paramsUrl.get("det");
+          const indice = detParam !== null ? Number(detParam) : NaN;
+          const det = Number.isInteger(indice)
+            ? etat.detachements[indice]
+            : undefined;
+          if (
+            det &&
+            typeDe(det).id === "allie" &&
+            det.factionAlliee === "legio-astartes" &&
+            legionDepuisUrl !== etat.legion
+          ) {
+            appliquerLegionAlliee(det, legionDepuisUrl, { confirmer: false });
+          }
+        } else {
+          const changeReel =
+            etat.faction !== "legio-astartes" ||
+            etat.legion !== legionDepuisUrl;
+          etat.faction = "legio-astartes";
+          etat.legion = legionDepuisUrl;
+          const skinChoisi = SKINS_LEGION[etat.legion];
+          if (skinChoisi) etat.allegeance = skinChoisi.allegeance;
+          if (changeReel) {
+            for (const instance of [...hooks.getArmee()])
+              hooks.retirerInstance(instance.uid);
+            etat.detachements = [creerDetachement(idDetachementPrincipal())];
+          }
         }
         history.replaceState(null, "", location.pathname + location.hash);
       }
@@ -3285,6 +3402,7 @@ const Organigramme = (() => {
     casesLibresPour,
     assignationDe,
     avantageDe,
+    traitDetachementDe,
     // Faction choisie dans les paramètres de la partie (id FACTIONS) :
     // consommée par js/unites.js (uniteAccessible) pour filtrer les
     // unités réservées à une Faction (champ `faction` dans
@@ -3386,6 +3504,13 @@ const Organigramme = (() => {
     // placement réel dans les AUTRES détachements de l'Armée).
     narratifPresent: () =>
       etat.detachements.some((d) => typeDe(d).id === "narratif"),
+    // Un Détachement de ce type (id de TYPES_DETACHEMENTS) est-il déjà
+    // présent dans l'Armée ? Généralisation ponctuelle de narratifPresent
+    // ci-dessus, consommée par uniteAccessible() (js/unites.js) pour le
+    // Tercio de Fer (Unités Mechanicum exceptionnellement proposables à
+    // une Armée Solar Auxilia tant que ce Détachement précis est présent).
+    detachementPresent: (typeId) =>
+      etat.detachements.some((d) => typeDe(d).id === typeId),
     // Ordre canonique des Factions (menu « Faction » des paramètres de
     // la partie, FACTIONS ci-dessus) : consommé par js/unites.js pour
     // regrouper, dans la liste « Unité à ajouter », les unités d'autres

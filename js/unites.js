@@ -49,8 +49,45 @@ let orgaPret = false;
 // Avantage a réellement changé, plutôt qu'à chaque interaction sur
 // N'IMPORTE QUELLE carte de l'Armée.
 const dernierAvantageParUid = new Map();
+// Même principe pour le Trait accordé par le Détachement Auxiliaire
+// occupé (ex : Tercio Véletaris) : voir actualiserSelectsCases.
+const dernierTraitDetachementParUid = new Map();
 
 const CLE_STOCKAGE = "hh-fiche-unites";
+
+// Détachements dont les Cases piochent, via `restrictions`, dans une
+// Liste d'Armée différente de la Faction de l'Armée (`factionLibre`,
+// voir js/organigramme-data.js) : Tercio de Fer (Solar Auxilia →
+// Mechanicum), Serre d'Automates et Maisnie Roturière (Chevaliers
+// Questoris → Mechanicum / Solar Auxilia). Leurs Unités resteraient
+// sinon bloquées par la vérification de Faction de uniteAccessible()
+// ci-dessous — voir uniteAccessibleParDetachementCroise.
+const DETACHEMENTS_CROISES = [
+  "tercio-de-fer",
+  "serre-automates",
+  "maisnie-roturiere",
+];
+
+// Cette Unité devient-elle accessible via l'un des DETACHEMENTS_CROISES
+// ci-dessus, présent dans l'Armée et dont les `restrictions` incluent
+// son id ? Ne suffit pas qu'un AUTRE Détachement croisé accepte cet id
+// par coïncidence : chaque Détachement est vérifié avec ses propres
+// `restrictions`, pas l'union de toutes.
+function uniteAccessibleParDetachementCroise(unite) {
+  if (!orgaPret || typeof Organigramme === "undefined") return false;
+  for (const typeId of DETACHEMENTS_CROISES) {
+    if (!Organigramme.detachementPresent(typeId)) continue;
+    const type = TYPES_DETACHEMENTS.find((t) => t.id === typeId);
+    if (!type || !type.restrictions) continue;
+    if (
+      Object.values(type.restrictions).some((liste) =>
+        liste.includes(unite.id),
+      )
+    )
+      return true;
+  }
+  return false;
+}
 
 // En-têtes du profil d'infanterie et du profil de véhicule.
 const ENTETES_PROFIL = [
@@ -211,6 +248,13 @@ function uniteAccessible(unite) {
     // « Faction Alliée » de sa carte, ex : Legio Astartes alliée à une
     // Armée Legio Titanicus) rend elle aussi accessibles les unités de
     // cette Faction-là, en plus de celle de l'Armée.
+    // Dernière exception : les Unités des DETACHEMENTS_CROISES ci-dessus
+    // (Tercio de Fer, Serre d'Automates, Maisnie Roturière) restent
+    // accessibles tant que le Détachement correspondant est présent
+    // dans l'Armée — factionLibre y dispense déjà caseAccepte() de la
+    // vérification de Faction pour le PLACEMENT (js/organigramme-
+    // data.js), il fallait la même exception ici pour que ces Unités
+    // apparaissent dans le sélecteur « Unité à ajouter ».
     const factionActuelle =
       orgaPret && typeof Organigramme !== "undefined"
         ? Organigramme.factionActuelle()
@@ -226,7 +270,8 @@ function uniteAccessible(unite) {
       !(
         unite.categorie === "Seigneurs des Batailles" &&
         factionUnite === "legio-titanicus"
-      )
+      ) &&
+      !uniteAccessibleParDetachementCroise(unite)
     )
       return false;
     if (unite.legion) {
@@ -1260,6 +1305,17 @@ function construireFiche(unite, instance) {
       trait !== "[Legiones Astartes]" &&
       trait !== "[Questoris Familia]",
   );
+  // Trait accordé par le Détachement Auxiliaire occupé (ex : Tercio
+  // Véletaris), le cas échéant — s'ajoute à ceux propres à l'unité sans
+  // les dupliquer (ex : l'Unité d'État-major qui débloque le Détachement
+  // porte déjà son Trait Tercio en dur dans unites-data.js).
+  const traitDetachement =
+    window.Organigramme && Organigramme.traitDetachementDe
+      ? Organigramme.traitDetachementDe(instance.uid)
+      : null;
+  if (traitDetachement && !traitsAffiches.includes(traitDetachement)) {
+    traitsAffiches.push(traitDetachement);
+  }
   if (traitsAffiches.length > 0) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
   }
@@ -1373,6 +1429,10 @@ function rafraichirFicheEtPoints(carte, unite, instance) {
     dernierAvantageParUid.set(
       instance.uid,
       window.Organigramme.avantageDe(instance.uid),
+    );
+    dernierTraitDetachementParUid.set(
+      instance.uid,
+      window.Organigramme.traitDetachementDe(instance.uid),
     );
   }
 }
@@ -1875,9 +1935,14 @@ function actualiserSelectsCases() {
     // serait un gâchis pur pour la quasi-totalité des unités, qui n'ont
     // rien à mettre à jour.
     const avantageActuel = Organigramme.avantageDe(instance.uid);
+    const traitDetachementActuel = Organigramme.traitDetachementDe(
+      instance.uid,
+    );
     if (
       configModifiee ||
-      dernierAvantageParUid.get(instance.uid) !== avantageActuel
+      dernierAvantageParUid.get(instance.uid) !== avantageActuel ||
+      dernierTraitDetachementParUid.get(instance.uid) !==
+        traitDetachementActuel
     ) {
       rafraichirFicheEtPoints(carte, unite, instance);
     }
@@ -2093,6 +2158,26 @@ function contenuRiteDeGuerreActuel() {
       Organigramme.riteActuel ? Organigramme.riteActuel() : ""
     ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()]
   );
+}
+
+// Contenu de la Doctrine de Cohorte choisie (Armée Solar Auxilia
+// uniquement, menu « Doctrine de Cohorte » des paramètres de la
+// partie) : Tactica de Cohorte + Détachements Additionnels condensés en
+// un seul texte par Doctrine (REGLES_DIVERSES, js/regles-data.js,
+// indexé par le nom de la Doctrine — voir DOCTRINES_DE_COHORTE,
+// js/organigramme-data.js), partagé par la page de garde PDF et Word —
+// même principe que contenuRiteDeGuerreActuel() ci-dessus pour les
+// Légions Legio Astartes. Retourne null si aucune Doctrine n'est
+// choisie, ou si son texte n'est pas (encore) dans REGLES_DIVERSES.
+function contenuDoctrineCohorteActuelle() {
+  const id = Organigramme.doctrineCohorteActuelle
+    ? Organigramme.doctrineCohorteActuelle()
+    : "";
+  if (!id) return null;
+  const doctrine = DOCTRINES_DE_COHORTE.find(([valeur]) => valeur === id);
+  if (!doctrine) return null;
+  const regle = REGLES_DIVERSES.find((r) => r.nom === doctrine[1]);
+  return regle ? { nom: doctrine[1], regle } : null;
 }
 
 // Désignation de Legiones Auxilia choisie (voir
@@ -2442,6 +2527,13 @@ async function genererPDF() {
     });
   }
 
+  const contenuDoctrine = contenuDoctrineCohorteActuelle();
+  if (contenuDoctrine) {
+    y += 4;
+    titreSection("Doctrine de Cohorte : " + contenuDoctrine.nom, 12);
+    paragraphe(contenuDoctrine.regle.texte, 9);
+  }
+
   const contenuDesignation = contenuDesignationAuxiliaActuelle();
   if (contenuDesignation) {
     y += 4;
@@ -2682,6 +2774,13 @@ async function genererWordHTML() {
             : "<p>" + echapperHTML(p.texte) + "</p>";
       }
     });
+  }
+
+  const contenuDoctrine = contenuDoctrineCohorteActuelle();
+  if (contenuDoctrine) {
+    corps +=
+      "<h2>Doctrine de Cohorte : " + echapperHTML(contenuDoctrine.nom) + "</h2>";
+    corps += "<p>" + echapperHTML(contenuDoctrine.regle.texte) + "</p>";
   }
 
   const contenuDesignation = contenuDesignationAuxiliaActuelle();

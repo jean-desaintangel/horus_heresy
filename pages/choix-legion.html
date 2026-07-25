@@ -717,12 +717,30 @@
       // Validation : redirige vers unites.html en pré-sélectionnant la
       // Légion choisie dans le menu déroulant « Choisir Légion »
       // (paramètre lu par js/organigramme.js, Organigramme.initialiser).
+      // Arrivée depuis le menu « Légion Alliée » d'un Détachement Allié
+      // (construireSelectLegionAlliee, js/organigramme.js) plutôt que du
+      // menu « Légion » principal des paramètres de la partie : cette
+      // page reçoit alors elle-même `?cible=allie&det=<indice>`, à
+      // reporter tel quel sur l'URL de retour pour que unites.html sache
+      // appliquer le choix à ce Détachement Allié précis, pas à la
+      // Légion de l'Armée entière.
+      const paramsArrivee = new URLSearchParams(location.search);
+      const cibleArrivee = paramsArrivee.get("cible");
+      const detArrivee = paramsArrivee.get("det");
       confirmChoice.addEventListener("click", () => {
         if (!selectedPrimarch) return;
         if (selectedPrimarch.expurged) return;
         if (!selectedPrimarch.legionId) return;
-        window.location.href =
+        let url =
           "unites.html?legion=" + encodeURIComponent(selectedPrimarch.legionId);
+        if (cibleArrivee === "allie" && detArrivee !== null) {
+          url +=
+            "&cible=" +
+            encodeURIComponent(cibleArrivee) +
+            "&det=" +
+            encodeURIComponent(detArrivee);
+        }
+        window.location.href = url;
       });
 
       // --- EASTER EGG : taper "chaos" -> 4 démons ---

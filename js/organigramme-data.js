@@ -69,17 +69,28 @@
                  construireAjoutDetachements() et suggestionPourRole()
                  dans js/organigramme.js.
      factionLibre : true — dispense ce type de la vérification de
-                 Faction ci-dessus (accepte des unités de n'importe
-                 quelle Faction, et reste proposé quelle que soit la
-                 Faction choisie) : Détachement de Seigneur des
-                 Batailles (« un Titan Legio Titanicus peut prendre
-                 place dans un Détachement de Seigneur des Batailles
-                 d'une Armée d'une autre Faction », livre d'armée Legio
-                 Titanicus) et Détachement Allié — ce dernier porte en
-                 réalité sa propre Faction (`factionAlliee` sur
-                 l'instance, menu « Faction Alliée » de sa carte, voir
-                 js/organigramme.js) : caseAccepte() la vérifie
-                 précisément malgré `factionLibre` ici.
+                 Faction faite par caseAccepte() (accepte des unités de
+                 n'importe quelle Faction sur ses Cases) : Détachement
+                 de Seigneur des Batailles (« un Titan Legio Titanicus
+                 peut prendre place dans un Détachement de Seigneur des
+                 Batailles d'une Armée d'une autre Faction », livre
+                 d'armée Legio Titanicus) et Détachement Allié — ce
+                 dernier porte en réalité sa propre Faction
+                 (`factionAlliee` sur l'instance, menu « Faction
+                 Alliée » de sa carte, voir js/organigramme.js) :
+                 caseAccepte() la vérifie précisément malgré
+                 `factionLibre` ici. SANS `faction` posé à côté, ce
+                 Détachement reste aussi proposé quelle que soit la
+                 Faction choisie (typeDisponiblePourFaction() dans js/
+                 organigramme.js) — Seigneur des Batailles, Détachement
+                 Allié, Détachement Narratif, Appui Lourd. AVEC `faction`
+                 posé à côté (ex : Tercio de Fer, Serre d'Automates,
+                 Maisnie Roturière), `faction` reprend la main sur la
+                 visibilité : le Détachement reste MASQUÉ hors de sa
+                 propre Faction, `factionLibre` ne dispensant plus que
+                 caseAccepte() — utile quand seules les CASES doivent
+                 accepter une autre Liste d'Armée (Unités Mechanicum/
+                 Solar Auxilia), pas le Détachement lui-même.
      requiertAllegeance : "loyaliste" | "renegat" — condition de
                  composition sur l'Armée entière (etat.allegeance,
                  menu Allégeance des paramètres de la partie), grisée
@@ -106,6 +117,13 @@
                  uniquement pour une Légion qui figure dans
                  RITES_DE_GUERRE) — même mécanique de déblocage/
                  grisage que `requiertAllegeance`.
+     requiertDoctrineCohorte : id de DOCTRINES_DE_COHORTE qui doit être
+                 choisi dans les paramètres de la partie (menu
+                 « Doctrine de Cohorte », Faction Solar Auxilia
+                 uniquement) — même mécanique de déblocage/grisage que
+                 `requiertAllegeance` (ex : Tercio de Fer, débloqué par
+                 la Doctrine de Cohorte de Fer sans Case d'État-major à
+                 occuper, contrairement aux 5 autres Tercios).
      excluAvec : [ids de TYPES_DETACHEMENTS] — indisponible tant qu'un
                  Détachement de l'un de ces types est déjà présent
                  dans l'Armée (même mécanique que le champ `excluAvec`
@@ -523,23 +541,35 @@ const TYPES_DETACHEMENTS = [
   /* Serre d'Automates et Maisnie Roturière puisent respectivement dans
      la Liste d'Armée du Liber Mechanicum (Manipules de Combat Domitar/
      Castellax, Manipule d'Attaque Vorax, Escadron de Stratos Vultarax)
-     et dans celles des Solar Auxilia/Imperialis Militia (Liber Auxilia)
-     — aucune de ces trois Listes d'Armée n'est transcrite sur ce site
-     (voir FACTIONS, js/organigramme.js : Solar Auxilia/Mechanicum
-     restent grisées). Structure posée pour mémoire, mais grisée via
-     `indisponible` plutôt que proposée sans aucune Unité sélectionnable
-     (mêmes choix que pour toute Faction/Détachement hors Legiones
-     Astartes et Legio Titanicus, voir MODÈLE DE DONNÉES). */
+     et dans celle des Solar Auxilia (Liber Auxilia) — désormais toutes
+     deux transcrites sur ce site (la Faction "chevaliers-questoris"
+     elle-même reste la seule jouable dans les paramètres de la
+     partie). Même mécanique que Tercio de Fer plus haut (voir sa note,
+     js/organigramme-data.js) : `factionLibre` dispense caseAccepte()
+     (js/organigramme.js) de la vérification de Faction, les
+     `restrictions` ci-dessous restant seules juges des Unités
+     acceptées par Case, et uniteAccessible() (js/unites.js,
+     DETACHEMENTS_CROISES) rend ces mêmes Unités sélectionnables dans le
+     menu « Unité à ajouter » tant que le Détachement correspondant est
+     présent. Imperialis Militia (mentionnée par le livre en plus des
+     Solar Auxilia pour Maisnie Roturière) reste elle non transcrite sur
+     ce site — gap documenté, sans bloquer le Détachement puisque les
+     Solar Auxilia seules couvrent déjà ses 3 Rôles Tactiques. */
   {
     id: "serre-automates",
     nom: "Serre d'Automates",
     famille: "additionnel",
     faction: "chevaliers-questoris",
+    factionLibre: true,
     requiertAvantage: "precepteur",
-    indisponible:
-      "Réservé aux Manipules de Combat Domitar/Castellax, Manipule d'Attaque Vorax et Escadron de Stratos Vultarax (Liber Mechanicum), non transcrits sur ce site.",
     texte:
       "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Précepteur. 1 Case Élite (Manipule Domitar), 1 Case Appui (Manipule Castellax), 1 Case Reco (Manipule Vorax), 1 Case Attaque Rapide (Escadron Stratos Vultarax) — toutes issues du Liber Mechanicum.",
+    restrictions: {
+      Elite: ["mech-combat-domitar"],
+      Appui: ["mech-combat-castellax"],
+      Reco: ["mech-attaque-vorax"],
+      "Attaque Rapide": ["mech-stratos-vultarax"],
+    },
     cases: [
       _caseOrga("Elite"),
       _caseOrga("Appui"),
@@ -552,11 +582,15 @@ const TYPES_DETACHEMENTS = [
     nom: "Maisnie Roturière",
     famille: "additionnel",
     faction: "chevaliers-questoris",
+    factionLibre: true,
     requiertAvantage: "seigneur-preux",
-    indisponible:
-      "Réservé aux Unités des Solar Auxilia (Liber Auxilia) ou de l'Imperialis Militia, non transcrites sur ce site.",
     texte:
-      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Seigneur Preux. 2 Cases Troupes, 2 Cases Appui, 2 Cases Blindés — issues des Solar Auxilia et/ou de l'Imperialis Militia.",
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Seigneur Preux. 2 Cases Troupes, 2 Cases Appui, 2 Cases Blindés — issues des Solar Auxilia (et, non transcrite sur ce site, de l'Imperialis Militia).",
+    restrictions: {
+      Troupes: ["sa-ryeliers"],
+      Appui: ["sa-rapier", "sa-basilisk", "sa-medusa"],
+      Blindés: ["sa-leman-russ-frappe", "sa-leman-russ-assaut", "sa-malcador"],
+    },
     cases: [
       _caseOrga("Troupes"),
       _caseOrga("Appui"),
@@ -659,7 +693,8 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "solar-auxilia",
     texte:
-      "Débloqué quand une Section d'État-major Veletaris occupe une Case d'État-major. Cases d'Élite : Sections d'Assaut ou d'Avant-garde Veletaris uniquement. Cases d'Appui : Escadrons d'Hermes Veletaris uniquement.",
+      "Débloqué quand une Section d'État-major Veletaris occupe une Case d'État-major. Cases d'Élite : Sections d'Assaut ou d'Avant-garde Veletaris uniquement. Cases d'Appui : Escadrons d'Hermes Veletaris uniquement. Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio Véletaris.",
+    traitAccorde: "Tercio Véletaris",
     deblocage: {
       caseRole: "État-major",
       uniteIds: ["sa-etat-major-veletaris"],
@@ -682,7 +717,8 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "solar-auxilia",
     texte:
-      "Débloqué quand une Section d'État-major de Ligne occupe une Case d'État-major. Cases de Troupes : Sections de Ryeliers uniquement. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement.",
+      "Débloqué quand une Section d'État-major de Ligne occupe une Case d'État-major. Cases de Troupes : Sections de Ryeliers uniquement. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement. Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio d'Infanterie.",
+    traitAccorde: "Tercio d'Infanterie",
     deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-ligne"] },
     restrictions: {
       Troupes: ["sa-ryeliers"],
@@ -702,7 +738,8 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "solar-auxilia",
     texte:
-      "Débloqué quand une Section d'État-major Artillerie occupe une Case d'État-major. Cases d'Appui : Sections de Rapier, Chars d'Artillerie Basilisk ou Chars d'Artillerie Medusa uniquement.",
+      "Débloqué quand une Section d'État-major Artillerie occupe une Case d'État-major. Cases d'Appui : Sections de Rapier, Chars d'Artillerie Basilisk ou Chars d'Artillerie Medusa uniquement. Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio d'Artillerie.",
+    traitAccorde: "Tercio d'Artillerie",
     deblocage: {
       caseRole: "État-major",
       uniteIds: ["sa-etat-major-artillerie"],
@@ -718,7 +755,8 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "solar-auxilia",
     texte:
-      "Débloqué quand une Section d'État-major Hermes occupe une Case d'État-major. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement. Cases d'Engin de Guerre : Escadrons de Sentinelles Lourdes Aethon uniquement.",
+      "Débloqué quand une Section d'État-major Hermes occupe une Case d'État-major. Cases de Reco : Escadrons de Sentinelles Légères Hermes uniquement. Cases d'Engin de Guerre : Escadrons de Sentinelles Lourdes Aethon uniquement. Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio d'Éclaireurs.",
+    traitAccorde: "Tercio d'Éclaireurs",
     deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-hermes"] },
     restrictions: {
       Reco: ["sa-sentinelles-legeres-hermes"],
@@ -736,12 +774,69 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "solar-auxilia",
     texte:
-      "Débloqué quand une Section d'État-major Blindé occupe une Case d'État-major. Cases de Blindés : Chars de Frappe Leman Russ, Chars d'Assaut Leman Russ ou Chars Lourds Malcador uniquement.",
+      "Débloqué quand une Section d'État-major Blindé occupe une Case d'État-major. Cases de Blindés : Chars de Frappe Leman Russ, Chars d'Assaut Leman Russ ou Chars Lourds Malcador uniquement. Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio Blindé.",
+    traitAccorde: "Tercio Blindé",
     deblocage: { caseRole: "État-major", uniteIds: ["sa-etat-major-blinde"] },
     restrictions: {
       Blindés: ["sa-leman-russ-frappe", "sa-leman-russ-assaut", "sa-malcador"],
     },
     cases: [_caseOrga("Blindés"), _caseOrga("Blindés"), _caseOrga("Blindés")],
+  },
+  /* Tercio de Fer (Doctrine de Cohorte de Fer, Liber Auxilia p. 16) :
+     à la différence des 5 Tercios ci-dessus, débloqué directement par
+     le choix de la Doctrine (`requiertDoctrineCohorte`), pas par une
+     Section d'État-major occupant une Case d'État-major — aucun champ
+     `deblocage` ici. Ses Cases accueillent des Unités du Liber
+     Mechanicum (Faction "mechanicum") au lieu des Unités Solar Auxilia
+     habituelles : `factionLibre: true` dispense donc ce Détachement de
+     la vérification de Faction faite par caseAccepte() (js/
+     organigramme.js), les 4 ids listés dans `restrictions` ci-dessous
+     restant seuls juges des Unités acceptées sur chacune de ses Cases —
+     comportement voulu par le livre (« Cela prend le pas sur les
+     restrictions habituelles de Liste d'Armée d'origine »). `faction:
+     "solar-auxilia"` reste posé À CÔTÉ de `factionLibre` : ce dernier
+     ne dispense que caseAccepte() (placement des 4 Unités Mechanicum),
+     pas typeDisponiblePourFaction() (visibilité du Détachement lui-même
+     dans le panneau « Ajouter un détachement ») — sans `faction`, ce
+     Détachement apparaîtrait grisé pour TOUTE Faction plutôt que
+     masqué hors Solar Auxilia (voir typeDisponiblePourFaction, js/
+     organigramme.js). Un complément dans uniteAccessible() (js/
+     unites.js) rend ces mêmes 4 Unités sélectionnables dans le menu
+     « Unité à ajouter » d'une Armée Solar Auxilia dès que ce
+     Détachement est présent (sinon bloquées comme toute Unité
+     Mechanicum hors Détachement Allié).
+     Non modélisé sur ce site (gaps documentés plutôt qu'approximés) :
+     - la Figurine placée devrait remplacer son propre Trait de Faction
+       ([Mechanicum]/Cybernetica/Reductor) par le Trait de Faction
+       « Tercio de Fer » — `traitAccorde` ci-dessous ne fait qu'AJOUTER
+       ce Trait sur la fiche récap (même mécanique que les 5 autres
+       Tercios), sans retirer le Trait d'origine ;
+     - la Règle Spéciale qui autorise une Unité mêlant au moins une
+       Figurine Technoprêtre et au moins une Figurine de Type Automate
+       à Contrôler/Contester des Objectifs suppose une Unité composée à
+       partir de DEUX fiches différentes : ce fichier ne modélise que
+       des Unités autonomes à fiche unique (voir MODÈLE DE DONNÉES,
+       js/unites-data.js) — aucune Unité de ce type n'est proposée. */
+  {
+    id: "tercio-de-fer",
+    nom: "Tercio de Fer",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    factionLibre: true,
+    requiertDoctrineCohorte: "fer",
+    texte:
+      "Débloqué par la Doctrine de Cohorte de Fer (aucune Case d'État-major requise). Cases d'Assaut Lourd : Manipules Castellax Destructor uniquement. Cases de Troupes : Technoprêtres uniquement. Cases d'Appui : Manipules de Combat Castellax ou Cohortes Thallax uniquement (Liber Mechanicum). Toutes les Figurines des Unités placées dans ce Détachement gagnent le Trait Tercio de Fer.",
+    traitAccorde: "Tercio de Fer",
+    restrictions: {
+      "Assaut Lourd": ["mech-castellax-destructor"],
+      Troupes: ["mech-technopretre"],
+      Appui: ["mech-combat-castellax", "mech-cohorte-thallax"],
+    },
+    cases: [
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+    ],
   },
 
   /* ---------- Détachements Auxiliaires des Taghmata du Mechanicum
@@ -3065,6 +3160,29 @@ const RITE_DE_GUERRE_LEGION = {
 };
 
 /* ----------------------------------------------------------
+   DOCTRINES DE COHORTE (livre d'armée Solar Auxilia, Liber Auxilia
+   p. 11-16) : menu « Doctrine de Cohorte » des paramètres de la partie
+   (js/organigramme.js, Faction Solar Auxilia uniquement) — un unique
+   choix obligatoire par Armée avant de pouvoir ajouter des Unités (voir
+   actualiserVerrouLegion, js/unites.js). Sans effet sur l'accessibilité
+   d'une Unité en particulier (aucun champ Unité ne filtre sur une
+   Doctrine précise) — texte de Règle Spéciale (Tactica de Cohorte +
+   Détachements Additionnels) indexé par son nom (2e élément de chaque
+   paire) dans REGLES_DIVERSES, js/regles-data.js. Constante globale
+   (plutôt que locale à Organigramme comme avant) : consommée aussi par
+   js/unites.js pour la page de garde PDF/Word, même principe que
+   RITE_DE_GUERRE_LEGION et DESIGNATIONS_LEGIONES_AUXILIA ci-dessous.
+   ---------------------------------------------------------- */
+const DOCTRINES_DE_COHORTE = [
+  ["ultima", "Cohorte Ultima"],
+  ["solaire", "Cohorte Solaire"],
+  ["reconnaissance", "Cohorte de Reconnaissance"],
+  ["mecanisee", "Cohorte Mécanisée"],
+  ["siege", "Cohorte de Siège"],
+  ["fer", "Cohorte de Fer"],
+];
+
+/* ----------------------------------------------------------
    DÉSIGNATIONS DE LEGIONES AUXILIA (livre Legiones Auxilia intégré
    au Liber Auxilia, p. 50-84) : menu « Désignation de Legiones
    Auxilia » des paramètres de la partie (js/organigramme.js, Faction
@@ -3216,6 +3334,12 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
    - caseEM       : réservé aux Cases d'État-major,
    - unParDetachement : sélectionnable une seule fois par détachement,
    - renegat      : Allégeance Renégate uniquement (Vrais Croyants).
+   - factionRequise : id FACTIONS (js/organigramme.js) — réservé à cette
+                 Faction précise (ex : Vrais Croyants, réservé à Legio
+                 Astartes — l'Allégeance Renégate existe aussi pour
+                 d'autres Factions, comme Solar Auxilia, sans que cet
+                 Avantage propre aux Légions Corrompues leur soit
+                 ouvert).
    - roleRequis   : réservé aux Cases de ce Rôle Tactique exact (ex :
                  Suprématie Martiale, réservé aux Cases d'Élite),
    - traitRequis  : l'unité doit avoir ce Trait (ex : Suprématie
@@ -3309,6 +3433,7 @@ const AVANTAGES_PRINCIPAUX = [
     id: "vrais-croyants",
     nom: "Vrais Croyants (Légions Corrompues)",
     renegat: true,
+    factionRequise: "legio-astartes",
     texte:
       "Armées d'Allégeance Renégate (liste Legiones Astartes) : toutes les figurines de l'unité gagnent le Sous-type Maléfique — elles ignorent les Statuts Tactiques (remplacés par D3 blessures automatiques PA2/Dégâts 1 sans sauvegarde) et les règles réduisant Cd/Sf/Vo/Int, et ne peuvent pas rejoindre ou être rejointes par des unités non-Maléfiques.",
   },
