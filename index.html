@@ -68,7 +68,10 @@
                width/height : le navigateur réserve l'espace avant le
                chargement et évite le décalage de mise en page (CLS). -->
           <img
+            id="hero-image"
             src="assets/img/hero.webp"
+            data-src-defaut="assets/img/hero.webp"
+            data-src-appui="assets/img/night_lords.jpg"
             width="800"
             height="1219"
             alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
@@ -101,5 +104,41 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
             referrerPolicy="no-referrer-when-downgrade" /></a></div
     ></noscript>
     <!-- End of Statcounter Code -->
+    <script type="text/javascript">
+      (function () {
+        var heroImage = document.getElementById("hero-image");
+        if (!heroImage) return;
+
+        var srcDefaut = heroImage.dataset.srcDefaut;
+        var srcAppui = heroImage.dataset.srcAppui;
+        var delaiAppuiMs = 2000;
+        var idMinuteur = null;
+
+        function demarrerMinuteur() {
+          annulerMinuteur();
+          idMinuteur = setTimeout(function () {
+            heroImage.src = srcAppui;
+          }, delaiAppuiMs);
+        }
+        function annulerMinuteur() {
+          if (idMinuteur !== null) {
+            clearTimeout(idMinuteur);
+            idMinuteur = null;
+          }
+        }
+        function afficherImageDefaut() {
+          annulerMinuteur();
+          heroImage.src = srcDefaut;
+        }
+
+        heroImage.addEventListener("pointerdown", demarrerMinuteur);
+        heroImage.addEventListener("pointerup", afficherImageDefaut);
+        heroImage.addEventListener("pointerleave", afficherImageDefaut);
+        heroImage.addEventListener("pointercancel", afficherImageDefaut);
+        heroImage.addEventListener("contextmenu", function (evenement) {
+          evenement.preventDefault();
+        });
+      })();
+    </script>
   </body>
 </html>
