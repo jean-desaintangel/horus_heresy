@@ -887,7 +887,7 @@ const TYPES_DETACHEMENTS = [
     },
     restrictions: { Troupes: ["mech-technopretre"] },
     cases: [
-      _caseOrga("Troupes"),
+      _caseOrga("Troupes", true),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
