@@ -26,8 +26,12 @@ function afficherRegles(idConteneur, regles) {
   regles.forEach((regle) => {
     const article = document.createElement("article");
     article.className = "regle";
-    // On stocke le texte "brut" en minuscules pour la recherche
-    article.dataset.recherche = regle.nom.toLowerCase();
+    // On stocke le nom DÉJÀ normalisé (sans accents, en minuscules) :
+    // la normalisation coûte un parcours de chaîne par règle, et le
+    // filtre s'exécute à CHAQUE frappe. La faire ici, une seule fois au
+    // chargement, plutôt que dans la boucle du filtre, évite de la
+    // rejouer sur les ~250 règles à chaque touche tapée.
+    article.dataset.recherche = normaliserTexte(regle.nom);
 
     const titre = document.createElement("h3");
     titre.textContent = regle.nom;
@@ -43,11 +47,13 @@ function afficherRegles(idConteneur, regles) {
 
 /* ----------------------------------------------------------
    FILTRE EN TEMPS RÉEL
-   À chaque frappe dans la barre de recherche, on masque
-   les règles dont le texte ne contient pas la saisie.
-   La normalisation (accents, casse) est assurée par
-   normaliserTexte, partagée par toutes les barres de recherche
-   du site (voir js/main.js).
+   À chaque frappe dans la barre de recherche, on masque les règles dont
+   le NOM ne contient pas la saisie (et non leur texte de définition :
+   chercher « unité » remonterait sinon la moitié du lexique).
+   La normalisation (accents, casse) est assurée par normaliserTexte,
+   partagée par toutes les barres de recherche du site (voir
+   js/main.js) ; elle est appliquée aux noms une fois pour toutes au
+   rendu, voir afficherRegles ci-dessus.
    ---------------------------------------------------------- */
 function activerRecherche() {
   const champ = document.getElementById("recherche");
@@ -59,8 +65,7 @@ function activerRecherche() {
     let visibles = 0;
 
     document.querySelectorAll(".regle").forEach((regle) => {
-      const contenu = normaliserTexte(regle.dataset.recherche);
-      const correspond = contenu.includes(requete);
+      const correspond = regle.dataset.recherche.includes(requete);
       regle.classList.toggle("cachee", !correspond);
       if (correspond) visibles++;
     });

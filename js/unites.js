@@ -80,9 +80,7 @@ function uniteAccessibleParDetachementCroise(unite) {
     const type = TYPES_DETACHEMENTS.find((t) => t.id === typeId);
     if (!type || !type.restrictions) continue;
     if (
-      Object.values(type.restrictions).some((liste) =>
-        liste.includes(unite.id),
-      )
+      Object.values(type.restrictions).some((liste) => liste.includes(unite.id))
     )
       return true;
   }
@@ -1293,7 +1291,9 @@ function traitFactionMechanicumDe(unite, instance) {
     if (!opt) return null;
     return opt.choix[instance.valeurs["techno-arcane"]].nom;
   }
-  return unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null;
+  return (
+    unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null
+  );
 }
 
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
@@ -1420,8 +1420,13 @@ function synchroniserConfig(carte, unite, instance) {
       ? Organigramme.traitFactionMechanicumRequisPour(instance.uid)
       : null;
   if (traitMechanicumRequis && "techno-arcane" in instance.valeurs) {
-    const indiceRequis = TRAITS_FACTION_MECHANICUM.indexOf(traitMechanicumRequis);
-    if (indiceRequis !== -1 && instance.valeurs["techno-arcane"] !== indiceRequis) {
+    const indiceRequis = TRAITS_FACTION_MECHANICUM.indexOf(
+      traitMechanicumRequis,
+    );
+    if (
+      indiceRequis !== -1 &&
+      instance.valeurs["techno-arcane"] !== indiceRequis
+    ) {
       instance.valeurs["techno-arcane"] = indiceRequis;
       modifie = true;
     }
@@ -2003,8 +2008,7 @@ function actualiserSelectsCases() {
     if (
       configModifiee ||
       dernierAvantageParUid.get(instance.uid) !== avantageActuel ||
-      dernierTraitDetachementParUid.get(instance.uid) !==
-        traitDetachementActuel
+      dernierTraitDetachementParUid.get(instance.uid) !== traitDetachementActuel
     ) {
       rafraichirFicheEtPoints(carte, unite, instance);
     }
@@ -3044,7 +3048,9 @@ async function genererWordHTML() {
   const contenuDoctrine = contenuDoctrineCohorteActuelle();
   if (contenuDoctrine) {
     corps +=
-      "<h2>Doctrine de Cohorte : " + echapperHTML(contenuDoctrine.nom) + "</h2>";
+      "<h2>Doctrine de Cohorte : " +
+      echapperHTML(contenuDoctrine.nom) +
+      "</h2>";
     corps += "<p>" + echapperHTML(contenuDoctrine.regle.texte) + "</p>";
   }
 
@@ -3409,8 +3415,7 @@ function initialiserChoixUnite() {
   // Bouton « flèche » : bascule la liste complète, comme la flèche
   // d'un <select>. mousedown + preventDefault (plutôt que click) pour
   // ne pas voler le focus du champ.
-  bouton.addEventListener("mousedown", (evenement) => {
-    evenement.preventDefault();
+  const basculerListe = () => {
     if (liste.hidden) {
       ouvrir("");
       champ.select();
@@ -3418,6 +3423,28 @@ function initialiserChoixUnite() {
       fermer();
     }
     champ.focus();
+  };
+
+  bouton.addEventListener("mousedown", (evenement) => {
+    evenement.preventDefault();
+    basculerListe();
+  });
+
+  // Accessibilité (WCAG 2.1.1 « Clavier » / RGAA 7.3) : mousedown ne
+  // couvre QUE la souris et le tactile. Un utilisateur au clavier qui
+  // atteint ce bouton par Tab puis appuie sur Entrée ou Espace
+  // déclenche un « click » — jamais un « mousedown » : le bouton était
+  // donc focalisable mais totalement inerte au clavier.
+  // Pourquoi ne pas simplement remplacer mousedown par click ? Parce
+  // qu'à la souris, click arrive APRÈS mousedown : les deux
+  // écouteurs se déclencheraient à la suite et la liste s'ouvrirait
+  // puis se refermerait aussitôt. On distingue donc les deux origines
+  // avec evenement.detail : c'est le compteur de clics, qui vaut 0
+  // quand le « click » a été synthétisé par le clavier, et 1 ou plus
+  // quand il vient d'un vrai clic de souris.
+  bouton.addEventListener("click", (evenement) => {
+    if (evenement.detail !== 0) return; // clic souris : déjà traité
+    basculerListe();
   });
 
   // Clic en dehors du champ, du bouton et de la liste : on referme, et

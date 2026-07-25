@@ -80,13 +80,53 @@
   --texte-doux: #5c584c; /* texte secondaire */
   --carte: #ffffff; /* fond des cartes */
   --carte-hover: #efe9da;
-  --fond-nav: rgba(248, 245, 238, 0.92); /* fond translucide de la barre de nav */
+  --fond-nav: rgba(
+    248,
+    245,
+    238,
+    0.92
+  ); /* fond translucide de la barre de nav */
   --fond-alerte: #fbeae7; /* fond des encadrés d'avertissement */
   --fond-neutre: #ececed; /* fond des puces/boutons neutres (gris clair) */
   --fond-neutre-hover: #dcdcde;
   --radius: 8px;
   --ombre: 0 4px 14px rgba(0, 0, 0, 0.12);
   --transition: 0.25s ease;
+
+  /* ---------- Couleurs SÉMANTIQUES (statuts, réactions, retours) ----------
+     Pourquoi des variables ici alors que ces couleurs ne servent qu'à un
+     seul composant chacune ? Parce qu'elles étaient jusqu'ici écrites en
+     dur dans leur règle (`color: #1f5a96`) : elles ne suivaient donc PAS
+     le thème « Nuit Éternelle », qui recolore le site en ne redéfinissant
+     que des variables. Résultat : sur fond noir, un titre de statut bleu
+     nuit tombait à 2,7:1 de contraste, très en dessous du minimum WCAG
+     1.4.3 (4,5:1). En passant par une variable, le thème sombre n'a plus
+     qu'à redéclarer la teinte claire correspondante (voir la section
+     « Nuit Éternelle » plus bas). Les valeurs ci-dessous sont exactement
+     celles d'avant : le thème clair est inchangé au pixel près. */
+  --statut-fixe: #8a6a2c;
+  --statut-neutralise: #1f5a96;
+  --statut-sonne: #7d3fa0;
+  --statut-deroute: #a13030;
+  --phase-mouvement: #2f7d3a;
+  --phase-tir: #1f5a96;
+  --phase-assaut: #a8551f;
+  --phase-special: #7d3fa0;
+  /* Texte volontairement atténué (valeurs « - » des tables) : plus foncé
+     que --texte-doux pour rester ≥ 4,5:1 même quand la ligne est
+     assombrie par le survol (voir tbody tr:hover td). */
+  --texte-attenue: #444444;
+  --succes: #2e6b2e;
+  --fond-succes: #e6f2e6;
+  --texte-succes: #1d4a1d;
+  --fond-erreur: #fbeeee;
+  --fond-erreur-fort: #f7e6e6;
+  --texte-erreur: #6b0000;
+
+  /* Taille minimale d'une cible tactile — voir la note « TAILLE DES
+     CIBLES TACTILES » en fin de fichier pour le raisonnement complet.
+     1.5rem = 24px avec la taille de police par défaut. */
+  --cible-tactile: 1.5rem;
 }
 
 /* ---------- Reset minimal ---------- */
@@ -100,13 +140,21 @@
    texte reste lisible par les lecteurs d'écran (ex : le label
    de la barre de recherche sur la page Règles spéciales), sans
    prendre de place à l'affichage. Préférer cette classe à un
-   style en ligne pour garder toute la présentation dans le CSS. */
+   style en ligne pour garder toute la présentation dans le CSS.
+   `clip` est déprécié mais conservé pour les navigateurs anciens ;
+   `clip-path` est son remplaçant standard — les deux cohabitent, le
+   navigateur applique celui qu'il connaît. `border`/`padding` à zéro
+   parce qu'une bordure ou un rembourrage hérités rendraient visible
+   un liseré de 1px de l'élément censé être invisible. */
 .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
+  padding: 0;
+  border: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -713,7 +761,13 @@ caption {
   caption-side: top;
   text-align: left;
   font-family: "Cinzel", serif;
-  color: var(--titre);
+  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : --titre #8a6a2c sur --fond
+     #f4f1e8 ne donne que 4,45:1. Le caption fait 1.05rem (16,8 px) sans
+     graisse : il ne bénéficie donc PAS de l'assouplissement « texte
+     large » (≥ 18,66 px gras ou ≥ 24 px), et doit atteindre 4,5:1.
+     --titre-contraste #6b4f1f monte à 6,73:1. Même correction, même
+     raison, que sur th plus haut. */
+  color: var(--titre-contraste);
   font-size: 1.05rem;
   padding: 0.5rem 0;
 }
@@ -761,11 +815,11 @@ td.case-active {
   font-weight: 700;
 }
 
-/* Valeurs impossibles ( - ) grisées.
-   #444 (et non #555) : le contraste reste ≥ 4.5:1 même quand la
-   ligne est assombrie par le survol (tbody tr:hover ci-dessus). */
+/* Valeurs impossibles ( - ) grisées. Voir --texte-attenue (:root) :
+   le contraste reste ≥ 4.5:1 même quand la ligne est assombrie par le
+   survol (tbody tr:hover ci-dessus). */
 td.impossible {
-  color: #444;
+  color: var(--texte-attenue);
 }
 
 /* ============================================================
@@ -1185,30 +1239,34 @@ section:not(.ouvert) > .section-corps {
   font-size: 0.93rem;
 }
 
-/* Couleur par statut */
+/* Couleur par statut. Le liseré supérieur (border-top) est décoratif :
+   il double une information déjà portée par le titre de la carte, donc
+   il n'a pas à respecter les 3:1 de WCAG 1.4.11. Le TITRE, lui, est du
+   texte : il passe par une variable pour suivre le thème sombre (voir
+   --statut-* dans :root). */
 .statut-fixe {
   border-top-color: #c9a84c;
 }
 .statut-fixe h3 {
-  color: #8a6a2c;
+  color: var(--statut-fixe);
 }
 .statut-neutralise {
   border-top-color: #4a90d9;
 }
 .statut-neutralise h3 {
-  color: #1f5a96;
+  color: var(--statut-neutralise);
 }
 .statut-sonne {
   border-top-color: #9b59b6;
 }
 .statut-sonne h3 {
-  color: #7d3fa0;
+  color: var(--statut-sonne);
 }
 .statut-deroute {
   border-top-color: #b22222;
 }
 .statut-deroute h3 {
-  color: #a13030;
+  color: var(--statut-deroute);
 }
 
 /* ============================================================
@@ -1224,18 +1282,20 @@ section:not(.ouvert) > .section-corps {
   font-size: 1.02rem;
 }
 
-/* Couleur du nom selon la phase déclenchante */
+/* Couleur du nom selon la phase déclenchante (variables --phase-*,
+   voir :root : indispensable pour que le thème sombre puisse les
+   éclaircir sans réécrire ces quatre règles). */
 .reaction-mouvement .reaction-nom {
-  color: #2f7d3a;
+  color: var(--phase-mouvement);
 }
 .reaction-tir .reaction-nom {
-  color: #1f5a96;
+  color: var(--phase-tir);
 }
 .reaction-assaut .reaction-nom {
-  color: #a8551f;
+  color: var(--phase-assaut);
 }
 .reaction-special .reaction-nom {
-  color: #7d3fa0;
+  color: var(--phase-special);
 }
 
 /* Réactions présentées en cartes (page statuts-reactions) */
@@ -1429,8 +1489,9 @@ button:focus-visible,
 }
 
 .armes-filtre-selection input {
-  width: 1.1rem;
-  height: 1.1rem;
+  /* Voir la note « TAILLE DES CIBLES TACTILES » en fin de fichier. */
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
   cursor: pointer;
 }
 
@@ -1460,8 +1521,9 @@ button:focus-visible,
 }
 
 .col-selection input[type="checkbox"] {
-  width: 1.05rem;
-  height: 1.05rem;
+  /* Voir la note « TAILLE DES CIBLES TACTILES » en fin de fichier. */
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
   cursor: pointer;
 }
 
@@ -1967,10 +2029,13 @@ footer p {
 
 .unite-config input[type="checkbox"],
 .unite-config input[type="radio"] {
-  width: 1.05rem;
-  height: 1.05rem;
+  /* Voir la note « TAILLE DES CIBLES TACTILES » en fin de fichier. */
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
   cursor: pointer;
-  vertical-align: -0.15rem;
+  /* Recalé sur la ligne de base du texte du libellé : la case ayant
+     grandi, l'ancien -0.15rem la faisait flotter au-dessus du mot. */
+  vertical-align: -0.35rem;
 }
 
 /* ---------- Fiche récap ---------- */
@@ -2752,7 +2817,12 @@ body.skin-legion-titanicus .legion-banniere::before {
    errantes sans couleurs propres). */
 body.skin-legion-questoris-imperialis {
   --accent: #8a6a2c;
-  --accent-clair: #b08f3f;
+  /* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : l'ancien #b08f3f ne donnait
+     que 3,07:1 avec le texte blanc de .bouton-principal au survol —
+     le bouton devenait le point le moins lisible de la page au moment
+     précis où l'utilisateur le vise. #8f7128 garde l'or antique de la
+     Maisonnée Imperialis en atteignant 4,6:1. */
+  --accent-clair: #8f7128;
   --fond-secondaire: #eee6d5;
   --carte-hover: #f5efe0;
   background-image:
@@ -2790,7 +2860,10 @@ body.skin-legion-questoris-mechanicum {
 
 body.skin-legion-questoris-mendicus {
   --accent: #5a5548;
-  --accent-clair: #7d7768;
+  /* Même correction que la Maisonnée Imperialis ci-dessus : #7d7768
+     plafonnait à 4,46:1 sous le texte blanc du bouton au survol, juste
+     sous le seuil. #6e685b atteint 5,53:1 sans changer la teinte. */
+  --accent-clair: #6e685b;
   --fond-secondaire: #e6e3da;
   --carte-hover: #efece5;
   background-image:
@@ -3179,7 +3252,12 @@ body.nuit-eternelle {
   --accent-clair: #a13030;
   --titre: #b3924f;
   --titre-contraste: #d4b56a;
-  --acier: #4a4a58;
+  /* Accessibilité (WCAG 1.4.11 / RGAA 3.3) : --acier sert de bordure aux
+     champs de saisie et aux <select> (paramètres de la partie, cases de
+     l'organigramme). Or cette bordure est l'UNIQUE repère visuel qui
+     délimite le champ : elle doit atteindre 3:1. #4a4a58 n'en donnait
+     que 2,18 sur le fond noir de ce thème ; #63637a atteint 3,25. */
+  --acier: #63637a;
   --acier-clair: #6b6b85;
   --texte: #d9d5c8;
   --texte-doux: #948f80;
@@ -3190,6 +3268,30 @@ body.nuit-eternelle {
   --fond-neutre: #1c1c21;
   --fond-neutre-hover: #26262c;
   --ombre: 0 4px 20px rgba(0, 0, 0, 0.75);
+  /* Couleurs sémantiques (voir :root) : les teintes du thème clair sont
+     des tons SOMBRES, conçus pour être lus sur du blanc. Reposées telles
+     quelles sur le fond #08080a de ce thème, elles tombaient entre 1,8:1
+     et 3,7:1 — bien en dessous des 4,5:1 de WCAG 1.4.3 / RGAA 3.2 (un
+     titre de statut bleu nuit sur noir est illisible). On redéclare donc
+     ici, et ici seulement, la variante CLAIRE de chaque teinte : la même
+     identité de couleur (or, bleu, violet, rouge, vert, orange), juste
+     inversée en luminosité. Tous les composants qui les consomment
+     suivent sans une règle de plus. */
+  --statut-fixe: #e0a06a;
+  --statut-neutralise: #79b0e8;
+  --statut-sonne: #c091d8;
+  --statut-deroute: #e06b5f;
+  --phase-mouvement: #7fb98a;
+  --phase-tir: #79b0e8;
+  --phase-assaut: #e0a06a;
+  --phase-special: #c091d8;
+  --texte-attenue: #948f80;
+  --succes: #7fb98a;
+  --fond-succes: #142014;
+  --texte-succes: #a8d8a8;
+  --fond-erreur: #26100f;
+  --fond-erreur-fort: #2e1211;
+  --texte-erreur: #e8a09a;
   background-image: none;
   transition:
     background-color 1s ease,
@@ -3227,7 +3329,7 @@ body.nuit-eternelle {
 .orga-erreurs {
   border: 2px solid var(--accent);
   border-radius: var(--radius);
-  background: #fbeeee;
+  background: var(--fond-erreur);
   padding: 0.7rem 1rem;
   margin-bottom: 1rem;
 }
@@ -3236,6 +3338,16 @@ body.nuit-eternelle {
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.3rem;
+}
+
+/* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : même cas que .orga-case-unite
+   plus bas — --accent est un bordeaux sombre, illisible (2,56:1) sur le
+   fond d'alerte sombre du thème Nuit Éternelle. Or c'est précisément le
+   titre qui annonce à l'utilisateur que sa liste d'armée est invalide :
+   c'est le dernier texte du site qu'on peut se permettre de rendre
+   illisible. --texte-erreur remonte à 8,20:1. */
+body.nuit-eternelle .orga-erreurs-titre {
+  color: var(--texte-erreur);
 }
 
 .orga-erreurs ul {
@@ -3248,7 +3360,7 @@ body.nuit-eternelle {
 }
 
 .orga-valide {
-  color: #2e6b2e;
+  color: var(--succes);
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -3362,6 +3474,18 @@ body.nuit-eternelle {
   color: var(--accent);
   font-weight: 700;
   text-decoration: none;
+}
+
+/* Accessibilité (WCAG 1.4.3 / RGAA 3.2) : --accent est un bordeaux
+   sombre (#7a0c0c en Nuit Éternelle) et .orga-case a le fond le plus
+   noir du site (--fond, #08080a) — le nom de l'unité tombait à 1,80:1,
+   soit un texte rouge quasiment invisible sur du noir. On garde
+   l'identité « rouge de Légion » en passant à sa déclinaison claire
+   (6,13:1). Cette règle est volontairement rangée à côté de celle
+   qu'elle corrige plutôt que dans le bloc body.nuit-eternelle : c'est
+   ici qu'on la cherchera si la couleur du lien change un jour. */
+body.nuit-eternelle .orga-case-unite a {
+  color: var(--statut-deroute);
 }
 
 .orga-case-unite a:hover,
@@ -3557,7 +3681,7 @@ body.nuit-eternelle {
 }
 
 .unite-carte--sans-case .unite-affectation {
-  background: #fbeeee;
+  background: var(--fond-erreur);
   color: var(--accent);
 }
 
@@ -3762,9 +3886,9 @@ body.nuit-eternelle {
 }
 
 .form-retour--succes {
-  background: #e6f2e6;
-  border-left-color: #2e6b2e;
-  color: #1d4a1d;
+  background: var(--fond-succes);
+  border-left-color: var(--succes);
+  color: var(--texte-succes);
 }
 
 .form-retour--succes::before {
@@ -3772,9 +3896,9 @@ body.nuit-eternelle {
 }
 
 .form-retour--erreur {
-  background: #f7e6e6;
+  background: var(--fond-erreur-fort);
   border-left-color: var(--accent);
-  color: #6b0000;
+  color: var(--texte-erreur);
 }
 
 .form-retour--erreur::before {
@@ -3796,5 +3920,94 @@ body.nuit-eternelle {
 @media (min-width: 700px) {
   .formulaire {
     padding: 2rem;
+  }
+}
+
+/* ============================================================
+   TEXTE INDICATIF DES CHAMPS (placeholder)
+   Sans cette règle, chaque navigateur applique SA couleur système au
+   texte indicatif — une couleur figée, qui ne connaît ni notre palette
+   ni le thème Nuit Éternelle. Sur Chromium, ce gris sombre posé sur le
+   fond #08080a du thème sombre devient quasiment illisible. On le
+   rattache donc à --texte-doux, qui suit les deux thèmes et respecte
+   les 4,5:1 de WCAG 1.4.3 / RGAA 3.2 dans les deux cas.
+   opacity: 1 — Firefox applique par défaut une opacité de 0.54 aux
+   placeholders, ce qui abaisserait le contraste qu'on vient de calculer.
+   ============================================================ */
+.champ input::placeholder,
+.champ textarea::placeholder,
+.barre-recherche::placeholder,
+.unite-combobox-champ::placeholder {
+  color: var(--texte-doux);
+  opacity: 1;
+}
+
+/* ============================================================
+   TAILLE DES CIBLES TACTILES
+   Référence : WCAG 2.2, critère 2.5.8 « Taille de la cible (minimum) »,
+   niveau AA — 24 × 24 px au minimum pour tout contrôle actionnable.
+   (Attention en cours : ce critère n'existe PAS dans WCAG 2.1, et le
+   RGAA 4.1 étant aligné sur 2.1, il ne le teste pas encore. Ce n'est
+   donc pas une obligation légale française aujourd'hui, mais ce sera
+   le cas à la prochaine révision du RGAA — autant le faire maintenant.)
+
+   POURQUOI 24 px et pas moins : c'est le seuil sous lequel une personne
+   dont la motricité fine est réduite — tremblement essentiel, arthrose,
+   maladie de Parkinson, mais aussi n'importe qui qui joue debout autour
+   d'une table en tenant son téléphone d'une main — rate sa cible de
+   façon répétée. Sur l'Arsenal, rater la case « Jouée » d'une arme
+   signifie cocher la ligne voisine, donc fausser sa propre liste sans
+   s'en apercevoir.
+
+   POURQUOI UNE VARIABLE plutôt que d'écrire 1.5rem trois fois : les
+   trois familles de cases (filtre de l'Arsenal, colonne « Jouée »,
+   options d'unité) répondaient au même besoin avec trois valeurs
+   différentes (1.1, 1.05 et 1.05 rem) — signe qu'elles avaient été
+   réglées à l'œil, séparément. Une seule variable rend la contrainte
+   explicite et empêche la dérive de revenir.
+
+   POURQUOI rem ET PAS px : si l'utilisateur agrandit la taille de
+   police par défaut de son navigateur (réglage d'accessibilité très
+   courant), les cases grandissent avec le texte. En px, elles
+   resteraient minuscules à côté d'un libellé devenu deux fois plus
+   grand.
+
+   NOTE SUR 44 px : le critère 2.5.5 (niveau AAA) demande 44 × 44 px.
+   Impossible ici sans casser les lignes de tableau de l'Arsenal, où
+   chaque case partage sa ligne avec sept colonnes de statistiques.
+   Le niveau AA visé par la loi française est atteint.
+   ============================================================ */
+
+/* ============================================================
+   MOUVEMENT RÉDUIT (prefers-reduced-motion)
+   Certaines personnes déclenchent nausées, vertiges ou migraines à la
+   vue d'une animation ; d'autres perdent simplement le fil. Le système
+   d'exploitation permet de le signaler (Windows : « Afficher les
+   animations » ; iOS/macOS : « Réduire les animations »), et le
+   navigateur transmet ce réglage via cette media query. On neutralise
+   alors TOUTES les animations du site d'un coup — accordéons, bascule
+   de thème, jauge de points, défilement fluide — plutôt qu'au cas par
+   cas : une transition oubliée est un utilisateur mis en difficulté.
+   0.01ms plutôt que 0s : les événements `transitionend` continuent de
+   se déclencher, ce dont dépend le recalcul de hauteur des panneaux
+   dépliables imbriqués (voir activerPanneauxDepliables, js/main.js).
+   Mettre 0s casserait l'ouverture des accordéons.
+   Ce bloc existait déjà dans pages/choix-legion.html, qui a sa propre
+   feuille de style en ligne : il manquait simplement à la feuille
+   partagée par les quinze autres pages.
+   Référence : WCAG 2.3.3 (AAA) et bonne pratique RGAA 13.8.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

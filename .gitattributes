@@ -1,0 +1,77 @@
+# ============================================================
+# .gitattributes — normalisation des fins de ligne
+#
+# LE PROBLÈME QU'ON RÉSOUT ICI
+# Windows termine ses lignes par CRLF (deux caractères invisibles :
+# retour chariot + saut de ligne), Linux et macOS par LF (un seul).
+# Un fichier passé d'un éditeur Windows à un éditeur Linux change donc
+# de fins de ligne sans qu'une seule lettre bouge — mais Git, lui,
+# compare octet par octet : il voit le fichier ENTIER comme réécrit.
+#
+# Ce n'est pas théorique : avant ce fichier, js/main.js et
+# js/unites-data.js apparaissaient dans `git status` avec 58 000 lignes
+# modifiées, pour zéro changement réel. Conséquences concrètes :
+#   - impossible de relire un diff pour valider une correction ;
+#   - `git blame` remonte à la dernière conversion, pas à l'auteur ;
+#   - deux personnes qui éditent le même fichier depuis deux systèmes
+#     produisent un conflit de fusion sur la totalité du fichier.
+#
+# LA SOLUTION
+# `text=auto` demande à Git de détecter les fichiers texte et de les
+# stocker en LF DANS LE DÉPÔT. `eol=lf` impose ce LF aussi dans la
+# copie de travail : tout le monde travaille sur les mêmes octets, quel
+# que soit son système. Les éditeurs modernes (VS Code, Notepad++,
+# Visual Studio) gèrent parfaitement le LF sous Windows.
+#
+# APRÈS AVOIR AJOUTÉ CE FICHIER, une fois seulement :
+#   git add --renormalize .
+#   git commit -m "Normalise les fins de ligne en LF"
+# Ce commit doit rester SEUL, sans aucune modification fonctionnelle :
+# c'est la seule façon de garder un historique relisible.
+# ============================================================
+
+# Règle par défaut : tout ce que Git reconnaît comme du texte est
+# stocké et restitué en LF.
+* text=auto eol=lf
+
+# --- Déclarations explicites (plus lisibles qu'une détection auto,
+#     et à l'abri d'une fausse détection sur un fichier exotique) ---
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.txt    text eol=lf
+*.yml    text eol=lf
+
+# --- Fichiers BINAIRES ---
+# `binary` interdit à Git toute conversion de fin de ligne ET toute
+# tentative d'affichage en diff. Sans cette liste, Git pourrait
+# « normaliser » une suite d'octets 0D 0A au milieu d'une image ou
+# d'une police et la corrompre définitivement.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.webp   binary
+*.avif   binary
+*.gif    binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.otf    binary
+*.pdf    binary
+*.docx   binary
+*.pptx   binary
+*.xlsx   binary
+
+# --- Confort de relecture ---
+# `linguist-vendored` dit à GitHub que ces fichiers viennent de
+# l'extérieur : ils sont repliés par défaut dans les pull requests et
+# exclus des statistiques de langage du dépôt. Sans cela, les 400 Ko de
+# jsPDF minifié écrasent tout le reste dans le diff comme dans le
+# graphique « langages » de la page d'accueil du dépôt.
+# On ne marque volontairement PAS js/unites-data.js : malgré sa taille,
+# c'est du contenu écrit et relu à la main, légion par légion — le
+# masquer dans les diffs reviendrait à masquer le cœur du projet.
+js/vendor/*.min.js  linguist-vendored

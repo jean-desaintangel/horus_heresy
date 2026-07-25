@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guide d’initiation</title>
+    <title>Accueil — Horus Heresy, guide d’initiation</title>
     <meta
       name="description"
       content="Guide d'initiation pour le jeu de figurines Horus Heresy 3e édition : construction d'armée, déroulement d'un tour, tables de référence et règles spéciales."
@@ -22,14 +22,27 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" type="image/png" href="assets/img/eye-of-horus.png" />
     <!-- Métadonnées de partage (Open Graph) pour Discord, forums...
-         og:image exige une URL ABSOLUE : compléter avec le domaine
-         définitif au moment de la mise en ligne. -->
+         og:image et og:url exigent une URL ABSOLUE : un partage se fait
+         depuis un autre site, qui n'a aucun moyen de résoudre un chemin
+         relatif. C'est la raison pour laquelle on répète ici le domaine
+         complet, à mettre à jour en cas de changement d'hébergement.
+         L'accueil était jusqu'ici la SEULE page sans og:image — donc la
+         seule à se partager sans vignette, alors que c'est la plus
+         partagée des seize. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:title" content="Horus Heresy — Guide d’initiation" />
     <meta
       property="og:description"
       content="Guide non officiel pour Horus Heresy 3e édition : construction d'armée, phases de jeu, tables de référence et règles spéciales."
+    />
+    <meta
+      property="og:image"
+      content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/"
     />
     <!-- defer : téléchargé en parallèle du parsing, exécuté après le DOM.
          L'ordre des balises est préservé entre scripts defer. -->
@@ -57,6 +70,7 @@
           >Horus Heresy <span>· Guide d’initiation</span></a
         >
         <button
+          type="button"
           class="nav-burger"
           aria-label="Ouvrir le menu"
           aria-expanded="false"
@@ -80,11 +94,17 @@
           <!-- WebP (−93 % vs le PNG d'origine).
                width/height : le navigateur réserve l'espace avant le
                chargement et évite le décalage de mise en page (CLS). -->
+          <!-- L'alternative de l'image d'appui est portée par
+               data-alt-appui plutôt que codée en JS : accessibilité
+               (WCAG 1.1.1) et contenu rédactionnel restent dans le HTML,
+               là où on les cherche pour les relire ou les traduire. -->
           <img
             id="hero-image"
             src="assets/img/hero.webp"
             data-src-defaut="assets/img/hero.webp"
             data-src-appui="assets/img/night_lords.jpg"
+            data-alt-defaut="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
+            data-alt-appui="Un guerrier Night Lords en armure sombre, éclair bleu sur le plastron"
             width="800"
             height="1219"
             alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
@@ -109,12 +129,17 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
     ></script>
     <noscript
       ><div class="statcounter">
-        <a title="Web Analytics" href="https://statcounter.com/" target="_blank" rel="noopener noreferrer"
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           ><img
             class="statcounter"
             src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
             alt="Web Analytics"
-            referrerPolicy="no-referrer-when-downgrade" /></a></div
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
     ></noscript>
     <!-- End of Statcounter Code -->
     <script type="text/javascript">
@@ -124,13 +149,25 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
 
         var srcDefaut = heroImage.dataset.srcDefaut;
         var srcAppui = heroImage.dataset.srcAppui;
+        var altDefaut = heroImage.dataset.altDefaut;
+        var altAppui = heroImage.dataset.altAppui;
         var delaiAppuiMs = 2000;
         var idMinuteur = null;
+
+        // Accessibilité (WCAG 1.1.1 / RGAA 1.3) : on change l'alternative
+        // EN MÊME TEMPS que la source. Sinon l'image affichée et le texte
+        // annoncé par le lecteur d'écran divergent — l'alternative décrit
+        // alors une image qui n'est plus à l'écran, ce qui est pire que
+        // pas d'alternative du tout.
+        function afficherImage(src, alt) {
+          heroImage.src = src;
+          heroImage.alt = alt;
+        }
 
         function demarrerMinuteur() {
           annulerMinuteur();
           idMinuteur = setTimeout(function () {
-            heroImage.src = srcAppui;
+            afficherImage(srcAppui, altAppui);
           }, delaiAppuiMs);
         }
         function annulerMinuteur() {
@@ -141,7 +178,7 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
         }
         function afficherImageDefaut() {
           annulerMinuteur();
-          heroImage.src = srcDefaut;
+          afficherImage(srcDefaut, altDefaut);
         }
 
         heroImage.addEventListener("pointerdown", demarrerMinuteur);

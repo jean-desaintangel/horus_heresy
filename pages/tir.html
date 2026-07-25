@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La phase de tir</title>
+    <title>La phase de tir — Horus Heresy</title>
     <meta
       name="description"
       content="Détail de la phase de tir Horus Heresy 3e édition : cible et ligne de vue, groupes de tirs, jets de touche et de blessure, couvert et mitigation de dégâts, dégâts multiples, sous-phase de moral."
@@ -59,6 +59,7 @@
           >Horus Heresy <span>· Guide d’initiation</span></a
         >
         <button
+          type="button"
           class="nav-burger"
           aria-label="Ouvrir le menu"
           aria-expanded="false"
@@ -85,9 +86,9 @@
       <div class="timeline">
         <!-- ===================== SOUS-PHASE D'ATTAQUE ===================== -->
         <div class="timeline-item" id="sequence">
-          <button class="timeline-titre" aria-expanded="false">
+          <button type="button" class="timeline-titre" aria-expanded="false">
             1. Sous-phase d’attaque
-            <span class="chevron">❯</span>
+            <span class="chevron" aria-hidden="true">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -109,9 +110,13 @@
               <div class="timeline">
                 <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
                 <div class="timeline-item" id="cible">
-                  <button class="timeline-titre" aria-expanded="false">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
                     1/2. Choisir et vérifier la cible
-                    <span class="chevron">❯</span>
+                    <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -140,9 +145,13 @@
 
                 <!-- ===================== GROUPES DE TIRS ===================== -->
                 <div class="timeline-item" id="groupes">
-                  <button class="timeline-titre" aria-expanded="false">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
                     3/4/5. Déclarer les armes et les groupes de tirs
-                    <span class="chevron">❯</span>
+                    <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -171,8 +180,13 @@
 
                 <!-- ===================== TOUCHE ===================== -->
                 <div class="timeline-item" id="toucher">
-                  <button class="timeline-titre" aria-expanded="false">
-                    6. Faire les jets de touche <span class="chevron">❯</span>
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    6. Faire les jets de touche
+                    <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -211,8 +225,13 @@
 
                 <!-- ===================== BLESSURE ===================== -->
                 <div class="timeline-item" id="blesser">
-                  <button class="timeline-titre" aria-expanded="false">
-                    7. Faire les jets de blessure <span class="chevron">❯</span>
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    7. Faire les jets de blessure
+                    <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -238,9 +257,13 @@
 
                 <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
                 <div class="timeline-item" id="sauvegardes">
-                  <button class="timeline-titre" aria-expanded="false">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
                     8/9. Choisir la figurine cible, sauvegardes et mitigation
-                    <span class="chevron">❯</span>
+                    <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -277,8 +300,12 @@
 
                 <!-- ===================== COUVERT ===================== -->
                 <div class="timeline-item" id="couvert">
-                  <button class="timeline-titre" aria-expanded="false">
-                    Le couvert <span class="chevron">❯</span>
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Le couvert <span class="chevron" aria-hidden="true">❯</span>
                   </button>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
@@ -311,8 +338,9 @@
 
         <!-- ===================== SOUS-PHASE DE MORAL ===================== -->
         <div class="timeline-item" id="moral">
-          <button class="timeline-titre" aria-expanded="false">
-            2. Sous-phase de moral <span class="chevron">❯</span>
+          <button type="button" class="timeline-titre" aria-expanded="false">
+            2. Sous-phase de moral
+            <span class="chevron" aria-hidden="true">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -348,10 +376,11 @@
         <!-- ===================== RÉACTIONS DE TIR ===================== -->
         <div class="timeline-item" id="reactions-tir">
           <button
+            type="button"
             class="timeline-titre timeline-titre--reactions"
             aria-expanded="false"
           >
-            Réactions adverses <span class="chevron">❯</span>
+            Réactions adverses <span class="chevron" aria-hidden="true">❯</span>
           </button>
           <div class="timeline-details">
             <div class="timeline-details-inner">
@@ -420,12 +449,17 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
     ></script>
     <noscript
       ><div class="statcounter">
-        <a title="Web Analytics" href="https://statcounter.com/" target="_blank" rel="noopener noreferrer"
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           ><img
             class="statcounter"
             src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
             alt="Web Analytics"
-            referrerPolicy="no-referrer-when-downgrade" /></a></div
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
     ></noscript>
     <!-- End of Statcounter Code -->
   </body>

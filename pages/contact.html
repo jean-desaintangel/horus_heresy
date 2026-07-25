@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signaler une erreur</title>
+    <title>Signaler une erreur — Horus Heresy</title>
     <meta
       name="description"
       content="Signaler une erreur, une coquille ou proposer une amélioration pour le guide d'initiation Horus Heresy 3e édition."
@@ -59,6 +59,7 @@
           >Horus Heresy <span>· Guide d’initiation</span></a
         >
         <button
+          type="button"
           class="nav-burger"
           aria-label="Ouvrir le menu"
           aria-expanded="false"
@@ -120,6 +121,20 @@
           value="[Guide Horus Heresy] Nouveau signalement"
         />
 
+        <!-- Accessibilité (RGAA 11.10 / WCAG 3.3.2) : un astérisque seul
+             n'est PAS une indication de champ obligatoire — c'est un
+             symbole dont le sens doit être explicité quelque part dans
+             le formulaire, avant les champs concernés. Cette légende
+             joue ce rôle. Le mot « obligatoire » est en outre répété
+             dans chaque libellé (voir plus bas) pour l'utilisateur de
+             lecteur d'écran qui navigue de champ en champ (touche F sous
+             NVDA) sans jamais entendre le texte courant qui les
+             sépare. -->
+        <p class="champ-aide" id="legende-obligatoire">
+          Les champs suivis d’un astérisque
+          <span aria-hidden="true">(*)</span> sont obligatoires.
+        </p>
+
         <div class="champ">
           <label for="nom">
             Votre nom <span class="champ-option">(facultatif)</span>
@@ -134,7 +149,11 @@
         </div>
 
         <div class="champ">
-          <label for="type">Nature du message</label>
+          <label for="type">
+            Nature du message
+            <span aria-hidden="true">*</span>
+            <span class="sr-only">(obligatoire)</span>
+          </label>
           <select id="type" name="Type" required>
             <option value="Erreur de règle">
               Erreur de règle / de contenu
@@ -162,9 +181,11 @@
         </div>
 
         <div class="champ">
-          <label for="message"
-            >Votre message <span aria-hidden="true">*</span></label
-          >
+          <label for="message">
+            Votre message
+            <span aria-hidden="true">*</span>
+            <span class="sr-only">(obligatoire)</span>
+          </label>
           <textarea
             id="message"
             name="message"
@@ -249,12 +270,17 @@ https://jean-desaintangel.github.io/horus_heresy/ -->
     ></script>
     <noscript
       ><div class="statcounter">
-        <a title="Web Analytics" href="https://statcounter.com/" target="_blank" rel="noopener noreferrer"
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           ><img
             class="statcounter"
             src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
             alt="Web Analytics"
-            referrerPolicy="no-referrer-when-downgrade" /></a></div
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
     ></noscript>
     <!-- End of Statcounter Code -->
   </body>
