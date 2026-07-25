@@ -900,6 +900,65 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachements de la Legio Custodes (livre d'armée) :
+     `faction` posé par cohérence avec Tercio de Fer/Cohorte du
+     Taghmata ci-dessus (sinon repli implicite sur "legio-astartes" via
+     factionCroisadeParDefaut(), js/organigramme.js). Faction encore
+     désactivée dans FACTIONS (js/organigramme.js) faute d'unités
+     transcrites : ces types restent invisibles tant qu'elle n'est pas
+     activée, ajoutés par anticipation. Pas de `deblocage`/
+     `restrictions` faute de texte de règle fourni pour ces
+     Détachements — à compléter si besoin. ---------- */
+  {
+    id: "convocation-moritoi",
+    nom: "Convocation de Moritoi",
+    famille: "apex",
+    faction: "legio-custodes",
+    texte: "Des Engins de Guerre de la Legio Custodes.",
+    cases: [_caseOrga("Engins de Guerre", true), _caseOrga("Engins de Guerre")],
+  },
+  {
+    id: "convocation-hykanatoi",
+    nom: "Convocation d'Hykanatoi",
+    famille: "auxiliaire",
+    faction: "legio-custodes",
+    texte: "Des Troupes et un Transport Lourd supplémentaires.",
+    cases: [
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Transports Lourds"),
+    ],
+  },
+  {
+    id: "convocation-tharanatoi",
+    nom: "Convocation de Tharanatoi",
+    famille: "auxiliaire",
+    faction: "legio-custodes",
+    texte: "Des unités d'Assaut Lourd supplémentaires.",
+    cases: [_caseOrga("Assaut Lourd", true), _caseOrga("Assaut Lourd")],
+  },
+  {
+    id: "convocation-euphoroi",
+    nom: "Convocation d'Euphoroi",
+    famille: "auxiliaire",
+    faction: "legio-custodes",
+    texte: "Des unités de Reco supplémentaires.",
+    cases: [_caseOrga("Reco", true), _caseOrga("Reco")],
+  },
+  {
+    id: "convocation-cataphractoi",
+    nom: "Convocation de Cataphractoi",
+    famille: "auxiliaire",
+    faction: "legio-custodes",
+    texte:
+      "Des unités d'Attaque Rapide, un Transport Lourd et un Blindé supplémentaires.",
+    cases: [
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Blindés"),
+    ],
+  },
+
   /* ---------- Détachements d'Apex (p. 284) ----------
      1 par Case de Quartier Général remplie (à la place d'un
      Détachement Auxiliaire, jamais les deux — p. 283). */
