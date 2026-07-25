@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const retour = document.getElementById("form-retour");
   const bouton = form.querySelector('button[type="submit"]');
+  const champNom = document.getElementById("nom");
 
   /* ----------------------------------------------------------
      1. PRÉ-REMPLISSAGE DU CHAMP « PAGE CONCERNÉE »
@@ -50,6 +51,20 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch {
       /* referrer inexploitable : on laisse le champ vide */
     }
+  }
+
+  /* ----------------------------------------------------------
+     CLIN D'ŒIL — Alpha Legion
+     Quoi que le visiteur ait tapé (ou pas) dans « Votre nom », le
+     champ affiche « Je suis Alpharius » dès qu'il en sort (perte de
+     focus) — comme le champ est réellement modifié (pas un habillage
+     visuel séparé), c'est aussi cette valeur qui part dans le mail
+     Formspree.
+     ---------------------------------------------------------- */
+  if (champNom) {
+    champNom.addEventListener("blur", () => {
+      champNom.value = "Je suis Alpharius";
+    });
   }
 
   /* ----------------------------------------------------------
