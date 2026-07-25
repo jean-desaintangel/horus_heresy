@@ -172,7 +172,7 @@ Règles Spéciales :
   glossaire, ne PAS créer « Forgeron de Guerre » — confirmé utilisé aussi
   bien par les Iron Warriors que les Salamanders, donc générique)
 - Firestorm → Gabarit de Souffle (nom seul, pas de texte complet connu)
-- Suppressive (X) → Suppressif (X) (nom seul, pas de texte complet connu)
+- Suppressive (X) → Neutralisation (X) (nom seul, pas de texte complet connu)
 - Void Shields (X) → Boucliers Void (X) (nom seul — distinct de
   « Boucliers Void Titaniques (X) », propre aux Titans)
 

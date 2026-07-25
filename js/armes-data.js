@@ -2112,7 +2112,7 @@ const ARMES_TIR = [
         // ci-dessous.
         nom: "Batterie de missiles Fulmentarus — Missiles à éclats",
         stats: ["36", "4", "4", "5", "1"],
-        regles: "Suppressif (1)",
+        regles: "Neutralisation (1)",
         traits: "Missile",
       },
       {
@@ -2493,11 +2493,11 @@ const ARMES_TIR = [
       {
         // Arme de l'Escouade Sanctifier (Salamanders, Legacy) : profil
         // Munitions Standard, voir aussi Munitions Obsidite ci-dessous.
-        // « Suppressif (X) » : texte complet non donné dans l'extrait
+        // « Neutralisation (X) » : texte complet non donné dans l'extrait
         // Legacy fourni, à compléter depuis le livre au besoin.
         nom: "Canon rotor Obsidite — Munitions Standard",
         stats: ["24", "3", "3", "-", "1"],
-        regles: "Lourde (PF), Suppressif (1)",
+        regles: "Lourde (PF), Neutralisation (1)",
         traits: "Auto",
       },
       {
