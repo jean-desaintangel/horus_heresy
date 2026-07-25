@@ -439,10 +439,23 @@ function activerClinDoeilErebus() {
    qu'on tape "night" dans une barre de recherche par coïncidence.
    Remis à zéro après un basculement pour ne pas re-basculer en boucle
    si l'utilisateur laisse "night" au clavier (ex : "nightnight").
+   État persisté dans localStorage (même mécanisme que
+   "hh-armee-organigramme" plus bas) pour survivre à un rafraîchissement
+   de page et rester actif d'une page du site à l'autre.
    ---------------------------------------------------------- */
 function activerNuitEternelle() {
+  const CLE_STOCKAGE = "hh-nuit-eternelle";
   const SEQUENCE = ["n", "i", "g", "h", "t"];
   let buffer = [];
+
+  try {
+    if (localStorage.getItem(CLE_STOCKAGE) === "1") {
+      document.body.classList.add("nuit-eternelle");
+    }
+  } catch {
+    // stockage indisponible : le thème reste réactivable au clavier,
+    // simplement pas mémorisé d'une page à l'autre.
+  }
 
   document.addEventListener("keydown", (evenement) => {
     const cible = evenement.target;
@@ -459,7 +472,13 @@ function activerNuitEternelle() {
     if (buffer.length > SEQUENCE.length) buffer.shift();
 
     if (buffer.join("") === SEQUENCE.join("")) {
-      document.body.classList.toggle("nuit-eternelle");
+      const actif = document.body.classList.toggle("nuit-eternelle");
+      try {
+        localStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
+      } catch {
+        // stockage indisponible : le basculement reste effectif pour
+        // cette page, juste pas mémorisé.
+      }
       buffer = [];
     }
   });

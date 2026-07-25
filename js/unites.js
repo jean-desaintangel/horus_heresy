@@ -2730,6 +2730,38 @@ async function genererPDF() {
     cartePDF(donneesCarte(carte));
   }
 
+  // Tampon « validé » (assets/img/logo_inquisition.png), posé une seule
+  // fois sur la page de garde comme un coup de tampon administratif —
+  // simple clin d'œil visuel, aucune incidence sur les règles/le calcul
+  // de points. doc.setPage(1) cible la page de garde même si la Liste
+  // d'Armée a débordé sur d'autres pages entre-temps.
+  const tamponDataUrl = await chargerImageDataURL(
+    "../assets/img/logo_inquisition.png",
+  );
+  if (tamponDataUrl) {
+    try {
+      const proprietesTampon = doc.getImageProperties(tamponDataUrl);
+      const TAILLE_TAMPON = 130;
+      doc.setPage(1);
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({ opacity: 0.8 }));
+      doc.addImage(
+        tamponDataUrl,
+        proprietesTampon.fileType || "PNG",
+        pageW - MARGE - TAILLE_TAMPON - 20,
+        MARGE + 30,
+        TAILLE_TAMPON,
+        TAILLE_TAMPON,
+        undefined,
+        undefined,
+        -18,
+      );
+      doc.restoreGraphicsState();
+    } catch {
+      // Format d'image non géré par jsPDF (rare) : pas de tampon.
+    }
+  }
+
   // Cadre de carte, posé après coup sur chaque page générée (y
   // compris la page de garde) : plus simple et plus robuste que de
   // calculer sa hauteur à l'avance quand le contenu peut déborder sur
@@ -2855,8 +2887,20 @@ async function genererWordHTML() {
     .cohorte-titre { text-align: center; font-size: 16pt; font-weight: bold; margin: 0 0 8pt; }
     .rite-titre { font-size: 11pt; margin-top: 8pt; }
     .rite-sep { margin: 0; font-size: 11pt; line-height: 11pt; }
+    .tampon { float: right; width: 90pt; margin: 0 0 8pt 8pt; opacity: .85; filter: alpha(opacity=85); }
   `;
   let corps = "";
+
+  // Tampon « validé » (assets/img/logo_inquisition.png), même clin
+  // d'œil visuel que la page de garde du PDF (voir genererPDF) — pas de
+  // rotation ici, le rendu HTML de Word (mshtml) ne supporte pas
+  // fiablement CSS transform.
+  const tamponDataUrl = await chargerImageDataURL(
+    "../assets/img/logo_inquisition.png",
+  );
+  if (tamponDataUrl) {
+    corps += '<img class="tampon" src="' + tamponDataUrl + '" alt="">';
+  }
 
   // Identité de Légion : blason et nom sur une même ligne centrée
   // (tableau à une ligne), Allégeance/Primarque/Monde natal centrés

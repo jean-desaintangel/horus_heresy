@@ -38,6 +38,19 @@
     <script src="../js/tables.js" defer></script>
   </head>
   <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (localStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
     <!-- ===================== NAVIGATION ===================== -->
     <header class="nav">
