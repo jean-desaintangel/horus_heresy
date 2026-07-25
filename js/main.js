@@ -617,6 +617,30 @@ function afficherMessageArchives() {
 const RACINE_SITE = document.currentScript.src.replace(/js\/main\.js.*$/, "");
 
 /* ----------------------------------------------------------
+   FAVICON SELON L'HEURE — SITE ENTIER
+   Le <link rel="icon"> statique de chaque page HTML pointe sur
+   assets/img/eye-of-horus.png (valeur par défaut, utile tant que ce
+   script n'a pas encore tourné, ex : JS désactivé). On le remplace ici
+   par assets/img/iron_warriors.png l'après-midi/le soir : Œil d'Horus
+   de minuit à midi, Iron Warriors de midi à minuit.
+   Heure LOCALE du visiteur (Date.getHours()) : un site sans compte ni
+   fuseau horaire de référence n'a pas d'autre notion de "l'heure qu'il
+   est" que celle de l'appareil qui le consulte.
+   Posé hors DOMContentLoaded, au plus tôt (script en defer, donc
+   <head> déjà parsé), pour éviter que l'icône par défaut n'apparaisse
+   un instant avant de basculer.
+   ---------------------------------------------------------- */
+(function appliquerFaviconSelonHeure() {
+  const lienIcone = document.querySelector('link[rel="icon"]');
+  if (!lienIcone) return;
+  const apresMidi = new Date().getHours() >= 12;
+  lienIcone.href =
+    RACINE_SITE +
+    "assets/img/" +
+    (apresMidi ? "iron_warriors.png" : "eye-of-horus.png");
+})();
+
+/* ----------------------------------------------------------
    NAVIGATION ET PIED DE PAGE — SITE ENTIER
    Identiques sur toutes les pages : générés ici une seule fois plutôt
    que dupliqués dans chaque fichier HTML (une seule liste à tenir à
