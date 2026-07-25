@@ -2120,12 +2120,18 @@ footer p {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .orga-parametres label {
   font-weight: 700;
 }
 
+/* min-width: 0 — sans ça, un <select> (élément flex) ne se rétrécit
+   jamais sous la largeur de sa plus longue option (« Choisir un Rite
+   de Guerre ») et dépasse du cadre sur mobile au lieu de passer à la
+   ligne. */
 .orga-parametres input,
 .orga-parametres select {
   padding: 0.3rem 0.5rem;
@@ -2133,6 +2139,8 @@ footer p {
   border-radius: var(--radius);
   background: var(--fond);
   font: inherit;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .orga-parametres input {

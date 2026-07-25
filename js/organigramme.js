@@ -2694,7 +2694,7 @@ const Organigramme = (() => {
         document.createTextNode(
           " · Primarque : " +
             skinLegion.primarque +
-            " · Monde Natal : " +
+            " · Monde natal : " +
             skinLegion.monde,
         ),
       );

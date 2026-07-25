@@ -2194,7 +2194,7 @@ async function chargerImageDataURL(chemin) {
   }
 }
 
-// Texte "Allégeance : ... · Primarque : ... · Monde Natal : ..." pour
+// Texte "Allégeance : ... · Primarque : ... · Monde natal : ..." pour
 // la Légion en cours (partagé par la page de garde PDF et Word).
 function texteIdentiteLegion(skin) {
   let texte =
@@ -2202,7 +2202,7 @@ function texteIdentiteLegion(skin) {
       ? "Allégeance : Renégate"
       : "Allégeance : Loyaliste";
   if (skin.monde && skin.monde !== "—")
-    texte += " · Monde Natal : " + skin.monde;
+    texte += " · Monde natal : " + skin.monde;
   return texte;
 }
 
@@ -2464,7 +2464,7 @@ async function genererPDF() {
   nouvellePage();
 
   // Identité de Légion : blason et nom sur une même ligne centrée,
-  // Allégeance/Primarque/Monde Natal centrés en dessous (voir
+  // Allégeance/Primarque/Monde natal centrés en dessous (voir
   // Organigramme.skinActuel/cheminLogoActuel, js/organigramme.js).
   const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
   if (skin) {
@@ -2521,7 +2521,7 @@ async function genererPDF() {
     // Identité de Faction Legio Titanicus : même principe qu'une
     // Légion ci-dessus, mais avec DEUX blasons (gauche et droite du
     // nom, voir SKIN_TITANICUS.blasons/creerIconeTitan dans
-    // js/organigramme.js) et sans ligne Allégeance/Monde Natal (sans
+    // js/organigramme.js) et sans ligne Allégeance/Monde natal (sans
     // objet pour cette Faction).
     const skinTitan = Organigramme.skinTitanActuel
       ? Organigramme.skinTitanActuel()
@@ -2773,7 +2773,7 @@ async function genererWordHTML() {
   let corps = "";
 
   // Identité de Légion : blason et nom sur une même ligne centrée
-  // (tableau à une ligne), Allégeance/Primarque/Monde Natal centrés
+  // (tableau à une ligne), Allégeance/Primarque/Monde natal centrés
   // en dessous (voir Organigramme.skinActuel/cheminLogoActuel,
   // js/organigramme.js).
   const skin = Organigramme.skinActuel ? Organigramme.skinActuel() : null;
@@ -2798,7 +2798,7 @@ async function genererWordHTML() {
   } else {
     // Identité de Faction Legio Titanicus : même principe qu'une
     // Légion ci-dessus, mais avec DEUX blasons (un par cellule de part
-    // et d'autre du nom) et sans ligne Allégeance/Monde Natal (sans
+    // et d'autre du nom) et sans ligne Allégeance/Monde natal (sans
     // objet pour cette Faction) — voir SKIN_TITANICUS/creerIconeTitan
     // dans js/organigramme.js.
     const skinTitan = Organigramme.skinTitanActuel
