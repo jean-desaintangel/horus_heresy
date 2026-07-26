@@ -4049,17 +4049,13 @@ const Organigramme = (() => {
       }
       actualiser();
     },
-    // « Vider la liste » : libère toutes les cases (les détachements
-    // restent, mais leurs cases supplémentaires de Bénéfice Logistique
-    // n'ont plus lieu d'être puisque plus aucune case n'est occupée).
+    // « Vider la liste » : libère toutes les cases ET remet les
+    // détachements à zéro (seul le Détachement Principal, obligatoire,
+    // est conservé) — même réinitialisation que
+    // reinitialiserArmeeAvecConfirmation, mais sans confirmation
+    // puisque l'Armée est déjà vidée par l'appelant à ce stade.
     toutLiberer() {
-      for (const det of etat.detachements) {
-        for (const caseOrga of det.cases) {
-          caseOrga.uniteUid = null;
-          caseOrga.avantage = "aucun";
-        }
-        det.cases = det.cases.filter((c) => !c.extra);
-      }
+      etat.detachements = [creerDetachement(idDetachementPrincipal())];
       actualiser();
     },
     actualiser,
