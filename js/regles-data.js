@@ -1899,4 +1899,97 @@ const REGLES_DIVERSES = [
     texte:
       "Les Procurateurs ratissaient le champ de bataille en quête de composants organiques, prélevés sur les morts, pour alimenter des rituels profanes ; les organes remportés en combat singulier détenaient un pouvoir particulier, attirant l'attention des créatures du Warp les plus puissantes et les plus agressives. Une Figurine ayant cette Règle Spéciale peut gagner des Points de Moisson de Chair : elle en gagne 1 chaque fois qu'une Unité qui l'inclut est sélectionnée pour Consolider, si des Figurines ennemies de ce Combat avaient le Type Infanterie ou Cavalerie (2 à la place si une Figurine de Type Parangon a été Retirée comme Perte pendant ce Combat). Si une Figurine ayant des Points de Moisson de Chair est Retirée comme Perte, elle perd tous ses Points de Moisson de Chair. Lors de l'Étape de Décision du Vainqueur, à la fin de la Bataille, le Joueur en Contrôle de toute Figurine ayant cette Règle Spéciale marque un nombre de Points de Victoire égal au nombre de Points de Moisson de Chair que possède l'une de ces Figurines, choisie par lui.",
   },
+
+  /* --- Arsenal des Ordinatus et Automata du Mechanicum (Liber
+     Mechanicum, Legacies) : Cohorte de Défense Servo-esclave, Manipule
+     de Combat Arlatax, Batterie Tarantula, Macrocarid Explorator,
+     Ordinatus Ulator/Sagittar/Aktaeus (voir js/unites-data.js). --- */
+  {
+    nom: "Servo-esclaves",
+    texte:
+      "Bien qu'équipés d'un armement différent, les esclaves qui composent les Cohortes de Défense partagent les mêmes corps de simples servo-automates que les formations plus courantes. Une Unité qui inclut des Figurines ayant cette Règle Spéciale est considérée comme une Unité de Cohorte Servo-esclave aux fins du Bienfait Arcane Une Servitude Sans Fin (voir Liber Mechanicum, page 47).",
+  },
+  {
+    nom: "Griffe Anbarique",
+    texte:
+      "Ce système défensif est considéré comme archaïque et capricieux par la plupart des Prêtres-Techniciens, mais reste en usage sur les véhicules plus anciens — comme le Macrocarid. Il utilise une batterie de condensateurs électrochimiques pour générer une puissante impulsion de choc électromagnétique à travers la coque du véhicule. Un Véhicule ayant cette Règle Spéciale inflige davantage de Dégâts quand il traverse des Unités ennemies. Quand une Figurine ayant cette Règle Spéciale et le Type Véhicule traverse une Unité ennemie, le nombre de Touches infligées passe de D6 à D3+3. Ces Touches ont la Règle Spéciale Sonner (1). De plus, si le Joueur Réactif déclare une Réaction Mort ou Gloire visant une Figurine ayant cette Règle Spéciale, celle-ci gagne une Sauvegarde Invulnérable de 6+ contre toutes les Touches infligées par cette Réaction.",
+  },
+  {
+    nom: "Sentinelles Indépendantes",
+    texte:
+      "Les canons sentinelles Tarantula se déploient en des points clés du champ de bataille, choisis pour couvrir les goulets d'étranglement cruciaux et offrir une puissance de feu optimale et complémentaire avec les autres unités. Les Tarantula se déploient et opèrent individuellement. Bien qu'incluse dans une armée en tant qu'Unité comprenant plusieurs Figurines, chaque Figurine ayant cette Règle Spéciale est considérée comme une Unité séparée à toutes fins, y compris pour le Déploiement et le décompte des Points de Victoire.",
+  },
+  {
+    nom: "Protocoles de Tir Automatisé",
+    texte:
+      "Les canons sentinelles Tarantula assurent un tir de zone d'interdiction, engageant les ennemis qui pénètrent leur périmètre de détection avec leur puissant armement lourd. Une Figurine ayant cette Règle Spéciale ne peut faire d'Attaque de Tir que dans le cadre d'une Réaction. Une Figurine ayant cette Règle Spéciale ne peut pas être sélectionnée pour faire une Attaque de Tir à la Phase de Tir du Joueur en Contrôle, et ne peut faire que la Réaction Répliquer ainsi que les Réactions Avancées Interception et Tir Automatisé. Quand elle fait une Attaque de Tir dans le cadre de l'une de ces Réactions Avancées, une Figurine ayant cette Règle Spéciale peut attaquer avec n'importe laquelle de ses Armes, pas seulement ses Armes Défensives. Réaction Avancée Tir Automatisé : le Joueur Réactif peut la déclarer à l'Étape 2 de la Sous-phase de Déplacement si une Unité ennemie termine un Déplacement à 48 pouces d'une Unité sous son contrôle entièrement composée de Figurines ayant la Règle Spéciale Protocoles de Tir Automatisé (Coût : aucun ; Cible : l'Unité dont le Déplacement déclenche la Réaction — le Joueur Réactif doit choisir comme Unité Réactive une Unité sous son contrôle, entièrement composée de Figurines ayant la Règle Spéciale Protocoles de Tir Automatisé, se trouvant à 48 pouces de l'Unité Cible). Une fois cette Réaction Avancée déclarée, le Joueur Réactif fait une Attaque de Tir avec l'Unité Réactive, ciblant obligatoirement l'Unité Cible de cette Réaction. Une fois cette Attaque de Tir entièrement résolue, retrait des Pertes inclus, le Joueur Actif termine de résoudre les éléments restants du Déplacement de l'Unité Cible.",
+  },
+  {
+    nom: "Champ de Dispersion",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut faire l'objet de la Réaction Avancée Dispersion : le Joueur Réactif peut la déclarer chaque fois qu'une Figurine ayant la Règle Spéciale Champ de Dispersion est la Cible d'une Attaque de Tir, la déclaration se faisant après l'Étape 3 de l'Attaque de Tir, une fois les Armes à utiliser déclarées (Coût : 1 Point d'Attribution de Réactions, payé dès la déclaration ; Cible : l'Unité Réactive est l'Unité qui subit l'Attaque de Tir, l'Unité Attaquante est celle qui fait l'Attaque de Tir ayant déclenché cette Réaction). Une fois la Réaction Dispersion déclarée, le Joueur Actif doit résoudre normalement toutes les étapes restantes de la Procédure d'Attaque de Tir jusqu'au début de l'Étape 5. À cette Étape 5, le Joueur en Contrôle de l'Unité Réactive peut choisir de réduire à 1 les Dégâts de toutes les Touches d'un Groupe de Tirs. S'il choisit de ne pas réduire les Dégâts des Touches du Groupe de Tirs sélectionné, l'Attaque de Tir se poursuit normalement, mais le Joueur Réactif peut refaire le même choix pour chaque Groupe de Tirs suivant de cette Attaque de Tir. Une fois que le Joueur Réactif a choisi de réduire les Dégâts d'un seul Groupe de Tirs, il ne peut plus affecter aucun Groupe de Tirs suivant, et l'Attaque de Tir se résout normalement.",
+  },
+  {
+    nom: "Baie de Transport de Macro-foreuse",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale et le Sous-type Transport peut avoir des Figurines Embarquées à son bord comme le prévoient les Règles normales — cependant des Figurines de n'importe quel Type autre que Véhicule peuvent y Embarquer, et plus d'une Unité peut y Embarquer en même temps. Seules 4 Figurines n'ayant ni le Type Parangon ni le Type Infanterie peuvent y être Embarquées, et les Figurines ayant une variante de la Règle Spéciale Massif (X) avec une Valeur de X supérieure à 6, ou une Caractéristique de Points de Vie de Base de 10 ou plus, ne peuvent pas y Embarquer du tout. De plus, les Figurines ne peuvent Embarquer ou Débarquer d'une Figurine ayant cette Règle Spéciale que si celle-ci n'a pas encore fait d'attaque avec sa foreuse sismique. Une fois qu'une attaque a été faite avec cette Arme, plus aucune Figurine ne peut Embarquer ni Débarquer de cette Figurine. Si la foreuse sismique d'une Figurine ayant cette Règle Spéciale est détruite ou rendue inopérante d'une autre façon, toutes les Figurines Embarquées sur la Figurine subissent une Touche de Force 8, PA3, Dégâts 4. Toute Figurine non Retirée comme Perte doit alors faire un Débarquement d'Urgence.",
+  },
+  {
+    nom: "Foreuse Sismique",
+    texte:
+      "Quand une Arme ayant cette Règle Spéciale fait une Attaque de Tir, le Joueur qui attaque peut choisir de cibler n'importe quel point du champ de bataille à portée, sans tenir compte de la Ligne de Vue et sans avoir besoin de cibler une Figurine ennemie. Le Jet de Touche se fait normalement, mais une fois la position finale du Gabarit déterminée, le Joueur Attaquant ne résout aucune Touche, que des Figurines se trouvent sous le Gabarit ou non, et doit à la place choisir l'une des deux options suivantes : Émerger ou Creuser un Tunnel. S'il choisit de Creuser un Tunnel, le Gabarit reste en place, mais aucune Touche n'est résolue et le Gabarit n'a aucun effet sur la Ligne de Vue, le Mouvement ou tout autre aspect du jeu — il marque simplement la position de la macro-foreuse, profondément enfouie sous terre. Au début de la prochaine Phase de Tir du Joueur en Contrôle, celui-ci doit de nouveau choisir de Creuser un Tunnel ou d'Émerger. S'il choisit de nouveau de Creuser un Tunnel, le Gabarit peut alors être déplacé de 36 pouces au maximum dans n'importe quelle direction, et reste de nouveau en place jusqu'à la prochaine Phase de Tir du Joueur en Contrôle. Émerger ne peut être choisi que si aucune partie du Gabarit ne touche de Terrain Infranchissable. Une fois ce choix fait, toutes les Figurines ennemies recouvertes entièrement ou partiellement par le Gabarit subissent une blessure avec une PA de 2 et des Dégâts de 1, et toutes les Figurines ennemies non recouvertes par le Gabarit, mais à moins de 2 pouces de l'un quelconque de ses points de bordure, subissent une Touche de Force 6 avec une PA de 4 et des Dégâts de 1. Si une Unité subit une ou plusieurs Pertes du fait de l'un de ces deux effets, un Test de Sang-froid doit être fait pour cette Unité ; s'il est raté, toutes les Figurines de cette Unité gagnent le Statut Sonnée. Une fois toutes les Touches et blessures entièrement résolues, les Figurines ennemies recouvertes entièrement ou partiellement par le Gabarit sont déplacées par leur Joueur en Contrôle de la plus courte distance possible afin de ne plus être recouvertes par le Gabarit. Le Joueur en Contrôle de la macro-foreuse sismique peut alors choisir de faire Débarquer tout ou partie des Unités Embarquées sur la macro-foreuse sismique, en utilisant n'importe quel point du Gabarit comme Point d'Accès. Les Figurines débarquées de cette façon peuvent être placées sur le Gabarit. Le Gabarit reste alors en place, et toute Figurine encore Embarquée sur la macro-foreuse sismique peut en Débarquer lors d'une Phase de Mouvement ultérieure comme d'habitude, mais ne peut plus y Embarquer de nouveau. Le Gabarit reste en place jusqu'à ce que toutes les Figurines aient Débarqué de la macro-foreuse sismique ; il ne bloque pas la Ligne de Vue, n'entrave pas le Mouvement, et n'est considéré comme aucun type de Terrain. Bien qu'il s'agisse d'une Arme Stratégique, une Arme ayant cette Règle Spéciale ne peut pas être utilisée pour cibler des Objectifs Stratégiques.",
+  },
+
+  /* --- Arsenal des Solar Auxilia (Legacies, Liber Auxilia) : Surgeon-
+     Primus Aevos Jovan, Expeditionary Navigator, Davinite Lodge
+     Priest, Companion Section, Medicae Section, Cyclops Demolition
+     Vehicle (voir js/unites-data.js). Médecin (X) est un Addenda aux
+     Règles (Rules Addenda) du livre de base, pas propre aux Solar
+     Auxilia : transcrit ici car aucune des Unités qui l'utilisaient
+     jusqu'ici (le cas échéant) ne l'avait encore rendu nécessaire. --- */
+  {
+    nom: "Médecin (X)",
+    texte:
+      "Certains spécialistes s'entraînent aux soins de combat et transportent un équipement dédié, d'une simple sacoche de pansements et d'antalgiques aux dispositifs complexes portés par les Apothicaires des Légions. S'ils parviennent à intervenir à temps sur un blessé, de tels combattants peuvent le renvoyer au combat. Cette Règle Spéciale fixe la difficulté de tout Test de Récupération dû à une autre Règle Spéciale, Réaction ou Aptitude — elle n'autorise pas de Test de Récupération par elle-même, elle en fixe seulement le Nombre Cible quand une autre source (par exemple la Réaction Avancée Médecin !) l'autorise. Un Test de Récupération se fait quand une ou plusieurs Blessures Non Sauvegardées sont allouées à une Figurine : on lance un dé et on le compare à la Valeur de X ; en cas de réussite, une seule Blessure Non Sauvegardée allouée à la Figurine voit ses Dégâts réduits de 1 (jusqu'à un minimum de 0). Réaction Avancée Médecin ! : le Joueur Réactif peut la déclarer à l'Étape 9 de toute Attaque de Tir si l'Unité Cible de cette Attaque de Tir inclut une ou plusieurs Figurines ayant la Règle Spéciale Médecin (X) (Coût : 1 Point d'Attribution de Réactions, payé dès la déclaration ; Cible : l'Unité Cible de l'Attaque de Tir qui déclenche la Réaction). Une fois cette Réaction Avancée déclarée, le Joueur Actif continue de résoudre cette Attaque de Tir normalement ; à l'Étape 11, le Joueur Réactif peut faire un Test de Récupération pour chaque Figurine de l'Unité Cible qui se voit allouer une Blessure Non Sauvegardée — au maximum un Test de Récupération par Figurine, et aucun pour une Figurine qui a elle-même la Règle Spéciale Médecin (X).",
+  },
+  {
+    nom: "Suite Chirurgicale",
+    texte:
+      "Seul Aevos Jovan comprend véritablement l'auto-gurney qui l'accompagne (ou a la compétence de s'en servir) : il est équipé de servo-scalpels et de scanners augure médicaux qui permettent de pratiquer des opérations complexes sur le champ de bataille par une petite équipe. Une Figurine ayant cette Règle Spéciale permet de faire des Tests de Récupération à la Sous-phase de Moral, mais est automatiquement Retirée comme Perte si elle devient la seule Figurine restante d'une Unité. Si une Unité qui inclut une Figurine ayant la Règle Spéciale Suite Chirurgicale n'est pas Verrouillée en Combat, avant que son Joueur en Contrôle ne fasse un Test de Caractéristique pour cette Unité à la Sous-phase de Moral, il peut faire un Test de Récupération pour cette Unité. Si ce Test de Récupération est réussi, ce Joueur peut soustraire 2 au résultat du Test de Caractéristique. Un seul Test de Récupération peut être fait de cette façon pour chaque Unité à chaque Sous-phase de Moral. De plus, si une Figurine ayant cette Règle Spéciale devient la seule Figurine restante d'une Unité, elle est immédiatement Retirée comme Perte.",
+  },
+  {
+    nom: "Triage",
+    texte:
+      "Si les infirmiers médicaux qui accompagnent Aevos Jovan ne partagent pas son talent médical hors pair, ils sont formés à stabiliser les blessés sur le champ de bataille afin qu'ils puissent revoir de futurs combats. Les Figurines ayant cette Règle Spéciale peuvent conférer une variante de la Règle Spéciale Sacrifiable (X) à des Unités Solar Auxilia. Tant qu'une Unité entièrement composée de Figurines ayant le Trait Solar Auxilia inclut une ou plusieurs Figurines ayant cette Règle Spéciale, chaque Figurine de cette Unité a la Règle Spéciale Sacrifiable (X), X étant égal au nombre de Figurines ayant la Règle Spéciale Triage dans l'Unité.",
+  },
+  {
+    nom: "Compact",
+    texte:
+      "Certains engins sont conçus pour être transportés facilement à bord des divers convoyeurs blindés dont dispose l'Imperium — certains sont assez souples pour passer par des ouvertures prévues pour des créatures plus petites, d'autres sont conçus pour se replier en un mode de transport compact, ou sont tout simplement de petite taille. Une Figurine ayant cette Règle Spéciale peut Embarquer ou Débarquer d'un Transport même si son Type l'en empêcherait normalement. Une Figurine ayant cette Règle Spéciale peut Embarquer et Débarquer d'une Figurine de Sous-type Transport comme si elle avait le Type Infanterie. Cela ne remplace pas son Type existant ni ne lui accorde aucun autre bénéfice du Type Infanterie, et ne lui permet pas d'interagir avec d'autres Règles ou Règles Spéciales qui ciblent ou affectent le Type Infanterie.",
+  },
+  {
+    nom: "Véhicule de Démolition",
+    texte:
+      "Ces véhicules ne sont pas destinés au combat de première ligne, mais servent d'outils de démolition pour abattre bâtiments ou fortifications qui auraient entravé l'avance de forces amies ; dans les situations les plus extrêmes, ils peuvent être employés comme armes, mais restent vulnérables au tir ennemi. Les Véhicules ayant cette Règle Spéciale peuvent faire des Charges et infliger des Touches automatiques à toute Figurine d'un Combat en cas de réussite. Une Figurine ayant cette Règle Spéciale et le Type Véhicule peut se voir déclarer une Charge à la Phase d'Assaut. Si un Jet de Charge fait pour cette Figurine échoue, elle est Retirée comme Perte, mais explose aussitôt comme le décrit sa Règle Spéciale Explose (X). Si le Jet de Charge réussit, alors à la fin de l'Étape 2 de la Sous-phase de Combat, chaque Unité de ce Combat subit un nombre de Touches automatiques égal au nombre de Figurines de cette Unité, chacune de Force 8, PA « - », Dégâts 2, avec la Règle Spéciale Fléau des Blindages. Une fois ces Touches entièrement résolues, la Figurine ayant cette Règle Spéciale est immédiatement Retirée comme Perte, et toute variante de la Règle Spéciale Explose (X) qu'elle possède est ignorée.",
+  },
+  {
+    nom: "Bâton Ætherlabe",
+    texte:
+      "L'Ætherlabe monté sur le bâton du Navigateur l'aide à tracer les courants de l'Immatérium, détectant l'onde de choc éthérique de toute approche née du Warp. Les Unités ne peuvent pas Frapper en Profondeur près d'une Figurine dotée d'un bâton Ætherlabe : aucune Figurine ne peut être placée à moins de 8 pouces d'une Figurine dotée d'un bâton Ætherlabe dans le cadre de la Règle Spéciale Frappe en Profondeur.",
+  },
+  {
+    nom: "Arts du Navigateur",
+    texte:
+      "Les pouvoirs d'un Navigateur comptent parmi les plus puissants de toutes les castes de Psykers, bien qu'ils soient rarement de nature ouvertement offensive. Poussés dans leurs retranchements, les Navigateurs sont cependant capables de canaliser les marées de l'Empyréen et de les diriger contre leurs ennemis. Une Figurine ayant cette Règle Spéciale a une Discipline Psychique précise : elle a la Discipline Psychique Navis Astrologis, qui lui donne l'Arme Psychique Regard sans Paupières et le Trait « Navis Astrologien ».",
+  },
+  {
+    nom: "Soutien Médical",
+    texte:
+      "Les Solar Auxilia entretiennent des cadres de médicae entraînés, assignés aux Unités qui se tiendront au plus près des combats. Bien que dépourvus de l'équipement avancé des Apothicaires des Légions, ces soignants n'en sont pas moins dévoués à la protection de leurs frères d'armes, même dans les échanges de tir les plus meurtriers. Les Auxiliaires médicae se déploient et opèrent individuellement. Bien qu'incluse dans une Armée en tant qu'Unité comprenant plusieurs Figurines, chaque Figurine ayant cette Règle Spéciale est considérée comme une Unité séparée à toutes fins, y compris pour le Déploiement et le décompte des Points de Victoire.",
+  },
+  {
+    nom: "Guérison Rituelle",
+    texte:
+      "Les techniques de guérison sorcières des loges Davinites sont tenues en grande suspicion, car l'on murmure qu'elles ont pu jouer un rôle dans le basculement d'Horus vers la traîtrise. Une Figurine ayant cette Règle Spéciale a la Réaction Psychique Résurrection, issue de la Discipline Psychique Thaumaturgie.",
+  },
 ];

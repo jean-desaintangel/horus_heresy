@@ -161,9 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   construireMatrice(
     "table-blessure",
-    "Jet de blessure (Force de la touche contre Endurance de la cible)",
-    "Force",
+    "Jet de blessure (Endurance de la cible contre Force de la touche)",
     "Endurance",
+    "Force",
     TABLE_BLESSURE,
   );
 

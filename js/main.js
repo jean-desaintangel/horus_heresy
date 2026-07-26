@@ -90,20 +90,22 @@ function ajouterOption(select, valeur, texte) {
 // aussi utilisée par TABLE_CC (js/tables.js).
 const VALEURS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
 
-/* Table de blessure : Force de la touche vs Endurance de la cible.
-   '-' = blessure impossible. */
+/* Table de blessure : Endurance de la cible (lignes) vs Force de la
+   touche (colonnes) — même orientation que la table de référence du
+   livre de règles (Endurance en ligne, Force en colonne). '-' =
+   blessure impossible. */
 const TABLE_BLESSURE = [
-  // End:  1     2     3     4     5     6     7     8     9     10+
-  ["4+", "5+", "6+", "6+", "-", "-", "-", "-", "-", "-"], // F 1
-  ["3+", "4+", "5+", "6+", "6+", "-", "-", "-", "-", "-"], // F 2
-  ["2+", "3+", "4+", "5+", "6+", "6+", "-", "-", "-", "-"], // F 3
-  ["2+", "2+", "3+", "4+", "5+", "6+", "6+", "-", "-", "-"], // F 4
-  ["2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+", "-", "-"], // F 5
-  ["2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+", "-"], // F 6
-  ["2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+", "6+"], // F 7
-  ["2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+", "6+"], // F 8
-  ["2+", "2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+", "5+"], // F 9
-  ["2+", "2+", "2+", "2+", "2+", "2+", "2+", "2+", "3+", "4+"], // F 10+
+  // F:    1     2     3     4     5     6     7     8     9     10+
+  ["4+", "3+", "2+", "2+", "2+", "2+", "2+", "2+", "2+", "2+"], // End 1
+  ["5+", "4+", "3+", "2+", "2+", "2+", "2+", "2+", "2+", "2+"], // End 2
+  ["6+", "5+", "4+", "3+", "2+", "2+", "2+", "2+", "2+", "2+"], // End 3
+  ["6+", "6+", "5+", "4+", "3+", "2+", "2+", "2+", "2+", "2+"], // End 4
+  ["-", "6+", "6+", "5+", "4+", "3+", "2+", "2+", "2+", "2+"], // End 5
+  ["-", "-", "6+", "6+", "5+", "4+", "3+", "2+", "2+", "2+"], // End 6
+  ["-", "-", "-", "6+", "6+", "5+", "4+", "3+", "2+", "2+"], // End 7
+  ["-", "-", "-", "-", "6+", "6+", "5+", "4+", "3+", "2+"], // End 8
+  ["-", "-", "-", "-", "-", "6+", "6+", "5+", "4+", "3+"], // End 9
+  ["-", "-", "-", "-", "-", "-", "6+", "6+", "5+", "4+"], // End 10+
 ];
 
 /**
@@ -137,6 +139,32 @@ function insererDansScroll(idConteneur, table) {
 }
 
 /**
+ * Légende « ↓ Lignes · → Colonnes » affichée juste au-dessus d'une
+ * table-matrice (CC, Blessure) : sur mobile, la cellule de coin du
+ * tableau (voir construireMatrice) partage la largeur étroite de la
+ * colonne figée et peut ne pas suffire, une fois repliée sur deux
+ * lignes, à lever toute ambiguïté sur quel intitulé désigne les
+ * lignes et lequel désigne les colonnes. Cette phrase, hors de la
+ * zone de défilement horizontal (voir insererDansScroll), reste
+ * toujours entièrement visible et lisible, quelle que soit la largeur
+ * de l'écran.
+ * @param {string} labelLigne
+ * @param {string} labelCol
+ * @returns {HTMLParagraphElement}
+ */
+function construireLegendeAxes(labelLigne, labelCol) {
+  const p = el("p", "matrice-legende");
+  p.appendChild(
+    el("span", "matrice-legende-axe", "↓ " + labelLigne + " (lignes)"),
+  );
+  p.appendChild(document.createTextNode(" · "));
+  p.appendChild(
+    el("span", "matrice-legende-axe", "→ " + labelCol + " (colonnes)"),
+  );
+  return p;
+}
+
+/**
  * Construit une table "matrice" (CC ou Blessure).
  * @param {string} idConteneur - id de la div où insérer la table
  * @param {string} titre       - texte du caption
@@ -152,9 +180,16 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
   const ligneEntete = document.createElement("tr");
 
   const coin = document.createElement("th");
-  // textContent (et non innerHTML) : du texte brut n'a pas à passer
-  // par le parseur HTML — réflexe anti-XSS (voir l'en-tête du fichier).
-  coin.textContent = labelLigne + " \\ " + labelCol; // ex: "Attaquant \ Défenseur"
+  // Deux lignes empilées plutôt qu'un seul "Attaquant \ Défenseur" à
+  // plat (ex-comportement) : sur un écran étroit, cette cellule de
+  // coin se coupait de façon ambiguë et donnait l'impression que
+  // l'ordre de lecture indiquait quel intitulé est la ligne et lequel
+  // est la colonne. Une flèche verticale/horizontale à côté de chaque
+  // libellé lève l'ambiguïté même si la cellule doit se replier sur
+  // plusieurs lignes (voir aussi construireLegendeAxes, qui répète la
+  // même information en toutes lettres au-dessus du tableau).
+  coin.appendChild(el("span", "matrice-coin-axe", labelLigne + " ↓"));
+  coin.appendChild(el("span", "matrice-coin-axe", labelCol + " →"));
   ligneEntete.appendChild(coin);
 
   VALEURS.forEach((v) => {
@@ -187,6 +222,8 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
   });
   table.appendChild(tbody);
 
+  const conteneur = document.getElementById(idConteneur);
+  if (conteneur) conteneur.appendChild(construireLegendeAxes(labelLigne, labelCol));
   insererDansScroll(idConteneur, table);
 }
 
@@ -1077,9 +1114,9 @@ function activerTableauFlottant() {
     if (!tableConstruite) {
       construireMatrice(
         corps.id,
-        "Jet de blessure (Force de la touche contre Endurance de la cible)",
-        "Force",
+        "Jet de blessure (Endurance de la cible contre Force de la touche)",
         "Endurance",
+        "Force",
         TABLE_BLESSURE,
       );
       activerSurbrillanceColonnes(panneau);

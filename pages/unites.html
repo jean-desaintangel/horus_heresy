@@ -3451,6 +3451,16 @@
             hidden
           ></ul>
         </div>
+        <!-- Décochée par défaut : les unités Legacy (voir CLAUDE.md,
+             champ `legacy` dans js/unites-data.js) restent nombreuses et
+             pas toujours au texte de Règle Spéciale complet — ce filtre
+             évite de les mélanger d'office aux unités du livre de base
+             dans la liste déroulante ci-dessus (voir initialiserChoixUnite,
+             js/unites.js). -->
+        <label class="unites-filtre-legacy" for="afficher-legacies">
+          <input type="checkbox" id="afficher-legacies" />
+          Afficher les unités Legacies
+        </label>
         <button type="button" id="ajouter-unite" class="bouton-principal">
           Ajouter à la liste
         </button>

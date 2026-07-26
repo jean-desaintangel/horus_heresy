@@ -99,6 +99,38 @@ const ARMES_TIR = [
         traits: "-",
       },
       {
+        // Arme du Minotaur Artillery Tank (Legacies, Solar Auxilia) :
+        // profil jumelé du Canon Earthshaker ci-dessus.
+        nom: "Canon Earthshaker jumelé",
+        stats: ["240", "2", "5", "4", "2"],
+        regles:
+          'Artillerie (FT), Explosion (5"), Barrage (2), Brèche (6+), Fixation (1)',
+        traits: "-",
+      },
+      {
+        // Arme du Banehammer Super-heavy Assault Tank (Legacies, Solar
+        // Auxilia).
+        nom: "Canon Tremor",
+        stats: ["60", "1", "6", "4", "1"],
+        regles: 'Explosion (10"), Fixation (2), Neutralisation (2), Sonner (2)',
+        traits: "-",
+      },
+      {
+        // Arme du Stormsword Super-heavy Siege Tank (Legacies, Solar
+        // Auxilia).
+        nom: "Canon de siège Stormsword",
+        stats: ["18", "1", "12", "3", "6"],
+        regles: 'Explosion (5"), Artillerie (P), Sonner (2)',
+        traits: "-",
+      },
+      {
+        // Arme du Marauder Bomber (Legacies, Solar Auxilia).
+        nom: "Grappe de macro-bombes",
+        stats: ["18", "1", "8", "4", "2"],
+        regles: 'Explosion (10"), Fixation (2), Limitée (1)',
+        traits: "-",
+      },
+      {
         nom: "Mortier Medusa",
         stats: ["36", "1", "5", "4", "2"],
         regles:
@@ -238,6 +270,15 @@ const ARMES_TIR = [
         traits: "Auto",
       },
       {
+        // Arme de l'Arlatax Battle Maniple (Legacies, Mechanicum) : les
+        // deux canons montés forment un seul profil jumelé, voir
+        // js/unites-data.js.
+        nom: "Autocanon léger jumelé",
+        stats: ["36", "4", "6", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Auto",
+      },
+      {
         nom: "Batterie d'autocanons Gravis",
         stats: ["48", "5", "8", "4", "2"],
         regles: "Brèche (6+), Lourde (PF)",
@@ -365,6 +406,14 @@ const ARMES_TIR = [
         traits: "Auto",
       },
       {
+        // Profil jumelé (« heavy stubber », plusieurs Super-lourds
+        // Solar Auxilia Legacies : Macharius, Baneblade, Crassus...).
+        nom: "Mitrailleuse jumelée (Solar Auxilia)",
+        stats: ["36", "6", "4", "6", "1"],
+        regles: "-",
+        traits: "Auto",
+      },
+      {
         nom: "Autocanon (Solar Auxilia)",
         stats: ["48", "2", "7", "4", "2"],
         regles: "Brèche (6+), Lourde (PF)",
@@ -392,6 +441,48 @@ const ARMES_TIR = [
         nom: "Canon Vanquisher",
         stats: ["72", "1", "10", "2", "3"],
         regles: "Lourde (D), Touche Critique (6+)",
+        traits: "Auto",
+      },
+      {
+        // Option du Macharius Heavy Tank (Legacies, Solar Auxilia) :
+        // profil jumelé du Canon Vanquisher ci-dessus.
+        nom: "Canon Vanquisher jumelé",
+        stats: ["72", "2", "10", "2", "3"],
+        regles: "Lourde (D), Touche Critique (6+)",
+        traits: "Auto",
+      },
+      {
+        // Arme du Baneblade/Hellhammer Super-heavy Battle Tank
+        // (Legacies, Solar Auxilia).
+        nom: "Canon Baneblade",
+        stats: ["82", "1", "8", "3", "2"],
+        regles: 'Explosion (7"), Fixation (1)',
+        traits: "Auto",
+      },
+      {
+        // Arme du Hellhammer Super-heavy Battle Tank (Legacies, Solar
+        // Auxilia) : remplace le Canon Baneblade ci-dessus sur ce
+        // variant, portée réduite contre pénétration de blindage accrue.
+        nom: "Canon Hellhammer",
+        stats: ["24", "1", "10", "3", "3"],
+        regles: 'Explosion (5"), Sonner (1)',
+        traits: "Auto",
+      },
+      {
+        // Arme du Marauder Destroyer (Legacies, Solar Auxilia) :
+        // stats différentes de la Batterie d'autocanons Gravis déjà
+        // existante (Fixe(FP) en moins, Force de Feu plus élevée), nom
+        // distinct pour ne pas les confondre.
+        nom: "Rangée d'autocanons Gravis",
+        stats: ["48", "8", "8", "4", "2"],
+        regles: "Brèche (6+)",
+        traits: "Auto",
+      },
+      {
+        // Arme du Marauder Destroyer (Legacies, Solar Auxilia).
+        nom: "Canon rotatif de défense jumelé",
+        stats: ["36", "6", "4", "4", "1"],
+        regles: "Brèche (6+)",
         traits: "Auto",
       },
       {
@@ -547,6 +638,26 @@ const ARMES_TIR = [
         nom: "Canon à bolts Avenger jumelé",
         stats: ["36", "10", "6", "3", "1"],
         regles: "Neutralisation (2)",
+        traits: "Bolts",
+      },
+      {
+        // Arme de l'Avenger Strike Fighter (Legacies, Solar Auxilia) :
+        // profil simple, voir Canon à bolts Avenger jumelé ci-dessus
+        // pour la version montée sur le Macharius Heavy Tank.
+        nom: "Canon à bolts Avenger",
+        stats: ["36", "5", "6", "3", "1"],
+        regles: "Neutralisation (1)",
+        traits: "Bolts",
+      },
+      {
+        // Arme du Stormlord Super-heavy Assault Tank (Legacies, Solar
+        // Auxilia) : mêmes stats que le Méga-bolter Vulcan titanique
+        // (voir Armes Stratégiques Titaniques ci-dessous), mais sans
+        // Trait Stratégique — nom distinct pour ne pas le lui prêter,
+        // sur le même principe que Canon Volcano (Shadowsword).
+        nom: "Méga-bolter Vulcan (Stormlord)",
+        stats: ["48", "12", "7", "3", "2"],
+        regles: "Neutralisation (3)",
         traits: "Bolts",
       },
       {
@@ -972,6 +1083,14 @@ const ARMES_TIR = [
           'Explosion (5"), Lourde (D), Surcharge (1), Fléau des Blindages, Touche Critique (6+)',
         traits: "Gravitons",
       },
+      {
+        // Arme du Macrocarid Explorator (Legacies, Mechanicum) : voir
+        // js/unites-data.js.
+        nom: "Imploseur à gravitons",
+        stats: ["18", "1", "9", "2", "3"],
+        regles: "Choc (Fixée), Fixation (3)",
+        traits: "Gravitons",
+      },
     ],
   },
   {
@@ -1161,6 +1280,16 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
+        // Arme du Destroyer Tank Hunter (Legacies, Solar Auxilia) :
+        // proche du Destructeur laser (Solar Auxilia) ci-dessus mais
+        // avec Surcharge (1) en plus (matériaux moins coûteux, moins
+        // fiable) — nom distinct, voir le texte d'ambiance du PDF.
+        nom: "Destructeur laser Proteus",
+        stats: ["36", "2", "10", "2", "2"],
+        regles: "Lourde (D), Fléau des Blindages, Surcharge (1)",
+        traits: "Laser",
+      },
+      {
         nom: "Magnadestructeur laser",
         stats: ["36", "2", "10", "2", "3"],
         regles: "Artillerie (D), Fléau des Blindages",
@@ -1220,6 +1349,14 @@ const ARMES_TIR = [
         // Auxilia doivent utiliser cette version de l'arme.
         nom: "Multi-laser (Solar Auxilia)",
         stats: ["36", "3", "6", "6", "1"],
+        regles: "Neutralisation (1)",
+        traits: "Laser",
+      },
+      {
+        // Option du Carnodon Strike Tank (Legacies, Solar Auxilia) :
+        // profil jumelé du Multi-laser (Solar Auxilia) ci-dessus.
+        nom: "Multi-laser jumelé (Solar Auxilia)",
+        stats: ["36", "6", "6", "6", "1"],
         regles: "Neutralisation (1)",
         traits: "Laser",
       },
@@ -1671,6 +1808,28 @@ const ARMES_TIR = [
         regles: 'Explosion (5"), Barrage (1), Sonner (1)',
         traits: "Missile",
       },
+      /* --- Arsenal du Mechanicum (Legacies, Liber Mechanicum) : Batterie
+         Tarantula, voir js/unites-data.js. --- */
+      {
+        nom: "Lance-missiles Hyperios",
+        stats: ["48", "3", "7", "3", "2"],
+        regles: "Antiaérien, Poursuite Rapide",
+        traits: "Missile",
+      },
+      {
+        nom: "Missile Orias à fragmentation",
+        stats: ["48", "1", "6", "5", "1"],
+        regles: 'Barrage (3), Explosion (5"), Limitée (1)',
+        traits: "Missile",
+      },
+      {
+        // Arme du Praetor Armoured Assault Launcher (Legacies, Solar
+        // Auxilia).
+        nom: "Lanceur Praetor",
+        stats: ["72", "1", "8", "5", "2"],
+        regles: 'Explosion (7"), Barrage (2), Neutralisation (2)',
+        traits: "Missile",
+      },
     ],
   },
   {
@@ -2062,6 +2221,20 @@ const ARMES_TIR = [
         regles: 'Artillerie (P), Brèche (5+), Explosion (5"), Barrage (2)',
         traits: "Plasma",
       },
+      {
+        // Arme du Stormblade Super-heavy Tank (Legacies, Solar
+        // Auxilia).
+        nom: "Blastgun à plasma — Tir soutenu",
+        stats: ["60", "1", "8", "2", "5"],
+        regles: 'Explosion (3")',
+        traits: "Plasma",
+      },
+      {
+        nom: "Blastgun à plasma — Tir maximal",
+        stats: ["60", "1", "9", "2", "7"],
+        regles: 'Explosion (5"), Surcharge (1)',
+        traits: "Plasma",
+      },
     ],
   },
   {
@@ -2071,6 +2244,15 @@ const ARMES_TIR = [
         nom: "Grenades Rad",
         stats: ["8", "1", "4", "3", "1"],
         regles: "Empoisonnée (2+), Phage (E)",
+        traits: "Rad",
+      },
+      {
+        // Arme du Macrocarid Explorator (Legacies, Mechanicum) : profil
+        // jumelé du Nettoyeur irad (voir plus loin dans cette liste),
+        // voir js/unites-data.js.
+        nom: "Nettoyeur irad jumelé",
+        stats: ["Souffle", "1", "2", "5", "2"],
+        regles: "Souffle, Phage (E), Empoisonnée (2+), Panique (1)",
         traits: "Rad",
       },
       {
@@ -2371,6 +2553,21 @@ const ARMES_TIR = [
         traits: "-",
       },
       {
+        // Option de la Companion Section (Legacies, Solar Auxilia) :
+        // répartition des Règles Spéciales Frag/Krak inversée par
+        // rapport au Lance-grenades ci-dessus, voir js/unites-data.js.
+        nom: "Lance-grenades (Solar Auxilia) — Frag",
+        stats: ["24", "1", "3", "6", "1"],
+        regles: 'Explosion (3")',
+        traits: "-",
+      },
+      {
+        nom: "Lance-grenades (Solar Auxilia) — Krak",
+        stats: ["24", "1", "6", "4", "2"],
+        regles: "-",
+        traits: "-",
+      },
+      {
         // Arme des Larmes de l'Ange (Blood Angels).
         nom: "Lance-grenades Erelim",
         stats: ["18", "2", "4", "4", "1"],
@@ -2411,6 +2608,14 @@ const ARMES_TIR = [
         nom: "Feu Infernal",
         stats: ["12", "D3", "7", "4", "1"],
         regles: "Brèche (6+), Déflagration, Force (D)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline Navis Astrologis, Expeditionary
+        // Navigator, Legacies Solar Auxilia) : voir js/unites-data.js.
+        nom: "Regard sans Paupières",
+        stats: ["Souffle", "1", "2", "3", "1"],
+        regles: "Souffle, Force (D), Panique (1)",
         traits: "Psychique",
       },
       {
@@ -3185,6 +3390,29 @@ const ARMES_TIR = [
         stats: ["82", "1", "12", "2", "9"],
         regles: 'Explosion (7"), Énergivore, Macro-auspex',
         traits: "Plasma, Stratégique",
+      },
+      /* --- Arsenal des Ordinatus du Mechanicum (Legacies, Liber
+         Mechanicum) : Ordinatus Ulator/Sagittar/Aktaeus, voir
+         js/unites-data.js. Le Canon Volcano Belicosa ci-dessus (arme
+         d'axe central de l'Ordinatus Sagittar) est déjà défini plus
+         haut dans cette même liste, réutilisé tel quel. --- */
+      {
+        nom: "Destructeur sonique — Souffle dispersé",
+        stats: ["72", "1", "7", "3", "1"],
+        regles: 'Explosion (7"), Lacération (4+), Panique (4), Brèche (6+)',
+        traits: "Sonique, Stratégique",
+      },
+      {
+        nom: "Destructeur sonique — Charge concentrée",
+        stats: ["72", "1", "10", "2", "8"],
+        regles: "Macro-auspex, Fléau des Blindages, Panique (4)",
+        traits: "Sonique, Stratégique",
+      },
+      {
+        nom: "Foreuse sismique",
+        stats: ["36", "1", "-", "-", "-"],
+        regles: 'Explosion (5"), Barrage, Foreuse Sismique, Limitée (1)',
+        traits: "Sismique, Stratégique",
       },
     ],
   },
@@ -4483,6 +4711,25 @@ const ARMES_MELEE = [
         traits: "-",
       },
       {
+        // Arme de personnage (Surgeon-Primus Aevos Jovan, Legacies
+        // Solar Auxilia).
+        nom: "Lancette de phase",
+        stats: ["+1", "A", "2", "3", "2"],
+        regles: "Vulnérante (6+)",
+        traits: "-",
+      },
+      {
+        // Arme de personnage (Davinite Lodge Priest, Legacies Solar
+        // Auxilia) : Force de Mêlée donnée « S » (Spécial) sur la
+        // fiche — l'arme ne blesse jamais par sa Force, uniquement via
+        // Empoisonnée (5+), d'où le « - » ci-dessous plutôt qu'une
+        // valeur numérique ou « F » (comme user's Strength).
+        nom: "Lame Davinite",
+        stats: ["+1", "A", "-", "-", "1"],
+        regles: "Empoisonnée (5+)",
+        traits: "-",
+      },
+      {
         // Arme de personnage (Kaedes Nex, Raven Guard) : profil de
         // Mêlée, voir aussi son profil de Tir dans Armes de Tir.
         nom: "Canons de poing Fulcrum (Mêlée)",
@@ -4665,6 +4912,15 @@ const ARMES_MELEE = [
         stats: ["1", "A", "+1", "3", "1"],
         regles: "Lacération (5+)",
         traits: "-",
+      },
+      {
+        // Arme de l'Arlatax Battle Maniple (Legacies, Mechanicum), en
+        // échange de sa paire de lames énergétiques et de son autocanon
+        // léger jumelé (voir js/unites-data.js).
+        nom: "Paire de fouets arc",
+        stats: ["-", "+1", "+2", "3", "2"],
+        regles: "Choc (Supprimée)",
+        traits: "Arc",
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",

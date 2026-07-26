@@ -3129,6 +3129,12 @@ function initialiserChoixUnite() {
   const champ = document.getElementById("choix-unite");
   const bouton = document.getElementById("choix-unite-bouton");
   const liste = document.getElementById("choix-unite-liste");
+  // Décochée par défaut (voir pages/unites.html) : tant qu'elle ne l'est
+  // pas, les unités `legacy: true` (js/unites-data.js) restent hors de
+  // la liste déroulante ci-dessous, aussi bien à l'ouverture qu'à la
+  // frappe.
+  const caseLegacies = document.getElementById("afficher-legacies");
+  const legaciesAffichees = () => Boolean(caseLegacies && caseLegacies.checked);
 
   // Catégories triées selon ORDRE_CATEGORIES (même ordre que l'ancien
   // menu à <optgroup>).
@@ -3179,7 +3185,10 @@ function initialiserChoixUnite() {
     // pas retomber sur la première unité du tableau UNITES, forcément
     // inaccessible et donc trompeuse une fois affichée dans le champ.
     const accessibles = entrees.filter(
-      (e) => e.unite && uniteAccessible(e.unite),
+      (e) =>
+        e.unite &&
+        uniteAccessible(e.unite) &&
+        (!e.unite.legacy || legaciesAffichees()),
     );
     const defaut =
       accessibles.find((e) => e.unite.id === idVoulu) || accessibles[0];
@@ -3238,6 +3247,7 @@ function initialiserChoixUnite() {
         continue;
       }
       if (!uniteAccessible(entree.unite)) continue;
+      if (entree.unite.legacy && !legaciesAffichees()) continue;
       if (q && !normaliserTexte(entree.unite.nom).includes(q)) continue;
       uniteesCourantes.push(entree);
     }
@@ -3246,6 +3256,36 @@ function initialiserChoixUnite() {
   }
 
   const options = () => visibles.filter((e) => e.unite);
+
+  // Une unité par ailleurs accessible (Faction/Légion/Allégeance, voir
+  // uniteAccessible) n'est réellement sélectionnable dans ce menu que
+  // si au moins une Case libre d'un détachement DÉJÀ présent dans
+  // l'Armée peut l'accueillir (règle p. 282 : Rôle Tactique de l'unité
+  // = Rôle Tactique de la Case) — sinon elle reste visible mais grisée,
+  // avec l'explication de Organigramme.suggestionPourRole en info-bulle
+  // (même message que celui affiché après un clic sur « Ajouter » sans
+  // Case libre, voir boutonAjouter plus bas, avancé ici pour éviter le
+  // clic dans le vide). Par défaut (Organigramme pas encore prêt), on
+  // considère l'unité disponible pour ne pas griser tout le menu avant
+  // restauration de l'organigramme.
+  const uniteDisponiblePourCases = (unite) =>
+    !orgaPret ||
+    typeof Organigramme === "undefined" ||
+    Organigramme.casesLibresPour(unite).length > 0;
+
+  // Prochain indice, dans la direction donnée (1 ou -1), dont l'unité
+  // est réellement sélectionnable — permet à la navigation clavier de
+  // sauter par-dessus les entrées grisées plutôt que de s'y arrêter.
+  // -1 si aucune trouvée dans cette direction.
+  function prochainIndiceDisponible(depart, direction) {
+    const opts = options();
+    let i = depart;
+    while (i >= 0 && i < opts.length) {
+      if (uniteDisponiblePourCases(opts[i].unite)) return i;
+      i += direction;
+    }
+    return -1;
+  }
 
   // Libellés des Factions (FACTIONS dans js/organigramme.js) affichés
   // en gris à côté du nom d'une unité d'une autre Faction que celle de
@@ -3301,6 +3341,8 @@ function initialiserChoixUnite() {
         }
       }
       if (accentTeinte) classe += " unite-combobox-option--teinte-legion";
+      const disponible = uniteDisponiblePourCases(entree.unite);
+      if (!disponible) classe += " unite-combobox-option--indisponible";
       const li = el("li", classe);
       if (accentTeinte) li.style.setProperty("--tinte-legion", accentTeinte);
       li.appendChild(document.createTextNode(libelle(entree.unite)));
@@ -3317,6 +3359,8 @@ function initialiserChoixUnite() {
       li.setAttribute("role", "option");
       li.dataset.uniteId = entree.unite.id;
       li.setAttribute("aria-selected", String(entree.unite.id === uniteId));
+      li.setAttribute("aria-disabled", String(!disponible));
+      if (!disponible) li.title = Organigramme.suggestionPourRole(entree.unite);
       liste.appendChild(li);
     }
   }
@@ -3380,11 +3424,23 @@ function initialiserChoixUnite() {
     if (evenement.key === "ArrowDown") {
       evenement.preventDefault();
       if (liste.hidden) ouvrir(champ.value);
-      else surligner(Math.min(indiceActif + 1, options().length - 1));
+      else {
+        const suivant = prochainIndiceDisponible(
+          Math.min(indiceActif + 1, options().length - 1),
+          1,
+        );
+        if (suivant !== -1) surligner(suivant);
+      }
     } else if (evenement.key === "ArrowUp") {
       evenement.preventDefault();
       if (liste.hidden) ouvrir(champ.value);
-      else surligner(Math.max(indiceActif - 1, 0));
+      else {
+        const precedent = prochainIndiceDisponible(
+          Math.max(indiceActif - 1, 0),
+          -1,
+        );
+        if (precedent !== -1) surligner(precedent);
+      }
     } else if (evenement.key === "Enter") {
       if (liste.hidden) return;
       evenement.preventDefault();
@@ -3395,7 +3451,7 @@ function initialiserChoixUnite() {
           : opts.length === 1
             ? opts[0]
             : null;
-      if (cible) choisir(cible.unite);
+      if (cible && uniteDisponiblePourCases(cible.unite)) choisir(cible.unite);
     } else if (evenement.key === "Escape") {
       fermer();
     }
@@ -3408,6 +3464,7 @@ function initialiserChoixUnite() {
     const li = evenement.target.closest("[role='option']");
     if (!li) return;
     evenement.preventDefault();
+    if (li.getAttribute("aria-disabled") === "true") return;
     const unite = trouverUnite(li.dataset.uniteId);
     if (unite) choisir(unite);
   });
@@ -3446,6 +3503,27 @@ function initialiserChoixUnite() {
     if (evenement.detail !== 0) return; // clic souris : déjà traité
     basculerListe();
   });
+
+  // Case « Afficher les unités Legacies » (pages/unites.html) :
+  // rafraîchit la liste déroulante si elle est déjà ouverte (un simple
+  // changement de focus au clavier, contrairement à un clic, ne
+  // referme pas la liste via le gestionnaire "clic en dehors"
+  // ci-dessous — sans ce rafraîchissement explicite, elle resterait
+  // affichée avec un contenu périmé). Si l'unité actuellement retenue
+  // dans le champ est une unité Legacy qui vient de disparaître (case
+  // décochée), on retombe sur la sélection par défaut — même filet de
+  // sécurité que reinitialiserSelectionParDefaut ci-dessus, pour éviter
+  // qu'un « Ajouter » ajoute une unité qui n'est plus visible dans la
+  // liste.
+  if (caseLegacies) {
+    caseLegacies.addEventListener("change", () => {
+      const uniteCourante = trouverUnite(uniteId);
+      if (uniteCourante && uniteCourante.legacy && !legaciesAffichees()) {
+        reinitialiserSelectionParDefaut();
+      }
+      if (!liste.hidden) ouvrir(champ.value);
+    });
+  }
 
   // Clic en dehors du champ, du bouton et de la liste : on referme, et
   // si le texte tapé ne correspond plus à un choix confirmé, on

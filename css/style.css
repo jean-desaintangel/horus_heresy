@@ -757,6 +757,41 @@ table {
   }
 }
 
+/* Cellule de coin (voir construireMatrice, js/main.js) : le libellé de
+   ligne et celui de colonne sur deux lignes séparées plutôt qu'un
+   "Attaquant \ Défenseur" à plat, qui se coupait de façon ambiguë sur
+   un écran étroit. */
+.table-matrice thead th:first-child {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.matrice-coin-axe {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Légende « ↓ Lignes · → Colonnes » (voir construireLegendeAxes,
+   js/main.js) : répète en toutes lettres, hors de la zone de
+   défilement horizontal de la table, l'information de la cellule de
+   coin ci-dessus — toujours entièrement visible quelle que soit la
+   largeur de l'écran. */
+.matrice-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.7rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--texte-doux);
+}
+
+.matrice-legende-axe {
+  font-weight: 700;
+  color: var(--titre-contraste);
+}
+
 caption {
   caption-side: top;
   text-align: left;
@@ -1632,6 +1667,29 @@ footer p {
   font-weight: 700;
 }
 
+/* Case « Afficher les unités Legacies » (voir initialiserChoixUnite,
+   js/unites.js) : même motif que .armes-filtre-selection
+   (pages/armes.html), y compris la cible tactile agrandie de la case
+   (voir la note « TAILLE DES CIBLES TACTILES » en fin de fichier). Le
+   sélecteur .unites-selection label ci-dessus mettrait sinon aussi ce
+   libellé en gras comme "Unité à ajouter" : neutralisé ici pour rester
+   au poids normal, cohérent avec le filtre de l'Arsenal.
+   */
+.unites-filtre-legacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.unites-filtre-legacy input {
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
+  cursor: pointer;
+}
+
 /* Combobox « Unité à ajouter » (champ de recherche + liste
    déroulante filtrée, voir initialiserChoixUnite dans js/unites.js) :
    remplace un <select> à <optgroup>, dont le contenu texte n'est pas
@@ -1793,6 +1851,24 @@ footer p {
   color: var(--texte-doux);
   font-size: 0.85em;
   font-weight: 400;
+}
+
+/* Unité par ailleurs accessible (Faction/Légion/Allégeance) mais sans
+   Case libre dans un détachement déjà présent dans l'Armée (voir
+   uniteDisponiblePourCases, js/unites.js) : visible pour indiquer que
+   l'unité existe, mais non sélectionnable — l'explication (quel
+   détachement ajouter) est portée par l'attribut title (info-bulle
+   native), sur le même principe que les autres info-bulles ponctuelles
+   de ce fichier (ex : bonus d'Avantage sur la fiche récap). */
+.unite-combobox-option--indisponible {
+  color: var(--texte-doux);
+  font-style: italic;
+  cursor: not-allowed;
+}
+
+.unite-combobox-option--indisponible:hover,
+.unite-combobox-option--indisponible.unite-combobox-actif {
+  background: transparent;
 }
 
 .unite-combobox-vide {

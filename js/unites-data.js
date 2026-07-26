@@ -679,6 +679,47 @@ const optionTechnoArcane = () => ({
   choix: TRAITS_FACTION_MECHANICUM.map((nom) => ({ nom, cout: 0 })),
 });
 
+// Options communes aux Super-lourds Solar Auxilia Legacies (Baneblade,
+// Hellhammer, Banehammer, Stormlord, Stormblade, Shadowsword,
+// Stormsword) : mêmes trois options sur chacun (armement de Sponsons,
+// missile traqueur, projecteurs) — voir CLAUDE.md. La « Liste des Armes
+// sur Pivot de l'Auxilia » mentionnée sur chacune de ces fiches n'est
+// pas modélisée (contenu non fourni par le PDF Legacies), pas plus que
+// les « Auxilia Melee/Pistols/Sponson Weapons list » citées par la
+// Companion Section et le Carnodon Strike Tank : gap documenté, à
+// compléter si le proprio fournit le contenu de ces listes.
+const optionSponsonsLascanonSA = () => ({
+  type: "choix",
+  id: "sponsons",
+  libelle: "Choisir un armement de Sponsons",
+  ajoute: true,
+  choix: [
+    { nom: "— Aucun —", cout: 0 },
+    {
+      nom: "Deux canons lasers (Sponsons) et deux bolters lourds jumelés (Sponsons)",
+      cout: 40,
+    },
+    {
+      nom: "Deux canons lasers (Sponsons) et deux lance-flammes lourds jumelés (Sponsons)",
+      cout: 40,
+    },
+  ],
+});
+const optionMissileTraqueurSA = (mont) => ({
+  type: "case",
+  id: "missile",
+  libelle: "Missile traqueur " + mont,
+  cout: 5,
+  ajoute: "Missile traqueur (Solar Auxilia) " + mont,
+});
+const optionProjecteursSA = () => ({
+  type: "case",
+  id: "projecteurs",
+  libelle: "Projecteurs",
+  cout: 5,
+  ajoute: "Projecteurs",
+});
+
 /* ----------------------------------------------------------
    UNITÉS — QUARTIER GÉNÉRAL
    ---------------------------------------------------------- */
@@ -25781,6 +25822,316 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-aevos-jovan",
+    nom: "Chirurgien-Primus Aevos Jovan",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "État-major",
+    cout: 50,
+    composition: "1 Aevos Jovan et 1 Auto-gurney",
+    effectif: { base: 2, max: 4, cout: 10 },
+    equipementLibelle: "Équipement",
+    traits: ["Loyaliste", "Solar Auxilia"],
+    equipement: [
+      "Lancette de phase (Aevos Jovan seulement)",
+      "Pistolet à aiguilles (Auxiliaires Médicae seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Aevos Jovan",
+        cout: 0,
+        profils: [
+          {
+            nom: "Auxiliaire Médicae",
+            profil: {
+              M: 6,
+              CC: 3,
+              CT: 3,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 1,
+              Cd: 6,
+              Sf: 6,
+              Vo: 6,
+              Int: 7,
+              Sv: "4+",
+              Inv: "-",
+            },
+          },
+          {
+            nom: "Auto-gurney",
+            profil: {
+              M: 6,
+              CC: 1,
+              CT: "-",
+              F: 3,
+              E: 4,
+              PV: 1,
+              I: 1,
+              A: "-",
+              Cd: 1,
+              Sf: 1,
+              Vo: 1,
+              Int: 1,
+              Sv: "4+",
+              Inv: "-",
+            },
+          },
+          {
+            nom: "Aevos Jovan",
+            profil: {
+              M: 6,
+              CC: 2,
+              CT: 2,
+              F: 3,
+              E: 3,
+              PV: 2,
+              I: 3,
+              A: 1,
+              Cd: 8,
+              Sf: 8,
+              Vo: 8,
+              Int: 8,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: [
+          "Médecin (4+) (Aevos Jovan seulement)",
+          "Suite Chirurgicale (Auto-gurney seulement)",
+          "Triage (Auxiliaires Médicae seulement)",
+        ],
+        type: "Auxiliaire Médicae : Infanterie · Auto-gurney : Infanterie · Aevos Jovan : Infanterie (Unique, Spécialiste)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. « 0-1 » sur la fiche.
+    id: "sa-navigateur-expedition",
+    nom: "Navigateur d'Expédition",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "État-major",
+    cout: 65,
+    composition: "1 Navigateur d'Expédition",
+    maxParArmee: 1,
+    traits: ["[Allégeance]", "Solar Auxilia", "Psyker", "Navis Astrologien"],
+    equipement: ["Pistolet laser", "Bâton Ætherlabe"],
+    variantes: [
+      {
+        nom: "Navigateur d'Expédition",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 2,
+          CT: 2,
+          F: 3,
+          E: 3,
+          PV: 1,
+          I: 3,
+          A: 1,
+          Cd: 7,
+          Sf: 6,
+          Vo: 9,
+          Int: 6,
+          Sv: "6+",
+          Inv: "5+",
+        },
+        regles: ["Arts du Navigateur"],
+        type: "Infanterie (Spécialiste)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. « 0-1 » sur la fiche.
+    id: "sa-pretre-loge-davinite",
+    nom: "Prêtre de la Loge Davinite",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "État-major",
+    cout: 60,
+    composition: "1 Prêtre de la Loge Davinite",
+    maxParArmee: 1,
+    traits: ["Renégat", "Solar Auxilia", "Psyker", "Thaumaturge"],
+    equipement: ["Lance-flammes léger", "Lame Davinite"],
+    variantes: [
+      {
+        nom: "Prêtre de la Loge Davinite",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 4,
+          CT: 3,
+          F: 3,
+          E: 3,
+          PV: 2,
+          I: 3,
+          A: 2,
+          Cd: 7,
+          Sf: 6,
+          Vo: 9,
+          Int: 6,
+          Sv: "5+",
+          Inv: "6+",
+        },
+        regles: ["Guérison Rituelle"],
+        type: "Infanterie (Spécialiste)",
+      },
+    ],
+    options: [],
+  },
+
+  /* ---------- Suites ---------- */
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. « Auxilia Melee
+    // Weapons list »/« Auxilia Pistols list » non modélisées (contenu
+    // non fourni par le PDF Legacies).
+    id: "sa-section-compagnons",
+    nom: "Section de Compagnons",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Suites",
+    cout: 80,
+    composition: "1 Adjudant de l'Auxilia, 4 Compagnons",
+    effectif: { base: 5, max: 10, cout: 12 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: ["Rifle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Section de Compagnons",
+        cout: 0,
+        profils: [
+          {
+            nom: "Compagnon",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 6,
+              Int: 6,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Adjudant de l'Auxilia",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: ["Unité d'appui (1)"],
+        type: "Adjudant de l'Auxilia : Infanterie (Sergent) · Compagnon : Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-principale",
+        libelle: "Toute Figurine : remplacer le rifle laser",
+        remplace: "Rifle laser — Salve",
+        choix: [
+          { nom: "— Conserver le rifle laser —", cout: 0 },
+          {
+            nom: "Pistolet laser et Sabre charnabal (Solar Auxilia)",
+            cout: 0,
+          },
+          { nom: "Bolter", cout: 3 },
+          { nom: "Chargeur volkite", cout: 5 },
+          { nom: "Lance-flammes (Solar Auxilia)", cout: 5 },
+          { nom: "Lance-grenades (Solar Auxilia)", cout: 10 },
+          { nom: "Fusil à plasma", cout: 10 },
+          { nom: "Canon rotor", cout: 10 },
+          { nom: "Fuseur", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-melee",
+        libelle:
+          "Figurine dotée d'un pistolet laser et d'un sabre charnabal : remplacer le sabre charnabal",
+        remplace: "Sabre charnabal (Solar Auxilia)",
+        choix: [
+          { nom: "— Conserver le sabre charnabal —", cout: 0 },
+          { nom: "Épée tronçonneuse", cout: 0 },
+        ],
+      },
+      {
+        type: "case",
+        id: "baionnette",
+        libelle: "Figurine dotée d'un rifle laser : baïonnette",
+        cout: 1,
+        requiertEquip: "Rifle laser",
+        ajoute: "Baïonnette (Rifle laser)",
+      },
+      {
+        type: "case",
+        id: "blast-charger",
+        libelle: "Figurine dotée d'un rifle laser : chargeur d'impulsion",
+        cout: 1,
+        requiertEquip: "Rifle laser",
+        ajoute: "Chargeur d'impulsion (Rifle laser)",
+      },
+      {
+        type: "case",
+        id: "vox",
+        libelle: "Un Compagnon : vox internodal",
+        cout: 5,
+        ajoute: "Vox internodal (un Compagnon)",
+      },
+      {
+        type: "case",
+        id: "vexilla",
+        libelle: "Un Compagnon : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum Auxilia (un Compagnon)",
+      },
+      {
+        type: "case",
+        id: "scanner",
+        libelle: "Un Compagnon : scanner augure",
+        cout: 10,
+        ajoute: "Scanner augure (un Compagnon)",
+      },
+      {
+        type: "case",
+        id: "bombes",
+        libelle: "Un Compagnon : bombes à fusion",
+        cout: 10,
+        ajoute: "Bombes à fusion (Solar Auxilia) (un Compagnon)",
+      },
+    ],
+  },
 
   /* ---------- Elite ---------- */
   {
@@ -26276,6 +26627,79 @@ const UNITES = [
     ],
     options: [],
   },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-section-medicae",
+    nom: "Section Médicae",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Appui",
+    cout: 15,
+    composition: "1 Auxiliaire Médicae",
+    effectif: { base: 1, max: 6, cout: 15 },
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: ["Pistolet à aiguilles", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Auxiliaire Médicae",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 3,
+          CT: 3,
+          F: 3,
+          E: 3,
+          PV: 1,
+          I: 3,
+          A: 1,
+          Cd: 6,
+          Sf: 6,
+          Vo: 6,
+          Int: 7,
+          Sv: "4+",
+          Inv: "-",
+        },
+        regles: ["Médecin (5+)", "Soutien Médical"],
+        type: "Infanterie (Spécialiste)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. Wargear : aucun.
+    id: "sa-cyclops",
+    nom: "Véhicule de Démolition Cyclops",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Appui",
+    cout: 50,
+    composition: "1 Véhicule de Démolition Cyclops",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: [],
+    variantes: [
+      {
+        nom: "Cyclops",
+        cout: 0,
+        profilVehicule: {
+          M: 6,
+          CT: "-",
+          avant: 10,
+          flanc: 10,
+          arriere: 10,
+          PC: 2,
+          transport: "—",
+        },
+        regles: [
+          "Sacrifiable (3)",
+          "Explose (2+)",
+          "Compact",
+          "Véhicule de Démolition",
+        ],
+        type: "Véhicule",
+      },
+    ],
+    options: [],
+  },
 
   /* ---------- Engin de Guerre ---------- */
   {
@@ -26390,6 +26814,47 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. « Auxilia Pintle
+    // Weapons list » non modélisée (contenu non fourni par le PDF
+    // Legacies).
+    id: "sa-aurox",
+    nom: "Transport Aurox",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Transports Lourds",
+    cout: 50,
+    composition: "1 Aurox Transport",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et sur la Face Arrière.",
+    equipement: ["Projecteurs"],
+    variantes: [
+      {
+        nom: "Aurox",
+        cout: 0,
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 4,
+          transport: 10,
+        },
+        regles: ["Transport Léger"],
+        type: "Véhicule (Rapide, Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+    ],
+  },
 
   /* ---------- Reco ---------- */
   {
@@ -26449,6 +26914,48 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-section-tarantula",
+    nom: "Section Tarantula",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Reco",
+    cout: 35,
+    composition: "2 Tarantula Sentry Guns",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: ["Bolter lourd jumelé de Tourelle"],
+    variantes: [
+      {
+        nom: "Tarantula Sentry Gun",
+        cout: 0,
+        profilVehicule: {
+          M: "—",
+          CT: 3,
+          avant: 10,
+          flanc: 10,
+          arriere: 10,
+          PC: 2,
+          transport: "—",
+        },
+        regles: ["Sacrifiable (3)", "Protocoles de Tir Automatisé", "Sentinelles Indépendantes"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "lascannon",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un canon laser jumelé de Tourelle",
+        cout: 20,
+        max: 2,
+        ajoute:
+          "Canon laser jumelé de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+    ],
+  },
 
   /* ---------- Attaque Rapide ---------- */
   {
@@ -26505,6 +27012,99 @@ const UNITES = [
           flanc: 12,
           arriere: 12,
           PC: 5,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Aéronef)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. « Auxilia Sponson
+    // Weapons list »/« Auxilia Pintle Weapons list » non modélisées
+    // (contenu non fourni par le PDF Legacies).
+    id: "sa-carnodon",
+    nom: "Char d'Attaque Carnodon",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Attaque Rapide",
+    cout: 80,
+    composition: "1 Carnodon Strike Tank",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: [
+      "Couleuvrine volkite de Tourelle",
+      "Deux arquebuses volkites (Sponsons)",
+      "Projecteurs",
+    ],
+    variantes: [
+      {
+        nom: "Carnodon",
+        cout: 0,
+        profilVehicule: {
+          M: 12,
+          CT: 3,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 4,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Rapide)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-tourelle",
+        libelle: "Remplacer la couleuvrine volkite de Tourelle",
+        remplace: "Couleuvrine volkite de Tourelle",
+        choix: [
+          {
+            nom: "— Conserver la couleuvrine volkite de Tourelle —",
+            cout: 0,
+          },
+          { nom: "Multi-laser jumelé (Solar Auxilia) de Tourelle", cout: 5 },
+          { nom: "Autocanon Gravis (Solar Auxilia) de Tourelle", cout: 10 },
+          { nom: "Canon laser jumelé de Tourelle", cout: 15 },
+        ],
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Tourelle",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Tourelle",
+      },
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-avenger",
+    nom: "Chasseur d'Attaque Avenger",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Attaque Rapide",
+    cout: 100,
+    composition: "1 Avenger Strike Fighter",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: [
+      "Canon à bolts Avenger d'Axe Central",
+      "Canon laser jumelé d'Axe Central",
+      "Mitrailleuse (Solar Auxilia) de Coque (Arrière)",
+    ],
+    variantes: [
+      {
+        nom: "Avenger",
+        cout: 0,
+        profilVehicule: {
+          M: 22,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 4,
           transport: "—",
         },
         regles: [],
@@ -26865,6 +27465,634 @@ const UNITES = [
         ajoute: "Bouclier répulsif",
       },
     ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-destroyer",
+    nom: "Chasseur de Chars Destroyer",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Blindés",
+    cout: 130,
+    composition: "1 Destroyer Tank Hunter",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: ["Destructeur laser Proteus d'Axe Central"],
+    variantes: [
+      {
+        nom: "Destroyer",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "case",
+        id: "lame",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-thunderer",
+    nom: "Char de Siège Thunderer",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Blindés",
+    cout: 155,
+    composition: "1 Thunderer Siege Tank",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: ["Canon Demolisher (Solar Auxilia) d'Axe Central"],
+    variantes: [
+      {
+        nom: "Thunderer",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 10,
+          PC: 6,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "case",
+        id: "lame",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-minotaur",
+    nom: "Char d'Artillerie Minotaur",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Blindés",
+    cout: 205,
+    composition: "1 Minotaur Artillery Tank",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: ["Canon Earthshaker jumelé d'Axe Central (Arrière)"],
+    variantes: [
+      {
+        nom: "Minotaur",
+        cout: 0,
+        profilVehicule: {
+          M: 8,
+          CT: 3,
+          avant: 13,
+          flanc: 13,
+          arriere: 13,
+          PC: 7,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Arrière)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Arrière)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+    ],
+  },
+
+  /* ---------- Seigneurs des Batailles ---------- */
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md. Le canon de bataille
+    // jumelé (arme de base, non remplacée) n'a aucun profil tabulé sur
+    // la fiche PDF (seules ses armes de remplacement le sont) : gap
+    // documenté, équipement affiché sans ligne de caractéristiques
+    // tant que le profil n'est pas fourni.
+    id: "sa-macharius",
+    nom: "Char Lourd Macharius",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 300,
+    composition: "1 Macharius Heavy Tank",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon de bataille jumelé de Tourelle",
+      "Mitrailleuse jumelée (Solar Auxilia) de Coque (Avant)",
+      "Deux mitrailleuses (Solar Auxilia) (Sponsons)",
+    ],
+    variantes: [
+      {
+        nom: "Macharius",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 12,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-tourelle",
+        libelle: "Remplacer le canon de bataille jumelé de Tourelle",
+        remplace: "Canon de bataille jumelé de Tourelle",
+        choix: [
+          {
+            nom: "— Conserver le canon de bataille jumelé de Tourelle —",
+            cout: 0,
+          },
+          { nom: "Canon à bolts Avenger jumelé de Tourelle", cout: 0 },
+          { nom: "Canon Vanquisher jumelé de Tourelle", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-sponsons",
+        libelle: "Remplacer les deux mitrailleuses (Sponsons)",
+        remplace: "Deux mitrailleuses (Solar Auxilia) (Sponsons)",
+        choix: [
+          { nom: "— Conserver les deux mitrailleuses (Sponsons) —", cout: 0 },
+          { nom: "Deux bolters lourds (Solar Auxilia) (Sponsons)", cout: 5 },
+          {
+            nom: "Deux lance-flammes lourds (Solar Auxilia) (Sponsons)",
+            cout: 5,
+          },
+        ],
+      },
+      optionMissileTraqueurSA("de Tourelle"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-praetor-lanceur",
+    nom: "Lanceur d'Assaut Blindé Praetor",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 300,
+    composition: "1 Praetor Armoured Assault Launcher",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Lanceur Praetor d'Axe Central",
+      "Deux bolters lourds (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Praetor",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 12,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-crassus",
+    nom: "Transport d'Assaut Blindé Crassus",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 350,
+    composition: "1 Crassus Armoured Assault Transport",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    notes: "Cette Figurine a un Point d'Accès sur la Face Arrière.",
+    equipement: [
+      "Deux bolters lourds (Solar Auxilia) de Coque (Avant)",
+      "Deux bolters lourds (Solar Auxilia) (Sponsons)",
+    ],
+    variantes: [
+      {
+        nom: "Crassus",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 12,
+          transport: 35,
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd, Transport)",
+      },
+    ],
+    options: [
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-baneblade",
+    nom: "Char de Bataille Super-Lourd Baneblade",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 520,
+    composition: "1 Baneblade",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon Baneblade de Tourelle",
+      "Autocanon (Solar Auxilia) coaxial (Canon Baneblade)",
+      "Canon Demolisher (Solar Auxilia) d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Baneblade",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Tourelle"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-hellhammer",
+    nom: "Char de Bataille Super-Lourd Hellhammer",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 520,
+    composition: "1 Hellhammer",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon Hellhammer de Tourelle",
+      "Autocanon (Solar Auxilia) coaxial (Canon Hellhammer)",
+      "Canon Demolisher (Solar Auxilia) d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Hellhammer",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Tourelle"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-banehammer",
+    nom: "Char d'Assaut Super-Lourd Banehammer",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 450,
+    composition: "1 Banehammer",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon Tremor d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Banehammer",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-stormlord",
+    nom: "Char d'Assaut Super-Lourd Stormlord",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 500,
+    composition: "1 Stormlord",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
+    equipement: [
+      "Méga-bolter Vulcan (Stormlord) d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Mitrailleuse (Solar Auxilia) de Coque (Gauche)",
+      "Mitrailleuse (Solar Auxilia) de Coque (Droite)",
+    ],
+    variantes: [
+      {
+        nom: "Stormlord",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: 20,
+        },
+        regles: ["Transport Léger"],
+        type: "Véhicule (Super-lourd, Transport)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-stormblade",
+    nom: "Char Super-Lourd Stormblade",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 500,
+    composition: "1 Stormblade",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Blastgun à plasma d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Stormblade",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-shadowsword",
+    nom: "Destructeur de Chars Super-Lourd Shadowsword",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 475,
+    composition: "1 Shadowsword",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon Volcano (Shadowsword) d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Shadowsword",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: ["Macro-Auspex"],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-stormsword",
+    nom: "Char de Siège Super-Lourd Stormsword",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 475,
+    composition: "1 Stormsword",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Canon de siège Stormsword d'Axe Central",
+      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Stormsword",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 3,
+          avant: 14,
+          flanc: 13,
+          arriere: 12,
+          PC: 16,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd)",
+      },
+    ],
+    options: [
+      optionSponsonsLascanonSA(),
+      optionMissileTraqueurSA("de Coque (Avant)"),
+      optionProjecteursSA(),
+    ],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-marauder-destructeur",
+    nom: "Destructeur Marauder",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 245,
+    composition: "1 Marauder Destroyer",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: [
+      "Bolter lourd jumelé de Tourelle",
+      "Rangée d'autocanons Gravis de Coque (Avant)",
+      "Canon rotatif de défense jumelé de Coque (Arrière)",
+    ],
+    variantes: [
+      {
+        nom: "Marauder Destructeur",
+        cout: 0,
+        profilVehicule: {
+          M: 18,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 10,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd, Aéronef)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Auxilia) : voir CLAUDE.md.
+    id: "sa-marauder-bombardier",
+    nom: "Bombardier Marauder",
+    legacy: true,
+    faction: "solar-auxilia",
+    categorie: "Seigneurs des Batailles",
+    cout: 225,
+    composition: "1 Marauder Bomber",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    equipement: [
+      "Bolter lourd jumelé de Tourelle",
+      "Canon laser jumelé de Coque (Avant)",
+      "Bolter lourd jumelé de Coque (Arrière)",
+      "Grappe de macro-bombes d'Axe Central (Avant/Arrière)",
+    ],
+    variantes: [
+      {
+        nom: "Marauder Bombardier",
+        cout: 0,
+        profilVehicule: {
+          M: 18,
+          CT: 3,
+          avant: 12,
+          flanc: 12,
+          arriere: 12,
+          PC: 10,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd, Aéronef)",
+      },
+    ],
+    options: [],
   },
 
   /* ============================================================
@@ -27687,6 +28915,67 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md.
+    id: "mech-combat-arlatax",
+    nom: "Manipule de Combat Arlatax",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Elite",
+    cout: 120,
+    composition: "1 Arlatax",
+    effectif: { base: 1, max: 4, cout: 120 },
+    traits: ["[Allégeance]", "Cybernetica"],
+    equipement: [
+      "Canon à plasma",
+      "Paire de lames énergétiques",
+      "Autocanon léger jumelé",
+    ],
+    variantes: [
+      {
+        nom: "Arlatax",
+        cout: 0,
+        profil: {
+          M: 10,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 4,
+          I: 3,
+          A: 3,
+          Cd: 8,
+          Sf: 12,
+          Vo: 4,
+          Int: 4,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (6)",
+          "Frappe en Profondeur",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Impact (A)",
+          "Avant-garde (2)",
+          "Protocoles de Tir",
+          "Gabarit de Souffle",
+        ],
+        type: "Automate (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "fouets-arc",
+        libelle:
+          "Toute Figurine : échanger sa paire de lames énergétiques et son autocanon léger jumelé contre une paire de fouets arc",
+        cout: 0,
+        ajoute:
+          "Paire de fouets arc (à la place de la paire de lames énergétiques et de l'autocanon léger jumelé)",
+      },
+    ],
+  },
 
   /* ---------- Assaut Lourd ---------- */
   {
@@ -28122,6 +29411,49 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md.
+    id: "mech-cohorte-servo-esclave",
+    nom: "Cohorte de Défense Servo-esclave",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Appui",
+    cout: 100,
+    composition: "10 Servo-esclaves",
+    effectif: { base: 10, max: 40, cout: 10 },
+    traits: ["[Allégeance]", "Lacrymaerta"],
+    equipement: ["Mitra-lock"],
+    variantes: [
+      {
+        nom: "Servo-esclave",
+        cout: 0,
+        profil: {
+          M: 5,
+          CC: 2,
+          CT: 2,
+          F: 3,
+          E: 5,
+          PV: 1,
+          I: 2,
+          A: 1,
+          Cd: 4,
+          Sf: 12,
+          Vo: 4,
+          Int: 4,
+          Sv: "6+",
+          Inv: "-",
+        },
+        regles: [
+          "Sacrifiable (2)",
+          "Rite de la Pensée Pure",
+          "Insensible à la Douleur (6+)",
+          "Servo-esclaves",
+        ],
+        type: "Infanterie",
+      },
+    ],
+    options: [],
+  },
 
   /* ---------- Engin de Guerre ---------- */
   {
@@ -28308,6 +29640,124 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md. Distinct du
+    // « Termite » Legio Astartes déjà existant (mêmes stats, wargear et
+    // options différents), d'où le nom distinct.
+    id: "mech-termite",
+    nom: "Termite du Mechanicum",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Transports Lourds",
+    cout: 80,
+    composition: "1 Termite du Mechanicum",
+    traits: ["[Allégeance]", "[Mechanicum]"],
+    notes: "Un Point d'Accès sur chaque Flanc.",
+    equipement: [
+      "Deux combi-bolters sur Pivot",
+      "Découpeurs à fusion d'Axe Central",
+    ],
+    variantes: [
+      {
+        nom: "Termite du Mechanicum",
+        cout: 0,
+        profilVehicule: {
+          M: 6,
+          CT: 4,
+          avant: 12,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: 12,
+        },
+        regles: ["Transport Léger", "Frappe en Profondeur"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      optionTechnoArcane(),
+      {
+        type: "choix",
+        id: "combi-bolters",
+        libelle: "Remplacer les deux combi-bolters sur Pivot",
+        remplace: "Deux combi-bolters sur Pivot",
+        choix: [
+          { nom: "— Conserver les deux combi-bolters sur Pivot —", cout: 0 },
+          { nom: "Deux chargeurs volkites jumelés sur Pivot", cout: 10 },
+          { nom: "Deux lance-flammes lourds sur Pivot", cout: 5 },
+        ],
+      },
+    ],
+  },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md.
+    id: "mech-macrocarid",
+    nom: "Macrocarid Explorator",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Transports Lourds",
+    cout: 200,
+    composition: "1 Macrocarid Explorator",
+    traits: ["[Allégeance]", "Macrotek"],
+    equipement: ["Canon à bolts Mauler de Tourelle", "Bouclier antidéflagrant"],
+    variantes: [
+      {
+        nom: "Macrocarid Explorator",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 9,
+          transport: 12,
+        },
+        regles: ["Autoréparation (3+)", "Mouvement à couvert", "Griffe Anbarique"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-coque",
+        libelle: "Choisir une arme de Coque (Avant)",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          { nom: "Deux nettoyeurs irad jumelés de Coque (Avant)", cout: 20 },
+          { nom: "Deux canons lasers de Coque (Avant)", cout: 35 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-tourelle",
+        libelle: "Remplacer le canon à bolts Mauler de Tourelle",
+        remplace: "Canon à bolts Mauler de Tourelle",
+        choix: [
+          {
+            nom: "— Conserver le canon à bolts Mauler de Tourelle —",
+            cout: 0,
+          },
+          { nom: "Imploseur à gravitons de Tourelle", cout: 35 },
+        ],
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+    ],
+  },
 
   /* ---------- Reco ---------- */
   {
@@ -28365,6 +29815,104 @@ const UNITES = [
         libelle: "Une Figurine sur deux : fusil à foudre → irradieur",
         cout: 20,
         ajoute: "Irradieur (Mechanicum) (à la place du fusil à foudre)",
+      },
+    ],
+  },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md. Chaque Canon
+    // Sentinelle Tarantula compte comme une Unité séparée pour le
+    // Déploiement et les Points de Victoire (Sentinelles Indépendantes),
+    // mais reste géré comme une seule fiche d'Armée ici, sur le principe
+    // déjà suivi pour les autres Unités à plusieurs Figurines de ce
+    // fichier.
+    id: "mech-tarantula",
+    nom: "Batterie Tarantula",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Reco",
+    cout: 45,
+    composition: "2 Canons Sentinelles Tarantula",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Mechanicum]"],
+    equipement: ["Bolter lourd jumelé de Tourelle"],
+    variantes: [
+      {
+        nom: "Canon Sentinelle Tarantula",
+        cout: 0,
+        profilVehicule: {
+          M: "—",
+          CT: 4,
+          avant: 10,
+          flanc: 10,
+          arriere: 10,
+          PC: 2,
+          transport: "—",
+        },
+        regles: [
+          "Sacrifiable (3)",
+          "Infiltration (9)",
+          "Protocoles de Tir Automatisé",
+          "Sentinelles Indépendantes",
+        ],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      optionTechnoArcane(),
+      {
+        type: "quantite",
+        id: "lascannon",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un canon laser jumelé de Tourelle",
+        cout: 20,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Canon laser jumelé de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        type: "quantite",
+        id: "volkite",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par une couleuvrine volkite jumelée de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Couleuvrine volkite jumelée de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        type: "quantite",
+        id: "melta-array",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un affût à fusion de Sentinelle de Tourelle",
+        cout: 25,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Affût à fusion de Sentinelle de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        type: "quantite",
+        id: "hyperios",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un lance-missiles Hyperios de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Lance-missiles Hyperios de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        type: "quantite",
+        id: "orias",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par deux missiles Orias à fragmentation de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Deux missiles Orias à fragmentation (Tourelle) (à la place du bolter lourd jumelé de Tourelle)",
       },
     ],
   },
@@ -28634,6 +30182,145 @@ const UNITES = [
           "Mouvement à Couvert",
         ],
         type: "Automate (Maléfique, Inarrêtable)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md.
+    id: "mech-ordinatus-ulator",
+    nom: "Ordinatus Ulator",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Seigneurs des Batailles",
+    cout: 750,
+    composition: "1 Ordinatus Ulator",
+    traits: ["[Allégeance]", "Macrotek"],
+    equipement: [
+      "Couleuvrine volkite de Coque (Arrière)",
+      "Deux couleuvrines volkites de Coque (Avant)",
+      "Destructeur sonique d'Axe Central",
+    ],
+    variantes: [
+      {
+        nom: "Ordinatus Ulator",
+        cout: 0,
+        profilsVehicule: [
+          {
+            nom: "Affût",
+            M: 10,
+            CT: 4,
+            principal: 14,
+            expose: 10,
+            PC: 14,
+            transport: "—",
+          },
+          {
+            nom: "Canon",
+            M: "—",
+            CT: 4,
+            principal: 13,
+            expose: 10,
+            PC: 12,
+            transport: "—",
+          },
+        ],
+        regles: ["Équipe de Réparation (D3)", "Champ de Dispersion"],
+        type: "Véhicule (Ordinatus)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md. Le Canon Volcano
+    // Belicosa (arme du Profil Canon) est déjà un profil existant de
+    // l'Arsenal (js/armes-data.js, section « Armes Stratégiques
+    // Titaniques »), réutilisé tel quel.
+    id: "mech-ordinatus-sagittar",
+    nom: "Ordinatus Sagittar",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Seigneurs des Batailles",
+    cout: 800,
+    composition: "1 Ordinatus Sagittar",
+    traits: ["[Allégeance]", "Macrotek"],
+    equipement: [
+      "Couleuvrine volkite de Coque (Arrière)",
+      "Deux couleuvrines volkites de Coque (Avant)",
+      "Canon Volcano Belicosa d'Axe Central",
+    ],
+    variantes: [
+      {
+        nom: "Ordinatus Sagittar",
+        cout: 0,
+        profilsVehicule: [
+          {
+            nom: "Affût",
+            M: 10,
+            CT: 4,
+            principal: 14,
+            expose: 10,
+            PC: 14,
+            transport: "—",
+          },
+          {
+            nom: "Canon",
+            M: "—",
+            CT: 4,
+            principal: 13,
+            expose: 10,
+            PC: 12,
+            transport: "—",
+          },
+        ],
+        regles: ["Équipe de Réparation (D3)", "Champ de Dispersion"],
+        type: "Véhicule (Ordinatus)",
+      },
+    ],
+    options: [],
+  },
+  {
+    // Legacies (Liber Mechanicum) : voir CLAUDE.md. Surnommé « la Taupe
+    // Impériale » (Imperial Mole) dans son texte de fluff.
+    id: "mech-ordinatus-aktaeus",
+    nom: "Ordinatus Aktaeus",
+    legacy: true,
+    faction: "mechanicum",
+    categorie: "Seigneurs des Batailles",
+    cout: 900,
+    composition: "1 Ordinatus Aktaeus",
+    traits: ["[Allégeance]", "Macrotek"],
+    notes: "Un Point d'Accès sur chaque Flanc.",
+    equipement: [
+      "Deux couleuvrines volkites de Coque (Avant)",
+      "Foreuse sismique d'Axe Central",
+    ],
+    variantes: [
+      {
+        nom: "Ordinatus Aktaeus",
+        cout: 0,
+        profilsVehicule: [
+          {
+            nom: "Affût",
+            M: 10,
+            CT: 4,
+            principal: 14,
+            expose: 10,
+            PC: 14,
+            transport: "—",
+          },
+          {
+            nom: "Canon",
+            M: "—",
+            CT: 4,
+            principal: 13,
+            expose: 10,
+            PC: 12,
+            transport: 42,
+          },
+        ],
+        regles: ["Équipe de Réparation (D3)", "Baie de Transport de Macro-foreuse"],
+        type: "Véhicule (Ordinatus)",
       },
     ],
     options: [],
