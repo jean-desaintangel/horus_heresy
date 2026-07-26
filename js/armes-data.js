@@ -3433,6 +3433,81 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Arsenal des Conclaves Skitarii. --- */
+  {
+    titre: "Armes des Conclaves Skitarii",
+    armes: [
+      {
+        nom: "Arme de poing volt",
+        stats: ["10", "1", "5", "5", "1"],
+        regles: "Pistolet, Déflagration (5)",
+        traits: "Volkite, Assaut",
+      },
+      {
+        nom: "Arquebuse volt¹",
+        stats: ["20", "2", "5", "5", "1"],
+        regles: "Déflagration (5)",
+        traits: "Volkite",
+      },
+      {
+        nom: "Charges Rad",
+        stats: ["8", "1", "4", "-", "1"],
+        regles: "Phage (E)",
+        traits: "Rad, Assaut",
+      },
+      {
+        nom: "Grenades disruptrices",
+        stats: ["8", "1", "4", "-", "1"],
+        regles: "Choc (Sonnée)",
+        traits: "Disruption, Assaut",
+      },
+      /* Mêmes stats/Règles que « Missile traqueur (Solar Auxilia) »,
+         mais entrée distincte : le Trait « Missile » (au lieu de
+         « Missile Guidé » sur la version bare) doit apparaître sans
+         faire porter à tort l'étiquette « (Solar Auxilia) » sur une
+         fiche Skitarii — même principe que « Missile traqueur
+         (Mechanicum) » ci-dessus, qui a sa propre entrée pour la même
+         raison. */
+      {
+        nom: "Missile traqueur (Skitarii)",
+        stats: ["48", "1", "9", "3", "3"],
+        regles: "Fléau des Blindages, Limitée (1)",
+        traits: "Missile",
+      },
+    ],
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
+  },
+  /* --- Arsenal de la Legio Custodes. --- */
+  {
+    titre: "Armes de la Legio Custodes",
+    armes: [
+      {
+        nom: "Lance adrasite¹",
+        stats: ["12", "1", "5", "2", "2"],
+        regles: "Vulnérante (6+)",
+        traits: "Assaut, Désintégrateur",
+      },
+      {
+        nom: "Lance pyrithite¹",
+        stats: ["6", "1", "8", "2", "2"],
+        regles: "Fusion (3)",
+        traits: "Assaut, Fusion",
+      },
+      {
+        nom: "Arquebuse à bolts Adrastus — Salve de bolts (Principale)",
+        stats: ["36", "2", "6", "4", "2"],
+        regles: "Lourde (PF), Combi",
+        traits: "Bolts",
+      },
+      {
+        nom: "Arquebuse à bolts Adrastus — Faisceau adrathique (Secondaire)",
+        stats: ["24", "1", "6", "2", "2"],
+        regles: "Vulnérante (6+), Limitée (I), Combi",
+        traits: "Désintégrateur",
+      },
+    ],
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -5003,5 +5078,61 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
     ],
+  },
+  /* --- Arsenal des Conclaves Skitarii. --- */
+  {
+    titre: "Armes des Conclaves Skitarii",
+    armes: [
+      {
+        nom: "Sceptre auctorite",
+        stats: ["I", "A", "+1", "4", "1"],
+        regles: "Brèche (6+), Icône d'Autorité",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Griffe de phase",
+        stats: ["-3", "A", "+3", "2", "2"],
+        regles: "Vulnérante (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Bâton foudroyant",
+        stats: ["I", "A", "+1", "3", "1"],
+        regles: "Choc (Fixée, Sonnée, Neutralisée)",
+        traits: "-",
+      },
+      {
+        nom: "Arquebuse volt¹",
+        stats: ["I", "A", "+1", "4", "1"],
+        regles: "Impact (I)",
+        traits: "-",
+      },
+      {
+        nom: "Serres dendrites (Skitarii)",
+        stats: ["I", "A", "F", "4", "2"],
+        regles: "Brèche (6+)",
+        traits: "-",
+      },
+    ],
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
+  },
+  /* --- Arsenal de la Legio Custodes. --- */
+  {
+    titre: "Armes de la Legio Custodes",
+    armes: [
+      {
+        nom: "Lance adrasite¹",
+        stats: ["1", "A", "+1", "2", "1"],
+        regles: "Impact (MA)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance pyrithite¹",
+        stats: ["1", "A", "+1", "2", "1"],
+        regles: "Impact (MA)",
+        traits: "Énergétique",
+      },
+    ],
+    note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
   },
 ];

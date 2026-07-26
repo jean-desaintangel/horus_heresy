@@ -1225,8 +1225,16 @@ function construireTablesArmes(equipement) {
     const nomBaseMinuscule = correspondance.arme.nomBase.toLowerCase();
     for (const arme of indexArmes) {
       if (arme.nomBase.toLowerCase() !== nomBaseMinuscule) continue;
-      if (noms.has(arme.nom)) continue;
-      noms.add(arme.nom);
+      // Le dédoublonnage se fait sur `nom` + jeu d'en-têtes (Tir/Mêlée),
+      // pas sur `nom` seul : une Arme à la fois « Découpeur laser¹ »
+      // (Tir) ET « Découpeur laser¹ » (Mêlée), même intitulé des deux
+      // côtés par convention (voir la note « ¹ » sur chaque groupe
+      // d'ARMES_TIR/ARMES_MELEE concerné), a deux profils DISTINCTS à
+      // conserver malgré le nom identique — dédoublonner sur `nom` seul
+      // en ignorerait un des deux silencieusement.
+      const cle = arme.nom + " " + (arme.entetes === ENTETES_TIR ? "T" : "M");
+      if (noms.has(cle)) continue;
+      noms.add(cle);
       armesTrouvees.push(arme);
     }
   }
@@ -1296,6 +1304,25 @@ function traitFactionMechanicumDe(unite, instance) {
   );
 }
 
+// Même mécanique que traitFactionMechanicumDe ci-dessus, pour le Trait
+// de Faction [Skitarii] (Conclaves Skitarii, sept TRAITS_FACTION_
+// SKITARII — Acquisitor/Expurgator/Vindicator/Flagellator,
+// js/unites-data.js) : soit fixe (déjà écrit en dur dans `traits` —
+// aucune Unité de ce fichier aujourd'hui, réservé aux futures
+// publications propres à un Conclave), soit choisi via l'option
+// "trait-skitarii" (`traits` contient alors le placeholder «
+// [Skitarii] », voir optionTraitSkitarii, js/unites-data.js). Retourne
+// null hors Faction Skitarii ou si rien ne correspond.
+function traitFactionSkitariiDe(unite, instance) {
+  if (unite.faction !== "skitarii" || !unite.traits) return null;
+  if (unite.traits.includes("[Skitarii]")) {
+    const opt = unite.options.find((o) => o.id === "trait-skitarii");
+    if (!opt) return null;
+    return opt.choix[instance.valeurs["trait-skitarii"]].nom;
+  }
+  return unite.traits.find((t) => TRAITS_FACTION_SKITARII.includes(t)) || null;
+}
+
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
 function construireFiche(unite, instance) {
   const fiche = el("div", "unite-fiche");
@@ -1318,24 +1345,30 @@ function construireFiche(unite, instance) {
     ),
   );
   fiche.appendChild(construireTablesArmes(equipement));
-  // [Allégeance], [Legiones Astartes] et [Questoris Familia] sont
-  // communs à toutes les unités de la Légion/Faction : ne pas les
-  // afficher sur la fiche évite de les y répéter systématiquement. La
-  // ligne disparaît s'il ne reste aucun trait propre à l'unité.
-  // [Mechanicum] est différent : remplacé (pas juste masqué) par le
-  // Techno-arcane Majeur effectif de cette Unité (traitFactionMechanicumDe
-  // ci-dessus), fixe ou choisi via l'option "techno-arcane".
+  // [Allégeance], [Legiones Astartes], [Questoris Familia] et [Legio
+  // Custodes] sont communs à toutes les unités de la Légion/Faction :
+  // ne pas les afficher sur la fiche évite de les y répéter
+  // systématiquement. La ligne disparaît s'il ne reste aucun trait
+  // propre à l'unité.
+  // [Mechanicum] et [Skitarii] sont différents : remplacés (pas juste
+  // masqués) par le Trait de Faction effectif de cette Unité
+  // (traitFactionMechanicumDe/traitFactionSkitariiDe ci-dessus), fixe
+  // ou choisi via son option dédiée.
   const traitMechanicum = traitFactionMechanicumDe(unite, instance);
+  const traitSkitarii = traitFactionSkitariiDe(unite, instance);
   const traitsAffiches = unite.traits
     .filter(
       (trait) =>
         trait !== "[Allégeance]" &&
         trait !== "[Legiones Astartes]" &&
-        trait !== "[Questoris Familia]",
+        trait !== "[Questoris Familia]" &&
+        trait !== "[Legio Custodes]",
     )
-    .map((trait) =>
-      trait === "[Mechanicum]" && traitMechanicum ? traitMechanicum : trait,
-    );
+    .map((trait) => {
+      if (trait === "[Mechanicum]" && traitMechanicum) return traitMechanicum;
+      if (trait === "[Skitarii]" && traitSkitarii) return traitSkitarii;
+      return trait;
+    });
   // Trait accordé par le Détachement Auxiliaire occupé (ex : Tercio
   // Véletaris), le cas échéant — s'ajoute à ceux propres à l'unité sans
   // les dupliquer (ex : l'Unité d'État-major qui débloque le Détachement
@@ -1432,15 +1465,57 @@ function synchroniserConfig(carte, unite, instance) {
     }
   }
 
+  // 1 quater. Trait de Faction [Skitarii] (Conclaves Skitarii) : même
+  // alignement automatique que le Techno-arcane Mechanicum ci-dessus,
+  // mais sans filtre de famille de Détachement (voir
+  // traitFactionSkitariiRequisPour, js/organigramme.js — l'uniformité
+  // « Toutes les Unités sélectionnées dans un Détachement donné
+  // doivent avoir le même Trait de Faction » s'y applique à TOUT
+  // Détachement). S'il n'y a rien à aligner mais que le choix
+  // actuellement enregistré (Vindicator/Flagellator) ne correspond
+  // plus à l'Allégeance actuelle de l'Armée (changée après coup dans
+  // les paramètres), on retombe sur l'entrée 0 (Acquisitor) plutôt que
+  // de garder une valeur invalide/masquée dans le <select> (voir le
+  // filtre requiertAllegeance posé au moment de peupler ce <select>,
+  // plus haut dans construireConfig).
+  const traitSkitariiRequis =
+    window.Organigramme && Organigramme.traitFactionSkitariiRequisPour
+      ? Organigramme.traitFactionSkitariiRequisPour(instance.uid)
+      : null;
+  if (traitSkitariiRequis && "trait-skitarii" in instance.valeurs) {
+    const indiceRequis = TRAITS_FACTION_SKITARII.indexOf(traitSkitariiRequis);
+    if (
+      indiceRequis !== -1 &&
+      instance.valeurs["trait-skitarii"] !== indiceRequis
+    ) {
+      instance.valeurs["trait-skitarii"] = indiceRequis;
+      modifie = true;
+    }
+  } else if ("trait-skitarii" in instance.valeurs) {
+    const optSkitarii = unite.options.find((o) => o.id === "trait-skitarii");
+    const choixActuel = optSkitarii.choix[instance.valeurs["trait-skitarii"]];
+    if (
+      choixActuel.requiertAllegeance &&
+      window.Organigramme &&
+      Organigramme.allegeanceActuelle() !== choixActuel.requiertAllegeance
+    ) {
+      instance.valeurs["trait-skitarii"] = 0;
+      modifie = true;
+    }
+  }
+
   // 2. Synchronise les champs du formulaire (valeur + grisé).
   for (const opt of unite.options) {
     const realisable = optionRealisable(unite, instance, opt);
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
+      if (opt.choix.some((c) => c.requiertAllegeance))
+        peuplerChoixSelect(select, opt);
       select.value = String(instance.valeurs[opt.id]);
       select.disabled =
         !realisable ||
-        (opt.id === "techno-arcane" && Boolean(traitMechanicumRequis));
+        (opt.id === "techno-arcane" && Boolean(traitMechanicumRequis)) ||
+        (opt.id === "trait-skitarii" && Boolean(traitSkitariiRequis));
     } else if (opt.type === "multi") {
       const cases = carte.querySelectorAll("[data-multi='" + opt.id + "']");
       const cochees = instance.valeurs[opt.id];
@@ -1511,6 +1586,39 @@ function actualiserCarte(carte, unite, instance) {
   // 4. Total général + sauvegarde.
   actualiserTotal();
   sauvegarder();
+}
+
+/* Peuple un <select> d'option "choix" avec ses <option> (vide au
+   préalable si déjà peuplé — sert aussi bien à la construction initiale
+   qu'à un rafraîchissement). requiertAllegeance sur une entrée de
+   `choix` (ex : Vindicator/Flagellator, optionTraitSkitarii, js/unites-
+   data.js) : n'affiche cette entrée que si elle correspond à
+   l'Allégeance actuelle de l'Armée — les indices restent stables
+   (l'entrée est juste absente du <select>, pas retirée de opt.choix).
+   Appelé depuis synchroniserConfig (pas seulement construireConfig) dès
+   qu'une option a au moins une entrée `requiertAllegeance`, pour que le
+   menu se remette à jour si l'Allégeance change après coup — sinon les
+   <option> resteraient figées sur celles visibles au moment de la
+   construction initiale de la carte. */
+function peuplerChoixSelect(select, opt) {
+  select.replaceChildren();
+  opt.choix.forEach((choix, indice) => {
+    if (
+      choix.requiertAllegeance &&
+      (!orgaPret ||
+        typeof Organigramme === "undefined" ||
+        Organigramme.allegeanceActuelle() !== choix.requiertAllegeance)
+    )
+      return;
+    const texteOption =
+      indice === 0 && !opt.obligatoire
+        ? nomCourt(choix.nom)
+        : nomCourt(choix.nom) +
+          " — " +
+          libelleCout(choix.cout) +
+          (opt.parFigurine && choix.cout > 0 ? "/figurine" : "");
+    ajouterOption(select, String(indice), texteOption);
+  });
 }
 
 // Formulaire de configuration d'une carte (construit une seule fois).
@@ -1593,16 +1701,7 @@ function construireConfig(carte, unite, instance) {
         const select = document.createElement("select");
         select.id = "opt-" + instance.uid + "-" + opt.id;
         label.htmlFor = select.id;
-        opt.choix.forEach((choix, indice) => {
-          const texteOption =
-            indice === 0 && !opt.obligatoire
-              ? nomCourt(choix.nom)
-              : nomCourt(choix.nom) +
-                " — " +
-                libelleCout(choix.cout) +
-                (opt.parFigurine && choix.cout > 0 ? "/figurine" : "");
-          ajouterOption(select, String(indice), texteOption);
-        });
+        peuplerChoixSelect(select, opt);
         select.addEventListener("change", () => {
           instance.valeurs[opt.id] = Number(select.value);
           actualiserCarte(carte, unite, instance);
@@ -1613,7 +1712,8 @@ function construireConfig(carte, unite, instance) {
           // celui, local, ci-dessus, pour qu'elles s'alignent/se
           // grisent immédiatement (actualiserCarte ne touche que
           // CETTE carte).
-          if (opt.id === "techno-arcane") actualiserSelectsCases();
+          if (opt.id === "techno-arcane" || opt.id === "trait-skitarii")
+            actualiserSelectsCases();
         });
         ligne.appendChild(label);
         ligne.appendChild(select);
@@ -2289,6 +2389,24 @@ function contenuTraitsFactionMechanicumActuels() {
     .filter(Boolean);
 }
 
+// Même principe que contenuTraitsFactionMechanicumActuels ci-dessus,
+// pour les Traits de Faction [Skitarii] (Acquisitor/Expurgator/
+// Vindicator/Flagellator) réellement présents dans l'Armée courante.
+function contenuTraitsFactionSkitariiActuels() {
+  const presents = new Set();
+  for (const inst of armee) {
+    const unite = trouverUnite(inst.uniteId);
+    const trait = unite && traitFactionSkitariiDe(unite, inst);
+    if (trait) presents.add(trait);
+  }
+  return TRAITS_FACTION_SKITARII.filter((nom) => presents.has(nom))
+    .map((nom) => {
+      const regle = REGLES_DIVERSES.find((r) => r.nom === nom);
+      return regle ? { nom, regle } : null;
+    })
+    .filter(Boolean);
+}
+
 // Désignation de Legiones Auxilia choisie (voir
 // DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) et le texte
 // condensé de sa Réaction Avancée (REGLES_DIVERSES, js/regles-data.js,
@@ -2717,6 +2835,11 @@ async function genererPDF() {
     titreSection("Trait de Faction : " + contenuTrait.nom, 12);
     paragraphe(contenuTrait.regle.texte, 9);
   }
+  for (const contenuTrait of contenuTraitsFactionSkitariiActuels()) {
+    y += 4;
+    titreSection("Trait de Faction : " + contenuTrait.nom, 12);
+    paragraphe(contenuTrait.regle.texte, 9);
+  }
 
   const contenuDesignation = contenuDesignationAuxiliaActuelle();
   if (contenuDesignation) {
@@ -3059,6 +3182,11 @@ async function genererWordHTML() {
       "<h2>Trait de Faction : " + echapperHTML(contenuTrait.nom) + "</h2>";
     corps += "<p>" + echapperHTML(contenuTrait.regle.texte) + "</p>";
   }
+  for (const contenuTrait of contenuTraitsFactionSkitariiActuels()) {
+    corps +=
+      "<h2>Trait de Faction : " + echapperHTML(contenuTrait.nom) + "</h2>";
+    corps += "<p>" + echapperHTML(contenuTrait.regle.texte) + "</p>";
+  }
 
   const contenuDesignation = contenuDesignationAuxiliaActuelle();
   if (contenuDesignation) {
@@ -3320,6 +3448,8 @@ function initialiserChoixUnite() {
     "legio-astartes": "Legio Astartes",
     "legio-titanicus": "Legio Titanicus",
     "chevaliers-questoris": "Chevaliers Questoris",
+    skitarii: "Conclaves Skitarii",
+    "legio-custodes": "Legio Custodes",
   };
 
   function rendre() {
@@ -3725,6 +3855,11 @@ function initialiser() {
     // RequisPour (js/organigramme.js) pour imposer l'uniformité au sein
     // d'un Détachement Auxiliaire/d'Apex, voir CLAUDE.md.
     traitFactionMechanicumDe,
+    // Même mécanique que traitFactionMechanicumDe, pour le Trait de
+    // Faction [Skitarii] (Conclaves Skitarii) — uniformité exigée dans
+    // TOUT Détachement, voir traitFactionSkitariiRequisPour/caseAccepte
+    // (js/organigramme.js) et CLAUDE.md.
+    traitFactionSkitariiDe,
     surChangement: actualiserSelectsCases,
   });
   actualiserTotal();

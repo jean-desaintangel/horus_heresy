@@ -679,6 +679,43 @@ const optionTechnoArcane = () => ({
   choix: TRAITS_FACTION_MECHANICUM.map((nom) => ({ nom, cout: 0 })),
 });
 
+// Traits de Faction remplaçant « [Skitarii] » (Conclaves Skitarii,
+// p. 2 : « Toutes les Unités sélectionnées dans un Détachement donné
+// doivent avoir le même Trait de Faction, sauf si une autre Règle ou
+// Règle Spéciale stipule le contraire »). Vindicator/Flagellator sont
+// réservés à une Allégeance (voir `requiertAllegeance` sur leur entrée
+// `choix` ci-dessous, optionTraitSkitarii — filtré à l'affichage dans
+// js/unites.js, construireConfig, et re-vérifié dans synchroniserConfig
+// si l'Allégeance change après coup).
+const TRAITS_FACTION_SKITARII = [
+  "Acquisitor",
+  "Expurgator",
+  "Vindicator",
+  "Flagellator",
+];
+
+// Même principe qu'optionTechnoArcane ci-dessus, pour le Trait de
+// Faction [Skitarii] : `obligatoire: true` (indice 0, Acquisitor, est
+// un vrai choix — toute Figurine [Skitarii] DOIT avoir un Trait de
+// Faction), `horsEquipement: true` (remplace un Trait, pas un objet
+// d'Équipement, voir construireFiche/equipementFinal, js/unites.js).
+// Contrairement au Techno-arcane Mechanicum, l'uniformité de ce Trait
+// est exigée dans TOUT Détachement (pas seulement Auxiliaire/d'Apex),
+// voir caseAccepte/traitFactionSkitariiRequisPour, js/organigramme.js.
+const optionTraitSkitarii = () => ({
+  type: "choix",
+  id: "trait-skitarii",
+  libelle: "Trait de Faction (Conclave Skitarii)",
+  obligatoire: true,
+  horsEquipement: true,
+  choix: [
+    { nom: "Acquisitor", cout: 0 },
+    { nom: "Expurgator", cout: 0 },
+    { nom: "Vindicator", cout: 0, requiertAllegeance: "loyaliste" },
+    { nom: "Flagellator", cout: 0, requiertAllegeance: "renegat" },
+  ],
+});
+
 // Options communes aux Super-lourds Solar Auxilia Legacies (Baneblade,
 // Hellhammer, Banehammer, Stormlord, Stormblade, Shadowsword,
 // Stormsword) : mêmes trois options sur chacun (armement de Sponsons,
@@ -30334,16 +30371,27 @@ const UNITES = [
     ],
   },
   {
+    // Profil mis à jour par l'Addendum au Liber du PDF « Conclaves
+    // Skitarii » (GW 2025), qui remplace celui du Liber Mechanicum
+    // p. 29 : CT/Vo/Int en baisse (Destructor et Seigneur Destructor),
+    // CC/A du Seigneur Destructor désormais bien supérieures à celles
+    // du Destructor (l'ancien profil les donnait identiques — bug
+    // corrigé au passage), équipement de base simplifié (couleuvrine
+    // volkite déplacée dans le choix d'arme, désormais obligatoire, un
+    // Engin à irradiation ajouté aux options) et « Méditation Martiale »
+    // précisée « Seigneur Destructor seulement ». Toujours utilisable
+    // dans les Détachements Taghmata du Mechanicum (voir Utiliser cette
+    // Unité, PDF p. 12) : faction/traits/categorie inchangés.
     id: "mech-ost-destructors",
     nom: "Ost de Myrmidons Destructors",
     faction: "mechanicum",
     categorie: "Elite",
     cout: 150,
-    composition: "1 Seigneur Destructor, 2 Destructors",
+    composition: "1 Seigneur Destructor et 2 Destructors",
     effectif: { base: 3, max: 10, cout: 45 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Myrmidax"],
-    equipement: ["Lance-choc (Tir)", "Couleuvrine volkite", "Grenades Frag"],
+    equipement: ["Lance-choc (Tir)", "Grenades Frag"],
     variantes: [
       {
         nom: "Ost de Myrmidons Destructors",
@@ -30354,7 +30402,7 @@ const UNITES = [
             profil: {
               M: 6,
               CC: 4,
-              CT: 5,
+              CT: 4,
               F: 5,
               E: 5,
               PV: 4,
@@ -30362,8 +30410,8 @@ const UNITES = [
               A: 2,
               Cd: 9,
               Sf: 9,
-              Vo: 9,
-              Int: 9,
+              Vo: 8,
+              Int: 8,
               Sv: "3+",
               Inv: "5+",
             },
@@ -30372,36 +30420,42 @@ const UNITES = [
             nom: "Seigneur Destructor",
             profil: {
               M: 6,
-              CC: 4,
+              CC: 5,
               CT: 5,
               F: 5,
               E: 5,
               PV: 4,
               I: 2,
-              A: 2,
+              A: 3,
               Cd: 9,
               Sf: 9,
-              Vo: 9,
-              Int: 9,
+              Vo: 8,
+              Int: 8,
               Sv: "3+",
               Inv: "5+",
             },
           },
         ],
-        regles: ["Massif (3)", "Avant-garde (3)", "Méditation Martiale"],
-        type: "Destructor : Infanterie (Lourd) · Seigneur Destructor : Infanterie (Champion, Lourd)",
+        regles: [
+          "Massif (3)",
+          "Avant-garde (3)",
+          "Méditation Martiale (Seigneur Destructor seulement)",
+        ],
+        type: "Destructor : Infanterie (Lourd) · Seigneur Destructor : Infanterie (Lourd, Champion)",
       },
     ],
     options: [
       {
         type: "choix",
         id: "arme-tir",
-        libelle: "Remplacer la couleuvrine volkite",
-        remplace: "Couleuvrine volkite",
+        libelle: "Arme (toutes les Figurines)",
+        obligatoire: true,
+        parFigurine: true,
         choix: [
-          { nom: "— Conserver la couleuvrine volkite —", cout: 0 },
-          { nom: "Canon Darkfire", cout: 15 },
-          { nom: "Faisceau de conversion (< 15 pas)", cout: 20 },
+          { nom: "Couleuvrine volkite", cout: 0 },
+          { nom: "Engin à irradiation", cout: 15 },
+          { nom: "Faisceau de conversion (< 15 pas)", cout: 15 },
+          { nom: "Canon Darkfire", cout: 20 },
         ],
       },
     ],
@@ -31872,5 +31926,603 @@ const UNITES = [
       },
     ],
     options: [],
+  },
+
+  /* ============================================================
+     CONCLAVES SKITARII
+     Liste d'Armée officielle (PDF « Conclaves Skitarii », GW 2025),
+     déjà en français — pas une traduction Legacies. `faction:
+     "skitarii"`, pas `legacy: true`. Toutes les Unités portent le
+     Trait remplaçable « [Skitarii] » (voir optionTraitSkitarii,
+     TRAITS_FACTION_SKITARII plus haut) sauf mention contraire. --- */
+  {
+    id: "skitarii-marechal",
+    nom: "Maréchal des Pérégrins de Combat Skitarii",
+    faction: "skitarii",
+    categorie: "État-major",
+    cout: 100,
+    composition: "1 Maréchal des Pérégrins de Combat Skitarii",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: [
+      "Arme de poing volt",
+      "Sceptre auctorite",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Maréchal des Pérégrins de Combat Skitarii",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 4,
+          F: 3,
+          E: 4,
+          PV: 4,
+          I: 4,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "4+",
+          Inv: "5+",
+        },
+        regles: ["Vif (2)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "choix",
+        id: "arme-melee",
+        libelle: "Échanger le sceptre auctorite",
+        remplace: "Sceptre auctorite",
+        choix: [
+          { nom: "— Conserver le sceptre auctorite —", cout: 0 },
+          { nom: "Griffe de phase", cout: 20 },
+          { nom: "Bâton foudroyant", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "arme-tir",
+        libelle: "Échanger l'arme de poing volt",
+        remplace: "Arme de poing volt",
+        choix: [
+          { nom: "— Conserver l'arme de poing volt —", cout: 0 },
+          { nom: "Pistolet archéotech", cout: 5 },
+        ],
+      },
+      {
+        type: "case",
+        id: "charges-rad",
+        libelle: "Charges Rad",
+        cout: 2,
+        ajoute: "Charges Rad",
+      },
+      {
+        type: "case",
+        id: "grenades-disruptrices",
+        libelle: "Grenades disruptrices",
+        cout: 2,
+        ajoute: "Grenades disruptrices",
+      },
+    ],
+  },
+  {
+    id: "skitarii-corpus-peregrins",
+    nom: "Corpus de Pérégrins de Combat Skitarii",
+    faction: "skitarii",
+    categorie: "Troupes",
+    cout: 100,
+    composition: "1 Ordinator Skitarii et 7 Pérégrins de Combat Skitarii",
+    effectif: { base: 8, max: 16, cout: 10 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: ["Arquebuse volt¹", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Corpus de Pérégrins de Combat Skitarii",
+        cout: 0,
+        profils: [
+          {
+            nom: "Pérégrin de Combat",
+            profil: {
+              M: 6,
+              CC: 3,
+              CT: 3,
+              F: 3,
+              E: 4,
+              PV: 2,
+              I: 3,
+              A: 2,
+              Cd: 7,
+              Sf: 8,
+              Vo: 8,
+              Int: 7,
+              Sv: "4+",
+              Inv: "6+",
+            },
+          },
+          {
+            nom: "Ordinator",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 3,
+              F: 3,
+              E: 4,
+              PV: 2,
+              I: 3,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 8,
+              Int: 7,
+              Sv: "4+",
+              Inv: "6+",
+            },
+          },
+        ],
+        regles: ["Vif (2)"],
+        type: "Pérégrin de Combat : Infanterie · Ordinator : Infanterie (Sergent)",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "choix",
+        id: "arme-ordinator",
+        libelle: "Arme de l'Ordinator",
+        prefixeFiche: "Ordinator : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Conserver l'arquebuse volt —", cout: 0 },
+          { nom: "Arme de poing volt et épée énergétique", cout: 0 },
+        ],
+      },
+      {
+        type: "case",
+        id: "charges-rad",
+        libelle: "Toute l'unité : charges Rad",
+        cout: 2,
+        parFigurine: true,
+        ajoute: "Charges Rad",
+      },
+      {
+        type: "case",
+        id: "grenades-disruptrices",
+        libelle: "Toute l'unité : grenades disruptrices",
+        cout: 2,
+        parFigurine: true,
+        ajoute: "Grenades disruptrices",
+      },
+    ],
+  },
+  {
+    id: "skitarii-ost-glaneurs",
+    nom: "Ost de Glaneurs",
+    faction: "skitarii",
+    categorie: "Appui",
+    cout: 50,
+    composition: "10 Glaneurs",
+    effectif: { base: 10, max: 30, cout: 5 },
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: ["Mousquet laser"],
+    variantes: [
+      {
+        nom: "Ost de Glaneurs",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 2,
+          CT: 2,
+          F: 3,
+          E: 3,
+          PV: 1,
+          I: 2,
+          A: 1,
+          Cd: 4,
+          Sf: 4,
+          Vo: 4,
+          Int: 4,
+          Sv: "6+",
+          Inv: "-",
+        },
+        regles: ["Sacrifiable (2)", "Unité d'Appui (1)", "Suiveurs Zélés"],
+        type: "Infanterie",
+      },
+    ],
+    options: [optionTraitSkitarii()],
+  },
+  {
+    id: "skitarii-vultarax",
+    nom: "Automate-stratos Vultarax Skitarii",
+    faction: "skitarii",
+    categorie: "Attaque Rapide",
+    cout: 100,
+    composition: "1 Vultarax",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: [
+      "Électro-éclateur",
+      "Lance-missiles Vultarax",
+      "Serres dendrites (Skitarii)",
+    ],
+    variantes: [
+      {
+        nom: "Automate-stratos Vultarax Skitarii",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 3,
+          CT: 3,
+          F: 5,
+          E: 6,
+          PV: 6,
+          I: 4,
+          A: 3,
+          Cd: 7,
+          Sf: 12,
+          Vo: 4,
+          Int: 4,
+          Sv: "3+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (6)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Protocoles de Tir (2)",
+          "Orage de Feu",
+        ],
+        type: "Automate (Antigrav)",
+      },
+    ],
+    options: [optionTraitSkitarii()],
+  },
+  {
+    id: "skitarii-triaros",
+    nom: "Convoyeur Blindé Triaros Skitarii",
+    faction: "skitarii",
+    categorie: "Transports Lourds",
+    cout: 200,
+    composition: "1 Triaros Skitarii",
+    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: [
+      "Deux arquebuses volkites d'Axe Central",
+      "Canon à bolts Mauler jumelé sur Pivot",
+      "Bouclier répulsif",
+      "Projecteurs",
+    ],
+    variantes: [
+      {
+        nom: "Convoyeur Blindé Triaros Skitarii",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 12,
+          arriere: 12,
+          PC: 7,
+          transport: 22,
+        },
+        regles: ["Autoréparation (4+)", "Bélier-choc"],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "quantite",
+        id: "missile-traqueur",
+        libelle: "Missile traqueur (Skitarii) de Coque (Avant)",
+        max: 2,
+        cout: 5,
+        ajoute: "Missile traqueur (Skitarii) de Coque (Avant)",
+      },
+    ],
+  },
+  {
+    id: "skitarii-karacnos",
+    nom: "Char d'Assaut Karacnos Skitarii",
+    faction: "skitarii",
+    categorie: "Blindés",
+    cout: 235,
+    composition: "1 Karacnos Skitarii",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: [
+      "Batterie de mortiers Karacnos de Coque (Avant)",
+      "Deux mousquets à foudre Latéraux",
+      "Bouclier répulsif",
+      "Projecteurs",
+    ],
+    variantes: [
+      {
+        nom: "Char d'Assaut Karacnos Skitarii",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 14,
+          flanc: 12,
+          arriere: 12,
+          PC: 7,
+          transport: "—",
+        },
+        regles: ["Autoréparation (4+)", "Bélier-choc", "Explose (6+)"],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "quantite",
+        id: "missile-traqueur",
+        libelle: "Missile traqueur (Skitarii) de Coque (Avant)",
+        max: 2,
+        cout: 5,
+        ajoute: "Missile traqueur (Skitarii) de Coque (Avant)",
+      },
+    ],
+  },
+  {
+    id: "skitarii-krios",
+    nom: "Char de Combat Krios Skitarii",
+    faction: "skitarii",
+    categorie: "Blindés",
+    cout: 135,
+    composition: "1 Krios Skitarii",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: ["Canon à foudre d'Axe Central"],
+    variantes: [
+      {
+        nom: "Char de Combat Krios Skitarii",
+        cout: 0,
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
+        regles: ["Autoréparation (4+)"],
+        type: "Véhicule (Rapide)",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "quantite",
+        id: "missile-traqueur",
+        libelle: "Missile traqueur (Skitarii) de Coque (Avant)",
+        max: 2,
+        cout: 5,
+        ajoute: "Missile traqueur (Skitarii) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "arquebuses",
+        libelle: "Deux arquebuses volkites Latérales",
+        cout: 15,
+        ajoute: "Deux arquebuses volkites Latérales",
+      },
+      {
+        type: "choix",
+        id: "arme-principale",
+        libelle: "Échanger le canon à foudre d'Axe Central",
+        remplace: "Canon à foudre d'Axe Central",
+        choix: [
+          { nom: "— Conserver le canon à foudre d'Axe Central —", cout: 0 },
+          { nom: "Éclateur à irradiation d'Axe Central", cout: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "skitarii-krios-venator",
+    nom: "Chasseur de Chars Krios Venator Skitarii",
+    faction: "skitarii",
+    categorie: "Blindés",
+    cout: 160,
+    composition: "1 Krios Venator Skitarii",
+    traits: ["[Allégeance]", "[Skitarii]"],
+    equipement: ["Pulsar pilonneur d'Axe Central"],
+    variantes: [
+      {
+        nom: "Chasseur de Chars Krios Venator Skitarii",
+        cout: 0,
+        profilVehicule: {
+          M: 14,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
+        regles: ["Autoréparation (4+)"],
+        type: "Véhicule (Rapide)",
+      },
+    ],
+    options: [
+      optionTraitSkitarii(),
+      {
+        type: "quantite",
+        id: "missile-traqueur",
+        libelle: "Missile traqueur (Skitarii) de Coque (Avant)",
+        max: 2,
+        cout: 5,
+        ajoute: "Missile traqueur (Skitarii) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "arquebuses",
+        libelle: "Deux arquebuses volkites Latérales",
+        cout: 15,
+        ajoute: "Deux arquebuses volkites Latérales",
+      },
+    ],
+  },
+
+  /* ============================================================
+     LEGIO CUSTODES
+     Livre d'armée officiel (PDF « Legio Custodes », GW 2026), déjà en
+     français — pas une traduction Legacies. `faction: "legio-custodes"`
+     (activée dans FACTIONS, js/organigramme.js, avec l'ajout de ces
+     premières Unités). Toutes les Unités portent le Trait fixe
+     « Loyaliste » (pas de placeholder « [Allégeance]» : la Legio
+     Custodes n'a pas de variante Renégate dans ce livre) et le Trait
+     générique « [Legio Custodes] » (masqué sur la fiche récap comme
+     « [Legiones Astartes]», voir construireFiche, js/unites.js). --- */
+  {
+    id: "custodes-sodalite-adrasites",
+    nom: "Sodalité de Gardes Adrasites",
+    faction: "legio-custodes",
+    categorie: "Elite",
+    cout: 360,
+    composition: "6 Gardes Adrasites",
+    effectif: { base: 6, max: 12, cout: 60 },
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Lance adrasite¹", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Gardes Adrasites",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "6+",
+        },
+        regles: ["Massif (2)", "Guerrier Éternel (1)", "Coups Éclairs", "Avant-garde (2)"],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "vexillum",
+        libelle: "Un Garde Adrasite : vexillum du Magisterium",
+        prefixeFiche: "Un Garde Adrasite : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Conserver la lance adrasite —", cout: 0 },
+          { nom: "Vexillum du Magisterium", cout: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-pyrithites",
+    nom: "Sodalité de Gardes Pyrithites",
+    faction: "legio-custodes",
+    categorie: "Elite",
+    cout: 360,
+    composition: "6 Gardes Pyrithites",
+    effectif: { base: 6, max: 12, cout: 60 },
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Lance pyrithite¹", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Gardes Pyrithites",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "6+",
+        },
+        regles: ["Massif (2)", "Guerrier Éternel (1)", "Coups Éclairs", "Avant-garde (2)"],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "vexillum",
+        libelle: "Un Garde Pyrithite : vexillum du Magisterium",
+        prefixeFiche: "Un Garde Pyrithite : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Conserver la lance pyrithite —", cout: 0 },
+          { nom: "Vexillum du Magisterium", cout: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-sagittarii",
+    nom: "Sodalité de Gardes Sagittarii",
+    faction: "legio-custodes",
+    categorie: "Appui",
+    cout: 240,
+    composition: "6 Gardes Sagittarii",
+    effectif: { base: 6, max: 12, cout: 40 },
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Arquebuse à bolts Adrastus", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Gardes Sagittarii",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 2,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "6+",
+        },
+        regles: ["Massif (2)", "Guerrier Éternel (1)", "Avant-garde (2)"],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "vexillum",
+        libelle: "Un Garde Sagittarii : vexillum du Magisterium",
+        prefixeFiche: "Un Garde Sagittarii : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Conserver l'arquebuse à bolts Adrastus —", cout: 0 },
+          { nom: "Vexillum du Magisterium", cout: 0 },
+        ],
+      },
+    ],
   },
 ];

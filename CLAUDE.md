@@ -658,5 +658,111 @@ Règles Spéciales :
   (`actualiserSelectsCases`), pas seulement local, pour propager
   immédiatement l'alignement aux autres cartes du même Détachement.
 
+- **Nouvelle Faction « Conclaves Skitarii » (`faction: "skitarii"`,
+  PDF officiel GW « Conclaves Skitarii » 2025, déjà en français —
+  PAS une traduction Legacies, `legacy` non posé)** : 8 Unités de base
+  ajoutées (Maréchal des Pérégrins de Combat Skitarii → État-major,
+  Corpus de Pérégrins de Combat Skitarii → Troupes, Ost de Glaneurs →
+  Appui, Automate-stratos Vultarax Skitarii → Attaque Rapide, Convoyeur
+  Blindé Triaros Skitarii → **Transports Lourds** (piège vécu : la
+  `categorie` doit être la forme PLURIELLE déjà établie dans ce
+  fichier, pas « Transport Lourd » singulier comme la demande orale du
+  proprio le suggérait — sinon aucune Case de l'organigramme ne
+  correspond et l'Unité reste indisponible), Char d'Assaut Karacnos
+  Skitarii/Char de Combat Krios Skitarii/Chasseur de Chars Krios
+  Venator Skitarii → Blindés. Faction enregistrée dans `FACTIONS`
+  (js/organigramme.js) et `factionCroisadeParDefaut()` étendue (partage
+  l'Organigramme de Force de Croisade générique avec Legio Astartes/
+  Mechanicum/Solar Auxilia) ; pas d'entrée dans
+  `FACTIONS_AVEC_SOUS_IDENTITE` (pas de subdivision type Légion/
+  Maisonnée/Doctrine, comme Mechanicum) ; `LIBELLES_FACTION`
+  (js/unites.js) complété.
+  Toutes les Unités portent `["[Allégeance]", "[Skitarii]"]` dans
+  `traits` — aucune n'a de Trait de Faction FIXE dans ce PDF (réservé
+  aux futures publications propres à un Conclave). Le remplacement de
+  « [Skitarii] » par un Trait de Faction (Acquisitor/Expurgator/
+  Vindicator/Flagellator, PDF p. 3) est modélisé par un mécanisme
+  PARALLÈLE et INDÉPENDANT du Techno-arcane Majeur Mechanicum (mêmes
+  noms de fonctions transposés : `TRAITS_FACTION_SKITARII`,
+  `optionTraitSkitarii()` dans js/unites-data.js ; `traitFactionSkitariiDe`
+  dans js/unites.js ; `traitFactionSkitariiEtabliDe`/
+  `traitFactionSkitariiRequisPour`/bloc `caseAccepte` dans
+  js/organigramme.js) — **volontairement dupliqué plutôt que fusionné**
+  avec le mécanisme Mechanicum, cohérent avec la préférence déjà
+  établie de ce fichier pour des mécanismes parallèles explicites
+  plutôt qu'une abstraction partagée pour ces règles propres à une
+  Faction. Différence de portée avec Mechanicum : le PDF Skitarii dit
+  « Toutes les Unités sélectionnées dans un Détachement DONNÉ doivent
+  avoir le même Trait de Faction » (tout Détachement), alors que la
+  règle Mechanicum ne vise que les Détachements Auxiliaires/d'Apex — le
+  bloc `caseAccepte` et `traitFactionSkitariiRequisPour` n'ont donc pas
+  le filtre `type.famille` que porte leur équivalent Mechanicum.
+  Vindicator/Flagellator sont réservés à une Allégeance (Loyaliste/
+  Renégat) : nouveau champ `requiertAllegeance` posé sur une entrée
+  individuelle de `choix` (pas sur l'option entière, à la différence de
+  `requiertLegion`) — filtré à la construction du `<select>` ET
+  re-filtré à chaque resynchronisation via le nouvel helper
+  `peuplerChoixSelect(select, opt)` (js/unites.js), sinon la liste
+  d'`<option>` reste figée sur l'Allégeance en vigueur au moment de la
+  création de la carte et ne réagit pas à un changement d'Allégeance
+  ultérieur dans les paramètres de la partie ; `synchroniserConfig`
+  retombe aussi sur l'indice 0 si la valeur enregistrée n'est plus
+  valide pour l'Allégeance courante.
+  **Bug découvert et corrigé pendant l'implémentation** (avant de
+  committer) : en copiant tel quel le motif d'exclusion de
+  `traitFactionMechanicumEtabliDe(det, excluUid)` (qui exclut l'Unité
+  demandeuse et retourne le Trait de la première AUTRE Unité), deux
+  Unités Skitarii **génériques** placées dans le même Détachement se
+  « contraignaient » l'une l'autre en boucle : changer le Trait de
+  l'une la faisait aussitôt revenir à l'indice 0 dès la resynchro-
+  nisation suivante, car elle se retrouvait « en désaccord » avec
+  l'autre Unité encore à sa valeur par défaut — rendant le menu
+  déroulant inutilisable dès que 2 Unités génériques cohabitent (le cas
+  le plus courant ici, puisqu'aucune Unité Skitarii de ce PDF n'a de
+  Trait fixe pour servir d'ancre stable, contrairement au Mechanicum où
+  une Unité à Techno-arcane fixe sert presque toujours d'ancre). Corrigé
+  en restreignant `traitFactionSkitariiEtabliDe` à ne compter QUE les
+  Unités à Trait FIXE (`!occ.unite.traits.includes("[Skitarii]")`)
+  comme « établissant » une contrainte — deux Unités génériques ne se
+  bloquent/n'alignent donc jamais mutuellement, exactement comme
+  `caseAccepte` ne bloquait déjà qu'un Trait fixe différent, jamais une
+  Unité générique. À reproduire si un futur mécanisme de Trait de
+  Faction par Unité est ajouté pour une Faction sans aucune Unité à
+  Trait fixe.
+  Armes/règles réutilisées telles quelles (stats identiques au PDF,
+  vérifiées avant tout ajout) : Pistolet archéotech, Missile traqueur
+  (nouvelle entrée « (Skitarii) » créée quand même, car le Trait
+  affiché diffère — « Missile Guidé » sur l'entrée nue contre
+  « Missile » ici — même raison que « Missile traqueur (Mechanicum) »
+  déjà existant), Canon à bolts Mauler jumelé, Arquebuse volkite,
+  Batterie de mortiers Karacnos, Mousquet à foudre, Canon à foudre,
+  Éclateur à irradiation, Mousquet laser, Pulsar pilonneur, Électro-
+  éclateur, Lance-missiles Vultarax, Épée énergétique. Nouvelles armes
+  créées (aucun profil existant ne correspondait) : Arme de poing volt,
+  Arquebuse volt¹ (profil Tir ET Mêlée, note de bas de tableau « ¹ »
+  déjà établie type Découpeur laser), Charges Rad, Grenades disrup-
+  trices, Sceptre auctorite, Griffe de phase, Bâton foudroyant, Serres
+  dendrites (Skitarii) (profil Serres dendrites déjà existant, utilisé
+  par l'Escadron de Stratos Vultarax, mais stats différentes ici).
+  Nouvelles Règles Spéciales (texte intégral déjà dans le PDF, ajoutées
+  à `regles-data.js`) : Icône d'Autorité (REGLES_ARMES), Suiveurs
+  Zélés, Acquisitor, Expurgator, Vindicator, Flagellator, Maréchal Élu
+  (Réaction Avancée, condensée Déclencheur/Coût/Cible/Processus en un
+  seul texte comme les autres Réactions Avancées déjà transcrites).
+  **Addendum au Liber (même PDF, p. 12) : profil de l'Ost de Myrmidons
+  Destructors (Mechanicum, Liber Mechanicum p. 29) mis à jour** —
+  CT/Vo/Int en baisse pour Destructor ET Seigneur Destructor (l'ancien
+  profil donnait en plus, par erreur, des caractéristiques CC/A
+  identiques aux deux rôles alors que le Seigneur Destructor doit être
+  strictement supérieur — corrigé au passage), équipement de base
+  simplifié (couleuvrine volkite déplacée de l'équipement fixe vers un
+  choix d'arme désormais **obligatoire** à 4 options dont Engin à
+  irradiation, nouvellement ajouté), et « Méditation Martiale »
+  précisée « Seigneur Destructor seulement ». `equipement` garde
+  « Lance-choc (Tir) » (nom déjà établi dans l'Arsenal) plutôt que
+  « Chargeurs-choc » (nom donné par l'Addendum) : l'Addendum précise
+  lui-même qu'aucun nouveau profil d'Arme n'est introduit, donc simple
+  reformulation du même objet, pas une Arme distincte.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

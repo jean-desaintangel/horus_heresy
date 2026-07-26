@@ -184,6 +184,12 @@ const REGLES_ARMES = [
     texte:
       "Contre une cible qui n'est pas un Titan, un Chevalier, un Super-lourd ou une figurine d'au moins 10 Points de Vie de Base, l'arme doit Tirer au Jugé.",
   },
+  /* --- Arsenal des Conclaves Skitarii. --- */
+  {
+    nom: "Icône d'Autorité",
+    texte:
+      "Quand, à l'étape Déclarer les Armes et Définir les Rangs d'Initiative de la Sous-phase de Combat, on choisit une Arme ayant cette Règle Spéciale pour faire des Attaques, toutes les Figurines qui ont le Trait [Skitarii] et qui appartiennent à la même Unité que la Figurine dotée d'une Arme ayant cette Règle Spéciale sont immédiatement soulagées des Statuts Tactiques Fixée, Neutralisée et Sonnée.",
+  },
 ];
 
 // --- Règles diverses ---
@@ -2012,5 +2018,37 @@ const REGLES_DIVERSES = [
     nom: "Griffe de Dreadnoughts",
     texte:
       "Quand une Unité de Mortificator ou de Mortificator en Armure Terminator est sélectionnée pour remplir une Case d'Organigramme de Force d'État-major, le Joueur en Contrôle peut choisir d'ajouter un Détachement Auxiliaire Griffe de Dreadnoughts à l'Armée au lieu des options normalement disponibles dans l'Organigramme de Force de Croisade. Les Cases d'Engins de Guerre de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Dreadnought Contemptor.",
+  },
+
+  /* --- Arsenal des Conclaves Skitarii. --- */
+  {
+    nom: "Suiveurs Zélés",
+    texte:
+      "Les Glaneurs peuvent faire leurs Tests de Caractéristique sous les Caractéristiques des Unités Skitarii voisines. Quand on fait un Jet de Test de Caractéristique pour une Unité composée de Figurines ayant cette Règle Spéciale, on peut le faire sous la Caractéristique de Base de toute Figurine amie qui a le Trait [Skitarii], qui n'est pas sujette au Statut Tactique En Déroute, et qui fait partie d'une Unité dont au moins une Figurine se trouve à 6\" et en Ligne de Vue d'une Figurine de l'Unité pour laquelle on fait le Test de Caractéristique. Notez que les Modificateurs qui s'appliquent à l'Unité pour laquelle on fait le Test de Caractéristique, par exemple en vertu de la Règle Spéciale Fixation (X), s'appliquent à la Caractéristique de la Figurine qui a le Trait Skitarii dont on se sert pour le Test.",
+  },
+  {
+    nom: "Acquisitor",
+    texte:
+      "Toutes les Figurines qui ont le Trait Acquisitor (sauf les Figurines de Type Véhicule) gagnent la Règle Spéciale Ligne (1).",
+  },
+  {
+    nom: "Expurgator",
+    texte:
+      "Toutes les Figurines qui ont le Trait Expurgator (sauf les Figurines de Type Véhicule) gagnent la Règle Spéciale Avant-garde (3).",
+  },
+  {
+    nom: "Vindicator",
+    texte:
+      "Toutes les Figurines qui ont le Trait Vindicator (sauf les Figurines de Type Véhicule) augmentent de +1 la valeur de toute déclinaison de la Règle Spéciale Déflagration (X) qu'elles possèdent, elles ou leurs Armes. Réservé aux Armées d'Allégeance Loyaliste.",
+  },
+  {
+    nom: "Flagellator",
+    texte:
+      "Toutes les Figurines qui ont le Trait Flagellator (sauf les Figurines de Type Véhicule) doivent ajouter +1\" à leurs Mouvements de Positionnement, jusqu'à un maximum de 6\". Réservé aux Armées d'Allégeance Renégate.",
+  },
+  {
+    nom: "Maréchal Élu",
+    texte:
+      "Réaction Avancée des Conclaves Skitarii qui permet de remplacer en urgence un maréchal tombé au combat. Le Joueur Réactif, en Contrôle d'Unités composées uniquement de Figurines qui ont le Trait Skitarii, peut la déclarer une fois par Bataille quand une Figurine de Maréchal des Pérégrins de Combat Skitarii amie est réduite à 0 Point de Vie (coût : 1 Point d'Attribution de Réactions, à payer dès la déclaration) ; l'Unité Cible est toujours une Unité amie qui a le Trait [Skitarii] et qui compte au moins une Figurine d'Ordinator. À la Phase de Fin du Tour où la Réaction a été déclarée, le Joueur Réactif choisit une Figurine d'Ordinator de l'Unité Cible : elle gagne le Sous-type État-major, augmente de +1 ses Caractéristiques de Base de Capacité de Combat, d'Attaques et de Commandement, et le Joueur en Contrôle peut choisir une de ses Armes de Mêlée pour lui faire gagner la Règle Spéciale Icône d'Autorité.",
   },
 ];

@@ -677,27 +677,99 @@ function afficherMessageArchives() {
 const RACINE_SITE = document.currentScript.src.replace(/js\/main\.js.*$/, "");
 
 /* ----------------------------------------------------------
-   FAVICON SELON L'HEURE — SITE ENTIER
+   FAVICON ALÉATOIRE — SITE ENTIER, RENOUVELÉ TOUTES LES 5 MINUTES
    Le <link rel="icon"> statique de chaque page HTML pointe sur
-   assets/img/eye-of-horus.png (valeur par défaut, utile tant que ce
-   script n'a pas encore tourné, ex : JS désactivé). On le remplace ici
-   par assets/img/iron_warriors.png l'après-midi/le soir : Œil d'Horus
-   de minuit à midi, Iron Warriors de midi à minuit.
-   Heure LOCALE du visiteur (Date.getHours()) : un site sans compte ni
-   fuseau horaire de référence n'a pas d'autre notion de "l'heure qu'il
-   est" que celle de l'appareil qui le consulte.
+   assets/favicon/favicon_sons_of_horus.png (valeur par défaut, utile
+   tant que ce script n'a pas encore tourné, ex : JS désactivé). On le
+   remplace ici par un tirage aléatoire parmi tous les blasons de
+   assets/favicon/ (un par Légion + Mechanicum), qui ne se répète pas
+   avant d'avoir vu passer 2 autres tirages ("pas dans les 2 dernières
+   5 minutes"). Persiste dans localStorage (dernier tirage + date)
+   pour survivre à un changement de page ; site statique sans backend,
+   donc pas de tirage partagé entre visiteurs — chacun a son propre
+   historique. `setInterval` maintient la rotation tant que l'onglet
+   reste ouvert, sans recharger la page.
    Posé hors DOMContentLoaded, au plus tôt (script en defer, donc
    <head> déjà parsé), pour éviter que l'icône par défaut n'apparaisse
-   un instant avant de basculer.
+   un instant avant le premier tirage.
    ---------------------------------------------------------- */
-(function appliquerFaviconSelonHeure() {
+(function appliquerFaviconAleatoire() {
+  const FAVICONS = [
+    "favicon_alpha_legion.jpg",
+    "favicon_blood_angels.jpg",
+    "favicon_dark_angels.jpg",
+    "favicon_death_guards.webp",
+    "favicon_emperors_children.jpg",
+    "favicon_imperial_fists.jpg",
+    "favicon_iron_hands.jpg",
+    "favicon_iron_warriors.png",
+    "favicon_mechanicum.jpg",
+    "favicon_night_lords.webp",
+    "favicon_raven_guards.jpg",
+    "favicon_salamanders.jpg",
+    "favicon_sons_of_horus.png",
+    "favicon_space_wolves.jpg",
+    "favicon_thousand_sons.jpg",
+    "favicon_ultramarine.jpg",
+    "favicon_white_scars.jpg",
+    "favicon_word_bearer.jpg",
+    "favicon_world_eaters.jpg",
+  ];
+  const DUREE_MS = 5 * 60 * 1000;
+  const CLE_STOCKAGE_FAVICON = "horus-heresy-favicon";
   const lienIcone = document.querySelector('link[rel="icon"]');
   if (!lienIcone) return;
-  const apresMidi = new Date().getHours() >= 12;
-  lienIcone.href =
-    RACINE_SITE +
-    "assets/img/" +
-    (apresMidi ? "iron_warriors.png" : "eye-of-horus.png");
+
+  // Historique des 2 derniers tirages + date du dernier, pour savoir
+  // s'il faut re-tirer et quoi exclure. localStorage indisponible
+  // (navigation privée…) : on retombe simplement sur un tirage à
+  // chaque appel, sans mémoire d'une page à l'autre.
+  function lireHistorique() {
+    try {
+      const brut = JSON.parse(localStorage.getItem(CLE_STOCKAGE_FAVICON));
+      if (brut && Array.isArray(brut.historique) && brut.depuis) return brut;
+    } catch {
+      /* stockage indisponible ou corrompu : on ignore */
+    }
+    return null;
+  }
+
+  function ecrireHistorique(historique, depuis) {
+    try {
+      localStorage.setItem(
+        CLE_STOCKAGE_FAVICON,
+        JSON.stringify({ historique, depuis }),
+      );
+    } catch {
+      /* stockage indisponible (navigation privée…) : on ignore */
+    }
+  }
+
+  // Tire un blason au hasard parmi ceux n'apparaissant pas dans les 2
+  // derniers tirages (`historique`, déjà limité à 2 entrées).
+  function tirer(historique) {
+    const candidats = FAVICONS.filter((f) => !historique.includes(f));
+    return candidats[Math.floor(Math.random() * candidats.length)];
+  }
+
+  function actualiser() {
+    const etat = lireHistorique();
+    const maintenant = Date.now();
+    if (etat && maintenant - etat.depuis < DUREE_MS) {
+      lienIcone.href =
+        RACINE_SITE +
+        "assets/favicon/" +
+        etat.historique[etat.historique.length - 1];
+      return;
+    }
+    const historiquePrecedent = etat ? etat.historique : [];
+    const nouveau = tirer(historiquePrecedent);
+    lienIcone.href = RACINE_SITE + "assets/favicon/" + nouveau;
+    ecrireHistorique([...historiquePrecedent, nouveau].slice(-2), maintenant);
+  }
+
+  actualiser();
+  setInterval(actualiser, 60 * 1000);
 })();
 
 /* ----------------------------------------------------------
@@ -888,7 +960,7 @@ document.addEventListener("DOMContentLoaded", () => {
     III: "emperor_children",
     IV: "iron_warriors",
     V: "white_scars",
-    VI: "scpace_wolves",
+    VI: "space_wolves",
     VII: "imperial_fists",
     VIII: "night_lords",
     IX: "blood_angels",

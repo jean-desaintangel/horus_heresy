@@ -60,11 +60,12 @@ const Organigramme = (() => {
   // seulement le cadre (skin, état, organigramme vierge) en attendant.
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
-    ["legio-custodes", "Legio Custodes", false],
+    ["legio-custodes", "Legio Custodes", true],
     ["legio-titanicus", "Legio Titanicus", true],
     ["chevaliers-questoris", "Chevaliers Questoris", true],
     ["mechanicum", "Mechanicum", true],
     ["solar-auxilia", "Solar Auxilia", true],
+    ["skitarii", "Conclaves Skitarii", true],
   ];
 
   const LEGIONS = [
@@ -448,15 +449,15 @@ const Organigramme = (() => {
      héraldiques officielles, une par Légion. La clé est le slug
      `icone` de SKINS_LEGION ci-dessus ; la valeur est le nom de
      fichier réel sous assets/logo_legions/ (quelques fichiers ont une
-     coquille dans leur nom — ex. "scpace_wolves.png", "raven_guards.png",
-     conservées telles quelles pour ne pas casser le lien vers le
-     fichier). */
+     coquille dans leur nom — ex. "raven_guards.png" — conservée telle
+     quelle pour ne pas casser le lien vers le fichier ; "space_wolves"
+     a été corrigé, l'ancien fichier "scpace_wolves.png" renommé). */
   const LOGOS_LEGION = {
     "dark-angels": "dark_angels",
     "emperors-children": "emperor_children",
     "iron-warriors": "iron_warriors",
     "white-scars": "white_scars",
-    "space-wolves": "scpace_wolves",
+    "space-wolves": "space_wolves",
     "imperial-fists": "imperial_fists",
     "night-lords": "night_lords",
     "blood-angels": "blood_angels",
@@ -675,16 +676,23 @@ const Organigramme = (() => {
 
   // Faction implicite d'un Détachement Type qui ne déclare pas son
   // propre champ `faction` (principal, poing-blinde, seigneur-guerre,
-  // avant-garde…) : Legio Astartes, Solar Auxilia (Liber Auxilia) ET
-  // Mechanicum (Liber Mechanicum) partagent le même Organigramme de
-  // Force de Croisade (p. 283) et ses Détachements Auxiliaires/d'Apex
-  // standard, contrairement à Legio Titanicus (Ordinal Titanique) et
-  // Chevaliers Questoris (Détachement Principal de Maisonnées), qui
-  // ont chacun le leur — d'où le repli par défaut sur "legio-astartes"
-  // tant que l'Armée n'est ni Solar Auxilia ni Mechanicum. Utilisé par
-  // typeDisponiblePourFaction() et caseAccepte().
+  // avant-garde…) : Legio Astartes, Solar Auxilia (Liber Auxilia),
+  // Mechanicum (Liber Mechanicum), Conclaves Skitarii ET Legio Custodes
+  // partagent le même Organigramme de Force de Croisade (p. 283) et ses
+  // Détachements Auxiliaires/d'Apex standard (Convocations de Moritoi/
+  // Hykanatoi/Tharanatoi/Euphoroi/Cataphractoi, js/organigramme-data.js
+  // — préparées par anticipation avant même la première Unité Custodes
+  // transcrite), contrairement à Legio Titanicus (Ordinal Titanique) et
+  // Chevaliers Questoris (Détachement Principal de Maisonnées), qui ont
+  // chacun le leur — d'où le repli par défaut sur "legio-astartes" tant
+  // que l'Armée n'est ni Solar Auxilia, ni Mechanicum, ni Skitarii, ni
+  // Legio Custodes. Utilisé par typeDisponiblePourFaction() et
+  // caseAccepte().
   function factionCroisadeParDefaut() {
-    return etat.faction === "solar-auxilia" || etat.faction === "mechanicum"
+    return etat.faction === "solar-auxilia" ||
+      etat.faction === "mechanicum" ||
+      etat.faction === "skitarii" ||
+      etat.faction === "legio-custodes"
       ? etat.faction
       : "legio-astartes";
   }
@@ -835,6 +843,41 @@ const Organigramme = (() => {
     return null;
   }
 
+  /* Même mécanique que traitFactionMechanicumEtabliDe ci-dessus, pour
+     le Trait de Faction [Skitarii] (Conclaves Skitarii, Acquisitor/
+     Expurgator/Vindicator/Flagellator). Différence avec Mechanicum :
+     l'uniformité y est exigée dans TOUT Détachement (« Toutes les
+     Unités sélectionnées dans un Détachement donné doivent avoir le
+     même Trait de Faction »), pas seulement les Auxiliaires/d'Apex —
+     voir le bloc caseAccepte ci-dessous, qui n'y restreint donc pas la
+     vérification par `type.famille`. hooks.traitFactionSkitariiDe est
+     fourni par js/unites.js (Organigramme.initialiser).
+     Ne considère qu'une Unité à Trait FIXE (nom en dur dans `traits`,
+     PAS « [Skitarii] ») comme « établissant » le Trait du Détachement —
+     une Unité générique ne compte jamais ici, exactement comme le bloc
+     caseAccepte plus bas ne bloque que sur un Trait fixe différent.
+     Sans ce filtre, deux Unités génériques placées ensemble (le cas le
+     plus courant ici : aucune Unité Skitarii de ce fichier n'a de Trait
+     fixe) s'« établiraient » mutuellement l'une l'autre à chaque
+     rafraîchissement — dès qu'on choisit un Trait différent pour l'une
+     d'elles, sa propre resynchronisation la retrouve « en conflit »
+     avec l'autre (encore à son choix par défaut) et l'annule aussitôt,
+     ce qui rend le menu déroulant inutilisable dès que 2 Unités
+     génériques partagent un Détachement — voir le test réalisé lors de
+     l'ajout de cette Faction. */
+  function traitFactionSkitariiEtabliDe(det, excluUid) {
+    if (!hooks.traitFactionSkitariiDe) return null;
+    for (const c of det.cases) {
+      if (c.uniteUid === null || c.uniteUid === excluUid) continue;
+      const occ = occupant(c);
+      if (!occ) continue;
+      if (!occ.unite.traits || occ.unite.traits.includes("[Skitarii]")) continue;
+      const trait = hooks.traitFactionSkitariiDe(occ.unite, occ.instance);
+      if (trait) return trait;
+    }
+    return null;
+  }
+
   /* Une unité peut-elle occuper cette case ?
      1. Rôle Tactique identique (p. 282 : « Le Rôle Tactique de
         l'Unité doit correspondre à celui de la Case ») ;
@@ -909,6 +952,28 @@ const Organigramme = (() => {
       );
       const traitEtabli = traitFixe && traitFactionMechanicumEtabliDe(det);
       if (traitEtabli && traitFixe !== traitEtabli) return false;
+    }
+    // Trait de Faction [Skitarii] (Conclaves Skitarii) : « Toutes les
+    // Unités sélectionnées dans un Détachement donné doivent avoir le
+    // même Trait de Faction » — à la différence du Techno-arcane
+    // Mechanicum ci-dessus, cette uniformité s'applique à TOUT
+    // Détachement (pas seulement Auxiliaire/d'Apex), d'où l'absence de
+    // filtre sur `type.famille` ici. Même logique de blocage/alignement
+    // qu'au-dessus sinon : ne bloque qu'une Unité à Trait FIXE différent,
+    // une Unité générique (« [Skitarii] » dans `traits`) s'aligne
+    // automatiquement (voir traitFactionSkitariiRequisPour plus bas).
+    if (
+      unite.faction === "skitarii" &&
+      unite.traits &&
+      !unite.traits.includes("[Skitarii]")
+    ) {
+      const traitFixeSkitarii = unite.traits.find((t) =>
+        TRAITS_FACTION_SKITARII.includes(t),
+      );
+      const traitEtabliSkitarii =
+        traitFixeSkitarii && traitFactionSkitariiEtabliDe(det);
+      if (traitEtabliSkitarii && traitFixeSkitarii !== traitEtabliSkitarii)
+        return false;
     }
     const restriction = type.restrictions && type.restrictions[caseOrga.role];
     if (restriction && !restriction.includes(unite.id)) return false;
@@ -1029,6 +1094,24 @@ const Organigramme = (() => {
       const type = typeDe(det);
       if (type.famille !== "auxiliaire" && type.famille !== "apex") return null;
       return traitFactionMechanicumEtabliDe(det, uniteUid);
+    }
+    return null;
+  }
+
+  /* Même mécanique que traitFactionMechanicumRequisPour ci-dessus, pour
+     le Trait de Faction [Skitarii]. Pas de filtre `type.famille` : la
+     règle des Conclaves Skitarii impose l'uniformité dans TOUT
+     Détachement (voir traitFactionSkitariiEtabliDe/caseAccepte
+     ci-dessus). Consommé par js/unites.js (synchroniserConfig) pour
+     aligner et griser le choix de Trait de Faction d'une Unité
+     générique une fois placée aux côtés d'une Unité à Trait FIXE (voir
+     le filtre dans traitFactionSkitariiEtabliDe ci-dessus — deux
+     Unités génériques ne se contraignent jamais l'une l'autre ici). */
+  function traitFactionSkitariiRequisPour(uniteUid) {
+    for (const det of etat.detachements) {
+      const caseOrga = det.cases.find((c) => c.uniteUid === uniteUid);
+      if (!caseOrga) continue;
+      return traitFactionSkitariiEtabliDe(det, uniteUid);
     }
     return null;
   }
@@ -3773,6 +3856,7 @@ const Organigramme = (() => {
     avantageDe,
     traitDetachementDe,
     traitFactionMechanicumRequisPour,
+    traitFactionSkitariiRequisPour,
     // Faction choisie dans les paramètres de la partie (id FACTIONS) :
     // consommée par js/unites.js (uniteAccessible) pour filtrer les
     // unités réservées à une Faction (champ `faction` dans
