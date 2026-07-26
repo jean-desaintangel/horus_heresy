@@ -25,6 +25,12 @@
       type="image/png"
       href="assets/favicon/favicon_sons_of_horus.png"
     />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
     <!-- Métadonnées de partage (Open Graph) pour Discord, forums...
          og:image et og:url exigent une URL ABSOLUE : un partage se fait
          depuis un autre site, qui n'a aucun moyen de résoudre un chemin

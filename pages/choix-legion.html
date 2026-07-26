@@ -13,6 +13,12 @@
       type="image/png"
       href="../assets/favicon/favicon_sons_of_horus.png"
     />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta

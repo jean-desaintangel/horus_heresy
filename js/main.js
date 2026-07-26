@@ -678,6 +678,35 @@ function afficherMessageArchives() {
 const RACINE_SITE = document.currentScript.src.replace(/js\/main\.js.*$/, "");
 
 /* ----------------------------------------------------------
+   MODE HORS LIGNE — enregistrement du Service Worker
+   Utile en boutique : aucun Wi-Fi ni réseau mobile là où se jouent
+   les parties. Le Service Worker (service-worker.js, racine du
+   site) précharge tout l'app shell (pages, CSS, JS, données de jeu,
+   polices, blasons) dès la première visite en ligne, pour une
+   consultation ensuite possible hors ligne — voir les commentaires
+   de service-worker.js pour le détail des deux stratégies de cache.
+   `RACINE_SITE` (ci-dessus) donne l'URL absolue de la racine du
+   site : indispensable pour que l'enregistrement fonctionne aussi
+   bien en local que sous un sous-chemin d'hébergement (GitHub
+   Pages, jean-desaintangel.github.io/horus_heresy/) — un chemin en
+   dur "/service-worker.js" pointerait à la racine du DOMAINE, pas du
+   site, et échouerait sous ce sous-chemin. `scope` explicite pour
+   couvrir aussi bien index.html que pages/*.html.
+   Posé hors DOMContentLoaded (script en defer) ; `serviceWorker` est
+   absent sur http:// non sécurisé — sans incidence ici (GitHub
+   Pages et localhost sont tous deux des contextes sécurisés).
+   ---------------------------------------------------------- */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register(RACINE_SITE + "service-worker.js", { scope: RACINE_SITE })
+      .catch((erreur) => {
+        console.warn("[SW] Échec de l'enregistrement :", erreur);
+      });
+  });
+}
+
+/* ----------------------------------------------------------
    FAVICON ALÉATOIRE — SITE ENTIER, RENOUVELÉ TOUTES LES 5 MINUTES
    Le <link rel="icon"> statique de chaque page HTML pointe sur
    assets/favicon/favicon_sons_of_horus.png (valeur par défaut, utile
