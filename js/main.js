@@ -223,7 +223,8 @@ function construireMatrice(idConteneur, titre, labelLigne, labelCol, donnees) {
   table.appendChild(tbody);
 
   const conteneur = document.getElementById(idConteneur);
-  if (conteneur) conteneur.appendChild(construireLegendeAxes(labelLigne, labelCol));
+  if (conteneur)
+    conteneur.appendChild(construireLegendeAxes(labelLigne, labelCol));
   insererDansScroll(idConteneur, table);
 }
 
@@ -461,7 +462,7 @@ function activerClinDoeilErebus() {
   overlay.hidden = true;
 
   const image = document.createElement("img");
-  image.src = RACINE_SITE + "assets/img/erebus.jpg";
+  image.src = RACINE_SITE + "assets/img/erebus.webp";
   image.alt = "Erebus";
   image.className = "erebus-popup-image";
   overlay.appendChild(image);
