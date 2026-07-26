@@ -404,24 +404,47 @@ window.cablerInfoBulles = cablerInfoBulles;
    CLIN D'ŒIL — Erebus
    Tape "Erebus" (accents/majuscules ignorés) dans une barre de
    recherche du site (armes.html #recherche, regles.html #recherche,
-   unites.html #choix-unite) : son portrait apparaît sous le champ.
-   Purement décoratif — un simple écouteur "input" de plus sur ces
-   mêmes champs, sans toucher à leur propre logique de filtre
-   (armes.js/regles.js/unites.js).
+   unites.html #choix-unite) : son portrait apparaît dans une popup
+   par-dessus la page. Purement décoratif — un simple écouteur
+   "input" de plus sur ces mêmes champs, sans toucher à leur propre
+   logique de filtre (armes.js/regles.js/unites.js). Une seule popup
+   partagée pour tout le site (peu importe combien de champs la
+   déclenchent), fermable au clic en dehors, via Échap ou en effaçant
+   le texte du champ qui l'a ouverte.
    ---------------------------------------------------------- */
 function activerClinDoeilErebus() {
-  document.querySelectorAll("#recherche, #choix-unite").forEach((champ) => {
-    const image = document.createElement("img");
-    image.src = RACINE_SITE + "assets/img/erebus.jpg";
-    image.alt = "Erebus";
-    image.className = "erebus-easter-egg";
+  const champs = document.querySelectorAll("#recherche, #choix-unite");
+  if (!champs.length) return;
 
-    const cible = champ.closest(".unite-combobox") || champ;
-    cible.insertAdjacentElement("afterend", image);
+  const overlay = document.createElement("div");
+  overlay.className = "erebus-popup-overlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", "Erebus");
+  overlay.hidden = true;
 
+  const image = document.createElement("img");
+  image.src = RACINE_SITE + "assets/img/erebus.jpg";
+  image.alt = "Erebus";
+  image.className = "erebus-popup-image";
+  overlay.appendChild(image);
+
+  document.body.appendChild(overlay);
+
+  const fermer = () => {
+    overlay.hidden = true;
+  };
+
+  overlay.addEventListener("click", fermer);
+
+  document.addEventListener("keydown", (evenement) => {
+    if (evenement.key === "Escape" && !overlay.hidden) fermer();
+  });
+
+  champs.forEach((champ) => {
     champ.addEventListener("input", () => {
       const correspond = normaliserTexte(champ.value.trim()) === "erebus";
-      image.classList.toggle("visible", correspond);
+      overlay.hidden = !correspond;
     });
   });
 }
