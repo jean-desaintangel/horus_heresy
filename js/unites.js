@@ -3647,6 +3647,10 @@ function initialiserChoixUnite() {
     liste.hidden = false;
     champ.setAttribute("aria-expanded", "true");
     surligner(-1);
+    // L'ascenseur de la liste ne doit jamais rouvrir sur la position de
+    // défilement laissée par une session précédente (ex : sélection
+    // faite tout en bas) : toujours remonter en haut à l'ouverture.
+    liste.scrollTop = 0;
   }
 
   function choisir(unite) {
