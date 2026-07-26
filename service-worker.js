@@ -17,7 +17,7 @@
       manquant en boutique.
    2. RUNTIME CACHE (à la demande) : tout le reste, notamment les
       deux gros guides de peinture (~14 Mo chacun, assets/documents/
-      guide_peinture_*.pdf) et legacies.pdf. Pas préchargés (inutiles
+      guide_peinture_*.pdf). Pas préchargés (inutiles
       pendant une partie, coûteux à télécharger d'un coup) : mis en
       cache la première fois qu'ils sont ouverts, donc disponibles
       hors ligne ENSUITE si le proprio les a déjà consultés une fois
@@ -255,8 +255,8 @@ self.addEventListener("activate", (evenement) => {
    - Tout le reste (CSS/JS/données/images/documents, même origine) :
      cache d'abord, réseau en repli — et on met alors en cache la
      réponse dans CACHE_RUNTIME. C'est ce qui permet aux gros PDF non
-     précachés (guides de peinture, legacies.pdf) de devenir
-     disponibles hors ligne dès qu'ils ont été ouverts une fois.
+     précachés (guides de peinture) de devenir disponibles hors ligne
+     dès qu'ils ont été ouverts une fois.
    ---------------------------------------------------------- */
 self.addEventListener("fetch", (evenement) => {
   const requete = evenement.request;
