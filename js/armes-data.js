@@ -4730,6 +4730,14 @@ const ARMES_MELEE = [
         traits: "-",
       },
       {
+        // Arme du Mortificator (Legacies, générique Legiones Astartes) :
+        // voir js/unites-data.js.
+        nom: "Bâton Corposant",
+        stats: ["1", "A", "+1", "3", "1"],
+        regles: "Choc (Fixée, Sonnée, Supprimée)",
+        traits: "-",
+      },
+      {
         // Arme de personnage (Kaedes Nex, Raven Guard) : profil de
         // Mêlée, voir aussi son profil de Tir dans Armes de Tir.
         nom: "Canons de poing Fulcrum (Mêlée)",

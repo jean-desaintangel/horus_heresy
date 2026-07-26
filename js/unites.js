@@ -3170,6 +3170,15 @@ function initialiserChoixUnite() {
   let uniteId = null;
   let visibles = entrees; // sous-ensemble d'`entrees` correspondant à la recherche courante
   let indiceActif = -1; // indice dans les options visibles (hors en-têtes)
+  // Catégories (« Attaque Rapide », « État-major »...) repliées par un
+  // clic sur leur en-tête — persiste tant que la page reste ouverte,
+  // y compris après fermeture/réouverture du menu. Ignoré tant qu'une
+  // recherche texte est en cours (voir derniereRecherche) : replier une
+  // catégorie ne doit pas masquer un résultat de recherche pertinent.
+  // Toutes repliées par défaut (demande du proprio) : la liste complète
+  // serait sinon bien trop longue à parcourir à l'ouverture.
+  const categoriesRepliees = new Set(categories);
+  let derniereRecherche = "";
 
   // Sélection par défaut avant toute saisie/sélection, dépendante de
   // la Faction (idUniteParDefautPourFaction : Praetor pour Legio
@@ -3255,7 +3264,23 @@ function initialiserChoixUnite() {
     return resultat;
   }
 
-  const options = () => visibles.filter((e) => e.unite);
+  // Options réellement affichées : hors en-têtes, et hors catégories
+  // repliées tant qu'aucune recherche texte n'est en cours (voir
+  // categoriesRepliees ci-dessus).
+  const options = () => {
+    const rechercheActive = derniereRecherche !== "";
+    let categorieRepliee = false;
+    const resultat = [];
+    for (const e of visibles) {
+      if (e.groupe) {
+        categorieRepliee = categoriesRepliees.has(e.groupe);
+        continue;
+      }
+      if (categorieRepliee && !rechercheActive) continue;
+      resultat.push(e);
+    }
+    return resultat;
+  };
 
   // Une unité par ailleurs accessible (Faction/Légion/Allégeance, voir
   // uniteAccessible) n'est réellement sélectionnable dans ce menu que
@@ -3314,13 +3339,53 @@ function initialiserChoixUnite() {
     const legionsAllieesActuelles = Organigramme.legionsAlliees();
     const legionAllieeUnique =
       legionsAllieesActuelles.length === 1 ? legionsAllieesActuelles[0] : null;
+    const rechercheActive = derniereRecherche !== "";
+    let categorieRepliee = false;
     for (const entree of visibles) {
       if (entree.groupe) {
-        const li = el("li", "unite-combobox-groupe", entree.groupe);
+        const repliee = categoriesRepliees.has(entree.groupe);
+        categorieRepliee = repliee;
+        const li = document.createElement("li");
+        li.className = "unite-combobox-groupe";
         li.setAttribute("role", "presentation");
+        // <button> plutôt qu'un simple clic sur le <li> : focalisable au
+        // clavier (Tab) sans passer par le système d'aria-activedescendant
+        // du combobox (réservé aux unités), Entrée/Espace le déclenchent
+        // nativement. mousedown+preventDefault (comme choix-unite-bouton
+        // plus bas) pour ne pas voler le focus du champ à la souris.
+        const bouton = document.createElement("button");
+        bouton.type = "button";
+        bouton.className = "unite-combobox-groupe-bouton";
+        bouton.setAttribute("aria-expanded", String(!repliee));
+        bouton.setAttribute(
+          "aria-label",
+          (repliee ? "Déplier" : "Replier") + " la catégorie " + entree.groupe,
+        );
+        bouton.appendChild(
+          el("span", "unite-combobox-groupe-chevron", repliee ? "▸" : "▾"),
+        );
+        bouton.appendChild(document.createTextNode(entree.groupe));
+        bouton.addEventListener("mousedown", (evenement) => {
+          evenement.preventDefault();
+        });
+        bouton.addEventListener("click", (evenement) => {
+          // stopPropagation obligatoire : rendre() (ci-dessous) retire ce
+          // <button> du DOM (liste.replaceChildren()) avant que
+          // l'évènement ne finisse de remonter. Sans cela, le
+          // gestionnaire "clic en dehors" posé sur `document` (plus bas)
+          // ne retrouve plus la cible dans `liste` une fois détachée, et
+          // referme le menu à tort (fermer() → liste.hidden = true).
+          evenement.stopPropagation();
+          if (repliee) categoriesRepliees.delete(entree.groupe);
+          else categoriesRepliees.add(entree.groupe);
+          rendre();
+          surligner(-1);
+        });
+        li.appendChild(bouton);
         liste.appendChild(li);
         continue;
       }
+      if (categorieRepliee && !rechercheActive) continue;
       const factionUnite = entree.unite.faction || "legio-astartes";
       const autreFaction = factionUnite !== factionCourante;
       let classe = "unite-combobox-option";
@@ -3386,9 +3451,14 @@ function initialiserChoixUnite() {
     champ.setAttribute("aria-expanded", "false");
     champ.removeAttribute("aria-activedescendant");
     indiceActif = -1;
+    // Repliées à nouveau à chaque fermeture (clic en dehors, Échap,
+    // sélection d'une unité...) : la prochaine ouverture retrouve
+    // toutes les catégories réduites, comme à l'ouverture initiale.
+    for (const c of categories) categoriesRepliees.add(c);
   }
 
   function ouvrir(requete) {
+    derniereRecherche = requete.trim();
     visibles = filtrer(requete);
     rendre();
     liste.hidden = false;

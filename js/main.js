@@ -439,18 +439,18 @@ window.cablerInfoBulles = cablerInfoBulles;
 
 /* ----------------------------------------------------------
    CLIN D'ŒIL — Erebus
-   Tape "Erebus" (accents/majuscules ignorés) dans une barre de
-   recherche du site (armes.html #recherche, regles.html #recherche,
-   unites.html #choix-unite) : son portrait apparaît dans une popup
-   par-dessus la page. Purement décoratif — un simple écouteur
-   "input" de plus sur ces mêmes champs, sans toucher à leur propre
-   logique de filtre (armes.js/regles.js/unites.js). Une seule popup
-   partagée pour tout le site (peu importe combien de champs la
-   déclenchent), fermable au clic en dehors, via Échap ou en effaçant
-   le texte du champ qui l'a ouverte.
+   Tape "Erebus" (accents/majuscules ignorés) dans le champ « Unité à
+   ajouter » d'unites.html (#choix-unite, PAS les barres de recherche
+   d'armes.html/regles.html #recherche) : son portrait apparaît dans une
+   popup par-dessus la page. Purement décoratif — un simple écouteur
+   "input" de plus sur ce champ, sans toucher à sa propre logique de
+   filtre (unites.js). Une seule popup partagée pour tout le site
+   (peu importe combien de champs la déclenchent, si d'autres s'y
+   ajoutent un jour), fermable au clic en dehors, via Échap ou en
+   effaçant le texte du champ qui l'a ouverte.
    ---------------------------------------------------------- */
 function activerClinDoeilErebus() {
-  const champs = document.querySelectorAll("#recherche, #choix-unite");
+  const champs = document.querySelectorAll("#choix-unite");
   if (!champs.length) return;
 
   const overlay = document.createElement("div");

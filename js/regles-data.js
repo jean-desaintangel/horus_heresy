@@ -1992,4 +1992,25 @@ const REGLES_DIVERSES = [
     texte:
       "Les techniques de guérison sorcières des loges Davinites sont tenues en grande suspicion, car l'on murmure qu'elles ont pu jouer un rôle dans le basculement d'Horus vers la traîtrise. Une Figurine ayant cette Règle Spéciale a la Réaction Psychique Résurrection, issue de la Discipline Psychique Thaumaturgie.",
   },
+
+  /* --- Arsenal des État-majors génériques Legiones Astartes (Legacies,
+     toutes Légions) : Seigneur de Forge, Primus Medicae, Delegatus,
+     Mortificator, Fauteur de Guerre (voir js/unites-data.js et le
+     commentaire de iron-father-armure-artificer, qui documentait déjà
+     leur absence). --- */
+  {
+    nom: "Legiones Thallaxes",
+    texte:
+      "Les plus anciens de leur espèce, ce sont les Seigneurs de Forge qui veillent sur les accords liant leur Légion aux différentes factions du Mechanicum, y compris les sinistres magi de l'Ordo Reductor. Aussi beaucoup vont-ils au combat accompagnés d'une cohorte de cyborgs Thallax parés de l'héraldique de la Légion, chargés de superviser ces troupes, qu'elles soient le fruit d'un simple échange ou un symbole de respect légué au terme d'une campagne commune. Cette Règle Spéciale permet de sélectionner des Unités de Thallax au sein d'un Détachement qui inclut un Seigneur de Forge. Quand une Figurine ayant cette Règle Spéciale est incluse dans un Détachement, deux Cases d'Organigramme de Force supplémentaires sont ajoutées à ce Détachement. Ces Cases ne peuvent être remplies que par des Unités de Cohorte Thallax choisies dans le Liber Mechanicum (non transcrites sur ce site). Quand une telle Unité est incluse de cette façon, le Trait Reductor de toutes ses Figurines est remplacé par « Reductor Lié », et la Règle Spéciale Égide de Souffrance leur est retirée. Ces Unités peuvent être incluses même si elles n'ont pas le même Trait de Faction que les autres Unités de ce Détachement.",
+  },
+  {
+    nom: "Épisseur de Jonction Éthérique",
+    texte:
+      "Ces reliques portables datant de l'Âge des Rébellions permettent à un petit groupe de guerriers de se téléporter sans disposer d'un téléportarium complet ni de l'équipement de ciblage et des champs de protection normalement requis pour une manœuvre aussi périlleuse. Ils sont cependant réputés pour leur tendance à mal fonctionner si la moindre erreur est commise lors de leur calibrage : aussi, seuls les commandants les plus téméraires ou les plus vaniteux sanctionnent-ils leur usage au combat. Une Figurine dotée d'un épisseur de jonction éthérique a la Règle Spéciale Frappe en Profondeur. Tant qu'une telle Figurine a rejoint, en Réserves, une Unité qui n'inclut que des Figurines ayant le Trait [Legiones Astartes], le Type Infanterie et pas de variante de la Règle Spéciale Massif (X) où X est supérieur à 2, toutes les Figurines de cette Unité gagnent aussi la Règle Spéciale Frappe en Profondeur. De plus, quand une Unité qui inclut une ou plusieurs Figurines dotées d'un épisseur de jonction éthérique subit une ou plusieurs Blessures Non Sauvegardées du fait de la Réaction Avancée Interception, cette Unité gagne immédiatement le Statut Tactique Supprimée.",
+  },
+  {
+    nom: "Griffe de Dreadnoughts",
+    texte:
+      "Quand une Unité de Mortificator ou de Mortificator en Armure Terminator est sélectionnée pour remplir une Case d'Organigramme de Force d'État-major, le Joueur en Contrôle peut choisir d'ajouter un Détachement Auxiliaire Griffe de Dreadnoughts à l'Armée au lieu des options normalement disponibles dans l'Organigramme de Force de Croisade. Les Cases d'Engins de Guerre de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Dreadnought Contemptor.",
+  },
 ];

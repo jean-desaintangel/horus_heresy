@@ -3498,7 +3498,19 @@ const Organigramme = (() => {
       groupe.className = "orga-ajout-groupe";
       groupe.dataset.famille = famille;
       groupe.open = famille in etatsOuverts ? etatsOuverts[famille] : false;
-      groupe.appendChild(el("summary", null, titreFamille));
+      // Un <summary> natif est cliquable sur toute sa largeur (jusqu'au
+      // bord droit du panneau, bien au-delà du texte) : on isole le nom
+      // dans un <span> et on n'autorise le pli/dépli natif que si le
+      // clic tombe dessus, sur le même principe que les étiquettes de
+      // case à cocher ailleurs sur ce site (voir plus bas, "case" et
+      // "paire" dans construireCarte, js/unites.js).
+      const texteSummary = el("span", "orga-ajout-titre-texte", titreFamille);
+      const summary = document.createElement("summary");
+      summary.appendChild(texteSummary);
+      summary.addEventListener("click", (evenement) => {
+        if (evenement.target !== texteSummary) evenement.preventDefault();
+      });
+      groupe.appendChild(summary);
       const ligne = el("div", "orga-ajout-boutons");
       for (const type of typesFamille) {
         const { possible, raison } = disponibilite(type, credits);

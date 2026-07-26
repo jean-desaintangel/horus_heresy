@@ -1781,16 +1781,44 @@ footer p {
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 0.45rem 0.9rem;
   background: var(--fond-secondaire);
   border-left: 3px solid var(--accent);
   border-bottom: 1px solid var(--titre);
+}
+
+/* En-tête de catégorie plié/déplié (voir initialiserChoixUnite,
+   js/unites.js) : un <button> plutôt qu'un simple <li>, pour rester
+   focalisable au clavier (Tab) et déclencher Entrée/Espace nativement.
+   Réinitialise entièrement l'apparence par défaut d'un <button> pour
+   reprendre exactement la typographie de l'ancien <li>. */
+.unite-combobox-groupe-bouton {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  background: none;
   font-family: "Cinzel", serif;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.3px;
   color: var(--titre-contraste);
+  text-align: left;
+  cursor: pointer;
+}
+
+.unite-combobox-groupe-bouton:hover,
+.unite-combobox-groupe-bouton:focus-visible {
+  background: var(--carte-hover);
+}
+
+.unite-combobox-groupe-chevron {
+  flex: none;
+  width: 1em;
+  font-size: 0.9em;
+  text-align: center;
 }
 
 .unite-combobox-option {
@@ -3676,12 +3704,19 @@ body.nuit-eternelle .orga-case-unite a {
   font-weight: 700;
   color: var(--texte-doux);
   margin-bottom: 0.3rem;
+}
+
+/* Seul ce texte (et non toute la largeur du <summary>, voir
+   construireAjoutDetachements dans js/organigramme.js) déclenche le
+   pli/dépli : curseur et survol restreints à lui pour ne pas laisser
+   croire que le reste de la ligne est cliquable. */
+.orga-ajout-titre-texte {
   cursor: pointer;
   user-select: none;
 }
 
-.orga-ajout-groupe summary:hover,
-.orga-ajout-groupe summary:focus-visible {
+.orga-ajout-titre-texte:hover,
+.orga-ajout-groupe summary:focus-visible .orga-ajout-titre-texte {
   color: var(--accent);
 }
 
