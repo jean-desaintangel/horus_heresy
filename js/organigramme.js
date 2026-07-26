@@ -931,6 +931,12 @@ const Organigramme = (() => {
         type.id === "allie" ? det.legionAlliee : etat.legion;
       if (unite.legion !== legionRequise) return false;
     }
+    // Escouade Inductii (Legacies, Legiones Inductii, p. 1) : Troupe
+    // générique par Légion mais volontairement moins expérimentée que
+    // les Légionnaires de ligne — ne peut jamais occuper de Case
+    // Principale, quelle qu'en soit la Légion (champ `interditCase-
+    // Principale`, js/unites-data.js).
+    if (unite.interditCasePrincipale && caseOrga.principale) return false;
     // Trait de Faction Mechanicum (Techno-arcane Majeur, Liber
     // Mechanicum p. 13) : uniformité exigée au sein d'un même
     // Détachement Auxiliaire/d'Apex (voir traitFactionMechanicumEtabliDe

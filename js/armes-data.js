@@ -5005,6 +5005,14 @@ const ARMES_MELEE = [
         regles: "Choc (Supprimée)",
         traits: "Arc",
       },
+      {
+        // Arme de l'Escouade Inductii Night Lords (Legacies, Legiones
+        // Inductii) : lame improvisée, sans design standardisé.
+        nom: "Lame du tueur",
+        stats: ["I", "A", "F", "-", "1"],
+        regles: "Brèche (6+), Précision (6+)",
+        traits: "-",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
   },

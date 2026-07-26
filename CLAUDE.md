@@ -764,5 +764,76 @@ Règles Spéciales :
   lui-même qu'aucun nouveau profil d'Arme n'est introduit, donc simple
   reformulation du même objet, pas une Arme distincte.
 
+- **Escouade Inductii (PDF dédié « Legacies of the Age of Darkness : The
+  Legiones Inductii », toutes Légions sauf II/XI — 18 Unités
+  génériques, une par Légion)** : Troupe volontairement moins
+  expérimentée que les Légionnaires de ligne. **PAS `legacy: true`**
+  malgré le nom de la collection PDF source (« Legacies of the Age of
+  Darkness ») — corrigé après coup sur demande explicite du proprio
+  (2026-07-26) : `legacy: true` reste réservé à ce que le proprio
+  considère comme des Unités Legacy au sens du site (probablement les
+  ajouts vraiment optionnels/de complément), pas à toute Unité dont
+  le PDF source porte ce nom de collection — ne pas déduire ce champ
+  du seul titre du PDF, redemander en cas de doute plutôt que de
+  supposer. Nouveau champ
+  **`interditCasePrincipale: true`** (posé sur chacune des 18 Unités,
+  `js/unites-data.js`) — demande explicite du proprio : ne peut jamais
+  occuper de Case Principale d'Organigramme de Force, quelle qu'en soit
+  la Légion. Vérifié dans `caseAccepte()` (js/organigramme.js), juste
+  après le filtre de Légion : seul point d'entrée pour la disponibilité
+  ET l'assignation d'une Unité à une Case (`casesLibresPour` et
+  `assigner` passent tous deux par lui), donc un seul endroit à modifier
+  suffit. À réutiliser tel quel pour toute future Unité qui devrait être
+  exclue des Cases Principales sans changer sa Catégorie.
+  Distinct de la propre Règle Spéciale Inductii du PDF (« ne peut
+  jamais servir à choisir un Prime Advantage / remplir un Prime Force
+  Organisation Slot ») : cette dernière mécanique n'est **pas**
+  modélisée sur ce site (comme déjà noté plus haut à propos du Paladin
+  de l'Hekatonystika). Faute de traduction déjà établie pour « Prime
+  Advantage »/« Prime Force Organisation Slot », rendus dans le
+  glossaire (`js/regles-data.js`) par **« Avantage Principal »**/
+  **« Case d'Organigramme de Force Suprême »** — demande explicite du
+  proprio (2026-07-26) de réutiliser « Avantage Principal » malgré
+  l'homonymie avec les Avantages Principaux des Cases Principales déjà
+  modélisés sur ce site (`caseOrga.principale`) : les deux désignent
+  bien des mécaniques distinctes (Prime Advantage n'est pas modélisé
+  ici), mais partagent volontairement le même nom français. Une
+  première version de cette session avait inventé « Avantage Suprême »
+  pour éviter la collision — remplacé par cette correction, ne pas
+  revenir en arrière.
+  Schéma : `variantes` reste à **UN SEUL** élément par Unité — `profil`
+  singulier pour 16 des 18 (une seule Figurine « Inductii »),
+  `profils` (pluriel) pour Ultramarines (Inductii + Evocatus Intendant)
+  et Salamanders (Inductii + Inductii Master) : ces deux rôles restent
+  optionnels dans le texte du PDF (« may be replaced... for +X Points »,
+  pas une composition mixte obligatoire comme Sergent+Troupier d'une
+  Escouade Tactique), mais le PDF lui-même affiche systématiquement les
+  deux lignes de profil côte à côte dans son tableau de Caractéristiques
+  — `construireTableProfil` (js/unites.js) affiche `profils` sans
+  condition liée aux options choisies, donc `profils` reste la
+  modélisation fidèle du tableau imprimé, l'option `case` séparée
+  (« Un Inductii remplacé par un Evocatus Intendant/Inductii Master »)
+  gérant seulement le surcoût. Nouvelle fabrique **`optionsEquipementLegion(prefixeFiche)`**
+  (js/unites-data.js, à côté de `optionBaionnette`) : factorise le
+  motif « Legion Equipment list » (Nuncio-vox/Scanner augure, jusqu'à
+  deux Figurines) déjà écrit à la main une dizaine de fois ailleurs
+  dans ce fichier (ex. Escouade Tactique) — les 18 Escouades Inductii
+  en avaient toutes besoin à l'identique, d'où la factorisation
+  (jugée justifiée ici malgré la préférence habituelle du fichier pour
+  la répétition littérale, vu le nombre d'occurrences strictement
+  identiques introduites d'un coup). Killer's blade (Night Lords) →
+  nouvelle arme **Lame du tueur** (`js/armes-data.js`, catégorie Armes
+  Exotiques et Diverses (Mêlée), profil ["I","A","F","-","1"] : notation
+  déjà établie pour « utilise les Caractéristiques M/A/F propres au
+  porteur, sans modificateur » — voir par ex. Épée énergétique Argean).
+  Rotor cannon → réutilise **Canon rotor** déjà existant (profil
+  portable de la catégorie Armes Auto, distinct du Canon rotor Punisher/
+  de défense). Ravening Madmen (World Eaters, renvoi « voir page 192 du
+  Liber Hereticus ») et Heedless → **Insouciant** (World Eaters) : pas
+  de texte intégral fourni par ce PDF (juste nommées dans la liste des
+  Règles Spéciales, sans encart) — laissées en texte simple dans
+  `regles:`, sans entrée de glossaire, conformément à la règle 6
+  ci-dessus.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

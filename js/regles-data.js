@@ -2051,4 +2051,95 @@ const REGLES_DIVERSES = [
     texte:
       "Réaction Avancée des Conclaves Skitarii qui permet de remplacer en urgence un maréchal tombé au combat. Le Joueur Réactif, en Contrôle d'Unités composées uniquement de Figurines qui ont le Trait Skitarii, peut la déclarer une fois par Bataille quand une Figurine de Maréchal des Pérégrins de Combat Skitarii amie est réduite à 0 Point de Vie (coût : 1 Point d'Attribution de Réactions, à payer dès la déclaration) ; l'Unité Cible est toujours une Unité amie qui a le Trait [Skitarii] et qui compte au moins une Figurine d'Ordinator. À la Phase de Fin du Tour où la Réaction a été déclarée, le Joueur Réactif choisit une Figurine d'Ordinator de l'Unité Cible : elle gagne le Sous-type État-major, augmente de +1 ses Caractéristiques de Base de Capacité de Combat, d'Attaques et de Commandement, et le Joueur en Contrôle peut choisir une de ses Armes de Mêlée pour lui faire gagner la Règle Spéciale Icône d'Autorité.",
   },
+
+  /* --- Legacies of the Age of Darkness : The Legiones Inductii (p.
+     1-22, toutes Légions sauf II et XI) : Escouade Inductii, voir
+     js/unites-data.js. « Prime Advantage »/« Prime Force Organisation
+     Slot » (mécanique du livre de règles) n'ont pas de traduction déjà
+     établie ici : rendues par « Avantage Principal »/« Case
+     d'Organigramme de Force Suprême » (demande explicite du proprio de
+     réutiliser « Avantage Principal », malgré l'homonymie avec les
+     Avantages Principaux des Cases Principales déjà modélisés sur ce
+     site — voir CLAUDE.md), purement informatif puisque non modélisé
+     ici. --- */
+  {
+    nom: "Inductii",
+    texte:
+      "Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale ne peut jamais servir à choisir un Avantage Principal. Quand une Unité qui compte au moins une Figurine ayant cette Règle Spéciale est sélectionnée pour remplir une Case d'Organigramme de Force Suprême, aucun Avantage Principal correspondant ne peut être choisi.",
+  },
+  {
+    nom: "Perfection Incarnée",
+    texte:
+      "Quand on fait un Test pour éviter de gagner un Statut Tactique pour une Unité qui compte au moins une Figurine ayant cette Règle Spéciale, le Joueur en Contrôle doit lancer un Dé supplémentaire, en écartant le Dé dont le résultat, une fois lancé, est le plus élevé si le Test est fait à la Sous-phase du Moral, ou le Dé dont le résultat est le plus faible si le Test est fait à la Sous-phase de Résolution.",
+  },
+  {
+    nom: "Preuve de Valeur",
+    texte:
+      "Pour tout Groupe d'Attaque dont les Combattants attaquants ont une Caractéristique de Capacité de Combat actuelle de 5, le Chiffre à Atteindre de tout Test pour Toucher résultant de ce Groupe d'Attaque est toujours de 4+ si l'Unité Cible de ce Groupe d'Attaque est entièrement composée de Figurines ayant cette Règle Spéciale.",
+  },
+  {
+    nom: "Fougueux",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut se voir déclarer une Charge au cours du même Tour où elle a fait un Mouvement de Ruée, mais si le Jet de Charge de cette Charge est raté, elle gagne aussitôt les Statuts Tactiques Sonnée et Fixée. Une Unité entièrement composée de Figurines ayant cette Règle Spéciale peut se voir déclarer une Charge au cours du même Tour de Joueur où elle a fait un Mouvement de Ruée, mais si le Jet de Charge de cette Charge est raté, toutes les Figurines de cette Unité gagnent immédiatement les Statuts Tactiques Sonnée et Fixée.",
+  },
+  {
+    nom: "Tir de Soutien",
+    texte:
+      "À la Phase de Tir du Joueur en Contrôle, les Attaques de Tir faites par des Figurines ayant cette Règle Spéciale qui font partie d'une Unité restée Stationnaire à la Phase de Mouvement précédente du Joueur en Contrôle gagnent la Règle Spéciale Fixation (0).",
+  },
+  {
+    nom: "Assassins sans Scrupules",
+    texte:
+      "Cette Règle Spéciale permet de choisir une option d'Après-combat unique donnant à chaque Figurine qui la possède une chance d'infliger une Touche de Précision. Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale peut se voir choisir l'option d'Après-combat L'Art du Meurtre à l'Étape 4 de la Sous-phase de Résolution de la Phase d'Assaut, pour tout Combat que cette Unité a gagné ou dont elle a fait match nul. L'Art du Meurtre : le Joueur en Contrôle lance un Dé pour chaque Figurine de cette Unité ayant la Règle Spéciale Assassins sans Scrupules. Pour chaque résultat non modifié de « 6 », le Joueur en Contrôle peut allouer une seule Blessure, avec une PA de « – » et des Dégâts de 1, résolue immédiatement, à une Figurine ennemie de son choix parmi celles du Combat sélectionné dont l'Unité a vu choisir l'option d'Après-combat Tenir, Se Dégager ou Repli.",
+  },
+  {
+    nom: "Mangeurs de Morts",
+    texte:
+      "Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale peut se voir choisir une option d'Après-combat unique obligeant toute Unité ennemie ayant au moins une Figurine à 8 pouces à faire un Test de Panique. À l'Étape 4 de la Sous-phase de Résolution, le Joueur qui a gagné le Combat doit choisir cette option d'Après-combat pour toute Unité de ce Combat entièrement composée de Figurines ayant cette Règle Spéciale ; une Unité qui n'en est que partiellement composée peut se voir faire un Test de Sang-froid à la place, pour choisir une autre option d'Après-combat en cas de réussite. La Soif : on fait immédiatement un Test de Commandement pour chaque Unité ennemie qui n'est pas impliquée dans le Combat et qui a au moins une Figurine à 8 pouces d'une ou plusieurs Figurines de cette Unité. Si ce Test est raté, toutes les Figurines de cette Unité ennemie gagnent le Statut Tactique En Déroute. Cette option d'Après-combat est résolue après toutes les autres options d'Après-combat de ce Combat.",
+  },
+  {
+    nom: "Augmentations Interdites",
+    texte:
+      "La Réaction Avancée Médecin ! peut être déclarée pour une Unité entièrement composée de Figurines ayant cette Règle Spéciale, y compris si aucune n'a la Règle Spéciale Médic (X) : elle est considérée comme en ayant une pour les besoins de la déclaration. Si une Unité entièrement composée de Figurines ayant cette Règle Spéciale est l'Unité Cible d'une Réaction Avancée Médecin !, tous les Tests de Rétablissement faits dans le cadre de cette Réaction ont un Chiffre à Atteindre de 5+.",
+  },
+  {
+    nom: "Certitude et Détermination",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale n'est jamais Retirée comme Perte quand elle Bat en Retraite jusqu'à une Bordure de Champ de Bataille, et a plus de chances de perdre le Statut Tactique En Déroute à la Phase de Fin. Quand une ou plusieurs Figurines d'une Unité entièrement composée de Figurines ayant cette Règle Spéciale entrent en contact avec une Bordure de Champ de Bataille de la Zone de Déploiement du Joueur en Contrôle dans le cadre d'un Mouvement de Repli, cette Unité perd aussitôt le Statut Tactique En Déroute et gagne le Statut Tactique Supprimée. De plus, quand on fait un Test de Commandement à la Sous-phase des Statuts de la Phase de Fin pour retirer le Statut Tactique En Déroute d'une Unité entièrement composée de Figurines ayant cette Règle Spéciale, le Joueur en Contrôle peut lancer un Dé supplémentaire, en écartant le Dé dont le résultat, une fois lancé, est le plus élevé.",
+  },
+  {
+    nom: "Résilience de Barbarus",
+    texte:
+      "Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale ne gagne jamais le Statut Tactique En Déroute pour avoir subi 25 % ou plus de Pertes à la Phase de Tir. Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale n'a jamais à faire de Test de Commandement à la Sous-phase du Moral pour éviter de gagner le Statut Tactique En Déroute suite à un certain nombre de Figurines retirées comme Pertes de cette Unité par une seule Attaque de Tir.",
+  },
+  {
+    nom: "Praticiens Désaccordés",
+    texte:
+      "Les Figurines Inductii des Thousand Sons ont un Arcane de Prospero fixe. Une Unité qui compte des Figurines ayant cette Règle Spéciale ne peut pas se voir choisir d'Arcane de Prospero : elle a à la place l'Arcane de Prospero Désaccordée, qui suit toutes les règles des Arcanes de Prospero. Toutes les Figurines d'une Unité ayant l'Arcane de Prospero Désaccordée gagnent le Pouvoir Psychique Guidage Éthérique et le Trait « Désaccordé ». Guidage Éthérique (Pouvoir Psychique, Bénédiction) qui améliore les Attaques de Tir de l'Unité : le Joueur Actif peut le Manifester à la Phase de Tir, au début de l'Étape 4 d'une Attaque de Tir faite par une Unité incluant au moins une Figurine ayant le Trait Désaccordé sous son contrôle. Le Focus doit être une Figurine ayant le Trait Désaccordé de l'Unité qui tire ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de l'Attaque de Tir en cours : toutes les Armes de Tir dont sont dotées les Figurines de l'Unité Cible, sauf celles ayant la Règle Spéciale Explosion (X), gagnent la Règle Spéciale Brèche (6+).",
+  },
+  {
+    nom: "Credo de Brutalité",
+    texte:
+      "Si une Unité qui compte au moins une Figurine ayant cette Règle Spéciale réussit un Test de Commandement à la Phase de Début, elle gagne la Règle Spéciale Impact (F) jusqu'à la fin du Tour de Bataille. À la Sous-phase des Effets de sa Phase de Début, le Joueur en Contrôle d'une Unité qui compte au moins une Figurine ayant cette Règle Spéciale peut faire un Test de Commandement pour cette Unité ; si une Figurine de l'Unité se trouve à 6 pouces d'une Figurine amie ayant le Trait Sons of Horus et une Caractéristique de Capacité de Combat de 5 ou plus, on peut utiliser le Commandement de cette Figurine amie pour ce Test. Si le Test est réussi, toutes les Figurines de l'Unité gagnent la Règle Spéciale Impact (F) jusqu'à la fin de ce Tour de Bataille. S'il est raté, toutes les Figurines de l'Unité gagnent aussitôt le Statut Tactique Sonnée.",
+  },
+  {
+    nom: "Vaisseaux Vides",
+    texte:
+      "Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale gagne le Sous-type Maléfique et la Règle Spéciale Insensible à la Douleur (6+) dès qu'elle marque des Points de Victoire en vertu de la Règle Spéciale Avant-garde (X), après avoir subi D3 Blessures. Une Unité qui compte des Figurines ayant cette Règle Spéciale ne peut jamais être rejointe par une Figurine qui ne l'a pas. De plus, la première fois qu'une Bataille où une Unité qui compte des Figurines ayant cette Règle Spéciale marque des Points de Victoire en vertu de la Règle Spéciale Avant-garde (X), cette Unité subit aussitôt D3 Blessures automatiques avec une PA de 2 et des Dégâts de 1, contre lesquelles aucune Sauvegarde n'est possible. Une fois ces Blessures résolues, toutes les Figurines de cette Unité gagnent immédiatement le Sous-type Maléfique et la Règle Spéciale Insensible à la Douleur (6+) pour le reste de la Bataille.",
+  },
+  {
+    nom: "Équipement des Héros",
+    texte:
+      "Les Figurines ayant cette Règle Spéciale qui infligent au moins une Blessure Non Sauvegardée confèrent un bonus au Résultat de Combat. Quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, le Joueur en Contrôle de toute Figurine ayant cette Règle Spéciale ayant infligé au moins une Blessure Non Sauvegardée dans ce Combat au même Tour marque 1 Point de Résolution de Combat supplémentaire.",
+  },
+  {
+    nom: "Conviction Déchaînée",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale qui devrait gagner le Statut Tactique Fixée fait à la place un Mouvement de Repli immédiat. Dès que des Figurines d'une Unité entièrement composée de Figurines ayant cette Règle Spéciale gagnent le Statut Tactique Fixée, cette Unité doit aussitôt faire un Mouvement de Repli. Une fois ce Mouvement résolu, toutes les Figurines de cette Unité perdent le Statut Tactique Fixée.",
+  },
+  {
+    nom: "Leurre Perfide",
+    texte:
+      "Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ne peut pas être prise pour cible par une Attaque de Tir au premier Tour de Bataille. Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ne peut pas être choisie comme Unité Cible d'une Attaque de Tir au premier Tour de Bataille. Cette Règle Spéciale n'a aucun effet sur les Attaques de Volée ni sur les Attaques de Tir faites dans le cadre d'une Réaction.",
+  },
 ];

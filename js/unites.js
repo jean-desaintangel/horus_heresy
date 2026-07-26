@@ -1067,6 +1067,30 @@ function construireRegexArme(nomMinuscule) {
   return new RegExp(echapperRegex(nomMinuscule).split(" ").join("s? ") + "s?");
 }
 
+// Suffixes entre parenthèses en fin de nom d'Arme qui désignent une
+// Faction précise plutôt qu'une bande de portée ou un second profil de
+// montage (ex : « Chargeur volkite (Solar Auxilia) », « Pistolet
+// bolter (Mechanicum) ») — à ne pas confondre avec « (< 15 pas) »,
+// « (Secondaire) », « (Stormlord) »... qui restent groupés ensemble
+// quelle que soit la Faction de l'Unité (voir armesDuMemeMontage
+// ci-dessous). Basé sur les libellés de FACTIONS (js/organigramme.js).
+const SUFFIXES_FACTION_ARMES = {
+  "Solar Auxilia": "solar-auxilia",
+  Mechanicum: "mechanicum",
+  Skitarii: "skitarii",
+  "Legio Custodes": "legio-custodes",
+  "Legio Titanicus": "legio-titanicus",
+  "Chevaliers Questoris": "chevaliers-questoris",
+};
+
+// Faction visée par le suffixe entre parenthèses d'un nom d'Arme
+// (`arme.nom`, pas `arme.nomBase` qui l'a déjà retiré), ou `null` si
+// son suffixe ne désigne pas de Faction connue (ou n'a pas de suffixe).
+function suffixeFactionArme(arme) {
+  const correspondance = arme.nom.match(/\(([^)]+)\)\s*$/);
+  return (correspondance && SUFFIXES_FACTION_ARMES[correspondance[1]]) || null;
+}
+
 // Certaines armes de l'Arsenal ont plusieurs profils au tir partageant
 // le même montage : munitions ou cadence différentes après un tiret
 // cadratin (« Obusier Kratos — Obus HE » / « — Obus PA » / « — Obus
@@ -1212,7 +1236,14 @@ function construireTableArmes(entetes, armes) {
 // Repère, dans l'équipement final, les armes reconnues dans l'Arsenal
 // (sans doublon, dans l'ordre d'apparition) et construit une table de
 // caractéristiques par jeu d'en-têtes rencontré (Tir / Mêlée).
-function construireTablesArmes(equipement) {
+// `factionUnite` (ex : "solar-auxilia", "legio-astartes" par défaut) :
+// écarte les profils réservés à une AUTRE Faction que celle de
+// l'Unité affichée (voir suffixeFactionArme) — sans elle, une Unité
+// Legio Astartes équipée d'un « Chargeur volkite » verrait aussi
+// apparaître « Chargeur volkite (Solar Auxilia) » et « (Mechanicum) »
+// dans sa table, qui ne la concernent pas.
+function construireTablesArmes(equipement, factionUnite) {
+  const faction = factionUnite || "legio-astartes";
   const fragment = document.createDocumentFragment();
   const armesTrouvees = [];
   const noms = new Set();
@@ -1223,8 +1254,30 @@ function construireTablesArmes(equipement) {
     // construireIndexArmes), pas seulement celui retenu par
     // trouverArmeDansTexte pour la correspondance.
     const nomBaseMinuscule = correspondance.arme.nomBase.toLowerCase();
-    for (const arme of indexArmes) {
-      if (arme.nomBase.toLowerCase() !== nomBaseMinuscule) continue;
+    const candidats = indexArmes.filter(
+      (arme) => arme.nomBase.toLowerCase() === nomBaseMinuscule,
+    );
+    // Priorité : le profil propre à la Faction de l'Unité s'il existe
+    // (exclut alors le profil générique ET ceux des autres Factions,
+    // ex : Unité Solar Auxilia → seul « Chargeur volkite (Solar
+    // Auxilia) » compte, pas le « Chargeur volkite » générique) ;
+    // sinon le(s) profil(s) générique(s) sans suffixe de Faction (ex :
+    // Unité Legio Astartes → seul « Chargeur volkite » compte, pas
+    // « (Solar Auxilia) »/« (Mechanicum) ») ; sinon, si l'Arsenal n'a
+    // QUE des profils réservés à d'autres Factions pour ce montage
+    // (ex : « Batterie de bolters lourds Gravis », wargear Solar
+    // Auxilia réutilisé tel quel par le Châssis Rapier Legio Astartes),
+    // les montrer quand même plutôt que de laisser la table vide.
+    const propresFaction = candidats.filter(
+      (arme) => suffixeFactionArme(arme) === faction,
+    );
+    const generiques = candidats.filter((arme) => !suffixeFactionArme(arme));
+    const retenus = propresFaction.length
+      ? propresFaction
+      : generiques.length
+        ? generiques
+        : candidats;
+    for (const arme of retenus) {
       // Le dédoublonnage se fait sur `nom` + jeu d'en-têtes (Tir/Mêlée),
       // pas sur `nom` seul : une Arme à la fois « Découpeur laser¹ »
       // (Tir) ET « Découpeur laser¹ » (Mêlée), même intitulé des deux
@@ -1344,7 +1397,7 @@ function construireFiche(unite, instance) {
       true,
     ),
   );
-  fiche.appendChild(construireTablesArmes(equipement));
+  fiche.appendChild(construireTablesArmes(equipement, unite.faction));
   // [Allégeance], [Legiones Astartes], [Questoris Familia] et [Legio
   // Custodes] sont communs à toutes les unités de la Légion/Faction :
   // ne pas les afficher sur la fiche évite de les y répéter
