@@ -52,15 +52,16 @@ const Organigramme = (() => {
   const LEGIONS_INDISPONIBLES = [];
 
   // Factions du menu « Faction » (p. 282, « Armée » au Livre de Règles) :
-  // Legio Astartes, Legio Titanicus et Chevaliers Questoris sont
-  // activées, les autres restent grisées en attendant leur livre
-  // d'armée respectif. Chevaliers Questoris n'a pas encore d'unité
-  // transcrite (voir MAISONNEES/SKINS_MAISONNEE ci-dessous) : le menu
-  // « Maisonnée » qui remplace le menu Légion pour cette Faction pose
-  // seulement le cadre (skin, état, organigramme vierge) en attendant.
+  // Legio Custodes reste grisée, son roster n'ayant que 3 Unités
+  // transcrites à ce jour (voir project_legio_custodes_roster, mémoire
+  // de session) — repasser à `true` une fois le reste du livre transcrit.
+  // Chevaliers Questoris n'a pas encore d'unité transcrite (voir
+  // MAISONNEES/SKINS_MAISONNEE ci-dessous) : le menu « Maisonnée » qui
+  // remplace le menu Légion pour cette Faction pose seulement le cadre
+  // (skin, état, organigramme vierge) en attendant.
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
-    ["legio-custodes", "Legio Custodes", true],
+    ["legio-custodes", "Legio Custodes", false],
     ["legio-titanicus", "Legio Titanicus", true],
     ["chevaliers-questoris", "Chevaliers Questoris", true],
     ["mechanicum", "Mechanicum", true],
@@ -2239,6 +2240,16 @@ const Organigramme = (() => {
       if (riteActif && riteActif.allegeanceForcee) {
         etat.allegeance = riteActif.allegeanceForcee;
       }
+      // La Legio Custodes n'a pas de variante Renégate (voir le forçage
+      // au changement de Faction plus bas) : une sauvegarde antérieure
+      // avec une autre Faction en Allégeance Renégate ne doit pas
+      // ressusciter en Renégat au rechargement de la page, sinon les 3
+      // Unités Custodes (Trait fixe « Loyaliste ») disparaissent
+      // silencieusement du sélecteur « Unité à ajouter » (uniteAccessible,
+      // js/unites.js).
+      if (etat.faction === "legio-custodes") {
+        etat.allegeance = "loyaliste";
+      }
       if (!Array.isArray(donnees.detachements)) return;
       // On revalide tout : les données du navigateur ne sont jamais
       // considérées comme sûres.
@@ -2554,6 +2565,15 @@ const Organigramme = (() => {
         etat.maisonnee = "";
         etat.doctrineCohorte = "";
         etat.designationAuxilia = "";
+        // La Legio Custodes n'a pas de variante Renégate dans son livre
+        // d'armée (toutes ses unités portent le Trait fixe « Loyaliste »,
+        // voir js/unites-data.js) : sans ce forçage, une Allégeance
+        // Renégate laissée par une Faction précédente masquait
+        // silencieusement TOUTES les unités Custodes dans le sélecteur
+        // « Unité à ajouter » (uniteAccessible, js/unites.js).
+        if (nouvelleFaction === "legio-custodes") {
+          etat.allegeance = "loyaliste";
+        }
       }
       actualiser();
     });
@@ -2812,11 +2832,19 @@ const Organigramme = (() => {
     ]) {
       ajouterOption(selectAllegeance, valeur, texte);
     }
+    // La Legio Custodes n'a pas de variante Renégate dans son livre
+    // d'armée : verrouillée sur Loyaliste, comme une Allégeance forcée
+    // par un Rite de Guerre (voir le forçage au changement de Faction
+    // ci-dessus).
+    const allegeanceForceeCustodes = etat.faction === "legio-custodes";
     selectAllegeance.value = etat.allegeance;
-    selectAllegeance.disabled = Boolean(allegeanceForcee);
+    selectAllegeance.disabled = Boolean(allegeanceForcee) || allegeanceForceeCustodes;
     if (allegeanceForcee) {
       selectAllegeance.title =
         "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
+    } else if (allegeanceForceeCustodes) {
+      selectAllegeance.title =
+        "La Legio Custodes ne compte aucune unité Renégate.";
     }
     selectAllegeance.addEventListener("change", () => {
       const nouvelleAllegeance = selectAllegeance.value;
