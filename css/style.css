@@ -544,6 +544,184 @@ strong {
 }
 
 /* ============================================================
+   PAGE ACCUEIL — FRISE « ORDRE DE DÉPLOIEMENT DES FORCES »
+   Deux phases reliées par un connecteur en pointillés : empilées
+   verticalement sur mobile (lecture naturelle de haut en bas), en
+   frise horizontale à partir de 761px.
+   ============================================================ */
+.frise {
+  display: flex;
+  /* Mobile d'abord : les phases s'empilent. Le passage en ligne se fait
+     dans la media query en fin de section. */
+  flex-direction: column;
+  gap: 2.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Filet de sécurité : si une phase venait à contenir un libellé plus
+     large que l'écran, on défile horizontalement plutôt que de casser
+     la mise en page. padding-bottom réserve la place de la barre de
+     défilement pour qu'elle ne recouvre pas les cartes. */
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+
+.frise-phase {
+  position: relative;
+  flex: 1 1 0;
+  /* isolation: isolate crée un contexte d'empilement local : le voile
+     décoratif (::after, z-index: -1) reste DERRIÈRE le texte de sa
+     propre phase au lieu de passer derrière le fond de la page, où il
+     serait invisible. */
+  isolation: isolate;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0;
+}
+
+/* Connecteur entre deux phases : un simple trait en pointillés dessiné
+   par un pseudo-élément, sans SVG ni image à charger. Vertical dans la
+   version empilée (mobile), redessiné horizontalement plus bas. */
+.frise-phase + .frise-phase::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -2.4rem;
+  height: 2.4rem;
+  border-left: 3px dotted var(--acier);
+}
+
+.frise-phase-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 1.15rem;
+  margin-bottom: 0.7rem;
+}
+
+/* L'emoji d'état (✅ / 🔜) est décoratif (aria-hidden dans le HTML) :
+   on le fige à la taille du texte courant pour qu'il ne dépasse pas du
+   titre, les emojis étant rendus plus grands que la police sur
+   certaines plateformes. */
+.frise-phase-icone {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* L'état est écrit en toutes lettres à côté du titre : c'est lui qui
+   porte l'information « disponible / à venir », la couleur ne fait que
+   la redoubler (WCAG 1.4.1). */
+.frise-phase-etat {
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.frise-forces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.frise-force {
+  position: relative;
+  isolation: isolate;
+  font-size: 0.92rem;
+  border-radius: var(--radius);
+  padding: 0.35rem 0.7rem;
+  margin-bottom: 0;
+}
+
+/* ---------- Phase I : déployée (vert, opacité pleine) ---------- */
+.frise-phase--deployee {
+  border-left: 5px solid var(--succes);
+}
+
+.frise-phase--deployee .frise-phase-titre,
+.frise-phase--deployee .frise-phase-etat {
+  color: var(--succes);
+}
+
+.frise-phase--deployee .frise-force {
+  color: var(--texte);
+  background: color-mix(in srgb, var(--succes) 14%, var(--carte));
+  border: 1px solid color-mix(in srgb, var(--succes) 55%, var(--carte));
+}
+
+/* ---------- Phase II : à venir (orange, voilée et floutée) ----------
+   Le flou porte sur le FOND des étiquettes, jamais sur leur texte :
+   filter: blur(1px) posé sur .frise-force rendrait les noms de Faction
+   illisibles, ce qu'aucune règle WCAG ne tolère (1.4.8, et en pratique
+   1.4.3 : un texte flou n'a plus de contraste mesurable). On floute
+   donc un calque décoratif placé sous le texte — la bordure en
+   pointillés s'estompe, l'étiquette semble prise dans la brume, et le
+   nom reste net. */
+.frise-phase--avenir {
+  border-left: 5px solid var(--phase-assaut);
+}
+
+.frise-phase--avenir .frise-phase-titre,
+.frise-phase--avenir .frise-phase-etat {
+  color: var(--phase-assaut);
+}
+
+/* Voile semi-transparent sur toute la phase. z-index: -1 le maintient
+   sous le texte (voir isolation: isolate plus haut) : le voile teinte
+   le fond de la carte sans dégrader le contraste des libellés. */
+.frise-phase--avenir::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--phase-assaut) 10%, transparent);
+  pointer-events: none;
+}
+
+.frise-phase--avenir .frise-force {
+  color: var(--texte);
+}
+
+.frise-phase--avenir .frise-force::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--phase-assaut) 16%, var(--carte));
+  border: 1px dashed color-mix(in srgb, var(--phase-assaut) 65%, var(--carte));
+  filter: blur(1px);
+}
+
+/* ---------- Frise horizontale (écrans larges) ---------- */
+@media (min-width: 761px) {
+  .frise {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  /* Le connecteur bascule de vertical à horizontal : il occupe
+     l'espace du gap (2.4rem) entre deux phases, à hauteur du titre. */
+  .frise-phase + .frise-phase::before {
+    left: -2.4rem;
+    top: 1.6rem;
+    height: 0;
+    width: 2.4rem;
+    border-left: 0;
+    border-top: 3px dotted var(--acier);
+  }
+}
+
+/* ============================================================
    ORGANIGRAMME DE FORCE (page armée)
    ============================================================ */
 .organigramme {

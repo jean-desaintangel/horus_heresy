@@ -115,6 +115,48 @@
           />
         </div>
       </section>
+
+      <!-- ============ FRISE « ORDRE DE DÉPLOIEMENT » ============
+           <ol> et non <ul> : les deux phases sont ordonnées dans le
+           temps, et l'ordre EST l'information. Chaque phase indique son
+           état en toutes lettres (« Déployée » / « En approche ») en plus
+           de sa couleur : WCAG 1.4.1 interdit de faire porter une
+           information par la seule couleur. -->
+      <section class="deploiement" aria-labelledby="deploiement-titre">
+        <h2 class="section-titre section-titre--centre" id="deploiement-titre">
+          Ordre de déploiement des forces
+        </h2>
+        <ol class="frise">
+          <li class="frise-phase frise-phase--deployee">
+            <h3 class="frise-phase-titre">
+              <span class="frise-phase-icone" aria-hidden="true">✅</span>
+              Phase I
+              <span class="frise-phase-etat">— Déployée</span>
+            </h3>
+            <ul class="frise-forces">
+              <li class="frise-force">Legio Astartes</li>
+              <li class="frise-force">Mechanicum</li>
+              <li class="frise-force">Solar Auxilia</li>
+              <li class="frise-force">Conclaves Skitarii</li>
+              <li class="frise-force">Legio Titanicus</li>
+              <li class="frise-force">Chevaliers Questoris</li>
+            </ul>
+          </li>
+          <li class="frise-phase frise-phase--avenir">
+            <h3 class="frise-phase-titre">
+              <span class="frise-phase-icone" aria-hidden="true">🔜</span>
+              Phase II
+              <span class="frise-phase-etat">— En approche</span>
+            </h3>
+            <ul class="frise-forces">
+              <li class="frise-force">Legio Custodes</li>
+              <li class="frise-force">Blackshields</li>
+              <li class="frise-force">Shattered Legions</li>
+              <li class="frise-force">Daemons of the Ruinstorm</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
     </main>
 
     <!-- ===================== PIED DE PAGE ===================== -->
