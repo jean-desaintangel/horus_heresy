@@ -1224,8 +1224,15 @@ function construireIndexArmes() {
 // Cherche l'arme de l'Arsenal la plus pertinente apparaissant dans
 // `texte` : l'occurrence la plus à gauche l'emporte (le nom de l'arme
 // réellement équipée vient toujours avant tout texte parenthétique
-// du type « (à la place de… ) »), et à position égale, le nom le plus
-// long l'emporte (« Bolter lourd » plutôt que « Bolter »).
+// du type « (à la place de… ) »), et à position égale, le texte
+// effectivement trouvé le plus long l'emporte (« Bolter lourd » plutôt
+// que « Bolter »). Comparer sur la longueur du TEXTE TROUVÉ (nomBase),
+// pas sur `arme.nom.length` (nom affiché) : un suffixe cosmétique long
+// (« — Frag », « (Solar Auxilia) ») rendrait sinon une arme générique
+// arbitrairement « gagnante » face à une arme plus spécifique mais au
+// nom affiché plus court (ex : « Lance-grenades Erelim » perdant contre
+// « Lance-grenades (Solar Auxilia) — Krak » alors que seul « Lance-
+// grenades » est commun aux deux et que Erelim est la vraie correspondance).
 // Retourne { avant, trouve, apres, arme } (segments pour reconstruire
 // le texte autour du nom d'arme) ou null si aucune arme ne correspond.
 function trouverArmeDansTexte(texte) {
@@ -1236,12 +1243,9 @@ function trouverArmeDansTexte(texte) {
     const correspondance = arme.regex.exec(brut);
     if (!correspondance) continue;
     const i = correspondance.index;
-    if (
-      !meilleur ||
-      i < meilleur.i ||
-      (i === meilleur.i && arme.nom.length > meilleur.arme.nom.length)
-    ) {
-      meilleur = { i, longueur: correspondance[0].length, arme };
+    const longueur = correspondance[0].length;
+    if (!meilleur || i < meilleur.i || (i === meilleur.i && longueur > meilleur.longueur)) {
+      meilleur = { i, longueur, arme };
     }
   }
   if (!meilleur) return null;

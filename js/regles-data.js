@@ -339,6 +339,13 @@ const REGLES_DIVERSES = [
     texte: "Donne une réaction supplémentaire.",
   },
   {
+    // Arsenal de la Death Guard (XIVe Légion) : diffuseurs alchimiques
+    // empoisonnés de certaines armures (voir js/unites-data.js).
+    nom: "Néfos",
+    texte:
+      "Cette Règle Spéciale inflige des Touches à une Unité ennemie Verrouillée en Combat avec des Figurines qui l'ont. Au début de la Sous-phase de Combat, le Néfos affecte chaque Unité ennemie Verrouillée en Combat avec au moins une Unité incluant des Figurines ayant cette Règle Spéciale. Chaque Unité affectée par le Néfos subit un nombre de Touches égal au nombre de Figurines ayant cette Règle Spéciale que comptent les Unités avec lesquelles elle est Verrouillée en Combat. Ces Touches ont une Force de 1, la Règle Spéciale Empoisonnée (3+), une PA de 5 et une Caractéristique de Dégâts de 1. On ne peut tenter aucun Jet de Sauvegarde de Couvert ni aucun Jet de Mitigation de Dégâts de Dissimulation pour défausser les Blessures résultant de ces Touches, mais on peut tenter normalement d'autres Sauvegardes et Jets de Mitigation de Dégâts.",
+  },
+  {
     // Escouade Iron Havocs (IVe Légion, Iron Warriors) : viseurs
     // spécialisés recoupant flux de données, conditions atmosphériques
     // et mouvements prédictifs des cibles (voir js/unites-data.js).

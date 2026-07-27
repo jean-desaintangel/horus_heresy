@@ -1115,6 +1115,35 @@ const ARMES_TIR = [
         traits: "Flammes",
       },
       {
+        // Arsenal des Salamanders (XVIIIe Légion), page « Artifice de
+        // Nocturne » : échange contre un lance-flammes léger, réservé
+        // aux Figurines de Sous-type Sergent ayant le Trait Salamanders.
+        nom: "Lance-flammes léger forgé",
+        stats: ["Souffle", "1", "3", "-", "2"],
+        regles: "Souffle, Pistolet",
+        traits: "Assaut, Flammes",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion) : échange contre un
+        // lance-flammes, réservé aux Figurines de Sous-type Sergent
+        // ayant le Trait Salamanders.
+        nom: "Lance-flammes forgé",
+        stats: ["Souffle", "1", "4", "5", "2"],
+        regles: "Souffle, Panique (1)",
+        traits: "Flammes",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion) : échange contre un
+        // lance-flammes lourd, réservé aux Figurines de Sous-type
+        // Sergent ayant le Trait Salamanders (voir aussi le Dreadnought
+        // Cassian Dracos et l'Escouade Terminator Pyrodracs,
+        // js/unites-data.js).
+        nom: "Lance-flammes lourd forgé",
+        stats: ["Souffle", "1", "5", "4", "2"],
+        regles: "Souffle, Panique (2)",
+        traits: "Flammes",
+      },
+      {
         // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
         // Unités Taghmata doivent utiliser cette version de l'arme.
         nom: "Lance-flammes (Mechanicum)",
@@ -3755,6 +3784,40 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arsenal des Salamanders (XVIIIe Légion), page « Artifice de
+        // Nocturne » : échange contre une épée énergétique, réservé aux
+        // Figurines de Sous-type État-major, Champion, Spécialiste ou
+        // Sergent ayant le Trait Salamanders.
+        nom: "Épée énergétique forgée",
+        stats: ["1", "+1", "F", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion) : échange contre une
+        // hache énergétique, mêmes Figurines éligibles que ci-dessus.
+        nom: "Hache énergétique forgée",
+        stats: ["-1", "+1", "+1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion) : échange contre une
+        // masse énergétique, mêmes Figurines éligibles que ci-dessus.
+        nom: "Masse énergétique forgée",
+        stats: ["-1", "+1", "+2", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion) : échange contre une
+        // lance énergétique, mêmes Figurines éligibles que ci-dessus.
+        nom: "Lance énergétique forgée",
+        stats: ["+1", "+1", "F", "3", "1"],
+        regles: "Précision (6+)",
+        traits: "Énergétique",
+      },
+      {
         nom: "Gantelet énergétique",
         stats: ["-3", "A", "+4", "2", "2"],
         regles: "-",
@@ -3765,6 +3828,16 @@ const ARMES_MELEE = [
         // Auxilia doivent utiliser cette version de l'arme.
         nom: "Gantelet énergétique (Solar Auxilia)",
         stats: ["-3", "A", "+4", "2", "2"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Arsenal des Salamanders (XVIIIe Légion), page « Artifice de
+        // Nocturne » : échange contre un gantelet énergétique, réservé
+        // aux Figurines de Sous-type État-major, Champion, Spécialiste
+        // ou Sergent ayant le Trait Salamanders.
+        nom: "Gantelet énergétique forgé",
+        stats: ["-3", "A", "+4", "2", "3"],
         regles: "-",
         traits: "Énergétique",
       },
