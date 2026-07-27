@@ -773,6 +773,201 @@ const Organigramme = (() => {
     return 1;
   }
 
+  /* Règle « Sire des X » (livre d'armée, un Primarque par Légion,
+     texte complet dans js/regles-data.js) : tant qu'une Figurine
+     ayant cette Règle Spéciale fait partie de l'Armée, si au moins
+     quatre Cases de Rôle Tactique Troupes du Détachement Principal
+     sont occupées par les Unités indiquées, toutes les Cases Troupes
+     de ce Détachement sont considérées comme des Cases Principales.
+     `condition` reçoit (comptes, total) : `comptes` associe le `nom`
+     d'Unité (js/unites-data.js) au nombre de Cases Troupes occupées
+     par ce nom, `total` est le nombre de Cases Troupes occupées, tous
+     noms confondus. Sire des White Scars a une Règle Spéciale
+     différente (échange de Cases Transport contre des Cases Reco,
+     pas de déblocage de Case Principale) : volontairement absent de
+     cette table. */
+  const REGLES_SIRE_TROUPES = [
+    {
+      nom: "Sire des Iron Warriors",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade Brécheuse"] || 0) >= 4,
+    },
+    {
+      nom: "Sire de la Raven Guard",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade d'Assaut"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Blood Angels",
+      condition: (n) => (n["Escouade d'Assaut"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des World Eaters",
+      condition: (n) =>
+        (n["Escouade d'Assaut"] || 0) + (n["Escouade Nettoyeuse"] || 0) >= 4,
+    },
+    {
+      // Exige en plus qu'au moins une Figurine de chacune des Unités
+      // occupant ces Cases ait reçu une Arme Forgée : non modélisé
+      // (pas de suivi d'amélioration par Figurine individuelle dans ce
+      // moteur, seulement au niveau de l'Unité) — condition réduite
+      // aux 4 Cases Troupes occupées, sans vérifier l'amélioration.
+      // Gap documenté plutôt qu'inventé.
+      nom: "Sire des Salamanders",
+      condition: (n, total) => total >= 4,
+    },
+    {
+      nom: "Sire des Imperial Fists",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade Brécheuse"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Ultramarines",
+      condition: (n) =>
+        (n["Escouade d'Assaut"] || 0) >= 2 && (n["Escouade Tactique"] || 0) >= 2,
+    },
+    {
+      nom: "Sire des Dark Angels",
+      condition: (n) =>
+        (n["Escouade d'Assaut"] || 0) >= 1 &&
+        (n["Escouade Tactique"] || 0) >= 1 &&
+        (n["Escouade Brécheuse"] || 0) >= 1,
+    },
+    {
+      nom: "Sire des Space Wolves",
+      condition: (n) => (n["Meute de Tueurs Gris"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Iron Hands",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade Brécheuse"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Night Lords",
+      condition: (n) =>
+        (n["Escouade Terreur"] || 0) + (n["Escouade d'Assaut"] || 0) >= 4,
+    },
+    {
+      nom: "Sire de l'Alpha Legion",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade d'Assaut"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Word Bearers",
+      condition: (n) =>
+        (n["Escouade Nettoyeuse"] || 0) + (n["Escouade Tactique"] || 0) >= 4,
+    },
+    {
+      // Condition différente des autres : peu importe le nom de
+      // l'Unité, seul compte le fait qu'elle soit « nantie d'un
+      // Arcane de Prospero » (choisi via l'option ARCANE_DE_PROSPERO,
+      // js/unites-data.js, ou fixe — ex. Escouade Inductii Thousand
+      // Sons et son Arcane de Prospero Désaccordée). Comptée dans la
+      // clé synthétique "[Arcane de Prospero]" de `comptes`, voir
+      // comptesTroupesOccupees ci-dessous.
+      nom: "Sire des Thousand Sons",
+      condition: (n) => (n["[Arcane de Prospero]"] || 0) >= 4,
+    },
+    {
+      nom: "Sire de la Death Guard",
+      condition: (n) => (n["Escouade Tactique"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Emperor's Children",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade d'Assaut"] || 0) >= 4,
+    },
+    {
+      nom: "Sire des Sons of Horus",
+      condition: (n) =>
+        (n["Escouade Tactique"] || 0) + (n["Escouade Nettoyeuse"] || 0) >= 4,
+    },
+  ];
+
+  // Traits fixes qui valent Arcane de Prospero (livre d'armée Thousand
+  // Sons) : les 5 Arcanes nommés, plus l'Arcane de Prospero Désaccordée
+  // des Escouades Inductii Thousand Sons (Trait « Désaccordé »).
+  const TRAITS_ARCANE_DE_PROSPERO_FIXE = [
+    "Raptora",
+    "Pyrae",
+    "Pavoni",
+    "Corvidae",
+    "Athanéen",
+    "Désaccordé",
+  ];
+
+  // Une Unité est-elle « nantie d'un Arcane de Prospero » (Arcane fixe
+  // dans ses Traits, ou choisi via l'option ARCANE_DE_PROSPERO) ?
+  function estNantiArcaneDeProspero(occ) {
+    if (
+      occ.unite.traits &&
+      occ.unite.traits.some((t) => TRAITS_ARCANE_DE_PROSPERO_FIXE.includes(t))
+    ) {
+      return true;
+    }
+    return Boolean(
+      occ.instance.valeurs && occ.instance.valeurs["arcane-prospero"],
+    );
+  }
+
+  // Cases de Rôle Tactique Troupes occupées du Détachement donné :
+  // { comptes: { nom d'Unité -> nombre de Cases }, total }.
+  function comptesTroupesOccupees(det) {
+    const comptes = {};
+    let total = 0;
+    for (const c of det.cases) {
+      if (c.role !== "Troupes") continue;
+      const occ = occupant(c);
+      if (!occ) continue;
+      total++;
+      comptes[occ.unite.nom] = (comptes[occ.unite.nom] || 0) + 1;
+      if (estNantiArcaneDeProspero(occ)) {
+        comptes["[Arcane de Prospero]"] =
+          (comptes["[Arcane de Prospero]"] || 0) + 1;
+      }
+    }
+    return { comptes, total };
+  }
+
+  // Une Figurine ayant cette Règle Spéciale (nom exact, sans variante
+  // (X)) fait-elle partie de l'Armée, dans n'importe quel Détachement ?
+  function armeeAFigurineAvecRegle(nomRegle) {
+    for (const d of etat.detachements) {
+      for (const c of d.cases) {
+        const occ = occupant(c);
+        if (occ && (varianteDe(occ).regles || []).includes(nomRegle)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /* Les Cases Troupes de CE Détachement sont-elles dynamiquement
+     promues Cases Principales par une Règle « Sire des X » ? Ne
+     s'applique qu'au Détachement Principal lui-même — c'est ce que
+     dit chaque texte de règle (les mentions de Détachements Auxiliaires/
+     d'Apex/Alliés dans certains préambules ne concernent que l'AUTRE
+     effet de ces Règles, hors-sujet ici et non modélisé sur ce site). */
+  function troupesPrincipalesParSireDe(det) {
+    if (det.typeId !== idDetachementPrincipal()) return false;
+    const { comptes, total } = comptesTroupesOccupees(det);
+    return REGLES_SIRE_TROUPES.some(
+      (regle) =>
+        armeeAFigurineAvecRegle(regle.nom) && regle.condition(comptes, total),
+    );
+  }
+
+  // Statut Case Principale effectif d'une Case : son statut fixe
+  // (organigramme-data.js) OU un déblocage dynamique « Sire des X »
+  // (Cases Troupes du Détachement Principal uniquement).
+  function estCasePrincipale(det, caseOrga) {
+    return (
+      caseOrga.principale ||
+      (caseOrga.role === "Troupes" && troupesPrincipalesParSireDe(det))
+    );
+  }
+
   function creerDetachement(typeId) {
     const type = typeParId(typeId);
     // Faction propre à ce Détachement Allié (menu « Faction Alliée » sur
@@ -937,7 +1132,8 @@ const Organigramme = (() => {
     // les Légionnaires de ligne — ne peut jamais occuper de Case
     // Principale, quelle qu'en soit la Légion (champ `interditCase-
     // Principale`, js/unites-data.js).
-    if (unite.interditCasePrincipale && caseOrga.principale) return false;
+    if (unite.interditCasePrincipale && estCasePrincipale(det, caseOrga))
+      return false;
     // Trait de Faction Mechanicum (Techno-arcane Majeur, Liber
     // Mechanicum p. 13) : uniformité exigée au sein d'un même
     // Détachement Auxiliaire/d'Apex (voir traitFactionMechanicumEtabliDe
@@ -993,6 +1189,25 @@ const Organigramme = (() => {
     ) {
       return true;
     }
+    // Règle « Sire des White Scars » (livre d'armée, texte complet dans
+    // js/regles-data.js) : tant qu'une Figurine ayant cette Règle
+    // Spéciale fait partie de l'Armée, si au moins quatre Cases Troupes
+    // du Détachement Principal sont occupées (n'importe quelles
+    // Unités), ses Cases Transports peuvent être échangées contre des
+    // Cases Reco occupées par des Unités de Land Raider Explorator —
+    // modélisé ici en autorisant directement une Unité de Land Raider
+    // Explorator à occuper une Case Transports de ce Détachement sous
+    // cette condition, plutôt qu'en transformant réellement le Rôle
+    // Tactique de la Case (rendu/décompte de coûts inchangés sinon).
+    if (
+      caseOrga.role === "Transports" &&
+      unite.nom === "Land Raider Explorator" &&
+      det.typeId === idDetachementPrincipal() &&
+      armeeAFigurineAvecRegle("Sire des White Scars") &&
+      comptesTroupesOccupees(det).total >= 4
+    ) {
+      return true;
+    }
     return false;
   }
 
@@ -1004,7 +1219,7 @@ const Organigramme = (() => {
       typeDe(det).nom +
       " — Case " +
       (role ? role.livre : caseOrga.role) +
-      (caseOrga.principale ? " ★" : "") +
+      (estCasePrincipale(det, caseOrga) ? " ★" : "") +
       " n°" +
       (indice + 1)
     );
@@ -1052,7 +1267,7 @@ const Organigramme = (() => {
   function avantageDe(uniteUid) {
     for (const det of etat.detachements) {
       for (const caseOrga of det.cases) {
-        if (caseOrga.uniteUid === uniteUid && caseOrga.principale) {
+        if (caseOrga.uniteUid === uniteUid && estCasePrincipale(det, caseOrga)) {
           return caseOrga.avantage;
         }
       }
@@ -2407,11 +2622,12 @@ const Organigramme = (() => {
   // Badge circulaire d'un Rôle Tactique (info-bulle = description du
   // livre, p. 285). Les Cases Principales portent la classe
   // orga-badge--principale (liseré étoilé, voir css/style.css).
-  function construireBadge(caseOrga) {
+  function construireBadge(det, caseOrga) {
     const role = ROLES_TACTIQUES[caseOrga.role];
+    const principale = estCasePrincipale(det, caseOrga);
     const badge = el(
       "span",
-      "orga-badge" + (caseOrga.principale ? " orga-badge--principale" : ""),
+      "orga-badge" + (principale ? " orga-badge--principale" : ""),
       role ? role.abrev : "?",
     );
     badge.tabIndex = 0;
@@ -2420,10 +2636,7 @@ const Organigramme = (() => {
         el(
           "span",
           "tooltip",
-          role.livre +
-            (caseOrga.principale ? " (Case Principale)" : "") +
-            " — " +
-            role.texte,
+          role.livre + (principale ? " (Case Principale)" : "") + " — " + role.texte,
         ),
       );
     }
@@ -3416,7 +3629,7 @@ const Organigramme = (() => {
         "li",
         "orga-case" + (caseOrga.uniteUid !== null ? " orga-case--occupee" : ""),
       );
-      li.appendChild(construireBadge(caseOrga));
+      li.appendChild(construireBadge(det, caseOrga));
 
       const contenu = el("div", "orga-case-contenu");
       const role = ROLES_TACTIQUES[caseOrga.role];
@@ -3425,7 +3638,7 @@ const Organigramme = (() => {
           "p",
           "orga-case-role",
           (role ? role.livre : caseOrga.role || "Rôle à choisir") +
-            (caseOrga.principale ? " — Case Principale" : "") +
+            (estCasePrincipale(det, caseOrga) ? " — Case Principale" : "") +
             (caseOrga.extra
               ? " (" +
                 (
@@ -3487,7 +3700,7 @@ const Organigramme = (() => {
         contenu.appendChild(ligneUnite);
 
         // Avantage Principal (cases principales occupées, p. 283).
-        if (caseOrga.principale) {
+        if (estCasePrincipale(det, caseOrga)) {
           const labelAv = el(
             "label",
             "orga-case-avantage-label",
@@ -3721,7 +3934,7 @@ const Organigramme = (() => {
             "li",
             null,
             (role ? role.livre : "Rôle à choisir") +
-              (caseOrga.principale ? " ★" : "") +
+              (estCasePrincipale(det, caseOrga) ? " ★" : "") +
               " : " +
               occ.unite.nom +
               " — " +

@@ -351,6 +351,31 @@ const REGLES_DIVERSES = [
       "Cette Règle Spéciale inflige des Touches à une Unité ennemie Verrouillée en Combat avec des Figurines qui l'ont. Au début de la Sous-phase de Combat, le Néfos affecte chaque Unité ennemie Verrouillée en Combat avec au moins une Unité incluant des Figurines ayant cette Règle Spéciale. Chaque Unité affectée par le Néfos subit un nombre de Touches égal au nombre de Figurines ayant cette Règle Spéciale que comptent les Unités avec lesquelles elle est Verrouillée en Combat. Ces Touches ont une Force de 1, la Règle Spéciale Empoisonnée (3+), une PA de 5 et une Caractéristique de Dégâts de 1. On ne peut tenter aucun Jet de Sauvegarde de Couvert ni aucun Jet de Mitigation de Dégâts de Dissimulation pour défausser les Blessures résultant de ces Touches, mais on peut tenter normalement d'autres Sauvegardes et Jets de Mitigation de Dégâts.",
   },
   {
+    // Mortarion, Primarque de la Death Guard (XIVe Légion) : voir
+    // js/unites-data.js.
+    nom: "Ombre du Faucheur",
+    texte:
+      "Terrifiant et quasi spectral, Mortarion peut malgré sa stature se mouvoir sans être vu et attaquer là où on ne l'attend pas. Mortarion peut Foncer ou faire un Mouvement de Positionnement comme s'il avait 10 en Caractéristique de Mouvement : chaque fois qu'une Figurine ayant cette Règle Spéciale Fonce ou fait un Mouvement de Positionnement, on considère que sa Caractéristique de Mouvement est de 10.",
+  },
+  {
+    // Mortarion, Primarque de la Death Guard (XIVe Légion) : voir
+    // js/unites-data.js.
+    nom: "Résistance Surnaturelle",
+    texte:
+      "L'endurance de Mortarion est légendaire, et l'on raconte que parmi ses frères Primarques, aucun ne pouvait rivaliser avec lui en termes de résistance à la douleur, et aucun n'avait autant enduré de souffrances que lui avant que l'Empereur le retrouve. Mortarion limite le Nombre Cible de la Règle Spéciale Touche Critique (X) : quand une Figurine ayant cette Règle Spéciale est Engagée en Défi, on remplace par « 6+ » la valeur de X des attaques faites contre elle qui ont la Règle Spéciale Touche Critique (X).",
+  },
+  {
+    // Mortarion, Primarque de la Death Guard (XIVe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus Fixation (0)
+    // sur les Groupes de Tirs à forte Puissance de Feu, jusqu'à la fin
+    // du premier Tour de Bataille, effet de pur combat sans incidence
+    // sur la construction de liste, n'est pas modélisé.
+    nom: "Sire de la Death Guard",
+    texte:
+      "Mortarion était renommé pour l'avance inexorable de sa Légion, une progression lente et régulière impossible à arrêter ou à détourner, que ce soit par un terrain impraticable ou par les armes. L'adversaire n'avait d'autre choix que de se terrer dans des bunkers jusqu'à ce que la Death Guard arrive, ou bien de charger pour mourir sous les tirs des troupes de Mortarion. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Tactique, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère les Règles Spéciales suivantes à toutes les Figurines qui ont le Trait Death Guard de la même Armée : jusqu'à la fin du premier Tour de Bataille, chaque fois que le Joueur en Contrôle fait une Attaque de Tir pour une Unité composée uniquement de Figurines qui ont le Trait Death Guard, si un Groupe de Tirs a une Caractéristique de Puissance de Feu totale de 11 ou plus, les attaques faites par ce Groupe de Tirs ont la Règle Spéciale Fixation (0).",
+  },
+  {
     // Escouade Iron Havocs (IVe Légion, Iron Warriors) : viseurs
     // spécialisés recoupant flux de données, conditions atmosphériques
     // et mouvements prédictifs des cibles (voir js/unites-data.js).
@@ -430,10 +455,44 @@ const REGLES_DIVERSES = [
       "Les Atramentar n'avaient pas juré fidélité à leur Légion ni à leur Primarque, mais à Sevatar seul. Au combat, ils suivaient ses ordres sans discussion, sans remords ni hésitation. C'était un rare exemple de loyauté au sein d'une Légion réputée pour sa traîtrise et son absence d'honneur. Quand elle est incluse dans une Armée où une Figurine de Sevatar a été sélectionnée dans le Détachement Principal et se trouve sur le champ de bataille, le Joueur en Contrôle d'une Unité Atramentar Écorchés peut toujours utiliser la Caractéristique de Commandement de Base de Sevatar à la place de celle de l'Unité pour tout Test de Commandement de cette Unité.",
   },
   {
+    // Konrad Curze, Primarque des Night Lords (VIIIe Légion) : voir
+    // js/unites-data.js.
+    nom: "Une Mort Annoncée de Longue Date",
+    texte:
+      "Konrad Curze avait hérité, par son malheur, d'une partie des facultés psychiques de son père, et recevait ainsi des visions fugaces de l'avenir, mais le contrôle qu'il exerçait sur ces prémonitions était des plus ténus. Quand le Joueur en Contrôle choisit une Posture pour une Figurine ayant cette Règle Spéciale, il peut jeter un dé : sur 5+, la Posture Une Mort Annoncée de Longue Date devient accessible pour cette Figurine et peut être choisie à la place de toute autre Posture qui lui est par ailleurs accessible. Un empire en flammes, un trône dans un palais de cauchemar et une silhouette ténébreuse nimbée d'un juste courroux : tout cela se termine dans l'horreur et l'ignominie, de la main d'un vulgaire pion — les terreurs des champs de bataille du présent ne sont rien face à la futilité de l'avenir. Quand cette Posture est choisie, le Joueur en Contrôle peut faire un Test de Volonté pour chacun des bénéfices suivants ; si le Test de Volonté est réussi, l'effet correspondant s'applique jusqu'au début de la prochaine Étape de Confrontation : cette Figurine gagne la Règle Spéciale Insensible à la Douleur (5+) ; la Valeur de la Caractéristique d'Attaques de cette Figurine est modifiée de +1 ; la Caractéristique de Modificateur d'Initiative de Miséricorde et Pardon devient « +2 ».",
+  },
+  {
+    // Konrad Curze, Primarque des Night Lords (VIIIe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus Infiltration
+    // (I2) aux Escouades Terreur, effet de pur combat sans incidence
+    // sur la construction de liste, n'est pas modélisé.
+    nom: "Sire des Night Lords",
+    texte:
+      "Amers et tourmentés, obsédés par la mort et le jugement, et convaincus de la nécessité d'inspirer la peur pour contrôler une Humanité irrémédiablement faillible, Konrad Curze et sa Légion furent modelés par la terreur et les ténèbres de Nostramo, au même titre que par le génie génétique de l'Empereur. Tapis dans les ombres, ils guettent le moment propice pour frapper. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Terreur et/ou d'Escouade d'Assaut, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines des Unités d'Escouade Terreur de la même Armée : toutes les Figurines des Unités d'Escouade Terreur de cette Armée gagnent la Règle Spéciale Infiltration (I2).",
+  },
+  {
     // Autilon Skorr (XXe Légion, Alpha Legion) : voir js/unites-data.js.
     nom: "Consul-Delegatus",
     texte:
       "Les exigences de la Grande Croisade nécessitaient parfois que de jeunes officiers au sein des Légions se voient accorder des niveaux d'autorité extraordinaires pour mener à bien leurs objectifs. Se voyant habituellement confier la juridiction sur des forces plus importantes, voire des forces qui relèveraient normalement du contrôle des plus hauts échelons du commandement ou même des Primarques eux-mêmes, de tels guerriers firent leurs preuves maintes et maintes fois. Une Armée ne peut jamais inclure plus d'une Figurine ayant cette Règle Spéciale. Si une Figurine ayant cette Règle Spéciale occupe une Case de Quartier Général ou d'État-major d'un Détachement de l'Organigramme de Force de Croisade, le Joueur en Contrôle peut choisir un Détachement Apex au lieu du Détachement Auxiliaire habituellement débloqué par cette Case. De plus, une Figurine ayant cette Règle Spéciale compte comme un Choix de Haut Commandement pour toute version de l'Objectif Secondaire Éliminer le Seigneur de Guerre (X).",
+  },
+  {
+    // Alpharius, Primarque de l'Alpha Legion (XXe Légion) : voir
+    // js/unites-data.js.
+    nom: "Partout et Nulle Part",
+    texte:
+      "Aucun Primarque n'était plus imprévisible qu'Alpharius, car il apparaissait par surprise n'importe où, par n'importe quel moyen. Ceux qui ont étudié ses méthodes ne sont pas parvenus à trouver les tendances qui permettraient de prédire ses actions, et encore moins de définir ses préférences de quelque façon que ce soit. On peut redéployer Alpharius au début de la Bataille. Si la Mission jouée comporte une étape Déployer les Armées, à la fin de celle-ci, le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale peut redéployer cette Figurine. Quand il le fait, cette Figurine peut quitter l'Unité qu'elle a éventuellement rejointe avant d'être Déployée, et elle peut rejoindre une Unité différente en étant Déployée en Cohésion d'Unité avec ladite Unité si elle se trouve sur le Champ de Bataille, ou Embarquée à bord de ladite Unité si elle est à bord d'une Figurine de Sous-type Transport disposant d'une Capacité de Transport suffisante pour ce faire, capable de Transporter des Figurines ayant la Règle Spéciale Massif (X). Cette Règle Spéciale ne peut pas servir à déployer une Figurine hors de la Zone de Déploiement du Joueur en Contrôle, ni à la faire Embarquer à bord d'une Figurine de Sous-type Transport située sur le Champ de Bataille mais hors de la Zone de Déploiement du Joueur en Contrôle.",
+  },
+  {
+    // Alpharius, Primarque de l'Alpha Legion (XXe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus de Jet de
+    // Réserves (Attaque de Flanc sur 5+), effet de pur combat sans
+    // incidence sur la construction de liste, n'est pas modélisé.
+    nom: "Sire de l'Alpha Legion",
+    texte:
+      "Alpharius est le maître du hersage, la stratégie de prédilection de l'Alpha Legion, et il mène ses troupes au combat avec une aisance née d'une longue pratique. En sa présence, tous les éléments de ses forces agissent de concert, cernant l'adversaire et isolant chaque élément à éliminer. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Tactique et/ou d'Escouade d'Assaut, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines de la même Armée qui ont le Trait Alpha Legion : quand le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale fait un Jet de Réserves pour une Unité composée uniquement de Figurines qui ont le Trait Alpha Legion, sur un Jet de Réserves de 5+, l'Unité concernée peut entrer en jeu comme si elle avait la Règle Spéciale Attaque de Flanc.",
   },
   {
     // Cadre de Perturbation Effrit (XXe Légion, Alpha Legion) : voir
@@ -475,6 +534,38 @@ const REGLES_DIVERSES = [
     nom: "Marqué pour la Mort (X)",
     texte:
       "Certaines cohortes de guerriers prennent le champ de bataille avec une cible précise désignée pour destruction. Ces actions peuvent être motivées par un désir de vengeance, pour régler un différend, ou simplement résulter des ordres exprès de leurs supérieurs dans l'intérêt d'une stratégie plus large. À la fin de l'Étape de Déclaration des Réserves de la Mission, le Joueur en Contrôle de toute Unité ayant cette Règle Spéciale peut choisir une Unité de l'Armée du Joueur Adverse : cette Unité devient l'Unité « Marquée ». Une fois par Bataille, le Joueur en Contrôle marque des Points de Victoire supplémentaires égaux à la Valeur de X si une Unité amie ayant cette Règle Spéciale marque des Points de Victoire grâce à la Règle Spéciale Avant-garde (X) quand l'Unité ennemie qui remplit les conditions de la Règle Spéciale Avant-garde (X) est l'Unité Marquée.",
+  },
+  {
+    // Horus Lupercal, Primarque des Sons of Horus (XVIe Légion) : voir
+    // js/unites-data.js.
+    nom: "Maître de la Guerre",
+    texte:
+      "Horus mêle avec bonheur une intelligence stratégique qui confine au génie avec la sauvagerie d'un combattant des rues, talents qu'il a su perfectionner tout au long de plusieurs siècles de guerres incessantes, et beaucoup le considèrent à juste titre comme le meilleur de tous les Primarques. Horus confère un point d'Attribution de Réactions bonus à l'Armée dont il fait partie : le Joueur en Contrôle d'une Armée qui inclut une Figurine ayant cette Règle Spéciale a +1 à son Attribution de Réactions à chaque Tour, à moins que cette Figurine ait été Retirée comme Perte.",
+  },
+  {
+    // Horus Lupercal, Primarque des Sons of Horus (XVIe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus de Caractéris-
+    // tique de Mouvement, jusqu'à la fin du premier Tour de Bataille,
+    // effet de pur combat sans incidence sur la construction de liste,
+    // n'est pas modélisé.
+    nom: "Sire des Sons of Horus",
+    texte:
+      "Horus attendait de ses subordonnés qu'ils se surpassent. Quand il foulait le champ de bataille en personne, ses guerriers rivalisaient d'actions d'éclat dans l'espoir de gagner une place dans le cercle intérieur des conseillers du Maître de Guerre. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Tactique et/ou d'Escouade Nettoyeuse, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie de l'Armée, on confère les Règles Spéciales suivantes à toutes les Figurines de la même Armée qui ont le Trait Sons of Horus : jusqu'à la fin du premier Tour de Bataille, le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale peut ajouter +1 à la Caractéristique de Mouvement des Figurines de son Armée qui ont le Trait Sons of Horus (à l'exclusion des Figurines de Type Véhicule).",
+  },
+  {
+    // Horus Exalté (XVIe Légion, Sons of Horus) : voir js/unites-data.js.
+    // Exclusion mutuelle avec Horus Lupercal déjà modélisée via
+    // excluAvec sur les deux Unités.
+    nom: "La Corruption se Propage",
+    texte:
+      "L'ombre des puissances du Warp qui s'étaient emparées de l'âme d'Horus s'étendait également sur les guerriers qui avaient pris les armes pour le Maître de Guerre. La corruption s'est répandue dans les rangs de ses armées, corrompant les hordes de haine recrutées et attisant la noire ferveur de l'Empire qu'ils avaient contribué à bâtir. Horus peut rejoindre des Unités de Sous-type Maléfique : une Figurine ayant cette Règle Spéciale peut rejoindre des Unités de Sous-type Maléfique comme si elle était de ce Sous-type, et tant qu'elle fait partie d'une telle Unité, on la traite comme si elle était de ce Sous-type.",
+  },
+  {
+    // Horus Exalté (XVIe Légion, Sons of Horus) : voir js/unites-data.js.
+    nom: "Le Maître de Guerre Exalté",
+    texte:
+      "À mesure que le Chaos resserrait son emprise sur Horus, le fer du guerrier qui avait présidé aux triomphes des armées de l'Imperium disparut, consumé par l'ambition et la haine. On ne peut pas inclure Horus Exalté dans la même Armée qu'Horus Lupercal.",
   },
   {
     // Escouade des Chefs de Guerre (XVIe Légion, Sons of Horus) : voir
@@ -784,6 +875,38 @@ const REGLES_DIVERSES = [
       "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex ayant le même Trait de Faction que cette Figurine : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées et qu'au moins une Figurine de chacune des Unités qui occupent ces Cases a reçu comme amélioration une Arme Forgée, toutes les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont considérées comme des Cases Principales. En outre, jusqu'à la fin du premier Tour de Bataille, le Joueur en Contrôle peut ignorer tous les modificateurs négatifs aux Caractéristiques de Commandement, de Volonté, de Sang-froid et d'Intelligence de toutes les Figurines de la même Armée ayant le Trait Salamanders.",
   },
 
+  {
+    // Fulgrim, Primarque des Emperor's Children (IIIe Légion) : voir
+    // js/unites-data.js.
+    nom: "Sublime Spadassin",
+    texte:
+      "L'adresse à l'épée de Fulgrim était sublimée par sa vitesse et son agilité phénoménales, si bien que ses adversaires semblaient être de véritables lourdauds autour de qui il dansait, et dont il faisait couler le sang à chaque coup. En Défi, la Caractéristique d'Attaques de Fulgrim est modifiée si sa Caractéristique d'Initiative est supérieure à celle de son adversaire : tant qu'une Figurine ayant cette Règle Spéciale est en Défi, si son Joueur en Contrôle a l'Avantage en Défi, la Caractéristique d'Attaques de la Figurine ayant cette Règle Spéciale est modifiée de +1 pour chaque point dont sa Caractéristique d'Initiative de Base surpasse la Caractéristique d'Initiative de Base de son adversaire.",
+  },
+  {
+    // Fulgrim, Primarque des Emperor's Children (IIIe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus de Point de
+    // Résolution de Combat, effet de pur combat sans incidence sur la
+    // construction de liste, n'est pas modélisé.
+    nom: "Sire des Emperor's Children",
+    texte:
+      "Fulgrim estimait qu'il était toujours important de maintenir son élan, et il luttait toujours en position de force. Ses fils s'efforçaient invariablement d'engager le combat avec l'adversaire avant qu'il ait la possibilité de préparer ses défenses. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Tactique et/ou d'Escouade d'Assaut, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines de la même Armée qui ont le Trait Emperor's Children : une Unité composée uniquement de Figurines qui ont le Trait Emperor's Children gagne +1 Point de Résolution de Combat bonus si toutes les Figurines de ladite Unité sont hors de la Zone de Déploiement du Joueur en Contrôle à la Sous-phase de Résolution. Si la Mission jouée ne définit pas de Zones de Déploiement, le Joueur en Contrôle gagne ce bonus quand ses Figurines sont à plus de 12\" de son Bord du Champ de Bataille, ou si aucun Bord du Champ de Bataille n'est précisé, d'un Bord du Champ de Bataille à choisir avant le Premier Tour.",
+  },
+  {
+    // Fulgrim Transfiguré (IIIe Légion, Emperor's Children) : voir
+    // js/unites-data.js. Exclusion mutuelle avec Fulgrim déjà modélisée
+    // via excluAvec sur les deux Unités.
+    nom: "Rejeton de la Corruption",
+    texte:
+      "Quand survint l'apothéose de Fulgrim, la perversion de sa Légion était déjà notoire chez ses alliés comme ennemis. On ne peut pas inclure Fulgrim Transfiguré dans la même Armée que Fulgrim.",
+  },
+  {
+    // Fulgrim Transfiguré (IIIe Légion, Emperor's Children) : voir
+    // js/unites-data.js.
+    nom: "Avatar de la Perfection",
+    texte:
+      "De plus en plus favorisé par son dieu, Fulgrim en vint à dédaigner sa Légion pour se consacrer à sa quête de gloire personnelle, en cherchant à humilier quiconque était susceptible d'approcher son niveau de valeur martiale. On est obligé de déclarer un Défi pour Fulgrim Transfiguré, et il peut effectuer une Réaction Intervention Héroïque sans dépenser de Point de Réaction. À la Sous-phase de Défi du Joueur en Contrôle, si une Figurine ayant cette Règle Spéciale est éligible à ce qu'il déclare un Défi pour elle, ledit Joueur en Contrôle est tenu de le faire. De plus, si le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale déclare une Réaction Avancée Intervention Héroïque, et qu'à cette fin il choisit une telle Figurine, il n'a pas besoin de dépenser le moindre point de son Attribution de Réactions pour le faire.",
+  },
   /* --- Arsenal des Emperor's Children (IIIe Légion) : Seigneur
      Commandant Eidolon, Capitaine Lucius, Escouade Terminator Phénix
      (voir js/unites-data.js, unités réservées à cette Légion). --- */
@@ -1335,6 +1458,33 @@ const REGLES_DIVERSES = [
     nom: "Autres Gabarits",
     texte:
       "Certaines Armes de grande taille utilisent, à la place du Gabarit de Flammes standard, un autre Gabarit de Souffle (par exemple le Gabarit de Fournaise, indiqué entre parenthèses après « Souffle »).",
+  },
+  {
+    // Magnus le Rouge, Primarque des Thousand Sons (XVe Légion) : voir
+    // js/unites-data.js.
+    nom: "Sorcier Suprême",
+    texte:
+      "Parmi les Primarques, Magnus le Rouge était le maître incontesté des arts mystiques. En matière de pouvoirs psychiques, il ne le cédait qu'à l'Empereur, et d'aucuns estiment même que certains de ses secrets étaient hors de portée de son père. Magnus est nanti de plusieurs Arcanes de Prospero. On considère qu'une Figurine ayant cette Règle Spéciale connaît les Arcanes de Prospero Raptora, Pyrae, Pavoni, Corvidae et Athanéen.",
+  },
+  {
+    // Magnus le Rouge, Primarque des Thousand Sons (XVe Légion) : voir
+    // js/unites-data.js.
+    nom: "Bataille des Volontés",
+    texte:
+      "Affronter le Seigneur des Thousand Sons revenait à affronter un Primarque non seulement sur le plan physique, mais aussi sur le plan mental, un terrain où très peu de combattants étaient aussi bien lotis que Magnus. Cette Posture permet au Joueur en Contrôle d'utiliser la Caractéristique de Volonté de Magnus pour gagner un modificateur positif à son Jet de Concentration. Tant que cette Figurine est engagée en Défi, le Joueur en Contrôle gagne un modificateur positif à son Jet de Concentration égal à la Valeur de Base de la Caractéristique de Volonté de Magnus le Rouge, moins la Valeur de Base de la Caractéristique de Volonté de la Figurine adverse en Défi.",
+  },
+  {
+    // Magnus le Rouge, Primarque des Thousand Sons (XVe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js (Unités « nanties d'un
+    // Arcane de Prospero », fixe ou choisi via l'option ARCANE_DE_
+    // PROSPERO) ; le bonus de Test de Manifestation (3 Dés, en garder
+    // 2) jusqu'à la fin du premier Tour de Bataille, effet de pur
+    // combat sans incidence sur la construction de liste, n'est pas
+    // modélisé.
+    nom: "Sire des Thousand Sons",
+    texte:
+      "Magnus le Rouge était l'archétype du guerrier philosophe et l'incarnation de l'action réfléchie. Sa présence était pour ses fils le rappel constant qu'il convenait de ne pas céder à l'impulsivité, et de conduire leurs campagnes avec le même soin et la même absence de doute que leurs méditations psychiques. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités nanties d'un Arcane de Prospero, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines de la même Armée qui ont le Trait Thousand Sons : jusqu'à la fin du premier Tour de Bataille, chaque fois que le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale fait un Test de Manifestation pour une Unité composée uniquement de Figurines qui ont le Trait Thousand Sons, il peut jeter trois Dés et choisir les deux qui donneront le résultat.",
   },
   /* --- Arsenal des Thousand Sons (XVe Légion) : les cinq Arcanes de
      Prospero (Pavoni, Corvidae, Athanéen, Pyrae, Raptora), voir l'option
@@ -1891,6 +2041,24 @@ const REGLES_DIVERSES = [
     nom: "Canalisation Ténébreuse",
     texte:
       "Pouvoir Psychique (Bénédiction) : puisant dans les profondeurs tourmentées du Warp, le Diaboliste confère des bénédictions maléfiques aux Légionnaires de la XVIIe, les nourrissant d'une énergie ténébreuse tout en les rendant toujours plus monstrueux aux yeux de leurs ennemis. Le Joueur Actif peut choisir de le Manifester au début de la Sous-Phase de Combat de sa Phase d'Assaut ; le Foyer doit être une Figurine ayant le Trait Diaboliste sous son contrôle, et l'Unité Cible doit être une Unité du Joueur Réactif comptant au moins une Figurine à 12 pouces du Foyer et en Ligne de Vue de celui-ci, entièrement composée de Figurines ayant le Trait Word Bearers. En cas de Manifestation réussie, toutes les Figurines de l'Unité Cible gagnent les Règles Spéciales En Feu (1) et Insensible à la Douleur (6+) jusqu'à la fin de la Phase d'Assaut.",
+  },
+  {
+    // Lorgar, Primarque des Word Bearers (XVIIe Légion) : voir
+    // js/unites-data.js.
+    nom: "Le Pouvoir du Verbe",
+    texte:
+      "Lorgar aimait à s'entourer de ses fils les plus fervents, en favorisant ceux qui s'étaient voués corps et âme aux puissances du Warp. Une Figurine ayant cette Règle Spéciale peut rejoindre des Unités de Sous-type Maléfique comme si elle était de ce Sous-type, et tant qu'elle fait partie d'une telle Unité, on la traite comme si elle était de ce Sous-type.",
+  },
+  {
+    // Lorgar, Primarque des Word Bearers (XVIIe Légion) : voir
+    // js/unites-data.js. Condition de la Case Principale câblée dans
+    // REGLES_SIRE_TROUPES, js/organigramme.js ; le bonus de Test de
+    // Commandement automatique jusqu'à la fin du premier Tour de
+    // Bataille, effet de pur combat sans incidence sur la
+    // construction de liste, n'est pas modélisé.
+    nom: "Sire des Word Bearers",
+    texte:
+      "Conduisant la prière, Lorgar exhorte ses fils à des actes de dévotion toujours plus grandioses. Oubliant leurs préoccupations de mortels, les porteurs du verbe marchent au-devant des canons ennemis, convaincus de la justesse de leur cause. Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex qui ont le même Trait de Faction que la Figurine ayant cette Règle Spéciale : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade Nettoyeuse et/ou d'Escouade Tactique, on considère que les Cases d'Organigramme de Force de Rôle Tactique Troupes du Détachement Principal sont toutes des Cases Principales. En outre, si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, on confère la Règle Spéciale suivante à toutes les Figurines de la même Armée qui ont le Trait Word Bearers : jusqu'à la fin du premier Tour de Bataille, chaque fois que le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale est appelé à faire un Test de Commandement pour une Unité composée uniquement de Figurines qui ont le Trait Word Bearers, ce Test de Commandement est automatiquement réussi.",
   },
   {
     nom: "Baies de Transport Auxiliaires",
