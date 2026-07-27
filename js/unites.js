@@ -3101,6 +3101,19 @@ async function genererPDF() {
     }
   }
 
+  // Hauteur atteinte par le bloc titre + Structure de l'armée sur la
+  // page de garde : le tampon Inquisition (voir plus bas) se pose dans
+  // le coin supérieur droit de cette même zone, par-dessus ce bloc — sur
+  // une Armée à beaucoup d'Unités ou aux libellés longs (ex : un
+  // Avantage Principal en plus du coût), ce bloc peut s'étendre assez
+  // bas pour chevaucher visuellement le tampon. `pageFinIntro` garde
+  // trace du numéro de page atteint à ce stade : si l'intro a déjà
+  // débordé sur la page 2 (Armée démesurément longue), la page de garde
+  // n'a de toute façon plus rien en dessous à chevaucher, pas besoin de
+  // décaler.
+  const yFinIntro = y;
+  const pageFinIntro = doc.internal.getCurrentPageInfo().pageNumber;
+
   const contenuRite = contenuRiteDeGuerreActuel();
   if (contenuRite) {
     y += 4;
@@ -3162,6 +3175,16 @@ async function genererPDF() {
     try {
       const proprietesTampon = doc.getImageProperties(tamponDataUrl);
       const TAILLE_TAMPON = 130;
+      const yTamponDefaut = MARGE + 40;
+      // Décale le tampon sous le bloc titre + Structure de l'armée s'il
+      // s'étend assez bas pour chevaucher visuellement sa position par
+      // défaut (voir yFinIntro/pageFinIntro plus haut) ; sinon, position
+      // habituelle dans le coin. Reste dans la page (basPage - TAILLE_TAMPON)
+      // même sur une intro qui déborderait presque toute la page.
+      const yTampon =
+        pageFinIntro === 1 && yFinIntro > yTamponDefaut + TAILLE_TAMPON * 0.5
+          ? Math.min(yFinIntro + 10, basPage - TAILLE_TAMPON)
+          : yTamponDefaut;
       doc.setPage(1);
       doc.saveGraphicsState();
       doc.setGState(new doc.GState({ opacity: 0.8 }));
@@ -3169,7 +3192,7 @@ async function genererPDF() {
         tamponDataUrl,
         proprietesTampon.fileType || "PNG",
         pageW - MARGE - TAILLE_TAMPON - 45,
-        MARGE + 40,
+        yTampon,
         TAILLE_TAMPON,
         TAILLE_TAMPON,
         undefined,
@@ -3319,20 +3342,8 @@ async function genererWordHTML() {
     .rite-titre { font-size: 11pt; margin-top: 8pt; color: ${or}; }
     .rite-sep { margin: 0; font-size: 11pt; line-height: 11pt; }
     .regle-nom { color: ${or}; }
-    .tampon { float: right; width: 90pt; margin: 0 0 8pt 8pt; opacity: .85; filter: alpha(opacity=85); }
   `;
   let corps = "";
-
-  // Tampon « validé » (assets/img/logo_inquisition.png), même clin
-  // d'œil visuel que la page de garde du PDF (voir genererPDF) — pas de
-  // rotation ici, le rendu HTML de Word (mshtml) ne supporte pas
-  // fiablement CSS transform.
-  const tamponDataUrl = await chargerImageDataURL(
-    "../assets/img/logo_inquisition.png",
-  );
-  if (tamponDataUrl) {
-    corps += '<img class="tampon" src="' + tamponDataUrl + '" alt="">';
-  }
 
   // Identité de Légion : blason et nom sur une même ligne centrée
   // (tableau à une ligne), Allégeance/Primarque/Monde natal centrés
