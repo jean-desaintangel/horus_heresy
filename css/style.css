@@ -830,18 +830,29 @@ strong {
     width: 260px;
   }
 
-  /* Sur la 1ère ligne d'une table d'armes, la bulle n'a pas la place de
-     s'ouvrir vers le haut : elle serait rognée par .table-scroll (son
-     overflow-x:auto clippe aussi verticalement, faute de place au-dessus
-     du tableau). On l'ouvre vers le bas pour cette ligne uniquement.
-     tr.premiere-visible couvre le même cas une fois qu'un filtre de
-     recherche (armes.html, voir js/armes.js) a masqué les lignes
-     précédentes avec tr.cachee : celles-ci restent dans le DOM, donc
-     tr:first-child ne suit plus la ligne devenue visuellement première. */
-  .table-scroll table tbody tr:first-child .regle-tag .tooltip,
-  .table-scroll table tbody tr.premiere-visible .regle-tag .tooltip {
+  /* Dans une table d'armes, la bulle ne peut déborder ni au-dessus ni
+     en dessous du tableau : .table-scroll (son overflow-x:auto force
+     aussi overflow-y à auto) et table{overflow:hidden} (coins arrondis)
+     rognent tout ce qui dépasse la boîte du tableau. Comme la plupart
+     des lignes ont peu de place au-dessus (souvent une seule ligne
+     d'en-tête ou de tableau avant elles, rarement assez pour une bulle
+     de plusieurs lignes de texte), la bulle s'ouvre par défaut vers le
+     bas — où il y a presque toujours plus de lignes disponibles en
+     dessous — sauf pour la dernière ligne du tableau, qui n'a nulle
+     part où descendre et s'ouvre donc vers le haut à la place.
+     tr.derniere-visible couvre le même cas une fois qu'un filtre de
+     recherche (armes.html, voir js/armes.js) a masqué des lignes avec
+     tr.cachee : celles-ci restent dans le DOM, donc tr:last-child ne
+     suit plus la ligne devenue visuellement dernière. */
+  .table-scroll table tbody tr .regle-tag .tooltip {
     bottom: auto;
     top: calc(100% + 8px);
+  }
+
+  .table-scroll table tbody tr:last-child .regle-tag .tooltip,
+  .table-scroll table tbody tr.derniere-visible .regle-tag .tooltip {
+    top: auto;
+    bottom: calc(100% + 8px);
   }
 }
 

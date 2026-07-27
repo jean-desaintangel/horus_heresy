@@ -276,6 +276,11 @@ const REGLES_DIVERSES = [
     texte: "Ignore les malus de mouvement dus aux couverts.",
   },
   {
+    nom: "Ne Jamais Céder",
+    texte:
+      "Les Champions incarnent l'honneur de leur Légion, et croisent le fer avec les plus grands guerriers que l'ennemi leur oppose. Une Figurine ayant cette Règle Spéciale doit participer à un Défi si elle en est capable. À la Sous-phase de Défi, si une Figurine ayant cette Règle Spéciale est éligible, elle doit relever un Défi. Si plusieurs Figurines ayant cette Règle Spéciale sont éligibles pour être le Protagoniste ou relever un Défi, c'est le Joueur en Contrôle qui choisit laquelle est déclarée Protagoniste ou relève un Défi.",
+  },
+  {
     nom: "Peur (X)",
     texte:
       "Les unités ennemies à 12 pouces subissent un malus de X à leurs caractéristiques de Commandement, Sang-froid, Volonté et Intelligence.",
