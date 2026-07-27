@@ -708,20 +708,26 @@ function optionsFinBlinde({
 }
 
 /* Arcane de Prospero (livre d'armée Thousand Sons, XVe Légion) :
-   option partagée par le Sorcier de Prospero et la Cabale de
-   Terminators Sekhmet (voir leurs sections plus bas) — les deux seules
-   Unités éligibles parmi celles transcrites (Magnus/Ahriman/Amon sont
-   de Sous-type Unique, le Castellax-Achea est un Automate, et la
-   Cabale du Khenetai Occulte a déjà son propre Arcane fixe via ses
-   Règles Spéciales). Coût volontairement SANS `parFigurine` : +10
-   Points par UNITÉ (pas par Figurine), comme indiqué dans le livre
-   d'armée. Voir js/regles-data.js pour le détail de chaque Arcane.
+   « Chaque Unité qui a le Trait Thousand Sons (sauf les Unités
+   comprenant des Figurines de Type Véhicule ou Automate, ou de
+   Sous-type Unique) peut être nantie d'un des cinq Arcanes » — ajoutée
+   à toutes les Unités génériques d'Infanterie (Legio Astartes) via
+   `requiertLegion: "XV"` ci-dessous, en plus du Sorcier de Prospero et
+   de la Cabale de Terminators Sekhmet qui l'avaient déjà (leur `legion:
+   "XV"` rend `requiertLegion` redondant mais inoffensif pour ces deux-
+   là). Non ajoutée aux Unités de Sous-type Unique (Magnus/Ahriman/Amon),
+   aux Automates (Castellax-Achea) ni à la Cabale du Khenetai Occulte
+   (a déjà son propre Arcane fixe via ses Règles Spéciales). Coût
+   volontairement SANS `parFigurine` : +10 Points par UNITÉ (pas par
+   Figurine), comme indiqué dans le livre d'armée. Voir
+   js/regles-data.js pour le détail de chaque Arcane.
    ---------------------------------------------------------- */
 const ARCANE_DE_PROSPERO = {
   type: "choix",
   id: "arcane-prospero",
   libelle: "Arcane de Prospero",
   ajoute: true,
+  requiertLegion: "XV",
   choix: [
     { nom: "— Aucun Arcane de Prospero —", cout: 0 },
     { nom: "Raptora", cout: 10 },
@@ -913,6 +919,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -1019,6 +1026,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -1091,6 +1099,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "marteau",
@@ -1398,6 +1407,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -1513,6 +1523,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -1602,6 +1613,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -1761,6 +1773,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -1827,6 +1840,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "serpentine",
@@ -1983,7 +1997,9 @@ const UNITES = [
         type: "Infanterie (État-major)",
       },
     ],
-    options: [],
+    options: [
+      ARCANE_DE_PROSPERO,
+    ],
   },
 
   {
@@ -2027,7 +2043,9 @@ const UNITES = [
         type: "Infanterie (État-major)",
       },
     ],
-    options: [],
+    options: [
+      ARCANE_DE_PROSPERO,
+    ],
   },
 
   {
@@ -2068,6 +2086,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -2124,6 +2143,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -2176,6 +2196,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "serpentines",
@@ -2231,6 +2252,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -2401,6 +2423,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "serpentines",
@@ -2483,6 +2506,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -2714,6 +2738,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -2808,6 +2833,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -3015,6 +3041,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -3102,6 +3129,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -3318,6 +3346,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -3393,6 +3422,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -3468,6 +3498,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -3523,6 +3554,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -3627,6 +3659,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "combi-bolter",
@@ -3696,6 +3729,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "bolter",
@@ -3775,6 +3809,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "arme-lourde",
@@ -3835,6 +3870,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "fouet",
@@ -3905,6 +3941,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "arme-energetique",
@@ -3958,6 +3995,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -4578,6 +4616,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Chargeur volkite",
         type: "quantite",
@@ -4694,6 +4733,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -4809,55 +4849,58 @@ const UNITES = [
         type: "Champion Vétéran : Infanterie (Champion, Sergent) · Vétéran : Infanterie",
       },
     ],
-    options: optionsEscouadeEtatMajorVeteran(
-      "Champion Vétéran",
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
-        groupe: "lourde",
-        parTranche: 5,
-        remplace: "du bolter",
-      }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
-        groupe: "lourde",
-        parTranche: 5,
-        remplace: "du bolter",
-      }),
-      {
-        type: "choix",
-        id: "etendard-veteran",
-        libelle: "Un Vétéran : vexillum ou étendard de compagnie",
-        ajoute: true,
-        prefixeFiche: "Un Vétéran : ",
-        choix: [
-          { nom: "— Aucun —", cout: 0 },
-          { nom: "Vexillum", cout: 10 },
-          { nom: "Étendard de Compagnie", cout: 20 },
-        ],
-      },
-      {
-        type: "choix",
-        id: "equipement-legion-1",
-        libelle: "Équipement de Légion (1er Vétéran, deux max dans l'unité)",
-        ajoute: true,
-        prefixeFiche: "Vétéran : ",
-        choix: [
-          { nom: "— Aucun —", cout: 0 },
-          { nom: "Nuncio-vox", cout: 10 },
-          { nom: "Scanner augure", cout: 10 },
-        ],
-      },
-      {
-        type: "choix",
-        id: "equipement-legion-2",
-        libelle: "Équipement de Légion (2e Vétéran)",
-        ajoute: true,
-        prefixeFiche: "Vétéran : ",
-        choix: [
-          { nom: "— Aucun —", cout: 0 },
-          { nom: "Nuncio-vox", cout: 10 },
-          { nom: "Scanner augure", cout: 10 },
-        ],
-      },
-    ),
+    options: [
+      ...optionsEscouadeEtatMajorVeteran(
+        "Champion Vétéran",
+        ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+          groupe: "lourde",
+          parTranche: 5,
+          remplace: "du bolter",
+        }),
+        ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
+          groupe: "lourde",
+          parTranche: 5,
+          remplace: "du bolter",
+        }),
+        {
+          type: "choix",
+          id: "etendard-veteran",
+          libelle: "Un Vétéran : vexillum ou étendard de compagnie",
+          ajoute: true,
+          prefixeFiche: "Un Vétéran : ",
+          choix: [
+            { nom: "— Aucun —", cout: 0 },
+            { nom: "Vexillum", cout: 10 },
+            { nom: "Étendard de Compagnie", cout: 20 },
+          ],
+        },
+        {
+          type: "choix",
+          id: "equipement-legion-1",
+          libelle: "Équipement de Légion (1er Vétéran, deux max dans l'unité)",
+          ajoute: true,
+          prefixeFiche: "Vétéran : ",
+          choix: [
+            { nom: "— Aucun —", cout: 0 },
+            { nom: "Nuncio-vox", cout: 10 },
+            { nom: "Scanner augure", cout: 10 },
+          ],
+        },
+        {
+          type: "choix",
+          id: "equipement-legion-2",
+          libelle: "Équipement de Légion (2e Vétéran)",
+          ajoute: true,
+          prefixeFiche: "Vétéran : ",
+          choix: [
+            { nom: "— Aucun —", cout: 0 },
+            { nom: "Nuncio-vox", cout: 10 },
+            { nom: "Scanner augure", cout: 10 },
+          ],
+        },
+      ),
+      ARCANE_DE_PROSPERO,
+    ],
   },
 
   {
@@ -4918,13 +4961,16 @@ const UNITES = [
         type: "Champion Élu à Réacteurs : Infanterie (Champion, Antigrav, Sergent) · Élu à Réacteurs : Infanterie (Antigrav)",
       },
     ],
-    options: optionsEscouadeEtatMajorVeteran("Champion Élu à Réacteurs", {
-      type: "case",
-      id: "etendard-legion",
-      libelle: "Un Élu à Réacteurs : étendard de Légion",
-      cout: 20,
-      ajoute: "Un Élu à Réacteurs : étendard de Légion",
-    }),
+    options: [
+      ...optionsEscouadeEtatMajorVeteran("Champion Élu à Réacteurs", {
+        type: "case",
+        id: "etendard-legion",
+        libelle: "Un Élu à Réacteurs : étendard de Légion",
+        cout: 20,
+        ajoute: "Un Élu à Réacteurs : étendard de Légion",
+      }),
+      ARCANE_DE_PROSPERO,
+    ],
   },
 
   {
@@ -4985,13 +5031,16 @@ const UNITES = [
         type: "Champion Élu : Infanterie (Champion, Sergent) · Élu : Infanterie",
       },
     ],
-    options: optionsEscouadeEtatMajorVeteran("Champion Élu", {
-      type: "case",
-      id: "etendard-legion",
-      libelle: "Un Élu : étendard de Légion",
-      cout: 20,
-      ajoute: "Un Élu : étendard de Légion",
-    }),
+    options: [
+      ...optionsEscouadeEtatMajorVeteran("Champion Élu", {
+        type: "case",
+        id: "etendard-legion",
+        libelle: "Un Élu : étendard de Légion",
+        cout: 20,
+        ajoute: "Un Élu : étendard de Légion",
+      }),
+      ARCANE_DE_PROSPERO,
+    ],
   },
   {
     id: "escouade-commandement-pretorienne-scimitar",
@@ -5534,6 +5583,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
@@ -5710,6 +5760,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
@@ -5896,6 +5947,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "quantite",
         id: "bombardes-poing",
@@ -6000,6 +6052,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -6143,6 +6196,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -6303,6 +6357,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-melee",
@@ -6502,6 +6557,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-melee",
@@ -6913,6 +6969,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-bolter",
@@ -7060,6 +7117,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-epee",
@@ -7242,6 +7300,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-epee",
@@ -7420,6 +7479,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-bolter",
@@ -7614,6 +7674,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "pistolet",
@@ -7674,6 +7735,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "epee",
@@ -7774,6 +7836,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "quantite",
         id: "destructeur-laser",
@@ -7879,6 +7942,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "arme-lourde",
@@ -7995,6 +8059,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "arme-speciale",
@@ -8181,6 +8246,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -8407,6 +8473,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
         groupe: "arme-principale-appui",
         parTranche: 1,
@@ -8538,6 +8605,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         remplaceIntegral: "Bolter Kraken",
         groupe: "tir",
@@ -8677,6 +8745,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
         remplaceIntegral: "Épée tronçonneuse",
         groupe: "melee",
@@ -8817,6 +8886,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -10815,6 +10885,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-fusil",
@@ -11021,6 +11092,7 @@ const UNITES = [
       },
     ],
     options: [
+      ARCANE_DE_PROSPERO,
       {
         type: "choix",
         id: "sergent-melee",
