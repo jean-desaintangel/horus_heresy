@@ -401,8 +401,24 @@ function equipementFinal(unite, instance, sansOption = null) {
   // Figurine avec l'objet de départ : on le laisse affiché (comme un
   // `case`/`choix` sans `remplace`, purement descriptif). Une fois le
   // total au moins égal à l'effectif, plus aucune Figurine ne l'a :
-  // on le retire une seule fois après la boucle.
+  // on le retire une seule fois après la boucle. Clé : soit le nom
+  // exact (rétrocompatible), soit "alt1|alt2|..." quand la cible est
+  // elle-même un tableau d'alternatives (voir cibleUnDe ci-dessous).
   const totalRemplaceIntegral = new Map();
+
+  // `cible` (remplace/remplaceListe/remplaceIntegral) est le plus
+  // souvent un nom exact, mais peut aussi être un TABLEAU
+  // d'alternatives : « n'importe LEQUEL de ces objets, celui qui est
+  // effectivement présent » (ex : ARMES_ENERGETIQUES, js/unites-
+  // data.js — une fois l'arme énergétique de base résolue en un
+  // profil précis par optionTypeArmeEnergetique/le choix fusionné,
+  // seul UN des 4 noms est réellement dans `equip`, jamais le nom
+  // générique d'origine). Retourne le premier trouvé dans `equip`,
+  // ou `undefined` si aucun.
+  const resoudreCible = (cible) => {
+    const alternatives = Array.isArray(cible) ? cible : [cible];
+    return alternatives.find((n) => equip.includes(n));
+  };
 
   for (const opt of unite.options) {
     if (opt.id === sansOption || !optionPermise(opt, instance)) continue;
@@ -420,7 +436,10 @@ function equipementFinal(unite, instance, sansOption = null) {
       if (!val && !opt.obligatoire) continue; // indice 0 = conserver
       const choix = opt.choix[val];
       const cible = choix.remplace || opt.remplace;
-      if (!opt.ajoute && cible) retirer(cible);
+      if (!opt.ajoute && cible) {
+        const trouve = resoudreCible(cible);
+        if (trouve) retirer(trouve);
+      }
       // prefixeFiche : précise qui porte l'objet dans une escouade
       // (ex : "Sergent : Arme énergétique").
       equip.push((opt.prefixeFiche || "") + nomCourt(choix.nom));
@@ -436,7 +455,10 @@ function equipementFinal(unite, instance, sansOption = null) {
       }
     } else if (opt.type === "paire") {
       if (val) {
-        opt.remplaceListe.forEach(retirer);
+        for (const cible of opt.remplaceListe) {
+          const trouve = resoudreCible(cible);
+          if (trouve) retirer(trouve);
+        }
         equip.push(opt.ajoute);
       }
     } else if (opt.type === "multi") {
@@ -448,24 +470,33 @@ function equipementFinal(unite, instance, sansOption = null) {
         // option peut faire disparaître PLUSIEURS objets de base à la
         // fois (ex : « Paire de griffes Lightning » remplaçant à la
         // fois le bolter ET le pistolet bolter — voir
-        // optionsEscouadeEtatMajorVeteran, js/unites-data.js).
+        // optionsEscouadeEtatMajorVeteran, js/unites-data.js). Chaque
+        // élément de ce tableau peut lui-même être un tableau
+        // d'alternatives (voir resoudreCible ci-dessus).
         if (opt.remplaceIntegral) {
           const cibles = Array.isArray(opt.remplaceIntegral)
             ? opt.remplaceIntegral
             : [opt.remplaceIntegral];
           for (const cible of cibles) {
-            totalRemplaceIntegral.set(
-              cible,
-              (totalRemplaceIntegral.get(cible) || 0) + val,
-            );
+            const alternatives = Array.isArray(cible) ? cible : [cible];
+            const cle = alternatives.join("|");
+            const existant = totalRemplaceIntegral.get(cle) || {
+              alternatives,
+              total: 0,
+            };
+            existant.total += val;
+            totalRemplaceIntegral.set(cle, existant);
           }
         }
       }
     }
   }
 
-  for (const [nom, total] of totalRemplaceIntegral) {
-    if (total >= (instance.effectif || 1)) retirer(nom);
+  for (const { alternatives, total } of totalRemplaceIntegral.values()) {
+    if (total >= (instance.effectif || 1)) {
+      const trouve = alternatives.find((n) => equip.includes(n));
+      if (trouve) retirer(trouve);
+    }
   }
 
   return equip;
@@ -538,15 +569,19 @@ function optionRealisable(unite, instance, opt) {
     )
   )
     return false;
-  if (
-    opt.type === "choix" &&
-    opt.remplace &&
-    !equipSansElle.includes(opt.remplace)
-  )
-    return false;
+  // `opt.remplace`/entrées de `opt.remplaceListe` peuvent être un
+  // tableau d'alternatives (« n'importe lequel de ces objets » — voir
+  // resoudreCible, equipementFinal ci-dessus) plutôt qu'un nom exact.
+  if (opt.type === "choix" && opt.remplace) {
+    const cibles = Array.isArray(opt.remplace) ? opt.remplace : [opt.remplace];
+    if (!cibles.some((n) => equipSansElle.includes(n))) return false;
+  }
   if (
     opt.type === "paire" &&
-    !opt.remplaceListe.every((e) => equipSansElle.includes(e))
+    !opt.remplaceListe.every((cible) => {
+      const cibles = Array.isArray(cible) ? cible : [cible];
+      return cibles.some((n) => equipSansElle.includes(n));
+    })
   )
     return false;
   return true;

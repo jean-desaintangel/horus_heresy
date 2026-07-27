@@ -223,8 +223,64 @@ const LISTES_EQUIPEMENT = {
 };
 
 /* ----------------------------------------------------------
-   PETITES FABRIQUES (évitent le copier-coller)
+   ARME ÉNERGÉTIQUE GÉNÉRIQUE (p. 21 : Épée/Hache/Masse/Lance
+   énergétique, coût identique) : toute Unité dotée d'une « Arme
+   énergétique » générique (de base ou via une option) doit en
+   réalité choisir entre ces 4 profils précis, jamais le nom
+   générique lui-même (qui n'a pas de profil dans l'Arsenal, voir
+   js/armes-data.js). `ARMES_ENERGETIQUES` sert aussi de tableau
+   d'alternatives pour tout `remplace`/`remplaceListe`/
+   `remplaceIntegral` qui visait auparavant le nom générique : une
+   fois celui-ci résolu en un profil précis, resoudreCible()
+   (js/unites.js, equipementFinal) retrouve lequel des 4 est
+   effectivement présent.
    ---------------------------------------------------------- */
+const ARMES_ENERGETIQUES = [
+  "Épée énergétique",
+  "Hache énergétique",
+  "Masse énergétique",
+  "Lance énergétique",
+];
+const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
+  nom,
+  cout: 0,
+}));
+
+// Option "choix" obligatoire (coût nul) qui résout une « Arme
+// énergétique » de base en un profil précis — pour les Unités sans
+// option dédiée existante à fusionner (voir plus haut) : simple
+// ajout (la base ne contient déjà plus le nom générique, retiré de
+// `equipement`), jamais un remplacement.
+function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
+  return {
+    type: "choix",
+    id,
+    libelle,
+    obligatoire: true,
+    ajoute: true,
+    choix: CHOIX_ARMES_ENERGETIQUES,
+  };
+}
+
+// Éclate une option "quantite" dont l'`ajoute` est le nom générique
+// « Arme énergétique » (+ éventuel suffixe descriptif) en 4 options
+// partageant le même `groupe` (même mécanique que quantiteDepuisListe
+// ci-dessous : budget commun, un seul des 4 choisi par Figurine) —
+// pour les options d'armurerie qui accordaient auparavant une « Arme
+// énergétique » générique en échange d'autre chose. `base` = l'option
+// d'origine (avec son `ajoute`/`libelle` au nom générique) ; `groupe`
+// est obligatoire dès que `base.groupe` est absent (une seule option
+// à l'origine n'avait pas besoin de budget partagé, les 4 nouvelles
+// options si).
+function eclaterQuantiteArmeEnergetique(base, groupe) {
+  return ARMES_ENERGETIQUES.map((nom) => ({
+    ...base,
+    id: base.id + "-" + slug(nom),
+    libelle: base.libelle.replace(/arme énergétique/gi, nom),
+    groupe: base.groupe || groupe,
+    ajoute: base.ajoute.replace(/arme énergétique/gi, nom),
+  }));
+}
 
 // Copie les items d'une ou plusieurs listes d'équipement en un
 // tableau de choix pour une option "choix".
@@ -977,10 +1033,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           { nom: "Lame de parangon", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
@@ -992,7 +1049,7 @@ const UNITES = [
           "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
-        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+        remplaceListe: ["Combi-bolter", ARMES_ENERGETIQUES],
       },
     ],
   },
@@ -1470,10 +1527,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
       },
@@ -1484,7 +1542,7 @@ const UNITES = [
           "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
-        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+        remplaceListe: ["Combi-bolter", ARMES_ENERGETIQUES],
       },
     ],
   },
@@ -2972,10 +3030,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
       },
@@ -3273,10 +3332,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
       },
@@ -3287,7 +3347,7 @@ const UNITES = [
           "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
-        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+        remplaceListe: ["Combi-bolter", ARMES_ENERGETIQUES],
       },
     ],
   },
@@ -3581,10 +3641,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
       },
@@ -3595,7 +3656,7 @@ const UNITES = [
           "Paire de griffes Lightning (remplace le combi-bolter et l'arme énergétique)",
         cout: 5,
         ajoute: "Paire de griffes Lightning",
-        remplaceListe: ["Combi-bolter", "Arme énergétique"],
+        remplaceListe: ["Combi-bolter", ARMES_ENERGETIQUES],
       },
     ],
   },
@@ -3847,10 +3908,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-energetique",
-        libelle: "Remplacer l'arme énergétique",
+        libelle: "Type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           { nom: "Gantelet énergétique", cout: 10 },
         ],
       },
@@ -4466,7 +4528,7 @@ const UNITES = [
     effectif: { base: 3, max: 12, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Chargeur volkite", "Arme énergétique"],
+    equipement: ["Chargeur volkite"],
     variantes: [
       {
         nom: "Escouade d'État-Major Terminator Cataphractii",
@@ -4537,8 +4599,11 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
       },
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         groupe: "melee",
         remplace: "de l'arme énergétique",
       }),
@@ -4579,7 +4644,7 @@ const UNITES = [
     effectif: { base: 3, max: 10, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Escouade d'État-Major Terminator Tartaros",
@@ -4650,8 +4715,11 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
       },
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         groupe: "melee",
         remplace: "de l'arme énergétique",
       }),
@@ -5411,7 +5479,7 @@ const UNITES = [
     effectif: { base: 5, max: 12, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Chargeur volkite", "Arme énergétique"],
+    equipement: ["Chargeur volkite"],
     variantes: [
       {
         nom: "Escouade Terminator Cataphractii",
@@ -5466,6 +5534,9 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
         remplaceIntegral: "Chargeur volkite",
         type: "quantite",
@@ -5589,7 +5660,7 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Escouade Terminator Tartaros",
@@ -5639,6 +5710,9 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -5876,7 +5950,7 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
       "Alors que la majorité des Unités Terminator Tartaros privilégiaient des armes de tir plus légères, ce motif plus mobile d'Armure Terminator Dreadnought pouvait aussi être doté pour engager des cibles plus lourdes telles que véhicules et Marcheurs ennemis. De telles Unités concentraient souvent la puissance de feu de plusieurs autocanons Reaper et blasters à plasma pour combattre ces adversaires lourdement blindés et résistants. Dans d'autres circonstances, ces armes se révélaient inestimables en environnement de Zone Mortalis, réduisant à néant cloisons étanches et barricades et permettant à ces Légionnaires de poursuivre leur avance sans encombre.",
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Escouade Terminator de Siège Tartaros",
@@ -5972,19 +6046,23 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Blaster à plasma (à la place du combi-bolter)",
       },
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
         type: "choix",
         id: "sergent-melee",
         libelle:
           "Sergent Terminator Tartaros : échanger son arme énergétique contre un objet de la liste des Armes de Mêlée de Terminator de Légion",
         prefixeFiche: "Sergent Terminator Tartaros : ",
+        remplace: ARMES_ENERGETIQUES,
         choix: [
           { nom: "— Conserver l'arme énergétique —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
         ],
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "poing-troncheur-siege",
         libelle:
@@ -6094,13 +6172,20 @@ const UNITES = [
           "Paire de griffes Lightning (à la place du combi-bolter et du gantelet énergétique)",
       },
       {
-        type: "case",
+        type: "choix",
         id: "arme-energetique-sergent",
         libelle:
           "Le Sergent Terminator Indomitus peut échanger son gantelet énergétique contre une arme énergétique",
-        cout: 0,
-        ajoute:
-          "Arme énergétique (à la place du gantelet énergétique, Sergent Terminator Indomitus)",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
+            ...c,
+            nom:
+              c.nom +
+              " (à la place du gantelet énergétique, Sergent Terminator Indomitus)",
+          })),
+        ],
       },
       {
         remplaceIntegral: "Gantelet énergétique",
@@ -6465,7 +6550,7 @@ const UNITES = [
         ajoute:
           "Sabre charnabal (à la place de l'épée tronçonneuse, une Figurine)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-assaut",
@@ -6476,7 +6561,7 @@ const UNITES = [
         groupe: "melee-assaut",
         ajoute:
           "Arme énergétique (à la place de l'épée tronçonneuse, une Figurine)",
-      },
+      }),
       {
         type: "case",
         id: "bombes-fusion-sergent",
@@ -7029,7 +7114,7 @@ const UNITES = [
         groupe: "epee",
         ajoute: "Épée tronçonneuse lourde (Légionnaire)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         type: "quantite",
         id: "armes-energetiques",
         libelle:
@@ -7038,7 +7123,7 @@ const UNITES = [
         parTranche: 5,
         groupe: "epee",
         ajoute: "Arme énergétique (Légionnaire)",
-      },
+      }),
       {
         type: "quantite",
         id: "sabres",
@@ -7200,7 +7285,7 @@ const UNITES = [
       },
       /* Budget partagé (groupe "melee") : par tranche de cinq
          figurines, UN Légionnaire d'Assaut prend un de ces choix. */
-      {
+      ...eclaterQuantiteArmeEnergetique({
         type: "quantite",
         id: "armes-energetiques",
         libelle:
@@ -7209,7 +7294,7 @@ const UNITES = [
         parTranche: 5,
         groupe: "melee",
         ajoute: "Arme énergétique (Légionnaire)",
-      },
+      }),
       {
         type: "quantite",
         id: "sabres",
@@ -8136,7 +8221,7 @@ const UNITES = [
         groupe: "arme-principale-pl",
         ajoute: "Sabre charnabal (à la place du bolter)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Bolter",
         type: "quantite",
         id: "arme-energetique-pl",
@@ -8145,7 +8230,7 @@ const UNITES = [
         parTranche: 1,
         groupe: "arme-principale-pl",
         ajoute: "Arme énergétique (à la place du bolter)",
-      },
+      }),
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -8968,7 +9053,7 @@ const UNITES = [
         groupe: "melee-mor-deythan",
         ajoute: "Sabre charnabal",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         type: "quantite",
         id: "arme-energetique-mor-deythan",
         libelle: "Figurines : arme énergétique",
@@ -8976,7 +9061,7 @@ const UNITES = [
         parTranche: 1,
         groupe: "melee-mor-deythan",
         ajoute: "Arme énergétique",
-      },
+      }),
       {
         remplaceIntegral: "Bolter Némésis",
         type: "quantite",
@@ -9159,7 +9244,7 @@ const UNITES = [
     // personnages nommés (Sous-type Unique), généralisée à une unité
     // d'escouade.
     maxParArmee: 1,
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Escouade de Terminator Deliverers",
@@ -9216,6 +9301,9 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -9251,7 +9339,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter, une Figurine)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "arme-energetique-gantelet",
         libelle:
@@ -9262,7 +9350,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "arme-energetique-poing-troncheur",
         libelle:
@@ -9468,17 +9556,20 @@ const UNITES = [
       },
     ],
     options: [
-      {
-        remplaceIntegral: "Paire de griffes Lightning",
-        type: "quantite",
-        id: "arme-energetique-pistolet",
-        libelle:
-          "Figurines : paire de griffes Lightning échangée contre une arme énergétique et un pistolet bolter",
-        cout: 0,
-        parTranche: 1,
-        ajoute:
-          "Arme énergétique et pistolet bolter (à la place de la paire de griffes Lightning)",
-      },
+      ...eclaterQuantiteArmeEnergetique(
+        {
+          remplaceIntegral: "Paire de griffes Lightning",
+          type: "quantite",
+          id: "arme-energetique-pistolet",
+          libelle:
+            "Figurines : paire de griffes Lightning échangée contre une arme énergétique et un pistolet bolter",
+          cout: 0,
+          parTranche: 1,
+          ajoute:
+            "Arme énergétique et pistolet bolter (à la place de la paire de griffes Lightning)",
+        },
+        "arme-energetique-pistolet",
+      ),
       {
         type: "choix",
         id: "arme-champion",
@@ -13944,7 +14035,7 @@ const UNITES = [
     options: [
       // Salamanders Legacy Wargear (salamanders_wargear.pdf), section
       // « Firedrake Terminator Squad ».
-      {
+      ...eclaterQuantiteArmeEnergetique({
         type: "quantite",
         id: "arme-energetique-legacy",
         libelle:
@@ -13954,7 +14045,7 @@ const UNITES = [
         groupe: "melee",
         ajoute:
           "Arme énergétique (Legacy) (à la place du Marteau Thunder forgé)",
-      },
+      }),
       {
         remplaceIntegral: "Marteau Thunder forgé",
         type: "quantite",
@@ -14775,10 +14866,10 @@ const UNITES = [
           // Emperor's Children Legacy Wargear
           // (emperors_children_wargear.pdf), section « Palatine Blade
           // Squad ».
-          {
-            nom: "Arme énergétique (Legacy) (à la place de la lame palatine)",
-            cout: 0,
-          },
+          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
+            ...c,
+            nom: c.nom + " (Legacy) (à la place de la lame palatine)",
+          })),
           {
             nom: "Rapière Phénix (Legacy) (à la place de la lame palatine)",
             cout: 0,
@@ -14989,7 +15080,10 @@ const UNITES = [
         remplace: "Lame palatine (voir Liber Hereticus, page 138)",
         choix: [
           { nom: "— Conserver la lame palatine —", cout: 0 },
-          { nom: "Arme énergétique (à la place de la lame palatine)", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
+            ...c,
+            nom: c.nom + " (à la place de la lame palatine)",
+          })),
           { nom: "Rapière Phénix (à la place de la lame palatine)", cout: 0 },
           {
             nom: "Lance énergétique Phénix (à la place de la lame palatine)",
@@ -15819,7 +15913,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Imperial Fists", "Bouclier"],
     notes:
       "L'une des formations Huscarl chargées de la protection rapprochée des membres éminents des Imperial Fists, dont Rogal Dorn lui-même, les Terminators Huscarl utilisent l'équipement le plus résistant qui soit, combattant revêtus de plaques Terminator Cataphractii et portant de vastes boucliers Storm. Confiants dans cet arsenal presque inviolable, ces Huscarls forment un mur quasi impénétrable entre leur charge et l'ennemi, jouant leur vie pour assurer sa sécurité et abattant quiconque cherche à menacer ceux qu'ils protègent.",
-    equipement: ["Arme énergétique", "Bouclier Storm modèle Vigil"],
+    equipement: ["Bouclier Storm modèle Vigil"],
     variantes: [
       {
         nom: "Escorte de Terminators Huscarl Imperial Fists",
@@ -15875,8 +15969,11 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "gantelet-solarite",
         libelle:
@@ -16442,7 +16539,7 @@ const UNITES = [
       },
     ],
     options: [
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Viseur Péritarque",
         type: "quantite",
         id: "arme-energetique",
@@ -16452,7 +16549,7 @@ const UNITES = [
         parTranche: 1,
         groupe: "melee",
         ajoute: "Arme énergétique (à la place du Viseur Péritarque)",
-      },
+      }),
       {
         remplaceIntegral: "Viseur Péritarque",
         type: "quantite",
@@ -17902,16 +17999,19 @@ const UNITES = [
         cout: 10,
         ajoute: "Bombes à fusion (Huscarl)",
       },
-      {
-        remplaceIntegral: "Hache de Fenris",
-        type: "quantite",
-        id: "arme-energetique",
-        libelle:
-          "Figurines : arme énergétique (à la place de la hache de Fenris)",
-        cout: 5,
-        parTranche: 1,
-        ajoute: "Arme énergétique (à la place de la hache de Fenris)",
-      },
+      ...eclaterQuantiteArmeEnergetique(
+        {
+          remplaceIntegral: "Hache de Fenris",
+          type: "quantite",
+          id: "arme-energetique",
+          libelle:
+            "Figurines : arme énergétique (à la place de la hache de Fenris)",
+          cout: 5,
+          parTranche: 1,
+          ajoute: "Arme énergétique (à la place de la hache de Fenris)",
+        },
+        "arme-energetique",
+      ),
       {
         remplaceIntegral: "Hache de Fenris",
         type: "quantite",
@@ -19953,7 +20053,7 @@ const UNITES = [
     traits: ["Loyaliste", "Iron Hands"],
     notes:
       "Guerriers d'élite du clan Avernii, les Morlocks servaient de garde d'honneur à Ferrus Manus lorsque le protocole l'exigeait, ainsi que de garde permanente de l'Anvilarium, le sanctuaire de leur Primarque à bord du Poing de Fer. Ayant accompagné Ferrus Manus sur Isstvan dans le cadre de son assaut d'avant-garde, la majorité d'entre eux tombèrent au combat aux côtés de leur Primarque, sous les coups des Emperor's Children. Quelques survivants, qui avaient échappé au massacre ou avaient été affectés ailleurs, persistèrent, jurant de venger avec fureur leur géniteur déchu, et portant la bataille aux Traîtres honnis partout où ils pouvaient les trouver. Destinée de la Gorgone — si la mort de Ferrus Manus éveilla une froide fureur dans le cœur de tous les Iron Hands, ceux de sa suite Avernienne la ressentirent plus intensément encore, cherchant les membres de la IIIe Légion pour exercer leur vengeance sur eux. Quand elle fait partie d'une Armée qui n'inclut pas Ferrus Manus, une Figurine ayant cette Règle Spéciale a la Règle Spéciale Haine (Emperor's Children).",
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Escouade Terminator Morlock",
@@ -20009,8 +20109,11 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "hache-artificier",
         libelle:
@@ -20022,7 +20125,7 @@ const UNITES = [
           "Hache énergétique d'artificier (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "griffe-lightning",
         libelle:
@@ -20033,7 +20136,7 @@ const UNITES = [
         ajoute: "Griffe Lightning (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -20044,7 +20147,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -20628,10 +20731,11 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-cac",
-        libelle: "Toute Figurine : remplacer l'arme énergétique",
+        libelle: "Toute Figurine : type d'arme énergétique (ou remplacement)",
+        obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          ...CHOIX_ARMES_ENERGETIQUES,
           {
             nom: "Griffe Lightning (à la place de l'arme énergétique)",
             cout: 5,
@@ -20662,7 +20766,7 @@ const UNITES = [
         cout: 10,
         ajoute:
           "Paire de griffes Lightning (à la place du combi-bolter Banestrike et de l'arme énergétique)",
-        remplaceListe: ["Combi-bolter Banestrike", "Arme énergétique"],
+        remplaceListe: ["Combi-bolter Banestrike", ARMES_ENERGETIQUES],
       },
       {
         remplaceIntegral: "Combi-bolter Banestrike",
@@ -20986,7 +21090,7 @@ const UNITES = [
         groupe: "melee",
         ajoute: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique",
@@ -20996,7 +21100,7 @@ const UNITES = [
         parTranche: 1,
         groupe: "melee",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -21528,7 +21632,7 @@ const UNITES = [
         groupe: "arme-lourde",
         ajoute: "Blaster à Feu Warp (à la place du bolter)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Serres Souillées",
         type: "quantite",
         id: "arme-energetique",
@@ -21538,7 +21642,7 @@ const UNITES = [
         parTranche: 5,
         groupe: "serres",
         ajoute: "Arme énergétique (à la place des serres souillées)",
-      },
+      }),
       {
         remplaceIntegral: "Serres Souillées",
         type: "quantite",
@@ -22046,7 +22150,7 @@ const UNITES = [
         ajoute:
           "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-procurateur",
@@ -22057,7 +22161,7 @@ const UNITES = [
         groupe: "melee-procurateur",
         ajoute:
           "Arme énergétique (à la place de l'épée tronçonneuse, Procurateur seulement)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -22169,7 +22273,7 @@ const UNITES = [
         ajoute:
           "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-procurateur",
@@ -22180,7 +22284,7 @@ const UNITES = [
         groupe: "melee-procurateur",
         ajoute:
           "Arme énergétique (à la place de l'épée tronçonneuse, Procurateur seulement)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -23381,7 +23485,7 @@ const UNITES = [
         cout: 10,
         ajoute: "Numérologiste : cyber-familier",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "garde-arme-energetique",
@@ -23391,7 +23495,7 @@ const UNITES = [
         parTranche: 1,
         groupe: "garde-melee",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -25598,7 +25702,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Night Lords"],
     notes:
       "Membres de la 1ère Compagnie des Night Lords, les Atramentar Écorchés étaient armés des meilleures armes que possédait la Légion et avaient un talent certain pour l'opportunisme meurtrier. Attendant patiemment le moment propice pour frapper, et se servant souvent de leurs propres frères de Légion comme diversion, ils déferlaient sur l'ennemi, l'abattant à coups sauvages. Une telle force ne pouvait être commandée que par ceux capables d'égaler leur irascibilité et leur venin, canalisant ces guerriers d'ordinaire indisciplinés en une force de frappe parfaitement rodée, capable de terrasser quiconque oserait se dresser devant eux.",
-    equipement: ["Combi-bolter", "Arme énergétique"],
+    equipement: ["Combi-bolter"],
     variantes: [
       {
         nom: "Atramentar Écorchés",
@@ -25656,6 +25760,9 @@ const UNITES = [
       },
     ],
     options: [
+      optionTypeArmeEnergetique(
+        "Type d'arme énergétique (chaque Figurine non autrement équipée)",
+      ),
       {
         remplaceIntegral: "Combi-bolter",
         type: "quantite",
@@ -25722,7 +25829,7 @@ const UNITES = [
           "Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -25733,7 +25840,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "griffe-lightning",
         libelle:
@@ -25744,7 +25851,7 @@ const UNITES = [
         ajoute: "Griffe Lightning (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -25755,7 +25862,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place de l'arme énergétique)",
       },
       {
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -33019,7 +33126,7 @@ const UNITES = [
         groupe: "melee4",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -33029,7 +33136,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
         remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
@@ -33171,7 +33278,7 @@ const UNITES = [
         groupe: "heavy-cs",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -33181,7 +33288,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -33284,7 +33391,7 @@ const UNITES = [
         groupe: "melee4",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -33294,7 +33401,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -33520,7 +33627,7 @@ const UNITES = [
         groupe: "melee4",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -33530,7 +33637,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -33692,7 +33799,7 @@ const UNITES = [
         groupe: "melee4",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -33702,7 +33809,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -34098,7 +34205,7 @@ const UNITES = [
         groupe: "melee4",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -34108,7 +34215,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
@@ -34191,7 +34298,7 @@ const UNITES = [
         groupe: "heavy-cs",
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
-      {
+      ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
@@ -34201,7 +34308,7 @@ const UNITES = [
         parTranche: 4,
         groupe: "melee4",
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
-      },
+      }),
       {
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
