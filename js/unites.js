@@ -681,12 +681,10 @@ function exporterListe() {
   };
   const date = new Date().toISOString().slice(0, 10);
   const nomFichier =
-    "liste-horus-heresy-" +
     segmentsIdentiteActuelle()
       .map(nomFichierSlug)
       .concat(date)
-      .join("-") +
-    ".json";
+      .join("-") + ".json";
   telechargerBlob(
     nomFichier,
     JSON.stringify(donnees, null, 2),
