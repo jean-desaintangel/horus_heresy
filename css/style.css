@@ -777,7 +777,18 @@ strong {
 /* Tooltip descriptif : caché par défaut (opacity 0 + visibility
    hidden, pas display:none, pour permettre la transition en
    fondu) et révélé uniquement par les sélecteurs :hover/:focus
-   ci-dessous. Aucun JavaScript n'est nécessaire pour cet effet.
+   ci-dessous. Sur grand écran, sa position (haut/bas + décalage
+   horizontal) est calculée par JS au survol/focus (positionnerBulle,
+   js/main.js) plutôt qu'en CSS pur : un tableau d'armes est borné à
+   la fois horizontalement (.table-scroll, overflow-x:auto) et
+   verticalement (le même overflow-x force overflow-y à auto ;
+   table{overflow:hidden} pour les coins arrondis fait de même), donc
+   une bulle en position:absolute serait rognée dès qu'elle manque de
+   place au-dessus ou en dessous de sa ligne dans le tableau — ce qui
+   arrive dès qu'un tableau ne compte que deux lignes, cas très
+   fréquent ici. En position:fixed avec des coordonnées calculées par
+   rapport au viewport, la bulle échappe à ce rognage quelle que soit
+   la hauteur du tableau qui la contient.
    Partagé par .orga-boite (organigramme, unites.html), .regle-tag
    (règles spéciales des tables d'armes, armes.html) et .orga-badge
    (badges de Rôles Tactiques du constructeur d'armée, unites.html). */
@@ -817,42 +828,22 @@ strong {
   opacity: 1;
 }
 
-/* Grand écran : la bulle flotte au-dessus de sa case, centrée */
+/* Grand écran : la bulle flotte au-dessus ou en dessous de sa case
+   (selon la place disponible), centrée. Valeurs de repli avant que JS
+   n'ait calculé une position exacte (positionnerBulle, js/main.js) :
+   ce cas ne se produit normalement jamais en pratique (l'écouteur est
+   posé une fois pour toutes sur document, donc actif dès le premier
+   survol/focus), gardé seulement par prudence. */
 @media (min-width: 601px) {
   .orga-boite .tooltip,
   .regle-tag .tooltip,
   .orga-badge .tooltip {
-    position: absolute;
+    position: fixed;
     bottom: calc(100% + 8px);
     left: 50%;
     right: auto;
     transform: translateX(-50%);
     width: 260px;
-  }
-
-  /* Dans une table d'armes, la bulle ne peut déborder ni au-dessus ni
-     en dessous du tableau : .table-scroll (son overflow-x:auto force
-     aussi overflow-y à auto) et table{overflow:hidden} (coins arrondis)
-     rognent tout ce qui dépasse la boîte du tableau. Comme la plupart
-     des lignes ont peu de place au-dessus (souvent une seule ligne
-     d'en-tête ou de tableau avant elles, rarement assez pour une bulle
-     de plusieurs lignes de texte), la bulle s'ouvre par défaut vers le
-     bas — où il y a presque toujours plus de lignes disponibles en
-     dessous — sauf pour la dernière ligne du tableau, qui n'a nulle
-     part où descendre et s'ouvre donc vers le haut à la place.
-     tr.derniere-visible couvre le même cas une fois qu'un filtre de
-     recherche (armes.html, voir js/armes.js) a masqué des lignes avec
-     tr.cachee : celles-ci restent dans le DOM, donc tr:last-child ne
-     suit plus la ligne devenue visuellement dernière. */
-  .table-scroll table tbody tr .regle-tag .tooltip {
-    bottom: auto;
-    top: calc(100% + 8px);
-  }
-
-  .table-scroll table tbody tr:last-child .regle-tag .tooltip,
-  .table-scroll table tbody tr.derniere-visible .regle-tag .tooltip {
-    top: auto;
-    bottom: calc(100% + 8px);
   }
 }
 

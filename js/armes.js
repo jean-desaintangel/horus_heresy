@@ -207,22 +207,7 @@ function appliquerFiltresArmes() {
     const correspond =
       correspondRecherche && (!seulementSelection || estSelectionnee);
     ligne.classList.toggle("cachee", !correspond);
-    ligne.classList.remove("derniere-visible");
     if (correspond) visibles++;
-  });
-
-  // Une ligne masquée par le filtre reste dans le DOM (tr.cachee), donc
-  // tr:last-child (voir css/style.css) ne désigne plus forcément la
-  // dernière ligne VISIBLE d'une table une fois la recherche appliquée :
-  // l'info-bulle de sa colonne « Règles spéciales » s'ouvrirait alors
-  // vers le bas et serait rognée par .table-scroll, faute de place
-  // en dessous. On marque donc explicitement la dernière ligne non
-  // masquée de chaque table pour que la même règle CSS d'ouverture vers
-  // le haut continue à s'appliquer après filtrage.
-  document.querySelectorAll(".groupe-armes tbody").forEach((corps) => {
-    const lignesVisibles = corps.querySelectorAll("tr:not(.cachee)");
-    const derniere = lignesVisibles[lignesVisibles.length - 1];
-    if (derniere) derniere.classList.add("derniere-visible");
   });
 
   document.querySelectorAll(".groupe-armes").forEach((groupe) => {

@@ -439,6 +439,86 @@ function cablerInfoBulles(racine) {
 window.cablerInfoBulles = cablerInfoBulles;
 
 /* ----------------------------------------------------------
+   POSITIONNEMENT DES INFO-BULLES (.tooltip)
+   Mêmes déclencheurs que cablerInfoBulles ci-dessus. À partir de
+   601px de large, la bulle est en position:fixed et sa position
+   exacte (haut/bas + décalage horizontal) est calculée ici plutôt
+   qu'en CSS pur : un tableau d'armes est borné à la fois
+   horizontalement (.table-scroll, overflow-x:auto) et verticalement
+   (le même overflow-x force overflow-y à auto ; table{overflow:hidden}
+   pour les coins arrondis fait de même), donc une bulle en
+   position:absolute serait rognée dès qu'elle manque de place
+   au-dessus ou en dessous de sa ligne — ce qui arrive dès qu'un
+   tableau ne compte que deux lignes, cas très fréquent. En
+   position:fixed avec des coordonnées calculées par rapport au
+   viewport, la bulle échappe à ce rognage quelle que soit la hauteur
+   du tableau qui la contient. En dessous de 601px, la bulle reste un
+   bandeau fixé en bas d'écran, entièrement géré par CSS (voir la
+   media query mobile) : cette fonction ne fait alors rien.
+   Posé hors DOMContentLoaded, au plus tôt (délégation sur document :
+   fonctionne dès le premier survol/focus, quel que soit le moment où
+   l'élément survolé a été créé — y compris les cartes d'unité
+   construites dynamiquement par js/unites.js).
+   ---------------------------------------------------------- */
+function positionnerBulle(cible) {
+  if (!window.matchMedia("(min-width: 601px)").matches) return;
+  const bulle = cible.querySelector(".tooltip");
+  if (!bulle) return;
+  const rectCible = cible.getBoundingClientRect();
+  const marge = 8;
+  const largeur = bulle.offsetWidth;
+  const hauteur = bulle.offsetHeight;
+
+  let gauche = rectCible.left + rectCible.width / 2 - largeur / 2;
+  gauche = Math.max(
+    marge,
+    Math.min(gauche, window.innerWidth - largeur - marge),
+  );
+
+  const espaceAuDessus = rectCible.top;
+  const espaceEnDessous = window.innerHeight - rectCible.bottom;
+  let haut =
+    espaceEnDessous >= hauteur + marge || espaceEnDessous >= espaceAuDessus
+      ? rectCible.bottom + marge
+      : rectCible.top - hauteur - marge;
+  haut = Math.max(marge, Math.min(haut, window.innerHeight - hauteur - marge));
+
+  bulle.style.left = gauche + "px";
+  bulle.style.top = haut + "px";
+  bulle.style.right = "auto";
+  bulle.style.bottom = "auto";
+  bulle.style.transform = "none";
+}
+
+// mouseover/focusin (pas mouseenter/focus, qui ne remontent pas) :
+// délégation unique sur document plutôt qu'un écouteur par bulle.
+document.addEventListener("mouseover", (evenement) => {
+  const cible = evenement.target.closest(".orga-boite, .regle-tag, .orga-badge");
+  if (cible) positionnerBulle(cible);
+});
+document.addEventListener("focusin", (evenement) => {
+  const cible = evenement.target.closest(".orga-boite, .regle-tag, .orga-badge");
+  if (cible) positionnerBulle(cible);
+});
+
+// Une bulle déjà ouverte doit suivre sa case au défilement/redimensionnement
+// (position:fixed ne bouge pas tout seul avec le contenu, contrairement à
+// l'ancien position:absolute) : on ne recalcule que celles actuellement
+// affichées via :hover/:focus-within, sans suivi d'état séparé à maintenir.
+function repositionnerBullesVisibles() {
+  document
+    .querySelectorAll(
+      ".orga-boite:hover .tooltip, .regle-tag:hover .tooltip, .orga-badge:hover .tooltip, .orga-boite:focus-within .tooltip, .regle-tag:focus-within .tooltip, .orga-badge:focus-within .tooltip",
+    )
+    .forEach((bulle) => {
+      const cible = bulle.closest(".orga-boite, .regle-tag, .orga-badge");
+      if (cible) positionnerBulle(cible);
+    });
+}
+window.addEventListener("scroll", repositionnerBullesVisibles, true);
+window.addEventListener("resize", repositionnerBullesVisibles);
+
+/* ----------------------------------------------------------
    CLIN D'ŒIL — Erebus
    Tape "Erebus" (accents/majuscules ignorés) dans le champ « Unité à
    ajouter » d'unites.html (#choix-unite, PAS les barres de recherche
