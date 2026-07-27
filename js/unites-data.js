@@ -27377,7 +27377,7 @@ const UNITES = [
         id: "pistolet-archeotech",
         libelle: "Un Salvateur : pistolet archéotech (Solar Auxilia)",
         cout: 10,
-        ajoute: "Pistolet archéotech (Solar Auxilia) (un Salvateur)",
+        ajoute: "Pistolet archéotech (un Salvateur)",
       },
       {
         type: "case",
@@ -27478,7 +27478,7 @@ const UNITES = [
         id: "pistolet-archeotech",
         libelle: "Un Compagnon : pistolet archéotech (Solar Auxilia)",
         cout: 10,
-        ajoute: "Pistolet archéotech (Solar Auxilia) (un Compagnon)",
+        ajoute: "Pistolet archéotech (un Compagnon)",
       },
       {
         type: "case",
@@ -28108,7 +28108,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le rifle laser —", cout: 0 },
           {
-            nom: "Pistolet laser et Sabre charnabal (Solar Auxilia)",
+            nom: "Pistolet laser et Sabre charnabal",
             cout: 0,
           },
           { nom: "Bolter", cout: 3 },
@@ -28125,7 +28125,7 @@ const UNITES = [
         id: "arme-melee",
         libelle:
           "Figurine dotée d'un pistolet laser et d'un sabre charnabal : remplacer le sabre charnabal",
-        remplace: "Sabre charnabal (Solar Auxilia)",
+        remplace: "Sabre charnabal",
         choix: [
           { nom: "— Conserver le sabre charnabal —", cout: 0 },
           { nom: "Épée tronçonneuse", cout: 0 },
@@ -28249,7 +28249,7 @@ const UNITES = [
         parTranche: 5,
         choix: [
           { nom: "— Conserver le chargeur volkite —", cout: 0 },
-          { nom: "Lance-flammes lourd (Solar Auxilia)", cout: 10 },
+          { nom: "Lance-flammes lourd", cout: 10 },
         ],
       },
     ],
@@ -28321,7 +28321,7 @@ const UNITES = [
         id: "lance-flammes",
         libelle: "Le Primat Veletaris : lance-flammes lourd (Solar Auxilia)",
         cout: 10,
-        ajoute: "Lance-flammes lourd (Solar Auxilia) (Primat Veletaris)",
+        ajoute: "Lance-flammes lourd (Primat Veletaris)",
       },
     ],
   },
@@ -28757,7 +28757,7 @@ const UNITES = [
     effectif: { base: 1, max: 4, cout: 60 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Éclaireurs"],
-    equipement: ["Multi-laser (Solar Auxilia)", "Batterie de missiles Aethon"],
+    equipement: ["Multi-laser", "Batterie de missiles Aethon"],
     variantes: [
       {
         nom: "Sentinelle Lourde Aethon",
@@ -28913,7 +28913,7 @@ const UNITES = [
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
     equipement: [
-      "Multi-laser (Solar Auxilia)",
+      "Multi-laser",
       "Grenades Frag",
       "Grenades Krak",
     ],
@@ -28951,7 +28951,7 @@ const UNITES = [
         type: "choix",
         id: "arme",
         libelle: "Remplacer le multi-laser",
-        remplace: "Multi-laser (Solar Auxilia)",
+        remplace: "Multi-laser",
         choix: [
           { nom: "— Conserver le multi-laser —", cout: 0 },
           { nom: "Lance-grenade Hermes — Krak", cout: 5 },
@@ -29112,7 +29112,7 @@ const UNITES = [
             cout: 0,
           },
           { nom: "Multi-laser jumelé (Solar Auxilia) de Tourelle", cout: 5 },
-          { nom: "Autocanon Gravis (Solar Auxilia) de Tourelle", cout: 10 },
+          { nom: "Autocanon Gravis de Tourelle", cout: 10 },
           { nom: "Canon laser jumelé de Tourelle", cout: 15 },
         ],
       },
@@ -29138,7 +29138,7 @@ const UNITES = [
     equipement: [
       "Canon à bolts Avenger d'Axe Central",
       "Canon laser jumelé d'Axe Central",
-      "Mitrailleuse (Solar Auxilia) de Coque (Arrière)",
+      "Mitrailleuse de Coque (Arrière)",
     ],
     variantes: [
       {
@@ -29394,8 +29394,8 @@ const UNITES = [
       "Écran de Fumée",
     ],
     equipement: [
-      "Laser à neutrons (Solar Auxilia) d'Axe Central",
-      "Multi-laser (Solar Auxilia) Latéral (Droite)",
+      "Laser à neutrons d'Axe Central",
+      "Multi-laser Latéral (Droite)",
     ],
     variantes: [
       {
@@ -29419,18 +29419,18 @@ const UNITES = [
         type: "choix",
         id: "arme-laterale",
         libelle: "Remplacer le multi-laser Latéral (Droite)",
-        remplace: "Multi-laser (Solar Auxilia) Latéral (Droite)",
+        remplace: "Multi-laser Latéral (Droite)",
         choix: [
           { nom: "— Conserver le multi-laser Latéral —", cout: 0 },
           {
-            nom: "Autocanon Gravis (Solar Auxilia) Latéral (Droite)",
+            nom: "Autocanon Gravis Latéral (Droite)",
             cout: 10,
           },
           {
-            nom: "Lance-flammes lourd (Solar Auxilia) Latéral (Droite)",
+            nom: "Lance-flammes lourd Latéral (Droite)",
             cout: 0,
           },
-          { nom: "Canon laser (Solar Auxilia) Latéral (Droite)", cout: 5 },
+          { nom: "Canon laser Latéral (Droite)", cout: 5 },
         ],
       },
       {
@@ -29574,7 +29574,7 @@ const UNITES = [
     cout: 155,
     composition: "1 Thunderer Siege Tank",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
-    equipement: ["Canon Demolisher (Solar Auxilia) d'Axe Central"],
+    equipement: ["Canon Demolisher d'Axe Central"],
     variantes: [
       {
         nom: "Thunderer",
@@ -29817,9 +29817,9 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon Baneblade de Tourelle",
-      "Autocanon (Solar Auxilia) coaxial (Canon Baneblade)",
-      "Canon Demolisher (Solar Auxilia) d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Autocanon coaxial (Canon Baneblade)",
+      "Canon Demolisher d'Axe Central",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -29856,9 +29856,9 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon Hellhammer de Tourelle",
-      "Autocanon (Solar Auxilia) coaxial (Canon Hellhammer)",
-      "Canon Demolisher (Solar Auxilia) d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Autocanon coaxial (Canon Hellhammer)",
+      "Canon Demolisher d'Axe Central",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -29895,7 +29895,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon Tremor d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -29933,9 +29933,9 @@ const UNITES = [
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
     equipement: [
       "Méga-bolter Vulcan (Stormlord) d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
-      "Mitrailleuse (Solar Auxilia) de Coque (Gauche)",
-      "Mitrailleuse (Solar Auxilia) de Coque (Droite)",
+      "Bolter lourd de Coque (Avant)",
+      "Mitrailleuse de Coque (Gauche)",
+      "Mitrailleuse de Coque (Droite)",
     ],
     variantes: [
       {
@@ -29972,7 +29972,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Blastgun à plasma d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -30009,7 +30009,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon Volcano (Shadowsword) d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -30046,7 +30046,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon de siège Stormsword d'Axe Central",
-      "Bolter lourd (Solar Auxilia) de Coque (Avant)",
+      "Bolter lourd de Coque (Avant)",
     ],
     variantes: [
       {
@@ -30206,7 +30206,7 @@ const UNITES = [
         id: "plasma-phase",
         libelle: "Fusil à plasma phasé",
         cout: 15,
-        ajoute: "Fusil à plasma phasé (Mechanicum)",
+        ajoute: "Fusil à plasma phasé",
       },
       {
         type: "case",
@@ -30271,7 +30271,7 @@ const UNITES = [
         id: "plasma-phase",
         libelle: "Fusil à plasma phasé",
         cout: 15,
-        ajoute: "Fusil à plasma phasé (Mechanicum)",
+        ajoute: "Fusil à plasma phasé",
       },
       {
         type: "case",
@@ -30475,7 +30475,7 @@ const UNITES = [
         id: "plasma-phase",
         libelle: "Fusil à plasma phasé",
         cout: 15,
-        ajoute: "Fusil à plasma phasé (Mechanicum)",
+        ajoute: "Fusil à plasma phasé",
       },
       {
         type: "case",
@@ -30542,7 +30542,7 @@ const UNITES = [
         id: "plasma-phase",
         libelle: "Fusil à plasma phasé",
         cout: 15,
-        ajoute: "Fusil à plasma phasé (Mechanicum)",
+        ajoute: "Fusil à plasma phasé",
       },
       {
         type: "case",
@@ -30598,7 +30598,7 @@ const UNITES = [
         id: "pistolet",
         libelle: "Objet de la liste des Pistolets du Mechanicum",
         cout: 10,
-        ajoute: "Pistolet à plasma (Mechanicum) — Tir soutenu",
+        ajoute: "Pistolet à plasma — Tir soutenu",
       },
       {
         type: "case",
@@ -30661,7 +30661,7 @@ const UNITES = [
         parTranche: 1,
         cout: 2,
         ajoute:
-          "Bolter (Mechanicum) (à la place du Fourneau Rad, une Figurine)",
+          "Bolter (à la place du Fourneau Rad, une Figurine)",
       },
     ],
   },
@@ -30826,8 +30826,8 @@ const UNITES = [
         remplace: "Bolter Maxima jumelé",
         choix: [
           { nom: "— Conserver le bolter Maxima jumelé —", cout: 0 },
-          { nom: "Fusil à plasma phasé (Mechanicum)", cout: 5 },
-          { nom: "Fusil à gravitons (Mechanicum) jumelé", cout: 10 },
+          { nom: "Fusil à plasma phasé", cout: 5 },
+          { nom: "Fusil à gravitons jumelé", cout: 10 },
         ],
       },
     ],
@@ -31100,7 +31100,7 @@ const UNITES = [
           "Toute Figurine : échanger ses bolts Mauler contre un multi-fuseur",
         cout: 10,
         ajoute:
-          "Multi-fuseur (Mechanicum) (à la place du canon à bolts Mauler)",
+          "Multi-fuseur (à la place du canon à bolts Mauler)",
       },
     ],
   },
@@ -31277,14 +31277,14 @@ const UNITES = [
         id: "pistolet",
         libelle: "Objet de la liste des Pistolets du Mechanicum",
         cout: 10,
-        ajoute: "Pistolet à plasma (Mechanicum) — Tir soutenu",
+        ajoute: "Pistolet à plasma — Tir soutenu",
       },
       {
         type: "case",
         id: "arme-tir",
         libelle: "Objet de la liste des Armes de Tir du Mechanicum",
         cout: 15,
-        ajoute: "Fusil à plasma phasé (Mechanicum)",
+        ajoute: "Fusil à plasma phasé",
       },
     ],
   },
@@ -31398,9 +31398,9 @@ const UNITES = [
         remplace: "Fusil à foudre",
         choix: [
           { nom: "— Conserver le fusil à foudre —", cout: 0 },
-          { nom: "Pistolet à plasma (Mechanicum) — Tir soutenu", cout: 0 },
-          { nom: "Multi-fuseur (Mechanicum)", cout: 15 },
-          { nom: "Fusil à plasma phasé (Mechanicum)", cout: 15 },
+          { nom: "Pistolet à plasma — Tir soutenu", cout: 0 },
+          { nom: "Multi-fuseur", cout: 15 },
+          { nom: "Fusil à plasma phasé", cout: 15 },
         ],
       },
       {
@@ -31471,7 +31471,7 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         parTrancheMax: 2,
-        ajoute: "Lance-flammes (Mechanicum) (à la place d'un bolter)",
+        ajoute: "Lance-flammes (à la place d'un bolter)",
       },
     ],
   },
@@ -31643,9 +31643,9 @@ const UNITES = [
       {
         type: "case",
         id: "pulsar-gravitons",
-        libelle: "Pulsar à gravitons (Mechanicum)",
+        libelle: "Pulsar à gravitons",
         cout: 20,
-        ajoute: "Pulsar à gravitons (Mechanicum)",
+        ajoute: "Pulsar à gravitons",
       },
       {
         type: "case",

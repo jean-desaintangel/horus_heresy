@@ -69,28 +69,6 @@ const ARMES_TIR = [
         regles: 'Artillerie (D), Explosion (5"), Brèche (5+), Sonner (1)',
         traits: "-",
       },
-      /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
-         Solar Auxilia doivent utiliser cette version des armes ci-
-         dessous, quand elle est déjà présente dans l'Arsenal des
-         Legiones Astartes. --- */
-      {
-        nom: "Canon Demolisher (Solar Auxilia)",
-        stats: ["24", "1", "12", "3", "3"],
-        regles: 'Explosion (3"), Brèche (5+), Artillerie (D), Sonner (1)',
-        traits: "-",
-      },
-      {
-        nom: "Lanceur quadruple (Solar Auxilia) — Frag",
-        stats: ["60", "1", "5", "5", "1"],
-        regles: 'Lourde (PF), Explosion (5"), Barrage (2)',
-        traits: "-",
-      },
-      {
-        nom: "Lanceur quadruple (Solar Auxilia) — Brisant",
-        stats: ["36", "4", "7", "4", "1"],
-        regles: "Lourde (D), Fléau des Blindages",
-        traits: "-",
-      },
       {
         nom: "Canon Earthshaker",
         stats: ["240", "1", "5", "4", "2"],
@@ -144,22 +122,6 @@ const ARMES_TIR = [
     armes: [
       {
         nom: "Pistolet archéotech",
-        stats: ["12", "1", "6", "4", "2"],
-        regles: "Pistolet, Brèche (3+)",
-        traits: "Assaut",
-      },
-      {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Pistolet archéotech (Solar Auxilia)",
-        stats: ["12", "1", "6", "4", "2"],
-        regles: "Pistolet, Brèche (3+)",
-        traits: "Assaut",
-      },
-      {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Pistolet archéotech (Mechanicum)",
         stats: ["12", "1", "6", "4", "2"],
         regles: "Pistolet, Brèche (3+)",
         traits: "Assaut",
@@ -400,29 +362,11 @@ const ARMES_TIR = [
          dessous, quand elle est déjà présente dans l'Arsenal des
          Legiones Astartes. --- */
       {
-        nom: "Mitrailleuse (Solar Auxilia)",
-        stats: ["36", "3", "4", "6", "1"],
-        regles: "-",
-        traits: "Auto",
-      },
-      {
         // Profil jumelé (« heavy stubber », plusieurs Super-lourds
         // Solar Auxilia Legacies : Macharius, Baneblade, Crassus...).
         nom: "Mitrailleuse jumelée (Solar Auxilia)",
         stats: ["36", "6", "4", "6", "1"],
         regles: "-",
-        traits: "Auto",
-      },
-      {
-        nom: "Autocanon (Solar Auxilia)",
-        stats: ["48", "2", "7", "4", "2"],
-        regles: "Brèche (6+), Lourde (PF)",
-        traits: "Auto",
-      },
-      {
-        nom: "Autocanon Gravis (Solar Auxilia)",
-        stats: ["48", "3", "8", "4", "2"],
-        regles: "Brèche (6+), Lourde (PF)",
         traits: "Auto",
       },
       {
@@ -534,21 +478,6 @@ const ARMES_TIR = [
         traits: "Bolts",
       },
       {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version des armes
-        // ci-dessous.
-        nom: "Pistolet bolter (Mechanicum)",
-        stats: ["12", "1", "4", "5", "1"],
-        regles: "Pistolet",
-        traits: "Assaut, Bolts",
-      },
-      {
-        nom: "Bolter (Mechanicum)",
-        stats: ["24", "2", "4", "5", "1"],
-        regles: "-",
-        traits: "Bolts",
-      },
-      {
         nom: "Bolter Maxima",
         stats: ["18", "3", "4", "5", "1"],
         regles: "-",
@@ -622,12 +551,6 @@ const ARMES_TIR = [
       },
       /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
          Solar Auxilia doivent utiliser cette version de l'arme. --- */
-      {
-        nom: "Bolter lourd (Solar Auxilia)",
-        stats: ["36", "3", "5", "4", "1"],
-        regles: "Lourde (PF)",
-        traits: "Bolts",
-      },
       {
         nom: "Batterie de bolters lourds Gravis (Solar Auxilia)",
         stats: ["36", "8", "5", "4", "1"],
@@ -742,14 +665,6 @@ const ARMES_TIR = [
          Titaniques. --- */
       {
         nom: "Canon à bolts Mauler jumelé",
-        stats: ["24", "6", "6", "4", "1"],
-        regles: "Fixation (2), Lacération (4+)",
-        traits: "Bolts",
-      },
-      {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Canon à bolts Mauler jumelé (Mechanicum)",
         stats: ["24", "6", "6", "4", "1"],
         regles: "Fixation (2), Lacération (4+)",
         traits: "Bolts",
@@ -904,24 +819,6 @@ const ARMES_TIR = [
         traits: "Conversion",
       },
       {
-        nom: "Faisceau de conversion Moirax (Mechanicum) (< 15 pas)",
-        stats: ["<15", "1", "6", "4", "1"],
-        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
-        traits: "Conversion",
-      },
-      {
-        nom: "Faisceau de conversion Moirax (Mechanicum) (15-30 pas)",
-        stats: ["15-30", "1", "7", "3", "2"],
-        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
-        traits: "Conversion",
-      },
-      {
-        nom: "Faisceau de conversion Moirax (Mechanicum) (> 30-45 pas)",
-        stats: [">30-45", "1", "8", "2", "3"],
-        regles: 'Lourde (FT), Explosion (3"), Neutralisation (1)',
-        traits: "Conversion",
-      },
-      {
         nom: "Affût à conversion Desolator (< 18 pas)",
         stats: ["<18", "2", "8", "4", "2"],
         regles: 'Artillerie (D), Explosion (7")',
@@ -946,14 +843,6 @@ const ARMES_TIR = [
     armes: [
       {
         nom: "Pistolet désintégrateur",
-        stats: ["12", "1", "4", "3", "2"],
-        regles: "Pistolet, Surcharge (1)",
-        traits: "Assaut, Désintégrateur",
-      },
-      {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Pistolet désintégrateur (Mechanicum)",
         stats: ["12", "1", "4", "3", "2"],
         regles: "Pistolet, Surcharge (1)",
         traits: "Assaut, Désintégrateur",
@@ -1011,14 +900,6 @@ const ARMES_TIR = [
         traits: "Assaut, Gravitons",
       },
       {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Fusil à gravitons (Mechanicum)",
-        stats: ["18", "1", "6", "4", "1"],
-        regles: 'Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (1)',
-        traits: "Gravitons",
-      },
-      {
         nom: "Fusil à gravitons jumelé",
         stats: ["18", "1", "6", "4", "1"],
         regles: 'Explosion (5"), Brèche (6+), Choc (Fixée), Fixation (1)',
@@ -1062,15 +943,6 @@ const ARMES_TIR = [
          Titaniques. --- */
       {
         nom: "Pulsar à gravitons",
-        stats: ["24", "2", "6", "3", "1"],
-        regles:
-          'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (2)',
-        traits: "Gravitons",
-      },
-      {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Pulsar à gravitons (Mechanicum)",
         stats: ["24", "2", "6", "3", "1"],
         regles:
           'Lourde (D), Explosion (3"), Brèche (6+), Choc (Fixée), Fixation (2)',
@@ -1144,31 +1016,11 @@ const ARMES_TIR = [
         traits: "Flammes",
       },
       {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Lance-flammes (Mechanicum)",
-        stats: ["Souffle", "1", "4", "5", "1"],
-        regles: "Souffle, Panique (1)",
-        traits: "Flammes",
-      },
-      {
-        nom: "Lance-flammes lourd (Mechanicum)",
-        stats: ["Souffle", "1", "5", "4", "1"],
-        regles: "Souffle, Panique (1)",
-        traits: "Flammes",
-      },
-      {
         // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
         // Auxilia doivent utiliser cette version de l'arme.
         nom: "Lance-flammes léger (Solar Auxilia)",
         stats: ["Souffle", "1", "3", "-", "1"],
         regles: "Souffle, Pistolet",
-        traits: "Flammes",
-      },
-      {
-        nom: "Lance-flammes lourd (Solar Auxilia)",
-        stats: ["Souffle", "1", "5", "4", "1"],
-        regles: "Souffle, Panique (1)",
         traits: "Flammes",
       },
       {
@@ -1267,20 +1119,6 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Canon laser (Solar Auxilia)",
-        stats: ["48", "1", "9", "2", "1"],
-        regles: "Lourde (D), Fléau des Blindages",
-        traits: "Laser",
-      },
-      {
-        nom: "Canon laser jumelé (Solar Auxilia)",
-        stats: ["48", "2", "9", "2", "1"],
-        regles: "Lourde (D), Fléau des Blindages",
-        traits: "Laser",
-      },
-      {
         nom: "Affût de canons laser",
         stats: ["48", "2", "9", "2", "3"],
         regles: "Fléau des Blindages",
@@ -1299,20 +1137,10 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme. Profil
-        // repris identique au Destructeur laser ci-dessus (relevé
-        // incertain sur le scan fourni — à revérifier au besoin).
-        nom: "Destructeur laser (Solar Auxilia)",
-        stats: ["36", "2", "10", "2", "2"],
-        regles: "Lourde (D), Fléau des Blindages",
-        traits: "Laser",
-      },
-      {
         // Arme du Destroyer Tank Hunter (Legacies, Solar Auxilia) :
-        // proche du Destructeur laser (Solar Auxilia) ci-dessus mais
-        // avec Surcharge (1) en plus (matériaux moins coûteux, moins
-        // fiable) — nom distinct, voir le texte d'ambiance du PDF.
+        // proche du Destructeur laser ci-dessus mais avec Surcharge (1)
+        // en plus (matériaux moins coûteux, moins fiable) — nom
+        // distinct, voir le texte d'ambiance du PDF.
         nom: "Destructeur laser Proteus",
         stats: ["36", "2", "10", "2", "2"],
         regles: "Lourde (D), Fléau des Blindages, Surcharge (1)",
@@ -1326,16 +1154,6 @@ const ARMES_TIR = [
       },
       {
         nom: "Laser à neutrons",
-        stats: ["24", "1", "9", "2", "2"],
-        regles: "Artillerie (D), Fléau des Blindages, Choc (Neutralisée)",
-        traits: "Laser",
-      },
-      {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme. Profil
-        // repris identique au Laser à neutrons ci-dessus (relevé
-        // incertain sur le scan fourni — à revérifier au besoin).
-        nom: "Laser à neutrons (Solar Auxilia)",
         stats: ["24", "1", "9", "2", "2"],
         regles: "Artillerie (D), Fléau des Blindages, Choc (Neutralisée)",
         traits: "Laser",
@@ -1374,16 +1192,8 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Multi-laser (Solar Auxilia)",
-        stats: ["36", "3", "6", "6", "1"],
-        regles: "Neutralisation (1)",
-        traits: "Laser",
-      },
-      {
         // Option du Carnodon Strike Tank (Legacies, Solar Auxilia) :
-        // profil jumelé du Multi-laser (Solar Auxilia) ci-dessus.
+        // profil jumelé du Multi-laser ci-dessus.
         nom: "Multi-laser jumelé (Solar Auxilia)",
         stats: ["36", "6", "6", "6", "1"],
         regles: "Neutralisation (1)",
@@ -1469,26 +1279,10 @@ const ARMES_TIR = [
         traits: "Fusion",
       },
       {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Fuseur (Mechanicum)",
-        stats: ["12", "1", "8", "2", "3"],
-        regles: "Fusion (6)",
-        traits: "Fusion",
-      },
-      {
         // Arsenal des Blood Angels : échange contre un pistolet à
         // plasma pour toute Figurine ayant le Trait Blood Angels,
         // +5 Points par Figurine.
         nom: "Pistolet Inferno",
-        stats: ["6", "1", "8", "2", "1"],
-        regles: "Pistolet, Fusion (3)",
-        traits: "Assaut, Fusion",
-      },
-      {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Pistolet Inferno (Solar Auxilia)",
         stats: ["6", "1", "8", "2", "1"],
         regles: "Pistolet, Fusion (3)",
         traits: "Assaut, Fusion",
@@ -1502,12 +1296,6 @@ const ARMES_TIR = [
       },
       {
         nom: "Multi-fuseur",
-        stats: ["24", "1", "8", "2", "3"],
-        regles: "Lourde (FT), Fusion (8)",
-        traits: "Fusion",
-      },
-      {
-        nom: "Multi-fuseur (Mechanicum)",
         stats: ["24", "1", "8", "2", "3"],
         regles: "Lourde (FT), Fusion (8)",
         traits: "Fusion",
@@ -1924,34 +1712,6 @@ const ARMES_TIR = [
         traits: "Assaut, Plasma",
       },
       {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Pistolet à plasma (Mechanicum) — Tir soutenu",
-        stats: ["12", "1", "6", "4", "1"],
-        regles: "Pistolet, Brèche (6+)",
-        traits: "Assaut, Plasma",
-      },
-      {
-        nom: "Pistolet à plasma (Mechanicum) — Tir maximal",
-        stats: ["12", "1", "7", "4", "1"],
-        regles: "Pistolet, Brèche (5+), Surcharge (1)",
-        traits: "Assaut, Plasma",
-      },
-      /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
-         Solar Auxilia doivent utiliser cette version de l'arme. --- */
-      {
-        nom: "Pistolet à plasma (Solar Auxilia) — Tir soutenu",
-        stats: ["12", "1", "6", "4", "1"],
-        regles: "Pistolet, Brèche (6+)",
-        traits: "Assaut, Plasma",
-      },
-      {
-        nom: "Pistolet à plasma (Solar Auxilia) — Tir maximal",
-        stats: ["12", "1", "7", "4", "1"],
-        regles: "Pistolet, Brèche (5+), Surcharge (1)",
-        traits: "Assaut, Plasma",
-      },
-      {
         nom: "Pistolet à plasma suralimenté",
         stats: ["12", "3", "8", "4", "1"],
         regles: "Pistolet, Brèche (4+), Surcharge (1)",
@@ -2049,20 +1809,6 @@ const ARMES_TIR = [
       },
       {
         nom: "Destructeur à plasma Executioner — Tir maximal",
-        stats: ["36", "1", "8", "4", "2"],
-        regles: 'Explosion (5"), Brèche (4+), Surcharge (1)',
-        traits: "Plasma",
-      },
-      /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
-         Solar Auxilia doivent utiliser cette version de l'arme. --- */
-      {
-        nom: "Destructeur à plasma Executioner (Solar Auxilia) — Tir soutenu",
-        stats: ["36", "1", "8", "4", "1"],
-        regles: 'Explosion (5"), Brèche (5+)',
-        traits: "Plasma",
-      },
-      {
-        nom: "Destructeur à plasma Executioner (Solar Auxilia) — Tir maximal",
         stats: ["36", "1", "8", "4", "2"],
         regles: 'Explosion (5"), Brèche (4+), Surcharge (1)',
         traits: "Plasma",
@@ -2230,14 +1976,6 @@ const ARMES_TIR = [
         regles: "Brèche (5+)",
         traits: "Plasma",
       },
-      /* --- Arsenal des Taghmata du Mechanicum (Liber Mechanicum). --- */
-      {
-        // Les Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Fusil à plasma phasé (Mechanicum)",
-        stats: ["24", "3", "5", "3", "1"],
-        regles: "Brèche (5+)",
-        traits: "Plasma",
-      },
       {
         nom: "Fusil à plasma phasé jumelé",
         stats: ["24", "4", "5", "3", "1"],
@@ -2282,14 +2020,6 @@ const ARMES_TIR = [
         nom: "Nettoyeur irad jumelé",
         stats: ["Souffle", "1", "2", "5", "2"],
         regles: "Souffle, Phage (E), Empoisonnée (2+), Panique (1)",
-        traits: "Rad",
-      },
-      {
-        // Arsenal des Taghmata du Mechanicum (Liber Mechanicum) : les
-        // Unités Taghmata doivent utiliser cette version de l'arme.
-        nom: "Grenades Rad (Mechanicum)",
-        stats: ["8", "1", "4", "3", "1"],
-        regles: "Empoisonnée (2+), Phage (E)",
         traits: "Rad",
       },
       {
@@ -2523,12 +2253,6 @@ const ARMES_TIR = [
       /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
          Solar Auxilia doivent utiliser cette version de l'arme. --- */
       {
-        nom: "Serpentine volkite (Solar Auxilia)",
-        stats: ["10", "2", "5", "5", "1"],
-        regles: "Pistolet, Déflagration (5)",
-        traits: "Assaut, Volkite",
-      },
-      {
         nom: "Chargeur volkite (Solar Auxilia)",
         stats: ["15", "2", "5", "5", "1"],
         regles: "Déflagration (5)",
@@ -2538,12 +2262,6 @@ const ARMES_TIR = [
         nom: "Arquebuse volkite (Solar Auxilia)",
         stats: ["30", "2", "5", "5", "1"],
         regles: "Déflagration (6)",
-        traits: "Volkite",
-      },
-      {
-        nom: "Couleuvrine volkite (Solar Auxilia)",
-        stats: ["45", "3", "6", "5", "1"],
-        regles: "Lourde (PF), Déflagration (6)",
         traits: "Volkite",
       },
       {
@@ -3679,20 +3397,6 @@ const ARMES_MELEE = [
         regles: "Brèche (5+), Atout du Duelliste (1)",
         traits: "Charnabal",
       },
-      /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
-         Solar Auxilia doivent utiliser cette version de l'arme. --- */
-      {
-        nom: "Sabre charnabal (Solar Auxilia)",
-        stats: ["+1", "A", "F", "-", "1"],
-        regles: "Brèche (6+), Atout du Duelliste (1)",
-        traits: "Charnabal",
-      },
-      {
-        nom: "Tabar charnabal (Solar Auxilia)",
-        stats: ["1", "A", "+1", "-", "1"],
-        regles: "Brèche (6+), Atout du Duelliste (1)",
-        traits: "Charnabal",
-      },
     ],
   },
   {
@@ -3758,14 +3462,6 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Épée énergétique (Solar Auxilia)",
-        stats: ["1", "A", "F", "3", "1"],
-        regles: "Brèche (6+)",
-        traits: "Énergétique",
-      },
-      {
         nom: "Hache énergétique",
         stats: ["-1", "A", "+1", "3", "1"],
         regles: "Brèche (5+)",
@@ -3819,14 +3515,6 @@ const ARMES_MELEE = [
       },
       {
         nom: "Gantelet énergétique",
-        stats: ["-3", "A", "+4", "2", "2"],
-        regles: "-",
-        traits: "Énergétique",
-      },
-      {
-        // Arsenal des Solar Auxilia (Liber Auxilia) : les Unités Solar
-        // Auxilia doivent utiliser cette version de l'arme.
-        nom: "Gantelet énergétique (Solar Auxilia)",
         stats: ["-3", "A", "+4", "2", "2"],
         regles: "-",
         traits: "Énergétique",
@@ -4551,14 +4239,6 @@ const ARMES_MELEE = [
     armes: [
       {
         nom: "Lame de parangon",
-        stats: ["1", "A", "+1", "2", "1"],
-        regles: "Touche Critique (6+)",
-        traits: "-",
-      },
-      /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
-         Solar Auxilia doivent utiliser cette version de l'arme. --- */
-      {
-        nom: "Lame de parangon (Solar Auxilia)",
         stats: ["1", "A", "+1", "2", "1"],
         regles: "Touche Critique (6+)",
         traits: "-",

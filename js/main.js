@@ -568,16 +568,35 @@ function activerClinDoeilErebus() {
 }
 
 /* ----------------------------------------------------------
+   Empreinte SHA-256 (hex) d'une chaîne, via l'API SubtleCrypto du
+   navigateur. Utilisée par les clins d'œil au clavier ci-dessous pour
+   reconnaître un mot-clé tapé sans jamais l'écrire en clair dans ce
+   fichier — bien essayé, jeune acolyte : ni le code source, ni
+   l'inspecteur, ni la recherche plein texte ne révéleront le mot-clé,
+   seule son empreinte y figure.
+   ---------------------------------------------------------- */
+async function empreinteSHA256(texte) {
+  // Contexte non sécurisé (vieux navigateur, etc.) : SubtleCrypto
+  // indisponible, retourne une empreinte qui ne pourra jamais matcher.
+  if (!window.crypto || !window.crypto.subtle) return "";
+  const donnees = new TextEncoder().encode(texte);
+  const empreinte = await crypto.subtle.digest("SHA-256", donnees);
+  return Array.from(new Uint8Array(empreinte))
+    .map((octet) => octet.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+/* ----------------------------------------------------------
    CLIN D'ŒIL — Nuit Éternelle (Konrad Curze)
-   Taper "night lords" au clavier (accents/majuscules ignorés, n'importe
-   où sur le site) bascule un thème sombre en hommage aux Night Lords et
-   à leur philosophie de la peur comme outil de contrôle. Purement
-   décoratif — une seule classe sur <body> ; la palette est entièrement
-   gérée par CSS (voir "Nuit Éternelle" dans css/style.css).
+   Taper un mot-clé précis au clavier (accents/majuscules ignorés,
+   n'importe où sur le site) bascule un thème sombre en hommage aux
+   Night Lords et à leur philosophie de la peur comme outil de contrôle.
+   Purement décoratif — une seule classe sur <body> ; la palette est
+   entièrement gérée par CSS (voir "Nuit Éternelle" dans css/style.css).
    Buffer des N dernières touches tapées (comme un code Konami), ignoré
    tant que le focus est dans un champ de saisie (input, textarea,
-   contenteditable) pour ne pas basculer le thème pendant qu'on tape
-   "night lords" dans une barre de recherche par coïncidence.
+   contenteditable) pour ne pas basculer le thème pendant qu'on tape le
+   mot-clé dans une barre de recherche par coïncidence.
    Remis à zéro après un basculement pour ne pas re-basculer en boucle
    si l'utilisateur laisse la séquence au clavier.
    État persisté dans sessionStorage (pas localStorage : contrairement à
@@ -588,7 +607,10 @@ function activerClinDoeilErebus() {
    ---------------------------------------------------------- */
 function activerNuitEternelle() {
   const CLE_STOCKAGE = "hh-nuit-eternelle";
-  const SEQUENCE = "night lords".split("");
+  // Empreinte SHA-256 du mot-clé (bien essayé, jeune acolyte).
+  const EMPREINTE =
+    "ad2e9e3514ce8a4e248c5cf62d4c8c3c209a7519ecb82cea6e912fcdbfbbdf79";
+  const LONGUEUR = 11;
   let buffer = [];
 
   try {
@@ -600,7 +622,7 @@ function activerNuitEternelle() {
     // simplement pas mémorisé d'une page à l'autre.
   }
 
-  document.addEventListener("keydown", (evenement) => {
+  document.addEventListener("keydown", async (evenement) => {
     const cible = evenement.target;
     const dansChampDeSaisie =
       cible &&
@@ -612,9 +634,12 @@ function activerNuitEternelle() {
     if (dansChampDeSaisie || evenement.key.length !== 1) return;
 
     buffer.push(evenement.key.toLowerCase());
-    if (buffer.length > SEQUENCE.length) buffer.shift();
+    if (buffer.length > LONGUEUR) buffer.shift();
 
-    if (buffer.join("") === SEQUENCE.join("")) {
+    if (
+      buffer.length === LONGUEUR &&
+      (await empreinteSHA256(buffer.join(""))) === EMPREINTE
+    ) {
       const actif = document.body.classList.toggle("nuit-eternelle");
       try {
         sessionStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
@@ -623,6 +648,48 @@ function activerNuitEternelle() {
         // cette page, juste pas mémorisé.
       }
       buffer = [];
+    }
+  });
+}
+
+/* ----------------------------------------------------------
+   CLIN D'ŒIL — Zone Mortalis
+   Même principe qu'activerNuitEternelle ci-dessus (mot-clé tapé au
+   clavier, accents/majuscules ignorés, n'importe où sur le site, hors
+   champ de saisie) mais redirige vers un site compagnon au lieu de
+   basculer un thème. Ni le mot-clé ni l'adresse de destination ne sont
+   écrits en clair ici (bien essayé, jeune acolyte) : le mot-clé n'est
+   comparé que via son empreinte SHA-256, et l'adresse n'est stockée
+   qu'encodée en base64, décodée uniquement au moment de rediriger — un
+   coup d'œil au code source ne suffit donc pas à découvrir où mène ce
+   raccourci.
+   ---------------------------------------------------------- */
+function activerZoneMortalis() {
+  const EMPREINTE =
+    "f5485ade4ddc307998f99c0f5a911ecd4dac60c9957b1e151ea54be432473f65";
+  const LONGUEUR = 13;
+  const DESTINATION_B64 =
+    "aHR0cHM6Ly9qZWFuLWRlc2FpbnRhbmdlbC5naXRodWIuaW8vem9uZS1tb3J0YWxpcy8=";
+  let buffer = [];
+
+  document.addEventListener("keydown", async (evenement) => {
+    const cible = evenement.target;
+    const dansChampDeSaisie =
+      cible &&
+      (cible.tagName === "INPUT" ||
+        cible.tagName === "TEXTAREA" ||
+        cible.isContentEditable);
+    if (dansChampDeSaisie || evenement.key.length !== 1) return;
+
+    buffer.push(evenement.key.toLowerCase());
+    if (buffer.length > LONGUEUR) buffer.shift();
+
+    if (
+      buffer.length === LONGUEUR &&
+      (await empreinteSHA256(buffer.join(""))) === EMPREINTE
+    ) {
+      buffer = [];
+      window.location.href = atob(DESTINATION_B64);
     }
   });
 }
@@ -1519,6 +1586,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activerClinDoeilErebus();
   activerNuitEternelle();
+  activerZoneMortalis();
   activerArchivesScellees();
 
   /* ----------------------------------------------------------

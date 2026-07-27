@@ -827,7 +827,25 @@
         window.location.href = url;
       });
 
-      // --- EASTER EGG : taper "chaos" -> 4 démons ---
+      // --- EASTER EGG : taper un mot-clé précis -> 4 démons ---
+      // Le mot-clé n'est jamais écrit en clair ici (bien essayé, jeune
+      // acolyte) : seule son empreinte SHA-256 est comparée à ce qui est
+      // tapé au clavier (voir empreinteSHA256Chaos ci-dessous).
+
+      async function empreinteSHA256Chaos(texte) {
+        // Contexte non sécurisé (vieux navigateur, etc.) : SubtleCrypto
+        // indisponible, retourne une empreinte qui ne pourra jamais matcher.
+        if (!window.crypto || !window.crypto.subtle) return "";
+        const donnees = new TextEncoder().encode(texte);
+        const empreinte = await crypto.subtle.digest("SHA-256", donnees);
+        return Array.from(new Uint8Array(empreinte))
+          .map((octet) => octet.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      const EMPREINTE_CHAOS =
+        "5d5bddb577102d0a960bcf6fea9050c10fe5e9feddcb5c2170ccab872db9ee87";
+      const LONGUEUR_CHAOS = 5;
 
       let typedBuffer = "";
       const chaosTargets = [
@@ -853,15 +871,18 @@
         },
       ];
 
-      document.addEventListener("keydown", (e) => {
-        // Buffer pour le mot "chaos"
+      document.addEventListener("keydown", async (e) => {
+        // Buffer pour le mot-clé (voir EMPREINTE_CHAOS ci-dessus)
         if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
           typedBuffer += e.key.toLowerCase();
-          if (typedBuffer.length > 5) {
-            typedBuffer = typedBuffer.slice(-5);
+          if (typedBuffer.length > LONGUEUR_CHAOS) {
+            typedBuffer = typedBuffer.slice(-LONGUEUR_CHAOS);
           }
 
-          if (typedBuffer === "chaos") {
+          if (
+            typedBuffer.length === LONGUEUR_CHAOS &&
+            (await empreinteSHA256Chaos(typedBuffer)) === EMPREINTE_CHAOS
+          ) {
             chaosTargets.forEach((t) => {
               const img = document.querySelector(t.selector);
               if (img) {
