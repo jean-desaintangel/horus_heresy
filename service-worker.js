@@ -28,7 +28,7 @@
    retélécharge tout au prochain passage en ligne.
    ============================================================ */
 
-const CACHE_VERSION = "v8";
+const CACHE_VERSION = "v9";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -117,7 +117,7 @@ const PRECACHE_URLS = [
   "assets/favicon/favicon_ultramarine.png",
   "assets/favicon/favicon_white_scars.png",
   "assets/favicon/favicon_word_bearer.jpg",
-  "assets/favicon/favicon_world_eaters.jpg",
+  "assets/favicon/favicon_world_eaters.png",
 
   // Images d'illustration (accueil, skin Night Lords...)
   "assets/img/erebus.webp",

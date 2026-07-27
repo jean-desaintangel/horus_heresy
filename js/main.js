@@ -743,7 +743,7 @@ if ("serviceWorker" in navigator) {
     "favicon_ultramarine.png",
     "favicon_white_scars.png",
     "favicon_word_bearer.jpg",
-    "favicon_world_eaters.jpg",
+    "favicon_world_eaters.png",
   ];
   const DUREE_MS = 5 * 60 * 1000;
   const CLE_STOCKAGE_FAVICON = "horus-heresy-favicon";
