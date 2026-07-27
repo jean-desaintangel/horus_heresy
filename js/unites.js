@@ -2475,6 +2475,37 @@ function assainirPDF(texte) {
   return String(texte).replace(/★/g, "*").replace(/⚠/g, "!");
 }
 
+// Couleurs d'export (PDF + Word) : reprises des variables CSS actives sur
+// <body> (--accent/--accent-clair/--titre, voir css/style.css), pour que
+// les documents téléchargés reprennent l'identité colorée de la
+// Légion/Faction en cours (recolorée par le skin actif) plutôt qu'un rendu
+// entièrement noir & blanc — mêmes couleurs qu'à l'écran, y compris leur
+// repli par défaut (bordeaux/or, voir :root) quand aucun skin n'est actif.
+function couleursExport() {
+  const style = getComputedStyle(document.body);
+  const lire = (nom, repli) => style.getPropertyValue(nom).trim() || repli;
+  return {
+    accent: lire("--accent", "#8b0000"),
+    accentClair: lire("--accent-clair", "#a13030"),
+    or: lire("--titre", "#8a6a2c"),
+  };
+}
+
+// "#rrggbb" -> [r, g, b] (0-255), pour doc.setTextColor/setDrawColor/
+// setFillColor de jsPDF, qui n'acceptent pas les couleurs CSS directement.
+function hexVersRGB(hex) {
+  const nombre = parseInt(hex.replace("#", ""), 16);
+  return [(nombre >> 16) & 255, (nombre >> 8) & 255, nombre & 255];
+}
+
+// Éclaircit une couleur RGB en la mélangeant avec du blanc (ratio 0-1 = part
+// de blanc) : les couleurs d'accent sont souvent trop sombres (ex. Iron
+// Warriors #4a4a4a, Night Lords #10151f) pour servir telles quelles de fond
+// de ligne de tableau alternée.
+function eclaircirRGB([r, g, b], ratio) {
+  return [r, g, b].map((c) => Math.round(c + (255 - c) * ratio));
+}
+
 // Charge une image locale (chemin relatif, ex. un blason de Légion
 // sous assets/logo_legions/) en Data URL, pour l'incorporer au PDF
 // (doc.addImage) ou au Word exporté (<img src="data:...">). Retourne
@@ -2639,6 +2670,13 @@ async function genererPDF() {
   let y = MARGE + PAD;
   let pageOuverte = false; // la 1ère page de jsPDF existe déjà par défaut
 
+  // Couleurs d'accent (Légion/Faction en cours) et d'or (constante du
+  // site, "titres, bordures précieuses"), voir couleursExport().
+  const couleurs = couleursExport();
+  const accentRGB = hexVersRGB(couleurs.accent);
+  const orRGB = hexVersRGB(couleurs.or);
+  const ligneClaireRGB = eclaircirRGB(accentRGB, 0.88);
+
   function nouvellePage() {
     if (pageOuverte) doc.addPage();
     pageOuverte = true;
@@ -2649,30 +2687,35 @@ async function genererPDF() {
     if (y + hauteur > basPage) nouvellePage();
   }
 
-  function titreSection(texte, taille) {
+  function titreSection(texte, taille, couleur) {
     assurerEspace(taille + 6);
     doc.setFont("times", "bold");
     doc.setFontSize(taille);
+    doc.setTextColor(...(couleur || accentRGB));
     doc.text(assainirPDF(texte), contentX, y);
+    doc.setTextColor(0, 0, 0);
     y += taille + 4;
   }
 
-  function paragraphe(texte, taille, style) {
+  function paragraphe(texte, taille, style, couleur) {
     doc.setFont("times", style || "normal");
     doc.setFontSize(taille);
+    if (couleur) doc.setTextColor(...couleur);
     const interligne = taille * 1.3;
     for (const ligne of doc.splitTextToSize(assainirPDF(texte), contentW)) {
       assurerEspace(interligne);
       doc.text(ligne, contentX, y);
       y += interligne;
     }
+    if (couleur) doc.setTextColor(0, 0, 0);
   }
 
   // Identique à paragraphe, mais chaque ligne est centrée sur la
   // largeur de contenu (page de garde : identité de Légion).
-  function paragrapheCentre(texte, taille, style) {
+  function paragrapheCentre(texte, taille, style, couleur) {
     doc.setFont("times", style || "normal");
     doc.setFontSize(taille);
+    if (couleur) doc.setTextColor(...couleur);
     const interligne = taille * 1.3;
     for (const ligne of doc.splitTextToSize(assainirPDF(texte), contentW)) {
       assurerEspace(interligne);
@@ -2680,6 +2723,7 @@ async function genererPDF() {
       doc.text(ligne, contentX + (contentW - largeur) / 2, y);
       y += interligne;
     }
+    if (couleur) doc.setTextColor(0, 0, 0);
   }
 
   // "Titre : texte" avec le titre en gras et le texte en romain,
@@ -2701,7 +2745,9 @@ async function genererPDF() {
     );
     assurerEspace(interligne);
     doc.setFont("times", "bold");
+    doc.setTextColor(...accentRGB);
     doc.text(prefixe, contentX, y);
+    doc.setTextColor(0, 0, 0);
     doc.setFont("times", "normal");
     if (lignes[0]) doc.text(lignes[0], contentX + largeurPrefixe, y);
     y += interligne;
@@ -2730,11 +2776,11 @@ async function genererPDF() {
         textColor: [0, 0, 0],
       },
       headStyles: {
-        fillColor: [40, 40, 40],
+        fillColor: accentRGB,
         textColor: 255,
         fontStyle: "bold",
       },
-      alternateRowStyles: { fillColor: [242, 242, 242] },
+      alternateRowStyles: { fillColor: ligneClaireRGB },
     });
     y = doc.lastAutoTable.finalY + 8;
   }
@@ -2742,11 +2788,12 @@ async function genererPDF() {
   function definitionsPDF(items) {
     assurerEspace(20);
     y += 4;
-    doc.setDrawColor(120);
-    doc.setLineWidth(0.5);
+    doc.setDrawColor(...orRGB);
+    doc.setLineWidth(0.75);
     doc.line(contentX, y, pageW - MARGE - PAD, y);
+    doc.setDrawColor(0);
     y += 10;
-    titreSection("Définitions", 10);
+    titreSection("Définitions", 10, orRGB);
     for (const item of items) ligneEtiquette(item.nom, item.texte, " — ");
   }
 
@@ -2756,10 +2803,13 @@ async function genererPDF() {
     const points = assainirPDF(donnees.points);
     doc.setFont("times", "bold");
     doc.setFontSize(15);
+    doc.setTextColor(...accentRGB);
     doc.text(nom, contentX, y);
     doc.setFontSize(13);
+    doc.setTextColor(...orRGB);
     const largeurPoints = doc.getTextWidth(points);
     doc.text(points, pageW - MARGE - PAD - largeurPoints, y);
+    doc.setTextColor(0, 0, 0);
     y += 16;
     if (donnees.compositionTexte) {
       doc.setFont("times", "italic");
@@ -2781,9 +2831,10 @@ async function genererPDF() {
       y += 12;
     }
     y += 4;
-    doc.setDrawColor(0);
-    doc.setLineWidth(0.75);
+    doc.setDrawColor(...accentRGB);
+    doc.setLineWidth(1);
     doc.line(contentX, y, pageW - MARGE - PAD, y);
+    doc.setDrawColor(0);
     y += 10;
 
     for (const bloc of donnees.blocs) {
@@ -2830,6 +2881,7 @@ async function genererPDF() {
     const ECART = largeurLogo > 0 ? 10 : 0;
     doc.setFont("times", "bold");
     doc.setFontSize(16);
+    doc.setTextColor(...accentRGB);
     const largeurTexte = doc.getTextWidth(nomLegionTexte);
     const largeurBloc = largeurLogo + ECART + largeurTexte;
     const hauteurBloc = Math.max(hauteurLogo, 16);
@@ -2850,6 +2902,7 @@ async function genererPDF() {
       xBloc + largeurLogo + ECART,
       y + hauteurBloc / 2 + 6,
     );
+    doc.setTextColor(0, 0, 0);
     y += hauteurBloc + 8;
 
     paragrapheCentre(texteIdentiteLegion(skin), 9.5);
@@ -2884,6 +2937,7 @@ async function genererPDF() {
       const nomTitanTexte = assainirPDF(skinTitan.nom);
       doc.setFont("times", "bold");
       doc.setFontSize(16);
+      doc.setTextColor(...accentRGB);
       const largeurTexte = doc.getTextWidth(nomTitanTexte);
       const largeurLogos = logos.reduce(
         (somme, logo) => somme + logo.largeur + ECART,
@@ -2905,6 +2959,7 @@ async function genererPDF() {
         xBloc += logos[0].largeur + ECART;
       }
       doc.text(nomTitanTexte, xBloc, y + hauteurBloc / 2 + 6);
+      doc.setTextColor(0, 0, 0);
       xBloc += largeurTexte + ECART;
       if (logos[1]) {
         doc.addImage(
@@ -2957,6 +3012,7 @@ async function genererPDF() {
         const ECART = largeurLogo > 0 ? 10 : 0;
         doc.setFont("times", "bold");
         doc.setFontSize(16);
+        doc.setTextColor(...accentRGB);
         const largeurTexte = doc.getTextWidth(nomDesignationTexte);
         const largeurBloc = largeurLogo + ECART + largeurTexte;
         const hauteurBloc = Math.max(largeurLogo > 0 ? hauteurLogo : 0, 16);
@@ -2977,20 +3033,21 @@ async function genererPDF() {
           xBloc + largeurLogo + ECART,
           y + hauteurBloc / 2 + 6,
         );
+        doc.setTextColor(0, 0, 0);
         y += hauteurBloc + 8;
         if (nomCohorte) {
           paragrapheCentre("Cohorte : " + nomCohorte, 9.5);
           y += 6;
         }
       } else if (nomCohorte) {
-        paragrapheCentre(nomCohorte, 16, "bold");
+        paragrapheCentre(nomCohorte, 16, "bold", accentRGB);
         y += 8;
       }
     }
   }
 
   const total = document.getElementById("total-armee");
-  if (total) paragraphe(total.textContent.trim(), 11, "bold");
+  if (total) paragraphe(total.textContent.trim(), 11, "bold", orRGB);
   paragraphe(
     "Générée le " + new Date().toLocaleDateString("fr-FR"),
     9,
@@ -3001,7 +3058,7 @@ async function genererPDF() {
   if (resume && resume.textContent.trim()) {
     titreSection("Structure de l'armée", 12);
     for (const detachement of donneesResume(resume)) {
-      paragraphe(detachement.titre, 10, "bold");
+      paragraphe(detachement.titre, 10, "bold", accentRGB);
       for (const item of detachement.items) paragraphe("• " + item, 9);
       y += 4;
     }
@@ -3015,7 +3072,7 @@ async function genererPDF() {
       // Ligne vide entre les blocs Tactica de Légion / Posture /
       // Réaction Avancée (aucune avant le premier).
       if (indice > 0) y += 11.7;
-      paragraphe(section.titre, 10.5, "bold");
+      paragraphe(section.titre, 10.5, "bold", orRGB);
       for (const p of section.paragraphes) {
         paragraphe(p.texte, 9, p.style === "bold" ? "bold" : "normal");
       }
@@ -3047,7 +3104,7 @@ async function genererPDF() {
       "Désignation de Legiones Auxilia : " + contenuDesignation.designation.nom,
       12,
     );
-    paragraphe(contenuDesignation.regle.nom, 10.5, "bold");
+    paragraphe(contenuDesignation.regle.nom, 10.5, "bold", orRGB);
     paragraphe(contenuDesignation.regle.texte, 9);
   }
 
@@ -3092,8 +3149,8 @@ async function genererPDF() {
   // compris la page de garde) : plus simple et plus robuste que de
   // calculer sa hauteur à l'avance quand le contenu peut déborder sur
   // une page suivante (table ou bloc Définitions trop longs).
-  doc.setDrawColor(0);
-  doc.setLineWidth(1);
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(1.2);
   for (let i = 1; i <= doc.getNumberOfPages(); i++) {
     doc.setPage(i);
     doc.rect(MARGE, MARGE, pageW - 2 * MARGE, pageH - 2 * MARGE);
@@ -3185,21 +3242,31 @@ function carteWordHTML(donnees) {
 }
 
 async function genererWordHTML() {
+  // Couleurs d'accent (Légion/Faction en cours) et d'or (constante du
+  // site) reprises telles quelles dans la feuille de style : le filtre
+  // HTML de Word ne gère pas fiablement les variables CSS (var(--x)), d'où
+  // des valeurs hex injectées en dur — voir couleursExport(), déjà utilisée
+  // par le PDF (genererPDF) pour la même teinte.
+  const couleurs = couleursExport();
+  const accent = couleurs.accent;
+  const or = couleurs.or;
   const style = `
     body { font-family: 'Times New Roman', serif; font-size: 11pt; color: #000; }
-    h1 { font-size: 20pt; margin-bottom: 4pt; }
-    h2 { font-size: 14pt; margin: 14pt 0 4pt; border-bottom: 1pt solid #000; padding-bottom: 2pt; }
+    h1 { font-size: 20pt; margin-bottom: 4pt; color: ${accent}; }
+    h2 { font-size: 14pt; margin: 14pt 0 4pt; border-bottom: 2pt solid ${accent}; padding-bottom: 2pt; color: ${accent}; }
     .carte { margin-bottom: 20pt; page-break-inside: avoid; }
-    .carte-trait { border: none; border-top: 2pt solid #000; margin: 4pt 0 10pt; }
-    .entete { font-weight: bold; font-size: 14pt; }
-    .entete span:last-child { float: right; }
-    .composition { font-style: italic; font-size: 10pt; margin: 2pt 0 8pt; }
+    .carte-trait { border: none; border-top: 2.5pt solid ${accent}; margin: 4pt 0 10pt; }
+    .entete { font-weight: bold; font-size: 14pt; color: ${accent}; }
+    .entete span:last-child { float: right; color: ${or}; }
+    .composition { font-style: italic; font-size: 10pt; margin: 2pt 0 8pt; color: #333; }
     table { border-collapse: collapse; width: 100%; margin: 6pt 0; font-size: 9pt; }
     th, td { border: 1pt solid #000; padding: 3pt 5pt; text-align: center; }
-    th { background: #e6e6e6; }
+    th { background: ${accent}; color: #fff; }
     p.ligne { margin: 4pt 0; font-size: 9.5pt; }
-    .definitions { margin-top: 8pt; border-top: 1pt solid #999; padding-top: 6pt; }
+    p.ligne strong { color: ${accent}; }
+    .definitions { margin-top: 8pt; border-top: 1.5pt solid ${or}; padding-top: 6pt; }
     .definitions p { margin: 3pt 0; font-size: 9pt; }
+    .definitions p strong { color: ${accent}; }
     hr { border: none; border-top: 1pt solid #000; margin: 6pt 0 10pt; }
     /* Tableau plutôt que flexbox : le moteur HTML de Word ne gère pas
        fiablement flexbox, mais centre correctement une table via
@@ -3207,11 +3274,14 @@ async function genererWordHTML() {
     .legion-table { border-collapse: collapse; width: auto; margin: 0 auto 6pt; }
     .legion-table td { border: none; padding: 0 6pt; text-align: left; vertical-align: middle; }
     .legion-logo { max-height: 50pt; max-width: 90pt; display: block; }
-    .legion-nom { font-size: 16pt; font-weight: bold; }
+    .legion-nom { font-size: 16pt; font-weight: bold; color: ${accent}; }
     .legion-identite { text-align: center; font-size: 9.5pt; margin: 0 0 8pt; }
-    .cohorte-titre { text-align: center; font-size: 16pt; font-weight: bold; margin: 0 0 8pt; }
-    .rite-titre { font-size: 11pt; margin-top: 8pt; }
+    .cohorte-titre { text-align: center; font-size: 16pt; font-weight: bold; margin: 0 0 8pt; color: ${accent}; }
+    .total-armee { color: ${or}; }
+    .detachement-titre { color: ${accent}; }
+    .rite-titre { font-size: 11pt; margin-top: 8pt; color: ${or}; }
     .rite-sep { margin: 0; font-size: 11pt; line-height: 11pt; }
+    .regle-nom { color: ${or}; }
     .tampon { float: right; width: 90pt; margin: 0 0 8pt 8pt; opacity: .85; filter: alpha(opacity=85); }
   `;
   let corps = "";
@@ -3328,7 +3398,9 @@ async function genererWordHTML() {
   const total = document.getElementById("total-armee");
   if (total)
     corps +=
-      "<p><strong>" + echapperHTML(total.textContent.trim()) + "</strong></p>";
+      '<p class="total-armee"><strong>' +
+      echapperHTML(total.textContent.trim()) +
+      "</strong></p>";
   corps +=
     "<p><em>Générée le " +
     echapperHTML(new Date().toLocaleDateString("fr-FR")) +
@@ -3338,7 +3410,9 @@ async function genererWordHTML() {
     corps += "<h2>Structure de l'armée</h2>";
     for (const detachement of donneesResume(resume)) {
       corps +=
-        "<p><strong>" + echapperHTML(detachement.titre) + "</strong></p><ul>";
+        '<p class="detachement-titre"><strong>' +
+        echapperHTML(detachement.titre) +
+        "</strong></p><ul>";
       for (const item of detachement.items)
         corps += "<li>" + echapperHTML(item) + "</li>";
       corps += "</ul>";
@@ -3393,7 +3467,7 @@ async function genererWordHTML() {
       echapperHTML(contenuDesignation.designation.nom) +
       "</h2>";
     corps +=
-      "<p><strong>" +
+      '<p class="regle-nom"><strong>' +
       echapperHTML(contenuDesignation.regle.nom) +
       "</strong></p>";
     corps += "<p>" + echapperHTML(contenuDesignation.regle.texte) + "</p>";

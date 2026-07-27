@@ -7387,7 +7387,7 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "bolter",
-        ajoute: "Découpeur laser (Légionnaire)",
+        ajoute: "Découpeur laser¹ (Légionnaire)",
       },
       {
         type: "case",
@@ -8209,7 +8209,7 @@ const UNITES = [
         parTranche: 5,
         parTrancheMax: 2,
         groupe: "arme-lourde-pl",
-        ajoute: "Découpeur laser (à la place du bolter)",
+        ajoute: "Découpeur laser¹ (à la place du bolter)",
       },
       {
         remplaceIntegral: "Bolter",
@@ -19396,7 +19396,7 @@ const UNITES = [
         parTranche: 5,
         parTrancheMax: 1,
         groupe: "arme-lourde-immortel",
-        ajoute: "Découpeur laser (à la place du bolter)",
+        ajoute: "Découpeur laser¹ (à la place du bolter)",
       },
       // Iron Hands Legacy Wargear (iron_hands_wargear.pdf), section
       // « Medusan Immortals Squad » : remplace le 4e point d'options
