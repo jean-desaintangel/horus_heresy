@@ -393,6 +393,17 @@ function equipementFinal(unite, instance, sansOption = null) {
     if (i !== -1) equip.splice(i, 1);
   };
 
+  // Options `quantite` posant `remplaceIntegral` (nom exact d'une
+  // entrée d'`equipement`) : plusieurs options distinctes (parfois
+  // hors `groupe` commun, ex : Les Larmes de l'Ange, IXe Légion)
+  // peuvent viser le même objet de base. Tant que la somme de leurs
+  // valeurs reste sous l'effectif de l'Unité, il reste au moins une
+  // Figurine avec l'objet de départ : on le laisse affiché (comme un
+  // `case`/`choix` sans `remplace`, purement descriptif). Une fois le
+  // total au moins égal à l'effectif, plus aucune Figurine ne l'a :
+  // on le retire une seule fois après la boucle.
+  const totalRemplaceIntegral = new Map();
+
   for (const opt of unite.options) {
     if (opt.id === sansOption || !optionPermise(opt, instance)) continue;
     const val = instance.valeurs[opt.id];
@@ -431,9 +442,32 @@ function equipementFinal(unite, instance, sansOption = null) {
     } else if (opt.type === "multi") {
       for (const i of val) equip.push((opt.prefixe || "") + opt.choix[i].nom);
     } else if (opt.type === "quantite") {
-      if (val > 0) equip.push(val + " × " + opt.ajoute);
+      if (val > 0) {
+        equip.push(val + " × " + opt.ajoute);
+        // `remplaceIntegral` accepte aussi un tableau : une même
+        // option peut faire disparaître PLUSIEURS objets de base à la
+        // fois (ex : « Paire de griffes Lightning » remplaçant à la
+        // fois le bolter ET le pistolet bolter — voir
+        // optionsEscouadeEtatMajorVeteran, js/unites-data.js).
+        if (opt.remplaceIntegral) {
+          const cibles = Array.isArray(opt.remplaceIntegral)
+            ? opt.remplaceIntegral
+            : [opt.remplaceIntegral];
+          for (const cible of cibles) {
+            totalRemplaceIntegral.set(
+              cible,
+              (totalRemplaceIntegral.get(cible) || 0) + val,
+            );
+          }
+        }
+      }
     }
   }
+
+  for (const [nom, total] of totalRemplaceIntegral) {
+    if (total >= (instance.effectif || 1)) retirer(nom);
+  }
+
   return equip;
 }
 
@@ -670,6 +704,21 @@ function segmentsIdentiteActuelle() {
   return segments.filter(Boolean);
 }
 
+// Nom de fichier "Faction-Légion-Allégeance-date.extension", partagé
+// par l'Export JSON et les Téléchargements PDF/Word : reconnaissable
+// sans avoir à l'ouvrir, voir segmentsIdentiteActuelle() ci-dessus.
+function nomFichierArmee(extension) {
+  const date = new Date().toISOString().slice(0, 10);
+  return (
+    segmentsIdentiteActuelle()
+      .map(nomFichierSlug)
+      .concat(date)
+      .join("-") +
+    "." +
+    extension
+  );
+}
+
 function exporterListe() {
   const donnees = {
     site: "horus-heresy-listes",
@@ -679,14 +728,8 @@ function exporterListe() {
       localStorage.getItem(Organigramme.cleStockageOrga()) || "null",
     ),
   };
-  const date = new Date().toISOString().slice(0, 10);
-  const nomFichier =
-    segmentsIdentiteActuelle()
-      .map(nomFichierSlug)
-      .concat(date)
-      .join("-") + ".json";
   telechargerBlob(
-    nomFichier,
+    nomFichierArmee("json"),
     JSON.stringify(donnees, null, 2),
     "application/json;charset=utf-8",
   );
@@ -995,12 +1038,16 @@ function construireLigneRegles(titre, regles, avecArmes) {
     if (correspondanceArme) {
       if (correspondanceArme.avant)
         p.appendChild(document.createTextNode(correspondanceArme.avant));
-      p.appendChild(
-        creerRegleTag(
-          correspondanceArme.trouve,
-          resumeArme(correspondanceArme.arme),
-        ),
+      const tagArme = creerRegleTag(
+        correspondanceArme.trouve,
+        resumeArme(correspondanceArme.arme),
       );
+      // Marqueur lu par construireDefinitions : cette arme a déjà sa
+      // table de caractéristiques complète plus haut sur la fiche (ou
+      // dans l'export imprimé), inutile de répéter son résumé dans le
+      // bloc « Définitions ».
+      tagArme.classList.add("regle-tag-arme");
+      p.appendChild(tagArme);
       if (correspondanceArme.apres)
         p.appendChild(document.createTextNode(correspondanceArme.apres));
       return;
@@ -1412,6 +1459,10 @@ function construireTablesArmes(equipement, factionUnite) {
 function construireDefinitions(fiche) {
   const definitions = new Map();
   fiche.querySelectorAll(".regle-tag").forEach((tag) => {
+    // Armes déjà détaillées dans une table de caractéristiques
+    // complète plus haut sur la fiche (voir le marqueur posé dans
+    // construireLigneRegles) : ne pas les répéter ici.
+    if (tag.classList.contains("regle-tag-arme")) return;
     const bulle = tag.querySelector(".tooltip");
     if (!bulle || !tag.firstChild) return;
     const nom = tag.firstChild.textContent;
@@ -3053,8 +3104,7 @@ async function genererPDF() {
 
 async function telechargerPDF() {
   const doc = await genererPDF();
-  const date = new Date().toISOString().slice(0, 10);
-  doc.save("armee-horus-heresy-" + date + ".pdf");
+  doc.save(nomFichierArmee("pdf"));
 }
 
 /* ---------- Export Word (.doc) ----------
@@ -3385,11 +3435,10 @@ function telechargerBlob(nomFichier, contenu, type) {
 }
 
 async function telechargerWord() {
-  const date = new Date().toISOString().slice(0, 10);
   // BOM ("﻿") : force Word à détecter l'encodage UTF-8 (sinon les
   // accents peuvent s'afficher mal à l'ouverture).
   telechargerBlob(
-    "armee-horus-heresy-" + date + ".doc",
+    nomFichierArmee("doc"),
     "﻿" + (await genererWordHTML()),
     "application/msword;charset=utf-8",
   );

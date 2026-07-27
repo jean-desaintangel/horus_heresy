@@ -259,7 +259,7 @@ function slug(texte) {
 // par Figurine dans un menu déroulant).
 function quantiteDepuisListe(
   liste,
-  { groupe, parTranche = 1, remplace = "" } = {},
+  { groupe, parTranche = 1, remplace = "", remplaceIntegral = null } = {},
 ) {
   return liste.items.map((item) => ({
     type: "quantite",
@@ -271,6 +271,7 @@ function quantiteDepuisListe(
     cout: item.cout,
     parTranche,
     groupe,
+    ...(remplaceIntegral ? { remplaceIntegral } : {}),
     ajoute: item.nom + (remplace ? " (à la place " + remplace + ")" : ""),
   }));
 }
@@ -291,6 +292,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 2,
       parTranche: 1,
       groupe: "tir",
+      remplaceIntegral: "Bolter",
       ajoute: "Fusil à pompe Astartes (à la place du bolter)",
     },
     {
@@ -300,6 +302,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 5,
       parTranche: 1,
       groupe: "tir",
+      remplaceIntegral: "Bolter",
       ajoute: "Fusil désintégrateur (à la place du bolter)",
     },
     {
@@ -309,15 +312,18 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 2,
       parTranche: 1,
       groupe: "tir",
+      remplaceIntegral: "Bolter",
       ajoute: "Chargeur volkite (à la place du bolter)",
     },
     ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
       groupe: "tir",
       remplace: "du bolter",
+      remplaceIntegral: "Bolter",
     }),
     ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
       groupe: "tir",
       remplace: "du bolter, liste Sergent",
+      remplaceIntegral: "Bolter",
     }),
     {
       type: "quantite",
@@ -328,6 +334,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       parTranche: 1,
       groupe: "pistolet",
       requiertEquip: "liste Sergent",
+      remplaceIntegral: "Pistolet bolter",
       ajoute: "Bouclier de combat (à la place du pistolet bolter)",
     },
     {
@@ -338,6 +345,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 5,
       parTranche: 1,
       groupe: "pistolet",
+      remplaceIntegral: "Pistolet bolter",
       ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
     },
     {
@@ -356,6 +364,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
         "Figurines : paire de griffes Lightning (remplace bolter ET pistolet bolter)",
       cout: 10,
       parTranche: 1,
+      remplaceIntegral: ["Bolter", "Pistolet bolter"],
       ajoute: "Paire de griffes Lightning",
     },
     {
@@ -4508,6 +4517,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "combi-bolter",
         libelle:
@@ -4518,6 +4528,7 @@ const UNITES = [
         ajoute: "Combi-bolter (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "armes-combinees",
         libelle: "Figurines prenant une Arme Combinée de Légion au choix",
@@ -4527,6 +4538,7 @@ const UNITES = [
         ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
+        remplaceIntegral: "Arme énergétique",
         groupe: "melee",
         remplace: "de l'arme énergétique",
       }),
@@ -4618,6 +4630,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle:
@@ -4628,6 +4641,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "armes-combinees",
         libelle: "Figurines prenant une Arme Combinée de Légion au choix",
@@ -4637,6 +4651,7 @@ const UNITES = [
         ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeTerminator, {
+        remplaceIntegral: "Arme énergétique",
         groupe: "melee",
         remplace: "de l'arme énergétique",
       }),
@@ -4979,16 +4994,19 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
         groupe: "melee-scimitar",
         parTranche: 1,
         remplace: "de l'épée tronçonneuse",
       }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet-scimitar",
         parTranche: 1,
         remplace: "du pistolet bolter",
       }),
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat-scimitar",
         libelle:
@@ -5008,6 +5026,7 @@ const UNITES = [
           "Pistolet désintégrateur (à la place du pistolet bolter, Champion Élu Scimitar)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "couleuvrine-volkite-scimitar",
         libelle: "Figurines : couleuvrine volkite (à la place du bolter lourd)",
@@ -5017,6 +5036,7 @@ const UNITES = [
         ajoute: "Couleuvrine volkite (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "canon-a-plasma-scimitar",
         libelle: "Figurines : canon à plasma (à la place du bolter lourd)",
@@ -5026,6 +5046,7 @@ const UNITES = [
         ajoute: "Canon à plasma (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "multi-fuseur-scimitar",
         libelle: "Figurines : multi-fuseur (à la place du bolter lourd)",
@@ -5117,16 +5138,19 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
         groupe: "melee-outrider-cmd",
         parTranche: 1,
         remplace: "de l'épée tronçonneuse",
       }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet-outrider-cmd",
         parTranche: 1,
         remplace: "du pistolet bolter",
       }),
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat-outrider-cmd",
         libelle:
@@ -5146,6 +5170,7 @@ const UNITES = [
           "Pistolet désintégrateur (à la place du pistolet bolter, Champion Élu Outrider)",
       },
       {
+        remplaceIntegral: "Bolter jumelé",
         type: "quantite",
         id: "fusil-a-plasma-jumele-outrider-cmd",
         libelle:
@@ -5229,6 +5254,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat",
         libelle:
@@ -5239,6 +5265,7 @@ const UNITES = [
         ajoute: "Bouclier de combat (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-inferno",
         libelle: "Figurines : Pistolet Inferno (à la place du pistolet bolter)",
@@ -5248,6 +5275,7 @@ const UNITES = [
         ajoute: "Pistolet Inferno (à la place du pistolet bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet",
         remplace: "du pistolet bolter",
       }),
@@ -5439,6 +5467,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "combi-bolters",
         libelle:
@@ -5449,6 +5478,7 @@ const UNITES = [
         ajoute: "Combi-bolter (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "armes-combinees",
         libelle:
@@ -5515,6 +5545,7 @@ const UNITES = [
         ajoute: "Sergent : harnais à grenades",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "lance-flammes-lourds",
         libelle:
@@ -5525,6 +5556,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "autocanons-reaper",
         libelle:
@@ -5535,6 +5567,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "eclateurs",
         libelle:
@@ -5607,6 +5640,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeurs-volkites",
         libelle:
@@ -5617,6 +5651,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "armes-combinees",
         libelle:
@@ -5683,6 +5718,7 @@ const UNITES = [
         ajoute: "Sergent : harnais à grenades",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourds",
         libelle:
@@ -5693,6 +5729,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanons-reaper",
         libelle:
@@ -5703,6 +5740,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "eclateurs",
         libelle:
@@ -5805,6 +5843,7 @@ const UNITES = [
         ajoute: "Désintégrateur lourd jumelé (à la place du poing disrupteur)",
       },
       {
+        remplaceIntegral: "Bombarde à plasma",
         type: "quantite",
         id: "desintegrateurs-bombarde",
         libelle:
@@ -5888,6 +5927,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeurs-volkites",
         libelle:
@@ -5898,10 +5938,12 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "tir",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd-siege",
         libelle: "Figurines : lance-flammes lourd à la place du combi-bolter",
@@ -5911,6 +5953,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanon-reaper-siege",
         libelle: "Figurines : autocanon Reaper à la place du combi-bolter",
@@ -5920,6 +5963,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "blaster-a-plasma-siege",
         libelle: "Figurines : blaster à plasma à la place du combi-bolter",
@@ -5940,6 +5984,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "poing-troncheur-siege",
         libelle:
@@ -6021,6 +6066,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "bouclier-tempete-proteus",
         libelle:
@@ -6032,10 +6078,12 @@ const UNITES = [
           "Bouclier tempête modèle Proteus (à la place du combi-bolter, Sauvegarde Invulnérable 4+, Trait Bouclier)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "tir",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "griffes-lightning-combo",
         libelle:
@@ -6055,6 +6103,7 @@ const UNITES = [
           "Arme énergétique (à la place du gantelet énergétique, Sergent Terminator Indomitus)",
       },
       {
+        remplaceIntegral: "Gantelet énergétique",
         type: "quantite",
         id: "poing-troncheur-indomitus",
         libelle:
@@ -6065,6 +6114,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place du gantelet énergétique)",
       },
       {
+        remplaceIntegral: "Gantelet énergétique",
         type: "quantite",
         id: "marteau-thunder-indomitus",
         libelle:
@@ -6075,6 +6125,7 @@ const UNITES = [
         ajoute: "Marteau Thunder (à la place du gantelet énergétique)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd-indomitus",
         libelle:
@@ -6086,6 +6137,7 @@ const UNITES = [
           "Lance-flammes lourd (à la place du combi-bolter, une Figurine)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "canon-assaut-proteus",
         libelle:
@@ -6195,6 +6247,7 @@ const UNITES = [
         ajoute: "Bombes à phosphex (Sergent Destructeur Mortalis)",
       },
       {
+        remplaceIntegral: "Deux pistolets bolter",
         type: "quantite",
         id: "serpentines-volkites-mortalis",
         libelle:
@@ -6206,6 +6259,7 @@ const UNITES = [
           "Deux serpentines volkites (à la place des deux pistolets bolter)",
       },
       {
+        remplaceIntegral: "Deux pistolets bolter",
         type: "quantite",
         id: "lance-flammes-legers-mortalis",
         libelle:
@@ -6376,6 +6430,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Deux pistolets bolter",
         type: "quantite",
         id: "serpentines-volkites-assaut",
         libelle:
@@ -6387,6 +6442,7 @@ const UNITES = [
           "Deux serpentines volkites (à la place des deux pistolets bolter)",
       },
       {
+        remplaceIntegral: "Deux pistolets bolter",
         type: "quantite",
         id: "lance-flammes-legers-assaut",
         libelle:
@@ -6398,6 +6454,7 @@ const UNITES = [
           "Deux lance-flammes légers (à la place des deux pistolets bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "sabre-charnabal-assaut",
         libelle:
@@ -6409,6 +6466,7 @@ const UNITES = [
           "Sabre charnabal (à la place de l'épée tronçonneuse, une Figurine)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-assaut",
         libelle:
@@ -6630,6 +6688,7 @@ const UNITES = [
           "Figurines : lance-grenades Erelim à la place des deux serpentines volkites",
         cout: 10,
         parTranche: 1,
+        remplaceIntegral: "Deux serpentines volkites",
         ajoute:
           "Lance-grenades Erelim (à la place des deux serpentines volkites)",
       },
@@ -6641,6 +6700,7 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "arme-lourde-erelim",
+        remplaceIntegral: "Deux serpentines volkites",
         ajoute:
           "Épée tronçonneuse lourde (à la place des deux serpentines volkites)",
       },
@@ -6652,6 +6712,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "arme-lourde-erelim",
+        remplaceIntegral: "Deux serpentines volkites",
         ajoute:
           "Lance-flammes lourd (à la place des deux serpentines volkites)",
       },
@@ -6663,6 +6724,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "arme-lourde-erelim",
+        remplaceIntegral: "Deux serpentines volkites",
         ajoute: "Canon rotor (à la place des deux serpentines volkites)",
       },
       {
@@ -6673,6 +6735,7 @@ const UNITES = [
         cout: 20,
         parTranche: 1,
         groupe: "arme-lourde-erelim",
+        remplaceIntegral: "Deux serpentines volkites",
         ajoute:
           "Canon d'assaut Iliastus — Tir soutenu (à la place des deux serpentines volkites)",
       },
@@ -8034,6 +8097,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "chainsword-pl",
         libelle: "Figurines : épée tronçonneuse (à la place du bolter)",
@@ -8043,6 +8107,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "chainaxe-pl",
         libelle: "Figurines : hache tronçonneuse (à la place du bolter)",
@@ -8052,6 +8117,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "chargeur-volkite-pl",
         libelle: "Figurines : chargeur volkite (à la place du bolter)",
@@ -8061,6 +8127,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "sabre-charnabal-pl",
         libelle: "Figurines : sabre charnabal (à la place du bolter)",
@@ -8070,6 +8137,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "arme-energetique-pl",
         libelle: "Figurines : arme énergétique (à la place du bolter)",
@@ -8079,6 +8147,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "gantelet-energetique-pl",
         libelle: "Figurines : gantelet énergétique (à la place du bolter)",
@@ -8088,6 +8157,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "griffe-lightning-pl",
         libelle: "Figurines : griffe Lightning (à la place du bolter)",
@@ -8106,6 +8176,7 @@ const UNITES = [
           "Pistolet désintégrateur (à la place du pistolet bolter, Sergent Vétéran Breacher)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "lance-flammes-pl",
         libelle:
@@ -8117,6 +8188,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-a-gravitons-pl",
         libelle:
@@ -8128,6 +8200,7 @@ const UNITES = [
         ajoute: "Fusil à gravitons (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "decoupeur-laser-pl",
         libelle:
@@ -8139,6 +8212,7 @@ const UNITES = [
         ajoute: "Découpeur laser (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fuseur-pl",
         libelle:
@@ -8380,6 +8454,7 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Bolter Kraken",
         groupe: "tir",
         remplace: "du bolter Kraken",
       }),
@@ -8518,10 +8593,12 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
         groupe: "melee",
         remplace: "de l'épée tronçonneuse",
       }),
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat",
         libelle:
@@ -8532,6 +8609,7 @@ const UNITES = [
         ajoute: "Bouclier de combat (à la place du pistolet bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet",
         remplace: "du pistolet bolter",
       }),
@@ -8550,6 +8628,7 @@ const UNITES = [
         ajoute: "Sergent Vétéran d'Assaut : bombes à fusion",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolets-desintegrateurs-tranche",
         libelle:
@@ -8568,6 +8647,7 @@ const UNITES = [
         ajoute: "Paire de griffes Lightning",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "haches-lourdes",
         libelle:
@@ -8579,6 +8659,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "epees-lourdes",
         libelle:
@@ -8652,6 +8733,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-pompe",
         libelle: "Figurines : fusil à pompe Astartes (à la place du bolter)",
@@ -8661,6 +8743,7 @@ const UNITES = [
         ajoute: "Fusil à pompe Astartes (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-desintegrateur",
         libelle: "Figurines : fusil désintégrateur (à la place du bolter)",
@@ -8670,6 +8753,7 @@ const UNITES = [
         ajoute: "Fusil désintégrateur (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle: "Figurines : chargeur volkite (à la place du bolter)",
@@ -8679,20 +8763,24 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Bolter",
         groupe: "tir",
         remplace: "du bolter",
       }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        remplaceIntegral: "Bolter",
         groupe: "lourde",
         parTranche: 5,
         remplace: "du bolter",
       }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.lourdes, {
+        remplaceIntegral: "Bolter",
         groupe: "lourde",
         parTranche: 5,
         remplace: "du bolter",
       }),
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "eclateur-desintegrateur",
         libelle:
@@ -8703,6 +8791,7 @@ const UNITES = [
         ajoute: "Éclateur désintégrateur (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "desintegrateur-lourd",
         libelle:
@@ -8889,6 +8978,7 @@ const UNITES = [
         ajoute: "Arme énergétique",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "pistolet-a-plasma-mor-deythan",
         libelle:
@@ -8900,6 +8990,7 @@ const UNITES = [
           "Pistolet à plasma (à la place du bolter Némésis, une Figurine)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "chargeur-volkite-mor-deythan",
         libelle:
@@ -8910,6 +9001,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du bolter Némésis, une Figurine)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "lance-flammes-mor-deythan",
         libelle:
@@ -8920,6 +9012,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter Némésis, une Figurine)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "fusil-a-plasma-mor-deythan",
         libelle:
@@ -8930,6 +9023,7 @@ const UNITES = [
         ajoute: "Fusil à plasma (à la place du bolter Némésis, une Figurine)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "fuseur-mor-deythan",
         libelle:
@@ -8940,6 +9034,7 @@ const UNITES = [
         ajoute: "Fuseur (à la place du bolter Némésis, une Figurine)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "lance-missiles-mor-deythan",
         libelle:
@@ -9122,6 +9217,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-lance-flammes",
         libelle:
@@ -9133,6 +9229,7 @@ const UNITES = [
           "Lance-flammes lourd (à la place du combi-bolter, une Figurine)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-multi-fuseur",
         libelle:
@@ -9143,6 +9240,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du combi-bolter, une Figurine)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-autocanon-reaper",
         libelle:
@@ -9153,6 +9251,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter, une Figurine)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "arme-energetique-gantelet",
         libelle:
@@ -9163,6 +9262,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "arme-energetique-poing-troncheur",
         libelle:
@@ -9173,10 +9273,12 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place de l'arme énergétique)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "tir",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "serres-corbeau",
         libelle:
@@ -9367,6 +9469,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Paire de griffes Lightning",
         type: "quantite",
         id: "arme-energetique-pistolet",
         libelle:
@@ -9483,6 +9586,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "sabre-charnabal-fils",
         libelle:
@@ -9493,6 +9597,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "vouge-energetique-fils",
         libelle:
@@ -9503,6 +9608,7 @@ const UNITES = [
         ajoute: "Vouge énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-a-plasma-fils",
         libelle:
@@ -9514,6 +9620,7 @@ const UNITES = [
           "Pistolet à plasma (à la place du pistolet bolter, une Figurine)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "lance-flammes-leger-fils",
         libelle:
@@ -9609,10 +9716,10 @@ const UNITES = [
     composition: "1 Exemple Écarlate, 4 Paladins Écarlates",
     effectif: { base: 5, max: 10, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
-    traits: ["[Allégeance]", "Blood Angels"],
+    traits: ["[Allégeance]", "Blood Angels", "Bouclier"],
     notes:
       "Un des Ordres Guerriers de la Première Sphère : les gardiens des édifices du Primarque, un rempart face à l'ennemi et un bouclier pour les fils de Sanguinius.",
-    equipement: ["Épée énergétique et bouclier énergétique modèle Coriolis"],
+    equipement: ["Épée énergétique", "Bouclier énergétique modèle Coriolis"],
     variantes: [
       {
         nom: "Paladins Écarlates",
@@ -9673,8 +9780,8 @@ const UNITES = [
         type: "choix",
         id: "exemple-arme",
         libelle:
-          "Exemple Écarlate : échanger son épée énergétique et son bouclier énergétique modèle Coriolis",
-        remplace: "Épée énergétique et bouclier énergétique modèle Coriolis",
+          "Exemple Écarlate : échanger son épée énergétique et son bouclier énergétique modèle Coriolis (perd le Trait Bouclier)",
+        ajoute: true,
         prefixeFiche: "Exemple Écarlate : ",
         choix: [
           { nom: "— Conserver l'équipement —", cout: 0 },
@@ -9685,39 +9792,43 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         type: "quantite",
         id: "lance-flammes-lourd-paladin",
         libelle:
-          "Par tranche de cinq Figurines : lance-flammes lourd à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate)",
+          "Par tranche de cinq Figurines : lance-flammes lourd à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
         cout: 5,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
         ajoute:
-          "Lance-flammes lourd (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate)",
+          "Lance-flammes lourd (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate — perd le Trait Bouclier)",
       },
       {
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         type: "quantite",
         id: "iliastus",
         libelle:
-          "Par tranche de cinq Figurines : canon d'assaut Iliastus à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate)",
+          "Par tranche de cinq Figurines : canon d'assaut Iliastus à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
         ajoute:
-          "Canon d'assaut Iliastus — Tir soutenu (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate)",
+          "Canon d'assaut Iliastus — Tir soutenu (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate — perd le Trait Bouclier)",
       },
       {
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         type: "quantite",
         id: "blaster-a-plasma-paladin",
         libelle:
-          "Par tranche de cinq Figurines : blaster à plasma à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate)",
+          "Par tranche de cinq Figurines : blaster à plasma à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
         cout: 10,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
         ajoute:
-          "Blaster à plasma (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate)",
+          "Blaster à plasma (à la place du bouclier énergétique modèle Coriolis, un Paladin Écarlate — perd le Trait Bouclier)",
       },
       {
+        remplaceIntegral: "Épée énergétique",
         type: "quantite",
         id: "gantelet-energetique-paladin",
         libelle:
@@ -9728,6 +9839,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'épée énergétique)",
       },
       {
+        remplaceIntegral: "Épée énergétique",
         type: "quantite",
         id: "poing-tronconneur-paladin",
         libelle:
@@ -9793,6 +9905,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-lance-flammes",
         libelle: "Figurines : lance-flammes lourd (à la place du bolter lourd)",
@@ -9802,6 +9915,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-havoc",
         libelle: "Figurines : lanceur Havoc (à la place du bolter lourd)",
@@ -9811,6 +9925,7 @@ const UNITES = [
         ajoute: "Lanceur Havoc (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-multi-fuseur",
         libelle: "Figurines : multi-fuseur (à la place du bolter lourd)",
@@ -9820,6 +9935,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-couleuvrine",
         libelle: "Figurines : couleuvrine volkite (à la place du bolter lourd)",
@@ -9829,6 +9945,7 @@ const UNITES = [
         ajoute: "Couleuvrine volkite (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-plasma",
         libelle: "Figurines : canon à plasma (à la place du bolter lourd)",
@@ -9838,6 +9955,7 @@ const UNITES = [
         ajoute: "Canon à plasma (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-gravitons",
         libelle: "Figurines : fusil à gravitons (à la place du bolter lourd)",
@@ -9847,6 +9965,7 @@ const UNITES = [
         ajoute: "Fusil à gravitons (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-lance-flammes",
         libelle:
@@ -9857,6 +9976,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-bolter-lourd",
         libelle: "Figurines : bolter lourd (à la place du scanner augure)",
@@ -9866,6 +9986,7 @@ const UNITES = [
         ajoute: "Bolter lourd (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-havoc",
         libelle: "Figurines : lanceur Havoc (à la place du scanner augure)",
@@ -9875,6 +9996,7 @@ const UNITES = [
         ajoute: "Lanceur Havoc (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-multi-fuseur",
         libelle: "Figurines : multi-fuseur (à la place du scanner augure)",
@@ -9884,6 +10006,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-couleuvrine",
         libelle:
@@ -9894,6 +10017,7 @@ const UNITES = [
         ajoute: "Couleuvrine volkite (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-plasma",
         libelle: "Figurines : canon à plasma (à la place du scanner augure)",
@@ -9903,6 +10027,7 @@ const UNITES = [
         ajoute: "Canon à plasma (à la place du scanner augure)",
       },
       {
+        remplaceIntegral: "Scanner augure",
         type: "quantite",
         id: "scanner-gravitons",
         libelle: "Figurines : fusil à gravitons (à la place du scanner augure)",
@@ -9959,6 +10084,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Lance-missiles Cyclone",
         type: "quantite",
         id: "cyclone-lance-flammes",
         libelle:
@@ -9970,6 +10096,7 @@ const UNITES = [
           "Deux lance-flammes lourds (à la place du lance-missiles Cyclone)",
       },
       {
+        remplaceIntegral: "Lance-missiles Cyclone",
         type: "quantite",
         id: "cyclone-bolters",
         libelle:
@@ -9980,6 +10107,7 @@ const UNITES = [
         ajoute: "Deux bolters lourds (à la place du lance-missiles Cyclone)",
       },
       {
+        remplaceIntegral: "Lance-missiles Cyclone",
         type: "quantite",
         id: "cyclone-canons-laser",
         libelle:
@@ -9990,6 +10118,7 @@ const UNITES = [
         ajoute: "Deux canons laser (à la place du lance-missiles Cyclone)",
       },
       {
+        remplaceIntegral: "Lance-missiles Cyclone",
         type: "quantite",
         id: "cyclone-couleuvrines",
         libelle:
@@ -10087,6 +10216,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolets-legion",
         libelle:
@@ -10096,6 +10226,7 @@ const UNITES = [
         ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-couleuvrine",
         libelle: "Figurines : couleuvrine volkite (à la place du bolter lourd)",
@@ -10105,6 +10236,7 @@ const UNITES = [
         ajoute: "Couleuvrine volkite (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-multi-fuseur",
         libelle: "Figurines : multi-fuseur (à la place du bolter lourd)",
@@ -10114,6 +10246,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du bolter lourd)",
       },
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "bolter-lourd-plasma",
         libelle: "Figurines : canon à plasma (à la place du bolter lourd)",
@@ -10420,6 +10553,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolets-legion",
         libelle:
@@ -10429,6 +10563,7 @@ const UNITES = [
         ajoute: "Pistolet de Légion (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter jumelé",
         type: "quantite",
         id: "fusils-plasma",
         libelle:
@@ -10438,6 +10573,7 @@ const UNITES = [
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "fusils-pompe",
         libelle:
@@ -10649,6 +10785,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Fusil à pompe Astartes",
         type: "quantite",
         id: "bolters-nemesis",
         libelle:
@@ -10717,6 +10854,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter lourd",
         type: "quantite",
         id: "multi-fuseur",
         libelle: "Figurines : multi-fuseur à la place du bolter lourd",
@@ -10827,6 +10965,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "bolter-nemesis",
         libelle: "Figurines : bolter Némésis (à la place du bolter)",
@@ -10836,6 +10975,7 @@ const UNITES = [
         ajoute: "Bolter Némésis (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "epee-tronconneuse",
         libelle: "Figurines : épée tronçonneuse (à la place du bolter)",
@@ -10845,6 +10985,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-a-pompe-astartes",
         libelle: "Figurines : fusil à pompe Astartes (à la place du bolter)",
@@ -13337,6 +13478,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "marteau-meteore",
         libelle:
@@ -13347,6 +13489,7 @@ const UNITES = [
         ajoute: "Marteau météore (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-tronconneuse-excoriator",
         libelle:
@@ -13358,6 +13501,7 @@ const UNITES = [
           "Hache tronçonneuse Excoriator (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "paire-de-falax",
         libelle:
@@ -13368,6 +13512,7 @@ const UNITES = [
         ajoute: "Paire de falax (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "fouet-barbele",
         libelle:
@@ -13502,6 +13647,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "marteau-meteore",
         libelle:
@@ -13512,6 +13658,7 @@ const UNITES = [
         ajoute: "Marteau météore (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-tronconneuse-excoriator",
         libelle:
@@ -13523,6 +13670,7 @@ const UNITES = [
           "Hache tronçonneuse Excoriator (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "paire-de-falax",
         libelle:
@@ -13533,6 +13681,7 @@ const UNITES = [
         ajoute: "Paire de falax (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "fouet-barbele",
         libelle:
@@ -13807,6 +13956,7 @@ const UNITES = [
           "Arme énergétique (Legacy) (à la place du Marteau Thunder forgé)",
       },
       {
+        remplaceIntegral: "Marteau Thunder forgé",
         type: "quantite",
         id: "gantelet-energetique-legacy",
         libelle:
@@ -13818,6 +13968,7 @@ const UNITES = [
           "Gantelet énergétique (Legacy) (à la place du Marteau Thunder forgé)",
       },
       {
+        remplaceIntegral: "Marteau Thunder forgé",
         type: "quantite",
         id: "poing-tronconneur-legacy",
         libelle:
@@ -13829,6 +13980,7 @@ const UNITES = [
           "Poing tronçonneur (Legacy) (à la place du Marteau Thunder forgé)",
       },
       {
+        remplaceIntegral: "Écaille de Drac",
         type: "quantite",
         id: "combi-bolter",
         libelle:
@@ -13840,10 +13992,12 @@ const UNITES = [
           "Combi-bolter (Legacy, à la place de l'Écaille de Drac — perd le Trait Bouclier)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Écaille de Drac",
         groupe: "bouclier",
         remplace: "de l'Écaille de Drac (Legacy, perd le Trait Bouclier)",
       }),
       {
+        remplaceIntegral: "Écaille de Drac",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle:
@@ -13996,6 +14150,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Combi-lance-flammes",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle:
@@ -14114,6 +14269,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "deux-pistolets-bolter",
         libelle:
@@ -14125,6 +14281,7 @@ const UNITES = [
           "Deux pistolets bolter (à la place du bolter et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "deux-serpentines-volkites",
         libelle:
@@ -14136,6 +14293,7 @@ const UNITES = [
           "Deux serpentines volkites (à la place du bolter et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "deux-lance-flammes-legers",
         libelle:
@@ -14147,6 +14305,7 @@ const UNITES = [
           "Deux lance-flammes légers (à la place du bolter et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "canon-rotor-obsidite",
         libelle:
@@ -15717,6 +15876,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "gantelet-solarite",
         libelle:
@@ -15918,6 +16078,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-plasma",
         libelle:
@@ -16176,6 +16337,7 @@ const UNITES = [
         ],
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         parTranche: 5,
         remplace: "du pistolet bolter",
       }),
@@ -16281,6 +16443,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Viseur Péritarque",
         type: "quantite",
         id: "arme-energetique",
         libelle:
@@ -16291,6 +16454,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place du Viseur Péritarque)",
       },
       {
+        remplaceIntegral: "Viseur Péritarque",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -16301,6 +16465,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place du Viseur Péritarque)",
       },
       {
+        remplaceIntegral: "Viseur Péritarque",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -16443,6 +16608,7 @@ const UNITES = [
         ajoute: "Sergent Destructeur Némésis : bombes à phosphex",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "chargeur-volkite",
         libelle:
@@ -16453,6 +16619,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "lance-flammes",
         libelle:
@@ -16463,6 +16630,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "fusil-plasma",
         libelle:
@@ -16473,6 +16641,7 @@ const UNITES = [
         ajoute: "Fusil à plasma (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "fuseur",
         libelle:
@@ -16483,6 +16652,7 @@ const UNITES = [
         ajoute: "Fuseur (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "fusil-gravitons",
         libelle:
@@ -16493,6 +16663,7 @@ const UNITES = [
         ajoute: "Fusil à gravitons (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         // « Lascutter » : profil d'arme non donné dans l'extrait fourni
         // (pas d'encart WARGEAR sur cette fiche) — à compléter depuis le
@@ -16506,6 +16677,7 @@ const UNITES = [
         ajoute: "Lascutter (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "bolter-lourd",
         libelle:
@@ -16516,6 +16688,7 @@ const UNITES = [
         ajoute: "Bolter lourd (à la place du bolter mortifère)",
       },
       {
+        remplaceIntegral: "Bolter mortifère",
         type: "quantite",
         id: "lance-missiles-destructeur",
         libelle:
@@ -16794,6 +16967,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Lame de Caliban",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -16804,6 +16978,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de la lame de Caliban)",
       },
       {
+        remplaceIntegral: "Lame de Caliban",
         type: "quantite",
         id: "espadon-terranique",
         libelle:
@@ -16814,6 +16989,7 @@ const UNITES = [
         ajoute: "Espadon terranique (à la place de la lame de Caliban)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "egide-cytheron",
         libelle:
@@ -16824,6 +17000,7 @@ const UNITES = [
         ajoute: "Égide modèle Cytheron (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "pistolet-plasma",
         libelle:
@@ -16838,6 +17015,7 @@ const UNITES = [
       // « Deathwing Companion Detachment ».
       optionBaionnette(),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Bolter",
         groupe: "bolter-combi-legacy",
         remplace: "du bolter",
       }),
@@ -16919,6 +17097,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Brûleur à plasma",
         type: "quantite",
         id: "lance-missiles-destructeur",
         libelle:
@@ -16931,6 +17110,7 @@ const UNITES = [
           "Lance-missiles de Destructeur (à la place du brûleur à plasma)",
       },
       {
+        remplaceIntegral: "Brûleur à plasma",
         type: "quantite",
         id: "incinerateur-plasma",
         libelle:
@@ -17178,9 +17358,11 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -17191,6 +17373,7 @@ const UNITES = [
           "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "espadon-terranique",
         libelle:
@@ -17202,6 +17385,7 @@ const UNITES = [
           "Espadon terranique (à la place de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -17213,6 +17397,7 @@ const UNITES = [
           "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -17300,9 +17485,11 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -17313,6 +17500,7 @@ const UNITES = [
           "Paire de griffes Lightning (à la place du combi-bolter et de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "espadon-terranique",
         libelle:
@@ -17324,6 +17512,7 @@ const UNITES = [
           "Espadon terranique (à la place de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -17335,6 +17524,7 @@ const UNITES = [
           "Gantelet énergétique (à la place de la lame de guerre Calibanite)",
       },
       {
+        remplaceIntegral: "Lame de guerre Calibanite",
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -17426,6 +17616,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Espadon terranique",
         type: "quantite",
         id: "marteau-thunder-legacy",
         libelle:
@@ -17646,6 +17837,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bouclier de combat",
         type: "quantite",
         id: "bolter-echange",
         libelle: "Figurines : bolter (à la place du bouclier de combat)",
@@ -17711,6 +17903,7 @@ const UNITES = [
         ajoute: "Bombes à fusion (Huscarl)",
       },
       {
+        remplaceIntegral: "Hache de Fenris",
         type: "quantite",
         id: "arme-energetique",
         libelle:
@@ -17720,6 +17913,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de la hache de Fenris)",
       },
       {
+        remplaceIntegral: "Hache de Fenris",
         type: "quantite",
         id: "epee-tronconneuse-lourde",
         libelle:
@@ -17731,6 +17925,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de la hache de Fenris)",
       },
       {
+        remplaceIntegral: "Hache de Fenris",
         type: "quantite",
         id: "gantelet-energetique-tueur",
         libelle:
@@ -17742,6 +17937,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de la hache de Fenris)",
       },
       {
+        remplaceIntegral: "Hache de Fenris",
         type: "quantite",
         id: "griffe-lightning-tueur",
         libelle:
@@ -17753,6 +17949,7 @@ const UNITES = [
         ajoute: "Griffe Lightning (à la place de la hache de Fenris)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-plasma-tueur",
         libelle:
@@ -17764,6 +17961,7 @@ const UNITES = [
         ajoute: "Pistolet à plasma (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "lance-flammes-leger-tueur",
         libelle:
@@ -17775,6 +17973,7 @@ const UNITES = [
         ajoute: "Lance-flammes léger (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "serpentine-volkite-tueur",
         libelle:
@@ -17874,6 +18073,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de la hache énergétique)",
       },
       {
+        remplaceIntegral: "Hache énergétique",
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -17884,6 +18084,7 @@ const UNITES = [
         ajoute: "Marteau Thunder (à la place de la hache énergétique)",
       },
       {
+        remplaceIntegral: "Hache énergétique",
         type: "quantite",
         id: "grande-lame-givre",
         libelle:
@@ -17993,6 +18194,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de la hache de givre)",
       },
       {
+        remplaceIntegral: "Hache de givre",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -18003,6 +18205,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place de la hache de givre)",
       },
       {
+        remplaceIntegral: "Hache de givre",
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -18013,6 +18216,7 @@ const UNITES = [
         ajoute: "Marteau Thunder (à la place de la hache de givre)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "epee-de-givre",
         libelle: "Figurines : épée de givre (à la place du combi-bolter)",
@@ -18022,6 +18226,7 @@ const UNITES = [
         ajoute: "Épée de givre (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "griffe-de-givre",
         libelle: "Figurines : griffe de givre (à la place du combi-bolter)",
@@ -18031,6 +18236,7 @@ const UNITES = [
         ajoute: "Griffe de givre (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle: "Figurines : lance-flammes lourd (à la place du combi-bolter)",
@@ -18040,6 +18246,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanon-reaper",
         libelle: "Figurines : Autocanon Reaper (à la place du combi-bolter)",
@@ -18049,6 +18256,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "combi",
         remplace: "du combi-bolter",
       }),
@@ -18870,6 +19078,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle: "Figurines : chargeur volkite (à la place du combi-bolter)",
@@ -18879,6 +19088,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "combi",
         remplace: "du combi-bolter",
       }),
@@ -18980,6 +19190,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Lance-flammes léger",
         type: "quantite",
         id: "lance-flammes",
         libelle:
@@ -18990,6 +19201,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du lance-flammes léger)",
       },
       {
+        remplaceIntegral: "Lance-flammes léger",
         type: "quantite",
         id: "serpentine-volkite",
         libelle:
@@ -19163,6 +19375,7 @@ const UNITES = [
         ajoute: "Bombes à fusion (Sergent Immortel)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-gravitons",
         libelle:
@@ -19174,6 +19387,7 @@ const UNITES = [
         ajoute: "Fusil à gravitons (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "decoupeur-laser",
         libelle:
@@ -19200,6 +19414,7 @@ const UNITES = [
         ajoute: "Lance-flammes (Legacy) (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "eclateur-gravitons-legacy",
         libelle:
@@ -19211,6 +19426,7 @@ const UNITES = [
         ajoute: "Déchiqueteur à gravitons (Legacy) (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fuseur-legacy",
         libelle:
@@ -19222,6 +19438,7 @@ const UNITES = [
         ajoute: "Fuseur (Legacy) (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "epee-tronconneuse-legacy",
         libelle: "Figurines : épée tronçonneuse (Legacy, à la place du bolter)",
@@ -19231,6 +19448,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse (Legacy) (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "chargeur-volkite-legacy",
         libelle: "Figurines : chargeur volkite (Legacy, à la place du bolter)",
@@ -19350,6 +19568,7 @@ const UNITES = [
           "Poing tronçonneur (à la place de la hache énergétique d'artificier)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -19360,9 +19579,11 @@ const UNITES = [
           "Paire de griffes Lightning (à la place de la hache énergétique d'artificier et du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         remplace: "du combi-bolter",
       }),
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle:
@@ -19373,6 +19594,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "fusil-gravitons",
         libelle:
@@ -19383,6 +19605,7 @@ const UNITES = [
         ajoute: "Fusil à gravitons (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "eclateur-gravitons",
         libelle:
@@ -19393,6 +19616,7 @@ const UNITES = [
         ajoute: "Déchiqueteur à gravitons (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "blaster-plasma",
         // « Plasma blaster » : profil d'arme non donné dans l'extrait
@@ -19406,6 +19630,7 @@ const UNITES = [
         ajoute: "Blaster à plasma (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanon-reaper",
         libelle:
@@ -19785,6 +20010,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "hache-artificier",
         libelle:
@@ -19796,6 +20022,7 @@ const UNITES = [
           "Hache énergétique d'artificier (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "griffe-lightning",
         libelle:
@@ -19806,6 +20033,7 @@ const UNITES = [
         ajoute: "Griffe Lightning (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -19816,6 +20044,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -19826,6 +20055,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle: "Figurines : chargeur volkite (à la place du combi-bolter)",
@@ -19835,6 +20065,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "fusil-gravitons",
         libelle: "Figurines : fusil à gravitons (à la place du combi-bolter)",
@@ -20434,6 +20665,7 @@ const UNITES = [
         remplaceListe: ["Combi-bolter Banestrike", "Arme énergétique"],
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-lance-flammes",
         libelle:
@@ -20444,6 +20676,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter Banestrike)",
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-multi-fuseur",
         libelle:
@@ -20454,6 +20687,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du combi-bolter Banestrike)",
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-autocanon-reaper",
         libelle:
@@ -20464,6 +20698,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter Banestrike)",
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-eclateur-plasma",
         libelle:
@@ -20567,6 +20802,7 @@ const UNITES = [
         ],
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        remplaceIntegral: "Hache tronçonneuse",
         groupe: "arme-speciale",
         parTranche: 5,
         remplace: "de la hache tronçonneuse",
@@ -20740,6 +20976,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-tronconneuse",
         libelle:
@@ -20750,6 +20987,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique",
         libelle:
@@ -20760,6 +20998,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -20878,6 +21117,7 @@ const UNITES = [
         ],
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        remplaceIntegral: "Hache tronçonneuse",
         groupe: "arme-speciale",
         parTranche: 5,
         remplace: "de la hache tronçonneuse",
@@ -20914,6 +21154,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Hache tronçonneuse",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -21257,6 +21498,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "lance-flammes",
         libelle: "Pour cinq Figurines : lance-flammes (à la place du bolter)",
@@ -21266,6 +21508,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fuseur",
         libelle: "Pour cinq Figurines : fuseur (à la place du bolter)",
@@ -21275,6 +21518,7 @@ const UNITES = [
         ajoute: "Fuseur (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "blaster-feu-warp",
         libelle:
@@ -21285,6 +21529,7 @@ const UNITES = [
         ajoute: "Blaster à Feu Warp (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Serres Souillées",
         type: "quantite",
         id: "arme-energetique",
         libelle:
@@ -21295,6 +21540,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place des serres souillées)",
       },
       {
+        remplaceIntegral: "Serres Souillées",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -21789,6 +22035,7 @@ const UNITES = [
         ajoute: "Promotion Procurateur (Cd 8, Sergent, Narthecium, Médic (4+))",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "epee-tronconneuse-lourde-procurateur",
         libelle:
@@ -21800,6 +22047,7 @@ const UNITES = [
           "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-procurateur",
         libelle:
@@ -21811,6 +22059,7 @@ const UNITES = [
           "Arme énergétique (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "gantelet-energetique-special",
         libelle:
@@ -21821,6 +22070,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "lance-flammes-leger-special",
         libelle:
@@ -21831,6 +22081,7 @@ const UNITES = [
         ajoute: "Lance-flammes léger (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-a-plasma-special",
         libelle:
@@ -21841,6 +22092,7 @@ const UNITES = [
         ajoute: "Pistolet à plasma (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-a-feu-warp-special",
         libelle:
@@ -21906,6 +22158,7 @@ const UNITES = [
         ajoute: "Promotion Procurateur (Cd 8, Sergent, Narthecium, Médic (4+))",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "epee-tronconneuse-lourde-procurateur",
         libelle:
@@ -21917,6 +22170,7 @@ const UNITES = [
           "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "arme-energetique-procurateur",
         libelle:
@@ -21928,6 +22182,7 @@ const UNITES = [
           "Arme énergétique (à la place de l'épée tronçonneuse, Procurateur seulement)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "gantelet-energetique-special",
         libelle:
@@ -21938,6 +22193,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "lance-flammes-leger-special",
         libelle:
@@ -21948,6 +22204,7 @@ const UNITES = [
         ajoute: "Lance-flammes léger (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-a-plasma-special",
         libelle:
@@ -21958,6 +22215,7 @@ const UNITES = [
         ajoute: "Pistolet à plasma (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-a-feu-warp-special",
         libelle:
@@ -22244,6 +22502,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Gantelet énergétique",
         type: "quantite",
         id: "poing-troncon",
         libelle:
@@ -22372,6 +22631,7 @@ const UNITES = [
       },
       optionBaionnette(),
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "lance-flammes",
         libelle: "Figurines : lance-flammes (à la place du bolter)",
@@ -22381,6 +22641,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "lance-flammes-alchim",
         libelle: "Figurines : lance-flammes alchim (à la place du bolter)",
@@ -22390,6 +22651,7 @@ const UNITES = [
         ajoute: "Lance-flammes alchim (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "lance-flammes-lourd-alchim",
         libelle:
@@ -22786,6 +23048,7 @@ const UNITES = [
       },
       ARCANE_DE_PROSPERO,
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-lance-flammes",
         libelle:
@@ -22796,6 +23059,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-autocanon-reaper",
         libelle:
@@ -22806,6 +23070,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "arme-lourde-eclateur-plasma",
         libelle:
@@ -22917,6 +23182,7 @@ const UNITES = [
         ajoute: "Lance-flammes léger (Legacy) (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-etherfeu-legacy",
         libelle:
@@ -23116,6 +23382,7 @@ const UNITES = [
         ajoute: "Numérologiste : cyber-familier",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "garde-arme-energetique",
         libelle:
@@ -23126,6 +23393,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "garde-gantelet",
         libelle:
@@ -23136,6 +23404,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "garde-arquebuse-volkite",
         libelle:
@@ -23146,6 +23415,7 @@ const UNITES = [
         ajoute: "Arquebuse volkite (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "garde-canon-rotor",
         libelle:
@@ -23293,6 +23563,7 @@ const UNITES = [
         ajoute: "Un Intercesseur : nuncio-vox",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         // « Bolter Némésis » : profil d'arme non donné dans l'extrait
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
@@ -23307,6 +23578,7 @@ const UNITES = [
         ajoute: "Fuseur (à la place du Bolter Némésis)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "fusil-plasma",
         libelle:
@@ -23318,6 +23590,7 @@ const UNITES = [
         ajoute: "Fusil à plasma (à la place du Bolter Némésis)",
       },
       {
+        remplaceIntegral: "Bolter Némésis",
         type: "quantite",
         id: "blaster-etherfeu",
         libelle:
@@ -23582,6 +23855,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-bolter-lourd",
         libelle:
@@ -23592,6 +23866,7 @@ const UNITES = [
         ajoute: "Bolter lourd (à la place du combi-bolter Banestrike)",
       },
       {
+        remplaceIntegral: "Combi-bolter Banestrike",
         type: "quantite",
         id: "arme-lourde-multi-fuseur",
         libelle:
@@ -23626,6 +23901,7 @@ const UNITES = [
           "Bolter Banestrike (Legacy) (à la place du combi-bolter Banestrike)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter Banestrike",
         groupe: "combi-legacy",
         remplace: "du combi-bolter Banestrike",
       }),
@@ -23800,6 +24076,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -23811,6 +24088,7 @@ const UNITES = [
           "Paire de griffes Lightning (à la place du chargeur volkite et de la hache énergétique)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "arme-lourde-lance-flammes",
         libelle:
@@ -23821,6 +24099,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "arme-lourde-canon-conversion",
         libelle:
@@ -23831,6 +24110,7 @@ const UNITES = [
         ajoute: "Canon à conversion (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "arme-lourde-autocanon-reaper",
         libelle:
@@ -23841,6 +24121,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du chargeur volkite)",
       },
       {
+        remplaceIntegral: "Chargeur volkite",
         type: "quantite",
         id: "arme-lourde-eclateur-plasma",
         libelle:
@@ -23989,6 +24270,7 @@ const UNITES = [
         ],
       },
       {
+        remplaceIntegral: "Fusil à pompe Banestrike",
         type: "quantite",
         // « Bolter Némésis » : profil d'arme non donné dans l'extrait
         // fourni (pas d'encart WARGEAR sur cette fiche) — à compléter
@@ -24230,6 +24512,7 @@ const UNITES = [
         ajoute: "Maître de Siège : harnais à grenades",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "paires-griffes",
         libelle:
@@ -24240,6 +24523,7 @@ const UNITES = [
           "Paire de griffes Lightning (à la place du combi-bolter et du gantelet énergétique)",
       },
       {
+        remplaceIntegral: "Gantelet énergétique",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -24520,6 +24804,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle:
@@ -24530,6 +24815,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "multi-fuseur",
         libelle:
@@ -24540,6 +24826,7 @@ const UNITES = [
         ajoute: "Multi-fuseur (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanon-reaper",
         libelle:
@@ -24550,6 +24837,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Marteau Thunder",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -24559,6 +24847,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place du marteau Thunder)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle: "Figurines : chargeur volkite (à la place du combi-bolter)",
@@ -24568,6 +24857,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "combi",
         remplace: "du combi-bolter",
       }),
@@ -25228,6 +25518,7 @@ const UNITES = [
           "Lame tronçonneuse (Legacy) (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "paires-griffes-legacy",
         libelle:
@@ -25238,6 +25529,7 @@ const UNITES = [
           "Paire de griffes Lightning (Legacy) (à la place du pistolet bolter et de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "lance-flammes-legacy",
         libelle:
@@ -25248,6 +25540,7 @@ const UNITES = [
         ajoute: "Lance-flammes (Legacy) (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "fuseur-legacy",
         libelle:
@@ -25258,6 +25551,7 @@ const UNITES = [
         ajoute: "Fuseur (Legacy) (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "fusil-plasma-legacy",
         libelle:
@@ -25268,6 +25562,7 @@ const UNITES = [
         ajoute: "Fusil à plasma (Legacy) (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "pistolet-plasma-legacy",
         libelle:
@@ -25278,6 +25573,7 @@ const UNITES = [
         ajoute: "Pistolet à plasma (Legacy) (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "serpentine-volkite-legacy",
         libelle:
@@ -25361,6 +25657,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "lance-flammes-lourd",
         libelle:
@@ -25371,6 +25668,7 @@ const UNITES = [
         ajoute: "Lance-flammes lourd (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "autocanon-reaper",
         libelle:
@@ -25381,6 +25679,7 @@ const UNITES = [
         ajoute: "Autocanon Reaper (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "blaster-plasma",
         // « Plasma blaster » : profil d'arme non donné dans l'extrait
@@ -25394,6 +25693,7 @@ const UNITES = [
         ajoute: "Blaster à plasma (à la place du combi-bolter)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "chargeur-volkite",
         libelle: "Figurines : chargeur volkite (à la place du combi-bolter)",
@@ -25403,6 +25703,7 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Combi-bolter",
         groupe: "combi",
         remplace: "du combi-bolter",
       }),
@@ -25421,6 +25722,7 @@ const UNITES = [
           "Glaive tronçonneur Nostraman (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -25431,6 +25733,7 @@ const UNITES = [
         ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "griffe-lightning",
         libelle:
@@ -25441,6 +25744,7 @@ const UNITES = [
         ajoute: "Griffe Lightning (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "poing-tronconneur",
         libelle:
@@ -25451,6 +25755,7 @@ const UNITES = [
         ajoute: "Poing tronçonneur (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Arme énergétique",
         type: "quantite",
         id: "marteau-thunder",
         libelle:
@@ -25461,6 +25766,7 @@ const UNITES = [
         ajoute: "Marteau Thunder (à la place de l'arme énergétique)",
       },
       {
+        remplaceIntegral: "Combi-bolter",
         type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
@@ -28577,6 +28883,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "lascannon",
         libelle:
@@ -30240,6 +30547,7 @@ const UNITES = [
     options: [
       optionTechnoArcane(),
       {
+        remplaceIntegral: "Fourneau Rad",
         type: "quantite",
         id: "bolter",
         libelle: "Figurines : bolter à la place du Fourneau Rad",
@@ -31509,6 +31817,7 @@ const UNITES = [
     options: [
       optionTechnoArcane(),
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "lascannon",
         libelle:
@@ -31520,6 +31829,7 @@ const UNITES = [
           "Canon laser jumelé de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
       },
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "volkite",
         libelle:
@@ -31531,6 +31841,7 @@ const UNITES = [
           "Couleuvrine volkite jumelée de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
       },
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "melta-array",
         libelle:
@@ -31542,6 +31853,7 @@ const UNITES = [
           "Affût à fusion de Sentinelle de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
       },
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "hyperios",
         libelle:
@@ -31553,6 +31865,7 @@ const UNITES = [
           "Lance-missiles Hyperios de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
       },
       {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
         id: "orias",
         libelle:
@@ -32686,6 +32999,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle: "Figurines : sabre charnabal (à la place de l'épée tronçonneuse)",
@@ -32695,6 +33009,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -32705,6 +33020,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -32715,6 +33031,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -32774,6 +33091,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "fusil-pompe",
         libelle: "Figurines : fusil à pompe Astartes (à la place du bolter)",
@@ -32843,6 +33161,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -32853,6 +33172,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -32863,6 +33183,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -32873,6 +33194,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -32932,6 +33254,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat",
         libelle: "Figurines : bouclier de combat (à la place du pistolet bolter)",
@@ -32941,6 +33264,7 @@ const UNITES = [
         ajoute: "Bouclier de combat (à la place du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-troncon",
         libelle: "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
@@ -32950,6 +33274,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -32960,6 +33285,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -32970,6 +33296,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -32980,6 +33307,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33034,6 +33362,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "bolter-lourd",
         libelle:
@@ -33044,6 +33373,7 @@ const UNITES = [
         ajoute: "Bolter lourd (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "autocanon",
         libelle:
@@ -33109,6 +33439,7 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33168,6 +33499,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "heavy-chainaxe",
         libelle:
@@ -33178,6 +33510,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -33188,6 +33521,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -33198,6 +33532,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -33208,6 +33543,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33335,6 +33671,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "heavy-chainaxe",
         libelle:
@@ -33345,6 +33682,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -33355,6 +33693,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -33365,6 +33704,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -33375,6 +33715,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33588,6 +33929,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "flamer",
         libelle:
@@ -33598,6 +33940,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "alchem-flamer",
         libelle:
@@ -33608,6 +33951,7 @@ const UNITES = [
         ajoute: "Lance-flammes alchim (à la place du bolter)",
       },
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "canon-rotor",
         libelle:
@@ -33668,6 +34012,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "arquebuse-volkite",
         libelle:
@@ -33733,6 +34078,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-troncon",
         libelle: "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
@@ -33742,6 +34088,7 @@ const UNITES = [
         ajoute: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -33752,6 +34099,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -33762,6 +34110,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -33772,6 +34121,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33831,6 +34181,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -33841,6 +34192,7 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "power-weapon",
         libelle:
@@ -33851,6 +34203,7 @@ const UNITES = [
         ajoute: "Arme énergétique (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
         libelle:
@@ -33861,6 +34214,7 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place de l'épée tronçonneuse)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet4",
         parTranche: 4,
         remplace: "du pistolet bolter, une pour quatre Figurines",
@@ -33944,6 +34298,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "heavy-chainsword",
         libelle:
@@ -33954,11 +34309,13 @@ const UNITES = [
         ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
         groupe: "melee5",
         parTranche: 5,
         remplace: "de l'épée tronçonneuse, une pour cinq Figurines",
       }),
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "flamer",
         libelle:
@@ -33969,6 +34326,7 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "meltagun",
         libelle:
@@ -33979,6 +34337,7 @@ const UNITES = [
         ajoute: "Fuseur (à la place de l'épée tronçonneuse)",
       },
       {
+        remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "eclateur-desintegrateur",
         libelle:
@@ -34094,6 +34453,7 @@ const UNITES = [
     ],
     options: [
       {
+        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "bolter-nemesis",
         libelle:
@@ -34154,6 +34514,7 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        remplaceIntegral: "Bolter",
         groupe: "combi5",
         parTranche: 5,
         remplace: "du bolter, une pour cinq Figurines",
