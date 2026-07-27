@@ -622,6 +622,52 @@ function restaurer() {
 }
 
 /* ----------------------------------------------------------
+   EXPORT / IMPORT — un simple fichier .json reprenant les deux clés
+   déjà utilisées par la persistance localStorage (liste d'unités +
+   organigramme), pour transférer une liste d'une machine/navigateur à
+   l'autre. L'import réutilise la validation déjà faite par
+   restaurer()/Organigramme.initialiser() au chargement de la page :
+   on écrit dans localStorage puis on recharge, plutôt que de
+   dupliquer cette logique.
+   ---------------------------------------------------------- */
+function exporterListe() {
+  const donnees = {
+    site: "horus-heresy-listes",
+    version: 1,
+    armee: JSON.parse(localStorage.getItem(CLE_STOCKAGE) || "[]"),
+    organigramme: JSON.parse(
+      localStorage.getItem(Organigramme.cleStockageOrga()) || "null",
+    ),
+  };
+  const date = new Date().toISOString().slice(0, 10);
+  telechargerBlob(
+    "liste-horus-heresy-" + date + ".json",
+    JSON.stringify(donnees, null, 2),
+    "application/json;charset=utf-8",
+  );
+}
+
+// Retourne un message d'erreur si le fichier importé n'a pas la forme
+// attendue, ou null s'il est accepté (et déjà écrit dans localStorage).
+function importerListe(texte) {
+  let donnees;
+  try {
+    donnees = JSON.parse(texte);
+  } catch {
+    return "Fichier illisible : ce n'est pas un JSON valide.";
+  }
+  if (!donnees || !Array.isArray(donnees.armee)) {
+    return "Fichier invalide : ce n'est pas une liste exportée depuis ce site.";
+  }
+  localStorage.setItem(CLE_STOCKAGE, JSON.stringify(donnees.armee));
+  localStorage.setItem(
+    Organigramme.cleStockageOrga(),
+    JSON.stringify(donnees.organigramme || null),
+  );
+  return null;
+}
+
+/* ----------------------------------------------------------
    RENDU — la fabrique DOM el() (textContent uniquement, anti-XSS)
    est partagée avec js/organigramme.js : voir js/main.js.
    ---------------------------------------------------------- */
@@ -3810,14 +3856,60 @@ function initialiserChoixUnite() {
   return () => trouverUnite(uniteId);
 }
 
+// Petit menu déroulant générique (Téléchargement PDF/Word, Export/Import) :
+// un bouton bascule un <ul role="menu"> masqué par [hidden], refermé au
+// clic extérieur, sur Échap, ou dès qu'une option à l'intérieur est
+// cliquée — même principe d'ouverture/fermeture que le combobox « Unité
+// à ajouter » (initialiserChoixUnite), en plus simple (pas de recherche).
+function initialiserMenuDeroulant(idBouton, idListe) {
+  const bouton = document.getElementById(idBouton);
+  const liste = document.getElementById(idListe);
+  if (!bouton || !liste) return;
+  const fermer = () => {
+    liste.hidden = true;
+    bouton.setAttribute("aria-expanded", "false");
+  };
+  bouton.addEventListener("click", () => {
+    const doitOuvrir = liste.hidden;
+    fermer();
+    if (doitOuvrir) {
+      liste.hidden = false;
+      bouton.setAttribute("aria-expanded", "true");
+    }
+  });
+  liste.addEventListener("click", (evenement) => {
+    if (evenement.target.closest("button")) fermer();
+  });
+  document.addEventListener("click", (evenement) => {
+    if (
+      !liste.hidden &&
+      evenement.target !== bouton &&
+      !liste.contains(evenement.target)
+    )
+      fermer();
+  });
+  document.addEventListener("keydown", (evenement) => {
+    if (evenement.key === "Escape" && !liste.hidden) fermer();
+  });
+}
+
 function initialiser() {
   const uniteChoisie = initialiserChoixUnite();
   const boutonAjouter = document.getElementById("ajouter-unite");
   const boutonTelechargerPDF = document.getElementById("telecharger-pdf");
   const boutonTelechargerWord = document.getElementById("telecharger-word");
+  const boutonExporter = document.getElementById("exporter-liste");
+  const boutonImporter = document.getElementById("importer-liste");
+  const champImportFichier = document.getElementById(
+    "importer-liste-fichier",
+  );
+  const messageImport = document.getElementById("import-message");
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
   const messageAjout = document.getElementById("ajout-message");
+
+  initialiserMenuDeroulant("bouton-telechargement", "menu-telechargement-liste");
+  initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
   boutonAjouter.addEventListener("click", () => {
     // Filet de sécurité : le bouton est normalement désactivé tant que le
@@ -3870,6 +3962,37 @@ function initialiser() {
 
   boutonTelechargerPDF.addEventListener("click", () => telechargerPDF());
   boutonTelechargerWord.addEventListener("click", () => telechargerWord());
+
+  boutonExporter.addEventListener("click", () => exporterListe());
+  boutonImporter.addEventListener("click", () => champImportFichier.click());
+  champImportFichier.addEventListener("change", () => {
+    const fichier = champImportFichier.files[0];
+    // Permet de réimporter le même fichier une seconde fois (sinon
+    // "change" ne se déclenche plus si la sélection ne change pas).
+    champImportFichier.value = "";
+    if (!fichier) return;
+    if (
+      !window.confirm(
+        "Importer ce fichier remplacera entièrement la liste et l'organigramme actuels. Continuer ?",
+      )
+    )
+      return;
+    const lecteur = new FileReader();
+    lecteur.addEventListener("load", () => {
+      const erreur = importerListe(String(lecteur.result));
+      if (erreur) {
+        messageImport.textContent = erreur;
+        messageImport.hidden = false;
+        return;
+      }
+      // Recharge la page : restaurer()/Organigramme.initialiser() (déjà
+      // exécutés au chargement normal) relisent alors ces données depuis
+      // localStorage et les revalident exactement comme une sauvegarde
+      // native, sans dupliquer cette logique ici.
+      location.reload();
+    });
+    lecteur.readAsText(fichier);
+  });
 
   boutonVider.addEventListener("click", () => {
     armee = [];

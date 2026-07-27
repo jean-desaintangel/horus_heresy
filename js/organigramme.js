@@ -4059,6 +4059,10 @@ const Organigramme = (() => {
       actualiser();
     },
     actualiser,
+    // Clé localStorage de cet état (voir CLE_STOCKAGE_ORGA plus haut) :
+    // exposée pour js/unites.js (export/import de la liste complète, qui
+    // doit pouvoir lire/écrire cet état sans dupliquer la constante).
+    cleStockageOrga: () => CLE_STOCKAGE_ORGA,
     // Message d'aide quand aucune case n'est libre pour une unité :
     // suggère quels détachements contiennent ce Rôle Tactique. Ne
     // retient que les détachements dont au moins une Case de ce Rôle

@@ -3489,16 +3489,105 @@
           aria-atomic="true"
         ></p>
         <div class="unites-barre-actions">
-          <button type="button" id="telecharger-pdf" class="bouton-secondaire">
-            Télécharger en PDF
-          </button>
-          <button type="button" id="telecharger-word" class="bouton-secondaire">
-            Télécharger en Word
-          </button>
+          <div class="menu-deroulant">
+            <button
+              type="button"
+              id="bouton-telechargement"
+              class="bouton-secondaire menu-deroulant-bouton"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="menu-telechargement-liste"
+            >
+              Téléchargement ▾
+            </button>
+            <ul
+              id="menu-telechargement-liste"
+              class="menu-deroulant-liste"
+              role="menu"
+              hidden
+            >
+              <li role="none">
+                <button
+                  type="button"
+                  id="telecharger-pdf"
+                  role="menuitem"
+                  class="menu-deroulant-option"
+                >
+                  PDF
+                </button>
+              </li>
+              <li role="none">
+                <button
+                  type="button"
+                  id="telecharger-word"
+                  role="menuitem"
+                  class="menu-deroulant-option"
+                >
+                  Word
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="menu-deroulant">
+            <button
+              type="button"
+              id="bouton-export-import"
+              class="bouton-secondaire menu-deroulant-bouton"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="menu-export-import-liste"
+            >
+              Export - Import ▾
+            </button>
+            <ul
+              id="menu-export-import-liste"
+              class="menu-deroulant-liste"
+              role="menu"
+              hidden
+            >
+              <li role="none">
+                <button
+                  type="button"
+                  id="exporter-liste"
+                  role="menuitem"
+                  class="menu-deroulant-option"
+                >
+                  Export
+                </button>
+              </li>
+              <li role="none">
+                <button
+                  type="button"
+                  id="importer-liste"
+                  role="menuitem"
+                  class="menu-deroulant-option"
+                >
+                  Import
+                </button>
+              </li>
+            </ul>
+          </div>
+          <!-- Champ fichier masqué, déclenché par le clic sur "Import"
+               ci-dessus (voir initialiser(), js/unites.js). -->
+          <input
+            type="file"
+            id="importer-liste-fichier"
+            accept="application/json,.json"
+            hidden
+          />
           <button type="button" id="vider-liste" class="bouton-secondaire">
             Vider la liste
           </button>
         </div>
+        <!-- Message de confirmation/erreur de l'import (rempli par
+             js/unites.js). -->
+        <p
+          id="import-message"
+          class="orga-ajout-message"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></p>
       </section>
 
       <!-- ===================== CARTES D'UNITÉS =====================

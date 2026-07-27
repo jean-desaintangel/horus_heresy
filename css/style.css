@@ -2154,6 +2154,59 @@ footer p {
   gap: 0.6rem;
 }
 
+/* Petit menu déroulant (Téléchargement PDF/Word, Export/Import) : même
+   principe d'ouverture/fermeture que .unite-combobox-liste (bouton qui
+   bascule un <ul> masqué par [hidden]), mais en popup ancrée sous un
+   bouton plutôt qu'en liste de recherche. */
+.menu-deroulant {
+  position: relative;
+}
+
+.menu-deroulant-bouton {
+  font-family: inherit;
+}
+
+.menu-deroulant-liste {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  background: var(--carte);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.18);
+}
+
+.menu-deroulant-liste[hidden] {
+  display: none;
+}
+
+.menu-deroulant-option {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--texte-doux);
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.menu-deroulant-option:hover,
+.menu-deroulant-option:focus-visible {
+  background: var(--fond-secondaire);
+  color: var(--titre-contraste);
+}
+
 /* ---------- Carte d'unité ---------- */
 .unite-carte {
   background: var(--carte);
