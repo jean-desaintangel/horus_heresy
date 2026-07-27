@@ -630,6 +630,46 @@ function restaurer() {
    on écrit dans localStorage puis on recharge, plutôt que de
    dupliquer cette logique.
    ---------------------------------------------------------- */
+// Réduit un libellé à des caractères sûrs pour un nom de fichier (garde
+// lettres/chiffres, y compris accentués, tout le reste devient "-").
+function nomFichierSlug(texte) {
+  return texte.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "");
+}
+
+// Segments identifiant la liste actuelle (Faction, puis sa subdivision
+// - Légion/Maisonnée/Doctrine de Cohorte+Désignation de Legiones
+// Auxilia selon la Faction -, puis Allégeance) : consommés par
+// exporterListe() pour nommer le fichier exporté de façon reconnaissable
+// sans avoir à l'ouvrir.
+function segmentsIdentiteActuelle() {
+  const segments = [Organigramme.libelleFactionActuelle()];
+  const faction = Organigramme.factionActuelle();
+  if (faction === "legio-astartes" && Organigramme.legionActuelle()) {
+    segments.push(Organigramme.libelleLegionActuelle());
+  } else if (
+    faction === "chevaliers-questoris" &&
+    Organigramme.maisonneeActuelle()
+  ) {
+    segments.push(Organigramme.libelleMaisonneeActuelle());
+  } else if (faction === "solar-auxilia") {
+    const doctrine = nomDoctrineCohorteActuelle();
+    if (doctrine) segments.push(doctrine);
+    const idDesignation = Organigramme.designationAuxiliaActuelle
+      ? Organigramme.designationAuxiliaActuelle()
+      : "";
+    const designation = DESIGNATIONS_LEGIONES_AUXILIA.find(
+      (d) => d.id === idDesignation,
+    );
+    if (designation) segments.push(designation.nom);
+  }
+  segments.push(
+    Organigramme.allegeanceActuelle() === "renegat"
+      ? "Renégat"
+      : "Loyaliste",
+  );
+  return segments.filter(Boolean);
+}
+
 function exporterListe() {
   const donnees = {
     site: "horus-heresy-listes",
@@ -640,8 +680,15 @@ function exporterListe() {
     ),
   };
   const date = new Date().toISOString().slice(0, 10);
+  const nomFichier =
+    "liste-horus-heresy-" +
+    segmentsIdentiteActuelle()
+      .map(nomFichierSlug)
+      .concat(date)
+      .join("-") +
+    ".json";
   telechargerBlob(
-    "liste-horus-heresy-" + date + ".json",
+    nomFichier,
     JSON.stringify(donnees, null, 2),
     "application/json;charset=utf-8",
   );

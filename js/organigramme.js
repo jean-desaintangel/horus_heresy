@@ -4063,6 +4063,26 @@ const Organigramme = (() => {
     // exposée pour js/unites.js (export/import de la liste complète, qui
     // doit pouvoir lire/écrire cet état sans dupliquer la constante).
     cleStockageOrga: () => CLE_STOCKAGE_ORGA,
+    // Libellés humains (FACTIONS/LEGIONS/MAISONNEES ci-dessus) de la
+    // Faction/Légion/Maisonnée actuelles — contrairement à
+    // factionActuelle()/legionActuelle()/maisonneeActuelle() plus haut,
+    // qui renvoient l'id technique. Consommés par js/unites.js pour
+    // nommer le fichier d'export de la liste (voir exporterListe).
+    // null si la subdivision ne s'applique pas à la Faction actuelle.
+    libelleFactionActuelle: () => {
+      const trouvee = FACTIONS.find(([valeur]) => valeur === etat.faction);
+      return trouvee ? trouvee[1] : etat.faction;
+    },
+    libelleLegionActuelle: () => {
+      const trouvee = LEGIONS.find(([valeur]) => valeur === etat.legion);
+      return trouvee ? trouvee[1] : null;
+    },
+    libelleMaisonneeActuelle: () => {
+      const trouvee = MAISONNEES.find(
+        ([valeur]) => valeur === etat.maisonnee,
+      );
+      return trouvee ? trouvee[1] : null;
+    },
     // Message d'aide quand aucune case n'est libre pour une unité :
     // suggère quels détachements contiennent ce Rôle Tactique. Ne
     // retient que les détachements dont au moins une Case de ce Rôle
