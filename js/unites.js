@@ -1491,6 +1491,10 @@ function construireTablesArmes(equipement, factionUnite) {
 // focus — donc invisible sur une fiche imprimée. Repère les .regle-
 // tag déjà posés par construireLigneRegles/construireCelluleReglesArme
 // plutôt que de refaire la recherche de définition.
+// Clé de regroupement = nom de base sans le "(X)" final (ex : "Brèche"
+// pour "Brèche (5+)" comme pour "Brèche (6+)") : deux variantes de la
+// même Règle Spéciale avec des valeurs de X différentes ne doivent
+// apparaître qu'une fois dans ce bloc, pas une entrée par valeur.
 function construireDefinitions(fiche) {
   const definitions = new Map();
   fiche.querySelectorAll(".regle-tag").forEach((tag) => {
@@ -1501,14 +1505,16 @@ function construireDefinitions(fiche) {
     const bulle = tag.querySelector(".tooltip");
     if (!bulle || !tag.firstChild) return;
     const nom = tag.firstChild.textContent;
-    if (!definitions.has(nom)) definitions.set(nom, bulle.textContent);
+    const base = nom.replace(/\s*\([^)]*\)\s*$/, "");
+    if (!definitions.has(base))
+      definitions.set(base, { nom, texte: bulle.textContent });
   });
   if (definitions.size === 0) return null;
 
   const bloc = el("div", "unite-fiche-definitions");
   bloc.appendChild(el("p", "unite-definitions-titre", "Définitions"));
   const liste = document.createElement("ul");
-  for (const [nom, texte] of definitions) {
+  for (const { nom, texte } of definitions.values()) {
     const li = document.createElement("li");
     li.appendChild(el("strong", null, nom + " — "));
     li.appendChild(document.createTextNode(texte));
@@ -2809,6 +2815,7 @@ async function genererPDF() {
         lineColor: [0, 0, 0],
         lineWidth: 0.5,
         textColor: [0, 0, 0],
+        halign: "center",
       },
       headStyles: {
         fillColor: accentRGB,
@@ -3083,11 +3090,6 @@ async function genererPDF() {
 
   const total = document.getElementById("total-armee");
   if (total) paragraphe(total.textContent.trim(), 11, "bold", orRGB);
-  paragraphe(
-    "Générée le " + new Date().toLocaleDateString("fr-FR"),
-    9,
-    "italic",
-  );
   y += 6;
   const resume = document.getElementById("orga-resume");
   if (resume && resume.textContent.trim()) {
@@ -3436,10 +3438,6 @@ async function genererWordHTML() {
       '<p class="total-armee"><strong>' +
       echapperHTML(total.textContent.trim()) +
       "</strong></p>";
-  corps +=
-    "<p><em>Générée le " +
-    echapperHTML(new Date().toLocaleDateString("fr-FR")) +
-    "</em></p>";
   const resume = document.getElementById("orga-resume");
   if (resume && resume.textContent.trim()) {
     corps += "<h2>Structure de l'armée</h2>";
