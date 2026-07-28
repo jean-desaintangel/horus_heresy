@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/defi.html"
     />
     <script src="../js/main.js" defer></script>
   </head>
@@ -134,14 +145,16 @@
           <div class="timeline">
             <!-- ===================== 1. DÉCLARATION DE DÉFI ===================== -->
             <div class="timeline-item" id="declaration">
-              <button
-                type="button"
-                class="timeline-titre"
-                aria-expanded="false"
-              >
-                1. Déclaration de défi
-                <span class="chevron" aria-hidden="true">❯</span>
-              </button>
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  1. Déclaration de défi
+                  <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
               <div class="timeline-details">
                 <div class="timeline-details-inner">
                   <p>
@@ -175,14 +188,16 @@
 
             <!-- ===================== 2. CONFRONTATION ===================== -->
             <div class="timeline-item" id="confrontation">
-              <button
-                type="button"
-                class="timeline-titre"
-                aria-expanded="false"
-              >
-                2. Confrontation
-                <span class="chevron" aria-hidden="true">❯</span>
-              </button>
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  2. Confrontation
+                  <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
               <div class="timeline-details">
                 <div class="timeline-details-inner">
                   <ul>
@@ -339,14 +354,16 @@
 
             <!-- ===================== 3. CONCENTRATION ===================== -->
             <div class="timeline-item" id="concentration">
-              <button
-                type="button"
-                class="timeline-titre"
-                aria-expanded="false"
-              >
-                3. Concentration
-                <span class="chevron" aria-hidden="true">❯</span>
-              </button>
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  3. Concentration
+                  <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
               <div class="timeline-details">
                 <div class="timeline-details-inner">
                   <p>
@@ -446,13 +463,15 @@
 
             <!-- ===================== 4. FRAPPE ===================== -->
             <div class="timeline-item" id="frappe">
-              <button
-                type="button"
-                class="timeline-titre"
-                aria-expanded="false"
-              >
-                4. Frappe <span class="chevron" aria-hidden="true">❯</span>
-              </button>
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  4. Frappe <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
 
               <div class="timeline-details">
                 <div class="timeline-details-inner">
@@ -489,13 +508,15 @@
 
             <!-- ===================== 5. GLOIRE ===================== -->
             <div class="timeline-item" id="gloire">
-              <button
-                type="button"
-                class="timeline-titre"
-                aria-expanded="false"
-              >
-                5. Gloire <span class="chevron" aria-hidden="true">❯</span>
-              </button>
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  5. Gloire <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
               <div class="timeline-details">
                 <div class="timeline-details-inner">
                   <p>

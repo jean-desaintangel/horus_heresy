@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mentions légales — Horus Heresy</title>
+    <meta
+      name="description"
+      content="Mentions légales du guide d’initiation Horus Heresy : éditeur, hébergeur, propriété intellectuelle, données personnelles."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Mentions légales — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Éditeur, hébergeur, propriété intellectuelle et données personnelles du guide d’initiation Horus Heresy."
+    />
+    <meta
+      property="og:image"
+      content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/mentions-legales.html"
+    />
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Mentions légales
+      </h1>
+
+      <h2 class="section-titre">Éditeur du site</h2>
+      <p>
+        Ce site est édité à titre <strong>personnel et non lucratif</strong> par
+        un particulier.
+      </p>
+      <ul>
+        <li>Nom&nbsp;: <em>Jean de SAINT ANGEL</em></li>
+        <li>Contact&nbsp;: <a href="contact.html">formulaire de contact</a></li>
+      </ul>
+      <div class="encadre">
+        <p>
+          <strong>Éditeur non professionnel.</strong> L’article 6-III-2 de la
+          LCEN autorise une personne physique éditant un site à titre non
+          professionnel à ne pas publier son adresse, à condition d’avoir
+          communiqué son identité complète à son hébergeur — lequel est tenu de
+          la conserver et de la fournir sur réquisition judiciaire. Le nom de
+          l’hébergeur doit alors figurer ci-dessous, ce qui est le cas.
+        </p>
+      </div>
+
+      <h2 class="section-titre">Hébergeur</h2>
+      <p>
+        Le site est hébergé par <strong>GitHub&nbsp;Pages</strong>, service de
+        GitHub,&nbsp;Inc. (filiale de Microsoft Corporation).
+      </p>
+      <ul>
+        <li>GitHub,&nbsp;Inc.</li>
+        <li>
+          88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis
+        </li>
+        <li>
+          Site&nbsp;:
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+            >github.com <span class="sr-only">(nouvelle fenêtre)</span></a
+          >
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Propriété intellectuelle</h2>
+      <div class="encadre-attention">
+        <p>
+          <strong>Site non officiel, réalisé par des fans bénévoles.</strong>
+          Il n’est ni affilié à Games&nbsp;Workshop&nbsp;Ltd, ni approuvé,
+          sponsorisé ou soutenu par cette société.
+        </p>
+      </div>
+      <p>
+        <em>Warhammer&nbsp;: The Horus Heresy</em>, <em>Horus Heresy</em>,
+        <em>Adeptus Astartes</em>, les noms des Légions, les blasons, les
+        illustrations et l’ensemble des noms, marques, personnages et éléments
+        de l’univers associés sont la propriété exclusive de
+        <a
+          href="https://www.games-workshop.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Games Workshop Ltd <span class="sr-only">(nouvelle fenêtre)</span></a
+        >, utilisés ici sans autorisation. Aucun défi à leur statut n’est
+        intentionné.
+      </p>
+      <p>
+        Les textes de règles sont des
+        <strong>retranscriptions résumées</strong> destinées à l’initiation. Ils
+        ne se substituent pas aux ouvrages officiels, dont l’achat reste
+        nécessaire pour jouer&nbsp;: les sources utilisées sont listées en pied
+        de page de chaque page du site. Toute demande de retrait émanant de
+        l’ayant droit sera honorée sans délai via le
+        <a href="contact.html">formulaire de contact</a>.
+      </p>
+      <p>
+        Le code source du site (HTML, CSS, JavaScript) est publié sous la
+        licence indiquée dans le fichier <code>LICENSE</code> du dépôt.
+      </p>
+
+      <h2 class="section-titre">Données personnelles</h2>
+      <p>
+        Le site est <strong>statique</strong>&nbsp;: il ne dispose d’aucune base
+        de données et ne crée aucun compte utilisateur. Deux traitements
+        seulement peuvent concerner des données personnelles.
+      </p>
+
+      <h3>Formulaire de signalement</h3>
+      <p>
+        Les données saisies dans le
+        <a href="contact.html">formulaire de contact</a> (nom, adresse e-mail,
+        message) sont transmises par le service
+        <a href="https://formspree.io" target="_blank" rel="noopener noreferrer"
+          >Formspree <span class="sr-only">(nouvelle fenêtre)</span></a
+        >, qui les achemine par courriel à l’éditeur.
+      </p>
+      <ul>
+        <li>
+          <strong>Finalité</strong>&nbsp;: répondre au signalement ou à la
+          suggestion.
+        </li>
+        <li>
+          <strong>Base légale</strong>&nbsp;: intérêt légitime (article 6.1.f du
+          RGPD) — l’envoi du formulaire relève de la seule initiative du
+          visiteur.
+        </li>
+        <li>
+          <strong>Caractère facultatif</strong>&nbsp;: seul le message est
+          obligatoire. Le nom et l’adresse e-mail ne servent qu’à
+          répondre&nbsp;; ils ne sont ni publiés ni transmis à un tiers à
+          d’autres fins.
+        </li>
+        <li>
+          <strong>Conservation</strong>&nbsp;: <em>[durée à préciser]</em>.
+        </li>
+      </ul>
+
+      <h3>Mesure d’audience</h3>
+      <p>
+        Le site utilise
+        <a
+          href="https://statcounter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >StatCounter <span class="sr-only">(nouvelle fenêtre)</span></a
+        >
+        pour compter les visites.
+      </p>
+
+      <h3>Stockage local dans le navigateur</h3>
+      <p>
+        Le site enregistre certaines informations dans la mémoire de votre
+        navigateur (<code>localStorage</code> et <code>sessionStorage</code>)
+        pour vous rendre service&nbsp;: liste d’armée en cours de construction,
+        armes cochées dans l’Arsenal, blason affiché dans l’onglet.
+      </p>
+      <p>
+        Ces données <strong>ne quittent jamais votre appareil</strong>&nbsp;:
+        aucune n’est envoyée à un serveur, et l’éditeur n’y a pas accès. Vous
+        pouvez les effacer à tout moment en vidant les données de site de votre
+        navigateur.
+      </p>
+
+      <h3>Vos droits</h3>
+      <p>
+        Vous disposez d’un droit d’accès, de rectification, d’effacement,
+        d’opposition et de limitation sur les données vous concernant. Pour
+        l’exercer, utilisez le
+        <a href="contact.html">formulaire de contact</a>. En cas de désaccord,
+        vous pouvez saisir la
+        <a
+          href="https://www.cnil.fr/fr/plaintes"
+          target="_blank"
+          rel="noopener noreferrer"
+          >CNIL <span class="sr-only">(nouvelle fenêtre)</span></a
+        >.
+      </p>
+
+      <h2 class="section-titre">Accessibilité</h2>
+      <p>
+        L’état de conformité du site au RGAA&nbsp;4.1 est détaillé dans la
+        <a href="accessibilite.html">déclaration d’accessibilité</a>.
+      </p>
+
+      <h2 class="section-titre">Responsabilité</h2>
+      <p>
+        Le contenu de ce site est fourni à titre indicatif, sans garantie
+        d’exactitude ni d’exhaustivité. En cas de divergence,
+        <strong>l’ouvrage officiel fait toujours foi</strong>. L’éditeur ne
+        saurait être tenu responsable d’une erreur de retranscription ni de
+        l’usage fait de ces informations en partie ou en tournoi.
+      </p>
+    </main>
+
+    <footer></footer>
+    <!-- Default Statcounter code for Horus Heresy
+https://jean-desaintangel.github.io/horus_heresy/ -->
+    <script type="text/javascript">
+      var sc_project = 13337655;
+      var sc_invisible = 1;
+      var sc_security = "7b1ddd1f";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
+  </body>
+</html>

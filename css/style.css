@@ -63,8 +63,24 @@
 :root {
   --fond: #f4f1e8; /* fond principal (parchemin) */
   --fond-secondaire: #e8e2d0; /* fond nav / footer */
-  --accent: #8b0000; /* accent principal (bordeaux) */
+  --accent: #8b0000; /* accent principal (bordeaux) — APLATS de couleur */
   --accent-clair: #a13030;
+  /* --accent-texte : le même bordeaux, mais dans son rôle de TEXTE ou de
+     LISERÉ sur fond clair. Pourquoi séparer les deux rôles alors que la
+     valeur est identique en thème clair ? Parce qu'ils n'ont pas les
+     mêmes contraintes de contraste, et que le thème sombre le révèle :
+     - en APLAT (`background: var(--accent)`), c'est le texte blanc
+       posé dessus qui doit contraster — il monte à 11:1, tout va bien ;
+     - en TEXTE (`color: var(--accent)`), c'est l'accent lui-même qui
+       doit contraster avec le fond. Sur le fond noir de Nuit Éternelle,
+       ce bordeaux tombait à 1,8:1 — soit un texte quasi invisible, très
+       loin des 4,5:1 exigés par WCAG 1.4.3 / RGAA 3.2.
+     Une seule variable ne pouvait pas satisfaire les deux à la fois. En
+     les séparant, le thème sombre n'a plus qu'à redéclarer celle-ci
+     (voir « Nuit Éternelle » plus bas), au lieu de rattraper le
+     problème règle par règle — ce qui avait déjà commencé pour deux
+     composants et aurait dû être répété une vingtaine de fois. */
+  --accent-texte: #8b0000;
   /* --titre (or) ≈ 4.3:1 sur --fond : réservé aux titres ≥ 18.66px
      gras (texte large, seuil WCAG 3:1). Pour du texte courant,
      utiliser --titre-contraste (≥ 4.5:1). */
@@ -885,6 +901,17 @@ strong {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Accessibilité (WCAG 2.1.1 / 2.4.7, RGAA 7.3 / 10.7) : quand la zone
+   déborde, js/main.js (majZoneDefilable) lui pose tabindex="0" pour
+   qu'on puisse la faire défiler aux flèches du clavier. Il faut alors
+   que la prise de focus SE VOIE — sinon l'utilisateur au clavier reçoit
+   le focus sur une zone dont rien n'indique qu'elle est sélectionnée, et
+   ne devine pas que les flèches vont maintenant défiler le tableau. */
+.table-scroll:focus-visible {
+  outline: 3px solid var(--acier-clair);
+  outline-offset: 2px;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -1172,6 +1199,28 @@ td.impossible {
 
 .accordeon-item + .accordeon-item {
   border-top: 1px solid var(--acier);
+}
+
+/* Accessibilité (WCAG 1.3.1 / RGAA 9.1) : le bouton qui déplie une
+   section EST le titre de cette section pour l'œil, mais un <button>
+   nu n'apparaît nulle part dans le plan du document — un utilisateur
+   de lecteur d'écran qui parcourt la page par les titres (touche H
+   sous NVDA/JAWS, le mode de navigation le plus utilisé) ne voyait
+   donc AUCUNE de ces sections. On enveloppe donc le bouton dans un
+   vrai élément de titre, exactement comme le fait déjà
+   `<h2 class="section-titre"><button class="section-toggle">` plus bas
+   dans ce fichier — c'est le motif recommandé par l'ARIA Authoring
+   Practices Guide pour un accordéon.
+   L'enveloppe ne doit RIEN peindre : tout le style (police, fond,
+   bordure, taille) reste porté par le bouton lui-même, pour que
+   l'ajout de la balise ne déplace pas un seul pixel. D'où la remise à
+   zéro des valeurs par défaut du navigateur pour un <h2>/<h3>/<h4>. */
+.accordeon-entete,
+.timeline-entete {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .accordeon-titre {
@@ -2018,7 +2067,7 @@ footer p {
    dans la couleur de skin de la Légion, pour les repérer d'un coup
    d'œil parmi les unités génériques. */
 .unite-combobox-option--legion {
-  border-left-color: var(--accent);
+  border-left-color: var(--accent-texte);
   color: var(--titre-contraste);
   font-weight: 700;
 }
@@ -2261,8 +2310,8 @@ footer p {
 
 .unite-retirer:hover,
 .unite-retirer:focus-visible {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-texte);
+  color: var(--accent-texte);
 }
 
 /* Repli/dépli d'une fiche (voir construireCarte dans js/unites.js) :
@@ -2286,8 +2335,8 @@ footer p {
 
 .unite-bascule:hover,
 .unite-bascule:focus-visible {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-texte);
+  color: var(--accent-texte);
 }
 
 /* Fiche repliée : seul l'en-tête (nom, coût, boutons) reste visible
@@ -2602,7 +2651,7 @@ footer p {
 
 .legion-banniere strong {
   font-family: "Cinzel", serif;
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 .legion-banniere em {
@@ -2681,7 +2730,7 @@ body[class*="skin-legion-"] .orga-resume {
 }
 
 body[class*="skin-legion-"] .encadre {
-  border-left-color: var(--accent);
+  border-left-color: var(--accent-texte);
 }
 
 /* Badges de Rôles Tactiques : liseré d'or plutôt que gris-acier. */
@@ -3599,6 +3648,12 @@ body.nuit-eternelle {
   --fond-secondaire: #101014;
   --accent: #7a0c0c;
   --accent-clair: #a13030;
+  /* Bordeaux ÉCLAIRCI pour le rôle texte/liseré (voir --accent-texte
+     dans :root) : 6,7:1 sur --fond et 6,4:1 sur --carte, contre 1,8:1
+     pour --accent brut. C'est ce qui rend de nouveau lisibles, en thème
+     sombre, les liens de case d'organigramme, les états de survol des
+     boutons de fiche et les bordures de champ en erreur. */
+  --accent-texte: #d97b73;
   --titre: #b3924f;
   --titre-contraste: #d4b56a;
   /* Accessibilité (WCAG 1.4.11 / RGAA 3.3) : --acier sert de bordure aux
@@ -3685,7 +3740,7 @@ body.nuit-eternelle {
 
 .orga-erreurs-titre {
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-texte);
   margin-bottom: 0.3rem;
 }
 
@@ -3727,7 +3782,7 @@ body.nuit-eternelle .orga-erreurs-titre {
 }
 
 .orga-detachement--principal {
-  border-left-color: var(--accent);
+  border-left-color: var(--accent-texte);
 }
 
 .orga-detachement--apex {
@@ -3820,7 +3875,7 @@ body.nuit-eternelle .orga-erreurs-titre {
 }
 
 .orga-case-unite a {
-  color: var(--accent);
+  color: var(--accent-texte);
   font-weight: 700;
   text-decoration: none;
 }
@@ -3909,8 +3964,8 @@ body.nuit-eternelle .orga-case-unite a {
 
 .orga-badge--principale {
   border-style: dotted;
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-texte);
+  color: var(--accent-texte);
 }
 
 .orga-badge--principale::after {
@@ -3919,7 +3974,7 @@ body.nuit-eternelle .orga-case-unite a {
   top: -0.55rem;
   right: -0.35rem;
   font-size: 0.7rem;
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 /* ---------- Panneau « Ajouter un détachement » ---------- */
@@ -3950,14 +4005,14 @@ body.nuit-eternelle .orga-case-unite a {
 
 .orga-ajout-titre-texte:hover,
 .orga-ajout-groupe summary:focus-visible .orga-ajout-titre-texte {
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 /* Titre du groupe « Détachement Narratif » : en rouge en permanence
    (pas seulement au survol) pour rester bien visible dans le panneau
    « Ajouter un détachement », comme sa carte et son bouton d'ajout. */
 .orga-ajout-groupe[data-famille="narratif"] summary {
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 .orga-ajout-groupe .orga-ajout-boutons {
@@ -4038,7 +4093,7 @@ body.nuit-eternelle .orga-case-unite a {
 
 .unite-carte--sans-case .unite-affectation {
   background: var(--fond-erreur);
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 /* ---------- Résumé de la liste ---------- */
@@ -4182,7 +4237,7 @@ body.nuit-eternelle .orga-case-unite a {
    ait tapé quoi que ce soit. */
 .champ input:user-invalid,
 .champ textarea:user-invalid {
-  border-color: var(--accent);
+  border-color: var(--accent-texte);
 }
 
 /* PIÈGE À ROBOTS : invisible pour l'humain, présent dans le DOM pour
@@ -4253,7 +4308,7 @@ body.nuit-eternelle .orga-case-unite a {
 
 .form-retour--erreur {
   background: var(--fond-erreur-fort);
-  border-left-color: var(--accent);
+  border-left-color: var(--accent-texte);
   color: var(--texte-erreur);
 }
 
@@ -4269,8 +4324,31 @@ body.nuit-eternelle .orga-case-unite a {
 }
 
 .footer-signalement a {
-  color: var(--accent);
+  color: var(--accent-texte);
   font-weight: 700;
+}
+
+/* Pages légales (mentions légales, déclaration d'accessibilité), posées
+   dans le pied de page de TOUTES les pages par construirePiedDePage
+   (js/main.js). Discrètes mais lisibles : le RGAA impose leur présence
+   et leur accessibilité, pas leur mise en avant.
+   --texte-doux tient les 4,5:1 requis sur --fond-secondaire dans les
+   deux thèmes ; le soulignement permanent (et non au seul survol)
+   satisfait WCAG 1.4.1 « Utilisation de la couleur » : la nature de
+   lien ne doit pas reposer sur la seule teinte. */
+.footer-legal {
+  margin-bottom: 0.8rem !important;
+  font-size: 0.9rem;
+}
+
+.footer-legal a {
+  color: var(--texte-doux);
+  text-decoration: underline;
+}
+
+.footer-legal a:hover,
+.footer-legal a:focus-visible {
+  color: var(--accent-texte);
 }
 
 @media (min-width: 700px) {

@@ -3,7 +3,7 @@ name: Signaler un bug
 about: Une valeur de jeu incorrecte, une erreur d'affichage ou un dysfonctionnement
 title: "[BUG] "
 labels: bug
-assignees: ''
+assignees: ""
 ---
 
 ## Description du problème

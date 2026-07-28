@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/contact.html"
     />
     <script src="../js/main.js" defer></script>
     <script src="../js/contact.js" defer></script>
@@ -136,7 +147,14 @@
              lecteur d'écran qui navigue de champ en champ (touche F sous
              NVDA) sans jamais entendre le texte courant qui les
              sépare. -->
-        <p class="champ-aide" id="legende-obligatoire">
+        <!-- L'id "legende-obligatoire" a été retiré : il n'était référencé
+             par aucun aria-labelledby/aria-describedby, ni par le CSS, ni
+             par le JS. Un id orphelin donne l'illusion d'une association
+             qui n'existe pas — c'est justement le genre de détail qu'un
+             audit relève. La légende reste efficace sans lui : placée
+             AVANT les champs, elle est lue dans l'ordre naturel du
+             document (RGAA 11.10). -->
+        <p class="champ-aide">
           Les champs suivis d’un astérisque
           <span aria-hidden="true">(*)</span> sont obligatoires.
         </p>
@@ -174,7 +192,16 @@
         </div>
 
         <div class="champ">
-          <label for="page">Page concernée</label>
+          <!-- Cohérence des libellés (RGAA 11.10) : les quatre autres
+               champs annoncent tous leur statut — « (facultatif) » ou
+               « * (obligatoire) ». Celui-ci était le seul muet, ce qui
+               laissait le doute à l'utilisateur (et surtout à celui qui
+               tabule de champ en champ sans voir le formulaire d'un
+               coup d'œil). L'indication doit être systématique, pas
+               seulement présente là où elle semble utile. -->
+          <label for="page">
+            Page concernée <span class="champ-option">(facultatif)</span>
+          </label>
           <!-- Pré-rempli par js/contact.js si l'utilisateur arrive
                depuis une page du site (lien du pied de page). -->
           <input

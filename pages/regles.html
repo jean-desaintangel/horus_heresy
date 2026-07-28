@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/regles.html"
     />
     <script src="../js/main.js" defer></script>
     <script src="../js/regles-data.js" defer></script>

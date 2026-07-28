@@ -732,9 +732,7 @@ function segmentsIdentiteActuelle() {
     if (designation) segments.push(designation.nom);
   }
   segments.push(
-    Organigramme.allegeanceActuelle() === "renegat"
-      ? "Renégat"
-      : "Loyaliste",
+    Organigramme.allegeanceActuelle() === "renegat" ? "Renégat" : "Loyaliste",
   );
   return segments.filter(Boolean);
 }
@@ -745,10 +743,7 @@ function segmentsIdentiteActuelle() {
 function nomFichierArmee(extension) {
   const date = new Date().toISOString().slice(0, 10);
   return (
-    segmentsIdentiteActuelle()
-      .map(nomFichierSlug)
-      .concat(date)
-      .join("-") +
+    segmentsIdentiteActuelle().map(nomFichierSlug).concat(date).join("-") +
     "." +
     extension
   );
@@ -1326,7 +1321,11 @@ function trouverArmeDansTexte(texte) {
     if (!correspondance) continue;
     const i = correspondance.index;
     const longueur = correspondance[0].length;
-    if (!meilleur || i < meilleur.i || (i === meilleur.i && longueur > meilleur.longueur)) {
+    if (
+      !meilleur ||
+      i < meilleur.i ||
+      (i === meilleur.i && longueur > meilleur.longueur)
+    ) {
       meilleur = { i, longueur, arme };
     }
   }
@@ -4093,15 +4092,16 @@ function initialiser() {
   const boutonTelechargerWord = document.getElementById("telecharger-word");
   const boutonExporter = document.getElementById("exporter-liste");
   const boutonImporter = document.getElementById("importer-liste");
-  const champImportFichier = document.getElementById(
-    "importer-liste-fichier",
-  );
+  const champImportFichier = document.getElementById("importer-liste-fichier");
   const messageImport = document.getElementById("import-message");
   const boutonVider = document.getElementById("vider-liste");
   const listeCartes = document.getElementById("liste-unites");
   const messageAjout = document.getElementById("ajout-message");
 
-  initialiserMenuDeroulant("bouton-telechargement", "menu-telechargement-liste");
+  initialiserMenuDeroulant(
+    "bouton-telechargement",
+    "menu-telechargement-liste",
+  );
   initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
   boutonAjouter.addEventListener("click", () => {

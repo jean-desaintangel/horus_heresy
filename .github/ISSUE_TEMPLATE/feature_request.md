@@ -3,7 +3,7 @@ name: Proposer une amélioration
 about: Une idée de fonctionnalité, une nouvelle unité, une amélioration d'accessibilité…
 title: "[SUGGESTION] "
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
 ## Contexte

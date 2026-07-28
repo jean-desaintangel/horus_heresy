@@ -28,7 +28,17 @@
    retélécharge tout au prochain passage en ligne.
    ============================================================ */
 
-const CACHE_VERSION = "v24";
+// v26 : favicons en WebP (les chemins .png/.jpg n'existent plus —
+// sans changement de version, un visiteur déjà venu resservirait
+// depuis son cache une liste d'icônes toutes en 404), extraction du
+// CSS/JS de choix-legion.html, pages légales.
+// v25 : audit accessibilité/qualité (titres des panneaux dépliables,
+// zones de tableau défilables au clavier, palette du thème sombre,
+// og:url). Le CSS, les scripts et les 16 pages ayant changé, il FAUT
+// incrémenter cette version : sinon un visiteur déjà venu continue de
+// recevoir indéfiniment les anciens fichiers depuis son cache local,
+// et ne verra aucune des corrections.
+const CACHE_VERSION = "v27";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -51,8 +61,10 @@ const PRECACHE_URLS = [
   "pages/armes.html",
   "pages/assaut.html",
   "pages/choix-legion.html",
+  "pages/accessibilite.html",
   "pages/contact.html",
   "pages/defi.html",
+  "pages/mentions-legales.html",
   "pages/mouvement.html",
   "pages/psy.html",
   "pages/regles.html",
@@ -66,10 +78,12 @@ const PRECACHE_URLS = [
 
   // CSS
   "css/style.css",
+  "css/choix-legion.css",
 
   // JS (site + vendor jsPDF, auto-hébergé)
   "js/armes-data.js",
   "js/armes.js",
+  "js/choix-legion.js",
   "js/contact.js",
   "js/main.js",
   "js/organigramme-data.js",
@@ -99,25 +113,25 @@ const PRECACHE_URLS = [
   "assets/pwa/icon-192.png",
   "assets/pwa/icon-512.png",
   "assets/pwa/apple-touch-icon.png",
-  "assets/favicon/favicon_alpha_legion.jpg",
-  "assets/favicon/favicon_blood_angels.jpg",
-  "assets/favicon/favicon_dark_angels.jpg",
+  "assets/favicon/favicon_alpha_legion.webp",
+  "assets/favicon/favicon_blood_angels.webp",
+  "assets/favicon/favicon_dark_angels.webp",
   "assets/favicon/favicon_death_guards.webp",
-  "assets/favicon/favicon_emperors_children.jpg",
-  "assets/favicon/favicon_imperial_fists.jpg",
-  "assets/favicon/favicon_iron_hands.jpg",
-  "assets/favicon/favicon_iron_warriors.png",
-  "assets/favicon/favicon_mechanicum.jpg",
+  "assets/favicon/favicon_emperors_children.webp",
+  "assets/favicon/favicon_imperial_fists.webp",
+  "assets/favicon/favicon_iron_hands.webp",
+  "assets/favicon/favicon_iron_warriors.webp",
+  "assets/favicon/favicon_mechanicum.webp",
   "assets/favicon/favicon_night_lords.webp",
-  "assets/favicon/favicon_raven_guards.jpg",
-  "assets/favicon/favicon_salamanders.png",
-  "assets/favicon/favicon_sons_of_horus.png",
-  "assets/favicon/favicon_space_wolves.png",
-  "assets/favicon/favicon_thousand_sons.png",
-  "assets/favicon/favicon_ultramarine.png",
-  "assets/favicon/favicon_white_scars.png",
-  "assets/favicon/favicon_word_bearer.jpg",
-  "assets/favicon/favicon_world_eaters.png",
+  "assets/favicon/favicon_raven_guards.webp",
+  "assets/favicon/favicon_salamanders.webp",
+  "assets/favicon/favicon_sons_of_horus.webp",
+  "assets/favicon/favicon_space_wolves.webp",
+  "assets/favicon/favicon_thousand_sons.webp",
+  "assets/favicon/favicon_ultramarine.webp",
+  "assets/favicon/favicon_white_scars.webp",
+  "assets/favicon/favicon_word_bearer.webp",
+  "assets/favicon/favicon_world_eaters.webp",
 
   // Images d'illustration (accueil, skin Night Lords...)
   "assets/img/erebus.webp",
@@ -210,15 +224,18 @@ const PRECACHE_URLS = [
    ---------------------------------------------------------- */
 self.addEventListener("install", (evenement) => {
   evenement.waitUntil(
-    caches.open(CACHE_PRECACHE).then((cache) =>
-      Promise.all(
-        PRECACHE_URLS.map((url) =>
-          cache.add(url).catch((erreur) => {
-            console.warn("[SW] Échec de précache :", url, erreur);
-          })
-        )
+    caches
+      .open(CACHE_PRECACHE)
+      .then((cache) =>
+        Promise.all(
+          PRECACHE_URLS.map((url) =>
+            cache.add(url).catch((erreur) => {
+              console.warn("[SW] Échec de précache :", url, erreur);
+            }),
+          ),
+        ),
       )
-    ).then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()),
   );
 });
 
@@ -235,10 +252,10 @@ self.addEventListener("activate", (evenement) => {
         Promise.all(
           noms
             .filter((nom) => !CACHES_CONNUS.includes(nom))
-            .map((nom) => caches.delete(nom))
-        )
+            .map((nom) => caches.delete(nom)),
+        ),
       )
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -274,7 +291,9 @@ self.addEventListener("fetch", (evenement) => {
           caches.open(CACHE_RUNTIME).then((cache) => cache.put(requete, copie));
           return reponse;
         })
-        .catch(() => caches.match(requete).then((r) => r || caches.match("index.html")))
+        .catch(() =>
+          caches.match(requete).then((r) => r || caches.match("index.html")),
+        ),
     );
     return;
   }
@@ -291,6 +310,6 @@ self.addEventListener("fetch", (evenement) => {
         caches.open(CACHE_RUNTIME).then((cache) => cache.put(requete, copie));
         return reponse;
       });
-    })
+    }),
   );
 });

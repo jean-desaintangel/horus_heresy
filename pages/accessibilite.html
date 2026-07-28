@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Déclaration d’accessibilité — Horus Heresy</title>
+    <meta
+      name="description"
+      content="Déclaration d’accessibilité RGAA 4.1 du guide d’initiation Horus Heresy : état de conformité, non-conformités et voies de recours."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Déclaration d’accessibilité — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="État de conformité RGAA 4.1 du guide d’initiation Horus Heresy."
+    />
+    <meta
+      property="og:image"
+      content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/accessibilite.html"
+    />
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Déclaration d’accessibilité
+      </h1>
+
+      <p class="sous-titre">
+        Établie conformément à l’article 47 de la loi n°&nbsp;2005-102 du
+        11&nbsp;février&nbsp;2005 et au décret n°&nbsp;2019-768 du
+        24&nbsp;juillet&nbsp;2019.
+      </p>
+
+      <p>
+        <em>Jean de SAINT ANGEL</em> s’engage à rendre son site accessible aux
+        personnes en situation de handicap.
+      </p>
+
+      <h2 class="section-titre">État de conformité</h2>
+      <p>
+        Le site est en <strong>conformité partielle</strong> avec le référentiel
+        général d’amélioration de l’accessibilité (RGAA)&nbsp;4.1, en raison des
+        non-conformités énumérées ci-dessous.
+      </p>
+
+      <h2 class="section-titre">Résultats des tests</h2>
+      <p>
+        L’auto-évaluation menée le <em>27/07/2026</em> révèle que
+        <strong>93,5&nbsp;% des critères RGAA applicables</strong> sont
+        respectés.
+      </p>
+      <div class="encadre">
+        <p>
+          <strong>Portée et limites de ce chiffre.</strong> Il résulte d’une
+          analyse du code source, de mesures de contraste calculées sur les
+          variables CSS et de tests automatisés. Il ne repose ni sur un audit
+          par un organisme tiers, ni sur des tests menés avec des personnes en
+          situation de handicap. Deux vérifications restent notamment à conduire
+          manuellement&nbsp;: le contraste des textes superposés aux dégradés
+          des dix-huit habillages de Légion (au Colour Contrast Analyser), et la
+          restitution réelle des pages par un lecteur d’écran (NVDA, VoiceOver).
+        </p>
+      </div>
+
+      <h2 class="section-titre">Contenus non accessibles</h2>
+
+      <h3>Non-conformités</h3>
+      <ul>
+        <li>
+          <strong>Changements de langue</strong> (critère&nbsp;8.7)&nbsp;:
+          certains termes anglais du vocabulaire de jeu volontairement non
+          traduits (<span lang="en">Jump Pack</span>,
+          <span lang="en">Breacher</span>) ne sont pas signalés par un attribut
+          <code>lang</code>. <em>Correction prévue&nbsp;: [date].</em>
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Établissement de cette déclaration</h2>
+      <p>Déclaration établie le <em>27/07/2026</em>.</p>
+
+      <h3>Technologies utilisées</h3>
+      <ul>
+        <li>HTML&nbsp;5</li>
+        <li>CSS&nbsp;3</li>
+        <li>JavaScript (ECMAScript&nbsp;2020), sans framework</li>
+        <li>Service Worker (consultation hors ligne)</li>
+      </ul>
+
+      <h3>Environnement de test</h3>
+      <ul>
+        <li>Firefox avec NVDA</li>
+        <li>Safari avec VoiceOver</li>
+        <li>Chrome avec l’extension Axe DevTools</li>
+      </ul>
+
+      <h3>Outils utilisés</h3>
+      <ul>
+        <li>Validateur HTML du W3C</li>
+        <li>Colour Contrast Analyser</li>
+        <li>Axe DevTools</li>
+        <li>Inspecteur d’accessibilité des navigateurs</li>
+      </ul>
+
+      <h2 class="section-titre">Retour d’information et contact</h2>
+      <p>
+        Si vous ne parvenez pas à accéder à un contenu ou à un service, vous
+        pouvez le signaler afin d’être orienté vers une alternative
+        accessible&nbsp;:
+      </p>
+      <ul>
+        <li>
+          via le <a href="contact.html">formulaire de contact</a>, en
+          choisissant la nature «&nbsp;Problème technique&nbsp;»&nbsp;;
+        </li>
+        <li>
+          en précisant la page concernée et la difficulté rencontrée, ce qui
+          accélère nettement la correction.
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Voies de recours</h2>
+      <p>
+        Si vous constatez un défaut d’accessibilité vous empêchant d’accéder à
+        un contenu ou à une fonctionnalité du site, que vous nous le signalez et
+        que vous ne parvenez pas à obtenir une réponse, vous êtes en droit de
+        faire parvenir vos doléances ou une demande de saisine au Défenseur des
+        droits.
+      </p>
+      <p>Plusieurs moyens sont à votre disposition&nbsp;:</p>
+      <ul>
+        <li>
+          <a
+            href="https://formulaire.defenseurdesdroits.fr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >écrire un message au Défenseur des droits
+            <span class="sr-only">(nouvelle fenêtre)</span></a
+          >&nbsp;;
+        </li>
+        <li>
+          <a
+            href="https://www.defenseurdesdroits.fr/saisir/delegues"
+            target="_blank"
+            rel="noopener noreferrer"
+            >contacter le délégué du Défenseur des droits de votre région
+            <span class="sr-only">(nouvelle fenêtre)</span></a
+          >&nbsp;;
+        </li>
+        <li>
+          envoyer un courrier par la poste, gratuitement et sans
+          timbre&nbsp;:<br />
+          Défenseur des droits<br />
+          Libre réponse 71120<br />
+          75342 Paris CEDEX 07
+        </li>
+      </ul>
+    </main>
+
+    <footer></footer>
+    <!-- Default Statcounter code for Horus Heresy
+https://jean-desaintangel.github.io/horus_heresy/ -->
+    <script type="text/javascript">
+      var sc_project = 13337655;
+      var sc_invisible = 1;
+      var sc_security = "7b1ddd1f";
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.statcounter.com/counter/counter.js"
+      async
+    ></script>
+    <noscript
+      ><div class="statcounter">
+        <a
+          title="Web Analytics"
+          href="https://statcounter.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img
+            class="statcounter"
+            src="https://c.statcounter.com/13337655/0/7b1ddd1f/1/"
+            alt="Web Analytics"
+            referrerpolicy="no-referrer-when-downgrade"
+        /></a></div
+    ></noscript>
+    <!-- End of Statcounter Code -->
+  </body>
+</html>

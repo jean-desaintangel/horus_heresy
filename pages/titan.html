@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/titan.html"
     />
     <script src="../js/main.js" defer></script>
   </head>
@@ -93,10 +104,12 @@
       <div class="timeline">
         <!-- ===================== LES BASES ===================== -->
         <div class="timeline-item" id="bases">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            1. Les bases : quatre profils, une seule figurine
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Les bases : quatre profils, une seule figurine
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <ul>
@@ -172,10 +185,12 @@
 
         <!-- ===================== MOUVEMENT ===================== -->
         <div class="timeline-item" id="mouvement">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            2. Phase de mouvement
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Phase de mouvement
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -220,10 +235,12 @@
 
         <!-- ===================== TIR ===================== -->
         <div class="timeline-item" id="tir">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            3. Phase de tir : arcs et armes titaniques
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Phase de tir : arcs et armes titaniques
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <div class="encadre">
@@ -350,9 +367,12 @@
 
         <!-- ===================== ASSAUT ===================== -->
         <div class="timeline-item" id="assaut">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            4. Phase d’assaut <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Phase d’assaut
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <div class="encadre">
@@ -400,10 +420,12 @@
 
         <!-- ===================== DÉGÂTS ===================== -->
         <div class="timeline-item" id="degats">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            5. Cibler et endommager un titan
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              5. Cibler et endommager un titan
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <h2 class="sous-titre">Choisir le profil visé</h2>
@@ -522,10 +544,12 @@
 
         <!-- ===================== DÉSEMPARÉ ===================== -->
         <div class="timeline-item" id="desempare">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            6. Profils Désemparés
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              6. Profils Désemparés
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -658,10 +682,12 @@
 
         <!-- ===================== ÉCROULEMENT ===================== -->
         <div class="timeline-item" id="ecroulement">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            7. Écroulement d’un titan
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              7. Écroulement d’un titan
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <ol class="etapes">
@@ -744,10 +770,12 @@
 
         <!-- ===================== À NE PAS OUBLIER ===================== -->
         <div class="timeline-item" id="a-retenir">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            8. À ne pas oublier
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              8. À ne pas oublier
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <ul>

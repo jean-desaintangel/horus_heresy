@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/assaut.html"
     />
     <script src="../js/main.js" defer></script>
     <script src="../js/tables.js" defer></script>
@@ -95,10 +106,12 @@
       <div class="timeline">
         <!-- ===================== SOUS-PHASE DE CHARGE ===================== -->
         <div class="timeline-item" id="declarer">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            1. Sous-phase de charge
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Sous-phase de charge
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -123,15 +136,17 @@
               <div class="timeline">
                 <!-- ===================== DECLARER LA CIBLE ===================== -->
                 <div class="timeline-item" id="declarer-cible">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    1/2. Déclarer la cible et vérifier la ligne de vue et la
-                    portée de charge maximum
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      1/2. Déclarer la cible et vérifier la ligne de vue et la
+                      portée de charge maximum
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -145,14 +160,16 @@
 
                 <!-- ===================== MOUVEMENT DE POSITIONNEMENT ===================== -->
                 <div class="timeline-item" id="mise-en-place">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    3. Faire le mouvement de positionnement
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      3. Faire le mouvement de positionnement
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -176,14 +193,16 @@
 
                 <!-- ===================== ATTAQUE DE VOLÉE ===================== -->
                 <div class="timeline-item" id="attaque-de-volee">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    4. Faire les attaques de volée
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      4. Faire les attaques de volée
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -200,14 +219,16 @@
 
                 <!-- ===================== MOUVEMENT DE CHARGE ======================== -->
                 <div class="timeline-item" id="jet-de-charge">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    5. Faire le mouvement de charge
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      5. Faire le mouvement de charge
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -241,10 +262,12 @@
 
         <!-- ===================== SOUS-PHASE DE DÉFI ===================== -->
         <div class="timeline-item" id="defi">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            2. Sous-phase de défi
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Sous-phase de défi
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -276,10 +299,12 @@
 
         <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
         <div class="timeline-item" id="combat">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            3. Sous-phase de combat
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Sous-phase de combat
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -300,14 +325,17 @@
               <div class="timeline">
                 <!-- ===================== DECLARER LES COMBATTANTS ===================== -->
                 <div class="timeline-item" id="declarer-combattants">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    1/2. Déclarer les combattants et faire les mises en contact
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      1/2. Déclarer les combattants et faire les mises en
+                      contact
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -323,14 +351,16 @@
 
                 <!-- ===================== ETABLIR LES GROUPES DE COUPS ===================== -->
                 <div class="timeline-item" id="groupes-de-coups">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    4. Établir les groupes de coups
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      4. Établir les groupes de coups
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -358,14 +388,16 @@
 
                 <!-- ===================== TOUCHE ===================== -->
                 <div class="timeline-item" id="toucher">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    5. Faire les jets de touche
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      5. Faire les jets de touche
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -382,14 +414,16 @@
 
                 <!-- ===================== BLESSURE ===================== -->
                 <div class="timeline-item" id="blesser">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    6. Faire les jets de blessure
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      6. Faire les jets de blessure
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <p>
@@ -414,14 +448,16 @@
 
                 <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
                 <div class="timeline-item" id="sauvegardes">
-                  <button
-                    type="button"
-                    class="timeline-titre"
-                    aria-expanded="false"
-                  >
-                    7/8. Choisir la cible et jets de sauvegarde.
-                    <span class="chevron" aria-hidden="true">❯</span>
-                  </button>
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      7/8. Choisir la cible et jets de sauvegarde.
+                      <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
                   <div class="timeline-details">
                     <div class="timeline-details-inner">
                       <ol class="etapes">
@@ -455,10 +491,12 @@
 
         <!-- ===================== SOUS-PHASE DE RÉSOLUTION ===================== -->
         <div class="timeline-item" id="resolution">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            4. Sous-phase de résolution
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Sous-phase de résolution
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -579,14 +617,16 @@
 
         <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
         <div class="timeline-item" id="reactions-assaut">
-          <button
-            type="button"
-            class="timeline-titre timeline-titre--reactions"
-            aria-expanded="false"
-          >
-            Réactions adverses
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button
+              type="button"
+              class="timeline-titre timeline-titre--reactions"
+              aria-expanded="false"
+            >
+              Réactions adverses
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <div class="reaction reaction-assaut">

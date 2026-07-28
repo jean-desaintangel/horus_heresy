@@ -7,7 +7,8 @@
    uniquement). Chaque règle spéciale de la colonne « Règles
    spéciales » est doublée d'une info-bulle reprenant sa définition
    (voir page regles.html).
-   Dépend : js/main.js (normaliserTexte, trouverDefinitionRegle),
+   Dépend : js/main.js (normaliserTexte, trouverDefinitionRegle,
+   creerTable, enroberDansScroll, construireCelluleReglesArme),
    js/armes-data.js (données ENTETES_TIR/ARMES_TIR/ENTETES_MELEE/
    ARMES_MELEE) et js/regles-data.js (texte des règles), chargés
    avant ce script — stylé par css/style.css.
@@ -69,11 +70,15 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   h3.textContent = categorie.titre;
   section.appendChild(h3);
 
-  const table = document.createElement("table");
-  const caption = document.createElement("caption");
-  caption.className = "sr-only";
-  caption.textContent = categorie.titre;
-  table.appendChild(caption);
+  // creerTable (js/main.js) : même fabrique que les tables de référence
+  // de tir.html/assaut.html. Le 3e argument masque le <caption> à
+  // l'écran (.sr-only) sans le retirer de l'arbre d'accessibilité — le
+  // <h3> juste au-dessus affiche déjà le même intitulé aux voyants,
+  // mais un lecteur d'écran qui saute de tableau en tableau (touche T
+  // sous NVDA) n'entend, lui, que le caption : le retirer priverait
+  // l'utilisateur du seul repère qui lui dit dans quelle catégorie
+  // d'armes il vient d'atterrir (WCAG 1.3.1 / RGAA 5.4).
+  const table = creerTable(categorie.titre, "", true);
 
   // --- En-tête ---
   const thead = document.createElement("thead");
@@ -162,10 +167,12 @@ function construireCategorieArmes(idConteneur, entetes, categorie) {
   });
   table.appendChild(tbody);
 
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-  scroll.appendChild(table);
-  section.appendChild(scroll);
+  // enroberDansScroll (js/main.js) : la zone de défilement horizontal y
+  // est rendue focalisable au clavier quand elle déborde (WCAG 2.1.1).
+  // Écrire le <div class="table-scroll"> à la main ici, comme avant,
+  // aurait laissé les tables de l'Arsenal — les plus larges du site —
+  // hors de cette correction.
+  section.appendChild(enroberDansScroll(table));
 
   if (categorie.note) {
     const note = document.createElement("p");

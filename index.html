@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="css/style.css" />
     <link
       rel="icon"
-      type="image/png"
-      href="assets/favicon/favicon_sons_of_horus.png"
+      type="image/webp"
+      href="assets/favicon/favicon_sons_of_horus.webp"
     />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
@@ -108,6 +108,14 @@
                data-alt-appui plutôt que codée en JS : accessibilité
                (WCAG 1.1.1) et contenu rédactionnel restent dans le HTML,
                là où on les cherche pour les relire ou les traduire. -->
+          <!-- fetchpriority="high" : cette image est le plus gros élément
+               visible au premier écran, donc celui que les outils de
+               mesure (Lighthouse, PageSpeed) chronomètrent sous le nom de
+               LCP. Par défaut, le navigateur lui attribue une priorité
+               BASSE tant qu'il n'a pas fini de calculer la mise en page —
+               elle démarre donc après le CSS et les polices. Cet attribut
+               la fait partir tout de suite. À ne poser QUE sur elle : si
+               tout est prioritaire, plus rien ne l'est. -->
           <img
             id="hero-image"
             src="assets/img/hero.webp"
@@ -117,6 +125,7 @@
             data-alt-appui="Un guerrier Night Lords en armure sombre, éclair bleu sur le plastron"
             width="800"
             height="1219"
+            fetchpriority="high"
             alt="Un Adeptus Astartes en armure, arme au poing, sur un champ de bataille en flammes"
           />
         </div>
@@ -171,32 +180,28 @@
            manifest.json, service-worker.js,
            assets/documents/guide-installation-hors-ligne.md). -->
       <section class="hors-ligne" aria-labelledby="hors-ligne-titre">
-        <h2
-          class="section-titre section-titre--centre"
-          id="hors-ligne-titre"
-        >
+        <h2 class="section-titre section-titre--centre" id="hors-ligne-titre">
           Utiliser le site hors ligne
         </h2>
         <ol class="etapes">
           <li>
-            Sur votre téléphone, ouvrez le site dans Chrome, avec une
-            connexion internet.
+            Sur votre téléphone, ouvrez le site dans Chrome, avec une connexion
+            internet.
           </li>
           <li>
-            Attendez quelques secondes que la page se charge
-            complètement — c’est le moment où le contenu est
-            téléchargé pour l’usage hors ligne.
+            Attendez quelques secondes que la page se charge complètement —
+            c’est le moment où le contenu est téléchargé pour l’usage hors
+            ligne.
           </li>
           <li>Appuyez sur les trois points verticaux (⋮) en haut à droite.</li>
           <li>
-            Appuyez sur « Installer l’application » (parfois affiché
-            directement en bannière en bas de l’écran, sans passer par
-            le menu).
+            Appuyez sur « Installer l’application » (parfois affiché directement
+            en bannière en bas de l’écran, sans passer par le menu).
           </li>
           <li>Confirmez avec « Installer ».</li>
           <li>
-            Une icône avec le blason Emperor’s Children apparaît sur
-            votre écran d’accueil.
+            Une icône avec le blason Emperor’s Children apparaît sur votre écran
+            d’accueil.
           </li>
         </ol>
       </section>

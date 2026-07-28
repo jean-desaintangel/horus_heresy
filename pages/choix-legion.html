@@ -10,8 +10,8 @@
     />
     <link
       rel="icon"
-      type="image/png"
-      href="../assets/favicon/favicon_sons_of_horus.png"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
     />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
@@ -33,449 +33,45 @@
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
     />
-    <style>
-      /* Polices auto-hébergées (RGPD : aucune requête vers Google Fonts,
-         cohérent avec le reste du site — voir css/style.css). */
-      @font-face {
-        font-family: "Cinzel";
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url("../assets/fonts/cinzel-latin-500-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "Cinzel";
-        font-style: normal;
-        font-weight: 600;
-        font-display: swap;
-        src: url("../assets/fonts/cinzel-latin-600-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "Cinzel";
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url("../assets/fonts/cinzel-latin-700-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "Cinzel";
-        font-style: normal;
-        font-weight: 900;
-        font-display: swap;
-        src: url("../assets/fonts/cinzel-latin-900-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "EB Garamond";
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url("../assets/fonts/ebgaramond-latin-400-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "EB Garamond";
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url("../assets/fonts/ebgaramond-latin-500-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "EB Garamond";
-        font-style: normal;
-        font-weight: 600;
-        font-display: swap;
-        src: url("../assets/fonts/ebgaramond-latin-600-normal.woff2")
-          format("woff2");
-      }
-      @font-face {
-        font-family: "EB Garamond";
-        font-style: italic;
-        font-weight: 400;
-        font-display: swap;
-        src: url("../assets/fonts/ebgaramond-latin-400-italic.woff2")
-          format("woff2");
-      }
-      :root {
-        --color-bg: #0a0908;
-        --color-surface: #12100e;
-        --color-surface-2: #181513;
-        --color-surface-offset: #1e1a17;
-        --color-border: oklch(0.55 0.02 60 / 0.18);
-        --color-text: #d8d0c4;
-        --color-text-muted: #a29b8d;
-        /* #6b6459 initial ne donnait que 3,4:1 sur --color-bg (texte
-           courant 0.8rem/0.85rem) : sous le seuil AA de 4,5:1 (WCAG
-           1.4.3). Éclairci à #857c6a (~4,8:1), même teinte discrète. */
-        --color-text-faint: #857c6a;
-        --color-gold: #c9a13b;
-        --color-gold-bright: #e8c667;
-        --color-blood: #7a1f1f;
-        --color-blood-bright: #a83232;
-        --radius-sm: 0.375rem;
-        --radius-md: 0.5rem;
-        --radius-lg: 0.75rem;
-        --font-display: "Cinzel", "Times New Roman", serif;
-        --font-body: "EB Garamond", Georgia, serif;
-        --space-2: 0.5rem;
-        --space-3: 0.75rem;
-        --space-4: 1rem;
-        --space-6: 1.5rem;
-        --space-8: 2rem;
-        --space-10: 2.5rem;
-        --space-12: 3rem;
-        --space-16: 4rem;
-        --space-24: 6rem;
-      }
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-        -webkit-font-smoothing: antialiased;
-      }
-      /* Lien d'évitement (WCAG 2.4.1) : caché hors écran, révélé au
-         focus clavier — même principe que .lien-evitement dans
-         css/style.css, adapté à la palette sombre de cette page. */
-      .lien-evitement {
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        z-index: 2000;
-        background: var(--color-blood-bright);
-        color: #fff;
-        padding: 0.6rem 1rem;
-        border-radius: 0 0 var(--radius-sm) 0;
-        text-decoration: none;
-      }
-      .lien-evitement:focus {
-        left: 0;
-      }
-      body {
-        background:
-          radial-gradient(
-            ellipse at 20% 0%,
-            oklch(0.18 0.02 40 / 0.5),
-            transparent 55%
-          ),
-          radial-gradient(
-            ellipse at 80% 100%,
-            oklch(0.15 0.03 20 / 0.4),
-            transparent 55%
-          ),
-          var(--color-bg);
-        color: var(--color-text);
-        font-family: var(--font-body);
-        font-size: 18px;
-        line-height: 1.6;
-        min-height: 100vh;
-        background-attachment: fixed;
-      }
-      img,
-      svg {
-        display: block;
-        max-width: 100%;
-        height: auto;
-      }
-      ::selection {
-        background: var(--color-gold);
-        color: #000;
-      }
-      :focus-visible {
-        outline: 2px solid var(--color-gold-bright);
-        outline-offset: 3px;
-      }
-
-      header {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding: var(--space-16) var(--space-4) var(--space-10);
-        border-bottom: 1px solid var(--color-border);
-        background: linear-gradient(
-          180deg,
-          oklch(0.1 0.02 40 / 0.6),
-          transparent
-        );
-      }
-      .eyabbr {
-        font-family: var(--font-display);
-        font-size: clamp(0.7rem, 0.6rem + 0.3vw, 0.85rem);
-        letter-spacing: 0.35em;
-        color: var(--color-gold);
-        text-transform: uppercase;
-        margin-bottom: var(--space-4);
-      }
-      h1 {
-        font-family: var(--font-display);
-        font-weight: 900;
-        font-size: clamp(2.2rem, 1.5rem + 3vw, 4.2rem);
-        letter-spacing: 0.05em;
-        color: var(--color-gold-bright);
-        text-shadow:
-          0 0 24px oklch(0.7 0.15 80 / 0.35),
-          0 2px 0 #000;
-        text-transform: uppercase;
-        line-height: 1.1;
-      }
-      header p.sub {
-        margin-top: var(--space-4);
-        color: var(--color-text-muted);
-        font-style: italic;
-        font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
-        max-width: 60ch;
-        margin-inline: auto;
-      }
-
-      main {
-        position: relative;
-        z-index: 1;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 var(--space-6) var(--space-24);
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
-        gap: var(--space-6);
-        margin-top: var(--space-8);
-      }
-
-      .card {
-        position: relative;
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        aspect-ratio: 2/3;
-        cursor: pointer;
-        border: 1px solid var(--color-border);
-        background: var(--color-surface);
-        transition:
-          transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-          border-color 0.35s ease;
-      }
-      .card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: none;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .card::after {
-        content: none;
-      }
-      .card:hover,
-      .card:focus-visible {
-        transform: translateY(-6px);
-        box-shadow:
-          0 18px 40px oklch(0 0 0 / 0.55),
-          0 0 0 1px oklch(0.65 0.12 80 / 0.4);
-      }
-      .card:hover img,
-      .card:focus-visible img {
-        filter: grayscale(0) contrast(1.1) brightness(1);
-        transform: scale(1.05);
-      }
-      .card.expurged {
-        border-color: var(--color-blood);
-      }
-
-      .card-label {
-        display: none;
-      }
-      .card-name {
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: clamp(0.95rem, 0.85rem + 0.3vw, 1.15rem);
-        color: #f1e9d6;
-        letter-spacing: 0.03em;
-        text-shadow: 0 2px 6px #000;
-        line-height: 1.15;
-      }
-      .card-legion-hint {
-        font-size: 0.75rem;
-        color: var(--color-gold);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .card-expurged-tag {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(-8deg);
-        background: oklch(0.3 0.08 20 / 0.9);
-        color: #fbeaea;
-        padding: 0.4rem 0.8rem;
-        border-radius: 0.4rem;
-        font-family: var(--font-display);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
-      }
-
-      footer {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding: var(--space-10) var(--space-4);
-        border-top: 1px solid var(--color-border);
-        color: var(--color-text-faint);
-        font-size: 0.85rem;
-        letter-spacing: 0.08em;
-      }
-
-      @media (max-width: 600px) {
-        header {
-          padding: var(--space-10) var(--space-4) var(--space-8);
-        }
-        .grid {
-          grid-template-columns: repeat(
-            auto-fill,
-            minmax(min(160px, 100%), 1fr)
-          );
-          gap: var(--space-4);
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.01ms !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-
-      /* MODALE IMAGE + BOUTON DORÉ */
-
-      .modal {
-        position: fixed;
-        inset: 0;
-        display: none;
-        z-index: 999;
-      }
-
-      .modal.is-open {
-        display: block;
-      }
-
-      .modal-backdrop {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.78);
-        backdrop-filter: blur(6px);
-      }
-
-      .modal-content {
-        position: relative;
-        z-index: 1;
-        max-width: min(900px, 92vw);
-        max-height: 92vh;
-        margin: 4vh auto;
-        padding: 1rem;
-        background: var(--color-surface);
-        border: 1px solid var(--color-gold);
-        border-radius: 1rem;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .modal-content img {
-        width: 100%;
-        max-height: 72vh;
-        object-fit: contain;
-        border-radius: 0.75rem;
-      }
-
-      .modal-title {
-        font-family: var(--font-display);
-        color: var(--color-gold-bright);
-        text-align: center;
-        font-size: 1.3rem;
-      }
-
-      .modal-close {
-        position: absolute;
-        top: 0.6rem;
-        right: 0.8rem;
-        border: none;
-        background: transparent;
-        color: var(--color-text);
-        font-size: 2rem;
-        cursor: pointer;
-      }
-
-      .confirm-btn {
-        border: none;
-        padding: 0.9rem 1.4rem;
-        border-radius: 0.8rem;
-        cursor: pointer;
-        font-family: var(--font-display);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: #1a1204;
-        background: linear-gradient(
-          180deg,
-          var(--color-gold-bright),
-          var(--color-gold)
-        );
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease,
-          opacity 0.2s ease;
-      }
-
-      .confirm-btn:hover:not([disabled]) {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-      }
-
-      .confirm-btn[disabled] {
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
-
-      .expurged-reason {
-        margin-top: 0.2rem;
-        font-size: 0.8rem;
-        color: var(--color-text-faint);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-    </style>
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/choix-legion.html"
+    />
+    <!-- Habillage propre à cette page (palette sombre, grille des
+         portraits, modale). Extrait dans un fichier dédié le
+         2026-07-27 : un <style> de 400 lignes se retéléchargeait
+         avec la page à chaque visite et ne pouvait pas être mis en
+         cache séparément. Cette page ne charge volontairement PAS
+         css/style.css : elle est autonome (voir l'en-tête de
+         css/choix-legion.css). -->
+    <link rel="stylesheet" href="../css/choix-legion.css" />
+    <!-- Polices préchargées : celles réellement utilisées au premier
+         rendu (titre en Cinzel 900, texte en EB Garamond 400). -->
+    <link
+      rel="preload"
+      href="../assets/fonts/ebgaramond-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script src="../js/choix-legion.js" defer></script>
   </head>
   <body>
-    <script>
-      // Applique Nuit Éternelle avant le premier rendu (voir
-      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
-      // tout début de <body>, la page s'affiche d'abord en clair puis
-      // bascule en sombre une fois main.js chargé (defer) — ce qui
-      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
-      // blanc vers noir) à chaque changement de page.
-      try {
-        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
-          document.body.classList.add("nuit-eternelle");
-        }
-      } catch {}
-    </script>
+    <!-- Le script « Nuit Éternelle » présent sur les quinze autres pages
+         a été retiré d'ici : il posait la classe .nuit-eternelle sur
+         <body>, mais cette page ne charge pas css/style.css — donc
+         AUCUNE règle ne répondait à cette classe. C'était un script
+         bloquant, exécuté à chaque affichage, pour un effet nul.
+         L'extraction du <style> vers css/choix-legion.css l'a rendu
+         visible : tant que les 400 lignes étaient noyées dans le HTML,
+         personne ne pouvait constater que la règle manquait.
+         Sur le fond, le thème n'aurait de toute façon rien à recolorer :
+         cette page est déjà sombre par conception. -->
     <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
     <header>
-      <div class="eyabbr">Horus Heresy</div>
+      <div class="legion-surtitre">Horus Heresy</div>
       <h1>Choix de la légion</h1>
-      <p class="sub">
+      <p class="legion-accroche">
         Dix-huit légions. Dix-huit destins forgés dans le feu de la Grande
         Croisade.
       </p>
@@ -491,34 +87,45 @@
            Retirer le rôle est ici la bonne correction : une grille de
            boutons se parcourt très bien à la touche Tab et n'a rien à
            gagner à être présentée comme une liste. -->
-      <div class="grid" id="grid"></div>
+      <div class="legion-grille" id="legion-grille"></div>
 
       <!-- Modale image + validation -->
-      <div class="modal" id="imageModal" aria-hidden="true">
-        <div class="modal-backdrop" id="modalBackdrop"></div>
+      <div class="legion-modale" id="legion-modale" aria-hidden="true">
+        <div class="legion-modale-fond" id="legion-modale-fond"></div>
 
         <div
-          class="modal-content"
+          class="legion-modale-contenu"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="modalTitle"
+          aria-labelledby="legion-modale-titre"
         >
           <button
-            class="modal-close"
-            id="modalClose"
+            class="legion-modale-fermer"
+            id="legion-modale-fermer"
             type="button"
             aria-label="Fermer la fenêtre"
           >
             ×
           </button>
 
-          <img id="modalImage" src="" alt="" />
-          <h2 id="modalTitle" class="modal-title"></h2>
+          <!-- Ni src ni alt en dur : les deux sont posés par
+               ouvrirModale() (js/choix-legion.js) au moment de
+               l'ouverture. L'ancien src=""
+               n'était pas neutre — un src vide se résout à l'URL de la
+               PAGE COURANTE, que le navigateur télécharge alors une
+               seconde fois pour tenter de l'afficher comme une image.
+               Requête inutile, et erreur de validation HTML. -->
+          <img id="legion-modale-image" alt="" />
+          <h2 id="legion-modale-titre" class="legion-modale-titre"></h2>
 
-          <button class="confirm-btn" id="confirmChoice" type="button">
+          <button
+            class="legion-bouton-valider"
+            id="legion-valider"
+            type="button"
+          >
             Valider le choix
           </button>
-          <div class="expurged-reason" id="expurgedReason"></div>
+          <div class="legion-motif-expurgee" id="legion-motif-expurgee"></div>
         </div>
       </div>
     </main>
@@ -527,380 +134,6 @@
       <p>Horus Heresy</p>
     </footer>
 
-    <script>
-      const primarchs = [
-        {
-          id: 1,
-          name: "Lion El'Jonson",
-          legion: "I – Dark Angels",
-          legionId: "I",
-          img: "../assets/logo_legions/lion.webp",
-        },
-        {
-          id: 2,
-          name: "Inconnue",
-          legion: "II – Expurgée",
-          img: "../assets/logo_legions/II_legion.webp",
-          expurged: true,
-        },
-        {
-          id: 3,
-          name: "Fulgrim",
-          legion: "III – Emperor's Children",
-          legionId: "III",
-          img: "../assets/logo_legions/fulgrim.webp",
-        },
-        {
-          id: 4,
-          name: "Perturabo",
-          legion: "IV – Iron Warriors",
-          legionId: "IV",
-          img: "../assets/logo_legions/perturabo.webp",
-        },
-        {
-          id: 5,
-          name: "Jaghatai Khan",
-          legion: "V – White Scars",
-          legionId: "V",
-          img: "../assets/logo_legions/khan.webp",
-        },
-        {
-          id: 6,
-          name: "Leman Russ",
-          legion: "VI – Space Wolves",
-          legionId: "VI",
-          img: "../assets/logo_legions/russ.webp",
-        },
-        {
-          id: 7,
-          name: "Rogal Dorn",
-          legion: "VII – Imperial Fists",
-          legionId: "VII",
-          img: "../assets/logo_legions/dorn.webp",
-        },
-        {
-          id: 8,
-          name: "Konrad Curze",
-          legion: "VIII – Night Lords",
-          legionId: "VIII",
-          img: "../assets/logo_legions/konrad.webp",
-        },
-        {
-          id: 9,
-          name: "Sanguinius",
-          legion: "IX – Blood Angels",
-          legionId: "IX",
-          img: "../assets/logo_legions/sanguinius.webp",
-        },
-        {
-          id: 10,
-          name: "Ferrus Manus",
-          legion: "X – Iron Hands",
-          legionId: "X",
-          img: "../assets/logo_legions/ferrus.webp",
-        },
-        {
-          id: 11,
-          name: "Inconnue",
-          legion: "XI – Expurgée",
-          img: "../assets/logo_legions/XI_legion.webp",
-          expurged: true,
-        },
-        {
-          id: 12,
-          name: "Angron",
-          legion: "XII – World Eaters",
-          legionId: "XII",
-          img: "../assets/logo_legions/angron.webp",
-        },
-        {
-          id: 13,
-          name: "Roboute Guilliman",
-          legion: "XIII – Ultramarines",
-          legionId: "XIII",
-          img: "../assets/logo_legions/guilliman.webp",
-          tooltip: "Toujours en train d'écrire un nouveau Codex quelque part.",
-        },
-        {
-          id: 14,
-          name: "Mortarion",
-          legion: "XIV – Death Guard",
-          legionId: "XIV",
-          img: "../assets/logo_legions/mortarion.webp",
-        },
-        {
-          id: 15,
-          name: "Magnus le Rouge",
-          legion: "XV – Thousand Sons",
-          legionId: "XV",
-          img: "../assets/logo_legions/magnus.webp",
-        },
-        {
-          id: 16,
-          name: "Horus Lupercal",
-          legion: "XVI – Sons of Horus",
-          legionId: "XVI",
-          img: "../assets/logo_legions/horus.webp",
-        },
-        {
-          id: 17,
-          name: "Lorgar",
-          legion: "XVII – Word Bearers",
-          legionId: "XVII",
-          img: "../assets/logo_legions/lorgar.webp",
-        },
-        {
-          id: 18,
-          name: "Vulkan",
-          legion: "XVIII – Salamanders",
-          legionId: "XVIII",
-          img: "../assets/logo_legions/vulkan.webp",
-        },
-        {
-          id: 19,
-          name: "Corvus Corax",
-          legion: "XIX – Raven Guard",
-          legionId: "XIX",
-          img: "../assets/logo_legions/corvus.webp",
-        },
-        {
-          id: 200,
-          name: "Alpharius Omegon",
-          legion: "XX – Alpha Legion",
-          legionId: "XX",
-          img: "../assets/logo_legions/alpharius.webp",
-        },
-      ];
-
-      const grid = document.getElementById("grid");
-      const modal = document.getElementById("imageModal");
-      const modalImage = document.getElementById("modalImage");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalClose = document.getElementById("modalClose");
-      const modalBackdrop = document.getElementById("modalBackdrop");
-      const confirmChoice = document.getElementById("confirmChoice");
-      const expurgedReason = document.getElementById("expurgedReason");
-
-      let selectedPrimarch = null;
-
-      // Création des cartes
-      primarchs.forEach((p) => {
-        const card = document.createElement("button");
-        card.className = "card";
-        card.setAttribute("type", "button");
-        card.setAttribute("aria-label", `${p.name} — afficher en grand`);
-        card.dataset.id = p.id;
-        if (p.tooltip) card.title = p.tooltip;
-
-        if (p.expurged) {
-          card.classList.add("expurged");
-          card.setAttribute("aria-disabled", "true");
-        }
-
-        // Sécurité : construction par createElement + textContent plutôt
-        // que par innerHTML. C'était le SEUL innerHTML du site, alors que
-        // tous les autres fichiers JS revendiquent explicitement en
-        // en-tête « textContent partout, jamais innerHTML (anti-XSS) ».
-        // Aujourd'hui les données viennent du tableau `primarchs` juste
-        // au-dessus, donc le risque est nul ; mais le jour où elles
-        // arriveront d'un JSON, d'une API ou d'un paramètre d'URL, un
-        // nom contenant <img onerror=...> serait interprété comme du
-        // HTML et exécuté. textContent, lui, ne peut RIEN exécuter :
-        // il pose du texte, point. C'est le réflexe à garder même quand
-        // la source paraît sûre — parce qu'elle ne le reste pas toujours.
-        const image = document.createElement("img");
-        image.src = p.img;
-        image.alt = "Portrait du Primarque " + p.name;
-        image.loading = "lazy";
-        image.decoding = "async";
-        image.width = 400;
-        image.height = 600;
-
-        const etiquette = document.createElement("span");
-        etiquette.className = "card-label";
-
-        const nom = document.createElement("span");
-        nom.className = "card-name";
-        nom.textContent = p.name;
-
-        const legion = document.createElement("span");
-        legion.className = "card-legion-hint";
-        legion.textContent = p.legion;
-
-        etiquette.append(nom, legion);
-        card.append(image, etiquette);
-
-        card.addEventListener("click", () => {
-          const img = card.querySelector("img"); // image actuelle (loyaliste ou démon)
-          openModal(p, img.src, img.alt);
-        });
-
-        grid.appendChild(card);
-      });
-
-      // Élément qui a ouvert la modale : mémorisé pour lui rendre le
-      // focus à la fermeture (voir closeModal).
-      let declencheurModale = null;
-
-      // Ouvre la modale avec l'image ACTUELLE
-      function openModal(p, currentSrc, currentAlt) {
-        selectedPrimarch = p;
-        declencheurModale = document.activeElement;
-        modalImage.src = currentSrc || p.img;
-        modalImage.alt = currentAlt || `Portrait agrandi de ${p.name}`;
-        modalTitle.textContent = p.legion;
-        modal.classList.add("is-open");
-        modal.setAttribute("aria-hidden", "false");
-        // Accessibilité (WCAG 2.4.3 / RGAA 12.8) : la modale se déclare
-        // aria-modal="true", ce qui promet à l'utilisateur d'un lecteur
-        // d'écran que rien d'autre n'existe tant qu'elle est ouverte.
-        // Sans `inert` sur la grille, la promesse n'était pas tenue :
-        // Tab sortait de la modale et parcourait les dix-huit cartes
-        // situées derrière le voile noir, invisibles mais focalisables.
-        // `inert` les retire d'un coup du parcours clavier ET de l'arbre
-        // d'accessibilité — le même mécanisme que celui déjà utilisé
-        // pour les panneaux dépliables fermés (js/main.js).
-        grid.inert = true;
-
-        if (p.expurged) {
-          confirmChoice.setAttribute("disabled", "true");
-          expurgedReason.textContent =
-            "Cette légion a été expurgée des archives. Son choix ne peut être validé.";
-        } else {
-          confirmChoice.removeAttribute("disabled");
-          expurgedReason.textContent = "";
-        }
-
-        confirmChoice.focus();
-      }
-
-      function closeModal() {
-        modal.classList.remove("is-open");
-        modal.setAttribute("aria-hidden", "true");
-        grid.inert = false;
-        // Accessibilité (WCAG 2.4.3 « Parcours du focus ») : à la
-        // fermeture, le focus était perdu et repartait au tout début du
-        // document. Un utilisateur au clavier devait re-parcourir la
-        // grille depuis la première carte pour revenir là où il en
-        // était. On le rend donc à la carte qui a ouvert la modale.
-        if (declencheurModale && document.contains(declencheurModale)) {
-          declencheurModale.focus();
-        }
-        declencheurModale = null;
-      }
-
-      // Fermeture modale
-      modalClose.addEventListener("click", closeModal);
-      modalBackdrop.addEventListener("click", closeModal);
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.classList.contains("is-open"))
-          closeModal();
-      });
-
-      // Validation : redirige vers unites.html en pré-sélectionnant la
-      // Légion choisie dans le menu déroulant « Choisir Légion »
-      // (paramètre lu par js/organigramme.js, Organigramme.initialiser).
-      // Arrivée depuis le menu « Légion Alliée » d'un Détachement Allié
-      // (construireSelectLegionAlliee, js/organigramme.js) plutôt que du
-      // menu « Légion » principal des paramètres de la partie : cette
-      // page reçoit alors elle-même `?cible=allie&det=<indice>`, à
-      // reporter tel quel sur l'URL de retour pour que unites.html sache
-      // appliquer le choix à ce Détachement Allié précis, pas à la
-      // Légion de l'Armée entière.
-      const paramsArrivee = new URLSearchParams(location.search);
-      const cibleArrivee = paramsArrivee.get("cible");
-      const detArrivee = paramsArrivee.get("det");
-      confirmChoice.addEventListener("click", () => {
-        if (!selectedPrimarch) return;
-        if (selectedPrimarch.expurged) return;
-        if (!selectedPrimarch.legionId) return;
-        let url =
-          "unites.html?legion=" + encodeURIComponent(selectedPrimarch.legionId);
-        if (cibleArrivee === "allie" && detArrivee !== null) {
-          url +=
-            "&cible=" +
-            encodeURIComponent(cibleArrivee) +
-            "&det=" +
-            encodeURIComponent(detArrivee);
-        }
-        window.location.href = url;
-      });
-
-      // --- EASTER EGG : taper un mot-clé précis -> 4 démons ---
-      // Le mot-clé n'est jamais écrit en clair ici (bien essayé, jeune
-      // acolyte) : seule son empreinte SHA-256 est comparée à ce qui est
-      // tapé au clavier (voir empreinteSHA256Chaos ci-dessous).
-
-      async function empreinteSHA256Chaos(texte) {
-        // Contexte non sécurisé (vieux navigateur, etc.) : SubtleCrypto
-        // indisponible, retourne une empreinte qui ne pourra jamais matcher.
-        if (!window.crypto || !window.crypto.subtle) return "";
-        const donnees = new TextEncoder().encode(texte);
-        const empreinte = await crypto.subtle.digest("SHA-256", donnees);
-        return Array.from(new Uint8Array(empreinte))
-          .map((octet) => octet.toString(16).padStart(2, "0"))
-          .join("");
-      }
-
-      const EMPREINTE_CHAOS =
-        "5d5bddb577102d0a960bcf6fea9050c10fe5e9feddcb5c2170ccab872db9ee87";
-      const LONGUEUR_CHAOS = 5;
-
-      let typedBuffer = "";
-      const chaosTargets = [
-        {
-          selector: '.card[data-id="15"] img',
-          newSrc: "../assets/logo_legions/magnus_demon.webp",
-          newAlt: "Portrait démoniaque de Magnus le Rouge",
-        },
-        {
-          selector: '.card[data-id="3"] img',
-          newSrc: "../assets/logo_legions/fulgrim_demon.webp",
-          newAlt: "Portrait démoniaque de Fulgrim",
-        },
-        {
-          selector: '.card[data-id="12"] img',
-          newSrc: "../assets/logo_legions/angron_demon.webp",
-          newAlt: "Portrait démoniaque d'Angron",
-        },
-        {
-          selector: '.card[data-id="14"] img',
-          newSrc: "../assets/logo_legions/mortarion_demon.webp",
-          newAlt: "Portrait démoniaque de Mortarion",
-        },
-      ];
-
-      document.addEventListener("keydown", async (e) => {
-        // Buffer pour le mot-clé (voir EMPREINTE_CHAOS ci-dessus)
-        if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-          typedBuffer += e.key.toLowerCase();
-          if (typedBuffer.length > LONGUEUR_CHAOS) {
-            typedBuffer = typedBuffer.slice(-LONGUEUR_CHAOS);
-          }
-
-          if (
-            typedBuffer.length === LONGUEUR_CHAOS &&
-            (await empreinteSHA256Chaos(typedBuffer)) === EMPREINTE_CHAOS
-          ) {
-            chaosTargets.forEach((t) => {
-              const img = document.querySelector(t.selector);
-              if (img) {
-                // On met à jour l'alternative textuelle EN MÊME TEMPS que
-                // la source : une image qui change sans que son alt suive
-                // ment aux lecteurs d'écran (WCAG 1.1.1 / RGAA 1.1).
-                img.src = t.newSrc;
-                img.alt = t.newAlt;
-              }
-            });
-          }
-        }
-
-        if (e.key === "Escape") {
-          typedBuffer = "";
-        }
-      });
-    </script>
     <!-- Default Statcounter code for Horus Heresy
 https://jean-desaintangel.github.io/horus_heresy/ -->
     <script type="text/javascript">

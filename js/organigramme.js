@@ -716,9 +716,7 @@ const Organigramme = (() => {
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
     if (type.faction) return type.faction === etat.faction;
-    return (
-      type.factionLibre || factionCroisadeParDefaut() === etat.faction
-    );
+    return type.factionLibre || factionCroisadeParDefaut() === etat.faction;
   }
 
   function trouverDetachement(uid) {
@@ -824,7 +822,8 @@ const Organigramme = (() => {
     {
       nom: "Sire des Ultramarines",
       condition: (n) =>
-        (n["Escouade d'Assaut"] || 0) >= 2 && (n["Escouade Tactique"] || 0) >= 2,
+        (n["Escouade d'Assaut"] || 0) >= 2 &&
+        (n["Escouade Tactique"] || 0) >= 2,
     },
     {
       nom: "Sire des Dark Angels",
@@ -1067,7 +1066,8 @@ const Organigramme = (() => {
       if (c.uniteUid === null || c.uniteUid === excluUid) continue;
       const occ = occupant(c);
       if (!occ) continue;
-      if (!occ.unite.traits || occ.unite.traits.includes("[Skitarii]")) continue;
+      if (!occ.unite.traits || occ.unite.traits.includes("[Skitarii]"))
+        continue;
       const trait = hooks.traitFactionSkitariiDe(occ.unite, occ.instance);
       if (trait) return trait;
     }
@@ -1267,7 +1267,10 @@ const Organigramme = (() => {
   function avantageDe(uniteUid) {
     for (const det of etat.detachements) {
       for (const caseOrga of det.cases) {
-        if (caseOrga.uniteUid === uniteUid && estCasePrincipale(det, caseOrga)) {
+        if (
+          caseOrga.uniteUid === uniteUid &&
+          estCasePrincipale(det, caseOrga)
+        ) {
           return caseOrga.avantage;
         }
       }
@@ -2636,7 +2639,10 @@ const Organigramme = (() => {
         el(
           "span",
           "tooltip",
-          role.livre + (principale ? " (Case Principale)" : "") + " — " + role.texte,
+          role.livre +
+            (principale ? " (Case Principale)" : "") +
+            " — " +
+            role.texte,
         ),
       );
     }
@@ -3051,7 +3057,8 @@ const Organigramme = (() => {
     // ci-dessus).
     const allegeanceForceeCustodes = etat.faction === "legio-custodes";
     selectAllegeance.value = etat.allegeance;
-    selectAllegeance.disabled = Boolean(allegeanceForcee) || allegeanceForceeCustodes;
+    selectAllegeance.disabled =
+      Boolean(allegeanceForcee) || allegeanceForceeCustodes;
     if (allegeanceForcee) {
       selectAllegeance.title =
         "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
@@ -3095,7 +3102,8 @@ const Organigramme = (() => {
     const skinTitan =
       etat.faction === "legio-titanicus" ? SKIN_TITANICUS : null;
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
-    const skinMechanicum = etat.faction === "mechanicum" ? SKIN_MECHANICUM : null;
+    const skinMechanicum =
+      etat.faction === "mechanicum" ? SKIN_MECHANICUM : null;
     const skinDesignation =
       SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia] || null;
     const titre = document.querySelector("h1.titre-page");
@@ -3422,8 +3430,7 @@ const Organigramme = (() => {
         continue;
       if (avantageActuel.ajouteCase) {
         const extraIdx = det.cases.findIndex((x) => x.extra);
-        if (extraIdx !== -1 && det.cases[extraIdx].uniteUid !== null)
-          continue;
+        if (extraIdx !== -1 && det.cases[extraIdx].uniteUid !== null) continue;
         if (extraIdx !== -1) det.cases.splice(extraIdx, 1);
       }
       c.avantage = "aucun";
@@ -3545,7 +3552,10 @@ const Organigramme = (() => {
     const ligne = el("p", "orga-detachement-doctrine");
     const label = el("label", null, "Doctrine de Cohorte Alliée ");
     const select = document.createElement("select");
-    select.setAttribute("aria-label", "Doctrine de Cohorte du Détachement Allié");
+    select.setAttribute(
+      "aria-label",
+      "Doctrine de Cohorte du Détachement Allié",
+    );
     ajouterOption(select, "", "— Choisir la Doctrine de Cohorte Alliée —");
     for (const [valeur, texte] of DOCTRINES_DE_COHORTE) {
       const memeQueArmee = valeur === etat.doctrineCohorte;
@@ -4291,9 +4301,7 @@ const Organigramme = (() => {
       return trouvee ? trouvee[1] : null;
     },
     libelleMaisonneeActuelle: () => {
-      const trouvee = MAISONNEES.find(
-        ([valeur]) => valeur === etat.maisonnee,
-      );
+      const trouvee = MAISONNEES.find(([valeur]) => valeur === etat.maisonnee);
       return trouvee ? trouvee[1] : null;
     },
     // Message d'aide quand aucune case n'est libre pour une unité :

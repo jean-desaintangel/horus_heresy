@@ -20,17 +20,21 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 - **Glossaire des règles spéciales** avec recherche instantanée (insensible aux accents).
 - **Arsenal** : tables d'armes filtrables, avec info-bulle de définition sur chaque règle spéciale.
 - **Configurateur d'unités** : composez votre liste (variantes, options d'armement), coût en points recalculé en direct, fiche récap imprimable, export **PDF** et **Word** en un clic, sauvegarde locale (`localStorage`).
-- **Assistant de Sélection d'Armée** (Legio Astartes, Legio Titanicus, Chevaliers Questoris) : organigramme de détachements conforme aux livres d'armée respectifs (Détachement Principal, Auxiliaires, Apex, Détachements Additionnels de Maisonnée, quotas Seigneur de Guerre/Seigneurs des Batailles, Alliés…), validation en temps réel des règles de construction.
+- **Choix de la Légion** : grille interactive des dix-huit Primarques (page dédiée `pages/choix-legion.html`) pour démarrer directement une liste dans le configurateur.
+- **Assistant de Sélection d'Armée**, six Factions jouables — **Legio Astartes**, **Legio Titanicus**, **Chevaliers Questoris**, **Mechanicum**, **Solar Auxilia**, **Conclaves Skitarii** : organigramme de détachements conforme aux livres d'armée respectifs (Détachement Principal, Auxiliaires, Apex, Détachements Additionnels de Maisonnée, quotas Seigneur de Guerre/Seigneurs des Batailles, Alliés…), validation en temps réel des règles de construction.
 - **Pages de règles dédiées** : Véhicules (blindage, transports, Sous-types Rapide/Stable/Super-lourd/Titan/Chevalier), Titans (Legio Titanicus) et Chevaliers Questoris (Paradigmes de Maisonnée, Vœux Questoris, Réactions Avancées).
 - **Téléchargements** : aides de jeu maison et documents communautaires.
-- **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier.
-- **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée.
+- **Progressive Web App** : installable sur mobile et bureau (`manifest.json`), Service Worker (`service-worker.js`) précachant l'app shell (pages, CSS, JS, données de jeu, polices, blasons) pour une consultation **hors ligne** en boutique/tournoi.
+- **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier, déclaration d'accessibilité dédiée (`pages/accessibilite.html`).
+- **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée, mentions légales dédiées (`pages/mentions-legales.html`).
 
 ## Arborescence du projet
 
 ```text
 horus_heresy/
 ├── index.html               # Page d'accueil (hero + navigation)
+├── manifest.json            # Manifeste PWA (installation mobile/bureau)
+├── service-worker.js        # Cache hors ligne de l'app shell
 ├── pages/                   # Pages secondaires (une par section)
 │   ├── tour.html            # Les 5 phases d'un tour de jeu (timeline)
 │   ├── mouvement.html       # Phase de Mouvement
@@ -45,14 +49,18 @@ horus_heresy/
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
 │   ├── unites.html          # Configurateur de liste d'armée
+│   ├── choix-legion.html    # Grille des 18 Primarques (page autonome)
 │   ├── telechargement.html  # Documents à télécharger
-│   └── contact.html         # Formulaire de signalement (Formspree)
+│   ├── contact.html         # Formulaire de signalement (Formspree)
+│   ├── mentions-legales.html # Mentions légales (LCEN)
+│   └── accessibilite.html   # Déclaration d'accessibilité (RGAA)
 ├── css/
-│   └── style.css            # Feuille de style unique, mobile-first,
-│                            # variables CSS nommées par rôle
+│   ├── style.css            # Feuille de style commune, mobile-first,
+│   │                        # variables CSS nommées par rôle
+│   └── choix-legion.css     # Styles propres à la page Choix de la Légion
 ├── js/                      # JavaScript vanilla, sans dépendance
-│   ├── main.js              # Commun : menu burger, accordéons,
-│   │                        # timeline, sections repliables, tooltips
+│   ├── main.js              # Commun : nav/pied de page, menu burger,
+│   │                        # accordéons, timeline, tooltips, Service Worker
 │   ├── tables.js            # Tables de référence 2D (tir, assaut)
 │   ├── regles.js            # Rendu + recherche des règles spéciales
 │   ├── regles-data.js       # Données : textes des règles spéciales
@@ -60,15 +68,23 @@ horus_heresy/
 │   ├── armes-data.js        # Données : caractéristiques des armes
 │   ├── unites.js            # Logique du configurateur d'unités
 │   ├── unites-data.js       # Données : fiches d'unités + équipements
-│   ├── organigramme.js      # Assistant de Sélection d'Armée (détachements)
+│   ├── organigramme.js      # Assistant de Sélection d'Armée (détachements,
+│   │                        # 6 Factions)
 │   ├── organigramme-data.js # Données : détachements, avantages, quotas
+│   ├── choix-legion.js      # Page autonome de choix de la Légion
 │   ├── contact.js           # Envoi AJAX du formulaire de signalement
 │   └── vendor/               # jsPDF + AutoTable, auto-hébergées (export PDF)
 └── assets/
     ├── fonts/               # Cinzel & Lato auto-hébergées (WOFF2)
-    ├── img/                 # Favicon, illustration d'accueil
-    ├── logo_legions/        # Logos des 18 Légions Astartes (PNG)
-    ├── logo_titan/          # Blasons Legio Titanicus (PNG)
+    ├── img/                 # Illustrations (hero, logos hors Légion…)
+    ├── favicon/              # Favicon par Légion (WEBP)
+    ├── logo_legions/        # Logos/blasons des Légions Astartes et
+    │                        # portraits des Primarques
+    ├── logo_titan/          # Blasons Legio Titanicus
+    ├── logo_chevaliers/     # Blasons des Maisonnées Chevaliers Questoris
+    ├── logo_mechanicum/     # Logos Mechanicum
+    ├── logo_solar_auxilia/  # Logos Solar Auxilia
+    ├── pwa/                 # Icônes de l'application installable
     └── documents/           # Fichiers proposés au téléchargement
 ```
 
@@ -100,9 +116,10 @@ Le site fonctionne intégralement en `file://` : c'est un choix assumé (voir ci
 ## Choix techniques assumés
 
 - **Polices auto-hébergées** (`assets/fonts/`, issues du paquet npm `@fontsource`) plutôt que Google Fonts : aucune IP de visiteur transmise à un tiers (RGPD / CNIL) et chargement plus rapide.
-- **Nav et pied de page centralisés en JS** (`js/main.js`, tableau `LIENS_NAV`) : chaque page ne porte qu'un conteneur vide (`<ul class="nav-menu">`, `<footer>`), rempli au chargement — évite la duplication tout en restant consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute nouvelle page doit être ajoutée à `LIENS_NAV` pour apparaître dans le menu des **16 pages** du site (`index.html` + les 15 pages de `pages/`).
+- **Nav et pied de page centralisés en JS** (`js/main.js`, tableau `LIENS_NAV`) : chaque page ne porte qu'un conteneur vide (`<ul class="nav-menu">`, `<footer>`), rempli au chargement — évite la duplication tout en restant consultable en `file://` (une inclusion via `fetch()` échouerait à cause de CORS). Toute nouvelle page doit être ajoutée à `LIENS_NAV` pour apparaître dans le menu. Le site compte **18 pages** (`index.html` + les 17 pages de `pages/`) ; `pages/choix-legion.html` est volontairement autonome (pas de nav/pied de page commun, voir `js/choix-legion.js`) et n'apparaît donc pas dans `LIENS_NAV`.
 - **Pas de Content-Security-Policy en `<meta>`** : la source `'self'` est inopérante en `file://`. GitHub Pages ne permettant pas de définir des en-têtes HTTP personnalisés, une CSP devra attendre un éventuel changement d'hébergeur.
 - **Open Graph** : les balises `og:` sont présentes, mais `og:image` exige une URL absolue — à compléter maintenant que le domaine est connu.
+- **Service Worker en cache-first pour l'app shell** (`service-worker.js`) : précharge pages/CSS/JS/données de jeu/polices/blasons dès la première visite en ligne pour une consultation possible sans réseau ensuite (utile en boutique/tournoi) ; `RACINE_SITE` (`js/main.js`) garde l'enregistrement valide aussi bien en local qu'en sous-chemin GitHub Pages.
 
 ## Formulaire de signalement (Formspree)
 

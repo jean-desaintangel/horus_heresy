@@ -112,15 +112,107 @@ const TABLE_BLESSURE = [
  * Crée une <table> munie de son <caption>.
  * @param {string} titre  - texte du caption (titre au-dessus de la table)
  * @param {string} classe - classe CSS optionnelle de la table
+ * @param {boolean} [captionInvisible] - masque le caption à l'écran
+ *   (.sr-only) tout en le laissant lisible par les lecteurs d'écran :
+ *   utile quand un <h3> juste au-dessus répète déjà le même intitulé
+ *   (voir les catégories de l'Arsenal, js/armes.js).
  * @returns {HTMLTableElement}
  */
-function creerTable(titre, classe = "") {
+function creerTable(titre, classe = "", captionInvisible = false) {
   const table = document.createElement("table");
   if (classe) table.className = classe;
   const caption = document.createElement("caption");
+  if (captionInvisible) caption.className = "sr-only";
   caption.textContent = titre;
   table.appendChild(caption);
   return table;
+}
+
+/* ----------------------------------------------------------
+   ZONES DE TABLEAU DÉFILABLES — ACCESSIBILITÉ CLAVIER
+   (WCAG 2.1.1 Clavier, niveau A / RGAA 7.3)
+
+   Un conteneur .table-scroll est en `overflow-x: auto` : à l'écran
+   étroit, une partie des colonnes est hors champ et ne se révèle
+   qu'en faisant glisser la zone. À la souris ou au doigt, aucun
+   problème. Au CLAVIER seul, en revanche, un <div> ordinaire ne
+   reçoit jamais le focus : impossible de le faire défiler avec les
+   flèches, donc les colonnes cachées deviennent purement et
+   simplement inaccessibles. C'est l'erreur que l'extension Axe
+   DevTools signale sous le nom « scrollable-region-focusable ».
+
+   Correction en trois temps :
+   - role="group" + aria-label : la zone devient une région nommée,
+     annoncée par le lecteur d'écran (« groupe, Table de blessure »)
+     plutôt qu'un conteneur anonyme. Le nom est repris du <caption>
+     du tableau, déjà rédigé, plutôt que réinventé ;
+   - tabindex="0" : la zone entre dans l'ordre de tabulation, donc on
+     peut y arriver puis défiler aux flèches ;
+   - tabindex posé UNIQUEMENT si la zone déborde réellement. Sur un
+     grand écran, la plupart des tableaux tiennent entièrement : leur
+     ajouter un arrêt de tabulation n'apporterait rien et allongerait
+     inutilement le parcours clavier (une trentaine d'arrêts morts sur
+     pages/titan.html). D'où le recalcul au redimensionnement.
+   ---------------------------------------------------------- */
+
+/**
+ * Met à jour l'accessibilité clavier d'UNE zone .table-scroll.
+ * @param {HTMLElement} scroll - le conteneur .table-scroll
+ */
+function majZoneDefilable(scroll) {
+  if (!scroll.hasAttribute("role")) scroll.setAttribute("role", "group");
+  if (!scroll.hasAttribute("aria-label")) {
+    const caption = scroll.querySelector("caption");
+    scroll.setAttribute(
+      "aria-label",
+      caption && caption.textContent.trim()
+        ? caption.textContent.trim()
+        : "Tableau défilable horizontalement",
+    );
+  }
+  // +1 px de tolérance : les largeurs calculées sont fractionnaires,
+  // scrollWidth peut dépasser clientWidth d'une fraction de pixel sans
+  // qu'il y ait le moindre contenu réellement hors champ.
+  const deborde = scroll.scrollWidth > scroll.clientWidth + 1;
+  if (deborde) scroll.tabIndex = 0;
+  else scroll.removeAttribute("tabindex");
+}
+
+/**
+ * Applique majZoneDefilable à toutes les zones d'un sous-arbre.
+ * Appelée au chargement (pour les tableaux écrits dans le HTML), après
+ * chaque construction dynamique de tableau, et à chaque
+ * redimensionnement de la fenêtre.
+ * @param {ParentNode} [racine] - document entier par défaut
+ */
+function majZonesDefilables(racine) {
+  (racine || document)
+    .querySelectorAll(".table-scroll")
+    .forEach(majZoneDefilable);
+}
+window.majZonesDefilables = majZonesDefilables;
+
+window.addEventListener("resize", () => majZonesDefilables());
+
+/**
+ * Enrobe une table dans un conteneur .table-scroll et RETOURNE ce
+ * conteneur, sans l'insérer nulle part : c'est à l'appelant de décider
+ * où le placer. Le conteneur est immédiatement rendu accessible au
+ * clavier (voir majZoneDefilable ci-dessus), donc toute table
+ * construite en JS hérite de la correction sans que l'appelant ait à y
+ * penser.
+ * Séparé d'insererDansScroll ci-dessous parce que js/armes.js range ses
+ * tables dans un bloc .groupe-armes qu'il vient de créer (pas de div
+ * cible identifiée par un id) : il lui faut le conteneur en main.
+ * @param {HTMLTableElement} table
+ * @returns {HTMLDivElement}
+ */
+function enroberDansScroll(table) {
+  const scroll = document.createElement("div");
+  scroll.className = "table-scroll";
+  scroll.appendChild(table);
+  majZoneDefilable(scroll);
+  return scroll;
 }
 
 /**
@@ -132,10 +224,7 @@ function creerTable(titre, classe = "") {
 function insererDansScroll(idConteneur, table) {
   const conteneur = document.getElementById(idConteneur);
   if (!conteneur) return;
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-  scroll.appendChild(table);
-  conteneur.appendChild(scroll);
+  conteneur.appendChild(enroberDansScroll(table));
 }
 
 /**
@@ -493,11 +582,15 @@ function positionnerBulle(cible) {
 // mouseover/focusin (pas mouseenter/focus, qui ne remontent pas) :
 // délégation unique sur document plutôt qu'un écouteur par bulle.
 document.addEventListener("mouseover", (evenement) => {
-  const cible = evenement.target.closest(".orga-boite, .regle-tag, .orga-badge");
+  const cible = evenement.target.closest(
+    ".orga-boite, .regle-tag, .orga-badge",
+  );
   if (cible) positionnerBulle(cible);
 });
 document.addEventListener("focusin", (evenement) => {
-  const cible = evenement.target.closest(".orga-boite, .regle-tag, .orga-badge");
+  const cible = evenement.target.closest(
+    ".orga-boite, .regle-tag, .orga-badge",
+  );
   if (cible) positionnerBulle(cible);
 });
 
@@ -856,7 +949,7 @@ if ("serviceWorker" in navigator) {
 /* ----------------------------------------------------------
    FAVICON ALÉATOIRE — SITE ENTIER, RENOUVELÉ TOUTES LES 5 MINUTES
    Le <link rel="icon"> statique de chaque page HTML pointe sur
-   assets/favicon/favicon_sons_of_horus.png (valeur par défaut, utile
+   assets/favicon/favicon_sons_of_horus.webp (valeur par défaut, utile
    tant que ce script n'a pas encore tourné, ex : JS désactivé). On le
    remplace ici par un tirage aléatoire parmi tous les blasons de
    assets/favicon/ (un par Légion + Mechanicum), qui ne se répète pas
@@ -871,26 +964,37 @@ if ("serviceWorker" in navigator) {
    un instant avant le premier tirage.
    ---------------------------------------------------------- */
 (function appliquerFaviconAleatoire() {
+  /* Tous en WebP 64 px depuis l'audit du 2026-07-27. Les dix-neuf
+     blasons pesaient 341 Ko en PNG/JPG (jusqu'à 56 Ko pièce pour une
+     icône affichée en 16 ou 32 px dans un onglet !) contre 35 Ko
+     aujourd'hui : -90 %. Le gain compte peu sur une visite en ligne,
+     mais beaucoup pour le mode hors ligne — le Service Worker les
+     précharge TOUS dès la première visite, précisément pour que le
+     tirage aléatoire fonctionne encore sans réseau.
+     Le nom de fichier reste la clé de l'historique en localStorage :
+     l'extension ayant changé, les entrées mémorisées par les anciens
+     visiteurs ne correspondront plus à aucun fichier — sans gravité,
+     `tirer()` repart simplement d'un tirage neuf (voir plus bas). */
   const FAVICONS = [
-    "favicon_alpha_legion.jpg",
-    "favicon_blood_angels.jpg",
-    "favicon_dark_angels.jpg",
+    "favicon_alpha_legion.webp",
+    "favicon_blood_angels.webp",
+    "favicon_dark_angels.webp",
     "favicon_death_guards.webp",
-    "favicon_emperors_children.jpg",
-    "favicon_imperial_fists.jpg",
-    "favicon_iron_hands.jpg",
-    "favicon_iron_warriors.png",
-    "favicon_mechanicum.jpg",
+    "favicon_emperors_children.webp",
+    "favicon_imperial_fists.webp",
+    "favicon_iron_hands.webp",
+    "favicon_iron_warriors.webp",
+    "favicon_mechanicum.webp",
     "favicon_night_lords.webp",
-    "favicon_raven_guards.jpg",
-    "favicon_salamanders.png",
-    "favicon_sons_of_horus.png",
-    "favicon_space_wolves.png",
-    "favicon_thousand_sons.png",
-    "favicon_ultramarine.png",
-    "favicon_white_scars.png",
-    "favicon_word_bearer.jpg",
-    "favicon_world_eaters.png",
+    "favicon_raven_guards.webp",
+    "favicon_salamanders.webp",
+    "favicon_sons_of_horus.webp",
+    "favicon_space_wolves.webp",
+    "favicon_thousand_sons.webp",
+    "favicon_ultramarine.webp",
+    "favicon_white_scars.webp",
+    "favicon_word_bearer.webp",
+    "favicon_world_eaters.webp",
   ];
   const DUREE_MS = 5 * 60 * 1000;
   const CLE_STOCKAGE_FAVICON = "horus-heresy-favicon";
@@ -904,7 +1008,18 @@ if ("serviceWorker" in navigator) {
   function lireHistorique() {
     try {
       const brut = JSON.parse(localStorage.getItem(CLE_STOCKAGE_FAVICON));
-      if (brut && Array.isArray(brut.historique) && brut.depuis) return brut;
+      if (brut && Array.isArray(brut.historique) && brut.depuis) {
+        // On ne garde que les noms qui EXISTENT ENCORE. Sans ce filtre,
+        // un visiteur déjà venu avant le passage en WebP relisait un
+        // "favicon_white_scars.png" disparu et l'affectait tel quel au
+        // <link rel="icon"> : icône cassée (404) pendant les 5 minutes
+        // du tirage en cours. Une liste de fichiers n'est jamais une
+        // donnée figée — tout ce qui la mémorise doit revalider.
+        return {
+          ...brut,
+          historique: brut.historique.filter((f) => FAVICONS.includes(f)),
+        };
+      }
     } catch {
       /* stockage indisponible ou corrompu : on ignore */
     }
@@ -932,11 +1047,13 @@ if ("serviceWorker" in navigator) {
   function actualiser() {
     const etat = lireHistorique();
     const maintenant = Date.now();
-    if (etat && maintenant - etat.depuis < DUREE_MS) {
-      lienIcone.href =
-        RACINE_SITE +
-        "assets/favicon/" +
-        etat.historique[etat.historique.length - 1];
+    const dernier = etat && etat.historique[etat.historique.length - 1];
+    // `dernier` doit être testé, pas seulement `etat` : lireHistorique
+    // filtre désormais les fichiers disparus, donc l'historique peut
+    // ressortir VIDE d'une sauvegarde pourtant valide et récente. Sans
+    // cette garde, on écrivait ".../assets/favicon/undefined".
+    if (dernier && maintenant - etat.depuis < DUREE_MS) {
+      lienIcone.href = RACINE_SITE + "assets/favicon/" + dernier;
       return;
     }
     const historiquePrecedent = etat ? etat.historique : [];
@@ -1056,7 +1173,26 @@ const SOURCES_SITE = [
   },
 ];
 
-// Remplit le <footer> (lien de signalement + mentions légales + sources).
+/* Pages légales, obligatoires et attendues en pied de page :
+   - mentions légales : article 6-III de la LCEN (loi n° 2004-575) ;
+   - déclaration d'accessibilité : article 47 de la loi n° 2005-102 et
+     décret n° 2019-768. Le RGAA exige en outre qu'elle soit joignable
+     depuis TOUTES les pages, pas seulement depuis l'accueil — d'où sa
+     place ici, dans le pied de page commun généré pour chaque page,
+     plutôt qu'un lien à reposer manuellement page par page. */
+const LIENS_LEGAUX = [
+  { href: "mentions-legales.html", texte: "Mentions légales" },
+  {
+    href: "accessibilite.html",
+    // Le libellé reprend l'état de conformité RÉEL, comme le prescrit le
+    // RGAA : le visiteur doit connaître le niveau annoncé avant même
+    // d'ouvrir la page. « Accessibilité » tout court ne suffit pas.
+    texte: "Accessibilité : partiellement conforme",
+  },
+];
+
+// Remplit le <footer> (lien de signalement + pages légales + marques +
+// sources).
 function construirePiedDePage() {
   const pied = document.querySelector("footer");
   if (!pied) return;
@@ -1070,22 +1206,6 @@ function construirePiedDePage() {
   pSignalement.append(lienContact, ".");
   pied.appendChild(pSignalement);
 
-  const pDisclaimer = el("p", "footer-disclaimer");
-  const strong = el(
-    "strong",
-    null,
-    "Guide non officiel réalisé par des fans bénévoles francophones.",
-  );
-  pDisclaimer.append(
-    strong,
-    " Horus Heresy, Warhammer : The Horus Heresy et tous les noms" +
-      " associés sont des marques déposées de ",
-    lienExterne("https://www.games-workshop.com", "Games Workshop Ltd"),
-    ". Ce site n’est ni affilié ni approuvé par Games Workshop." +
-      " Aucun défi à leur statut n’est intentionné.",
-  );
-  pied.appendChild(pDisclaimer);
-
   // Sources : livres d'armée officiels utilisés pour la retranscription
   // des règles, ainsi que les blasons/logos réutilisés (voir
   // SOURCES_SITE ci-dessus).
@@ -1096,6 +1216,16 @@ function construirePiedDePage() {
     pSources.append(indice < SOURCES_SITE.length - 1 ? ", " : ".");
   });
   pied.appendChild(pSources);
+
+  const pLegal = el("p", "footer-legal");
+  LIENS_LEGAUX.forEach((lien, indice) => {
+    const a = document.createElement("a");
+    a.href = RACINE_SITE + "pages/" + lien.href;
+    a.textContent = lien.texte;
+    pLegal.append(a);
+    if (indice < LIENS_LEGAUX.length - 1) pLegal.append(" · ");
+  });
+  pied.appendChild(pLegal);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1583,6 +1713,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // dans le HTML au chargement (voir définition de cablerInfoBulles
   // plus haut dans ce fichier).
   cablerInfoBulles();
+
+  // Idem pour les zones .table-scroll écrites directement dans le HTML
+  // (pages titan, vehicule, assaut…) : celles construites en JS sont
+  // déjà traitées par insererDansScroll (voir plus haut).
+  majZonesDefilables();
 
   activerClinDoeilErebus();
   activerNuitEternelle();

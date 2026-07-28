@@ -1,0 +1,19 @@
+# Fichiers volontairement tenus hors du formatage automatique.
+
+# --- Bibliothèques tierces, déjà minifiées ---
+# Les reformater les rendrait illisibles autrement (des milliers de
+# lignes générées), gonflerait le dépôt, et compliquerait la
+# comparaison avec la version amont lors d'une mise à jour.
+js/vendor/
+
+# --- Instructions de projet ---
+# Prettier désindente les continuations de code inline sur plusieurs
+# lignes (`Organigramme.legionActuelle()\n   === unite.legion`), ce qui
+# ramène la deuxième ligne en colonne 0 et casse l'alignement des listes
+# numérotées de ce fichier. Le document est rédigé et relu à la main,
+# avec un retour à la ligne volontaire autour de 72 caractères : le
+# formatage automatique lui fait plus de mal que de bien.
+CLAUDE.md
+
+# --- Binaires et documents ---
+assets/

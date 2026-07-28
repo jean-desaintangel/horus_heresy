@@ -18,14 +18,21 @@
       crossorigin
     />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="icon" type="image/png" href="../assets/favicon/favicon_sons_of_horus.png" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
     <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
          thème de la barre système/barre d'adresse quand le site est
          installé (voir manifest.json, service-worker.js, js/main.js). -->
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
-    <!-- Open Graph (og:image absolue à compléter à la mise en ligne) -->
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta
@@ -39,6 +46,10 @@
     <meta
       property="og:image"
       content="https://jean-desaintangel.github.io/horus_heresy/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://jean-desaintangel.github.io/horus_heresy/pages/psy.html"
     />
     <script src="../js/main.js" defer></script>
   </head>
@@ -96,9 +107,12 @@
       <div class="timeline">
         <!-- ===================== LE TRAIT PSYKER ===================== -->
         <div class="timeline-item" id="bases">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            1. Le trait Psyker <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Le trait Psyker
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -156,10 +170,12 @@
 
         <!-- ===================== ARMES PSYCHIQUES ===================== -->
         <div class="timeline-item" id="armes">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            2. Les armes psychiques
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Les armes psychiques
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -196,10 +212,12 @@
 
         <!-- ===================== POUVOIRS PSYCHIQUES ===================== -->
         <div class="timeline-item" id="pouvoirs">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            3. Les pouvoirs psychiques
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Les pouvoirs psychiques
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -271,10 +289,12 @@
 
         <!-- ===================== RÉACTIONS PSYCHIQUES ===================== -->
         <div class="timeline-item" id="reactions">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            4. Les réactions psychiques
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Les réactions psychiques
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -315,10 +335,12 @@
 
         <!-- ===================== MANIFESTER ===================== -->
         <div class="timeline-item" id="manifester">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            5. Manifester un pouvoir : la procédure
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              5. Manifester un pouvoir : la procédure
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>
@@ -388,10 +410,12 @@
 
         <!-- ===================== PÉRILS DU WARP ===================== -->
         <div class="timeline-item" id="perils">
-          <button type="button" class="timeline-titre" aria-expanded="false">
-            6. Les Périls du Warp
-            <span class="chevron" aria-hidden="true">❯</span>
-          </button>
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              6. Les Périls du Warp
+              <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
           <div class="timeline-details">
             <div class="timeline-details-inner">
               <p>

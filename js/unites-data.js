@@ -1997,9 +1997,7 @@ const UNITES = [
         type: "Infanterie (État-major)",
       },
     ],
-    options: [
-      ARCANE_DE_PROSPERO,
-    ],
+    options: [ARCANE_DE_PROSPERO],
   },
 
   {
@@ -2043,9 +2041,7 @@ const UNITES = [
         type: "Infanterie (État-major)",
       },
     ],
-    options: [
-      ARCANE_DE_PROSPERO,
-    ],
+    options: [ARCANE_DE_PROSPERO],
   },
 
   {
@@ -2675,11 +2671,7 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
       "Meneurs de guerre et artificiers à la fois, les Seigneurs de Forge se trouvent souvent parmi les éléments les plus lourds de la Légion au combat, mettant leur talent technologique au service de la restauration des Dreadnoughts massifs et des véhicules de siège les plus imposants. Aussi combattent-ils fréquemment aux côtés des Unités de Terminator, vêtus d'analogues d'artisan des armures massives qui les entourent. Cette Figurine peut être remplacée par 1 Seigneur de Forge Tartaros gratuitement.",
-    equipement: [
-      "Hache énergétique",
-      "Combi-bolter",
-      "Panoplie machinator",
-    ],
+    equipement: ["Hache énergétique", "Combi-bolter", "Panoplie machinator"],
     variantes: [
       {
         nom: "Cataphractii",
@@ -3120,11 +3112,7 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: [
-          "Massif (2)",
-          "Frappe en Profondeur",
-          "Consul-Delegatus",
-        ],
+        regles: ["Massif (2)", "Frappe en Profondeur", "Consul-Delegatus"],
         type: "Infanterie (État-major, Antigrav)",
       },
     ],
@@ -3602,7 +3590,11 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
       "Distingués autant par leur combativité que par leur talent guerrier, nombre de ces « Fauteurs de Guerre » se trouvaient parmi les divisions Terminator des Légions, rompus à mener de brutaux assauts frontaux et confiant leurs blindés à énergie renforcée au plus épais des combats. Cette Figurine peut être remplacée par 1 Fauteur de Guerre Tartaros gratuitement.",
-    equipement: ["Combi-bolter", "Arme énergétique", "Épisseur de Jonction Éthérique"],
+    equipement: [
+      "Combi-bolter",
+      "Arme énergétique",
+      "Épisseur de Jonction Éthérique",
+    ],
     variantes: [
       {
         nom: "Cataphractii",
@@ -3813,7 +3805,8 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-lourde",
-        libelle: "Doit recevoir un objet de la liste des Armes Lourdes de Légion",
+        libelle:
+          "Doit recevoir un objet de la liste des Armes Lourdes de Légion",
         obligatoire: true,
         ajoute: true,
         choix: depuisListes(LISTES_EQUIPEMENT.lourdes),
@@ -28943,7 +28936,8 @@ const UNITES = [
     cout: 50,
     composition: "1 Aurox Transport",
     traits: ["[Allégeance]", "Solar Auxilia"],
-    notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et sur la Face Arrière.",
+    notes:
+      "Cette Figurine a un Point d'Accès sur chaque Flanc et sur la Face Arrière.",
     equipement: ["Projecteurs"],
     variantes: [
       {
@@ -28984,11 +28978,7 @@ const UNITES = [
     effectif: { base: 1, max: 4, cout: 32 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
-    equipement: [
-      "Multi-laser",
-      "Grenades Frag",
-      "Grenades Krak",
-    ],
+    equipement: ["Multi-laser", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Sentinelle Légère Hermes",
@@ -29056,7 +29046,11 @@ const UNITES = [
           PC: 2,
           transport: "—",
         },
-        regles: ["Sacrifiable (3)", "Protocoles de Tir Automatisé", "Sentinelles Indépendantes"],
+        regles: [
+          "Sacrifiable (3)",
+          "Protocoles de Tir Automatisé",
+          "Sentinelles Indépendantes",
+        ],
         type: "Véhicule",
       },
     ],
@@ -29965,10 +29959,7 @@ const UNITES = [
     cout: 450,
     composition: "1 Banehammer",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
-    equipement: [
-      "Canon Tremor d'Axe Central",
-      "Bolter lourd de Coque (Avant)",
-    ],
+    equipement: ["Canon Tremor d'Axe Central", "Bolter lourd de Coque (Avant)"],
     variantes: [
       {
         nom: "Banehammer",
@@ -30732,8 +30723,7 @@ const UNITES = [
         libelle: "Figurines : bolter à la place du Fourneau Rad",
         parTranche: 1,
         cout: 2,
-        ajoute:
-          "Bolter (à la place du Fourneau Rad, une Figurine)",
+        ajoute: "Bolter (à la place du Fourneau Rad, une Figurine)",
       },
     ],
   },
@@ -31171,8 +31161,7 @@ const UNITES = [
         libelle:
           "Toute Figurine : échanger ses bolts Mauler contre un multi-fuseur",
         cout: 10,
-        ajoute:
-          "Multi-fuseur (à la place du canon à bolts Mauler)",
+        ajoute: "Multi-fuseur (à la place du canon à bolts Mauler)",
       },
     ],
   },
@@ -31849,7 +31838,11 @@ const UNITES = [
           PC: 9,
           transport: 12,
         },
-        regles: ["Autoréparation (3+)", "Mouvement à couvert", "Griffe Anbarique"],
+        regles: [
+          "Autoréparation (3+)",
+          "Mouvement à couvert",
+          "Griffe Anbarique",
+        ],
         type: "Véhicule (Transport)",
       },
     ],
@@ -32460,7 +32453,10 @@ const UNITES = [
             transport: 42,
           },
         ],
-        regles: ["Équipe de Réparation (D3)", "Baie de Transport de Macro-foreuse"],
+        regles: [
+          "Équipe de Réparation (D3)",
+          "Baie de Transport de Macro-foreuse",
+        ],
         type: "Véhicule (Ordinatus)",
       },
     ],
@@ -32950,7 +32946,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "6+",
         },
-        regles: ["Massif (2)", "Guerrier Éternel (1)", "Coups Éclairs", "Avant-garde (2)"],
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
         type: "Infanterie",
       },
     ],
@@ -32998,7 +32999,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "6+",
         },
-        regles: ["Massif (2)", "Guerrier Éternel (1)", "Coups Éclairs", "Avant-garde (2)"],
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
         type: "Infanterie",
       },
     ],
@@ -33181,7 +33187,8 @@ const UNITES = [
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "charnabal-sabre",
-        libelle: "Figurines : sabre charnabal (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : sabre charnabal (à la place de l'épée tronçonneuse)",
         cout: 5,
         parTranche: 1,
         groupe: "charnabal",
@@ -33348,7 +33355,8 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "heavy-cs",
-        ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
+        ajoute:
+          "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
@@ -33436,7 +33444,8 @@ const UNITES = [
         remplaceIntegral: "Pistolet bolter",
         type: "quantite",
         id: "bouclier-combat",
-        libelle: "Figurines : bouclier de combat (à la place du pistolet bolter)",
+        libelle:
+          "Figurines : bouclier de combat (à la place du pistolet bolter)",
         cout: 2,
         parTranche: 1,
         groupe: "pistolet-cs",
@@ -33446,7 +33455,8 @@ const UNITES = [
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-troncon",
-        libelle: "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
         cout: 0,
         parTranche: 1,
         groupe: "chainaxe",
@@ -33686,7 +33696,8 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "heavy-ca",
-        ajoute: "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
+        ajoute:
+          "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
         remplaceIntegral: "Épée tronçonneuse",
@@ -33858,7 +33869,8 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "heavy-ca",
-        ajoute: "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
+        ajoute:
+          "Hache tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       {
         remplaceIntegral: "Épée tronçonneuse",
@@ -34024,7 +34036,8 @@ const UNITES = [
       {
         type: "choix",
         id: "evocatus-melee-pistolet",
-        libelle: "Evocatus Intendant : remplacer son pistolet bolter (Arme de Mêlée)",
+        libelle:
+          "Evocatus Intendant : remplacer son pistolet bolter (Arme de Mêlée)",
         ajoute: true,
         prefixeFiche: "Evocatus Intendant : ",
         choix: [
@@ -34260,7 +34273,8 @@ const UNITES = [
         remplaceIntegral: "Épée tronçonneuse",
         type: "quantite",
         id: "hache-troncon",
-        libelle: "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
+        libelle:
+          "Figurines : hache tronçonneuse (à la place de l'épée tronçonneuse)",
         cout: 0,
         parTranche: 1,
         groupe: "chainaxe",
@@ -34368,7 +34382,8 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "heavy-cs",
-        ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
+        ajoute:
+          "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       ...eclaterQuantiteArmeEnergetique({
         remplaceIntegral: "Épée tronçonneuse",
@@ -34485,7 +34500,8 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "heavy-cs",
-        ajoute: "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
+        ajoute:
+          "Épée tronçonneuse lourde (à la place de l'épée tronçonneuse et du pistolet bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
         remplaceIntegral: "Épée tronçonneuse",
@@ -34555,7 +34571,8 @@ const UNITES = [
       {
         type: "choix",
         id: "maitre-pistolet-melee",
-        libelle: "Inductii Master : remplacer son pistolet bolter (Arme de Mêlée)",
+        libelle:
+          "Inductii Master : remplacer son pistolet bolter (Arme de Mêlée)",
         ajoute: true,
         prefixeFiche: "Inductii Master : ",
         choix: [
