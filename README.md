@@ -11,7 +11,7 @@ Site statique **non officiel** servant de guide d'initiation au jeu de figurines
 
 ## Démo en ligne
 
-👉 **[jean-desaintangel.github.io/horus_heresy](https://jean-desaintangel.github.io/horus_heresy/)**
+👉 **[lagrandecroisade.fr](https://lagrandecroisade.fr/)**
 
 ## Fonctionnalités principales
 

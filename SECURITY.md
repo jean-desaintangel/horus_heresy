@@ -8,7 +8,7 @@ Ce dépôt héberge un **site statique** (HTML/CSS/JavaScript vanilla, hébergé
 
 Si vous découvrez une faille de sécurité, merci de **ne pas** ouvrir d'issue publique tant qu'elle n'est pas corrigée.
 
-Signalez-la plutôt en privé via le [formulaire de contact du site](https://jean-desaintangel.github.io/horus_heresy/pages/contact.html), ou en contactant directement le mainteneur via son profil GitHub ([@jean-desaintangel](https://github.com/jean-desaintangel)).
+Signalez-la plutôt en privé via le [formulaire de contact du site](https://lagrandecroisade.fr/pages/contact.html), ou en contactant directement le mainteneur via son profil GitHub ([@jean-desaintangel](https://github.com/jean-desaintangel)).
 
 Merci d'inclure autant que possible :
 

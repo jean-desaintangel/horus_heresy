@@ -32,4 +32,4 @@ Les noms, l'univers et les valeurs de jeu de _Warhammer : The Horus Heresy_ rest
 
 ## Questions
 
-Pour toute question qui ne relève pas d'un bug ou d'une pull request, utilisez le [formulaire de contact du site](https://jean-desaintangel.github.io/horus_heresy/pages/contact.html) ou le groupe Facebook [Horus Heresy France](https://www.facebook.com/groups/1881902328756053).
+Pour toute question qui ne relève pas d'un bug ou d'une pull request, utilisez le [formulaire de contact du site](https://lagrandecroisade.fr/pages/contact.html) ou le groupe Facebook [Horus Heresy France](https://www.facebook.com/groups/1881902328756053).

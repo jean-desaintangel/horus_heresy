@@ -28,7 +28,7 @@ Ce code de conduite s'applique à l'ensemble des espaces liés au projet (issues
 
 ## Application
 
-Les cas de comportement abusif, harcelant ou autrement inacceptable peuvent être signalés en ouvrant une [issue GitHub](https://github.com/jean-desaintangel/horus_heresy/issues) ou via le [formulaire de contact du site](https://jean-desaintangel.github.io/horus_heresy/pages/contact.html). Si le signalement concerne une personne susceptible de consulter ces canaux publics, contactez directement le mainteneur du dépôt via son profil GitHub.
+Les cas de comportement abusif, harcelant ou autrement inacceptable peuvent être signalés en ouvrant une [issue GitHub](https://github.com/jean-desaintangel/horus_heresy/issues) ou via le [formulaire de contact du site](https://lagrandecroisade.fr/pages/contact.html). Si le signalement concerne une personne susceptible de consulter ces canaux publics, contactez directement le mainteneur du dépôt via son profil GitHub.
 
 Toutes les plaintes seront examinées et donneront lieu à une réponse jugée nécessaire et adaptée aux circonstances. L'équipe du projet est tenue de respecter la confidentialité de la personne ayant signalé un incident.
 
