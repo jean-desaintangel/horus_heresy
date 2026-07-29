@@ -3578,6 +3578,15 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arsenal de l'Alpha Legion (XXe Légion) : échange GRATUIT d'une
+        // arme énergétique, réservé aux Sous-types État-major, Champion
+        // ou Sergent ayant le Trait Alpha Legion.
+        nom: "Dague énergétique",
+        stats: ["+2", "A", "-1", "3", "1"],
+        regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
         // Arme de personnage (Fafnir Rann, Imperial Fists).
         nom: "Le Bourreau et le Chasseur",
         stats: ["1", "A", "+2", "3", "1"],

@@ -951,5 +951,211 @@ Règles Spéciales :
   `quantite` partagée, jamais au seul Sergent) : seul le lance-flammes
   LÉGER forgé a été câblé (liste `pistolets`, ~15 sites).
 
+- **Arsenal des Imperial Fists (Liber Astartes/Hereticus, livre de
+  base) : Gantelet énergétique Solarite, Bouclier Storm modèle Vigil et
+  Avantage Principal Castellan**, câblés sur le même principe que
+  l'Artifice de Nocturne Salamanders ci-dessus (nouvelle constante
+  `LISTES_ARSENAL_IMPERIAL_FISTS`, `requiertLegion: "VII"`, 81 sites).
+  Différences de contraintes de Sous-type à bien distinguer de
+  Salamanders : le Gantelet Solarite est réservé État-major/Champion/
+  **Sergent** mais exclut le Spécialiste (Primus Medicae, Apothicaire,
+  Mortificator — contrairement au Gantelet forgé Salamanders qui inclut
+  le Spécialiste) ; le Bouclier Storm modèle Vigil est réservé
+  État-major/Champion (échange bouclier d'abordage/combi-bolter +5, ou
+  bouclier de combat +10 — une seule entrée à 10 Points dans
+  `LISTES_ARSENAL_IMPERIAL_FISTS.officier` puisque les deux chemins
+  totalisent le même coût) SAUF pour les Escouades d'État-Major
+  Terminator Cataphractii/Tartaros et Escouades Terminator Cataphractii/
+  Tartaros (génériques), où « Toute Figurine » est éligible (rang-et-
+  fichier compris) : câblé séparément comme quatre nouvelles options
+  `quantite` dédiées (`bouclier-storm-vigil`, gratuit pour Cataphractii,
+  +5 pour Tartaros, `remplaceIntegral` sur le chargeur volkite/
+  combi-bolter de base, même `groupe: "tir"` que les échanges déjà
+  existants) plutôt que d'étendre une liste partagée — c'est la première
+  fois que `requiertLegion` est posé sur une option `quantite` plutôt
+  que sur une entrée de `choix` ou l'option elle-même : fonctionne assez
+  qu'il déclenche la même logique de masquage générique dans
+  `synchroniserConfig` (js/unites.js), pas seulement les `choix`.
+  Bouclier Storm modèle Vigil n'a pas de profil d'Arme dédié (comme le
+  Bouclier tempête modèle Proteus déjà existant, Escouade Terminator
+  Indomitus) : l'effet (Sauvegarde Invulnérable 4+, Trait Bouclier,
+  Sous-type Lourd) est décrit directement dans le nom de l'item, non
+  appliqué mécaniquement (même limitation déjà notée pour Proteus).
+  **Castellan** (Avantage Principal, réservé au Centurion de base ayant
+  le Trait Imperial Fists, occupant une Case Principale) : nouvelle
+  entrée dans `AVANTAGES_PRINCIPAUX` (js/organigramme-data.js), sur le
+  même principe que Résistance Anormale (Death Guard, déjà existante,
+  même Figurine de Centurion) — texte seul, l'échange forcé
+  bolter→bolter lourd/autocanon/Canon d'assaut Iliastus et le scanner
+  augure gagné ne sont pas appliqués mécaniquement par le site (comme
+  Le Salaire de la Traîtrise, Alpha Legion, déjà existant). À la
+  différence de Résistance Anormale, ne vise QUE le Centurion de base
+  (pas la variante Terminator/Cataphractii) et n'a pas de restriction
+  « une seule fois par Armée » — fidèle à la fiche source, ne pas
+  l'ajouter par excès de symétrie avec l'entrée Death Guard.
+  Découverte pendant l'audit des ~90 sites déjà câblés pour Salamanders :
+  plusieurs unités État-major (Optae, Fauteur de Guerre) utilisent en
+  réalité la liste `meleeSergent` malgré un Sous-type État-major — sans
+  incidence pour le Gantelet Solarite (Sergent aussi éligible), mais
+  cela signifie que ces Unités-là restent, comme documenté plus haut,
+  sous-desservies pour le Marteau Thunder forgé Salamanders (réservé
+  État-major/Champion/Spécialiste, PAS Sergent) puisque `meleeSergent`
+  l'exclut systématiquement — gap déjà accepté, juste reconfirmé ici.
+- **Arsenal des Iron Warriors (Liber Astartes/Hereticus, livre de
+  base) : broyeur à gravitons**, plus petit chantier que Salamanders/
+  Imperial Fists (une seule Figurine d'arme, gratuite, État-major/
+  Champion SEULEMENT — ni Spécialiste, ni Sergent). Le profil et le
+  commentaire d'éligibilité existaient déjà dans `armes-data.js` (déjà
+  câblé en équipement fixe sur Forgeguerre/Manipule du Cercle de Fer,
+  mais pas encore en option générique) ; **Les Défavorisés** (Avantage
+  Principal, Infanterie 100% Trait Iron Warriors → Sacrifiable (1))
+  était lui déjà entièrement implémenté dans `AVANTAGES_PRINCIPAUX`
+  (js/organigramme-data.js) — rien à faire, juste vérifié conforme à la
+  page. Nouvelle constante `LISTES_ARSENAL_IRON_WARRIORS` (`officier`
+  coût 15, `meleeTerminator` coût 10 — coût absolu identique à celui du
+  Marteau Thunder dans chaque liste, l'échange étant gratuit) ; PAS de
+  variante `meleeSergent` (Sergent non éligible ici, à la différence du
+  Gantelet Solarite Imperial Fists) : câblée sur les mêmes 26 sites
+  `officier`/6 sites `meleeTerminator` déjà identifiés pour Imperial
+  Fists, avec RETRAIT MANUEL du site Sergent-only (Sergent Terminator
+  Tartaros, Escouade Terminator de Siège Tartaros) qui avait pourtant
+  hérité du Gantelet Solarite (Sergent éligible côté Imperial Fists,
+  mais pas côté Iron Warriors) — piège à surveiller à chaque nouvel
+  Arsenal de Légion : les contraintes de Sous-type diffèrent d'un
+  Arsenal à l'autre pour un même site partagé, l'éligibilité doit être
+  revérifiée à chaque fois plutôt que supposée identique.
+  Découverte incidente en auditant les sites `officier`/`meleeTerminator`
+  pour Iron Warriors : Seigneur de Forge/Seigneur de Forge Monté/en
+  Armure Terminator n'utilisent PAS ces listes partagées pour leur
+  Marteau Thunder (option bespoke « Remplacer la hache énergétique »,
+  { nom: "Marteau Thunder", cout: 5 } en dur) — ratés par le câblage
+  Imperial Fists précédent (pas de Gantelet Solarite là, mais ce n'est
+  pas un manque : ces Figurines n'ont pas de gantelet énergétique à la
+  base, donc la Règle 1 ne s'y applique de toute façon pas) mais
+  repérés et couverts ici pour le Broyeur à gravitons, qui lui s'y
+  applique bel et bien (+5 Points, même coût que le Marteau Thunder
+  dans cette option précise).
+- **Arsenal de l'Alpha Legion (Liber Astartes/Hereticus, livre de
+  base) : Dague énergétique et Sphères à venin.** Sphères à venin
+  (profil déjà transcrit dans `armes-data.js`) et **Le Salaire de la
+  Traîtrise** (Avantage Principal) étaient déjà entièrement présents ;
+  seule la Dague énergétique (nouveau profil : MI+2/MA A/MF-1/PA3/D1,
+  Brèche (5+), Énergétique) et le câblage générique des deux options
+  manquaient.
+  **Dague énergétique** (échange GRATUIT d'une arme énergétique,
+  État-major/Champion/Sergent — PAS Spécialiste) : ajoutée à
+  `CHOIX_ARMES_ENERGETIQUES` (coût 0, comme les 4 armes de base) ET à
+  une nouvelle `LISTES_ARSENAL_ALPHA_LEGION` (`officier`/
+  `meleeTerminator`/`meleeSergent`, coût 0 dans les trois puisque
+  l'échange est gratuit partout). Câblée sur 78 sites en réutilisant les
+  ancres déjà posées pour Iron Warriors/Imperial Fists/Salamanders.
+  **Piège découvert en vérifiant** : ajouter une entrée à
+  `CHOIX_ARMES_ENERGETIQUES` directement (plutôt qu'à une liste à part)
+  la propage automatiquement à TOUT site qui la spread — y compris
+  Primus Medicae en Armure Terminator, qui spread `CHOIX_ARMES_ENERGETIQUES`
+  en dur pour résoudre son placeholder « Arme énergétique » et est
+  Sous-type Spécialiste (non éligible ici, à la différence de
+  l'Artifice de Nocturne Salamanders qui inclut le Spécialiste et n'a
+  donc jamais posé ce problème) : corrigé par un
+  `.filter((c) => c.requiertLegion !== "XX")` sur ce site précis plutôt
+  que de retirer l'entrée de la constante partagée. Un second cas
+  identique (Apothicaire, chaîné après `LISTES_ARTIFICE_NOCTURNE.meleeSergent`)
+  a été détecté et corrigé de la même manière — **règle à retenir** :
+  chaîner une nouvelle entrée après celle d'un Arsenal aux contraintes
+  de Sous-type PLUS LARGES (ex : Salamanders, qui inclut le Spécialiste)
+  ne garantit pas que les mêmes sites conviennent pour un Arsenal aux
+  contraintes plus étroites — revérifier l'éligibilité à chaque fois,
+  y compris via `CHOIX_ARMES_ENERGETIQUES` qui n'est pourtant jamais
+  concerné par la mécanique `quantite` partagée (donc « sûr » au sens
+  déjà établi) mais PEUT l'être vis-à-vis d'un Sous-type Spécialiste.
+  **Sphères à venin** (+5 Points, AJOUT et non échange — État-major/
+  Champion SEULEMENT, ni Spécialiste ni Sergent) : nouvelle fabrique
+  `optionSpheresVenin()` (case, `requiertLegion: "XX"` posé sur
+  l'option elle-même comme les Décurions Sagittar/Lanius, pas sur une
+  entrée de `choix`), insérée comme première option de 19 Unités
+  État-major à profil unique (Praetor/Centurion/Delegatus/Fauteur de
+  Guerre/Pisteur/Optae/Armistos/Seigneur de Forge/Iron Father/
+  Forgeguerre, toutes variantes de base/Terminator/montée confondues) —
+  identifiées et insérées par script Python plutôt qu'Edit un par un, la
+  position d'insertion (première ligne après `options: [`) différant
+  d'une Unité à l'autre (certaines commencent par `ARCANE_DE_PROSPERO`,
+  d'autres non). Gap documenté, volontairement non couvert : les rôles
+  Champion au sein d'Escouades mixtes (Chef de Frappe Locutarus,
+  Prefector Palatin, etc.) sont également éligibles au texte de la
+  page mais n'ont pas reçu cette option, faute de `prefixeFiche`/
+  prix par Figurine déjà en place à réutiliser comme pour les échanges
+  de liste — à ajouter ultérieurement si demandé.
+- **Arsenal des Night Lords (Liber Astartes/Hereticus, livre de base) :
+  Vouge tronçonneur, Hache de bourreau, Trophées du Jugement.** Les
+  trois profils/mécaniques existaient déjà (`armes-data.js` pour les
+  deux armes, avec commentaires d'éligibilité déjà exacts ; l'Avantage
+  Principal Atramentar dans `AVANTAGES_PRINCIPAUX` — voir plus bas la
+  divergence relevée dessus) — seul le câblage générique manquait.
+  **Vouge tronçonneur** (échange +5, État-major/Champion/Sergent) et
+  **Hache de bourreau** (échange +10, État-major SEULEMENT) : ajoutés à
+  `CHOIX_ARMES_ENERGETIQUES` (5/10, coût de base 0) et à une nouvelle
+  `LISTES_ARSENAL_NIGHT_LORDS` (`officier` 15/20, `meleeSergent` 15
+  Vouge seul, `meleeTerminatorSergent` 5 Vouge seul — Hache absente des
+  deux dernières, réservée État-major). Corrige au passage
+  `atramentar-ecorches` (Escouade Atramentar Écorchés, déjà existante) :
+  son option « hache-bourreau » utilisait le libellé « Hache **du**
+  Bourreau » (capitale, « du ») écrit avant que le profil ne soit connu
+  (l'ancien commentaire disait explicitement « profil non donné dans
+  l'extrait ») — aligné sur le nom exact du profil désormais connu
+  (« Hache **de** bourreau ») pour que la table d'Armes de la fiche le
+  retrouve (`trouverArmeDansTexte`, recherche par sous-chaîne insensible
+  à la casse mais qui exige quand même la bonne chaîne).
+  **Trophées du Jugement** (+10 Points, AJOUT et non échange,
+  État-major/Champion SEULEMENT, accorde Peur (1) décrite en texte
+  dans l'`ajoute`, non appliquée mécaniquement — même limite que
+  Sphères à venin/Bouclier tempête modèle Proteus) : nouvelle fabrique
+  `optionTropheesDuJugement()`, insérée juste après `optionSpheresVenin()`
+  sur les mêmes 19 Unités État-major à profil unique (script Python).
+  **Vrai bug découvert et corrigé en vérifiant ce câblage** (touchait
+  déjà l'Artifice de Nocturne Salamanders ET la Dague énergétique Alpha
+  Legion, pas seulement Night Lords) : `optionTypeArmeEnergetique()`
+  (fabrique utilisée par ~9 sites — Escouades d'État-Major Terminator
+  Cataphractii/Tartaros, Escouades Terminator Cataphractii/Tartaros,
+  Escouade Terminator de Siège Tartaros, et des Escouades similaires
+  d'autres Légions) spread `CHOIX_ARMES_ENERGETIQUES` **en entier**, sans
+  filtrage, dans un choix `obligatoire` marqué « chaque Figurine non
+  autrement équipée » — c'est-à-dire un choix UNIQUE partagé par TOUTE
+  l'Unité, rang-et-fichier compris (ex : Élu Cataphractii, sans
+  Sous-type, à côté du Champion Élu Cataphractii/Sergent). Comme ce
+  choix n'a pas de `prefixeFiche` pour isoler un rôle, toutes les
+  entrées `requiertLegion` de `CHOIX_ARMES_ENERGETIQUES` (armes forgées
+  Salamanders, Dague Alpha Legion, Vouge/Hache Night Lords) étaient
+  donc accessibles au rang-et-fichier non éligible sur ces Escouades
+  génériques — fuite silencieuse, non détectée par la première version
+  (plus permissive) du script de vérification utilisé pour Salamanders/
+  Imperial Fists/Iron Warriors/Alpha Legion, qui testait l'éligibilité
+  sur la chaîne `type` CONCATÉNÉE de toute l'Unité plutôt que sur
+  chaque profil séparément (un mot-clé éligible n'importe où dans la
+  chaîne suffisait à faire passer le test, y compris quand seule LA
+  MOITIÉ des profils l'avait réellement). Corrigé en filtrant
+  `.filter((c) => !c.requiertLegion)` DANS la fabrique elle-même (sûr,
+  car ses ~9 appelants sont TOUS de ce type d'Escouade mixte — aucun
+  n'est une Unité à profil unique, qui construit son propre `choix` en
+  dur séparément) ; script de vérification durci en conséquence
+  (checkLegion ci-après vérifie maintenant que TOUS les segments `type`
+  d'une Unité sont éligibles quand l'option n'a pas de `prefixeFiche`,
+  pas qu'au moins un mot-clé apparaisse dans la chaîne complète) — à
+  RÉUTILISER TEL QUEL pour tout futur Arsenal de Légion plutôt que de
+  réécrire une vérification ad hoc.
+  **Divergence non résolue, signalée au propriétaire** : la photo de
+  cette session pour l'Avantage Principal Atramentar liste 4 Unités
+  (Centurion en Armure Terminator, Escouade d'État-major Terminator
+  Cataphractii, Escouade Terminator Cataphractii, Escouade Terminator
+  Tartaros) — SANS l'Escouade d'État-major Terminator Tartaros,
+  asymétrie surprenante mais transcrite telle quelle sans la
+  « corriger » par supposition. L'entrée déjà existante dans
+  `AVANTAGES_PRINCIPAUX` (`id: "atramentar"`) avait été RECONSTITUÉE
+  lors d'une session antérieure à partir d'une photo différente,
+  manifestement mal océrisée (répétition de « Tartaros », Cataphractii
+  mentionné une seule fois pour le Centurion) et incluait PAR SYMÉTRIE
+  les deux Escouades d'État-Major (Cataphractii ET Tartaros) — non
+  modifiée cette session-ci tant que la divergence n'est pas tranchée
+  par le propriétaire contre le livre.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

@@ -313,6 +313,198 @@ const LISTES_ARTIFICE_NOCTURNE = {
 };
 
 /* ----------------------------------------------------------
+   ARSENAL DES IMPERIAL FISTS (Liber Astartes/Hereticus, livre de base,
+   PAS un PDF Legacies) : gantelet énergétique Solarite et bouclier
+   Storm modèle Vigil, réservés aux Figurines ayant le Trait Imperial
+   Fists.
+   Gantelet énergétique Solarite : Sous-type État-major, Champion OU
+   Sergent SEULEMENT — pas de Spécialiste (à la différence du Gantelet
+   énergétique forgé Salamanders ci-dessus, qui inclut le Spécialiste) :
+   ne pas spread ces listes sur les options de Primus Medicae/
+   Apothicaire (Sous-type Spécialiste). +5 Points par Figurine, quel que
+   soit le coût de base du gantelet dans la liste d'origine.
+   Bouclier Storm modèle Vigil (Sous-type État-major/Champion
+   seulement ici — les Escouades Terminator Cataphractii/Tartaros, où
+   « Toute Figurine » est éligible y compris rang-et-fichier, sont
+   câblées séparément sur leurs propres options d'échange de
+   combi-bolter, voir plus loin) : pas de profil d'Arme dédié (comme le
+   Bouclier tempête modèle Proteus déjà existant, voir Escouade
+   Terminator Indomitus) — l'effet (Sauvegarde Invulnérable 4+, Trait
+   Bouclier, Sous-type Lourd) est décrit directement dans le nom de
+   l'item, sur le même principe. +5 Points en échange d'un bouclier
+   d'abordage (coût de base 5 dans la liste Équipement d'Officier de
+   Légion) OU +10 Points en échange d'un bouclier de combat (coût de
+   base 0) : les deux chemins totalisent 10 Points, d'où une seule
+   entrée à coût absolu plutôt que deux.
+   Même limitation que LISTES_ARTIFICE_NOCTURNE : listes À PART de
+   LISTES_EQUIPEMENT, jamais consommées par `quantiteDepuisListe`
+   (budget partagé rang-et-fichier compris).
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_IMPERIAL_FISTS = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Solarite)",
+    items: [
+      {
+        nom: "Gantelet énergétique Solarite",
+        cout: 20,
+        requiertLegion: "VII",
+      },
+      {
+        nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+        cout: 10,
+        requiertLegion: "VII",
+      },
+    ],
+  },
+  // Coût de base 10 Points (LISTES_EQUIPEMENT.meleeTerminator) + 5.
+  meleeTerminator: {
+    nom: "Armes de Mêlée de Terminator de Légion (Solarite)",
+    items: [
+      {
+        nom: "Gantelet énergétique Solarite",
+        cout: 15,
+        requiertLegion: "VII",
+      },
+    ],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Solarite)",
+    items: [
+      {
+        nom: "Gantelet énergétique Solarite",
+        cout: 20,
+        requiertLegion: "VII",
+      },
+    ],
+  },
+};
+
+/* ----------------------------------------------------------
+   ARSENAL DES IRON WARRIORS (Liber Astartes/Hereticus, livre de base,
+   PAS un PDF Legacies) : broyeur à gravitons, réservé aux Figurines
+   ayant le Trait Iron Warriors. Contrainte de Sous-type : État-major
+   OU Champion SEULEMENT — ni Spécialiste, ni Sergent (à la différence
+   du Gantelet énergétique Solarite Imperial Fists ci-dessus, qui inclut
+   le Sergent) : pas de variante `meleeSergent` ici, et le profil existe
+   déjà dans js/armes-data.js (commentaire déjà exact sur cette
+   contrainte). Échange GRATUIT d'un Marteau Thunder contre un broyeur
+   à gravitons : coût absolu identique à celui du Marteau Thunder dans
+   chaque liste d'origine (15 dans Équipement d'Officier de Légion, 10
+   dans Armes de Mêlée de Terminator de Légion), pas de surcoût.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_IRON_WARRIORS = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Broyeur à gravitons)",
+    items: [{ nom: "Broyeur à gravitons", cout: 15, requiertLegion: "IV" }],
+  },
+  meleeTerminator: {
+    nom: "Armes de Mêlée de Terminator de Légion (Broyeur à gravitons)",
+    items: [{ nom: "Broyeur à gravitons", cout: 10, requiertLegion: "IV" }],
+  },
+};
+
+/* ----------------------------------------------------------
+   ARSENAL DE L'ALPHA LEGION (Liber Astartes/Hereticus, livre de base,
+   PAS un PDF Legacies) : dague énergétique, réservée aux Figurines
+   ayant le Trait Alpha Legion. Contrainte de Sous-type : État-major,
+   Champion OU Sergent (comme le Gantelet énergétique Solarite Imperial
+   Fists — pas de Spécialiste). Échange GRATUIT d'une arme énergétique
+   contre une dague énergétique : coût 0 dans toutes les listes,
+   contrairement au Broyeur à gravitons Iron Warriors (coût égal à celui
+   du Marteau Thunder remplacé) — ici l'arme énergétique de départ est
+   toujours gratuite elle-même (résolution de placeholder ou premier
+   choix des listes officier/meleeSergent), donc 0 partout.
+   Les Sphères à venin (même Arsenal, réservées État-major/Champion
+   SEULEMENT) ne sont PAS un échange mais un AJOUT (+5 Points, comme des
+   Bombes à fusion) : voir `optionSpheresVenin()` ci-dessous, câblée
+   directement sur les Unités concernées plutôt que via une liste
+   partagée.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_ALPHA_LEGION = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Dague énergétique)",
+    items: [{ nom: "Dague énergétique", cout: 0, requiertLegion: "XX" }],
+  },
+  meleeTerminator: {
+    nom: "Armes de Mêlée de Terminator de Légion (Dague énergétique)",
+    items: [{ nom: "Dague énergétique", cout: 0, requiertLegion: "XX" }],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Dague énergétique)",
+    items: [{ nom: "Dague énergétique", cout: 0, requiertLegion: "XX" }],
+  },
+};
+
+// Sphères à venin (Arsenal de l'Alpha Legion) : ajout optionnel, jamais
+// un remplacement, réservé aux Sous-types État-major ou Champion —
+// PAS Sergent (à la différence de la Dague énergétique ci-dessus).
+// +5 Points par Figurine, sur le même principe qu'optionBombesFusion().
+function optionSpheresVenin() {
+  return {
+    type: "case",
+    id: "spheres-venin",
+    libelle: "Sphères à venin",
+    cout: 5,
+    requiertLegion: "XX",
+    ajoute: "Sphères à venin",
+  };
+}
+
+/* ----------------------------------------------------------
+   ARSENAL DES NIGHT LORDS (Liber Astartes/Hereticus, livre de base,
+   PAS un PDF Legacies) : vouge tronçonneur (échange +5, État-major/
+   Champion/Sergent) et hache de bourreau (échange +10, État-major
+   SEULEMENT — absente de meleeSergent/meleeTerminatorSergent
+   ci-dessous), réservés aux Figurines ayant le Trait Night Lords. Les
+   deux profils existaient déjà dans js/armes-data.js. Coût = coût de
+   base de l'arme énergétique dans chaque liste (10 dans officier/
+   meleeSergent, 0 via CHOIX_ARMES_ENERGETIQUES ou le placeholder
+   « — Conserver l'arme énergétique — ») + le surcoût de la page.
+   Trophées du Jugement (même Arsenal, +10 Points, AJOUT et non
+   échange, État-major/Champion SEULEMENT, accorde Peur (1)) : voir
+   `optionTrophéesDuJugement()` ci-dessous, sur le même principe que
+   `optionSpheresVenin()`.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_NIGHT_LORDS = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Night Lords)",
+    items: [
+      { nom: "Vouge tronçonneur", cout: 15, requiertLegion: "VIII" },
+      { nom: "Hache de bourreau", cout: 20, requiertLegion: "VIII" },
+    ],
+  },
+  // Hache de bourreau volontairement absente ici : réservée
+  // État-major, exclut le Sergent.
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Night Lords)",
+    items: [{ nom: "Vouge tronçonneur", cout: 15, requiertLegion: "VIII" }],
+  },
+  // Variante pour les options déjà scopées à un Sergent via une liste
+  // meleeTerminator (ex : Sergent Terminator Tartaros) : pas de coût
+  // de base d'arme énergétique dans cette liste, donc +5 net.
+  meleeTerminatorSergent: {
+    nom: "Armes de Mêlée de Terminator de Légion (Night Lords)",
+    items: [{ nom: "Vouge tronçonneur", cout: 5, requiertLegion: "VIII" }],
+  },
+};
+
+// Trophées du Jugement (Arsenal des Night Lords) : ajout optionnel,
+// jamais un remplacement, réservé aux Sous-types État-major ou
+// Champion — PAS Sergent. +10 Points par Figurine, accorde Peur (1)
+// (texte simple, pas d'entrée de glossaire dédiée : la Règle Peur (X)
+// est déjà un mécanisme générique de ce fichier).
+function optionTropheesDuJugement() {
+  return {
+    type: "case",
+    id: "trophees-du-jugement",
+    libelle: "Trophées du Jugement",
+    cout: 10,
+    requiertLegion: "VIII",
+    ajoute: "Trophées du Jugement (Peur (1))",
+  };
+}
+
+/* ----------------------------------------------------------
    ARME ÉNERGÉTIQUE GÉNÉRIQUE (p. 21 : Épée/Hache/Masse/Lance
    énergétique, coût identique) : toute Unité dotée d'une « Arme
    énergétique » générique (de base ou via une option) doit en
@@ -356,6 +548,17 @@ const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
     { nom: "Masse énergétique forgée", cout: 5, requiertLegion: "XVIII" },
     { nom: "Lance énergétique forgée", cout: 5, requiertLegion: "XVIII" },
   ],
+  // Arsenal de l'Alpha Legion : échange GRATUIT (voir
+  // LISTES_ARSENAL_ALPHA_LEGION plus bas pour le reste de cet Arsenal).
+  [{ nom: "Dague énergétique", cout: 0, requiertLegion: "XX" }],
+  // Arsenal des Night Lords (voir LISTES_ARSENAL_NIGHT_LORDS plus bas) :
+  // Vouge tronçonneur (État-major/Champion/Sergent, +5) et Hache de
+  // bourreau (État-major SEULEMENT, +10 — absente des listes
+  // meleeSergent/meleeTerminatorSergent ci-dessous pour cette raison).
+  [
+    { nom: "Vouge tronçonneur", cout: 5, requiertLegion: "VIII" },
+    { nom: "Hache de bourreau", cout: 10, requiertLegion: "VIII" },
+  ],
 );
 
 // Option "choix" obligatoire (coût nul) qui résout une « Arme
@@ -363,6 +566,18 @@ const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
 // option dédiée existante à fusionner (voir plus haut) : simple
 // ajout (la base ne contient déjà plus le nom générique, retiré de
 // `equipement`), jamais un remplacement.
+// Bug corrigé (Night Lords, 2026-07-29) : cette fabrique n'est appelée
+// que par des Escouades où « chaque Figurine non autrement équipée »
+// (rang-et-fichier ET rôle à Sous-type mêlés dans le MÊME choix
+// obligatoire, ex : Élu Cataphractii/Terminator generiques à côté du
+// Champion Élu Cataphractii/Sergent) — jamais par une Unité à profil
+// unique (celles-ci construisent leur propre `choix` en dur, avec
+// leurs propres ajouts de LISTES_ARSENAL_*/LISTES_ARTIFICE_NOCTURNE).
+// Les entrées `requiertLegion` de CHOIX_ARMES_ENERGETIQUES (armes
+// forgées Salamanders, Dague énergétique Alpha Legion, etc., toutes
+// réservées à un Sous-type précis) doivent donc être filtrées ici :
+// sinon tout rang-et-fichier hérite de ces armes réservées via ce
+// choix partagé, faute de `prefixeFiche` pour les isoler.
 function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
   return {
     type: "choix",
@@ -370,7 +585,7 @@ function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
     libelle,
     obligatoire: true,
     ajoute: true,
-    choix: CHOIX_ARMES_ENERGETIQUES,
+    choix: CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion),
   };
 }
 
@@ -1037,6 +1252,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1054,6 +1271,10 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -1067,6 +1288,10 @@ const UNITES = [
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -1146,6 +1371,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1156,6 +1383,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -1169,6 +1401,9 @@ const UNITES = [
           { nom: "Lame de parangon", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
         ],
       },
       {
@@ -1330,6 +1565,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -1341,6 +1578,10 @@ const UNITES = [
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -1354,6 +1595,10 @@ const UNITES = [
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       optionBombesFusion(),
@@ -1535,6 +1780,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1550,6 +1797,10 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -1561,6 +1812,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -1653,6 +1908,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1663,6 +1920,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -1675,6 +1937,9 @@ const UNITES = [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
         ],
       },
       {
@@ -1744,6 +2009,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1759,6 +2026,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -1778,6 +2048,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.pistolets,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -2176,6 +2449,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -2185,6 +2460,10 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -2196,6 +2475,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       optionBombesFusion(),
@@ -2854,6 +3137,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -2864,6 +3149,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -2874,6 +3163,11 @@ const UNITES = [
         choix: [
           { nom: "— Conserver la hache énergétique —", cout: 0 },
           { nom: "Marteau Thunder", cout: 5 },
+          {
+            nom: "Broyeur à gravitons",
+            cout: 5,
+            requiertLegion: "IV",
+          },
         ],
       },
       {
@@ -2966,6 +3260,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "pistolet",
@@ -2975,6 +3271,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -2985,6 +3285,11 @@ const UNITES = [
         choix: [
           { nom: "— Conserver la hache énergétique —", cout: 0 },
           { nom: "Marteau Thunder", cout: 5 },
+          {
+            nom: "Broyeur à gravitons",
+            cout: 5,
+            requiertLegion: "IV",
+          },
         ],
       },
       {
@@ -3089,6 +3394,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3099,6 +3406,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -3109,6 +3421,11 @@ const UNITES = [
         choix: [
           { nom: "— Conserver la hache énergétique —", cout: 0 },
           { nom: "Marteau Thunder", cout: 5 },
+          {
+            nom: "Broyeur à gravitons",
+            cout: 5,
+            requiertLegion: "IV",
+          },
         ],
       },
       {
@@ -3420,8 +3737,19 @@ const UNITES = [
         libelle: "Type d'arme énergétique (ou remplacement)",
         obligatoire: true,
         remplace: "Arme énergétique",
+        // Primus Medicae : Sous-type Spécialiste, pas éligible aux
+        // armes réservées État-major/Champion/Sergent d'un Arsenal de
+        // Légion (Gantelet Solarite Imperial Fists, Dague énergétique
+        // Alpha Legion, Vouge tronçonneur/Hache de bourreau Night
+        // Lords…) — SAUF l'Artifice de Nocturne Salamanders (XVIII),
+        // qui inclut le Spécialiste et reste donc seul autorisé ici :
+        // filtre tout `requiertLegion` AUTRE que Salamanders, sinon
+        // hérité automatiquement via le spread direct de
+        // CHOIX_ARMES_ENERGETIQUES.
         choix: [
-          ...CHOIX_ARMES_ENERGETIQUES,
+          ...CHOIX_ARMES_ENERGETIQUES.filter(
+            (c) => !c.requiertLegion || c.requiertLegion === "XVIII",
+          ),
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
@@ -3486,6 +3814,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3499,6 +3829,10 @@ const UNITES = [
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3511,6 +3845,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -3600,6 +3938,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -3609,6 +3949,10 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -3620,6 +3964,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       optionBombesFusion(),
@@ -3712,6 +4060,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3722,6 +4072,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -3734,6 +4089,9 @@ const UNITES = [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
         ],
       },
       {
@@ -3921,6 +4279,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3934,6 +4294,10 @@ const UNITES = [
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3946,6 +4310,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -4032,6 +4400,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4042,6 +4412,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -4054,6 +4429,9 @@ const UNITES = [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
         ],
       },
       {
@@ -4103,6 +4481,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4117,6 +4497,10 @@ const UNITES = [
           { nom: "Bolter Némésis", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -4129,6 +4513,10 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -4185,6 +4573,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4205,6 +4595,9 @@ const UNITES = [
           { nom: "— Aucune —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
     ],
@@ -5038,6 +5431,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
       {
@@ -5235,6 +5633,28 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Combi-bolter (à la place du chargeur volkite)",
       },
+      // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
+      // d'État-major Terminator Cataphractii ayant le Trait Imperial
+      // Fists peut échanger GRATUITEMENT son combi-bolter contre un
+      // bouclier Storm modèle Vigil. » Modélisé directement depuis le
+      // chargeur volkite (coût net identique, l'échange contre un
+      // combi-bolter ci-dessus étant lui-même gratuit) plutôt qu'en
+      // deux étapes. `requiertLegion` sur une option `quantite` :
+      // masque la ligne (synchroniserConfig, js/unites.js) tant que la
+      // Légion choisie n'est pas Imperial Fists.
+      {
+        remplaceIntegral: "Chargeur volkite",
+        type: "quantite",
+        id: "bouclier-storm-vigil",
+        libelle:
+          "Figurines échangeant leur chargeur volkite contre un bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "VII",
+        ajoute:
+          "Bouclier Storm modèle Vigil (à la place du chargeur volkite, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+      },
       {
         remplaceIntegral: "Chargeur volkite",
         type: "quantite",
@@ -5351,6 +5771,23 @@ const UNITES = [
         parTranche: 1,
         groupe: "tir",
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
+      },
+      // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
+      // d'État-major Terminator Tartaros ayant le Trait Imperial Fists
+      // peut échanger son combi-bolter contre un bouclier Storm modèle
+      // Vigil pour +5 Points par Figurine. »
+      {
+        remplaceIntegral: "Combi-bolter",
+        type: "quantite",
+        id: "bouclier-storm-vigil",
+        libelle:
+          "Figurines échangeant leur combi-bolter contre un bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "VII",
+        ajoute:
+          "Bouclier Storm modèle Vigil (à la place du combi-bolter, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
       {
         remplaceIntegral: "Combi-bolter",
@@ -6205,6 +6642,23 @@ const UNITES = [
         groupe: "tir",
         ajoute: "Combi-bolter (à la place du chargeur volkite)",
       },
+      // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
+      // Terminator Cataphractii ayant le Trait Imperial Fists peut
+      // échanger GRATUITEMENT son combi-bolter contre un bouclier
+      // Storm modèle Vigil. »
+      {
+        remplaceIntegral: "Chargeur volkite",
+        type: "quantite",
+        id: "bouclier-storm-vigil",
+        libelle:
+          "Figurines échangeant leur chargeur volkite contre un bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "VII",
+        ajoute:
+          "Bouclier Storm modèle Vigil (à la place du chargeur volkite, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+      },
       {
         remplaceIntegral: "Chargeur volkite",
         type: "quantite",
@@ -6381,6 +6835,23 @@ const UNITES = [
         parTranche: 1,
         groupe: "tir",
         ajoute: "Chargeur volkite (à la place du combi-bolter)",
+      },
+      // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
+      // Terminator Tartaros ayant le Trait Imperial Fists peut échanger
+      // son combi-bolter contre un bouclier Storm modèle Vigil pour
+      // +5 Points par Figurine. »
+      {
+        remplaceIntegral: "Combi-bolter",
+        type: "quantite",
+        id: "bouclier-storm-vigil",
+        libelle:
+          "Figurines échangeant leur combi-bolter contre un bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "VII",
+        ajoute:
+          "Bouclier Storm modèle Vigil (à la place du combi-bolter, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
       {
         remplaceIntegral: "Combi-bolter",
@@ -6716,10 +7187,17 @@ const UNITES = [
           "Sergent Terminator Tartaros : échanger son arme énergétique contre un objet de la liste des Armes de Mêlée de Terminator de Légion",
         prefixeFiche: "Sergent Terminator Tartaros : ",
         remplace: ARMES_ENERGETIQUES,
+        // Sergent : pas éligible au Broyeur à gravitons (Arsenal des
+        // Iron Warriors, réservé État-major/Champion), à la différence
+        // du Gantelet énergétique Solarite (Imperial Fists) juste
+        // au-dessus, qui inclut le Sergent.
         choix: [
           { nom: "— Conserver l'arme énergétique —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminatorSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeTerminatorSergent),
         ],
       },
       {
@@ -6977,6 +7455,9 @@ const UNITES = [
           { nom: "Épée tronçonneuse lourde", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7178,6 +7659,9 @@ const UNITES = [
           { nom: "Épée tronçonneuse lourde", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7500,6 +7984,9 @@ const UNITES = [
           { nom: "— Conserver les deux serpentines volkites —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7594,6 +8081,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7609,6 +8099,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.pistolets,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
@@ -7742,6 +8235,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7757,6 +8253,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.pistolets,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
@@ -7928,6 +8427,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -7944,6 +8446,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.pistolets,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
@@ -8113,6 +8618,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -8363,6 +8871,11 @@ const UNITES = [
         id: "epee",
         libelle: "Remplacer l'épée tronçonneuse",
         remplace: "Épée tronçonneuse",
+        // Apothicaire : Sous-type Spécialiste, pas éligible aux armes
+        // réservées État-major/Champion/Sergent d'un Arsenal de Légion
+        // (Gantelet Solarite Imperial Fists, Dague énergétique Alpha
+        // Legion, Vouge tronçonneur Night Lords…) — à la différence du
+        // Gantelet forgé Salamanders (Spécialiste inclus) ci-dessous.
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
@@ -8587,6 +9100,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -8705,6 +9221,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -9136,6 +9655,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -9247,6 +9769,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -9260,6 +9785,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -9595,6 +10123,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -9608,6 +10139,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -11008,6 +11542,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -11346,6 +11883,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -11531,6 +12071,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -11544,6 +12087,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -14356,6 +14902,9 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -14526,6 +15075,9 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -14952,6 +15504,9 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -15144,6 +15699,9 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -15980,6 +16538,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -17160,6 +17721,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
@@ -17393,6 +17957,9 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -20202,6 +20769,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -20738,6 +21308,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "bolter",
@@ -20755,6 +21327,10 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -20769,6 +21345,10 @@ const UNITES = [
           { nom: "Hache énergétique d'artificier", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -22728,6 +23308,11 @@ const UNITES = [
           { nom: "— Conserver le combi-bolter —", cout: 0 },
           { nom: "Chargeur volkite", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          {
+            nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
+            cout: 5,
+            requiertLegion: "VII",
+          },
         ],
       },
     ],
@@ -24713,6 +25298,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -25141,6 +25729,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -25512,6 +26103,8 @@ const UNITES = [
       },
     ],
     options: [
+      optionSpheresVenin(),
+      optionTropheesDuJugement(),
       {
         type: "choix",
         id: "bolter",
@@ -25534,6 +26127,10 @@ const UNITES = [
             LISTES_EQUIPEMENT.combinees,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -25552,6 +26149,10 @@ const UNITES = [
           { nom: "Pistolet à shrapnels (Legacy)", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
         ],
       },
       {
@@ -25818,6 +26419,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -26257,6 +26861,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -26591,9 +27198,15 @@ const UNITES = [
         groupe: "combi",
         remplace: "du combi-bolter",
       }),
-      // Glaive tronçonneur Nostraman et Hache du Bourreau (ci-dessous) :
-      // profils d'arme non donnés dans l'extrait fourni (pas d'encart
-      // WARGEAR sur cette fiche) — à compléter depuis le livre au besoin.
+      // Glaive tronçonneur Nostraman : profil d'arme non donné dans
+      // l'extrait fourni (pas d'encart WARGEAR sur cette fiche) — à
+      // compléter depuis le livre au besoin. Hache de bourreau : profil
+      // désormais connu (Arsenal des Night Lords, Liber Astartes/
+      // Hereticus p. ?), voir js/armes-data.js — nom exact aligné
+      // dessus ci-dessous (le texte de la fiche disait « Hache du
+      // Bourreau », capitale/« du » : gardé tel quel comme option
+      // affichée, mais l'objet réellement ajouté à l'équipement doit
+      // matcher le profil pour que la table d'Armes le retrouve).
       {
         type: "quantite",
         id: "chainglaive-nostraman",
@@ -26664,10 +27277,10 @@ const UNITES = [
         type: "case",
         id: "hache-bourreau",
         libelle:
-          "Atramentar Trucidor : hache du Bourreau (à la place de l'arme énergétique)",
+          "Atramentar Trucidor : hache de bourreau (à la place de l'arme énergétique)",
         cout: 10,
         ajoute:
-          "Atramentar Trucidor : Hache du Bourreau (à la place de l'arme énergétique)",
+          "Hache de bourreau (Atramentar Trucidor, à la place de l'arme énergétique)",
       },
     ],
     legion: "VIII",
@@ -34744,6 +35357,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -34757,6 +35373,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -35282,6 +35901,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {
@@ -35295,6 +35917,9 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
       },
       {

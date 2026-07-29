@@ -3551,6 +3551,26 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Réservé à une Figurine de Centurion ou de Centurion Cataphractii ayant le Trait Death Guard : elle bénéficie d'un Modificateur de +1 à la Valeur de Base de sa Caractéristique de Points de Vie et gagne la Règle Spéciale Guerrier Éternel (2). Une seule fois par Armée.",
   },
+  /* --- Arsenal des Imperial Fists (VIIe Légion), page « Castellan »
+     (voir js/unites-data.js, LISTES_ARSENAL_IMPERIAL_FISTS pour le
+     reste de cet Arsenal). Contrairement à Résistance Anormale
+     ci-dessus, le livre ne vise QUE le Centurion de base (pas de
+     variante Terminator/Cataphractii) et n'a pas de restriction « une
+     seule fois par Armée » — non ajouté, fidèle à la fiche source.
+     Les deux effets (scanner augure + remplacement forcé des options
+     de Centurion listées par un échange gratuit de bolter) restent en
+     texte seul, sur le même principe que les autres Avantages
+     Principaux complexes de ce tableau (ex : Le Salaire de la
+     Traîtrise, Alpha Legion) : appliqués manuellement par le joueur,
+     non vérifiés par le site. --- */
+  {
+    id: "castellan",
+    nom: "Castellan (Imperial Fists)",
+    uniteRequise: [{ id: "centurion" }],
+    traitRequis: "Imperial Fists",
+    texte:
+      "Réservé à une Figurine de Centurion ayant le Trait Imperial Fists : elle gagne un scanner augure. Elle ne peut choisir aucune des options de Centurion listées, et doit à la place échanger gratuitement son bolter contre l'un des éléments suivants : Bolter lourd, Autocanon, ou Canon d'assaut Iliastus.",
+  },
   /* --- Arsenal de l'Alpha Legion (XXe Légion), page « Le Salaire de
      la Traîtrise » (voir js/unites-data.js, unités réservées à cette
      Légion). Simplification : le livre autorise cet Avantage plusieurs
