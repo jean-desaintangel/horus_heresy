@@ -48,7 +48,7 @@ horus_heresy/
 │   ├── psy.html             # Aptitudes Psychiques (Pouvoirs, Périls du Warp…)
 │   ├── regles.html          # Glossaire des règles spéciales (recherche)
 │   ├── armes.html           # Arsenal : tables d'armes filtrables
-│   ├── unites.html          # Configurateur de liste d'armée
+│   ├── construction-liste.html # Configurateur de liste d'armée
 │   ├── choix-legion.html    # Grille des 18 Primarques (page autonome)
 │   ├── telechargement.html  # Documents à télécharger
 │   ├── contact.html         # Formulaire de signalement (Formspree)

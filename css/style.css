@@ -805,9 +805,9 @@ strong {
    fréquent ici. En position:fixed avec des coordonnées calculées par
    rapport au viewport, la bulle échappe à ce rognage quelle que soit
    la hauteur du tableau qui la contient.
-   Partagé par .orga-boite (organigramme, unites.html), .regle-tag
+   Partagé par .orga-boite (organigramme, construction-liste.html), .regle-tag
    (règles spéciales des tables d'armes, armes.html) et .orga-badge
-   (badges de Rôles Tactiques du constructeur d'armée, unites.html). */
+   (badges de Rôles Tactiques du constructeur d'armée, construction-liste.html). */
 .orga-boite .tooltip,
 .regle-tag .tooltip,
 .orga-badge .tooltip {
@@ -1066,7 +1066,7 @@ td.impossible {
 
 /* ============================================================
    TABLEAU DE BLESSURE FLOTTANT (toutes les pages sauf index.html,
-   choix-legion.html et unites.html — voir activerTableauFlottant
+   choix-legion.html et construction-liste.html — voir activerTableauFlottant
    dans js/main.js)
    .table-flottante est le point d'ancrage position: fixed, déplacé en
    JS (left/top en px) une fois que le bouton a été glissé ; tant
@@ -1878,7 +1878,7 @@ footer p {
 }
 
 /* ============================================================
-   FICHES D'UNITÉS — configurateur (page unites.html)
+   FICHES D'UNITÉS — configurateur (page construction-liste.html)
    Générées par js/unites.js à partir de js/unites-data.js :
    une carte par unité ajoutée (formulaire d'options + fiche
    récap), total général recalculé en direct, et impression
@@ -2565,7 +2565,7 @@ footer p {
 }
 
 /* ============================================================
-   ASSISTANT DE SÉLECTION D'ARMÉE (page unites.html)
+   ASSISTANT DE SÉLECTION D'ARMÉE (page construction-liste.html)
    Organigramme de Force, badges de Rôles Tactiques, jauge de
    points, validation et résumé — voir js/organigramme.js.
    ============================================================ */

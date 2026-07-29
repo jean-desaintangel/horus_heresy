@@ -14,5 +14,5 @@ jspdf.plugin.autotable.min.js
   Récupéré depuis https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js
 
 Usage : js/unites.js, bouton « Télécharger en PDF » de la page
-unites.html (génération d'un PDF téléchargeable reprenant la mise en
+construction-liste.html (génération d'un PDF téléchargeable reprenant la mise en
 forme « carte d'unité » des fiches récap).

@@ -4,7 +4,7 @@
    Rôle   : encode les caractéristiques d'armes du livre de règles
    (Tir et Mêlée). Aucune logique de rendu : ces données sont
    consommées par js/armes.js (page armes.html) pour construire les
-   tables de l'Arsenal, et par js/unites.js (page unites.html) pour
+   tables de l'Arsenal, et par js/unites.js (page construction-liste.html) pour
    afficher les caractéristiques de chaque arme sur la fiche récap
    d'une unité, sous forme de table (correspondance par nom — voir
    trouverArmeDansTexte dans unites.js).

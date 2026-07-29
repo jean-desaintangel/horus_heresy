@@ -1,5 +1,5 @@
 /* ============================================================
-   organigramme.js — Assistant de Sélection d'Armée (unites.html)
+   organigramme.js — Assistant de Sélection d'Armée (construction-liste.html)
    Auteur : Jean · Créé : 2026-07-17
    Rôle   : implémente les règles de Sélection d'Armée du Livre de
    Règles « l'Âge des Ténèbres » (p. 282-285) et du livre d'armée
@@ -126,7 +126,7 @@ const Organigramme = (() => {
   // (js/unites.js), même principe que la Légion/Maisonnée pour les
   // autres Factions.
 
-  /* Skins thématiques (page unites.html) : quand une Légion listée ici
+  /* Skins thématiques (page construction-liste.html) : quand une Légion listée ici
      est choisie, une classe est posée sur <body> (voir appliquerSkin
      Legion) — la palette de couleurs de tout le site (variables CSS
      --accent, --titre…, voir css/style.css) se recolore en
@@ -353,7 +353,7 @@ const Organigramme = (() => {
      4.png à 2.png) — la première posée à gauche des titres, la
      seconde à droite (voir construireParametres et css/style.css, ainsi
      que appliquerSkinLegionGlobal dans js/main.js pour les pages hors
-     pages/unites.html). */
+     pages/construction-liste.html). */
   const SKIN_TITANICUS = {
     classe: "skin-legion-titanicus",
     nom: "Legio Titanicus",
@@ -3079,7 +3079,7 @@ const Organigramme = (() => {
     conteneur.appendChild(ligne);
 
     // Skin thématique : recolore tout le site (variables CSS), pose le
-    // blason (sprite <symbol> de pages/unites.html) sur le titre de
+    // blason (sprite <symbol> de pages/construction-liste.html) sur le titre de
     // page et ajoute un bandeau de contexte historique sous les
     // paramètres. Legio Titanicus (SKIN_TITANICUS) suit la Faction
     // plutôt qu'une Légion précise (pas de subdivision en Légions
@@ -3967,7 +3967,7 @@ const Organigramme = (() => {
      sauvegarde. Appelée après chaque interaction.
      ---------------------------------------------------------- */
   function actualiser() {
-    // Le tutoriel de construction d'armée (unites.html) ne décrit que
+    // Le tutoriel de construction d'armée (construction-liste.html) ne décrit que
     // l'Organigramme de Force des Legiones Astartes (Détachement
     // Principal de Croisade, États-Majors…) : sans objet pour Legio
     // Titanicus, qui suit son propre Détachement Principal (Ordinal

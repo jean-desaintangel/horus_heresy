@@ -1,5 +1,5 @@
 /* ============================================================
-   unites.js — Fiches récap d'unités (page unites.html)
+   unites.js — Fiches récap d'unités (page construction-liste.html)
    Auteur : Jean · Créé : 2026-07-16
    Rôle   : le visiteur compose sa liste : il ajoute des unités,
    choisit une variante (ex : Praetor / Praetor à Réacteurs) et
@@ -3563,7 +3563,7 @@ function initialiserChoixUnite() {
   const champ = document.getElementById("choix-unite");
   const bouton = document.getElementById("choix-unite-bouton");
   const liste = document.getElementById("choix-unite-liste");
-  // Décochée par défaut (voir pages/unites.html) : tant qu'elle ne l'est
+  // Décochée par défaut (voir pages/construction-liste.html) : tant qu'elle ne l'est
   // pas, les unités `legacy: true` (js/unites-data.js) restent hors de
   // la liste déroulante ci-dessous, aussi bien à l'ouverture qu'à la
   // frappe.
@@ -4014,7 +4014,7 @@ function initialiserChoixUnite() {
     basculerListe();
   });
 
-  // Case « Afficher les unités Legacies » (pages/unites.html) :
+  // Case « Afficher les unités Legacies » (pages/construction-liste.html) :
   // rafraîchit la liste déroulante si elle est déjà ouverte (un simple
   // changement de focus au clavier, contrairement à un clic, ne
   // referme pas la liste via le gestionnaire "clic en dehors"

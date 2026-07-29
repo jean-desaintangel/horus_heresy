@@ -5,7 +5,7 @@
    Règles « l'Âge des Ténèbres » (p. 282-285) et les Détachements
    Auxiliaires propres aux Legiones Astartes (livre d'armée).
    Aucune logique : les données sont consommées par
-   js/organigramme.js (page unites.html).
+   js/organigramme.js (page construction-liste.html).
    Dépend : aucun. Doit être chargé avant js/organigramme.js.
    Transcription manuelle : en cas de doute, c'est toujours le
    livre qui fait référence.
@@ -3793,7 +3793,7 @@ const AVANTAGES_PRINCIPAUX = [
      de Vœu Questoris mentionnées dans le livre (« on ne peut pas
      déclarer de Vœu Questoris autre que… ») sont purement descriptives
      ici : les Vœux Questoris ne sont pas un choix modélisé par ce site
-     (voir le tutoriel Chevaliers Questoris sur pages/unites.html). --- */
+     (voir le tutoriel Chevaliers Questoris sur pages/construction-liste.html). --- */
   {
     id: "preux-martial",
     nom: "Preux Martial (Rang de Maisonnée)",

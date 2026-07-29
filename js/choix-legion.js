@@ -2,7 +2,7 @@
    choix-legion.js — Page de choix de la Légion (pages/choix-legion.html)
    Auteur : Jean · Extrait du HTML : 2026-07-27
    Rôle   : construit la grille des dix-huit Primarques, ouvre la
-   modale d'agrandissement, et renvoie vers pages/unites.html avec la
+   modale d'agrandissement, et renvoie vers pages/construction-liste.html avec la
    Légion choisie en paramètre d'URL.
    Dépend : aucun (vanilla JS) — stylé par css/choix-legion.css.
    Cette page ne charge PAS js/main.js : elle est autonome (pas de
@@ -292,14 +292,14 @@ document.addEventListener("keydown", (e) => {
     fermerModale();
 });
 
-// Validation : redirige vers unites.html en pré-sélectionnant la
+// Validation : redirige vers construction-liste.html en pré-sélectionnant la
 // Légion choisie dans le menu déroulant « Choisir Légion »
 // (paramètre lu par js/organigramme.js, Organigramme.initialiser).
 // Arrivée depuis le menu « Légion Alliée » d'un Détachement Allié
 // (construireSelectLegionAlliee, js/organigramme.js) plutôt que du
 // menu « Légion » principal des paramètres de la partie : cette
 // page reçoit alors elle-même `?cible=allie&det=<indice>`, à
-// reporter tel quel sur l'URL de retour pour que unites.html sache
+// reporter tel quel sur l'URL de retour pour que construction-liste.html sache
 // appliquer le choix à ce Détachement Allié précis, pas à la
 // Légion de l'Armée entière.
 const paramsArrivee = new URLSearchParams(location.search);
@@ -310,7 +310,7 @@ boutonValider.addEventListener("click", () => {
   if (primarqueSelectionne.expurgee) return;
   if (!primarqueSelectionne.legionId) return;
   let url =
-    "unites.html?legion=" + encodeURIComponent(primarqueSelectionne.legionId);
+    "construction-liste.html?legion=" + encodeURIComponent(primarqueSelectionne.legionId);
   if (cibleArrivee === "allie" && detArrivee !== null) {
     url +=
       "&cible=" +

@@ -634,7 +634,7 @@ Règles Spéciales :
   « [Mechanicum] » dans `traits` — sinon même bug que le Triaros.
   Chaque Techno-arcane Majeur distinct présent dans l'Armée (pas
   seulement un par Armée : le choix est par Unité, voir le tutoriel
-  Mechanicum de `pages/unites.html`) est listé sur la page de garde du
+  Mechanicum de `pages/construction-liste.html`) est listé sur la page de garde du
   PDF/Word avec son texte complet (`contenuTraitsFactionMechanicumActuels`,
   js/unites.js — même principe que Doctrine de Cohorte/Désignation de
   Legiones Auxilia, mais potentiellement plusieurs entrées).

@@ -499,7 +499,7 @@ function creerRegleTag(texte, definition) {
 
 /* ----------------------------------------------------------
    ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
-   Chaque case .orga-boite (organigramme, unites.html) et chaque
+   Chaque case .orga-boite (organigramme, construction-liste.html) et chaque
    .regle-tag (règles spéciales des tables d'armes, armes.html) est
    focalisable (tabindex="0") et révèle une description au focus. On
    associe la description à son déclencheur via aria-describedby pour
@@ -614,7 +614,7 @@ window.addEventListener("resize", repositionnerBullesVisibles);
 /* ----------------------------------------------------------
    CLIN D'ŒIL — Erebus
    Tape "Erebus" (accents/majuscules ignorés) dans le champ « Unité à
-   ajouter » d'unites.html (#choix-unite, PAS les barres de recherche
+   ajouter » d'construction-liste.html (#choix-unite, PAS les barres de recherche
    d'armes.html/regles.html #recherche) : son portrait apparaît dans une
    popup par-dessus la page. Purement décoratif — un simple écouteur
    "input" de plus sur ce champ, sans toucher à sa propre logique de
@@ -1078,7 +1078,7 @@ if ("serviceWorker" in navigator) {
    ---------------------------------------------------------- */
 // Ordre d'affichage des liens du menu principal.
 const LIENS_NAV = [
-  { href: "unites.html", texte: "Construction d’armée" },
+  { href: "construction-liste.html", texte: "Construction d’armée" },
   { href: "tour.html", texte: "Tour" },
   { href: "mouvement.html", texte: "Mouvement" },
   { href: "tir.html", texte: "Tir" },
@@ -1234,7 +1234,7 @@ document.addEventListener("DOMContentLoaded", () => {
    SKIN DE LÉGION / FACTION — SITE ENTIER
    js/organigramme.js pose une classe "skin-legion-*" sur <body>
    (voir "Skins de Légion" dans css/style.css) mais uniquement sur
-   pages/unites.html, la seule page qui le charge. On relit ici la
+   pages/construction-liste.html, la seule page qui le charge. On relit ici la
    même clé localStorage ("hh-armee-organigramme", voir
    CLE_STOCKAGE_ORGA dans organigramme.js — dupliquée car ce fichier
    n'est pas chargé partout) pour poser la même classe sur TOUTES les
@@ -1283,7 +1283,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Blasons de Désignation de Legiones Auxilia (LOGOS_DESIGNATION_AUXILIA,
   // js/organigramme.js) — dupliqués ici pour la même raison que
   // LOGOS_LEGION ci-dessus (ce fichier n'est chargé que sur
-  // pages/unites.html). Clé = id DESIGNATIONS_LEGIONES_AUXILIA
+  // pages/construction-liste.html). Clé = id DESIGNATIONS_LEGIONES_AUXILIA
   // (js/organigramme-data.js), valeur = nom de fichier réel sous
   // assets/logo_solar_auxilia/ (plusieurs ont une coquille ou un
   // raccourci par rapport à l'id établi, conservées telles quelles).
@@ -1429,7 +1429,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ----------------------------------------------------------
    TABLEAU DE BLESSURE FLOTTANT — TOUTES LES PAGES SAUF
    index.html, choix-legion.html (ne charge pas main.js, donc jamais
-   concernée) ET unites.html (organigramme déjà dense, pas la peine
+   concernée) ET construction-liste.html (organigramme déjà dense, pas la peine
    d'y ajouter un widget de plus).
    Un petit bouton rond (position: fixed) déplaçable à la souris comme
    au doigt (Pointer Events, unifie souris/tactile/stylet) ; un simple
@@ -1440,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", () => {
    à la demande (premier clic) plutôt qu'au chargement de la page.
    ---------------------------------------------------------- */
 function activerTableauFlottant() {
-  const PAGES_SANS_TABLEAU_FLOTTANT = ["", "index.html", "unites.html"];
+  const PAGES_SANS_TABLEAU_FLOTTANT = ["", "index.html", "construction-liste.html"];
   const pageActuelle = location.pathname.split("/").pop();
   if (PAGES_SANS_TABLEAU_FLOTTANT.includes(pageActuelle)) return;
 
@@ -1765,7 +1765,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
      2. PANNEAUX DÉPLIABLES (Accordéon + Timeline)
 
-     Les Cases Principales (unites.html) et la Timeline des phases
+     Les Cases Principales (construction-liste.html) et la Timeline des phases
      (tour.html, tir.html, assaut.html, mouvement.html) sont deux
      habillages différents du même comportement : un bouton-titre qui
      révèle un bloc de contenu en dessous de lui. On factorise donc la
@@ -1779,7 +1779,7 @@ document.addEventListener("DOMContentLoaded", () => {
      ---------------------------------------------------------- */
   // Les deux familles de panneaux dépliables (Accordéon et Timeline)
   // peuvent s'imbriquer l'une dans l'autre (ex : l'Accordéon des Cases
-  // Principales, dans unites.html, est niché dans un timeline-item) : le
+  // Principales, dans construction-liste.html, est niché dans un timeline-item) : le
   // recalcul de hauteur des ancêtres doit donc reconnaître les deux.
   const SELECTEUR_ITEM_DEPLIABLE = ".accordeon-item, .timeline-item";
 
@@ -1837,7 +1837,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cases Principales (unites.html)
+  // Cases Principales (construction-liste.html)
   activerPanneauxDepliables(
     ".accordeon-titre",
     ".accordeon-item",

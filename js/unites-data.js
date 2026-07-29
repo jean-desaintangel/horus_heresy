@@ -4,7 +4,7 @@
    Rôle   : encode les fiches d'unités du livre d'armée des
    Legiones Astartes (Quartier Général et État-major) ainsi que
    les Listes d'Équipement (p. 21). Aucune logique de rendu :
-   les données sont consommées par js/unites.js (page unites.html).
+   les données sont consommées par js/unites.js (page construction-liste.html).
    Dépend : aucun (vanilla JS). Doit être chargé avant js/unites.js.
    Transcription manuelle depuis le livre d'armée : en cas de
    doute, c'est toujours le livre qui fait référence.
@@ -567,7 +567,7 @@ function optionsVehiculeSuperLourdPivot() {
    canon rotatif Punisher (requiertEquipUnDe), comme précisé par le
    livre — sans effet sur Predator/Kratos. Coûts en Points : voir
    REGLES_DIVERSES (js/regles-data.js) pour le texte des Règles
-   Spéciales accordées, et pages/unites.html #decurion pour le détail
+   Spéciales accordées, et pages/construction-liste.html #decurion pour le détail
    complet des 4 améliorations. */
 function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
   const idsDecurion = [

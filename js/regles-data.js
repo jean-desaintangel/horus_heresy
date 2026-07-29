@@ -1557,7 +1557,7 @@ const REGLES_DIVERSES = [
   /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de
      Type Véhicule sélectionnées : Predator, Sicaran, Char d'Assaut
      Kratos — voir optionsDecurionLegion dans js/unites-data.js et
-     pages/unites.html #decurion). Defensor et Locus sont ouverts à
+     pages/construction-liste.html #decurion). Defensor et Locus sont ouverts à
      toute Légion ; Sagittar (Imperial Fists) et Lanius (Sons of
      Horus) sont réservés au Trait de Légion indiqué. --- */
   {

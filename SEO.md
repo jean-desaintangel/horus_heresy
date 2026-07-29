@@ -306,7 +306,7 @@ date au format ISO et pense à la rafraîchir lors des grosses mises à jour.
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://lagrandecroisade.fr/</loc><lastmod>2026-07-29</lastmod></url>
-  <url><loc>https://lagrandecroisade.fr/pages/unites.html</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://lagrandecroisade.fr/pages/construction-liste.html</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://lagrandecroisade.fr/pages/tour.html</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://lagrandecroisade.fr/pages/mouvement.html</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://lagrandecroisade.fr/pages/tir.html</loc><lastmod>2026-07-29</lastmod></url>
@@ -417,7 +417,7 @@ un projet personnel non officiel : autant rester exact. Valide le bloc sur
    contrôles déjà, c'est la voie la plus simple.
 2. Soumets `https://lagrandecroisade.fr/sitemap.xml` dans _Sitemaps_.
 3. _Inspection d'URL_ → demande l'indexation manuelle de 3 pages, pas plus
-   (quota journalier) : l'accueil, `pages/regles.html` et `pages/unites.html`
+   (quota journalier) : l'accueil, `pages/regles.html` et `pages/construction-liste.html`
    (tes deux pages les plus utiles, et les plus recherchées : « règles
    spéciales » et « construction d'armée »).
 4. **Bing Webmaster Tools** : propose l'import direct depuis Search Console,
