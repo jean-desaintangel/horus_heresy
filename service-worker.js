@@ -45,7 +45,7 @@
 // incrémenter cette version : sinon un visiteur déjà venu continue de
 // recevoir indéfiniment les anciens fichiers depuis son cache local,
 // et ne verra aucune des corrections.
-const CACHE_VERSION = "v31";
+const CACHE_VERSION = "v32";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
