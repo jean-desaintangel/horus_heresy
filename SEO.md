@@ -31,23 +31,6 @@ casse le site (GitHub Pages sert alors une 404 sur l'ancienne adresse).
 
 ## 1. État réel du dépôt (audit du 25/07/2026)
 
-### Déjà en place — rien à faire
-
-- 16 pages HTML (`index.html` + 15 dans `pages/`), toutes avec un `<title>`
-  descriptif suffixé `— Horus Heresy` et une `<meta name="description">`
-  rédigée. _(Le précédent brouillon de ce guide affirmait que les titres
-  étaient « trop courts » : c'est faux, ils ont été enrichis depuis.)_
-- Open Graph complet sur les 16 pages (`og:type`, `og:locale`, `og:title`,
-  `og:description`, `og:image`).
-- Polices auto-hébergées (aucune requête Google Fonts → RGPD OK).
-- Hiérarchie de titres H1/H2/H3 propre, lien d'évitement, `lang="fr"`.
-- **Tous les chemins internes sont relatifs** (`../css/style.css`,
-  `assets/img/...`) et `js/main.js` calcule sa racine dynamiquement
-  (`RACINE_SITE = document.currentScript.src.replace(/js\/main\.js.*$/, "")`).
-  → Le passage du sous-chemin `/horus_heresy/` à la racine `/` **ne cassera
-  aucun lien interne**. C'est le principal risque de ce type de migration, et
-  il est déjà écarté.
-
 ### À corriger / créer
 
 | Manque                                    | Fichier(s)                                                          | Priorité       |
@@ -91,11 +74,7 @@ Points de vigilance propres au `.fr` (registre AFNIC) :
    `.fr`, ne paie pas pour ça.
 3. **Renouvellement automatique** : active-le. Un domaine expiré = site mort +
    risque de rachat par un squatteur.
-4. **Registrar** : n'importe lequel convient (OVHcloud, Gandi, Infomaniak,
-   Namecheap…). Le seul critère technique ici est de pouvoir **éditer
-   librement la zone DNS** (enregistrements A, AAAA, CNAME, TXT) — c'est le cas
-   partout, mais évite les offres « domaine + hébergement » où la zone est
-   verrouillée.
+4. **Registrar** : OVHcloud.
 5. Note l'identifiant de connexion à l'interface DNS : tu en auras besoin dans
    les 10 minutes qui suivent.
 
@@ -114,13 +93,7 @@ Dans l'interface DNS du registrar, crée exactement ceci :
 | A    | `@`        | `185.199.110.153` | 3600 |
 | A    | `@`        | `185.199.111.153` | 3600 |
 
-_Pourquoi 4 ?_ Répartition de charge et tolérance de panne côté GitHub : le
-résolveur choisit une IP au hasard parmi les quatre. En mettre une seule
-« marche » mais te rend dépendant d'un unique point de défaillance.
-
-_Pourquoi des A et pas un CNAME ?_ La RFC 1034 interdit un CNAME à l'apex
-d'une zone (il coexisterait avec les enregistrements SOA/NS obligatoires). Si
-ton registrar propose un `ALIAS` ou `ANAME` (Gandi, DNSimple…), c'est une
+Si ton registrar propose un `ALIAS` ou `ANAME` (Gandi, DNSimple…), c'est une
 alternative propriétaire acceptable et même préférable — elle suit les
 changements d'IP de GitHub automatiquement.
 
@@ -430,7 +403,7 @@ un projet personnel non officiel : autant rester exact. Valide le bloc sur
 
 | Service                                               | Où                                    | Action                                                                                                                                                                                                                             |
 | ----------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Formspree** (`pages/contact.html`, form `mwvgodaq`) | dashboard Formspree → _Form settings_ | Si tu as restreint le formulaire à un domaine autorisé, ajoute `lagrandecroisade.fr` — sinon les signalements seront rejetés silencieusement. Teste un envoi réel après bascule.                                                    |
+| **Formspree** (`pages/contact.html`, form `mwvgodaq`) | dashboard Formspree → _Form settings_ | Si tu as restreint le formulaire à un domaine autorisé, ajoute `lagrandecroisade.fr` — sinon les signalements seront rejetés silencieusement. Teste un envoi réel après bascule.                                                   |
 | **Statcounter** (projet 13337655)                     | Project config                        | Le comptage se fait par identifiant de projet : il continue de fonctionner sans rien faire. Mets quand même à jour l'URL du projet pour que les rapports affichent le bon domaine. La rupture de série dans les stats est normale. |
 | **Google Search Console**                             | voir §10                              | Nouvelle propriété à créer.                                                                                                                                                                                                        |
 
@@ -506,52 +479,8 @@ vrai coût d'un aller-retour est un peu de confusion côté index Google.
 
 ---
 
-## 13. Checklist mercredi
-
-```
-[ ] Domaine lagrandecroisade.fr acheté, renouvellement auto activé
-[ ] Enregistrement A parking du registrar supprimé
-[ ] 4 enregistrements A (+ 4 AAAA) sur @
-[ ] CNAME www → jean-desaintangel.github.io
-[ ] dig confirme la propagation
-[ ] Settings → Pages → Custom domain = lagrandecroisade.fr, DNS check vert
-[ ] git pull (récupérer le fichier CNAME créé par GitHub)
-[ ] Domaine vérifié dans les Settings du profil GitHub (TXT anti-takeover)
-[ ] Enforce HTTPS coché
-[ ] sed de remplacement des URL absolues (36 occurrences)
-[ ] canonical ajouté sur les 16 pages
-[ ] og:url ajouté sur les 15 pages de pages/
-[ ] twitter:card ajouté (facultatif)
-[ ] robots.txt créé
-[ ] sitemap.xml créé (16 URL)
-[ ] 404.html créé (chemins absolus !)
-[ ] JSON-LD ajouté sur index.html (facultatif)
-[ ] Formspree : domaine autorisé mis à jour + test d'envoi réel
-[ ] Statcounter : URL du projet mise à jour
-[ ] Search Console : propriété Domaine + TXT + sitemap soumis
-[ ] Bing Webmaster Tools : import depuis Search Console
-[ ] Les 6 vérifications curl/dig passent
-[ ] Lighthouse SEO = 100 sur index.html et regles.html
-```
-
----
-
 ## 14. Questions restées ouvertes
 
-- **Le nom `lagrandecroisade.fr` ne contient pas « Horus Heresy »**, qui est ton
-  principal mot-clé de recherche. Ce n'est pas grave (Google ne pondère plus le
-  nom de domaine depuis la mise à jour EMD de 2012), mais cela renforce
-  l'importance des `<title>` et du `<h1>`, qui eux le contiennent déjà.
-  Pense à ce que la balise `og:site_name` (absente aujourd'hui) porte les deux :
-  `<meta property="og:site_name" content="Grande Croisade — Guide Horus Heresy" />`.
-- **Marque déposée** : « Horus Heresy » et « Warhammer » appartiennent à Games
-  Workshop. Ton domaine n'en reprend aucun — c'est précisément ce qui rend
-  `lagrandecroisade.fr` plus prudent qu'un `horus-heresy.fr`. Garde la mention
-  « guide non officiel » visible en pied de page.
 - **Renommer le repo** en `lagrandecroisade` : possible plus tard, sans effet sur
   le site une fois le domaine personnalisé actif. À ne pas faire le même jour
   que la migration (une variable à la fois).
-
----
-
-Sources : [Managing a custom domain for your GitHub Pages site](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) · [About custom domains and GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages) · [Securing your GitHub Pages site with HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https) · [Troubleshooting custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages)

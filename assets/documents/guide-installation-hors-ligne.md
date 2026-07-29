@@ -5,7 +5,7 @@ sans réseau.
 
 ## Sur téléphone Android (Chrome)
 
-1. Ouvrez **https://jean-desaintangel.github.io/horus_heresy/** dans Chrome,
+1. Ouvrez **https://lagrandecroisade.fr/** dans Chrome,
    avec du Wi-Fi ou de la 4G/5G (chez vous, pas en boutique).
 2. Attendez quelques secondes que la page se charge complètement — c'est le
    moment où le contenu est téléchargé pour l'usage hors ligne.
