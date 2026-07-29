@@ -1461,7 +1461,7 @@ function construireTablesArmes(equipement, factionUnite) {
       // d'ARMES_TIR/ARMES_MELEE concerné), a deux profils DISTINCTS à
       // conserver malgré le nom identique — dédoublonner sur `nom` seul
       // en ignorerait un des deux silencieusement.
-      const cle = arme.nom + " " + (arme.entetes === ENTETES_TIR ? "T" : "M");
+      const cle = arme.nom + "|" + (arme.entetes === ENTETES_TIR ? "T" : "M");
       if (noms.has(cle)) continue;
       noms.add(cle);
       armesTrouvees.push(arme);
@@ -2586,13 +2586,28 @@ function texteIdentiteLegion(skin) {
 // Certaines Légions ont un contenu différent selon le Rite de Guerre
 // précis choisi (ex : Legio Hereticus World Eaters) : on cherche
 // d'abord une entrée pour ce Rite précis (id RITES_DE_GUERRE), puis on
-// retombe sur l'entrée générique de la Légion. Retourne undefined pour
-// les Légions/Rites dont le contenu n'est pas encore transcrit.
+// retombe sur l'entrée générique de la Légion. Pour une Légion qui
+// impose un choix de Rite de Guerre (menu affiché par
+// RITES_DE_GUERRE, ex : Emperor's Children/World Eaters) et pour
+// laquelle aucun Rite n'a encore été choisi (etat.riteDeGuerre === ""),
+// les deux lookups ci-dessus échouent : on retombe alors sur son
+// premier Rite listé (toujours la variante Legio Astartes de base,
+// jamais Legio Hereticus) plutôt que de laisser la page de garde vide
+// — la Tactica de Légion s'applique de toute façon indépendamment du
+// Rite de Guerre choisi, contrairement aux Détachements réservés
+// (`requiertRiteDeGuerre`) qui eux restent bien verrouillés tant que
+// le joueur n'a rien choisi. Retourne undefined pour les Légions/Rites
+// dont le contenu n'est pas encore transcrit.
 function contenuRiteDeGuerreActuel() {
+  const legion = Organigramme.legionActuelle();
+  const riteChoisi = Organigramme.riteActuel ? Organigramme.riteActuel() : "";
+  const ritesLegion = RITES_DE_GUERRE[legion] || [];
   return (
-    RITE_DE_GUERRE_LEGION[
-      Organigramme.riteActuel ? Organigramme.riteActuel() : ""
-    ] || RITE_DE_GUERRE_LEGION[Organigramme.legionActuelle()]
+    RITE_DE_GUERRE_LEGION[riteChoisi] ||
+    RITE_DE_GUERRE_LEGION[legion] ||
+    (ritesLegion.length > 0
+      ? RITE_DE_GUERRE_LEGION[ritesLegion[0].id]
+      : undefined)
   );
 }
 

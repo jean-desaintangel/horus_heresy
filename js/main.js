@@ -1184,10 +1184,7 @@ const LIENS_LEGAUX = [
   { href: "mentions-legales.html", texte: "Mentions légales" },
   {
     href: "accessibilite.html",
-    // Le libellé reprend l'état de conformité RÉEL, comme le prescrit le
-    // RGAA : le visiteur doit connaître le niveau annoncé avant même
-    // d'ouvrir la page. « Accessibilité » tout court ne suffit pas.
-    texte: "Accessibilité : partiellement conforme",
+    texte: "Accessibilité",
   },
 ];
 
