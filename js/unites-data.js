@@ -223,6 +223,96 @@ const LISTES_EQUIPEMENT = {
 };
 
 /* ----------------------------------------------------------
+   ARTIFICE DE NOCTURNE (Arsenal des Salamanders, Liber Astartes/
+   Hereticus p. 263) : versions forgées de l'arme énergétique
+   générique, du gantelet énergétique, du Marteau Thunder et du
+   lance-flammes léger, réservées aux Figurines ayant le Trait
+   Salamanders. Contraintes de Sous-type (voir la page elle-même) :
+   - Arme énergétique forgée / Gantelet énergétique forgé : Sous-type
+     État-major, Champion, Spécialiste OU Sergent (+5/+10 Points).
+   - Marteau Thunder forgé : Sous-type État-major, Champion OU
+     Spécialiste SEULEMENT — Sergent explicitement exclu (+10 Points).
+   - Lance-flammes léger/normal/lourd forgé : Sous-type Sergent
+     SEULEMENT (+5/+10/+10 Points).
+   Volontairement des listes À PART de LISTES_EQUIPEMENT ci-dessus,
+   jamais consommées par `quantiteDepuisListe` (qui partage un budget
+   entre TOUTES les Figurines d'une Unité, y compris celles sans
+   Sous-type éligible — voir escouade-etat-major-cataphractii/tartaros,
+   les Escouades de Vétérans/Terminator Cataphractii/Tartaros, etc. où
+   les échanges d'arme énergétique/gantelet/marteau sont un budget
+   partagé de toute l'Unité). N'est donc spread manuellement via
+   `depuisListes()` QUE dans les options "choix" déjà scopées à un
+   rôle précis (un seul Sous-type par Figurine, via `prefixeFiche`
+   nommé ou Unité à profil unique) — jamais dans une option `quantite`.
+   Chaque entrée porte `requiertLegion: "XVIII"`, propagé par
+   `depuisListes` (voir ci-dessous) et lu par `peuplerChoixSelect`/
+   `synchroniserConfig` (js/unites.js) pour n'afficher l'entrée que si
+   Salamanders est la Légion choisie dans les paramètres de la partie.
+   Gap documenté : les échanges à budget partagé (`quantiteDepuisListe`)
+   et le lance-flammes normal/lourd forgé (aucune Unité générique ne
+   les propose au seul Sergent, toujours à toute l'Unité ou en
+   `quantite` partagée) restent non câblés — voir CLAUDE.md.
+   ---------------------------------------------------------- */
+const LISTES_ARTIFICE_NOCTURNE = {
+  // Coût de base 10 Points (LISTES_EQUIPEMENT.officier/.meleeSergent)
+  // + 5 Points forgés = 15. Gantelet énergétique/Marteau Thunder :
+  // coût de base 15 (officier) ou 10 (meleeTerminator) ou 15
+  // (meleeSergent, gantelet seulement) + 10 Points forgés.
+  officier: {
+    nom: "Équipement d'Officier de Légion (forgé)",
+    items: [
+      { nom: "Épée énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Hache énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Masse énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Lance énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Gantelet énergétique forgé", cout: 25, requiertLegion: "XVIII" },
+      { nom: "Marteau Thunder forgé", cout: 25, requiertLegion: "XVIII" },
+    ],
+  },
+  meleeTerminator: {
+    nom: "Armes de Mêlée de Terminator de Légion (forgées)",
+    items: [
+      { nom: "Gantelet énergétique forgé", cout: 20, requiertLegion: "XVIII" },
+      { nom: "Marteau Thunder forgé", cout: 20, requiertLegion: "XVIII" },
+    ],
+  },
+  // Variante réservée aux options déjà scopées à un Sergent (ex :
+  // Sergent Terminator Tartaros, Escouade Terminator de Siège
+  // Tartaros) : Marteau Thunder forgé volontairement absent, comme
+  // pour meleeSergent ci-dessous.
+  meleeTerminatorSergent: {
+    nom: "Armes de Mêlée de Terminator de Légion (forgées)",
+    items: [
+      { nom: "Gantelet énergétique forgé", cout: 20, requiertLegion: "XVIII" },
+    ],
+  },
+  // Marteau Thunder forgé volontairement absent ici : réservé
+  // État-major/Champion/Spécialiste, exclut le Sergent.
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (forgées)",
+    items: [
+      { nom: "Épée énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Hache énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Masse énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Lance énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Gantelet énergétique forgé", cout: 25, requiertLegion: "XVIII" },
+    ],
+  },
+  // Lance-flammes léger : coût de base 5 (LISTES_EQUIPEMENT.pistolets)
+  // + 5 Points forgé = 10.
+  pistolets: {
+    nom: "Pistolets de Légion (forgés)",
+    items: [
+      {
+        nom: "Lance-flammes léger forgé",
+        cout: 10,
+        requiertLegion: "XVIII",
+      },
+    ],
+  },
+};
+
+/* ----------------------------------------------------------
    ARME ÉNERGÉTIQUE GÉNÉRIQUE (p. 21 : Épée/Hache/Masse/Lance
    énergétique, coût identique) : toute Unité dotée d'une « Arme
    énergétique » générique (de base ou via une option) doit en
@@ -244,7 +334,29 @@ const ARMES_ENERGETIQUES = [
 const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
   nom,
   cout: 0,
-}));
+})).concat(
+  // Artifice de Nocturne (Arsenal des Salamanders, Liber Astartes/
+  // Hereticus p. 263) : « Toute Figurine de Sous-type État-major,
+  // Champion, Spécialiste ou Sergent qui a le Trait Salamanders peut
+  // échanger son arme énergétique contre [la forgée] pour +5 Points
+  // par Figurine. » Ajoutées ici (plutôt qu'un tableau séparé) car
+  // CHOIX_ARMES_ENERGETIQUES n'est jamais spread dans une option à
+  // budget partagé façon `quantite` (voir eclaterQuantiteArmeEnergetique
+  // ci-dessous, qui repart d'ARMES_ENERGETIQUES — le tableau de noms
+  // bruts — et reste donc inchangé) : chaque site où
+  // CHOIX_ARMES_ENERGETIQUES apparaît est soit une Unité à profil
+  // unique État-major, soit `optionTypeArmeEnergetique` (même usage),
+  // donc toujours un rôle éligible sans filtrage supplémentaire à
+  // faire ici. `requiertLegion` masque l'entrée du <select> tant que
+  // Salamanders n'est pas la Légion choisie (peuplerChoixSelect,
+  // js/unites.js).
+  [
+    { nom: "Épée énergétique forgée", cout: 5, requiertLegion: "XVIII" },
+    { nom: "Hache énergétique forgée", cout: 5, requiertLegion: "XVIII" },
+    { nom: "Masse énergétique forgée", cout: 5, requiertLegion: "XVIII" },
+    { nom: "Lance énergétique forgée", cout: 5, requiertLegion: "XVIII" },
+  ],
+);
 
 // Option "choix" obligatoire (coût nul) qui résout une « Arme
 // énergétique » de base en un profil précis — pour les Unités sans
@@ -283,7 +395,10 @@ function eclaterQuantiteArmeEnergetique(base, groupe) {
 }
 
 // Copie les items d'une ou plusieurs listes d'équipement en un
-// tableau de choix pour une option "choix".
+// tableau de choix pour une option "choix". `requiertLegion` (voir
+// LISTES_ARTIFICE_NOCTURNE) est propagé tel quel sur l'entrée générée
+// s'il est posé sur l'item source, pour rester lu par
+// peuplerChoixSelect/synchroniserConfig (js/unites.js).
 function depuisListes(...listes) {
   const choix = [];
   for (const liste of listes) {
@@ -291,6 +406,9 @@ function depuisListes(...listes) {
       choix.push({
         nom: item.nom + " (liste " + liste.nom + ")",
         cout: item.cout,
+        ...(item.requiertLegion
+          ? { requiertLegion: item.requiertLegion }
+          : {}),
       });
     }
   }
@@ -935,6 +1053,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.officier,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -947,6 +1066,7 @@ const UNITES = [
           { nom: "Lame de parangon", cout: 15 },
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -1048,6 +1168,7 @@ const UNITES = [
           ...CHOIX_ARMES_ENERGETIQUES,
           { nom: "Lame de parangon", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
       },
       {
@@ -1145,10 +1266,13 @@ const UNITES = [
     composition: "1 Praetor Outrider",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Maître de la Légion"],
     notes:
-      "Quand une mobilité accrue est requise, les Praetors optent souvent pour la guerre à dos de jetbike Scimitar ou de motojet Spatha. Offrant une vitesse et une puissance de feu supplémentaires inégalées, ces puissantes montures permettent à un Praetor de répondre rapidement aux menaces sur tout le front de bataille, portant son talent et son expertise là où le besoin s'en fait sentir. Si l'équipement qu'ils peuvent emporter au combat s'en trouve limité, la capacité d'approcher l'ennemi à vive allure comme la cavalerie de l'Antiquité compense largement cet inconvénient, et les cavaliers les plus habiles savent porter leur armement lourd à portée avant de charger sur les survivants, lame en main.",
+      "Quand une mobilité accrue est requise, les Praetors optent souvent pour la guerre à dos de motojet Scimitar ou de motojet Spatha. Offrant une vitesse et une puissance de feu supplémentaires inégalées, ces puissantes montures permettent à un Praetor de répondre rapidement aux menaces sur tout le front de bataille, portant son talent et son expertise là où le besoin s'en fait sentir. Si l'équipement qu'ils peuvent emporter au combat s'en trouve limité, la capacité d'approcher l'ennemi à vive allure comme la cavalerie de l'Antiquité compense largement cet inconvénient, et les cavaliers les plus habiles savent porter leur armement lourd à portée avant de charger sur les survivants, lame en main.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Épée tronçonneuse",
       "Grenades Frag",
@@ -1183,7 +1307,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -1216,6 +1340,7 @@ const UNITES = [
           { nom: "Lame de parangon", cout: 15 },
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -1228,6 +1353,7 @@ const UNITES = [
           { nom: "Lame de parangon", cout: 15 },
           { nom: "Pistolet archéotech", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       optionBombesFusion(),
@@ -1237,19 +1363,21 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
-        remplace: "Bolter jumelé",
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Praetor sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd",
+          "Le Praetor sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -1421,6 +1549,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.officier,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -1431,6 +1560,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -1544,6 +1674,7 @@ const UNITES = [
         choix: [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
       },
       {
@@ -1627,6 +1758,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -1634,6 +1766,10 @@ const UNITES = [
         id: "pistolet",
         libelle: "Remplacer le pistolet bolter",
         remplace: "Pistolet bolter",
+        // Optae : Sous-type État-major (pas Sergent) — pas d'ajout
+        // LISTES_ARTIFICE_NOCTURNE.pistolets ici, le lance-flammes
+        // léger forgé (Artifice de Nocturne) étant réservé au
+        // Sous-type Sergent (voir LISTES_ARTIFICE_NOCTURNE).
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           { nom: "Pistolet désintégrateur", cout: 5 },
@@ -1641,6 +1777,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.pistolets,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -1857,17 +1994,23 @@ const UNITES = [
 
   {
     id: "champion-monte",
-    nom: "Champion sur Scimitar",
+    nom: "Champion sur moto",
     legacy: true,
     categorie: "État-major",
     cout: 145,
-    composition: "1 Champion de Légion Motard",
+    composition: "1 Champion de Légion Outrider",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
       "Où de nombreux Champions de Légion se retrouvent au cœur de la mêlée, parmi les masses de fantassins, certains préfèrent la mobilité qu'offrent motos et motojets pour les porter de combat en combat : si un tel moyen de transport rend peu praticables les préoccupations stratégiques habituelles du champ de bataille, il leur offre en retour la liberté de choisir leurs adversaires à volonté. Cette Unité compte comme une Unité de Champion de Légion pour la sélection du Détachement Auxiliaire Cadre de Vétérans.",
     equipement: [
-      "Bolter jumelé (Champion de Légion Motard uniquement)",
-      "Bolter lourd (Champion de Légion sur Motojet Scimitar uniquement)",
+      {
+        nom: "Bolter jumelé (Champion de Légion Outrider uniquement)",
+        variantesExclues: [1],
+      },
+      {
+        nom: "Bolter lourd (Champion de Légion sur Motojet Scimitar uniquement)",
+        variantesExclues: [0],
+      },
       "Serpentine volkite",
       "Lame de parangon",
       "Grenades Frag",
@@ -1875,7 +2018,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Champion de Légion Motard",
+        nom: "Champion de Légion Outrider",
         cout: 0,
         profil: {
           M: 14,
@@ -1895,9 +2038,8 @@ const UNITES = [
         },
         regles: [
           "Massif (2)",
-          "Tempête de Feu",
+          "Gabarit de Souffle",
           "Avance Implacable",
-          "Attaque de Flanc",
           "Ne Jamais Céder",
         ],
         type: "Cavalerie (État-major)",
@@ -1930,12 +2072,12 @@ const UNITES = [
       {
         type: "choix",
         id: "bolter-jumele",
-        libelle: "Champion de Légion Motard : remplacer son bolter jumelé",
+        libelle: "Champion de Légion Outrider : remplacer son bolter jumelé",
         // Doit correspondre EXACTEMENT à l'entrée de `equipement`
         // ci-dessus (equipementFinal/optionRealisable comparent par
         // égalité stricte, contrairement à `requiertEquip`) : la
         // précision entre parenthèses fait donc partie de la chaîne.
-        remplace: "Bolter jumelé (Champion de Légion Motard uniquement)",
+        remplace: "Bolter jumelé (Champion de Légion Outrider uniquement)",
         variantesExclues: [1],
         choix: [
           { nom: "— Conserver le bolter jumelé —", cout: 0 },
@@ -1952,8 +2094,132 @@ const UNITES = [
         variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
+          { nom: "Multi-fuseur", cout: 20 },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "centurion-monte",
+    nom: "Centurion sur moto",
+    legacy: true,
+    categorie: "État-major",
+    cout: 110,
+    composition: "1 Centurion Outrider",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "Qu'ils commandent des compagnies entières d'Outriders, des phalanges de chasseurs sur jetbikes ou s'adaptent simplement aux exigences d'un théâtre d'opérations précis, les Centurions emploient des montures rapides telles que la motojet Scimitar pour accroître à la fois leur puissance de feu et leur mobilité. Souvent privilégié par les plus audacieux des officiers de Légion, un tel moyen de transport permet à ces guerriers capables de foncer au cœur de la mêlée, taillant un sillon sanglant à travers tous ceux qui se dressent sur leur chemin.",
+    equipement: [
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Outrider",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 4,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Officier de Ligne (2)",
+          "Massif (2)",
+          "Gabarit de Souffle",
+          "Avance Implacable",
+          "Contournement",
+        ],
+        type: "Cavalerie (État-major)",
+      },
+      {
+        nom: "Motojet Scimitar",
+        cout: 10,
+        profil: {
+          M: 16,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 4,
+          A: 4,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Officier de Ligne (2)", "Massif (3)", "Frappe en Profondeur"],
+        type: "Cavalerie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "epee-tronconneuse",
+        libelle: "Remplacer l'épée tronçonneuse",
+        remplace: "Épée tronçonneuse",
+        choix: [
+          { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+        ],
+      },
+      optionBombesFusion(),
+      {
+        type: "case",
+        id: "fusil-a-plasma-jumele",
+        libelle:
+          "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
+        cout: 15,
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
+        ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
+      },
+      {
+        type: "choix",
+        id: "arme-lourde-jetbike",
+        libelle:
+          "Le Centurion sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+        choix: [
+          { nom: "— Conserver le bolter lourd —", cout: 0 },
+          { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -2042,6 +2308,87 @@ const UNITES = [
       },
     ],
     options: [ARCANE_DE_PROSPERO],
+  },
+
+  {
+    id: "esoteriste-monte",
+    nom: "Ésotériste sur moto",
+    legacy: true,
+    categorie: "État-major",
+    cout: 135,
+    composition: "1 Ésotériste Outrider",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Psyker", "Anathemata"],
+    notes:
+      "Lorsqu'ils prennent le champ de bataille aux côtés d'éléments de Légion plus mobiles, les Consuls Ésotéristes montent volontiers de rapides motojets Scimitar ou motos Outrider, certains devenant des légendes distinctes de l'Âge des Ténèbres, à commencer par les tristement célèbres Ésotéristes Jadhek de la VIIIe Légion, les Night Lords. Cette Unité compte comme une Unité d'Ésotériste pour la sélection du Détachement Auxiliaire Manifestation Démoniaque.",
+    equipement: [
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
+      "Pistolet archéotech",
+      "Arme de force",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Outrider",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 7,
+          Sf: 8,
+          Vo: 10,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Discipline Anathemata", "Massif (2)", "Gabarit de Souffle", "Avance Implacable"],
+        type: "Cavalerie (État-major)",
+      },
+      {
+        nom: "Motojet Scimitar",
+        cout: 10,
+        profil: {
+          M: 16,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 7,
+          Sf: 8,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Discipline Anathemata", "Massif (3)", "Frappe en Profondeur"],
+        type: "Cavalerie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "fusil-a-plasma-jumele",
+        libelle:
+          "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
+        cout: 15,
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
+        ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
+      },
+    ],
   },
 
   {
@@ -2283,10 +2630,13 @@ const UNITES = [
     composition: "1 Maître des Signaux Outrider",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
-      "Lors de missions de longue portée ou de reconnaissance, les spécialistes de Légion sont réputés employer les capacités d'éclairage des motos de combat Spatha ou des jetbikes Scimitar pour couvrir de vastes étendues de terrain. Dans le cadre de telles missions, ces guerriers voyagent souvent aux côtés de colonnes blindées qui parcourent des centaines de kilomètres de désert aride ou de toundra glacée pour traquer leurs ennemis et les annihiler. Cette Unité compte comme une Unité de Maître des Signaux pour la sélection du Détachement Auxiliaire Batterie de Sentinelle du Maelström.",
+      "Lors de missions de longue portée ou de reconnaissance, les spécialistes de Légion sont réputés employer les capacités d'éclairage des motos de combat Spatha ou des motojets Scimitar pour couvrir de vastes étendues de terrain. Dans le cadre de telles missions, ces guerriers voyagent souvent aux côtés de colonnes blindées qui parcourent des centaines de kilomètres de désert aride ou de toundra glacée pour traquer leurs ennemis et les annihiler. Cette Unité compte comme une Unité de Maître des Signaux pour la sélection du Détachement Auxiliaire Batterie de Sentinelle du Maelström.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Grenades Frag",
       "Grenades Krak",
@@ -2321,7 +2671,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -2360,6 +2710,7 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
+        variantesExclues: [1],
         remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -2367,12 +2718,13 @@ const UNITES = [
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Maître des Signaux sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd (Jetbike Scimitar seulement)",
+          "Le Maître des Signaux sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -2511,6 +2863,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -2541,10 +2894,13 @@ const UNITES = [
     composition: "1 Seigneur de Forge Outrider",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
-      "Rares en dehors des rangs de formations particulièrement ésotériques ou de certaines Légions précises, une poignée de Seigneurs de Forge prennent le champ de bataille à dos de moto Spatha ou de jetbike Scimitar, que ce soit pour accompagner l'armure véloce dont ils escortent l'avance ou pour rendre leur talent de guerrier-artisan plus aisément disponible.",
+      "Rares en dehors des rangs de formations particulièrement ésotériques ou de certaines Légions précises, une poignée de Seigneurs de Forge prennent le champ de bataille à dos de moto Spatha ou de motojet Scimitar, que ce soit pour accompagner l'armure véloce dont ils escortent l'avance ou pour rendre leur talent de guerrier-artisan plus aisément disponible.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Hache énergétique",
       "Grenades Frag",
@@ -2582,7 +2938,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -2618,6 +2974,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -2643,6 +3000,7 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
+        variantesExclues: [1],
         remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -2650,12 +3008,13 @@ const UNITES = [
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Seigneur de Forge sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd (Jetbike Scimitar seulement)",
+          "Le Seigneur de Forge sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -2837,6 +3196,7 @@ const UNITES = [
           { nom: "Astartes shotgun", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -2848,6 +3208,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       optionBombesFusion(),
@@ -2862,10 +3223,13 @@ const UNITES = [
     composition: "1 Primus Medicae Outrider",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
-      "Pour les forces montées lors de missions de reconnaissance ou de frappe, les Primus Medicae réquisitionnent souvent une moto Spatha ou une jetbike Scimitar de l'armurerie de la Légion. Si leur rôle n'autorise pas toujours la précision et la délicatesse d'un tel équipement, la capacité à se déplacer rapidement là où le besoin s'en fait sentir ne saurait être sous-estimée.",
+      "Pour les forces montées lors de missions de reconnaissance ou de frappe, les Primus Medicae réquisitionnent souvent une moto Spatha ou une motojet Scimitar de l'armurerie de la Légion. Si leur rôle n'autorise pas toujours la précision et la délicatesse d'un tel équipement, la capacité à se déplacer rapidement là où le besoin s'en fait sentir ne saurait être sous-estimée.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Épée tronçonneuse",
       "Narthecium",
@@ -2902,7 +3266,7 @@ const UNITES = [
         type: "Cavalerie (Spécialiste)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -2933,6 +3297,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -2943,6 +3308,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       optionBombesFusion(),
@@ -2952,6 +3318,7 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
+        variantesExclues: [1],
         remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -2959,12 +3326,13 @@ const UNITES = [
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Primus Medicae sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd (Jetbike Scimitar seulement)",
+          "Le Primus Medicae sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -3055,6 +3423,7 @@ const UNITES = [
         choix: [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
       },
     ],
@@ -3129,6 +3498,7 @@ const UNITES = [
           { nom: "Astartes shotgun", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3140,6 +3510,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -3166,8 +3537,11 @@ const UNITES = [
     notes:
       "Bénéficiant d'un accès complet à l'arsenal de leur Légion grâce au Rite de Commandement, les Consuls-Delegatus prennent le champ de bataille dans une myriade de configurations d'équipement, et là où la hâte ou la traversée d'un terrain difficile priment par-dessus tout, motos et jetbikes offrent une mobilité inégalée pour leur gabarit.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Épée tronçonneuse",
       "Grenades Frag",
@@ -3203,7 +3577,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -3234,6 +3608,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -3244,6 +3619,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       optionBombesFusion(),
@@ -3253,6 +3629,7 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
+        variantesExclues: [1],
         remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -3260,12 +3637,13 @@ const UNITES = [
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Delegatus sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd (Jetbike Scimitar seulement)",
+          "Le Delegatus sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -3355,6 +3733,7 @@ const UNITES = [
         choix: [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
       },
       {
@@ -3554,6 +3933,7 @@ const UNITES = [
           { nom: "Astartes shotgun", cout: 2 },
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3565,6 +3945,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -3672,6 +4053,7 @@ const UNITES = [
         choix: [
           ...CHOIX_ARMES_ENERGETIQUES,
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
         ],
       },
       {
@@ -3734,6 +4116,7 @@ const UNITES = [
           { nom: "Chargeur volkite", cout: 2 },
           { nom: "Bolter Némésis", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3745,6 +4128,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -3820,6 +4204,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucune —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
     ],
@@ -3951,6 +4336,119 @@ const UNITES = [
   },
 
   {
+    id: "heraut-monte",
+    nom: "Héraut sur moto",
+    legacy: true,
+    categorie: "État-major",
+    cout: 140,
+    composition: "1 Héraut Outrider",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "La présence des bannières de la Légion au plus fort des combats ne sert pas seulement à inspirer les guerriers qui se battent sous elles, mais aussi à briser la volonté de leurs ennemis. Pour beaucoup de commandants, faire progresser au plus vite de tels étendards et icônes est une priorité, afin de ne laisser aucun répit à l'ennemi ni le moindre abri sûr face à l'assaut. Dans de tels cas, la vitesse et la mobilité des motos et jetbikes sont exploitées au maximum.",
+    equipement: [
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
+      "Arme énergétique",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Icône d'Allégeance",
+    ],
+    variantes: [
+      {
+        nom: "Outrider",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 8,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (2)",
+          "Gabarit de Souffle",
+          "Avance Implacable",
+          "Contournement",
+          "Peur (1)",
+        ],
+        type: "Cavalerie (État-major)",
+      },
+      {
+        nom: "Motojet Scimitar",
+        cout: 10,
+        profil: {
+          M: 16,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Massif (3)", "Frappe en Profondeur", "Peur (1)"],
+        type: "Cavalerie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-energetique",
+        libelle: "Remplacer l'arme énergétique",
+        remplace: "Arme énergétique",
+        choix: [
+          { nom: "— Conserver l'arme énergétique —", cout: 0 },
+          { nom: "Gantelet énergétique", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+      {
+        type: "case",
+        id: "fusil-a-plasma-jumele",
+        libelle:
+          "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
+        cout: 15,
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
+        ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
+      },
+      {
+        type: "choix",
+        id: "arme-lourde-jetbike",
+        libelle:
+          "Le Héraut sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+        choix: [
+          { nom: "— Conserver le bolter lourd —", cout: 0 },
+          { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
+          { nom: "Multi-fuseur", cout: 20 },
+        ],
+      },
+    ],
+  },
+
+  {
     id: "chapelain",
     nom: "Chapelain",
     categorie: "État-major",
@@ -4000,6 +4498,117 @@ const UNITES = [
         ],
       },
       optionBombesFusion(),
+    ],
+  },
+
+  {
+    id: "chapelain-monte",
+    nom: "Chapelain sur moto",
+    legacy: true,
+    categorie: "État-major",
+    cout: 110,
+    composition: "1 Chapelain Outrider",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "Là où l'essentiel de la force de bataille est monté sur des motos Spatha ou des motojets Scimitar, les Chapelains sont eux aussi en mesure de réquisitionner de telles montures pour combattre aux côtés de leurs frères. Juchés dessus, ils brandissent leur Crozius Arcanum bien haut en chargeant au cœur des rangs ennemis, tels des avatars de la colère de leur Primarque.",
+    equipement: [
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
+      "Pistolet bolter",
+      "Crozius Arcanum",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Outrider",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 10,
+          Vo: 8,
+          Int: 6,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (2)",
+          "Gabarit de Souffle",
+          "Avance Implacable",
+          "Contournement",
+        ],
+        type: "Cavalerie (État-major)",
+      },
+      {
+        nom: "Motojet Scimitar",
+        cout: 10,
+        profil: {
+          M: 16,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 10,
+          Vo: 8,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Massif (3)", "Frappe en Profondeur"],
+        type: "Cavalerie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+        ],
+      },
+      optionBombesFusion(),
+      {
+        type: "case",
+        id: "fusil-a-plasma-jumele",
+        libelle:
+          "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
+        cout: 15,
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
+        ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
+      },
+      {
+        type: "choix",
+        id: "arme-lourde-jetbike",
+        libelle:
+          "Le Chapelain sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+        choix: [
+          { nom: "— Conserver le bolter lourd —", cout: 0 },
+          { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
+          { nom: "Multi-fuseur", cout: 20 },
+        ],
+      },
     ],
   },
 
@@ -4250,8 +4859,11 @@ const UNITES = [
     notes:
       "Les Devins de l'Orage de la Ve Légion partagent le goût de leurs frères pour la vitesse et la manœuvrabilité, et exploitent les capacités offertes par diverses montures mécaniques pour déborder l'ennemi et se repositionner afin de frapper de toutes leurs forces.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Bâton de force",
       "Pistolet bolter",
       "Grenades Frag",
@@ -4286,7 +4898,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 0,
         profil: {
           M: 16,
@@ -4325,19 +4937,21 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
-        remplace: "Bolter jumelé",
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Devin de l'Orage sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd",
+          "Le Devin de l'Orage sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -5037,7 +5651,7 @@ const UNITES = [
   },
   {
     id: "escouade-commandement-pretorienne-scimitar",
-    nom: "Escouade de Commandement Prétorienne sur Jetbikes Scimitar",
+    nom: "Escouade de Commandement Prétorienne sur Motojets Scimitar",
     legacy: true,
     categorie: "Suites",
     cout: 170,
@@ -5046,7 +5660,7 @@ const UNITES = [
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     notes:
-      "Certaines Légions font de la vitesse leur priorité absolue, et leurs guerriers ont coutume de partir au combat sur de véloces jetbikes Scimitar. Pour beaucoup d'escouades de commandement, une telle monture n'est pas une nécessité opérationnelle mais une préférence du commandant qu'elles accompagnent. Loin d'y voir un désavantage, elles saisissent au contraire ces occasions pour parfaire leurs talents : capable de passer rapidement d'une position stationnaire, où elle fournit un appui-feu avec ses armes lourdes, à une charge à grande vitesse au cœur des forces ennemies, la jetbike Scimitar offre une flexibilité inégalée dans l'exercice de leur devoir.",
+      "Certaines Légions font de la vitesse leur priorité absolue, et leurs guerriers ont coutume de partir au combat sur de véloces motojets Scimitar. Pour beaucoup d'escouades de commandement, une telle monture n'est pas une nécessité opérationnelle mais une préférence du commandant qu'elles accompagnent. Loin d'y voir un désavantage, elles saisissent au contraire ces occasions pour parfaire leurs talents : capable de passer rapidement d'une position stationnaire, où elle fournit un appui-feu avec ses armes lourdes, à une charge à grande vitesse au cœur des forces ennemies, la motojet Scimitar offre une flexibilité inégalée dans l'exercice de leur devoir.",
     equipement: [
       "Pistolet bolter",
       "Épée tronçonneuse",
@@ -5056,7 +5670,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Escouade de Commandement Prétorienne sur Jetbikes Scimitar",
+        nom: "Escouade de Commandement Prétorienne sur Motojets Scimitar",
         cout: 0,
         profils: [
           {
@@ -6105,6 +6719,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'arme énergétique —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminatorSergent),
         ],
       },
       {
@@ -6361,6 +6976,7 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           { nom: "Épée tronçonneuse lourde", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -6561,6 +7177,7 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           { nom: "Épée tronçonneuse lourde", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -6882,6 +7499,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver les deux serpentines volkites —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -6975,6 +7593,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -6989,6 +7608,8 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.pistolets,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -7120,6 +7741,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -7134,6 +7756,8 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.pistolets,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -7303,6 +7927,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -7318,6 +7943,8 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.pistolets,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -7485,6 +8112,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -7496,6 +8124,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -7737,6 +8366,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -7956,6 +8586,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8073,6 +8704,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8503,6 +9135,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8613,6 +9246,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8625,6 +9259,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8637,6 +9272,7 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           { nom: "Pistolet désintégrateur", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       optionBaionnette("Bolter Kraken"),
@@ -8958,6 +9594,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8970,6 +9607,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -8982,6 +9620,7 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           { nom: "Pistolet désintégrateur", cout: 5 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -9836,6 +10475,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -10367,6 +11007,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -10704,6 +11345,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -10888,6 +11530,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -10900,6 +11543,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -10912,6 +11556,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -11118,6 +11763,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -13709,6 +14355,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -13878,6 +14525,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -14303,6 +14951,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -14494,6 +15143,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -14930,11 +15580,16 @@ const UNITES = [
           },
           // Emperor's Children Legacy Wargear
           // (emperors_children_wargear.pdf), section « Palatine Blade
-          // Squad ».
-          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
-            ...c,
-            nom: c.nom + " (Legacy) (à la place de la lame palatine)",
-          })),
+          // Squad ». Toute Figurine (Sergent ET rang-et-fichier) :
+          // filtre les variantes forgées Artifice de Nocturne
+          // (Salamanders) ajoutées à CHOIX_ARMES_ENERGETIQUES, hors
+          // sujet ici (Unité Emperor's Children, jamais Salamanders).
+          ...CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion).map(
+            (c) => ({
+              ...c,
+              nom: c.nom + " (Legacy) (à la place de la lame palatine)",
+            }),
+          ),
           {
             nom: "Rapière Phénix (Legacy) (à la place de la lame palatine)",
             cout: 0,
@@ -14950,6 +15605,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -15145,10 +15801,15 @@ const UNITES = [
         remplace: "Lame palatine (voir Liber Hereticus, page 138)",
         choix: [
           { nom: "— Conserver la lame palatine —", cout: 0 },
-          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
-            ...c,
-            nom: c.nom + " (à la place de la lame palatine)",
-          })),
+          // Toute Figurine (Sergent ET rang-et-fichier) : filtre les
+          // variantes forgées Artifice de Nocturne (Salamanders), hors
+          // sujet ici (Unité Emperor's Children, jamais Salamanders).
+          ...CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion).map(
+            (c) => ({
+              ...c,
+              nom: c.nom + " (à la place de la lame palatine)",
+            }),
+          ),
           { nom: "Rapière Phénix (à la place de la lame palatine)", cout: 0 },
           {
             nom: "Lance énergétique Phénix (à la place de la lame palatine)",
@@ -15165,6 +15826,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -15317,6 +15979,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -16496,6 +17159,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
@@ -16728,6 +17392,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -18046,6 +18711,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -18803,10 +19469,16 @@ const UNITES = [
     composition: "1 Tireur de Runes Outrider",
     traits: ["[Allégeance]", "Space Wolves", "Psyker"],
     notes:
-      "Si les Tireurs de Runes sont valorisés comme sages et influences modératrices au sein de leur Légion, cela ne veut pas dire qu'ils aient moins d'ardeur pour le combat que leurs semblables, et beaucoup chevauchent aux côtés des éléments d'attaque rapide des Space Wolves montés sur motos et jetbikes, fondant rapidement sur l'ennemi pour lui porter la ruine, aussi bien profane que sorcière. Cette Figurine peut être remplacée par 1 Tireur de Runes sur Jetbike Scimitar, gratuitement.",
+      "Si les Tireurs de Runes sont valorisés comme sages et influences modératrices au sein de leur Légion, cela ne veut pas dire qu'ils aient moins d'ardeur pour le combat que leurs semblables, et beaucoup chevauchent aux côtés des éléments d'attaque rapide des Space Wolves montés sur motos et jetbikes, fondant rapidement sur l'ennemi pour lui porter la ruine, aussi bien profane que sorcière. Cette Figurine peut être remplacée par 1 Tireur de Runes sur Motojet Scimitar, gratuitement.",
     equipement: [
-      "Bolter jumelé (Tireur de Runes Outrider seulement)",
-      "Bolter lourd (Tireur de Runes sur Jetbike Scimitar seulement)",
+      {
+        nom: "Bolter jumelé (Tireur de Runes Outrider seulement)",
+        variantesExclues: [1],
+      },
+      {
+        nom: "Bolter lourd (Tireur de Runes sur Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Bâton de force",
       "Hache de givre",
       "Pistolet bolter",
@@ -18842,7 +19514,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Tireur de Runes sur Jetbike Scimitar",
+        nom: "Tireur de Runes sur Motojet Scimitar",
         cout: 0,
         profil: {
           M: 16,
@@ -18894,6 +19566,7 @@ const UNITES = [
         libelle:
           "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
         cout: 15,
+        variantesExclues: [1],
         ajoute:
           "Tireur de Runes Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -18901,14 +19574,15 @@ const UNITES = [
         type: "choix",
         id: "bolter-lourd",
         libelle:
-          "Tireur de Runes sur Jetbike Scimitar : remplacer le bolter lourd",
+          "Tireur de Runes sur Motojet Scimitar : remplacer le bolter lourd",
         remplace:
-          "Bolter lourd (Tireur de Runes sur Jetbike Scimitar seulement)",
-        prefixeFiche: "Tireur de Runes sur Jetbike Scimitar : ",
+          "Bolter lourd (Tireur de Runes sur Motojet Scimitar seulement)",
+        variantesExclues: [0],
+        prefixeFiche: "Tireur de Runes sur Motojet Scimitar : ",
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -19082,10 +19756,16 @@ const UNITES = [
     composition: "1 Porte-Parole des Morts Outrider",
     traits: ["[Allégeance]", "Space Wolves"],
     notes:
-      "Quand ils accompagnent des forces à déplacement rapide, certains Porte-Parole des Morts choisissent de réquisitionner une moto de combat ou un jetbike Scimitar, ce qui leur permet de continuer à veiller sur leurs frères tout en les inspirant au plus fort des combats. Cette Figurine peut être remplacée par 1 Porte-Parole des Morts sur Jetbike Scimitar, gratuitement.",
+      "Quand ils accompagnent des forces à déplacement rapide, certains Porte-Parole des Morts choisissent de réquisitionner une moto de combat ou un motojet Scimitar, ce qui leur permet de continuer à veiller sur leurs frères tout en les inspirant au plus fort des combats. Cette Figurine peut être remplacée par 1 Porte-Parole des Morts sur Motojet Scimitar, gratuitement.",
     equipement: [
-      "Bolter jumelé (Porte-Parole des Morts Outrider seulement)",
-      "Bolter lourd (Porte-Parole des Morts sur Jetbike Scimitar seulement)",
+      {
+        nom: "Bolter jumelé (Porte-Parole des Morts Outrider seulement)",
+        variantesExclues: [1],
+      },
+      {
+        nom: "Bolter lourd (Porte-Parole des Morts sur Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Crozius Arcanum",
       "Narthecium",
@@ -19122,7 +19802,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Porte-Parole des Morts sur Jetbike Scimitar",
+        nom: "Porte-Parole des Morts sur Motojet Scimitar",
         cout: 0,
         profil: {
           M: 16,
@@ -19151,6 +19831,7 @@ const UNITES = [
         libelle:
           "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
         cout: 15,
+        variantesExclues: [1],
         ajoute:
           "Porte-Parole des Morts Outrider : fusil à plasma jumelé (à la place du bolter jumelé)",
       },
@@ -19165,14 +19846,15 @@ const UNITES = [
         type: "choix",
         id: "bolter-lourd",
         libelle:
-          "Porte-Parole des Morts sur Jetbike Scimitar : remplacer le bolter lourd",
+          "Porte-Parole des Morts sur Motojet Scimitar : remplacer le bolter lourd",
         remplace:
-          "Bolter lourd (Porte-Parole des Morts sur Jetbike Scimitar seulement)",
-        prefixeFiche: "Porte-Parole des Morts sur Jetbike Scimitar : ",
+          "Bolter lourd (Porte-Parole des Morts sur Motojet Scimitar seulement)",
+        variantesExclues: [0],
+        prefixeFiche: "Porte-Parole des Morts sur Motojet Scimitar : ",
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -19519,6 +20201,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.meleeSergent,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -19530,6 +20213,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -20070,6 +20754,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.officier,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -20083,6 +20768,7 @@ const UNITES = [
           { nom: "Pistolet archéotech", cout: 15 },
           { nom: "Hache énergétique d'artificier", cout: 15 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -20800,7 +21486,10 @@ const UNITES = [
         obligatoire: true,
         remplace: "Arme énergétique",
         choix: [
-          ...CHOIX_ARMES_ENERGETIQUES,
+          // Toute Figurine (Sergent ET rang-et-fichier) : filtre les
+          // variantes forgées Artifice de Nocturne (Salamanders), hors
+          // sujet ici (Unité Sons of Horus, jamais Salamanders).
+          ...CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion),
           {
             nom: "Griffe Lightning (à la place de l'arme énergétique)",
             cout: 5,
@@ -20951,6 +21640,9 @@ const UNITES = [
         id: "arme-cac",
         libelle: "Toute Figurine : remplacer la hache tronçonneuse",
         remplace: "Hache tronçonneuse",
+        // Toute Figurine (Sergent ET rang-et-fichier) : pas d'ajout
+        // Artifice de Nocturne ici, réservé aux Sous-types État-major/
+        // Champion/Spécialiste/Sergent (LISTES_ARTIFICE_NOCTURNE).
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
           {
@@ -21266,6 +21958,9 @@ const UNITES = [
         id: "arme-cac",
         libelle: "Toute Figurine : remplacer la hache tronçonneuse",
         remplace: "Hache tronçonneuse",
+        // Toute Figurine (Sergent ET rang-et-fichier) : pas d'ajout
+        // Artifice de Nocturne ici, réservé aux Sous-types État-major/
+        // Champion/Spécialiste/Sergent (LISTES_ARTIFICE_NOCTURNE).
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
           {
@@ -22047,10 +22742,13 @@ const UNITES = [
     composition: "1 Diaboliste Outrider",
     traits: ["Renégat", "Word Bearers", "Psyker", "Diaboliste"],
     notes:
-      "D'autres Diabolistes chevauchent des Outriders ou des Jetbikes Scimitar pour porter la damnation au plus vite au contact de l'ennemi.",
+      "D'autres Diabolistes chevauchent des Outriders ou des Motojets Scimitar pour porter la damnation au plus vite au contact de l'ennemi.",
     equipement: [
-      "Bolter jumelé (Outrider seulement)",
-      "Bolter lourd (Jetbike Scimitar seulement)",
+      { nom: "Bolter jumelé (Outrider seulement)", variantesExclues: [1] },
+      {
+        nom: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
+      },
       "Pistolet bolter",
       "Arme de force",
       "Grenades Frag",
@@ -22087,7 +22785,7 @@ const UNITES = [
         type: "Cavalerie (État-major)",
       },
       {
-        nom: "Jetbike Scimitar",
+        nom: "Motojet Scimitar",
         cout: 10,
         profil: {
           M: 16,
@@ -22132,19 +22830,21 @@ const UNITES = [
         libelle:
           "L'Outrider peut échanger son bolter jumelé contre un fusil à plasma jumelé",
         cout: 15,
-        remplace: "Bolter jumelé",
+        variantesExclues: [1],
+        remplace: "Bolter jumelé (Outrider seulement)",
         ajoute: "Fusil à plasma jumelé (à la place du bolter jumelé)",
       },
       {
         type: "choix",
         id: "arme-lourde-jetbike",
         libelle:
-          "Le Diaboliste sur Jetbike Scimitar peut échanger son bolter lourd contre :",
-        remplace: "Bolter lourd",
+          "Le Diaboliste sur Motojet Scimitar peut échanger son bolter lourd contre :",
+        remplace: "Bolter lourd (Motojet Scimitar seulement)",
+        variantesExclues: [0],
         choix: [
           { nom: "— Conserver le bolter lourd —", cout: 0 },
-          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Canon à plasma", cout: 15 },
+          { nom: "Couleuvrine volkite", cout: 10 },
           { nom: "Multi-fuseur", cout: 20 },
         ],
       },
@@ -23336,6 +24036,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       // Thousand Sons Legacy Wargear (thousand_sons_wargear.pdf),
@@ -23722,6 +24423,7 @@ const UNITES = [
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -24010,6 +24712,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -24021,6 +24724,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -24436,6 +25140,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -24828,6 +25533,7 @@ const UNITES = [
             LISTES_EQUIPEMENT.officier,
             LISTES_EQUIPEMENT.combinees,
           ),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -24845,6 +25551,7 @@ const UNITES = [
           { nom: "Masse à gravitons (Legacy)", cout: 15 },
           { nom: "Pistolet à shrapnels (Legacy)", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
         ],
       },
       {
@@ -25110,6 +25817,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -25548,6 +26256,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -25665,6 +26374,9 @@ const UNITES = [
         id: "arme-cac",
         libelle: "Toute Figurine : remplacer l'épée tronçonneuse",
         remplace: "Épée tronçonneuse",
+        // Toute Figurine (Sergent ET rang-et-fichier) : pas d'ajout
+        // Artifice de Nocturne ici, réservé aux Sous-types État-major/
+        // Champion/Spécialiste/Sergent (LISTES_ARTIFICE_NOCTURNE).
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           {
@@ -34031,6 +34743,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -34043,6 +34756,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -34054,6 +34768,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {
@@ -34566,6 +35281,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -34578,6 +35294,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
         ],
       },
       {
@@ -34589,6 +35306,7 @@ const UNITES = [
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
       {

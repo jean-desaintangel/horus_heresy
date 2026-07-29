@@ -835,5 +835,121 @@ Règles Spéciales :
   `regles:`, sans entrée de glossaire, conformément à la règle 6
   ci-dessus.
 
+- **Unités montées Outrider/Jetbike Scimitar (Praetor, Champion de Légion,
+  Maître des Signaux, Seigneur de Forge, Primus Medicae, Delegatus, Devin
+  de l'Orage, Tireur de Runes, Porte-Parole des Morts, Diaboliste — et
+  désormais Centurion, Ésotériste, Chapelain, Héraut) : bug corrigé
+  (2026-07-29) — leur `equipement` listait en dur les DEUX armes propres à
+  chaque monture (« Bolter jumelé (Outrider seulement) » ET « Bolter lourd
+  (Jetbike Scimitar seulement) »), affichées simultanément sur la fiche
+  quelle que soit la `variante` choisie, le texte entre parenthèses n'étant
+  que descriptif (comme documenté pour les options `case`) et jamais
+  effectivement filtré par le moteur. Corrigé en généralisant la
+  convention déjà utilisée sur les OPTIONS (`opt.variantesExclues`) aux
+  entrées d'`equipement` elles-mêmes : une entrée peut désormais être un
+  objet `{ nom, variantesExclues }` plutôt qu'une simple chaîne (voir
+  `equipementFinal`, js/unites.js) — l'entrée disparaît de la fiche si la
+  `variante` actuelle figure dans `variantesExclues`, exactement comme
+  pour une option. Toutes les Unités listées ci-dessus (dix existantes +
+  quatre nouvelles) ont été mises à jour ; leurs options d'échange d'arme
+  lourde/jumelée (`fusil-a-plasma-jumele`, `arme-lourde-jetbike`)
+  reçoivent au passage `variantesExclues` (grisées sur la mauvaise
+  monture) — plusieurs en étaient dépourvues, et certaines (Praetor,
+  Devin de l'Orage, Diaboliste) avaient même un `remplace` tronqué (ex :
+  `"Bolter lourd"` au lieu de `"Bolter lourd (Jetbike Scimitar
+  seulement)"`) qui empêchait l'option de jamais devenir réalisable
+  (comparaison stricte dans `equipementFinal`/`optionRealisable`) : corrigé
+  au passage. Toute nouvelle Unité Legacy sur ce même moule (Outrider OU
+  Jetbike Scimitar) doit reprendre cette forme objet dès sa création.
+  Au passage, `champion-monte` (Champion de Légion sur Scimitar) avait une
+  Règle Spéciale en trop sur la variante Outrider (« Attaque de Flanc »,
+  absente de la fiche source) et une traduction obsolète de Firestorm
+  (« Tempête de Feu » au lieu de « Gabarit de Souffle », déjà établi) :
+  corrigées. Centurion/Ésotériste/Chapelain/Héraut Montés créés depuis un
+  PDF Legacies générique (mêmes gabarits Outrider/Scimitar Jetbike que les
+  dix ci-dessus) ; l'Ésotériste Monté n'a, contrairement aux autres, ni
+  échange d'arme lourde sur la variante Jetbike Scimitar ni bombes à
+  fusion ni Contournement sur sa variante Outrider — fidèle à sa fiche
+  source, ne pas essayer de l'harmoniser avec les autres. Héraut Monté
+  porte une nouvelle « Icône d'Allégeance » (texte simple, pas d'entrée de
+  glossaire, distincte de l'« Icône du Primarque » du Héraut de base).
+
+- **Artifice de Nocturne (Arsenal des Salamanders, Liber Astartes/
+  Hereticus p. 263 — livre de base, PAS un PDF Legacies)** : « Toute
+  Figurine de Sous-type État-major/Champion/Spécialiste (et Sergent
+  pour l'arme énergétique/le gantelet, PAS pour le Marteau Thunder) qui
+  a le Trait Salamanders » peut échanger son arme énergétique/gantelet
+  énergétique/Marteau Thunder contre sa version forgée (+5/+10/+10
+  Points) ; « Toute Figurine de Sous-type Sergent » peut échanger son
+  lance-flammes léger/normal/lourd contre sa version forgée (+5/+10/+10
+  Points). Les 7 profils forgés existaient déjà dans `armes-data.js`
+  (jamais câblés sur aucune Unité générique) — câblés cette session-ci
+  sur ~95 sites à travers tout `unites-data.js` (toutes Légions, filtré
+  dynamiquement par Légion choisie — voir mécanisme ci-dessous), pas
+  seulement les quelques Unités Legacy propres aux Salamanders.
+  **Nouveau mécanisme `requiertLegion` sur une entrée de `choix`**
+  (`js/unites-data.js`/`js/unites.js`) : généralise `requiertAllegeance`
+  (déjà utilisé pour Vindicator/Flagellator, Skitarii) à la Légion
+  actuelle de l'Armée plutôt qu'à l'Allégeance — l'entrée est simplement
+  absente du `<select>` tant que `Organigramme.legionActuelle()` ne
+  correspond pas (`peuplerChoixSelect`), et la valeur enregistrée
+  retombe sur l'indice 0 si la Légion change après coup et invalide le
+  choix (nouveau bloc générique dans `synchroniserConfig`, sans
+  `id` d'option en dur — contrairement au bloc Skitarii existant qui ne
+  visait que `trait-skitarii`). `depuisListes()` propage désormais
+  `requiertLegion` de l'item source vers l'entrée `choix` générée.
+  Nouvelle constante **`LISTES_ARTIFICE_NOCTURNE`** (`officier`,
+  `meleeTerminator`, `meleeTerminatorSergent`, `meleeSergent`,
+  `pistolets`) : listes À PART de `LISTES_EQUIPEMENT`, jamais consommées
+  par `quantiteDepuisListe` (budget partagé entre TOUTES les Figurines
+  d'une Unité, y compris rang-et-fichier) — spread uniquement dans des
+  options `choix` déjà scopées à un rôle précis (`prefixeFiche` nommé ou
+  Unité à profil unique). `CHOIX_ARMES_ENERGETIQUES` lui-même a aussi été
+  étendu directement avec les 4 variantes forgées (+5, `requiertLegion:
+  "XVIII"`) : sûr, car jamais consommé par la mécanique `quantite`
+  partagée (`eclaterQuantiteArmeEnergetique` repart d'`ARMES_ENERGETIQUES`,
+  le tableau de noms bruts, non touché).
+  **Deux pièges rencontrés en câblant, à surveiller pour toute
+  extension future de ce mécanisme :**
+  1. Un même nom de liste partagée (« Armes de Mêlée de Sergent de
+     Légion ») est parfois consommé par une Unité dont le Sous-type
+     RÉEL n'est PAS Sergent (ex : Optae, Fauteur de Guerre — Sous-type
+     État-major utilisant quand même la liste `meleeSergent`) : dans ce
+     cas la règle du Marteau Thunder forgé (réservée État-major/
+     Champion/Spécialiste, PAS Sergent) est sous-desservie par
+     simplification volontaire — `meleeSergent`/`meleeTerminatorSergent`
+     n'incluent jamais le marteau, quelle que soit l'Unité qui les
+     consomme, plutôt que de vérifier le Sous-type réel unité par
+     unité. Accepté comme simplification conservatrice (mieux vaut
+     sous-servir que sur-accorder).
+  2. Plusieurs options `depuisListes(...)` multi-arguments (ex :
+     `depuisListes(LISTES_EQUIPEMENT.meleeSergent,
+     LISTES_EQUIPEMENT.pistolets)`, écrites sur plusieurs lignes) ne
+     matchent PAS le même motif de recherche/remplacement qu'un appel à
+     un seul argument sur une seule ligne — plusieurs sites (dont
+     l'Escouade Tactique de base, l'Unité la plus commune du fichier)
+     ont été manqués au premier passage et corrigés après coup. Un
+     `libelle`/`id` commençant par « Toute Figurine » (option partagée
+     par tout le rang-et-fichier, pas juste un rôle nommé) est un signal
+     qu'il ne faut PAS y ajouter ces entrées forgées, même si la liste
+     sous-jacente (`meleeSergent`, `CHOIX_ARMES_ENERGETIQUES` via
+     `.map()`/spread direct) le permettrait techniquement — trois cas
+     de ce genre ont été détectés et corrigés après un premier passage
+     trop large (Escouade d'Attaque Ravageuse ×2, Escouade de Rapaces
+     Nocturnes, Escouade de Lames Palatines ×2, Escouade Terminator
+     Justaerin).
+  **Gap documenté, volontairement non câblé** : les options à budget
+  partagé (`quantiteDepuisListe`/`eclaterQuantiteArmeEnergetique`, qui
+  autorisent un échange par Figurine mais sans distinguer Sous-type
+  éligible/rang-et-fichier dans le même budget — ex : Escouades
+  d'État-Major Terminator Cataphractii/Tartaros, Escouades de Vétérans
+  d'Assaut/Prétoriennes) restent hors du mécanisme : les y intégrer
+  demanderait de restructurer ces options pour isoler la Figurine
+  éligible (Sergent/Champion) du reste de l'Unité, ce qui n'a pas été
+  fait ici. De même, le lance-flammes normal/lourd forgé n'a aucun site
+  générique sûr identifié (toujours accordé à toute l'Unité ou en
+  `quantite` partagée, jamais au seul Sergent) : seul le lance-flammes
+  LÉGER forgé a été câblé (liste `pistolets`, ~15 sites).
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

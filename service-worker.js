@@ -28,6 +28,13 @@
    retélécharge tout au prochain passage en ligne.
    ============================================================ */
 
+// v31 : js/unites-data.js et js/unites.js modifiés (Unités montées
+// Outrider/Motojet Scimitar — équipement conditionnel par monture,
+// nouvelles Unités Centurion/Ésotériste/Chapelain/Héraut sur moto,
+// renommages, tri alphabétique des menus déroulants de choix). Sans
+// ce bump, un visiteur déjà venu continue de recevoir les anciens
+// js/unites*.js depuis son cache local malgré un rechargement forcé
+// (le Service Worker sert ces fichiers en cache-d'abord).
 // v26 : favicons en WebP (les chemins .png/.jpg n'existent plus —
 // sans changement de version, un visiteur déjà venu resservirait
 // depuis son cache une liste d'icônes toutes en 404), extraction du
@@ -38,7 +45,7 @@
 // incrémenter cette version : sinon un visiteur déjà venu continue de
 // recevoir indéfiniment les anciens fichiers depuis son cache local,
 // et ne verra aucune des corrections.
-const CACHE_VERSION = "v29";
+const CACHE_VERSION = "v31";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

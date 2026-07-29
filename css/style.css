@@ -2376,6 +2376,14 @@ footer p {
   font-size: 0.93rem;
 }
 
+/* Option masquée (opt.requiertLegion non satisfait, voir
+   synchroniserConfig, js/unites.js) : sans cette règle, `display: block`
+   ci-dessus l'emporterait sur le style [hidden] du navigateur (même
+   spécificité, règle d'auteur après la feuille de style par défaut). */
+.option-ligne[hidden] {
+  display: none;
+}
+
 .option-ligne label {
   display: block;
   margin-bottom: 0.2rem;

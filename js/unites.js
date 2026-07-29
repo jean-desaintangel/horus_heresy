@@ -385,9 +385,23 @@ function optionPermise(opt, instance) {
    application de chaque option active. `sansOption` permet de
    calculer « l'équipement si cette option n'existait pas » (sert
    à savoir si une option est encore réalisable : on ne peut pas
-   remplacer un bolter déjà remplacé par ailleurs). */
+   remplacer un bolter déjà remplacé par ailleurs).
+   Une entrée de `unite.equipement` peut être un objet
+   `{ nom, variantesExclues }` plutôt qu'une simple chaîne : sert aux
+   Unités montées Outrider/Jetbike Scimitar (Praetor, Champion de
+   Légion sur Scimitar…) dont l'arme de base diffère selon la monture
+   choisie (`instance.variante`) — même convention que
+   `opt.variantesExclues` (optionPermise, ci-dessus) plutôt qu'un
+   nouveau mécanisme séparé. */
 function equipementFinal(unite, instance, sansOption = null) {
-  const equip = [...unite.equipement];
+  const equip = unite.equipement
+    .filter(
+      (item) =>
+        typeof item === "string" ||
+        !item.variantesExclues ||
+        !item.variantesExclues.includes(instance.variante),
+    )
+    .map((item) => (typeof item === "string" ? item : item.nom));
   const retirer = (nom) => {
     const i = equip.indexOf(nom);
     if (i !== -1) equip.splice(i, 1);
@@ -534,6 +548,23 @@ function armeSurPivotChoisie(unite, instance) {
    `interditPivotArme` conditionnent l'option à la présence/l'absence
    d'une Arme sur Pivot déjà choisie via l'option "pivot" (voir
    armeSurPivotChoisie ci-dessus). */
+// La Légion (ou une Légion Alliée) actuelle de l'Armée satisfait-elle
+// `opt.requiertLegion` ? Extrait d'optionRealisable pour être réutilisé
+// tel quel par synchroniserConfig (ci-dessous), qui masque entièrement
+// l'option — plutôt que de la griser comme le reste d'optionRealisable —
+// quand la Légion ne correspond pas : une option comme Arcane de
+// Prospero (réservée Thousand Sons) est ajoutée à la quasi-totalité des
+// Unités État-major génériques, où elle ne serait jamais qu'un grisé
+// permanent et inutile pour les 17 autres Légions.
+function optionLegionOk(opt) {
+  if (!opt.requiertLegion) return true;
+  if (!orgaPret || typeof Organigramme === "undefined") return false;
+  return (
+    Organigramme.legionActuelle() === opt.requiertLegion ||
+    Organigramme.legionsAlliees().includes(opt.requiertLegion)
+  );
+}
+
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
   if (
@@ -541,13 +572,7 @@ function optionRealisable(unite, instance, opt) {
     armee.some((i) => i.uniteId === opt.requiertAbsenceUnite)
   )
     return false;
-  if (opt.requiertLegion) {
-    if (!orgaPret || typeof Organigramme === "undefined") return false;
-    const legionOk =
-      Organigramme.legionActuelle() === opt.requiertLegion ||
-      Organigramme.legionsAlliees().includes(opt.requiertLegion);
-    if (!legionOk) return false;
-  }
+  if (!optionLegionOk(opt)) return false;
   if (opt.requiertPivotArme) {
     const pivot = armeSurPivotChoisie(unite, instance);
     if (!pivot || pivot.startsWith("Lanceur Havoc sur Pivot")) return false;
@@ -1743,12 +1768,42 @@ function synchroniserConfig(carte, unite, instance) {
     }
   }
 
+  // 1 quinquies. requiertLegion sur une entrée de `choix` (armes forgées
+  // Artifice de Nocturne, Salamanders) : si la Légion choisie change
+  // après coup et que la valeur enregistrée ne correspond plus,
+  // retombe sur l'indice 0 plutôt que de garder une valeur invalide —
+  // même principe que le repli sur trait-skitarii ci-dessus, mais
+  // générique à toute option plutôt que câblé sur un seul id.
+  for (const opt of unite.options) {
+    if (opt.type !== "choix") continue;
+    const choixActuel = opt.choix[instance.valeurs[opt.id]];
+    if (
+      choixActuel &&
+      choixActuel.requiertLegion &&
+      (!orgaPret ||
+        typeof Organigramme === "undefined" ||
+        Organigramme.legionActuelle() !== choixActuel.requiertLegion)
+    ) {
+      instance.valeurs[opt.id] = 0;
+      modifie = true;
+    }
+  }
+
   // 2. Synchronise les champs du formulaire (valeur + grisé).
   for (const opt of unite.options) {
     const realisable = optionRealisable(unite, instance, opt);
+    // Une option réservée à une Légion (opt.requiertLegion, ex : Arcane
+    // de Prospero/Thousand Sons, Décurion Sagittar/Imperial Fists) est
+    // entièrement masquée si la Légion ne correspond pas — contrairement
+    // au reste d'optionRealisable, qui ne fait que griser le champ.
+    if (opt.requiertLegion) {
+      const controle = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
+      const ligne = controle && controle.closest(".option-ligne");
+      if (ligne) ligne.hidden = !optionLegionOk(opt);
+    }
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
-      if (opt.choix.some((c) => c.requiertAllegeance))
+      if (opt.choix.some((c) => c.requiertAllegeance || c.requiertLegion))
         peuplerChoixSelect(select, opt);
       select.value = String(instance.valeurs[opt.id]);
       select.disabled =
@@ -1841,12 +1896,28 @@ function actualiserCarte(carte, unite, instance) {
    construction initiale de la carte. */
 function peuplerChoixSelect(select, opt) {
   select.replaceChildren();
+  const entrees = [];
   opt.choix.forEach((choix, indice) => {
     if (
       choix.requiertAllegeance &&
       (!orgaPret ||
         typeof Organigramme === "undefined" ||
         Organigramme.allegeanceActuelle() !== choix.requiertAllegeance)
+    )
+      return;
+    // requiertLegion sur une entrée de `choix` (ex : armes forgées
+    // Artifice de Nocturne, réservées Salamanders — js/unites-data.js) :
+    // même principe que requiertAllegeance ci-dessus, mais sur la
+    // Légion actuelle de l'Armée plutôt que l'Allégeance. Volontairement
+    // sans repli sur les Légions Alliées (contrairement à
+    // `opt.requiertLegion`, optionRealisable) : la règle source exige
+    // que la Figurine ait elle-même le Trait de la Légion, pas
+    // seulement d'être alliée à elle.
+    if (
+      choix.requiertLegion &&
+      (!orgaPret ||
+        typeof Organigramme === "undefined" ||
+        Organigramme.legionActuelle() !== choix.requiertLegion)
     )
       return;
     const texteOption =
@@ -1856,8 +1927,22 @@ function peuplerChoixSelect(select, opt) {
           " — " +
           libelleCout(choix.cout) +
           (opt.parFigurine && choix.cout > 0 ? "/figurine" : "");
-    ajouterOption(select, String(indice), texteOption);
+    entrees.push({ indice, texteOption });
   });
+  // Tri alphabétique du menu (facilite la recherche dans une liste
+  // parfois longue, ex : Équipement d'Officier de Légion) : l'entrée
+  // « conserver » en tête (indice 0, sauf `obligatoire: true` où
+  // l'indice 0 est un choix comme un autre — voir plus haut) reste
+  // toujours première, seul le reste est trié.
+  const enTete =
+    !opt.obligatoire && entrees[0] && entrees[0].indice === 0
+      ? entrees.shift()
+      : null;
+  entrees.sort((a, b) => a.texteOption.localeCompare(b.texteOption, "fr"));
+  if (enTete) entrees.unshift(enTete);
+  for (const { indice, texteOption } of entrees) {
+    ajouterOption(select, String(indice), texteOption);
+  }
 }
 
 // Formulaire de configuration d'une carte (construit une seule fois).
