@@ -111,6 +111,13 @@
         Construction d'armée
       </h1>
 
+      <!-- ===================== PARAMÈTRES DE LA PARTIE =====================
+           Limite de Points et Allégeance (Vrais Croyants). Contenu
+           généré par js/organigramme.js (construireParametres). -->
+      <section aria-label="Paramètres de la partie">
+        <div id="orga-parametres"></div>
+      </section>
+
       <section id="construction-armee">
         <h2 class="section-titre section-titre--centre">
           <button
@@ -3490,11 +3497,2861 @@
         </div>
       </section>
 
-      <!-- ===================== PARAMÈTRES DE LA PARTIE =====================
-           Limite de Points et Allégeance (Vrais Croyants). Contenu
-           généré par js/organigramme.js (construireParametres). -->
-      <section aria-label="Paramètres de la partie">
-        <div id="orga-parametres"></div>
+      <section id="construction-armee-skitarii">
+        <h2 class="section-titre section-titre--centre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="construction-armee-skitarii-corps"
+          >
+            <span>Voir le tutoriel</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="construction-armee-skitarii-corps">
+          <div class="encadre">
+            <p>
+              Tout part d’un <strong>Détachement Principal de Croisade</strong>,
+              auquel il faut ajouter ensuite d’autres détachements.
+            </p>
+
+            <div class="timeline">
+              <!-- ===================== ÉTAPE 1 : DÉTACHEMENT PRINCIPAL ===================== -->
+              <div class="timeline-item" id="principal-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    1. Détachement Principal de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      C’est le <strong>seul détachement obligatoire</strong>. Tu
+                      y mets uniquement ce que tu souhaites : rien à l’intérieur
+                      n’est imposé. Il est simplement <em>plafonné</em>, au
+                      maximum :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>1 Quartier Général</strong> — ton grand chef
+                        (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction) ;
+                      </li>
+                      <li>
+                        <strong>3 États-Majors</strong> — les officiers de ligne
+                        (Maréchal des Pérégrins de Combat Skitarii) ;
+                      </li>
+                      <li>
+                        <strong>4 Troupes</strong> — tes escouades de base
+                        (Corpus de Pérégrins de Combat Skitarii) ;
+                      </li>
+                      <li>
+                        <strong>4 Transports</strong> — les véhicules légers
+                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                      </li>
+                    </ul>
+                    <p>
+                      Exemple : 1 Maréchal des Pérégrins de Combat Skitarii (État-Major) et 2 Corpus de Pérégrins de Combat Skitarii (Troupes).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ÉTAPE 2 : AUXILIAIRES ET APEX ===================== -->
+              <div class="timeline-item" id="auxiliaires-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    2. Détachements auxiliaires et d’apex
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Pour <strong>toutes les autres figurines</strong>
+                      (dreadnoughts, terminators, chars…), il faut débloquer des
+                      détachements supplémentaires. C’est ton détachement
+                      principal qui sert de clé :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>Chaque État-Major</strong> te permet de prendre
+                        <strong>1 détachement auxiliaire</strong> (Poing Blindé,
+                        Appui Tactique…). Tu peux prendre plusieurs fois le
+                        même.
+                      </li>
+                      <li>
+                        La règle
+                        <strong class="regle-tag" tabindex="0"
+                          >« Officier de ligne (2) »<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></strong
+                        >
+                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
+                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        pour l’État-Major concerné.
+                      </li>
+                      <li>
+                        Si tu as pris un <strong>Quartier Général</strong>, tu
+                        peux sélectionner
+                        <strong>1 détachement d’apex</strong> (Escorte de
+                        Combat, Cadre d’Officiers, Avant-garde d’Armée) ou
+                        <strong>1 détachement auxiliaire</strong> (comme un
+                        État-Major).
+                      </li>
+                    </ul>
+                    <p>
+                      En résumé : plus tu prends d’officiers dans ton
+                      détachement principal, plus tu débloques de détachements
+                      pour le reste de ta collection.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ORGANIGRAMME INTERACTIF ===================== -->
+              <div class="timeline-item" id="organigramme-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Organigramme de force de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      <strong>Survole (ou touche) chaque case</strong> pour
+                      afficher sa description.
+                    </p>
+
+                    <div class="organigramme">
+                      <!-- ===================== DÉTACHEMENT PRINCIPAL ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Point de départ obligatoire</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite principal" tabindex="0">
+                            Détachement Principal de Croisade
+                            <span class="tooltip">
+                              Obligatoire. Maximum : 1 Quartier Général, 3
+                              États-Majors, 4 Troupes, 4 Transports. Rien n’est
+                              imposé à l’intérieur.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> débloque
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS ADDITIONNELS ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements additionnels</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur de Guerre
+                            <span class="tooltip">
+                              Pour les Primarques et grands champions. Doit
+                              avoir la même faction que le détachement
+                              principal. Sélectionnable uniquement dans une
+                              armée de 3000 pts et plus.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur des Batailles
+                            <span class="tooltip">
+                              Pour les unités les plus imposantes
+                              (super-lourds…). Peut-être de n’importe quelle
+                              faction, mais sa valeur totale en points ne peut
+                              pas dépasser 25 % du total de l’armée.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Détachement Allié
+                            <span class="tooltip">
+                              Une force amie d’une faction différente de celle
+                              du détachement principal. Peut inclure ses propres
+                              détachements auxiliaires.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 par État-Major (2
+                        avec «
+                        <span class="regle-tag" tabindex="0"
+                          >Officier de ligne (2)<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></span
+                        >
+                        »)
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS AUXILIAIRES ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements auxiliaires</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Poing Blindé
+                            <span class="tooltip"
+                              >Une colonne de transports et transports lourds
+                              pour motoriser ton armée.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Tactique
+                            <span class="tooltip"
+                              >Des Troupes et unités d’Appui supplémentaires
+                              pour tenir le terrain.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Blindé
+                            <span class="tooltip"
+                              >Des véhicules Blindés lourdement armés pour
+                              l’appui-feu.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Lourd
+                            <span class="tooltip"
+                              >Un Engin de Guerre (Dreadnought et autres
+                              machines similaires).</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Pionniers de Combat
+                            <span class="tooltip"
+                              >Des unités de Reconnaissance pour harceler et
+                              pister l’ennemi.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Assaut de Choc
+                            <span class="tooltip"
+                              >Des unités d’Assaut Lourd chargées de briser les
+                              lignes ennemies.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Première Frappe
+                            <span class="tooltip"
+                              >Des unités d’Attaque Rapide qui frappent vite et
+                              se replient aussitôt.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 si tu as pris un
+                        Quartier Général <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS D’APEX ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements d’apex</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Escorte de Combat
+                            <span class="tooltip"
+                              >Des unités de Suite : les gardes du corps de tes
+                              officiers.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Cadre d’Officiers
+                            <span class="tooltip"
+                              >Des officiers supplémentaires (Quartier Général)
+                              pour commander la légion.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Avant-garde d’Armée
+                            <span class="tooltip"
+                              >Des unités d’Élite, les guerriers les plus
+                              redoutables de ton armée.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="encadre">
+                      <p>
+                        <strong>À retenir :</strong> une armée doit inclure 1
+                        détachement principal. Elle peut toujours inclure
+                        n’importe quel nombre de détachements Alliés, jusqu’à 1
+                        détachement Seigneur des Batailles, et un nombre de
+                        détachements auxiliaires/d’apex déterminé par tes cases
+                        d’État-Major et de Quartier Général.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== RÔLES TACTIQUES ===================== -->
+              <div class="timeline-item" id="roles-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les rôles tactiques
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Chaque unité du jeu possède un
+                      <strong>rôle tactique</strong> : une case « Troupes » ne
+                      peut accueillir qu’une unité de rôle tactique Troupes,
+                      etc.
+                    </p>
+
+                    <div class="table-scroll">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th scope="col" class="gauche">Rôle tactique</th>
+                            <th scope="col" class="gauche">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les primarques et une poignée de puissants
+                              guerriers. On ne peut dépenser plus de 25 % de sa
+                              limite de points pour Seigneur de Guerre +
+                              Seigneur des Batailles.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Quartier Général</strong>
+                            </td>
+                            <td class="gauche">
+                              Les officiers les plus haut gradés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>État-Major</strong></td>
+                            <td class="gauche">
+                              Les officiers de ligne de l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Suite</strong></td>
+                            <td class="gauche">
+                              Les guerriers chargés de protéger les officiers de
+                              l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Élite</strong></td>
+                            <td class="gauche">
+                              Les plus redoutables guerriers d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Engin de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les Dreadnoughts des Legiones Astartes et autres
+                              machines de guerre similaires.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Troupes</strong></td>
+                            <td class="gauche">
+                              Les troupes de ligne qui tiennent le terrain et
+                              permettent aux généraux de vaincre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Appui</strong></td>
+                            <td class="gauche">
+                              Des troupes d’appui qui aident les autres
+                              guerriers à mener à bien leur mission.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur des Batailles</strong>
+                            </td>
+                            <td class="gauche">
+                              Les unités les plus imposantes et puissantes d’une
+                              armée. Même limite de 25 % partagée avec Seigneur
+                              de Guerre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Transport</strong></td>
+                            <td class="gauche">
+                              Les unités chargées de convoyer les troupes
+                              vulnérables.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Assaut Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités d’assaut lourdes chargées de briser les
+                              lignes ennemies.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Transport Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Les transports les plus lourds et les mieux
+                              protégés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Blindés</strong></td>
+                            <td class="gauche">
+                              Des véhicules blindés équipés des armes les plus
+                              puissantes que l’on puisse déployer sur le
+                              terrain.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Reco.</strong></td>
+                            <td class="gauche">
+                              Des soldats et cavaliers légers chargés de
+                              harceler, poursuivre et pister l’ennemi.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Attaque Rapide</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités rapides capables de frapper l’ennemi et
+                              de se replier à grande vitesse.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== CASES PRINCIPALES ===================== -->
+              <div class="timeline-item" id="cases-principales-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les cases Principales
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Certaines cases de l’organigramme portent un symbole
+                      spécial : ce sont les <strong>cases Principales</strong>.
+                      Elles octroient un bénéfice : un
+                      <strong>avantage principal</strong> au choix parmi les 5
+                      ci-dessous. Ce sont surtout des améliorations de
+                      caractéristiques… sauf une, très forte pour structurer ta
+                      liste.
+                    </p>
+                    <p>
+                      <em>Cas particulier :</em> si l’unité choisie inclut des
+                      figurines de sous-type
+                      <strong class="regle-tag" tabindex="0"
+                        >Unique<span class="tooltip"
+                          >Une armée ne peut inclure qu'un seul exemplaire d'une
+                          figurine de ce sous-type. Une figurine de sous-type
+                          Unique, ou une unité entièrement composée de telles
+                          figurines, ne peut avoir d'autres options que celles
+                          sélectionnées pour elle dans son profil de liste
+                          d'armée.</span
+                        ></strong
+                      >, les seuls avantages principaux disponibles sont
+                      Affectation Spéciale et Bénéfice Logistique.
+                    </p>
+
+                    <!-- ===================== ACCORDÉON DES AVANTAGES ===================== -->
+                    <div class="accordeon">
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Maître-sergent
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Sergent<span class="tooltip"
+                                  >Le joueur en contrôle d'une unité qui inclut
+                                  une ou plusieurs figurines de sous-type
+                                  Sergent peut utiliser les caractéristiques
+                                  d'une de ces figurines pour résoudre tout test
+                                  de caractéristique fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et
+                                commandement</strong
+                              >, ainsi que le sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Champion<span class="tooltip"
+                                  >Une figurine de sous-type Champion peut
+                                  lancer et relever des défis.</span
+                                ></strong
+                              >
+                              (si elle est déjà Champion, elle gagne à la place
+                              +1 en commandement).
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> adapté à
+                              l’Ordinator de ton Corpus de Pérégrins de Combat
+                              Skitarii. Un Ordinator Champion peut lancer et
+                              relever des défis.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Vétérans de Combat
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Toutes les figurines</strong> de l’unité
+                              occupant la case Principale gagnent
+                              <strong
+                                >+1 en commandement, sang-froid, intelligence et
+                                volonté</strong
+                              >
+                              (maximum 10). Cela ne concerne que les figurines
+                              faisant partie de l’unité, pas celles qui la
+                              rejoignent avant ou pendant la bataille.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> ces
+                              caractéristiques servent aux tests de moral et aux
+                              statuts tactiques. Une unité Vétérans de Combat
+                              résiste mieux à la panique : adaptée à l’escouade
+                              qui tient ton objectif principal.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Parangon de Bataille
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >État-major<span class="tooltip"
+                                  >Une figurine de sous-type État-major peut
+                                  rejoindre et quitter des unités, ainsi que
+                                  lancer et relever des défis. Le joueur en
+                                  contrôle d'une unité qui en inclut une ou
+                                  plusieurs peut utiliser ses caractéristiques
+                                  pour résoudre tout test de caractéristique
+                                  fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et capacité
+                                de tir</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> à réserver à
+                              un officier destiné au combat. Un Maréchal des
+                              Pérégrins de Combat Skitarii Parangon de Bataille
+                              frappe plus souvent et plus juste.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Affectation Spéciale
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Choisissable seulement pour une
+                              <strong>case d’État-major</strong>. La case peut
+                              alors être occupée par une unité de
+                              <strong>Quartier Général</strong>, tout en restant
+                              une case d’État-major. En revanche, cette case
+                              n’ouvre la sélection d’<strong
+                                >aucun détachement supplémentaire</strong
+                              >, quel que soit son rôle tactique ou les règles
+                              spéciales de l’unité choisie.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> pratique pour
+                              aligner un second personnage important sans
+                              dépasser la limite de 1 Quartier Général. En
+                              contrepartie, tu perds le détachement auxiliaire
+                              que cet État-Major aurait débloqué.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Bénéfice Logistique
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Ajoute une case au détachement</strong>
+                              qui inclut la case Principale. Cette case peut
+                              avoir
+                              <strong>n’importe quel rôle tactique</strong>,
+                              sauf Quartier Général, État-major, Seigneur de
+                              Guerre ou Seigneur des Batailles.
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== SOUS-FACTIONS ===================== -->
+              <div class="timeline-item" id="sous-factions-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Sous-factions des Conclaves Skitarii
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      En plus de l’<strong>[Allégeance]</strong> (Loyaliste ou
+                      Renégat), chaque Unité générique de cette Liste
+                      d’Armée porte le Trait «&nbsp;[Skitarii]&nbsp;». Quand
+                      tu l’ajoutes à ton Armée, tu dois le remplacer par un
+                      des 4 <strong>Traits de Faction</strong> suivants —
+                      même mécanique que <em>[Allégeance]</em>. Toutes les
+                      Unités sélectionnées dans un même Détachement doivent
+                      avoir le même Trait de Faction.
+                    </p>
+
+                    <div class="accordeon">
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Acquisitor
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Toutes les figurines qui ont ce Trait (sauf
+                              celles de Type Véhicule) gagnent la Règle
+                              Spéciale
+                              <strong class="regle-tag" tabindex="0"
+                                >Ligne (1)<span class="tooltip"
+                                  >L'unité contrôle mieux les objectifs :
+                                  bonus de X Points de Victoire quand elle en
+                                  contrôle un, et compte plus dans l'Effectif
+                                  Tactique.</span
+                                ></strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> adapté à
+                              une Armée qui compte tenir ses Objectifs plutôt
+                              que de foncer dans le tas.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Expurgator
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Toutes les figurines qui ont ce Trait (sauf
+                              celles de Type Véhicule) gagnent la Règle
+                              Spéciale
+                              <strong class="regle-tag" tabindex="0"
+                                >Avant-garde (3)<span class="tooltip"
+                                  >L'unité ne marque que 1 point de victoire
+                                  sur un objectif, + X si elle est retirée
+                                  comme perte ou fait battre en retraite une
+                                  unité ennemie.</span
+                                ></strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> une Armée
+                              plus agressive, orientée vers l’élimination des
+                              Unités ennemies plutôt que le contrôle
+                              d’Objectifs.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Vindicator (Allégeance Loyaliste seulement)
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Toutes les figurines qui ont ce Trait (sauf
+                              celles de Type Véhicule) augmentent de +1 la
+                              valeur de toute déclinaison de la Règle
+                              Spéciale
+                              <strong>Déflagration (X)</strong> qu’elles
+                              possèdent, elles ou leurs Armes.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> réservé aux
+                              Armées Loyalistes — pense aux Unités dotées
+                              d’Armes Volkite (Arquebuse volt, Arquebuse
+                              volkite…), qui ont presque toutes Déflagration
+                              (X) de base.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Flagellator (Allégeance Renégate seulement)
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Toutes les figurines qui ont ce Trait (sauf
+                              celles de Type Véhicule) ajoutent
+                              <strong>+1 pouce</strong> à leurs Mouvements de
+                              Positionnement, jusqu’à un maximum de
+                              <strong>6 pouces</strong>.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> réservé aux
+                              Armées Renégates — utile pour charger plus loin
+                              ou repositionner tes Unités plus généreusement
+                              en Sous-phase de Déplacement.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="encadre">
+                      <p>
+                        <strong>Vassaux des Seigneurs des Forges :</strong>
+                        si le Détachement Principal de ton Armée est issu de
+                        la Liste d’Armée des Taghmata du Mechanicum, un
+                        Détachement Allié issu de la Liste d’Armée des
+                        Conclaves Skitarii ne compte pas dans le maximum de
+                        <strong>50 % de la Limite de Points</strong> réservé
+                        aux Détachements Alliés.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== RÉACTION AVANCÉE ===================== -->
+              <div class="timeline-item" id="reaction-skitarii">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Réaction Avancée : Maréchal Élu
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Permet de remplacer en urgence un maréchal tombé au
+                      combat. Le Joueur Réactif, en contrôle d’Unités
+                      composées uniquement de figurines qui ont le Trait
+                      Skitarii, peut la déclarer
+                      <strong>une fois par Bataille</strong> quand une
+                      figurine de <strong>Maréchal des Pérégrins de Combat
+                      Skitarii</strong> amie est réduite à
+                      <strong>0 Point de Vie</strong> (coût :
+                      <strong>1 Point d’Attribution de Réactions</strong>,
+                      à payer dès la déclaration).
+                    </p>
+                    <p>
+                      L’Unité Cible est toujours une Unité amie qui a le
+                      Trait <strong>[Skitarii]</strong> et qui compte au
+                      moins une figurine d’<strong>Ordinator</strong>. À la
+                      Phase de Fin du Tour où la Réaction a été déclarée, tu
+                      choisis une figurine d’Ordinator de l’Unité Cible :
+                      elle gagne le Sous-type <strong>État-major</strong>,
+                      augmente de +1 ses Caractéristiques de Base de
+                      Capacité de Combat, d’Attaques et de Commandement, et
+                      tu peux choisir une de ses Armes de Mêlée pour lui
+                      faire gagner la Règle Spéciale
+                      <strong class="regle-tag" tabindex="0"
+                        >Icône d’Autorité<span class="tooltip"
+                          >Quand, à l'étape Déclarer les Armes et Définir les
+                          Rangs d'Initiative de la Sous-phase de Combat, on
+                          choisit une Arme ayant cette Règle Spéciale pour
+                          faire des Attaques, toutes les Figurines qui ont le
+                          Trait [Skitarii] et qui appartiennent à la même
+                          Unité que la Figurine dotée d'une Arme ayant cette
+                          Règle Spéciale sont immédiatement soulagées des
+                          Statuts Tactiques Fixée, Neutralisée et
+                          Sonnée.</span
+                        ></strong
+                      >.
+                    </p>
+                    <p class="conseil-debutant">
+                      <strong>Conseil pratique :</strong> garde un Point
+                      d’Attribution de Réactions en réserve si ton Maréchal
+                      risque de tomber — ton Corpus de Pérégrins de Combat
+                      Skitarii se retrouve aussitôt un nouveau chef (son
+                      Ordinator) plutôt que de rester sans commandement.
+                    </p>
+                  </div>
+                </div>
+              </div>            </div>
+            <p>
+              <strong>Rappel :</strong> ces fiches sont une retranscription
+              manuelle, mais c’est le livre de règles et le livre d’armée qui
+              font référence en cas de doute.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section id="construction-armee-legio-custodes">
+        <h2 class="section-titre section-titre--centre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="construction-armee-legio-custodes-corps"
+          >
+            <span>Voir le tutoriel</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="construction-armee-legio-custodes-corps">
+          <div class="encadre">
+            <p>
+              Tout part d’un <strong>Détachement Principal de Croisade</strong>,
+              auquel il faut ajouter ensuite d’autres détachements.
+            </p>
+
+            <div class="timeline">
+              <!-- ===================== ÉTAPE 1 : DÉTACHEMENT PRINCIPAL ===================== -->
+              <div class="timeline-item" id="principal-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    1. Détachement Principal de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      C’est le <strong>seul détachement obligatoire</strong>. Tu
+                      y mets uniquement ce que tu souhaites : rien à l’intérieur
+                      n’est imposé. Il est simplement <em>plafonné</em>, au
+                      maximum :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>1 Quartier Général</strong> — ton grand chef
+                        (Tribun, Constantin Valdor) ;
+                      </li>
+                      <li>
+                        <strong>3 États-Majors</strong> — les officiers de ligne
+                        (Capitaine-rempart) ;
+                      </li>
+                      <li>
+                        <strong>4 Troupes</strong> — tes escouades de base
+                        (Sodalité de Gardes Custodiens, Sodalité de Gardes Sentinelles) ;
+                      </li>
+                      <li>
+                        <strong>4 Transports</strong> — les véhicules légers
+                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                      </li>
+                    </ul>
+                    <p>
+                      Exemple : 1 Tribun (Quartier Général), 1 Capitaine-rempart (État-Major) et 2 Sodalités de Gardes Custodiens (Troupes).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ÉTAPE 2 : AUXILIAIRES ET APEX ===================== -->
+              <div class="timeline-item" id="auxiliaires-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    2. Détachements auxiliaires et d’apex
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Pour <strong>toutes les autres figurines</strong>
+                      (dreadnoughts, terminators, chars…), il faut débloquer des
+                      détachements supplémentaires. C’est ton détachement
+                      principal qui sert de clé :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>Chaque État-Major</strong> te permet de prendre
+                        <strong>1 détachement auxiliaire</strong> (Poing Blindé,
+                        Appui Tactique…). Tu peux prendre plusieurs fois le
+                        même.
+                      </li>
+                      <li>
+                        La règle
+                        <strong class="regle-tag" tabindex="0"
+                          >« Officier de ligne (2) »<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></strong
+                        >
+                        (le Capitaine-rempart doté de l’Avantage Principal Préfet, par exemple) permet de sélectionner non
+                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        pour l’État-Major concerné.
+                      </li>
+                      <li>
+                        Si tu as pris un <strong>Quartier Général</strong>, tu
+                        peux sélectionner
+                        <strong>1 détachement d’apex</strong> (Escorte de
+                        Combat, Cadre d’Officiers, Avant-garde d’Armée) ou
+                        <strong>1 détachement auxiliaire</strong> (comme un
+                        État-Major).
+                      </li>
+                    </ul>
+                    <p>
+                      En résumé : plus tu prends d’officiers dans ton
+                      détachement principal, plus tu débloques de détachements
+                      pour le reste de ta collection.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ORGANIGRAMME INTERACTIF ===================== -->
+              <div class="timeline-item" id="organigramme-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Organigramme de force de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      <strong>Survole (ou touche) chaque case</strong> pour
+                      afficher sa description.
+                    </p>
+
+                    <div class="organigramme">
+                      <!-- ===================== DÉTACHEMENT PRINCIPAL ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Point de départ obligatoire</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite principal" tabindex="0">
+                            Détachement Principal de Croisade
+                            <span class="tooltip">
+                              Obligatoire. Maximum : 1 Quartier Général, 3
+                              États-Majors, 4 Troupes, 4 Transports. Rien n’est
+                              imposé à l’intérieur.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> débloque
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS ADDITIONNELS ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements additionnels</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur de Guerre
+                            <span class="tooltip">
+                              Pour les Primarques et grands champions. Doit
+                              avoir la même faction que le détachement
+                              principal. Sélectionnable uniquement dans une
+                              armée de 3000 pts et plus.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur des Batailles
+                            <span class="tooltip">
+                              Pour les unités les plus imposantes
+                              (super-lourds…). Peut-être de n’importe quelle
+                              faction, mais sa valeur totale en points ne peut
+                              pas dépasser 25 % du total de l’armée.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Détachement Allié
+                            <span class="tooltip">
+                              Une force amie d’une faction différente de celle
+                              du détachement principal. Peut inclure ses propres
+                              détachements auxiliaires.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 par État-Major (2
+                        avec «
+                        <span class="regle-tag" tabindex="0"
+                          >Officier de ligne (2)<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></span
+                        >
+                        »)
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS AUXILIAIRES ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements auxiliaires</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Poing Blindé
+                            <span class="tooltip"
+                              >Une colonne de transports et transports lourds
+                              pour motoriser ton armée.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Tactique
+                            <span class="tooltip"
+                              >Des Troupes et unités d’Appui supplémentaires
+                              pour tenir le terrain.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Blindé
+                            <span class="tooltip"
+                              >Des véhicules Blindés lourdement armés pour
+                              l’appui-feu.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Lourd
+                            <span class="tooltip"
+                              >Un Engin de Guerre (Dreadnought et autres
+                              machines similaires).</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Pionniers de Combat
+                            <span class="tooltip"
+                              >Des unités de Reconnaissance pour harceler et
+                              pister l’ennemi.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Assaut de Choc
+                            <span class="tooltip"
+                              >Des unités d’Assaut Lourd chargées de briser les
+                              lignes ennemies.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Première Frappe
+                            <span class="tooltip"
+                              >Des unités d’Attaque Rapide qui frappent vite et
+                              se replient aussitôt.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 si tu as pris un
+                        Quartier Général <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS D’APEX ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements d’apex</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Escorte de Combat
+                            <span class="tooltip"
+                              >Des unités de Suite : les gardes du corps de tes
+                              officiers.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Cadre d’Officiers
+                            <span class="tooltip"
+                              >Des officiers supplémentaires (Quartier Général)
+                              pour commander la légion.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Avant-garde d’Armée
+                            <span class="tooltip"
+                              >Des unités d’Élite, les guerriers les plus
+                              redoutables de ton armée.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="encadre">
+                      <p>
+                        <strong>À retenir :</strong> une armée doit inclure 1
+                        détachement principal. Elle peut toujours inclure
+                        n’importe quel nombre de détachements Alliés, jusqu’à 1
+                        détachement Seigneur des Batailles, et un nombre de
+                        détachements auxiliaires/d’apex déterminé par tes cases
+                        d’État-Major et de Quartier Général.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== RÔLES TACTIQUES ===================== -->
+              <div class="timeline-item" id="roles-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les rôles tactiques
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Chaque unité du jeu possède un
+                      <strong>rôle tactique</strong> : une case « Troupes » ne
+                      peut accueillir qu’une unité de rôle tactique Troupes,
+                      etc.
+                    </p>
+
+                    <div class="table-scroll">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th scope="col" class="gauche">Rôle tactique</th>
+                            <th scope="col" class="gauche">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les primarques et une poignée de puissants
+                              guerriers. On ne peut dépenser plus de 25 % de sa
+                              limite de points pour Seigneur de Guerre +
+                              Seigneur des Batailles.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Quartier Général</strong>
+                            </td>
+                            <td class="gauche">
+                              Les officiers les plus haut gradés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>État-Major</strong></td>
+                            <td class="gauche">
+                              Les officiers de ligne de l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Suite</strong></td>
+                            <td class="gauche">
+                              Les guerriers chargés de protéger les officiers de
+                              l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Élite</strong></td>
+                            <td class="gauche">
+                              Les plus redoutables guerriers d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Engin de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les Dreadnoughts des Legiones Astartes et autres
+                              machines de guerre similaires.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Troupes</strong></td>
+                            <td class="gauche">
+                              Les troupes de ligne qui tiennent le terrain et
+                              permettent aux généraux de vaincre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Appui</strong></td>
+                            <td class="gauche">
+                              Des troupes d’appui qui aident les autres
+                              guerriers à mener à bien leur mission.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur des Batailles</strong>
+                            </td>
+                            <td class="gauche">
+                              Les unités les plus imposantes et puissantes d’une
+                              armée. Même limite de 25 % partagée avec Seigneur
+                              de Guerre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Transport</strong></td>
+                            <td class="gauche">
+                              Les unités chargées de convoyer les troupes
+                              vulnérables.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Assaut Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités d’assaut lourdes chargées de briser les
+                              lignes ennemies.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Transport Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Les transports les plus lourds et les mieux
+                              protégés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Blindés</strong></td>
+                            <td class="gauche">
+                              Des véhicules blindés équipés des armes les plus
+                              puissantes que l’on puisse déployer sur le
+                              terrain.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Reco.</strong></td>
+                            <td class="gauche">
+                              Des soldats et cavaliers légers chargés de
+                              harceler, poursuivre et pister l’ennemi.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Attaque Rapide</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités rapides capables de frapper l’ennemi et
+                              de se replier à grande vitesse.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== CASES PRINCIPALES ===================== -->
+              <div class="timeline-item" id="cases-principales-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les cases Principales
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Certaines cases de l’organigramme portent un symbole
+                      spécial : ce sont les <strong>cases Principales</strong>.
+                      Elles octroient un bénéfice : un
+                      <strong>avantage principal</strong> au choix parmi les 5
+                      ci-dessous, plus 2 propres à la Legio Custodes détaillés
+                      à la fin de la liste. Ce sont surtout des améliorations
+                      de caractéristiques… sauf une, très forte pour
+                      structurer ta liste.
+                    </p>
+                    <p>
+                      <em>Cas particulier :</em> si l’unité choisie inclut des
+                      figurines de sous-type
+                      <strong class="regle-tag" tabindex="0"
+                        >Unique<span class="tooltip"
+                          >Une armée ne peut inclure qu'un seul exemplaire d'une
+                          figurine de ce sous-type. Une figurine de sous-type
+                          Unique, ou une unité entièrement composée de telles
+                          figurines, ne peut avoir d'autres options que celles
+                          sélectionnées pour elle dans son profil de liste
+                          d'armée.</span
+                        ></strong
+                      >, les seuls avantages principaux disponibles sont
+                      Affectation Spéciale et Bénéfice Logistique.
+                    </p>
+
+                    <!-- ===================== ACCORDÉON DES AVANTAGES ===================== -->
+                    <div class="accordeon">
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Maître-sergent
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Sergent<span class="tooltip"
+                                  >Le joueur en contrôle d'une unité qui inclut
+                                  une ou plusieurs figurines de sous-type
+                                  Sergent peut utiliser les caractéristiques
+                                  d'une de ces figurines pour résoudre tout test
+                                  de caractéristique fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et
+                                commandement</strong
+                              >, ainsi que le sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Champion<span class="tooltip"
+                                  >Une figurine de sous-type Champion peut
+                                  lancer et relever des défis.</span
+                                ></strong
+                              >
+                              (si elle est déjà Champion, elle gagne à la place
+                              +1 en commandement).
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> cet Avantage
+                              exige une Figurine de Sous-type Sergent : aucune
+                              Unité Legio Custodes transcrite ici n’en a pour
+                              l’instant.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Vétérans de Combat
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Toutes les figurines</strong> de l’unité
+                              occupant la case Principale gagnent
+                              <strong
+                                >+1 en commandement, sang-froid, intelligence et
+                                volonté</strong
+                              >
+                              (maximum 10). Cela ne concerne que les figurines
+                              faisant partie de l’unité, pas celles qui la
+                              rejoignent avant ou pendant la bataille.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> ces
+                              caractéristiques servent aux tests de moral et aux
+                              statuts tactiques. Une unité Vétérans de Combat
+                              résiste mieux à la panique : adaptée à l’escouade
+                              qui tient ton objectif principal.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Parangon de Bataille
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >État-major<span class="tooltip"
+                                  >Une figurine de sous-type État-major peut
+                                  rejoindre et quitter des unités, ainsi que
+                                  lancer et relever des défis. Le joueur en
+                                  contrôle d'une unité qui en inclut une ou
+                                  plusieurs peut utiliser ses caractéristiques
+                                  pour résoudre tout test de caractéristique
+                                  fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et capacité
+                                de tir</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> à réserver à
+                              un officier destiné au combat. Un Capitaine-rempart
+                              Parangon de Bataille frappe plus souvent et plus
+                              juste.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Affectation Spéciale
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Choisissable seulement pour une
+                              <strong>case d’État-major</strong>. La case peut
+                              alors être occupée par une unité de
+                              <strong>Quartier Général</strong>, tout en restant
+                              une case d’État-major. En revanche, cette case
+                              n’ouvre la sélection d’<strong
+                                >aucun détachement supplémentaire</strong
+                              >, quel que soit son rôle tactique ou les règles
+                              spéciales de l’unité choisie.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> pratique pour
+                              aligner un second personnage important sans
+                              dépasser la limite de 1 Quartier Général. En
+                              contrepartie, tu perds le détachement auxiliaire
+                              que cet État-Major aurait débloqué.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Bénéfice Logistique
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Ajoute une case au détachement</strong>
+                              qui inclut la case Principale. Cette case peut
+                              avoir
+                              <strong>n’importe quel rôle tactique</strong>,
+                              sauf Quartier Général, État-major, Seigneur de
+                              Guerre ou Seigneur des Batailles.
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- ===================== AVANTAGES PROPRES À LA LEGIO CUSTODES ===================== -->
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Préfet (propre à la Legio Custodes)
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Réservé à une case Principale occupée par une
+                              unité de <strong>Capitaine-rempart</strong>.
+                              Toutes ses figurines gagnent
+                              <strong>+1 en Points de Vie de Base</strong>,
+                              ainsi que la Règle Spéciale
+                              <strong class="regle-tag" tabindex="0"
+                                >Officier de Ligne (2)<span class="tooltip"
+                                  >Permet de sélectionner un nombre de
+                                  Détachements Auxiliaires égal à X pour la
+                                  Case d'État-major concernée, au lieu d'un
+                                  seul.</span
+                                ></strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> le seul
+                              avantage de cette liste réservé à une Unité
+                              précise plutôt qu’à un Sous-type — pas de choix
+                              possible en dehors du Capitaine-rempart.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Garde Hetaeron (propre à la Legio Custodes)
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Chez l’unité occupant la case Principale, porte
+                              à 2 la valeur de X de la Règle Spéciale
+                              <strong class="regle-tag" tabindex="0"
+                                >Guerrier Éternel (X)<span class="tooltip"
+                                  >Réduit de X les Dégâts de chaque blessure
+                                  non sauvegardée (minimum 1).</span
+                                ></strong
+                              >
+                              pour ses figurines de Type Infanterie ou
+                              Cavalerie qui ont le Trait Legio Custodes.
+                            </p>
+                            <p>
+                              Sélectionnable
+                              <strong>une seule fois par Armée</strong>, sauf
+                              si l’Armée comprend au moins une figurine ayant
+                              le Trait <strong>Exemple d’Or</strong>
+                              (Constantin Valdor, Tribun) : dans ce cas, il
+                              peut être sélectionné une fois de plus pour
+                              chaque figurine ayant ce Trait.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> ouvert à
+                              n’importe quelle unité occupant une case
+                              Principale, contrairement à Préfet — vérifie le
+                              nombre de figurines Exemple d’Or de ton armée
+                              avant de le sélectionner plusieurs fois.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== TACTICA DE LEGIO ===================== -->
+              <div class="timeline-item" id="tactica-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Tactica de Legio : Seule la Mort
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Toutes les figurines qui ont le Trait Legio Custodes,
+                      sauf celles de Type <strong>Véhicule</strong>, ont la
+                      Règle Spéciale
+                      <strong class="regle-tag" tabindex="0"
+                        >Seule la Mort<span class="tooltip"
+                          >En Combat, les Unités composées uniquement de
+                          Figurines ayant cette Règle Spéciale sont Sonnées au
+                          lieu d'être en Déroute, et ne peuvent ni Battre en
+                          Retraite ni se Désengager d'un Combat.</span
+                        ></strong
+                      >.
+                    </p>
+                    <p>
+                      Concrètement : une unité entièrement Legio Custodes
+                      (hors Véhicules) qui devrait
+                      <strong>Battre en Retraite</strong> ou passer
+                      <strong>En Déroute</strong> devient
+                      <strong>Sonnée</strong> à la place, et ne peut ni fuir
+                      ni se désengager d’un Combat — sauf si elle est
+                      entièrement composée de figurines de Sous-type
+                      <strong>Antigrav</strong>, qui gardent malgré tout
+                      l’option de se désengager.
+                    </p>
+                    <p class="conseil-debutant">
+                      <strong>Conseil pratique :</strong> les Custodiens ne
+                      fuient jamais le combat — prévois de les faire tenir
+                      jusqu’au bout plutôt que de compter sur une retraite,
+                      sauf pour tes unités montées (Sodalité de Motojets
+                      Gyrfalcon, Char Antigrav Caladius…).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== POSTURES DE DÉFI ===================== -->
+              <div class="timeline-item" id="postures-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Postures de Défi de la Legio Custodes
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Tant qu’une figurine qui a le Trait Legio Custodes est
+                      engagée en <strong>Défi</strong>, son joueur en
+                      contrôle peut choisir les 4 Postures suivantes à la
+                      place de toute autre accessible à cette figurine.
+                    </p>
+
+                    <div class="accordeon">
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Élan du Rapace
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Confère à la figurine des attaques
+                              supplémentaires selon le nombre de figurines
+                              ennemies impliquées dans le même Combat.
+                            </p>
+                            <p>
+                              Si le Joueur Adverse a un
+                              <strong>Bonus de Soutien Extérieur</strong>
+                              supérieur au tien à l’Étape de Concentration,
+                              la figurine gagne un bonus à sa Caractéristique
+                              d’Attaques à l’Étape de Frappe suivante égal à
+                              la différence entre les deux Bonus, jusqu’à un
+                              maximum de <strong>+3</strong>.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> utile quand
+                              ta figurine se retrouve submergée par le nombre
+                              — elle frappe d’autant plus fort que
+                              l’adversaire est mieux soutenu que toi.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Frappe des Cieux
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Réduit de moitié la Caractéristique d’Attaques
+                              de la figurine, mais remplace la Règle Spéciale
+                              <strong class="regle-tag" tabindex="0"
+                                >Touche Critique (6+)<span class="tooltip"
+                                  >Un jet de touche élevé (X ou plus, avant
+                                  modificateur) devient une Touche Critique :
+                                  elle blesse automatiquement, sans jet de
+                                  blessure, et inflige 1 dégât de
+                                  plus.</span
+                                ></strong
+                              >
+                              par <strong>Touche Critique (5+)</strong> sur
+                              son Arme, si elle en a une.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> moins
+                              d’attaques, mais elles touchent critique plus
+                              souvent — n’a d’intérêt que si l’Arme utilisée a
+                              déjà Touche Critique (6+).
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Fléau du Serpent du Monde
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Limite la figurine à
+                              <strong>une seule attaque</strong> à l’Étape de
+                              Frappe suivante, quelle que soit sa
+                              Caractéristique d’Attaques, mais la
+                              Caractéristique de Dégâts de cette attaque
+                              devient égale à la
+                              <strong>Valeur Actuelle de ses Points de
+                              Vie</strong>.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> redoutable
+                              contre une cible à haute Endurance ou dotée
+                              d’une Sauvegarde qui ignore les petits Dégâts —
+                              mais évite-la si ta figurine est déjà bien
+                              amochée.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Égide de la Pierre
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Réservée à une figurine qui a le Trait
+                              <strong class="regle-tag" tabindex="0"
+                                >Bouclier<span class="tooltip"
+                                  >Trait qui donne accès à la Réaction avancée
+                                  des Legiones Astartes « Mur de Bouclier »
+                                  (coût 1 Point d'Attribution de Réactions),
+                                  déclarable au début de l'Étape 3 d'une
+                                  Attaque de Tir ou de l'Étape 4 (Attaques de
+                                  Volée) d'une Charge faite par l'adversaire :
+                                  si la majorité des Figurines de l'Unité
+                                  visée ont ce Trait, l'Unité gagne +1 en
+                                  Endurance pour la durée de la Phase.</span
+                                ></strong
+                              >. Modifie de <strong>+1</strong> l’Endurance
+                              de la figurine pour la durée de l’Étape de
+                              Frappe, mais tous les Jets de Blessure faits
+                              pour elle à la même Étape ratent automatiquement
+                              sur un résultat naturel de <strong>1 ou
+                              2</strong>.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> un bon pari
+                              contre une Arme à faible Force qui a besoin
+                              d’un jet élevé pour blesser de toute façon ;
+                              risqué face à une Arme qui blesse déjà sur 2+.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== RÉACTION AVANCÉE ===================== -->
+              <div class="timeline-item" id="reaction-legio-custodes">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Réaction Avancée : La Lame se Scinde
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Une fois par Bataille, le Joueur Réactif peut la
+                      déclarer à l’Étape 2 de la Sous-phase de Déplacement si
+                      une Unité ennemie finit un Déplacement à
+                      <strong>12 pouces</strong> et en Ligne de Vue d’une
+                      Unité sous son contrôle (coût :
+                      <strong>1 Point d’Attribution de Réactions</strong>).
+                    </p>
+                    <p>
+                      L’<strong>Unité Réactive</strong> choisie doit se
+                      trouver à 12 pouces et en Ligne de Vue de l’Unité
+                      Cible, être composée uniquement de figurines qui ont
+                      les Traits <strong>Legio Custodes</strong> ET
+                      <strong>La Sodalité</strong>, et comprendre au moins
+                      <strong>six figurines</strong>.
+                    </p>
+                    <p>
+                      Une fois le Déplacement de l’Unité Cible résolu, tu
+                      déplaces au moins trois figurines de l’Unité Réactive
+                      (jusqu’à un nombre de pouces égal à leur Caractéristique
+                      d’Initiative) de sorte qu’elles quittent la Cohésion
+                      d’Unité du reste tout en la gardant entre elles ; les
+                      figurines restées en arrière (au moins trois,
+                      elles-mêmes en Cohésion d’Unité) et celles déplacées
+                      forment alors deux Unités distinctes à tous égards, y
+                      compris pour marquer des Points de Victoire.
+                    </p>
+                    <p class="conseil-debutant">
+                      <strong>Conseil pratique :</strong> réservée aux grosses
+                      Sodalités (Gardes Adrasites/Pyrithites/Sagittarii,
+                      Gardes Custodiens, Gardes Sentinelles…) d’au moins six
+                      figurines — permet de scinder ton unité en deux pour
+                      contre-attaquer ou tenir deux Objectifs après qu’un
+                      ennemi s’est approché d’un peu trop près.
+                    </p>
+                  </div>
+                </div>
+              </div>            </div>
+            <p>
+              <strong>Rappel :</strong> ces fiches sont une retranscription
+              manuelle, mais c’est le livre de règles et le livre d’armée qui
+              font référence en cas de doute.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section id="construction-armee-anathema-psykana">
+        <h2 class="section-titre section-titre--centre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="construction-armee-anathema-psykana-corps"
+          >
+            <span>Voir le tutoriel</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="construction-armee-anathema-psykana-corps">
+          <div class="encadre">
+            <p>
+              Tout part d’un <strong>Détachement Principal de Croisade</strong>,
+              auquel il faut ajouter ensuite d’autres détachements.
+            </p>
+
+            <div class="timeline">
+              <!-- ===================== ÉTAPE 1 : DÉTACHEMENT PRINCIPAL ===================== -->
+              <div class="timeline-item" id="principal-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    1. Détachement Principal de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      C’est le <strong>seul détachement obligatoire</strong>. Tu
+                      y mets uniquement ce que tu souhaites : rien à l’intérieur
+                      n’est imposé. Il est simplement <em>plafonné</em>, au
+                      maximum :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>1 Quartier Général</strong> — ton grand chef
+                        (Jenetia Krole) ;
+                      </li>
+                      <li>
+                        <strong>3 États-Majors</strong> — les officiers de ligne
+                        (Chevalière Centura) ;
+                      </li>
+                      <li>
+                        <strong>4 Troupes</strong> — tes escouades de base
+                        (Cadre Anathema) ;
+                      </li>
+                      <li>
+                        <strong>4 Transports</strong> — les véhicules légers
+                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                      </li>
+                    </ul>
+                    <p>
+                      Exemple : 1 Jenetia Krole (Quartier Général), 1 Chevalière Centura (État-Major) et 2 Cadres Anathema (Troupes).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ÉTAPE 2 : AUXILIAIRES ET APEX ===================== -->
+              <div class="timeline-item" id="auxiliaires-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    2. Détachements auxiliaires et d’apex
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Pour <strong>toutes les autres figurines</strong>
+                      (dreadnoughts, terminators, chars…), il faut débloquer des
+                      détachements supplémentaires. C’est ton détachement
+                      principal qui sert de clé :
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>Chaque État-Major</strong> te permet de prendre
+                        <strong>1 détachement auxiliaire</strong> (Poing Blindé,
+                        Appui Tactique…). Tu peux prendre plusieurs fois le
+                        même.
+                      </li>
+                      <li>
+                        La règle
+                        <strong class="regle-tag" tabindex="0"
+                          >« Officier de ligne (2) »<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></strong
+                        >
+                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
+                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        pour l’État-Major concerné.
+                      </li>
+                      <li>
+                        Si tu as pris un <strong>Quartier Général</strong>, tu
+                        peux sélectionner
+                        <strong>1 détachement d’apex</strong> (Escorte de
+                        Combat, Cadre d’Officiers, Avant-garde d’Armée) ou
+                        <strong>1 détachement auxiliaire</strong> (comme un
+                        État-Major).
+                      </li>
+                    </ul>
+                    <p>
+                      En résumé : plus tu prends d’officiers dans ton
+                      détachement principal, plus tu débloques de détachements
+                      pour le reste de ta collection.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ORGANIGRAMME INTERACTIF ===================== -->
+              <div class="timeline-item" id="organigramme-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Organigramme de force de Croisade
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      <strong>Survole (ou touche) chaque case</strong> pour
+                      afficher sa description.
+                    </p>
+
+                    <div class="organigramme">
+                      <!-- ===================== DÉTACHEMENT PRINCIPAL ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Point de départ obligatoire</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite principal" tabindex="0">
+                            Détachement Principal de Croisade
+                            <span class="tooltip">
+                              Obligatoire. Maximum : 1 Quartier Général, 3
+                              États-Majors, 4 Troupes, 4 Transports. Rien n’est
+                              imposé à l’intérieur.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> débloque
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS ADDITIONNELS ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements additionnels</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur de Guerre
+                            <span class="tooltip">
+                              Pour les Primarques et grands champions. Doit
+                              avoir la même faction que le détachement
+                              principal. Sélectionnable uniquement dans une
+                              armée de 3000 pts et plus.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Seigneur des Batailles
+                            <span class="tooltip">
+                              Pour les unités les plus imposantes
+                              (super-lourds…). Peut-être de n’importe quelle
+                              faction, mais sa valeur totale en points ne peut
+                              pas dépasser 25 % du total de l’armée.
+                            </span>
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Détachement Allié
+                            <span class="tooltip">
+                              Une force amie d’une faction différente de celle
+                              du détachement principal. Peut inclure ses propres
+                              détachements auxiliaires.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 par État-Major (2
+                        avec «
+                        <span class="regle-tag" tabindex="0"
+                          >Officier de ligne (2)<span class="tooltip"
+                            >Permet de sélectionner un nombre de Détachements
+                            Auxiliaires égal à X pour la Case d'État-major
+                            concernée, au lieu d'un seul.</span
+                          ></span
+                        >
+                        »)
+                        <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS AUXILIAIRES ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements auxiliaires</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Poing Blindé
+                            <span class="tooltip"
+                              >Une colonne de transports et transports lourds
+                              pour motoriser ton armée.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Tactique
+                            <span class="tooltip"
+                              >Des Troupes et unités d’Appui supplémentaires
+                              pour tenir le terrain.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Blindé
+                            <span class="tooltip"
+                              >Des véhicules Blindés lourdement armés pour
+                              l’appui-feu.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Appui Lourd
+                            <span class="tooltip"
+                              >Un Engin de Guerre (Dreadnought et autres
+                              machines similaires).</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Pionniers de Combat
+                            <span class="tooltip"
+                              >Des unités de Reconnaissance pour harceler et
+                              pister l’ennemi.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Assaut de Choc
+                            <span class="tooltip"
+                              >Des unités d’Assaut Lourd chargées de briser les
+                              lignes ennemies.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Première Frappe
+                            <span class="tooltip"
+                              >Des unités d’Attaque Rapide qui frappent vite et
+                              se replient aussitôt.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="orga-fleche">
+                        <span aria-hidden="true">▼</span> 1 si tu as pris un
+                        Quartier Général <span aria-hidden="true">▼</span>
+                      </div>
+
+                      <!-- ===================== DÉTACHEMENTS D’APEX ===================== -->
+                      <div class="orga-groupe">
+                        <h2>Détachements d’apex</h2>
+                        <div class="orga-cases">
+                          <div class="orga-boite" tabindex="0">
+                            Escorte de Combat
+                            <span class="tooltip"
+                              >Des unités de Suite : les gardes du corps de tes
+                              officiers.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Cadre d’Officiers
+                            <span class="tooltip"
+                              >Des officiers supplémentaires (Quartier Général)
+                              pour commander la légion.</span
+                            >
+                          </div>
+                          <div class="orga-boite" tabindex="0">
+                            Avant-garde d’Armée
+                            <span class="tooltip"
+                              >Des unités d’Élite, les guerriers les plus
+                              redoutables de ton armée.</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="encadre">
+                      <p>
+                        <strong>À retenir :</strong> une armée doit inclure 1
+                        détachement principal. Elle peut toujours inclure
+                        n’importe quel nombre de détachements Alliés, jusqu’à 1
+                        détachement Seigneur des Batailles, et un nombre de
+                        détachements auxiliaires/d’apex déterminé par tes cases
+                        d’État-Major et de Quartier Général.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== RÔLES TACTIQUES ===================== -->
+              <div class="timeline-item" id="roles-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les rôles tactiques
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Chaque unité du jeu possède un
+                      <strong>rôle tactique</strong> : une case « Troupes » ne
+                      peut accueillir qu’une unité de rôle tactique Troupes,
+                      etc.
+                    </p>
+
+                    <div class="table-scroll">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th scope="col" class="gauche">Rôle tactique</th>
+                            <th scope="col" class="gauche">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les primarques et une poignée de puissants
+                              guerriers. On ne peut dépenser plus de 25 % de sa
+                              limite de points pour Seigneur de Guerre +
+                              Seigneur des Batailles.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Quartier Général</strong>
+                            </td>
+                            <td class="gauche">
+                              Les officiers les plus haut gradés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>État-Major</strong></td>
+                            <td class="gauche">
+                              Les officiers de ligne de l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Suite</strong></td>
+                            <td class="gauche">
+                              Les guerriers chargés de protéger les officiers de
+                              l’armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Élite</strong></td>
+                            <td class="gauche">
+                              Les plus redoutables guerriers d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Engin de Guerre</strong>
+                            </td>
+                            <td class="gauche">
+                              Les Dreadnoughts des Legiones Astartes et autres
+                              machines de guerre similaires.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Troupes</strong></td>
+                            <td class="gauche">
+                              Les troupes de ligne qui tiennent le terrain et
+                              permettent aux généraux de vaincre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Appui</strong></td>
+                            <td class="gauche">
+                              Des troupes d’appui qui aident les autres
+                              guerriers à mener à bien leur mission.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Seigneur des Batailles</strong>
+                            </td>
+                            <td class="gauche">
+                              Les unités les plus imposantes et puissantes d’une
+                              armée. Même limite de 25 % partagée avec Seigneur
+                              de Guerre.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Transport</strong></td>
+                            <td class="gauche">
+                              Les unités chargées de convoyer les troupes
+                              vulnérables.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Assaut Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités d’assaut lourdes chargées de briser les
+                              lignes ennemies.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Transport Lourd</strong>
+                            </td>
+                            <td class="gauche">
+                              Les transports les plus lourds et les mieux
+                              protégés d’une armée.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Blindés</strong></td>
+                            <td class="gauche">
+                              Des véhicules blindés équipés des armes les plus
+                              puissantes que l’on puisse déployer sur le
+                              terrain.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche"><strong>Reco.</strong></td>
+                            <td class="gauche">
+                              Des soldats et cavaliers légers chargés de
+                              harceler, poursuivre et pister l’ennemi.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="gauche">
+                              <strong>Attaque Rapide</strong>
+                            </td>
+                            <td class="gauche">
+                              Des unités rapides capables de frapper l’ennemi et
+                              de se replier à grande vitesse.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== CASES PRINCIPALES ===================== -->
+              <div class="timeline-item" id="cases-principales-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Les cases Principales
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Certaines cases de l’organigramme portent un symbole
+                      spécial : ce sont les <strong>cases Principales</strong>.
+                      Elles octroient un bénéfice : un
+                      <strong>avantage principal</strong> au choix parmi les 5
+                      ci-dessous. Ce sont surtout des améliorations de
+                      caractéristiques… sauf une, très forte pour structurer ta
+                      liste.
+                    </p>
+                    <p>
+                      <em>Cas particulier :</em> si l’unité choisie inclut des
+                      figurines de sous-type
+                      <strong class="regle-tag" tabindex="0"
+                        >Unique<span class="tooltip"
+                          >Une armée ne peut inclure qu'un seul exemplaire d'une
+                          figurine de ce sous-type. Une figurine de sous-type
+                          Unique, ou une unité entièrement composée de telles
+                          figurines, ne peut avoir d'autres options que celles
+                          sélectionnées pour elle dans son profil de liste
+                          d'armée.</span
+                        ></strong
+                      >, les seuls avantages principaux disponibles sont
+                      Affectation Spéciale et Bénéfice Logistique.
+                    </p>
+
+                    <!-- ===================== ACCORDÉON DES AVANTAGES ===================== -->
+                    <div class="accordeon">
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Maître-sergent
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Sergent<span class="tooltip"
+                                  >Le joueur en contrôle d'une unité qui inclut
+                                  une ou plusieurs figurines de sous-type
+                                  Sergent peut utiliser les caractéristiques
+                                  d'une de ces figurines pour résoudre tout test
+                                  de caractéristique fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et
+                                commandement</strong
+                              >, ainsi que le sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >Champion<span class="tooltip"
+                                  >Une figurine de sous-type Champion peut
+                                  lancer et relever des défis.</span
+                                ></strong
+                              >
+                              (si elle est déjà Champion, elle gagne à la place
+                              +1 en commandement).
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> adapté à
+                              la Maîtresse du Néant de ton Cadre Anathema. Une
+                              Maîtresse du Néant Championne peut lancer et
+                              relever des défis.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Vétérans de Combat
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Toutes les figurines</strong> de l’unité
+                              occupant la case Principale gagnent
+                              <strong
+                                >+1 en commandement, sang-froid, intelligence et
+                                volonté</strong
+                              >
+                              (maximum 10). Cela ne concerne que les figurines
+                              faisant partie de l’unité, pas celles qui la
+                              rejoignent avant ou pendant la bataille.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> ces
+                              caractéristiques servent aux tests de moral et aux
+                              statuts tactiques. Une unité Vétérans de Combat
+                              résiste mieux à la panique : adaptée à l’escouade
+                              qui tient ton objectif principal.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Parangon de Bataille
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Une figurine de l’unité occupant la case
+                              Principale, de sous-type
+                              <strong class="regle-tag" tabindex="0"
+                                >État-major<span class="tooltip"
+                                  >Une figurine de sous-type État-major peut
+                                  rejoindre et quitter des unités, ainsi que
+                                  lancer et relever des défis. Le joueur en
+                                  contrôle d'une unité qui en inclut une ou
+                                  plusieurs peut utiliser ses caractéristiques
+                                  pour résoudre tout test de caractéristique
+                                  fait pour l'unité.</span
+                                ></strong
+                              >, gagne
+                              <strong
+                                >+1 en attaques, capacité de combat et capacité
+                                de tir</strong
+                              >.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> à réserver à
+                              un officier destiné au combat. Une Chevalière
+                              Centura Parangon de Bataille frappe plus souvent
+                              et plus juste.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Affectation Spéciale
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              Choisissable seulement pour une
+                              <strong>case d’État-major</strong>. La case peut
+                              alors être occupée par une unité de
+                              <strong>Quartier Général</strong>, tout en restant
+                              une case d’État-major. En revanche, cette case
+                              n’ouvre la sélection d’<strong
+                                >aucun détachement supplémentaire</strong
+                              >, quel que soit son rôle tactique ou les règles
+                              spéciales de l’unité choisie.
+                            </p>
+                            <p class="conseil-debutant">
+                              <strong>Conseil pratique :</strong> pratique pour
+                              aligner un second personnage important sans
+                              dépasser la limite de 1 Quartier Général. En
+                              contrepartie, tu perds le détachement auxiliaire
+                              que cet État-Major aurait débloqué.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordeon-item">
+                        <h4 class="accordeon-entete">
+                          <button
+                            type="button"
+                            class="accordeon-titre"
+                            aria-expanded="false"
+                          >
+                            Bénéfice Logistique
+                            <span class="chevron" aria-hidden="true">❯</span>
+                          </button>
+                        </h4>
+                        <div class="accordeon-contenu">
+                          <div class="accordeon-contenu-inner">
+                            <p>
+                              <strong>Ajoute une case au détachement</strong>
+                              qui inclut la case Principale. Cette case peut
+                              avoir
+                              <strong>n’importe quel rôle tactique</strong>,
+                              sauf Quartier Général, État-major, Seigneur de
+                              Guerre ou Seigneur des Batailles.
+                            </p>
+                            <p>
+                              Cet avantage ne peut être sélectionné qu’<strong
+                                >une fois par détachement</strong
+                              >.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== ANATHEMA PSYKANA EN GUERRE ===================== -->
+              <div class="timeline-item" id="en-guerre-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    L’Anathema Psykana en Guerre
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      À la différence des Unités d’autres Listes d’Armée,
+                      celles de la Liste d’Armée de l’Anathema Psykana n’ont
+                      pas d’Allégeance optionnelle représentée par le Trait
+                      <em>[Allégeance]</em>, car elles ont toujours le Trait
+                      <strong>Loyaliste</strong>. Par conséquent, on ne peut
+                      sélectionner ces Unités que dans une Armée d’Allégeance
+                      Loyaliste — le sélecteur d’Allégeance des paramètres de
+                      la partie se verrouille automatiquement dessus dès que
+                      tu choisis cette Faction.
+                    </p>
+                    <div class="encadre">
+                      <p>
+                        <strong>Point de Réaction Bonus :</strong> si le
+                        Détachement Principal de ton Armée est issu de la
+                        Liste d’Armée de l’Anathema Psykana, tu gagnes un
+                        <strong>Point de Réaction bonus</strong> pour ce
+                        Détachement s’il inclut au moins une Unité qui a le
+                        Trait <strong>Investigatus-Militant</strong>
+                        (Chevalière Centura, Jenetia Krole).
+                      </p>
+                    </div>
+                    <p class="conseil-debutant">
+                      <strong>Conseil pratique :</strong> inclure une
+                      Chevalière Centura ou Jenetia Krole dans ton
+                      Détachement Principal ne coûte donc pas seulement des
+                      Points — ça te rapporte un Point de Réaction
+                      supplémentaire à dépenser en cours de partie.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================== TACTICA DE DIVISIO ===================== -->
+              <div class="timeline-item" id="tactica-anathema-psykana">
+                <h3 class="timeline-entete">
+                  <button
+                    type="button"
+                    class="timeline-titre"
+                    aria-expanded="false"
+                  >
+                    Tactica de Divisio : Anathème
+                    <span class="chevron" aria-hidden="true">❯</span>
+                  </button>
+                </h3>
+                <div class="timeline-details">
+                  <div class="timeline-details-inner">
+                    <p>
+                      Toutes les figurines qui ont le Trait Anathema
+                      Psykana, sauf celles de Type <strong>Véhicule</strong>
+                      (l’Acquisitor Modèle Kharon), ont la Règle Spéciale
+                      <strong class="regle-tag" tabindex="0"
+                        >Anathème<span class="tooltip"
+                          >Les Figurines ayant cette Règle Spéciale ignorent
+                          les effets des Aptitudes Psychiques et des Armes
+                          Psychiques, et une Arme qui a le Trait Psychique ou
+                          Immatériel ne peut les blesser que sur 5+.</span
+                        ></strong
+                      >.
+                    </p>
+                    <p>
+                      Concrètement : tes Sœurs du Silence ignorent purement
+                      et simplement les Aptitudes et Armes Psychiques
+                      adverses, et une Arme à Trait <strong>Psychique</strong>
+                      ou <strong>Immatériel</strong> ne les blesse que sur
+                      <strong>5+</strong>. En outre, contre une Unité
+                      entièrement Anathème, les Jets de Blessure d’une Arme
+                      Psychique ou Immatérielle qui obtiennent un résultat
+                      non modifié de 1, 2, 3 ou 4 sont toujours des échecs,
+                      quelle que soit la Règle Spéciale qui fixe
+                      normalement leur Nombre Cible — sans effet, en
+                      revanche, sur la Pénétration de Blindage.
+                    </p>
+                    <p class="conseil-debutant">
+                      <strong>Conseil pratique :</strong> c’est la meilleure
+                      arme de l’Anathema Psykana contre les Psykers et les
+                      Unités Maléfiques (voir la Règle Spéciale Haine
+                      (Psykers, Maléfiques) sur presque toutes tes Unités) —
+                      colle du Cadre Anathema ou de la Chevalière Centura au
+                      contact d’une Unité à Psykers pour la neutraliser.
+                    </p>
+                  </div>
+                </div>
+              </div>            </div>
+            <p>
+              <strong>Rappel :</strong> ces fiches sont une retranscription
+              manuelle, mais c’est le livre de règles et le livre d’armée qui
+              font référence en cas de doute.
+            </p>
+          </div>
+        </div>
       </section>
 
       <!-- ===================== POINTS + VALIDATION =====================

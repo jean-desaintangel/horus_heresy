@@ -2339,6 +2339,28 @@ footer p {
   color: var(--accent-texte);
 }
 
+/* Duplication d'une unité (voir dupliquerUnite dans js/unites.js) :
+   même gabarit que .unite-bascule/.unite-retirer, entre les deux. */
+.unite-dupliquer {
+  font-family: "Lato", sans-serif;
+  font-size: 0.85rem;
+  background: var(--carte);
+  color: var(--titre-contraste);
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.unite-dupliquer:hover,
+.unite-dupliquer:focus-visible {
+  border-color: var(--accent-texte);
+  color: var(--accent-texte);
+}
+
 /* Fiche repliée : seul l'en-tête (nom, coût, boutons) reste visible
    à l'écran. Toujours dépliée à l'impression (voir @media print
    plus bas), où la fiche récap est le contenu recherché. */
@@ -2540,6 +2562,7 @@ footer p {
   .unite-config,
   .unite-retirer,
   .unite-bascule,
+  .unite-dupliquer,
   .fiche-ligne--notes {
     display: none !important;
   }
@@ -3307,6 +3330,68 @@ body.skin-legion-mechanicum {
     radial-gradient(
       circle at 0% 100%,
       rgba(184, 150, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+/* Legio Custodes, Anathema Psykana, Conclaves Skitarii (Factions sans
+   blason fourni à ce jour) : skins couleurs seules, sur le même
+   principe que ci-dessus mais sans logo (voir SKIN_LEGIO_CUSTODES/
+   SKIN_ANATHEMA_PSYKANA/SKIN_SKITARII, js/organigramme.js) — à
+   compléter avec des blasons si des images deviennent disponibles. */
+body.skin-legion-legio-custodes {
+  --accent: #7d5c17;
+  --accent-clair: #916d1c;
+  --fond-secondaire: #f0e6cf;
+  --carte-hover: #f6efdf;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(125, 92, 23, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(145, 109, 28, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-anathema-psykana {
+  --accent: #3d3e44;
+  --accent-clair: #54555c;
+  --fond-secondaire: #e6e6ea;
+  --carte-hover: #eeeef1;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(61, 62, 68, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(84, 85, 92, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-skitarii {
+  --accent: #7a4a1e;
+  --accent-clair: #9c611c;
+  --fond-secondaire: #ecdcc6;
+  --carte-hover: #f4ebdd;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(122, 74, 30, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(156, 97, 28, 0.08) 0%,
       transparent 50%
     );
 }

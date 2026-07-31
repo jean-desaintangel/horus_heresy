@@ -52,21 +52,19 @@ const Organigramme = (() => {
   const LEGIONS_INDISPONIBLES = [];
 
   // Factions du menu « Faction » (p. 282, « Armée » au Livre de Règles) :
-  // Legio Custodes reste grisée, son roster n'ayant que 3 Unités
-  // transcrites à ce jour (voir project_legio_custodes_roster, mémoire
-  // de session) — repasser à `true` une fois le reste du livre transcrit.
   // Chevaliers Questoris n'a pas encore d'unité transcrite (voir
   // MAISONNEES/SKINS_MAISONNEE ci-dessous) : le menu « Maisonnée » qui
   // remplace le menu Légion pour cette Faction pose seulement le cadre
   // (skin, état, organigramme vierge) en attendant.
   const FACTIONS = [
     ["legio-astartes", "Legio Astartes", true],
-    ["legio-custodes", "Legio Custodes", false],
+    ["legio-custodes", "Legio Custodes", true],
     ["legio-titanicus", "Legio Titanicus", true],
     ["chevaliers-questoris", "Chevaliers Questoris", true],
     ["mechanicum", "Mechanicum", true],
     ["solar-auxilia", "Solar Auxilia", true],
     ["skitarii", "Conclaves Skitarii", true],
+    ["anathema-psykana", "Anathema Psykana", true],
   ];
 
   const LEGIONS = [
@@ -384,6 +382,40 @@ const Organigramme = (() => {
     ],
   };
 
+  /* Skins des Factions Legio Custodes, Anathema Psykana et Conclaves
+     Skitarii : même mécanique que SKIN_MECHANICUM ci-dessus (classe
+     posée sur <body>, recolore --accent/--accent-clair/--fond-
+     secondaire/--carte-hover), mais SANS blason — contrairement à
+     tous les autres skins de ce fichier, aucun asset d'image n'existe
+     pour ces trois Factions (pas de fan-art/héraldique sourcée), et il
+     n'est pas possible d'en fabriquer une soi-même. Choix confirmé par
+     le propriétaire (2026-08-01) : préférer un skin couleur seule dès
+     maintenant plutôt qu'attendre une image, quitte à ajouter les
+     blasons plus tard si des fichiers deviennent disponibles (suivre
+     alors exactement le modèle blasons: [...] de SKIN_MECHANICUM). Pas
+     de hook skinXxxActuel()/cheminLogoXxxActuel() pour la page de garde
+     du PDF/Word non plus, par cohérence avec Mechanicum qui n'en a pas
+     déjà (aucun texte de Faction sur cette page-là pour l'instant, même
+     gap pré-existant). */
+  const SKIN_LEGIO_CUSTODES = {
+    classe: "skin-legion-legio-custodes",
+    nom: "Legio Custodes",
+    devise:
+      "Gardiens muets du Trône Doré, les Custodiens ne connaissent ni doute ni repos : leur seul serment est de veiller sur l'Empereur, jusqu'à la mort et au-delà.",
+  };
+  const SKIN_ANATHEMA_PSYKANA = {
+    classe: "skin-legion-anathema-psykana",
+    nom: "Anathema Psykana",
+    devise:
+      "Muettes dans le Warp comme dans le silence, les Sœurs du Silence ne craignent ni sorcier ni démon : leur seule voix est celle de l'espadon qui juge.",
+  };
+  const SKIN_SKITARII = {
+    classe: "skin-legion-skitarii",
+    nom: "Conclaves Skitarii",
+    devise:
+      "Vassaux augmentés des Seigneurs des Forges, les Pérégrins de Combat Skitarii marchent sans relâche, corps et âme sacrifiés à la quête des reliques perdues.",
+  };
+
   /* Skins des types de Maisonnée (livre d'armée Chevaliers Questoris) :
      même mécanique que SKINS_LEGION (classe posée sur <body>, recolore
      --accent/--accent-clair/--fond-secondaire/--carte-hover, voir
@@ -413,6 +445,18 @@ const Organigramme = (() => {
       devise:
         "Sans monde ni serment fixe, ces Maisonnées errantes louent leurs lames au plus offrant, de champ de bataille en champ de bataille.",
     },
+  };
+
+  // Détachement Additionnel débloqué par le Paradigme de chaque
+  // Maisonnée (livre Chevaliers Questoris, Paradigmes de Maisonnée) —
+  // voir maisonneePertinentePourDetachement/detachementDebloque
+  // ci-dessous pour le mécanisme complet. Utilisé uniquement pour
+  // nommer ce Détachement sur la page de garde du PDF/Word
+  // (js/unites.js), pas pour la logique de déblocage elle-même.
+  const DETACHEMENT_PARADIGME_MAISONNEE = {
+    imperialis: "Maisnie Roturière",
+    mechanicum: "Serre d'Automates",
+    mendicus: "Serre d'Armigères",
   };
 
   /* Skins des Désignations de Legiones Auxilia (livre Legiones Auxilia
@@ -701,22 +745,23 @@ const Organigramme = (() => {
   // Faction implicite d'un Détachement Type qui ne déclare pas son
   // propre champ `faction` (principal, poing-blinde, seigneur-guerre,
   // avant-garde…) : Legio Astartes, Solar Auxilia (Liber Auxilia),
-  // Mechanicum (Liber Mechanicum), Conclaves Skitarii ET Legio Custodes
-  // partagent le même Organigramme de Force de Croisade (p. 283) et ses
-  // Détachements Auxiliaires/d'Apex standard (Convocations de Moritoi/
-  // Hykanatoi/Tharanatoi/Euphoroi/Cataphractoi, js/organigramme-data.js
-  // — préparées par anticipation avant même la première Unité Custodes
-  // transcrite), contrairement à Legio Titanicus (Ordinal Titanique) et
-  // Chevaliers Questoris (Détachement Principal de Maisonnées), qui ont
-  // chacun le leur — d'où le repli par défaut sur "legio-astartes" tant
-  // que l'Armée n'est ni Solar Auxilia, ni Mechanicum, ni Skitarii, ni
-  // Legio Custodes. Utilisé par typeDisponiblePourFaction() et
-  // caseAccepte().
+  // Mechanicum (Liber Mechanicum), Conclaves Skitarii, Legio Custodes ET
+  // Anathema Psykana partagent le même Organigramme de Force de
+  // Croisade (p. 283) et ses Détachements Auxiliaires/d'Apex standard
+  // (Convocations de Moritoi/Hykanatoi/Tharanatoi/Euphoroi/Cataphractoi,
+  // js/organigramme-data.js — préparées par anticipation avant même la
+  // première Unité Custodes transcrite), contrairement à Legio
+  // Titanicus (Ordinal Titanique) et Chevaliers Questoris (Détachement
+  // Principal de Maisonnées), qui ont chacun le leur — d'où le repli
+  // par défaut sur "legio-astartes" tant que l'Armée n'est ni Solar
+  // Auxilia, ni Mechanicum, ni Skitarii, ni Legio Custodes, ni Anathema
+  // Psykana. Utilisé par typeDisponiblePourFaction() et caseAccepte().
   function factionCroisadeParDefaut() {
     return etat.faction === "solar-auxilia" ||
       etat.faction === "mechanicum" ||
       etat.faction === "skitarii" ||
-      etat.faction === "legio-custodes"
+      etat.faction === "legio-custodes" ||
+      etat.faction === "anathema-psykana"
       ? etat.faction
       : "legio-astartes";
   }
@@ -2610,14 +2655,17 @@ const Organigramme = (() => {
       if (riteActif && riteActif.allegeanceForcee) {
         etat.allegeance = riteActif.allegeanceForcee;
       }
-      // La Legio Custodes n'a pas de variante Renégate (voir le forçage
-      // au changement de Faction plus bas) : une sauvegarde antérieure
-      // avec une autre Faction en Allégeance Renégate ne doit pas
-      // ressusciter en Renégat au rechargement de la page, sinon les 3
-      // Unités Custodes (Trait fixe « Loyaliste ») disparaissent
-      // silencieusement du sélecteur « Unité à ajouter » (uniteAccessible,
-      // js/unites.js).
-      if (etat.faction === "legio-custodes") {
+      // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
+      // Renégate (voir le forçage au changement de Faction plus bas) :
+      // une sauvegarde antérieure avec une autre Faction en Allégeance
+      // Renégate ne doit pas ressusciter en Renégat au rechargement de
+      // la page, sinon leurs Unités (Trait fixe « Loyaliste »)
+      // disparaissent silencieusement du sélecteur « Unité à ajouter »
+      // (uniteAccessible, js/unites.js).
+      if (
+        etat.faction === "legio-custodes" ||
+        etat.faction === "anathema-psykana"
+      ) {
         etat.allegeance = "loyaliste";
       }
       if (!Array.isArray(donnees.detachements)) return;
@@ -2944,13 +2992,16 @@ const Organigramme = (() => {
         etat.maisonnee = "";
         etat.doctrineCohorte = "";
         etat.designationAuxilia = "";
-        // La Legio Custodes n'a pas de variante Renégate dans son livre
-        // d'armée (toutes ses unités portent le Trait fixe « Loyaliste »,
-        // voir js/unites-data.js) : sans ce forçage, une Allégeance
-        // Renégate laissée par une Faction précédente masquait
-        // silencieusement TOUTES les unités Custodes dans le sélecteur
-        // « Unité à ajouter » (uniteAccessible, js/unites.js).
-        if (nouvelleFaction === "legio-custodes") {
+        // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
+        // Renégate dans leur livre d'armée (toutes leurs unités portent
+        // le Trait fixe « Loyaliste », voir js/unites-data.js) : sans ce
+        // forçage, une Allégeance Renégate laissée par une Faction
+        // précédente masquait silencieusement TOUTES leurs unités dans
+        // le sélecteur « Unité à ajouter » (uniteAccessible, js/unites.js).
+        if (
+          nouvelleFaction === "legio-custodes" ||
+          nouvelleFaction === "anathema-psykana"
+        ) {
           etat.allegeance = "loyaliste";
         }
       }
@@ -3211,11 +3262,12 @@ const Organigramme = (() => {
     ]) {
       ajouterOption(selectAllegeance, valeur, texte);
     }
-    // La Legio Custodes n'a pas de variante Renégate dans son livre
-    // d'armée : verrouillée sur Loyaliste, comme une Allégeance forcée
-    // par un Rite de Guerre (voir le forçage au changement de Faction
-    // ci-dessus).
-    const allegeanceForceeCustodes = etat.faction === "legio-custodes";
+    // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
+    // Renégate dans leur livre d'armée : verrouillées sur Loyaliste,
+    // comme une Allégeance forcée par un Rite de Guerre (voir le
+    // forçage au changement de Faction ci-dessus).
+    const allegeanceForceeCustodes =
+      etat.faction === "legio-custodes" || etat.faction === "anathema-psykana";
     selectAllegeance.value = etat.allegeance;
     selectAllegeance.disabled =
       Boolean(allegeanceForcee) || allegeanceForceeCustodes;
@@ -3224,7 +3276,9 @@ const Organigramme = (() => {
         "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
     } else if (allegeanceForceeCustodes) {
       selectAllegeance.title =
-        "La Legio Custodes ne compte aucune unité Renégate.";
+        etat.faction === "anathema-psykana"
+          ? "L'Anathema Psykana ne compte aucune unité Renégate."
+          : "La Legio Custodes ne compte aucune unité Renégate.";
     }
     selectAllegeance.addEventListener("change", () => {
       const nouvelleAllegeance = selectAllegeance.value;
@@ -3254,6 +3308,9 @@ const Organigramme = (() => {
       document.body.classList.remove(info.classe);
     }
     document.body.classList.remove(SKIN_MECHANICUM.classe);
+    document.body.classList.remove(SKIN_LEGIO_CUSTODES.classe);
+    document.body.classList.remove(SKIN_ANATHEMA_PSYKANA.classe);
+    document.body.classList.remove(SKIN_SKITARII.classe);
     for (const info of Object.values(SKINS_DESIGNATION_AUXILIA)) {
       document.body.classList.remove(info.classe);
     }
@@ -3264,6 +3321,12 @@ const Organigramme = (() => {
     const skinMaison = SKINS_MAISONNEE[etat.maisonnee] || null;
     const skinMechanicum =
       etat.faction === "mechanicum" ? SKIN_MECHANICUM : null;
+    const skinLegioCustodes =
+      etat.faction === "legio-custodes" ? SKIN_LEGIO_CUSTODES : null;
+    const skinAnathemaPsykana =
+      etat.faction === "anathema-psykana" ? SKIN_ANATHEMA_PSYKANA : null;
+    const skinSkitarii =
+      etat.faction === "skitarii" ? SKIN_SKITARII : null;
     const skinDesignation =
       SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia] || null;
     const titre = document.querySelector("h1.titre-page");
@@ -3377,6 +3440,33 @@ const Organigramme = (() => {
       banniere.appendChild(entete);
       if (skinMechanicum.devise)
         banniere.appendChild(el("em", null, skinMechanicum.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinLegioCustodes) {
+      // Skin couleurs seules, sans blason (voir SKIN_LEGIO_CUSTODES).
+      document.body.classList.add(skinLegioCustodes.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinLegioCustodes.nom);
+      banniere.appendChild(entete);
+      if (skinLegioCustodes.devise)
+        banniere.appendChild(el("em", null, skinLegioCustodes.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinAnathemaPsykana) {
+      // Skin couleurs seules, sans blason (voir SKIN_ANATHEMA_PSYKANA).
+      document.body.classList.add(skinAnathemaPsykana.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinAnathemaPsykana.nom);
+      banniere.appendChild(entete);
+      if (skinAnathemaPsykana.devise)
+        banniere.appendChild(el("em", null, skinAnathemaPsykana.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinSkitarii) {
+      // Skin couleurs seules, sans blason (voir SKIN_SKITARII).
+      document.body.classList.add(skinSkitarii.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinSkitarii.nom);
+      banniere.appendChild(entete);
+      if (skinSkitarii.devise)
+        banniere.appendChild(el("em", null, skinSkitarii.devise));
       conteneur.appendChild(banniere);
     } else if (skinDesignation) {
       document.body.classList.add(skinDesignation.classe);
@@ -4219,6 +4309,33 @@ const Organigramme = (() => {
     if (sectionTutorielMechanicum) {
       sectionTutorielMechanicum.hidden = etat.faction !== "mechanicum";
     }
+    // Même logique pour les tutoriels Conclaves Skitarii, Legio Custodes
+    // et Anathema Psykana : ces trois Factions partagent le même
+    // Organigramme de Force de Croisade générique que Legio Astartes
+    // (voir factionCroisadeParDefaut ci-dessus), donc un tutoriel quasi
+    // identique — construction-liste.html en a une copie adaptée par
+    // Faction (exemples d'Unités propres, sans le panneau « Décurion de
+    // Légion », propre aux Legiones Astartes) plutôt qu'un seul texte
+    // générique, pour rester cohérent avec le principe déjà établi ici
+    // (un tutoriel entier par Faction, pas de contenu partagé factorisé).
+    const sectionTutorielSkitarii = document.getElementById(
+      "construction-armee-skitarii",
+    );
+    if (sectionTutorielSkitarii) {
+      sectionTutorielSkitarii.hidden = etat.faction !== "skitarii";
+    }
+    const sectionTutorielCustodes = document.getElementById(
+      "construction-armee-legio-custodes",
+    );
+    if (sectionTutorielCustodes) {
+      sectionTutorielCustodes.hidden = etat.faction !== "legio-custodes";
+    }
+    const sectionTutorielAnathema = document.getElementById(
+      "construction-armee-anathema-psykana",
+    );
+    if (sectionTutorielAnathema) {
+      sectionTutorielAnathema.hidden = etat.faction !== "anathema-psykana";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");
@@ -4408,6 +4525,35 @@ const Organigramme = (() => {
         ".png"
       );
     },
+    // Équivalent skinActuel/cheminLogoActuel ci-dessus, mais pour la
+    // Maisonnée choisie (SKINS_MAISONNEE, Faction Chevaliers Questoris)
+    // plutôt qu'une Légion : null si aucune Maisonnée n'est choisie.
+    // Consommée par js/unites.js pour la page de garde du PDF/Word.
+    skinMaisonActuel: () => SKINS_MAISONNEE[etat.maisonnee] || null,
+    cheminLogoMaisonActuel: () => {
+      const skin = SKINS_MAISONNEE[etat.maisonnee];
+      return skin ? "../assets/logo_chevaliers/" + skin.blason : null;
+    },
+    // Nom du Détachement Additionnel débloqué par le Paradigme de la
+    // Maisonnée choisie (Serre d'Automates/Serre d'Armigères/Maisnie
+    // Roturière — voir plus haut maisonneePertinentePourDetachement/
+    // detachementDebloque). Simple table de correspondance (pas de texte
+    // de règle complet associé au Paradigme lui-même dans ce fichier,
+    // seul le nom du Détachement qu'il débloque est sûr à afficher).
+    // Retourne null si aucune Maisonnée n'est choisie.
+    detachementParadigmeMaisonActuel: () =>
+      DETACHEMENT_PARADIGME_MAISONNEE[etat.maisonnee] || null,
+    // Skins couleurs seules (SKIN_LEGIO_CUSTODES/SKIN_ANATHEMA_PSYKANA/
+    // SKIN_SKITARII ci-dessus, sans blason) : null si la Faction
+    // actuelle ne correspond pas. Consommées par js/unites.js pour la
+    // page de garde du PDF/Word, sur le même principe qu'une Légion mais
+    // sans logo à poser (pas d'appel à chargerImageDataURL).
+    skinLegioCustodesActuel: () =>
+      etat.faction === "legio-custodes" ? SKIN_LEGIO_CUSTODES : null,
+    skinAnathemaPsykanaActuel: () =>
+      etat.faction === "anathema-psykana" ? SKIN_ANATHEMA_PSYKANA : null,
+    skinSkitariiActuel: () =>
+      etat.faction === "skitarii" ? SKIN_SKITARII : null,
     // Factions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Faction a été choisie, doublons
     // possibles). Consommée par js/unites.js (uniteAccessible) pour

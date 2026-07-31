@@ -1883,5 +1883,587 @@ Règles Spéciales :
   sont distinctes et non redondantes, ce document ne comble que la
   première (déjà faite), la seconde reste un gap séparé.
 
+- **Roster Legio Custodes complété (livre d'armée officiel, GW 2026,
+  déjà en français)** : les 16 Unités restantes de
+  `project_legio_custodes_roster` (mémoire de session, désormais
+  satisfaite/à retirer) ajoutées à la suite des 3 Unités déjà
+  existantes (Sodalités de Gardes Adrasites/Pyrithites/Sagittarii) —
+  Constantin Valdor, Tribun, Capitaine-rempart, Sodalité de Terminators
+  Aquilon, Sodalité de Gardes Custodiens, Sodalité de Gardes
+  Sentinelles, Dreadnought Contemptor-Achillus/-Galatus/Lourd Telemon,
+  Graviporteur Coronus, Sodalité de Venatari, Sodalité de Motojets
+  Gyrfalcon, Antigrav d'Attaque Pallas, Char Antigrav Caladius,
+  Escorteur Ares, Navette d'Assaut Orion. Faction **dégrisée** dans le
+  menu « Faction » (`FACTIONS`, js/organigramme.js — le plombage de
+  l'Organigramme de Force partagé avec Legio Astartes/Solar Auxilia/
+  Mechanicum/Skitarii était déjà préparé par anticipation, rien à
+  ajouter côté organigramme.js/-data.js au-delà de ce commutateur et
+  des deux nouveaux Avantages Principaux ci-dessous).
+  **Gap volontaire, le plus large de ce fichier à ce jour** : aucune
+  page d'Arsenal (tableau de caractéristiques d'Armes) Legio Custodes
+  n'a été fournie pour ce lot de fiches, seulement les fiches d'Unité
+  elles-mêmes — contrairement aux 3 Unités précédentes, dont les 3
+  profils d'Armes (Lance adrasite/pyrithite, Arquebuse à bolts
+  Adrastus) provenaient d'une page d'Arsenal fournie lors d'une session
+  antérieure. Une bonne trentaine de noms d'Armes nouveaux (Pique de
+  feu Infernus, Destructeur cinétique, Lance de Gardien, Canon à bolts
+  Lastrum, toute la famille Carronade/Canon Arachnus, Lance-missiles
+  Spiculus, Ceste de Telemon, Lame de Galatus, etc.) restent donc du
+  texte d'équipement brut, sans entrée `armes-data.js` — conformément à
+  la règle 6 (ne jamais inventer un profil), étendue par analogie aux
+  profils d'Armes eux-mêmes. Seule exception : **La Lance Apollonienne**
+  (Constantin Valdor), profil complet (Tir ET Mêlée) donné en encart
+  dédié sur sa fiche, ajouté à `armes-data.js` sous ce nom tel quel
+  (matché par le moteur via `nomBase`, qui retire déjà tout suffixe
+  entre parenthèses des deux côtés de la comparaison — pas besoin du
+  marqueur « ¹ » utilisé pour Lance adrasite/pyrithite). Le Bocle Tarsus
+  et les deux Boucliers Praesidium (base et Gravis, ce dernier réservé
+  au Dreadnought Contemptor-Galatus) ont eux un texte de règle complet
+  (encarts dédiés dans le livre) : ajoutés à `js/regles-data.js` plutôt
+  qu'à `armes-data.js`, même principe que le Bouclier tempête modèle
+  Proteus déjà existant — le texte du Bouclier Praesidium de base
+  (non-Gravis) vient d'une annotation manuscrite du propriétaire
+  (« invulnérable 5+ / trait bouclier »), traitée comme faisant foi au
+  même titre qu'un texte tapé en conversation, et mise en forme par
+  analogie directe avec l'encart complet du Bouclier Praesidium Gravis
+  (même famille d'objet, ne diffère que par le palier).
+  Tactica de Legio (**Seule la Mort**), Réaction Avancée (**La Lame se
+  Scinde**) et les 4 Postures de Défi (**Élan du Rapace**, **Frappe des
+  Cieux**, **Fléau du Serpent du Monde**, **Égide de la Pierre**)
+  ajoutées à `regles-data.js` pour référence (texte intégral fourni)
+  mais **non injectées automatiquement** dans les `regles` des 19
+  Unités Legio Custodes : aucun mécanisme de rattachement Trait → Règle
+  Spéciale automatique n'existe sur ce site pour le Trait générique
+  `[Legio Custodes]` (à la différence de `reglesAppliquees`, réservé
+  aux Avantages Principaux d'une Case Principale) — gap accepté,
+  cohérent avec le fait que `[Legiones Astartes]` lui-même n'est
+  jamais injecté ligne à ligne dans aucune Unité de ce fichier.
+  **Deux nouveaux Avantages Principaux** (`AVANTAGES_PRINCIPAUX`,
+  js/organigramme-data.js) : **Préfet** (`uniteRequise: [{ id:
+  "custodes-capitaine-rempart" }]`, +1 PV de Base et Officier de Ligne
+  (2) — texte seul, non appliqué mécaniquement, même limite que
+  Castellan/Bardé de Fer) ; **Garde Hetaeron** (`unParArmee: true`,
+  porte à 2 la valeur de X de Guerrier Éternel (X) des Figurines
+  Infanterie/Cavalerie Legio Custodes — texte seul également).
+  **Gap accepté sur Garde Hetaeron** : le livre lève la restriction
+  0-1 par Armée une fois par Figurine à Trait Exemple d'Or présente
+  dans l'Armée (mécanique de comptage fin, sans équivalent
+  `exempteUnParArmeeSiMaisonnee`-like déjà prêt à l'emploi pour un
+  comptage à N exemplaires plutôt qu'un booléen) : non implémentée,
+  seule la restriction de base `unParArmee: true` est appliquée,
+  l'exception restant décrite en texte seul.
+  Les deux nouveaux Avantages utilisent `traitRequis: "[Legio
+  Custodes]"` (le Trait générique BRACKETÉ littéral, pas
+  "Legio Custodes" sans crochets) : cette Faction n'a pas de mécanisme
+  `SKINS_LEGION`-like de substitution Trait générique → nom de Légion
+  choisie (elle n'a qu'une seule Légion), donc `avantagesPossibles()`
+  compare directement contre la chaîne littérale déjà posée sur les 19
+  Unités — poser `traitRequis: "Legio Custodes"` (sans crochets)
+  n'aurait jamais matché aucune Unité de ce fichier.
+  **Deux divergences transcrites telles quelles depuis les fiches,
+  sans « correction » par supposition de symétrie** : le Dreadnought
+  Lourd Telemon liste « Fumigènes » en équipement mais SEULEMENT
+  « Loyaliste »/« Legio Custodes » en Traits, sans « Écran de Fumée »
+  (à la différence des deux autres Dreadnoughts Custodes, qui l'ont
+  bien) ; « Affrelance Achillus » (arme de mêlée du Dreadnought
+  Contemptor-Achillus) est le nom exact imprimé sur la fiche fournie,
+  conservé tel quel malgré sa sonorité inhabituelle plutôt que
+  substitué par une traduction plus attendue (Griffe/Serre Achillus) —
+  à vérifier contre le livre si le propriétaire a un doute sur l'un ou
+  l'autre point.
+  **Bug critique découvert après coup (2026-08-01), à surveiller pour
+  toute future Unité** : Constantin Valdor, Dreadnought Contemptor-
+  Galatus, Escorteur Ares et Navette d'Assaut Orion avaient été écrits
+  sans champ `options` du tout (au lieu de `options: []`) — sur ce
+  fichier, TOUTE Unité doit porter ce champ même vide, car
+  `valeursParDefaut()` (js/unites.js) fait `for (const opt of
+  unite.options)` sans jamais vérifier que le tableau existe. Résultat :
+  le bouton « Ajouter à la liste » plantait silencieusement (`TypeError:
+  unite.options is not iterable`) dès qu'on choisissait une de ces
+  Unités, sans aucun message d'erreur visible sur la page — repéré
+  seulement en reproduisant le clic dans un DOM headless (jsdom) après
+  signalement du propriétaire, `node --check` ne détectant évidemment
+  rien puisque le JSON est syntaxiquement valide. Corrigé en ajoutant
+  `options: []` aux quatre Unités ; vérifié qu'aucune autre Unité du
+  fichier (Legio Custodes ou non) n'a le même défaut via un script
+  Node dédié (`Array.isArray(u.options)` sur tout `UNITES`). Relire
+  systématiquement ce champ après avoir écrit une nouvelle Unité SANS
+  option (Figurine unique, Véhicule sans échange), le cas qui l'omet
+  le plus facilement puisqu'aucune option n'est du tout nécessaire.
+  Deux Règles Spéciales de ce chantier ont aussi été corrigées après
+  relecture d'une photo plus nette envoyée une seconde fois par le
+  propriétaire : **Frappe des Cieux** (Posture) ne précise dans le
+  livre AUCUN sens d'arrondi pour la division par deux de la
+  Caractéristique d'Attaques — « arrondi au supérieur » avait été
+  inventé, retiré ; **La Lame se Scinde** (Réaction Avancée) omettait
+  la condition de la section « Cible » (Unité Réactive uniquement
+  composée de Figurines à Traits Legio Custodes ET La Sodalité, au
+  moins six Figurines) — réintégrée. Retenir de cet épisode : relire
+  une transcription face à une photo plus nette quand le propriétaire
+  la renvoie, même si le contenu semble être « le même » qu'une session
+  précédente — ce n'est pas une répétition superflue.
+
+- **Nouvelle Faction « Anathema Psykana » (livre d'armée officiel, la
+  Sororité Silencieuse)** : 4 Unités ajoutées (Jenetia Krole → Quartier
+  Général, Chevalière Centura → État-major, Cadre Anathema → Troupes,
+  Acquisitor Modèle Kharon → Transports Lourds), catégories données
+  explicitement par le propriétaire plutôt que devinées. Faction
+  enregistrée dans `FACTIONS` (js/organigramme.js, activée `true`
+  d'emblée : contrairement à Legio Custodes qui était restée grisée
+  faute de roster complet à l'origine, les 4 Unités couvrent ici tout
+  ce qui a été fourni) et dans `factionCroisadeParDefaut()` (partage
+  l'Organigramme de Force de Croisade générique avec Legio Astartes/
+  Mechanicum/Solar Auxilia/Skitarii/Legio Custodes, sur le même
+  principe déjà établi) ; `LIBELLES_FACTION` (js/unites.js) complété.
+  Comme la Legio Custodes, cette Liste d'Armée n'a pas de variante
+  Renégate (toutes les Unités ont le Trait fixe « Loyaliste ») : les
+  QUATRE points de forçage Allégeance→Loyaliste déjà identifiés pour
+  Legio Custodes (restauration depuis localStorage, changement de
+  Faction, verrouillage + info-bulle du `<select>` Allégeance) ont
+  chacun été étendus à `anathema-psykana` en même temps que le
+  changement de Faction lui-même, plutôt que découverts un par un au
+  fil de bugs signalés plus tard — dupliquer ce chantier "4 points de
+  forçage" pour toute future Faction Loyaliste-only.
+  Toutes les Unités portent le Trait générique `[Anathema Psykana]`
+  (même mécanique de masquage sur la fiche récap que `[Legio
+  Custodes]`/`[Legiones Astartes]`, ajouté au filtre de
+  `construireFiche`, js/unites.js) et le Trait organisationnel
+  générique « Serres de l'Empereur » (pas de texte intégral fourni,
+  laissé en texte brut, comme « La Sodalité » l'a longtemps été pour
+  Legio Custodes avant que son texte ne soit connu). « Ex Oblivio »
+  (Chevalière Centura, Jenetia Krole) n'a lui non plus aucun texte
+  connu : nom seul dans `regles`, conformément à la règle 6.
+  Nouvelles Règles Spéciales ajoutées à `regles-data.js` (texte
+  intégral fourni) : **Anathème** (Tactica de Divisio : ignore les
+  Aptitudes/Armes Psychiques, blessée seulement sur 5+ par une Arme
+  Psychique/Immatérielle, immunité aux échecs 1-4 non modifiés sur les
+  Jets de Blessure d'Unités entièrement Anathème contre Anathème — sans
+  effet sur la Pénétration de Blindage), **La Reine Sans Âme** (Posture
+  de Défi de Jenetia Krole, nommée « Frappe Abyssale » dans le texte
+  détaillé, sur le même principe de Posture nommée que les Primarques/
+  personnages uniques déjà transcrits), et **Investigatus-Militant**
+  (Trait accordant un Point de Réaction bonus au Détachement Principal,
+  calqué sur l'entrée déjà existante « État-major Suprême de Cohorte »,
+  Solar Auxilia, même mécanique non simulée mécaniquement — texte
+  informatif seul, comme son modèle).
+  Nouvelle Arme **L'Épée de l'Oubli** (Jenetia Krole, Mêlée seule,
+  profil complet donné en encart dédié sur sa fiche) ajoutée à
+  `armes-data.js`, nouvelle catégorie « Armes de l'Anathema Psykana » —
+  seule Arme de ce lot à avoir un profil connu ; toutes les autres
+  (Arroi de canons lourd Hellion, missiles vratins lourds, Espadon
+  d'exécution) restent du texte d'équipement brut, même gap déjà
+  documenté pour le reste du roster Legio Custodes.
+  **Fluff omis pour les 4 Unités, gap volontaire découvert en
+  relisant mon propre travail avant de le livrer** : les paragraphes de
+  fluff transcrits depuis des photos pivotées (donc plus difficiles à
+  lire) contenaient des passages clairement incohérents une fois
+  relus (ex : « quilon les liasse rivre » n'est pas du français) —
+  signe d'un remplissage de trous plutôt que d'une lecture fidèle.
+  Retirés entièrement plutôt que corrigés au jugé (sauf l'information
+  mécanique utile qu'ils contenaient, comme le Point d'Accès de
+  l'Acquisitor Kharon, reformulée séparément en une phrase neutre).
+  Lire deux fois son propre paragraphe de fluff avant de le committer
+  quand la photo source est pivotée ou difficile à lire : une phrase
+  qui ne se relit pas comme du français correct n'est jamais une bonne
+  transcription, même approximative.
+  Vérification : audit Node dédié confirmant qu'aucune Unité du
+  fichier (toutes Factions confondues, 442 au total après cet ajout)
+  n'a de champ `options` manquant ; test fonctionnel en DOM headless
+  (jsdom) confirmant que les 4 Unités s'ajoutent sans erreur à une
+  Armée Anathema Psykana à 2000 pts et que l'Allégeance reste
+  verrouillée sur Loyaliste.
+
+- **Bug corrigé (2026-08-01) : fuite d'Unités entre Factions dans le
+  sélecteur « Unité à ajouter »**, signalé par le propriétaire en
+  testant l'Anathema Psykana (des Chevaliers Cerastus/Questoris
+  Chevaliers Questoris apparaissaient dans une Armée Anathema Psykana
+  sans qu'aucun Détachement Allié Chevaliers Questoris n'ait été
+  ajouté). Cause : `uniteAccessible()` (js/unites.js) avait deux
+  dérogations qui rendaient certaines Unités visibles quelle que soit
+  la Faction de l'Armée, sans passer par un Détachement Allié — un
+  Titan Legio Titanicus OU un Chevalier Questoris (catégorie
+  « Seigneurs des Batailles »), et un Armigère Chevaliers Questoris
+  (catégorie « Engins de Guerre ») — dès qu'une Case libre de ce Rôle
+  Tactique existait quelque part dans l'Armée (le Détachement de
+  Seigneur des Batailles et certains Détachements Auxiliaires étant
+  `factionLibre`, voir js/organigramme-data.js). Ces deux dérogations
+  ne dépendaient d'AUCUNE action du joueur : elles s'appliquaient dès
+  que l'Organigramme de base incluait une telle Case, ce qui est
+  quasiment toujours le cas. Retirées entièrement sur demande
+  explicite du propriétaire : « je ne dois pas voir les unités d'une
+  autre Faction à moins que cette autre Faction soit choisie en
+  Détachement Allié, et cette logique doit s'appliquer à toutes les
+  Factions » — désormais seule la logique Détachement Allié
+  (`factionsAllieesActuelles.includes(factionUnite)`, déjà existante)
+  gouverne la visibilité d'une Unité d'une autre Faction. La dérogation
+  DETACHEMENTS_CROISES (Tercio de Fer, Serre d'Automates, Maisnie
+  Roturière) est CONSERVÉE : contrairement aux deux ci-dessus, elle
+  exige que le joueur ait explicitement ajouté ce Détachement précis à
+  son Armée, ce qui reste conforme au principe « rien sans action
+  explicite du joueur ». Pour aligner malgré tout un Titan/Chevalier/
+  Armigère isolé d'une autre Faction, il faut désormais ajouter un vrai
+  Détachement Allié de la Faction voulue (le Rôle Tactique factionLibre
+  de la Case visée continue d'accepter n'importe quelle Faction pour le
+  PLACEMENT une fois l'Unité rendue accessible, `caseAccepte()` n'a pas
+  eu besoin d'être modifié). Vérifié par test fonctionnel en DOM
+  headless (jsdom) dans les deux sens : 0 résultat pour « Chevalier
+  Cerastus »/« Titan Warlord » dans une Armée Anathema Psykana sans
+  Détachement Allié, puis 4 résultats après ajout d'un Détachement
+  Allié Chevaliers Questoris — sans régression sur les tests
+  fonctionnels Legio Custodes/Anathema Psykana déjà en place.
+
+- **Tutoriel « Voir le tutoriel » ajouté pour Conclaves Skitarii, Legio
+  Custodes et Anathema Psykana** (pages/construction-liste.html),
+  demande explicite du propriétaire, à partir du tutoriel Legio
+  Astartes déjà existant (`construction-armee`) : ces trois Factions
+  partagent le même Organigramme de Force de Croisade générique (voir
+  `factionCroisadeParDefaut`, js/organigramme.js), donc quasiment tout
+  le contenu (Détachement Principal, Détachements auxiliaires/d'apex,
+  diagramme interactif de l'Organigramme, table des Rôles Tactiques,
+  accordéon des Avantages Principaux Maître-sergent/Vétérans de
+  Combat/Parangon de Bataille/Affectation Spéciale/Bénéfice
+  Logistique) est **strictement identique et vrai pour les trois**,
+  copié tel quel plutôt que réécrit. Deux adaptations propres à chaque
+  Faction : (1) le panneau **« Décurion de Légion »** (Predator/
+  Sicaran/Char d'Assaut Kratos, verrouillé par Trait de Légion) est
+  entièrement retiré des trois nouvelles copies — mécanique propre aux
+  Legiones Astartes, sans équivalent pour ces trois Factions ; (2) les
+  exemples d'Unités concrètes (encadré de composition, exemple de
+  Détachement Principal, conseils pratiques Maître-sergent/Parangon de
+  Bataille, exemple d'Officier de Ligne (2)) remplacés par des Unités
+  réellement transcrites pour chaque Faction plutôt que laissés en
+  Praetor/Centurion/Escouade Tactique. **Deux gaps honnêtement
+  documentés plutôt que masqués par un faux exemple** : ni Skitarii ni
+  Legio Custodes ni Anathema Psykana n'ont de Rôle Tactique « Transport »
+  (léger) transcrit sur ce site (seul « Transports Lourds » existe pour
+  ces trois) — le conseil pratique le dit explicitement plutôt que
+  d'inventer un véhicule ; et aucune Unité Legio Custodes transcrite
+  n'a de Sous-type Sergent (contrairement à l'Ordinator Skitarii et à
+  la Maîtresse du Néant Anathema Psykana, qui en ont), donc le conseil
+  Maître-sergent de sa copie le signale au lieu de citer une Unité
+  inexistante. Un exemple exact et vérifié a pu être trouvé pour
+  Officier de Ligne (2) côté Legio Custodes : le Capitaine-rempart doté
+  de l'Avantage Principal **Préfet** (déjà existant, voir plus haut)
+  gagne réellement cette Règle Spéciale.
+  Implémentation : les 3 nouvelles copies ont été générées par script
+  Node à partir du bloc HTML Legio Astartes (lignes 114-1035 avant cet
+  ajout) plutôt que retapées à la main, pour garantir une fidélité
+  strictement identique au texte de règles partagé (aucune coquille de
+  copier-coller possible) ; seuls les ids (`construction-armee-<faction>`,
+  `construction-armee-<faction>-corps`, et les ids internes de
+  `timeline-item` type "principal"/"organigramme"/"roles"/
+  "cases-principales") ont été rendus uniques pour rester du HTML
+  valide, sans que cela n'ait d'incidence fonctionnelle connue (aucune
+  règle CSS ni script ne référençait ces ids internes avant cet ajout).
+  Bascule d'affichage ajoutée dans `actualiser()` (js/organigramme.js),
+  même mécanique `.hidden` déjà en place pour Questoris/Titanicus/Solar
+  Auxilia/Mechanicum. Vérifié par test fonctionnel en DOM headless
+  (jsdom) sur les 8 Factions du site : exactement une section de
+  tutoriel visible à la fois, celle attendue pour chacune, sans
+  régression sur les tests Legio Custodes/Anathema Psykana/fuite de
+  Factions déjà en place.
+  **Item 1 de la même demande du propriétaire (ne pas afficher un Rôle
+  Tactique vide dans le sélecteur « Unité à ajouter »)** : vérifié déjà
+  résolu par le correctif de fuite entre Factions ci-dessus (le
+  regroupement par catégorie du sélecteur, `filtrer()` dans
+  js/unites.js, n'affichait déjà l'en-tête d'une catégorie que si au
+  moins une Unité y est accessible) — confirmé par le même test
+  fonctionnel headless sur Anathema Psykana/Legio Custodes/Skitarii,
+  chacun n'affichant que ses catégories réellement peuplées ; aucun
+  changement de code supplémentaire nécessaire pour ce point précis.
+
+- **Tutoriel Legio Custodes affiné avec son contenu propre à la
+  Faction** (pages/construction-liste.html, section
+  `construction-armee-legio-custodes`), demande explicite du
+  propriétaire à partir des mêmes 4 photos déjà transcrites dans
+  `regles-data.js`/`organigramme-data.js` (Postures de Défi, Réaction
+  Avancée « La Lame se Scinde », Avantages Principaux Additionnels
+  Préfet/Garde Hetaeron, Tactica de Legio « Seule la Mort »). Contenu
+  du tutoriel générique laissé intact (Détachement Principal,
+  Organigramme, Rôles Tactiques, 5 Avantages Principaux communs), deux
+  ajouts propres à cette seule copie du tutoriel (pas les 7 autres
+  Factions) :
+  1. **Accordéon « Les cases Principales »** complété de 2 entrées
+     supplémentaires (Préfet, Garde Hetaeron), l'intro de ce panneau
+     mise à jour (« au choix parmi les 5 ci-dessous, plus 2 propres à
+     la Legio Custodes ») — reformulées en langage pédagogique
+     (« Conseil pratique » comme les 5 entrées déjà existantes) plutôt
+     que recopiées mot pour mot depuis `organigramme-data.js`, mais
+     sans rien perdre du mécanisme (Préfet réservé au Capitaine-
+     rempart uniquement, +1 PV de Base + Officier de Ligne (2) ; Garde
+     Hetaeron ouvert à toute Unité de Case Principale, Guerrier Éternel
+     (X) porté à 2, restriction 0-1 par Armée sauf Figurines à Trait
+     Exemple d'Or).
+  2. **3 nouveaux panneaux de timeline**, ajoutés à la toute fin (à
+     l'emplacement qu'occupait « Décurion de Légion » avant d'en être
+     retiré pour cette Faction) : « Tactica de Legio : Seule la Mort »,
+     « Postures de Défi de la Legio Custodes » (accordéon des 4
+     Postures : Élan du Rapace, Frappe des Cieux, Fléau du Serpent du
+     Monde, Égide de la Pierre), et « Réaction Avancée : La Lame se
+     Scinde ». Même traitement : texte de règle condensé en prose
+     pédagogique + tooltips `.regle-tag` réutilisant le texte exact déjà
+     validé dans `regles-data.js` (ex : Guerrier Éternel (X), Touche
+     critique (X) — cette dernière entrée du glossaire est en fait
+     « Touche critique » avec un « c » minuscule, à ne pas confondre
+     avec une typo lors d'une future réutilisation), plus un « Conseil
+     pratique » nommant des Unités réellement transcrites (Capitaine-
+     rempart, Sodalité de Motojets Gyrfalcon, Char Antigrav Caladius,
+     les 3 Sodalités de Gardes de base) plutôt que des exemples
+     génériques.
+  Vérifié par test fonctionnel headless : les 8 chaînes de texte
+  attendues (Seule la Mort, les 4 Postures, La Lame se Scinde, Préfet,
+  Garde Hetaeron) sont bien présentes dans la section Legio Custodes ;
+  HTML entièrement bien formé (parseur de balises, 0 erreur, aucune
+  balise orpheline) ; aucune régression sur les tests d'ajout d'Unité
+  Legio Custodes/Anathema Psykana ni sur la fuite de Factions déjà
+  vérifiés plus haut.
+
+- **Tutoriel Conclaves Skitarii affiné avec son contenu propre à la
+  Faction** (pages/construction-liste.html, section
+  `construction-armee-skitarii`), demande explicite du propriétaire à
+  partir du PDF officiel « Conclaves Skitarii » (GW 2025, déjà en
+  français — pas une transcription manuelle depuis une photo). Avant
+  d'écrire quoi que ce soit, vérifié que le tutoriel **Mechanicum**
+  existant (`construction-armee-mechanicum`) suit un tout autre moule
+  que le tutoriel générique Legio Astartes copié pour Skitarii/Legio
+  Custodes/Anathema Psykana : un tutoriel entièrement sur-mesure
+  centré sur SES mécaniques propres (Traits de Faction/Techno-arcanes
+  Majeurs, Détachements Auxiliaires additionnels, Cybertheurgie,
+  Renégats/Hétérodoxes), sans reprendre l'Organigramme/les Rôles
+  Tactiques génériques déjà couverts ailleurs. Faute d'une refonte
+  complète (hors demande explicite), retenu le même compromis que pour
+  Legio Custodes : conserver le tronc commun générique déjà en place
+  (Détachement Principal, Organigramme, Rôles Tactiques, 5 Avantages
+  Principaux communs) et y AJOUTER deux nouveaux panneaux de timeline,
+  à l'emplacement qu'occupait « Décurion de Légion » avant d'en être
+  retiré pour cette Faction :
+  1. **« Sous-factions des Conclaves Skitarii »** : explique le
+     mécanisme du Trait générique « [Skitarii] » remplacé par un des 4
+     Traits de Faction (Acquisitor → Ligne (1) ; Expurgator →
+     Avant-garde (3) ; Vindicator, réservé Loyaliste → +1 à toute
+     Déflagration (X) ; Flagellator, réservé Renégat → +1" de Mouvement
+     de Positionnement jusqu'à 6" max), présenté en accordéon comme les
+     5 Avantages Principaux du tronc commun, avec la contrainte
+     d'uniformité par Détachement. Complété d'un encadré séparé pour
+     « Vassaux des Seigneurs des Forges » (un Détachement Allié
+     Conclaves Skitarii d'une Armée Taghmata du Mechanicum ne compte
+     pas dans le plafond de 50 % de la Limite de Points réservé aux
+     Alliés) — règle utile pour qui joue Mechanicum/Skitarii ensemble,
+     absente du tronc commun.
+  2. **« Réaction Avancée : Maréchal Élu »** : reprend le texte déjà
+     validé de `regles-data.js` (Réaction Avancée qui promeut un
+     Ordinator au Sous-type État-major et lui accorde Icône d'Autorité
+     sur une Arme de Mêlée, quand le Maréchal des Pérégrins de Combat
+     Skitarii amie tombe à 0 PV), condensé en prose pédagogique avec
+     tooltips `.regle-tag` réutilisant mot pour mot les textes déjà en
+     place (Icône d'Autorité, Ligne (X), Avant-garde (X)).
+  PDF vérifié en même temps contre les 3 Unités déjà transcrites
+  (Maréchal des Pérégrins de Combat Skitarii, Corpus de Pérégrins de
+  Combat Skitarii, Ost de Glaneurs) et les 5 autres (Automate-stratos
+  Vultarax, Convoyeur Blindé Triaros, Char d'Assaut Karacnos, Char de
+  Combat Krios, Chasseur de Chars Krios Venator) : aucun écart trouvé
+  avec `unites-data.js`/`armes-data.js` (déjà exacts depuis la session
+  de transcription initiale), rien à corriger côté données de jeu —
+  seul le tutoriel manquait ce contenu.
+  Vérifié par test fonctionnel headless : les 7 chaînes de texte
+  attendues (Acquisitor, Expurgator, Vindicator, Flagellator, Vassaux
+  des Seigneurs des Forges, Maréchal Élu, Icône d'Autorité) sont bien
+  présentes dans la section Skitarii ; HTML entièrement bien formé (0
+  erreur) ; aucune régression sur les tests déjà en place (tutoriels
+  des 8 Factions, ajout d'Unité Legio Custodes/Anathema Psykana, fuite
+  de Factions).
+
+- **Tutoriel Anathema Psykana affiné avec son contenu propre à la
+  Faction** (pages/construction-liste.html, section
+  `construction-armee-anathema-psykana`), demande explicite du
+  propriétaire à partir des mêmes photos déjà utilisées pour créer la
+  Faction. Deux nouveaux panneaux ajoutés à la toute fin (à
+  l'emplacement qu'occupait « Décurion de Légion »), même principe que
+  Legio Custodes/Skitarii :
+  1. **« L'Anathema Psykana en Guerre »** : rappelle que cette Liste
+     d'Armée n'a pas de variante Renégate (Trait fixe Loyaliste, déjà
+     appliqué en dur dans le moteur) et détaille l'encadré « Point de
+     Réaction Bonus » (un Point de Réaction bonus pour le Détachement
+     Principal s'il inclut une Unité à Trait Investigatus-Militant —
+     Chevalière Centura ou Jenetia Krole), déjà transcrit dans
+     `regles-data.js` mais absent du tutoriel jusqu'ici.
+  2. **« Tactica de Divisio : Anathème »** : même traitement que
+     « Seule la Mort » (Legio Custodes) — prose pédagogique + tooltip
+     `.regle-tag` reprenant le texte exact de `regles-data.js`, plus un
+     Conseil pratique reliant la Règle à Haine (Psykers, Maléfiques),
+     déjà présente sur la plupart des Unités de cette Faction.
+  **Vraie correction trouvée en relisant une photo plus nette de « La
+  Sororité Silencieuse »** (pas seulement une reformulation pour le
+  tutoriel) : l'entrée de glossaire « Anathème » elle-même
+  (`regles-data.js`) omettait que la clause d'immunité aux Jets de
+  Blessure non modifiés de 1 à 4 contre une Unité entièrement Anathème
+  ne s'applique QUE via une Arme ayant le Trait Psychique ou
+  Immatériel — ma transcription précédente disait « les Jets de
+  Blessure faits pour des Attaques… » (n'importe quelle Attaque),
+  perdant cette restriction essentielle. Corrigée en « les Jets de
+  Blessure faits pour des Armes qui ont le Trait Psychique ou
+  Immatériel… », conforme au texte du livre. Aucune Unité ne référence
+  encore cette Règle Spéciale ligne à ligne (même gap déjà documenté
+  pour Seule la Mort/les Postures Legio Custodes : pas de mécanisme de
+  rattachement Trait → Règle Spéciale automatique sur ce site), donc
+  cette correction ne touchait que le texte de glossaire lui-même, pas
+  une Unité.
+  Vérifié par test fonctionnel headless : les 4 chaînes attendues
+  (Point de Réaction Bonus, Investigatus-Militant, Anathème, Aptitudes
+  Psychiques) sont bien présentes dans la section ; `node --check`
+  passe sur `regles-data.js` après la correction ; HTML entièrement
+  bien formé (0 erreur) ; aucune régression sur les tests déjà en
+  place (tutoriels des 8 Factions, ajout d'Unité Legio Custodes/
+  Anathema Psykana, fuite de Factions).
+
+- **Skins couleurs seules pour Legio Custodes, Anathema Psykana et
+  Conclaves Skitarii** (`SKIN_LEGIO_CUSTODES`/`SKIN_ANATHEMA_PSYKANA`/
+  `SKIN_SKITARII`, `js/organigramme.js`) : sur le même principe que
+  `SKIN_MECHANICUM` (classe CSS sur `<body>`, bannière avec devise) mais
+  **sans blason** — confirmé par AskUserQuestion (« Palette de couleurs
+  seule, sans blason (recommandé) ») faute d'image officielle fournie ou
+  à inventer pour ces trois Factions. Palettes choisies et validées
+  WCAG 1.4.3/RGAA 3.2 (contraste `--accent-clair` sur fond blanc ≥4.5:1,
+  script Node de luminance relative en scratchpad, même méthode que pour
+  Questoris Imperialis/Mendicus) : Legio Custodes = or impérial
+  (`--accent: #7d5c17`, `--accent-clair: #916d1c`, 6.15:1/4.76:1) ;
+  Anathema Psykana = gris graphite froid (`#3d3e44`/`#54555c`,
+  10.65:1/7.42:1) ; Conclaves Skitarii = cuivre/rouille (`#7a4a1e`/
+  `#9c611c`, 7.43:1/5.07:1). Blocs CSS `body.skin-legion-legio-custodes`/
+  `-anathema-psykana`/`-skitarii` ajoutés à `css/style.css` juste après
+  celui de Mechanicum, même structure (accent, accent-clair,
+  fond-secondaire, carte-hover, dégradés radiaux teintés). Bannière
+  ajoutée dans `js/organigramme.js` (nouvelles branches `else if
+  (skinLegioCustodes)`/`(skinAnathemaPsykana)`/`(skinSkitarii)` juste
+  après celle de Mechanicum, sans logique d'icône puisqu'aucun blason)
+  et propagée aux autres pages via 3 nouvelles branches dans
+  `appliquerSkinLegionGlobal()` (`js/main.js`), sans hook
+  `DOMContentLoaded` d'insertion de logo (contrairement aux skins à
+  blason). Pas de hook page de garde PDF/Word ajouté non plus, cohérent
+  avec Mechanicum qui n'en a pas. `couleursExport()` (js/unites.js) lit
+  déjà `--accent`/`--accent-clair` directement depuis le style calculé
+  du `<body>` : aucune modification nécessaire là pour que l'export
+  PDF/Word hérite de la nouvelle palette. Vérifié par test jsdom dédié
+  (bascule de Faction dans les paramètres de la partie, lecture des
+  classes CSS et des variables calculées) : les trois palettes
+  s'appliquent correctement et n'affectent pas la Faction Legio Astartes
+  par défaut.
+
+- **Page de garde PDF/Word enrichie pour Chevaliers Questoris (identité
+  de Maisonnée), Legio Custodes, Anathema Psykana et Conclaves
+  Skitarii** (`js/unites.js` : `genererPDF`/`genererWordHTML`) —
+  demande explicite du proprio de s'inspirer de la mise en forme déjà
+  en place pour une Légion Legio Astartes (blason + nom centrés, devise/
+  identité centrée en dessous). Avant cette session, SEULES les
+  Légions/Legio Titanicus/Solar Auxilia (Désignation+Doctrine de
+  Cohorte) avaient un tel bloc d'identité sur la 1ère page ; Chevaliers
+  Questoris, Legio Custodes, Anathema Psykana et Conclaves Skitarii
+  n'avaient RIEN (page de garde qui sautait direct au total de
+  l'Armée) — vérifié en lisant le code avant de conclure, pas supposé.
+  Nouveaux accesseurs `Organigramme.skinMaisonActuel()`/
+  `cheminLogoMaisonActuel()` (miroir exact de `skinDesignationActuel`/
+  `cheminLogoDesignationActuel`) et `skinLegioCustodesActuel()`/
+  `skinAnathemaPsykanaActuel()`/`skinSkitariiActuel()` (miroir de
+  `skinActuel`, mais sans blason — renvoient directement
+  `SKIN_LEGIO_CUSTODES`/`SKIN_ANATHEMA_PSYKANA`/`SKIN_SKITARII` déjà
+  posés pour le skin couleurs seules ci-dessus). Nouvelle constante
+  `DETACHEMENT_PARADIGME_MAISONNEE` (`js/organigramme.js`, table de
+  correspondance imperialis→Maisnie Roturière/mechanicum→Serre
+  d'Automates/mendicus→Serre d'Armigères, reprise telle quelle du
+  commentaire CLAUDE.md ci-dessus, pas inventée) : sert uniquement à
+  NOMMER sur la page de garde le Détachement Additionnel débloqué par
+  le Paradigme choisi, sans texte de règle complet (aucun paragraphe de
+  Paradigme n'existe dans `REGLES_DIVERSES`, contrairement à une
+  Doctrine de Cohorte Solar Auxilia — se limiter à ce qui est sûr plutôt
+  que de rédiger un résumé de mécanique inventé). Bloc Maisonnée : logo
+  et nom (Questoris Imperialis/Mechanicum/Mendicus) centrés, devise de
+  `SKINS_MAISONNEE` centrée en dessous, puis « Paradigme de Maisonnée :
+  débloque le Détachement Additionnel X » en italique. Bloc Legio
+  Custodes/Anathema Psykana/Conclaves Skitarii : nom seul centré en gras
+  (pas de logo, cohérent avec leur skin couleurs seules), devise centrée
+  en dessous — même structure que le repli « nom de Cohorte seul » déjà
+  utilisé par Solar Auxilia sans Désignation. Les quatre nouveaux blocs
+  s'intercalent dans la chaîne `if (skin) {...} else if (skinTitan)
+  {...} else if (skinMaison) {...} else if (skinSansBlason) {...} else
+  {...Solar Auxilia...}` du PDF et du Word, sans toucher aux branches
+  Légion/Titan/Solar Auxilia déjà existantes. Vérifié par test jsdom
+  dédié (`genererWordHTML`/`genererPDF` appelés directement pour les 7
+  Factions concernées, y compris les 3 Maisonnées une par une) : chaque
+  page de garde affiche le bon bloc, aucune exception, aucune
+  régression sur Legio Astartes/Chevaliers Questoris déjà en place.
+
+- **Bloc « Voir le tutoriel » déplacé sous les paramètres de la partie,
+  pour les 8 Factions** (`pages/construction-liste.html`) — demande
+  explicite du proprio (capture d'écran à l'appui) : les 8 `<section
+  id="construction-armee...">` (une par Faction, ~6235 lignes au
+  total) se trouvaient toutes AVANT la section « Paramètres de la
+  partie » (`#orga-parametres`, généré par
+  `Organigramme.construireParametres`) ; déplacées en bloc pour se
+  trouver maintenant APRÈS elle, sans aucune autre modification de leur
+  contenu interne. Manipulation faite par script Node (découpage par
+  index de ligne plutôt qu'Edit à la main, vu la taille du bloc) :
+  vérifié avant tout par relecture précise des lignes pivot (début/fin
+  du bloc tutoriel, début/fin de la section Paramètres) pour ne perdre
+  ni dupliquer aucune ligne (compte de lignes identique avant/après).
+  Sûr car `actualiser()` (js/organigramme.js) ne retrouve chaque section
+  QUE par `document.getElementById(...)`, jamais par position/voisinage
+  DOM — confirmé par grep avant de faire le déplacement. Vérifié après
+  coup : HTML toujours bien formé (vérificateur Python de balances, 0
+  erreur) ; test jsdom existant (bascule des 8 Factions, visibilité de
+  section, contenu Anathema Psykana) toujours au vert sans aucune
+  régression.
+
+- **Bouton « Dupliquer » sur chaque carte d'unité** (`js/unites.js` :
+  `construireCarte`/nouvelle fonction `dupliquerUnite`, entre
+  « ▸ Détails » et « Retirer » dans l'en-tête de carte, demande
+  explicite du proprio) : nouvel exemplaire avec EXACTEMENT la même
+  configuration (`variante`, `effectif`, `valeurs` des options) que
+  l'original — pas une unité « neuve » repartant des valeurs par
+  défaut. Copie profonde de `valeurs` (les tableaux d'une option
+  `multi` ne doivent pas rester partagés entre original et copie,
+  sinon cocher/décocher une entrée sur l'un affecterait l'autre).
+  Refusé (avec le même message d'aide que « Ajouter à la liste »,
+  réutilise `#ajout-message`) si un exemplaire de plus n'est pas
+  réellement autorisé par les règles — RÉUTILISE TELLES QUELLES les
+  deux vérifications déjà faites pour un ajout normal, sans les
+  dupliquer : `uniteAccessible(unite)` (quota `maxParArmee`,
+  `excluAvec`, personnage nommé déjà présent, Faction/Légion/
+  Allégeance en vigueur) puis `Organigramme.casesLibresPour(unite)`
+  (Case libre compatible avec le Rôle Tactique de l'unité, dans un
+  Détachement déjà présent dans l'Armée) — si aucune Case libre,
+  message `Organigramme.suggestionPourRole(unite)`, identique à celui
+  affiché après un clic sur « Ajouter » sans Case libre. La nouvelle
+  carte est insérée juste APRÈS l'originale (`insertAdjacentElement`)
+  plutôt qu'en fin de liste, pour rester visible sans avoir à faire
+  défiler — contrairement à l'ajout normal, qui vise `#liste-unites`
+  directement. Bouton stylé `.unite-dupliquer` (même gabarit que
+  `.unite-bascule`/`.unite-retirer`, css/style.css), masqué à
+  l'impression comme les deux autres. Vérifié par test jsdom dédié
+  (recherche + sélection d'une Escouade Tactique via le combobox —
+  piège : la sélection à la souris se fait sur `mousedown`, pas
+  `click`, voir `initialiserChoixUnite` — puis ajout et 4 tentatives de
+  duplication successives) : la duplication réussit tant qu'une Case
+  Troupes reste libre dans le Détachement Principal (max 4), puis est
+  refusée avec le message exact attendu (« Aucune Case libre pour le
+  Rôle Tactique « Troupes »… ») dès que le quota est atteint, sans
+  créer de 5ᵉ carte.
+
+- **Tampon d'inquisition du PDF repositionné** (`js/unites.js`,
+  `genererPDF` — tampon décoratif `assets/img/logo_inquisition.png`
+  posé sur la page de garde) : demande initiale du proprio (l'agrandir,
+  `TAILLE_TAMPON` doublée de 130 à 260) revenue sur elle-même la
+  session suivante — le proprio voulait en fait le même agrandi mais
+  déplacé, la bonne demande étant de le rapprocher du haut de page.
+  `TAILLE_TAMPON` ramenée à 130 (taille d'origine, inchangée), et la
+  coordonnée Y divisée par deux (`(MARGE + 40) / 2` au lieu de
+  `MARGE + 40`) pour le rapprocher deux fois plus près du haut de la
+  page. Ne pas réappliquer l'agrandissement : la demande retenue au
+  final ne porte que sur la position, pas la taille.
+- **Frise « Ordre de déploiement » mise à jour** (`index.html`) :
+  Legio Custodes et Anathema Psykana déplacées de la Phase II (« En
+  approche ») vers la Phase I (« Déployée »), cohérent avec leur
+  transcription complète lors d'une session précédente ; Divisio
+  Assassinorum ajoutée en Phase II.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

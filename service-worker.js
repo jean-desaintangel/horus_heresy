@@ -49,7 +49,46 @@
 // Hands, Dark Angels, Space Wolves, White Scars, Raven Guard, Blood
 // Angels (js/unites-data.js, js/armes-data.js, js/organigramme-data.js,
 // js/unites.js).
-const CACHE_VERSION = "v38";
+// v40 : correctif du bouton « Ajouter à la liste » qui plantait
+// silencieusement sur 4 Unités Legio Custodes (options manquant, voir
+// CLAUDE.md), corrections de fidélité sur deux Règles Spéciales Legio
+// Custodes, et nouvelle Faction Anathema Psykana (4 Unités, js/
+// unites-data.js, js/armes-data.js, js/regles-data.js, js/
+// organigramme.js, js/organigramme-data.js, js/unites.js).
+// v41 : correctif d'une fuite d'Unités entre Factions dans le
+// sélecteur « Unité à ajouter » (js/unites.js, uniteAccessible) —
+// voir CLAUDE.md.
+// v42 : tutoriel « Voir le tutoriel » ajouté pour Conclaves Skitarii,
+// Legio Custodes et Anathema Psykana (pages/construction-liste.html,
+// js/organigramme.js) — voir CLAUDE.md.
+// v43 : tutoriel Legio Custodes affiné avec ses Postures de Défi,
+// Réaction Avancée et Avantages Principaux propres
+// (pages/construction-liste.html) — voir CLAUDE.md.
+// v44 : tutoriel Conclaves Skitarii affiné avec ses Sous-factions
+// (Traits de Faction) et sa Réaction Avancée Maréchal Élu
+// (pages/construction-liste.html) — voir CLAUDE.md.
+// v45 : tutoriel Anathema Psykana affiné avec son Point de Réaction
+// Bonus et sa Tactica de Divisio Anathème, et correction d'un texte de
+// Règle Spéciale (js/regles-data.js, pages/construction-liste.html) —
+// voir CLAUDE.md.
+// v46 : skin couleurs seules (sans blason) pour les Factions Legio
+// Custodes, Anathema Psykana et Conclaves Skitarii (js/organigramme.js,
+// js/main.js, css/style.css) — voir CLAUDE.md.
+// v47 : page de garde PDF/Word enrichie pour Chevaliers Questoris
+// (identité de Maisonnée + Paradigme), Legio Custodes, Anathema
+// Psykana et Conclaves Skitarii (js/unites.js, js/organigramme.js) ;
+// bloc « Voir le tutoriel » déplacé sous les paramètres de la partie
+// pour toutes les Factions (pages/construction-liste.html) — voir
+// CLAUDE.md.
+// v48 : bouton "Dupliquer" sur chaque carte d'unité de la liste
+// (js/unites.js, css/style.css) — voir CLAUDE.md.
+// v49 : frise « Ordre de déploiement » mise à jour — Legio Custodes et
+// Anathema Psykana passées en Phase I, Divisio Assassinorum ajoutée en
+// Phase II (index.html) — voir CLAUDE.md.
+// v50 : tampon d'inquisition du PDF ramené à sa taille d'origine mais
+// repositionné deux fois plus près du haut de page (js/unites.js) —
+// voir CLAUDE.md.
+const CACHE_VERSION = "v51";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

@@ -3998,6 +3998,29 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1) et modifient de -1 la valeur de X de la Règle Spéciale Autoréparation (X) qu'elles possèdent. Débloque le Détachement Additionnel Serre d'Armigères.",
   },
+  /* --- Legio Custodes (livre d'armée officiel, GW 2026), page
+     « Avantages Principaux Additionnels » : réservés à une Unité
+     composée uniquement de Figurines qui ont le Trait Legio Custodes
+     (traitRequis: "[Legio Custodes]", le Trait générique littéral que
+     portent toutes les Unités de cette Faction — voir js/unites-data.js,
+     pas de sous-choix de Légion ici contrairement à [Legiones
+     Astartes]). --- */
+  {
+    id: "custodes-prefet",
+    nom: "Préfet",
+    traitRequis: "[Legio Custodes]",
+    uniteRequise: [{ id: "custodes-capitaine-rempart" }],
+    texte:
+      "Réservé à une Case Principale occupée par une Unité de Capitaine-rempart. Toutes les Figurines de l'Unité sélectionnée pour occuper la Case Principale octroyant cet Avantage Principal ont leur Caractéristique de PV de Base modifiée de +1, et gagnent la Règle Spéciale Officier de Ligne (2).",
+  },
+  {
+    id: "custodes-garde-hetaeron",
+    nom: "Garde Hetaeron",
+    traitRequis: "[Legio Custodes]",
+    unParArmee: true,
+    texte:
+      "Chez l'Unité sélectionnée pour occuper une Case Principale octroyant cet Avantage Principal, on porte à 2 la valeur de X de la Règle Spéciale Guerrier Éternel (X) possédée par les Figurines de Type Infanterie ou Cavalerie qui ont le Trait Legio Custodes. On ne peut sélectionner cet Avantage Principal qu'une fois par Armée, à moins que ladite Armée comprenne au moins une Figurine qui a le Trait Exemple d'Or, auquel cas on peut sélectionner cet Avantage Principal une fois supplémentaire pour chaque Figurine de l'Armée qui a ce Trait (restriction du nombre de Figurines à Exemple d'Or non recomptée automatiquement par ce site — voir CLAUDE.md).",
+  },
 ];
 
 /* Rôles interdits à la case supplémentaire du Bénéfice Logistique

@@ -228,31 +228,30 @@ function uniteAccessible(unite) {
     // prêt (restauration initiale), on suppose Legio Astartes — la
     // valeur par défaut de l'état (js/organigramme.js) — pour ne pas
     // masquer les unités Legio Astartes à ce moment-là.
-    // Exception (livre d'armée Legio Titanicus) : un Titan (Rôle
-    // Tactique Seigneurs des Batailles, Faction Legio Titanicus) reste
-    // accessible quelle que soit la Faction de l'Armée, car le
-    // Détachement de Seigneur des Batailles accepte n'importe quelle
-    // Faction (`factionLibre` dans js/organigramme-data.js) — c'est la
-    // façon d'aligner un Titan isolé dans une Armée qui remplit son
-    // Détachement Principal selon une autre Liste d'Armée. À sens
-    // UNIQUE : une unité Seigneurs des Batailles Legio Astartes (ex :
-    // Fellblade) reste réservée à Legio Astartes comme toute autre
-    // unité de ce livre — sous Legio Titanicus, seuls les Titans
-    // apparaissent dans ce Rôle Tactique. caseAccepte()
-    // (js/organigramme.js) reste seul juge du placement réel (ex :
-    // aucune unité Legio Titanicus dans ce détachement si le
-    // Détachement Principal est l'Ordinal Titanique, voir sa règle 1).
-    // Autre exception : la Faction propre à un Détachement Allié (menu
-    // « Faction Alliée » de sa carte, ex : Legio Astartes alliée à une
-    // Armée Legio Titanicus) rend elle aussi accessibles les unités de
-    // cette Faction-là, en plus de celle de l'Armée.
-    // Dernière exception : les Unités des DETACHEMENTS_CROISES ci-dessus
-    // (Tercio de Fer, Serre d'Automates, Maisnie Roturière) restent
-    // accessibles tant que le Détachement correspondant est présent
-    // dans l'Armée — factionLibre y dispense déjà caseAccepte() de la
-    // vérification de Faction pour le PLACEMENT (js/organigramme-
-    // data.js), il fallait la même exception ici pour que ces Unités
-    // apparaissent dans le sélecteur « Unité à ajouter ».
+    // Une unité d'une autre Faction que celle de l'Armée ne doit
+    // apparaître dans le sélecteur « Unité à ajouter » que si cette
+    // autre Faction a été explicitement amenée dans l'Armée via un
+    // Détachement Allié (menu « Faction Alliée » de sa carte) — jamais
+    // automatiquement au seul motif qu'une Case de son Rôle Tactique
+    // existerait quelque part (ex : Seigneurs des Batailles, Engins de
+    // Guerre). Anciennement, un Titan Legio Titanicus ou un Chevalier/
+    // Armigère Chevaliers Questoris restaient visibles quelle que soit
+    // la Faction de l'Armée dès qu'une Case Seigneurs des Batailles/
+    // Engins de Guerre libre existait (le Détachement de Seigneur des
+    // Batailles et certains Détachements Auxiliaires étant
+    // `factionLibre`, voir js/organigramme-data.js) — corrigé (demande
+    // explicite du propriétaire, 2026-08-01) : cette dérogation
+    // affichait des unités d'une autre Faction sans que le joueur
+    // n'ait rien choisi pour les faire entrer dans son Armée. Pour
+    // aligner malgré tout un Titan/Chevalier isolé, il faut désormais
+    // passer par un vrai Détachement Allié de la Faction voulue.
+    // Dernière exception, CONSERVÉE : les Unités des
+    // DETACHEMENTS_CROISES ci-dessus (Tercio de Fer, Serre d'Automates,
+    // Maisnie Roturière) restent accessibles tant que le Détachement
+    // correspondant est présent dans l'Armée — ce Détachement est lui-
+    // même un choix explicite du joueur (contrairement aux Cases
+    // Seigneurs des Batailles/Engins de Guerre, présentes par défaut
+    // dans l'Organigramme), donc conforme au principe ci-dessus.
     const factionActuelle =
       orgaPret && typeof Organigramme !== "undefined"
         ? Organigramme.factionActuelle()
@@ -265,32 +264,6 @@ function uniteAccessible(unite) {
     if (
       factionActuelle !== factionUnite &&
       !factionsAllieesActuelles.includes(factionUnite) &&
-      !(
-        unite.categorie === "Seigneurs des Batailles" &&
-        // Un Titan Legio Titanicus OU un Chevalier Questoris (livre
-        // d'armée Chevaliers Questoris, Paradigmes de Maisonnée) reste
-        // accessible quelle que soit la Faction de l'Armée : même
-        // exception « à sens unique », le Détachement de Seigneur des
-        // Batailles acceptant n'importe quelle Faction (`factionLibre`,
-        // js/organigramme-data.js) — c'est le seul moyen de faire
-        // entrer des Chevaliers dans une Armée d'une autre Faction pour
-        // faire valoir un Paradigme de Maisonnée sur eux (menu
-        // « Maisonnée » propre à ce Détachement).
-        (factionUnite === "legio-titanicus" ||
-          factionUnite === "chevaliers-questoris")
-      ) &&
-      !(
-        // Même principe pour un Armigère (categorie "Engins de Guerre",
-        // faction chevaliers-questoris) : le Détachement Auxiliaire
-        // générique « Appui Lourd » (factionLibre, une seule Case Engins
-        // de Guerre, voir son commentaire dans js/organigramme-data.js)
-        // et la Serre d'Armigères (Paradigme de Maisonnée Mendicus, même
-        // fichier) l'acceptent tous deux quelle que soit la Faction de
-        // l'Armée — sans cette exception l'Armigère resterait introuvable
-        // dans le sélecteur malgré une Case qui l'accepterait bel et bien.
-        unite.categorie === "Engins de Guerre" &&
-        factionUnite === "chevaliers-questoris"
-      ) &&
       !uniteAccessibleParDetachementCroise(unite)
     )
       return false;
@@ -1695,11 +1668,11 @@ function construireFiche(unite, instance) {
     ),
   );
   fiche.appendChild(construireTablesArmes(equipement, unite.faction));
-  // [Allégeance], [Legiones Astartes], [Questoris Familia] et [Legio
-  // Custodes] sont communs à toutes les unités de la Légion/Faction :
-  // ne pas les afficher sur la fiche évite de les y répéter
-  // systématiquement. La ligne disparaît s'il ne reste aucun trait
-  // propre à l'unité.
+  // [Allégeance], [Legiones Astartes], [Questoris Familia], [Legio
+  // Custodes] et [Anathema Psykana] sont communs à toutes les unités de
+  // la Légion/Faction : ne pas les afficher sur la fiche évite de les y
+  // répéter systématiquement. La ligne disparaît s'il ne reste aucun
+  // trait propre à l'unité.
   // [Mechanicum] et [Skitarii] sont différents : remplacés (pas juste
   // masqués) par le Trait de Faction effectif de cette Unité
   // (traitFactionMechanicumDe/traitFactionSkitariiDe ci-dessus), fixe
@@ -1712,7 +1685,8 @@ function construireFiche(unite, instance) {
         trait !== "[Allégeance]" &&
         trait !== "[Legiones Astartes]" &&
         trait !== "[Questoris Familia]" &&
-        trait !== "[Legio Custodes]",
+        trait !== "[Legio Custodes]" &&
+        trait !== "[Anathema Psykana]",
     )
     .map((trait) => {
       if (trait === "[Mechanicum]" && traitMechanicum) return traitMechanicum;
@@ -2281,9 +2255,22 @@ function construireCarte(instance) {
       (repliee ? "Déplier" : "Replier") + " la fiche de " + unite.nom,
     );
   });
+  // Duplication : nouvel exemplaire à l'identique (même variante,
+  // effectif, options), sous réserve qu'il soit réellement autorisé —
+  // voir dupliquerUnite ci-dessous (mêmes règles que "Ajouter à la
+  // liste" : quota/exclusivité/personnage nommé, puis Case libre
+  // compatible dans un détachement de l'Armée).
+  const dupliquer = el("button", "unite-dupliquer", "Dupliquer");
+  dupliquer.type = "button";
+  dupliquer.setAttribute("aria-label", "Dupliquer " + unite.nom);
+  dupliquer.addEventListener("click", () => {
+    dupliquerUnite(instance, carte);
+  });
+
   entete.appendChild(titre);
   entete.appendChild(points);
   entete.appendChild(bascule);
+  entete.appendChild(dupliquer);
   entete.appendChild(retirer);
   carte.appendChild(entete);
   carte.classList.add("unite-carte--repliee");
@@ -2320,6 +2307,63 @@ function construireCarte(instance) {
   // (valeurs + grisés), sans double sauvegarde inutile.
   actualiserCarte(carte, unite, instance);
   return carte;
+}
+
+// Duplique une unité déjà présente dans la liste (bouton "Dupliquer"
+// de sa carte) : nouvel exemplaire avec EXACTEMENT la même
+// configuration (variante, effectif, options choisies) que l'original
+// — pas une unité "neuve" à reconfigurer depuis zéro. Refusé, avec un
+// message d'aide (réutilise #ajout-message, déjà utilisé par "Ajouter
+// à la liste"), si un exemplaire de plus n'est pas autorisé par les
+// règles : mêmes vérifications que l'ajout normal — uniteAccessible()
+// (quota `maxParArmee`, `excluAvec`, personnage nommé déjà présent,
+// Faction/Légion/Allégeance en vigueur), puis une Case libre compatible
+// dans un détachement de l'Armée (Organigramme.casesLibresPour). La
+// nouvelle carte est insérée juste après l'originale plutôt qu'en fin
+// de liste, pour rester visible sans avoir à faire défiler.
+function dupliquerUnite(instanceSource, carteSource) {
+  const unite = trouverUnite(instanceSource.uniteId);
+  if (!unite) return;
+  const messageAjout = document.getElementById("ajout-message");
+  const afficherMessage = (texte) => {
+    if (!messageAjout) return;
+    messageAjout.textContent = texte;
+    messageAjout.hidden = false;
+    messageAjout.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+  if (!uniteAccessible(unite)) {
+    afficherMessage(
+      "Impossible de dupliquer " +
+        unite.nom +
+        " : les règles de l'armée n'autorisent pas un exemplaire de plus (quota atteint, unité exclusive ou personnage nommé déjà présent).",
+    );
+    return;
+  }
+  const libres = Organigramme.casesLibresPour(unite);
+  if (libres.length === 0) {
+    afficherMessage(Organigramme.suggestionPourRole(unite));
+    return;
+  }
+  if (messageAjout) messageAjout.hidden = true;
+  // Copie profonde des valeurs d'options (les tableaux d'une option
+  // "multi" ne doivent pas rester partagés entre original et copie).
+  const valeurs = {};
+  for (const [cle, val] of Object.entries(instanceSource.valeurs)) {
+    valeurs[cle] = Array.isArray(val) ? [...val] : val;
+  }
+  const instance = {
+    uid: ++compteurUid,
+    uniteId: unite.id,
+    variante: instanceSource.variante,
+    effectif: instanceSource.effectif,
+    valeurs,
+  };
+  armee.push(instance);
+  carteSource.insertAdjacentElement("afterend", construireCarte(instance));
+  // Placement automatique dans la première case libre compatible ;
+  // modifiable ensuite via le menu « Case occupée » de la carte, comme
+  // pour un ajout normal.
+  Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
 }
 
 /* ----------------------------------------------------------
@@ -3220,27 +3264,23 @@ async function genererPDF() {
       }
       y += hauteurBloc + 8;
     } else {
-      // Identité de Désignation de Legiones Auxilia / Doctrine de
-      // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
-      // ci-dessus — blason + nom de la Désignation centrés sur une même
-      // ligne (voir Organigramme.skinDesignationActuel/
-      // cheminLogoDesignationActuel, js/organigramme.js), puis le nom
-      // de la Doctrine de Cohorte choisie centré en dessous, sur le
-      // modèle de la ligne Allégeance/Monde natal d'une Légion. La
-      // Désignation étant facultative (contrairement à la Doctrine,
-      // obligatoire), le nom de la Cohorte prend seul la place du titre
-      // (même taille/graisse que le nom de Légion/Désignation) quand
-      // aucune Désignation n'est choisie, pour que la page de garde
-      // Solar Auxilia garde toujours un titre centré.
-      const skinDesignation = Organigramme.skinDesignationActuel
-        ? Organigramme.skinDesignationActuel()
+      // Identité de Maisonnée (Faction Chevaliers Questoris) : même
+      // principe qu'une Légion ci-dessus — blason + nom de la Maisonnée
+      // centrés sur une même ligne (voir Organigramme.skinMaisonActuel/
+      // cheminLogoMaisonActuel, js/organigramme.js), devise centrée en
+      // dessous (sur le modèle de la ligne Allégeance/Monde natal d'une
+      // Légion), puis une ligne nommant le Détachement Additionnel
+      // débloqué par le Paradigme de cette Maisonnée (Serre d'Automates/
+      // Serre d'Armigères/Maisnie Roturière — DETACHEMENT_PARADIGME_
+      // MAISONNEE, js/organigramme.js).
+      const skinMaison = Organigramme.skinMaisonActuel
+        ? Organigramme.skinMaisonActuel()
         : null;
-      const nomCohorte = nomDoctrineCohorteActuelle();
-      if (skinDesignation) {
+      if (skinMaison) {
         const logoDataUrl = await chargerImageDataURL(
-          Organigramme.cheminLogoDesignationActuel(),
+          Organigramme.cheminLogoMaisonActuel(),
         );
-        const nomDesignationTexte = assainirPDF(skinDesignation.nom);
+        const nomMaisonTexte = assainirPDF(skinMaison.nom);
         let largeurLogo = 0;
         let hauteurLogo = 0;
         let proprietes = null;
@@ -3260,7 +3300,7 @@ async function genererPDF() {
         doc.setFont("times", "bold");
         doc.setFontSize(16);
         doc.setTextColor(...accentRGB);
-        const largeurTexte = doc.getTextWidth(nomDesignationTexte);
+        const largeurTexte = doc.getTextWidth(nomMaisonTexte);
         const largeurBloc = largeurLogo + ECART + largeurTexte;
         const hauteurBloc = Math.max(largeurLogo > 0 ? hauteurLogo : 0, 16);
         assurerEspace(hauteurBloc + 8);
@@ -3276,19 +3316,121 @@ async function genererPDF() {
           );
         }
         doc.text(
-          nomDesignationTexte,
+          nomMaisonTexte,
           xBloc + largeurLogo + ECART,
           y + hauteurBloc / 2 + 6,
         );
         doc.setTextColor(0, 0, 0);
         y += hauteurBloc + 8;
-        if (nomCohorte) {
-          paragrapheCentre("Cohorte : " + nomCohorte, 9.5);
+        if (skinMaison.devise) {
+          paragrapheCentre(skinMaison.devise, 9.5);
           y += 6;
         }
-      } else if (nomCohorte) {
-        paragrapheCentre(nomCohorte, 16, "bold", accentRGB);
-        y += 8;
+        const detachementParadigme = Organigramme.detachementParadigmeMaisonActuel
+          ? Organigramme.detachementParadigmeMaisonActuel()
+          : null;
+        if (detachementParadigme) {
+          paragrapheCentre(
+            "Paradigme de Maisonnée : débloque le Détachement Additionnel " +
+              detachementParadigme,
+            8.5,
+            "italic",
+          );
+          y += 4;
+        }
+      } else {
+        // Identité couleurs seules (sans blason) pour les Factions Legio
+        // Custodes/Anathema Psykana/Conclaves Skitarii (SKIN_LEGIO_
+        // CUSTODES/SKIN_ANATHEMA_PSYKANA/SKIN_SKITARII, js/organigramme.js)
+        // : nom centré en gras, devise centrée en dessous — même principe
+        // que le nom de Cohorte seul ci-dessous quand aucune Désignation
+        // n'est choisie.
+        const skinSansBlason =
+          (Organigramme.skinLegioCustodesActuel &&
+            Organigramme.skinLegioCustodesActuel()) ||
+          (Organigramme.skinAnathemaPsykanaActuel &&
+            Organigramme.skinAnathemaPsykanaActuel()) ||
+          (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          null;
+        if (skinSansBlason) {
+          paragrapheCentre(assainirPDF(skinSansBlason.nom), 16, "bold", accentRGB);
+          y += 8;
+          if (skinSansBlason.devise) {
+            paragrapheCentre(skinSansBlason.devise, 9.5);
+            y += 6;
+          }
+        } else {
+          // Identité de Désignation de Legiones Auxilia / Doctrine de
+          // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
+          // ci-dessus — blason + nom de la Désignation centrés sur une même
+          // ligne (voir Organigramme.skinDesignationActuel/
+          // cheminLogoDesignationActuel, js/organigramme.js), puis le nom
+          // de la Doctrine de Cohorte choisie centré en dessous, sur le
+          // modèle de la ligne Allégeance/Monde natal d'une Légion. La
+          // Désignation étant facultative (contrairement à la Doctrine,
+          // obligatoire), le nom de la Cohorte prend seul la place du titre
+          // (même taille/graisse que le nom de Légion/Désignation) quand
+          // aucune Désignation n'est choisie, pour que la page de garde
+          // Solar Auxilia garde toujours un titre centré.
+          const skinDesignation = Organigramme.skinDesignationActuel
+            ? Organigramme.skinDesignationActuel()
+            : null;
+          const nomCohorte = nomDoctrineCohorteActuelle();
+          if (skinDesignation) {
+            const logoDataUrl = await chargerImageDataURL(
+              Organigramme.cheminLogoDesignationActuel(),
+            );
+            const nomDesignationTexte = assainirPDF(skinDesignation.nom);
+            let largeurLogo = 0;
+            let hauteurLogo = 0;
+            let proprietes = null;
+            if (logoDataUrl) {
+              try {
+                proprietes = doc.getImageProperties(logoDataUrl);
+                hauteurLogo = 50;
+                largeurLogo = Math.min(
+                  (proprietes.width / proprietes.height) * hauteurLogo,
+                  90,
+                );
+              } catch {
+                proprietes = null;
+              }
+            }
+            const ECART = largeurLogo > 0 ? 10 : 0;
+            doc.setFont("times", "bold");
+            doc.setFontSize(16);
+            doc.setTextColor(...accentRGB);
+            const largeurTexte = doc.getTextWidth(nomDesignationTexte);
+            const largeurBloc = largeurLogo + ECART + largeurTexte;
+            const hauteurBloc = Math.max(largeurLogo > 0 ? hauteurLogo : 0, 16);
+            assurerEspace(hauteurBloc + 8);
+            const xBloc = contentX + (contentW - largeurBloc) / 2;
+            if (proprietes) {
+              doc.addImage(
+                logoDataUrl,
+                proprietes.fileType || "PNG",
+                xBloc,
+                y,
+                largeurLogo,
+                hauteurLogo,
+              );
+            }
+            doc.text(
+              nomDesignationTexte,
+              xBloc + largeurLogo + ECART,
+              y + hauteurBloc / 2 + 6,
+            );
+            doc.setTextColor(0, 0, 0);
+            y += hauteurBloc + 8;
+            if (nomCohorte) {
+              paragrapheCentre("Cohorte : " + nomCohorte, 9.5);
+              y += 6;
+            }
+          } else if (nomCohorte) {
+            paragrapheCentre(nomCohorte, 16, "bold", accentRGB);
+            y += 8;
+          }
+        }
       }
     }
   }
@@ -3374,7 +3516,7 @@ async function genererPDF() {
         tamponDataUrl,
         proprietesTampon.fileType || "PNG",
         pageW - MARGE - TAILLE_TAMPON - 45,
-        MARGE + 40,
+        (MARGE + 40) / 2,
         TAILLE_TAMPON,
         TAILLE_TAMPON,
         undefined,
@@ -3583,22 +3725,19 @@ async function genererWordHTML() {
       }
       corps += "</tr></table>";
     } else {
-      // Identité de Désignation de Legiones Auxilia / Doctrine de
-      // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
-      // ci-dessus (voir Organigramme.skinDesignationActuel/
-      // cheminLogoDesignationActuel, js/organigramme.js) — logo + nom
-      // de la Désignation, puis nom de la Cohorte centré en dessous. La
-      // Désignation étant facultative (contrairement à la Doctrine,
-      // obligatoire), le nom de la Cohorte prend seul la place du titre
-      // (.cohorte-titre, même taille/graisse que .legion-nom) quand
-      // aucune Désignation n'est choisie.
-      const skinDesignation = Organigramme.skinDesignationActuel
-        ? Organigramme.skinDesignationActuel()
+      // Identité de Maisonnée (Faction Chevaliers Questoris) : même
+      // principe qu'une Légion ci-dessus (voir Organigramme.
+      // skinMaisonActuel/cheminLogoMaisonActuel, js/organigramme.js) —
+      // logo + nom de la Maisonnée, devise en dessous, puis une ligne
+      // nommant le Détachement Additionnel débloqué par le Paradigme de
+      // cette Maisonnée (DETACHEMENT_PARADIGME_MAISONNEE, même source
+      // que le PDF, voir genererPDF ci-dessus).
+      const skinMaison = Organigramme.skinMaisonActuel
+        ? Organigramme.skinMaisonActuel()
         : null;
-      const nomCohorte = nomDoctrineCohorteActuelle();
-      if (skinDesignation) {
+      if (skinMaison) {
         const logoDataUrl = await chargerImageDataURL(
-          Organigramme.cheminLogoDesignationActuel(),
+          Organigramme.cheminLogoMaisonActuel(),
         );
         corps += '<table class="legion-table"><tr>';
         if (logoDataUrl) {
@@ -3609,18 +3748,88 @@ async function genererWordHTML() {
         }
         corps +=
           '<td><span class="legion-nom">' +
-          echapperHTML(skinDesignation.nom) +
+          echapperHTML(skinMaison.nom) +
           "</span></td>";
         corps += "</tr></table>";
-        if (nomCohorte) {
+        if (skinMaison.devise) {
           corps +=
-            '<p class="legion-identite">Cohorte : ' +
-            echapperHTML(nomCohorte) +
+            '<p class="legion-identite">' +
+            echapperHTML(skinMaison.devise) +
             "</p>";
         }
-      } else if (nomCohorte) {
-        corps +=
-          '<p class="cohorte-titre">' + echapperHTML(nomCohorte) + "</p>";
+        const detachementParadigme = Organigramme.detachementParadigmeMaisonActuel
+          ? Organigramme.detachementParadigmeMaisonActuel()
+          : null;
+        if (detachementParadigme) {
+          corps +=
+            '<p class="legion-identite"><em>Paradigme de Maisonnée : débloque le Détachement Additionnel ' +
+            echapperHTML(detachementParadigme) +
+            "</em></p>";
+        }
+      } else {
+        // Identité couleurs seules (sans blason) pour les Factions Legio
+        // Custodes/Anathema Psykana/Conclaves Skitarii (voir même bloc
+        // dans genererPDF ci-dessus) : nom centré en gras (.cohorte-titre,
+        // réutilisé tel quel), devise centrée en dessous.
+        const skinSansBlason =
+          (Organigramme.skinLegioCustodesActuel &&
+            Organigramme.skinLegioCustodesActuel()) ||
+          (Organigramme.skinAnathemaPsykanaActuel &&
+            Organigramme.skinAnathemaPsykanaActuel()) ||
+          (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          null;
+        if (skinSansBlason) {
+          corps +=
+            '<p class="cohorte-titre">' +
+            echapperHTML(skinSansBlason.nom) +
+            "</p>";
+          if (skinSansBlason.devise) {
+            corps +=
+              '<p class="legion-identite">' +
+              echapperHTML(skinSansBlason.devise) +
+              "</p>";
+          }
+        } else {
+          // Identité de Désignation de Legiones Auxilia / Doctrine de
+          // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
+          // ci-dessus (voir Organigramme.skinDesignationActuel/
+          // cheminLogoDesignationActuel, js/organigramme.js) — logo + nom
+          // de la Désignation, puis nom de la Cohorte centré en dessous. La
+          // Désignation étant facultative (contrairement à la Doctrine,
+          // obligatoire), le nom de la Cohorte prend seul la place du titre
+          // (.cohorte-titre, même taille/graisse que .legion-nom) quand
+          // aucune Désignation n'est choisie.
+          const skinDesignation = Organigramme.skinDesignationActuel
+            ? Organigramme.skinDesignationActuel()
+            : null;
+          const nomCohorte = nomDoctrineCohorteActuelle();
+          if (skinDesignation) {
+            const logoDataUrl = await chargerImageDataURL(
+              Organigramme.cheminLogoDesignationActuel(),
+            );
+            corps += '<table class="legion-table"><tr>';
+            if (logoDataUrl) {
+              corps +=
+                '<td><img class="legion-logo" src="' +
+                logoDataUrl +
+                '" alt=""></td>';
+            }
+            corps +=
+              '<td><span class="legion-nom">' +
+              echapperHTML(skinDesignation.nom) +
+              "</span></td>";
+            corps += "</tr></table>";
+            if (nomCohorte) {
+              corps +=
+                '<p class="legion-identite">Cohorte : ' +
+                echapperHTML(nomCohorte) +
+                "</p>";
+            }
+          } else if (nomCohorte) {
+            corps +=
+              '<p class="cohorte-titre">' + echapperHTML(nomCohorte) + "</p>";
+          }
+        }
       }
     }
   }
@@ -3947,6 +4156,7 @@ function initialiserChoixUnite() {
     "chevaliers-questoris": "Chevaliers Questoris",
     skitarii: "Conclaves Skitarii",
     "legio-custodes": "Legio Custodes",
+    "anathema-psykana": "Anathema Psykana",
   };
 
   function rendre() {

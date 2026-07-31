@@ -1423,6 +1423,15 @@ document.addEventListener("DOMContentLoaded", () => {
         titre.firstChild,
       );
     });
+  } else if (donnees.faction === "legio-custodes") {
+    // Skin couleurs seules, sans blason (SKIN_LEGIO_CUSTODES, organigramme.js).
+    document.body.classList.add("skin-legion-legio-custodes");
+  } else if (donnees.faction === "anathema-psykana") {
+    // Skin couleurs seules, sans blason (SKIN_ANATHEMA_PSYKANA, organigramme.js).
+    document.body.classList.add("skin-legion-anathema-psykana");
+  } else if (donnees.faction === "skitarii") {
+    // Skin couleurs seules, sans blason (SKIN_SKITARII, organigramme.js).
+    document.body.classList.add("skin-legion-skitarii");
   }
 })();
 

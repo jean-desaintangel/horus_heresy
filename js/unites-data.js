@@ -35634,6 +35634,986 @@ const UNITES = [
     ],
   },
 
+  /* ------------------------------------------------------------
+     Reste du roster Legio Custodes (livre d'armée officiel, GW 2026,
+     déjà en français). Beaucoup d'Armes nommées sur ces fiches
+     (Pique de feu Infernus, Destructeur cinétique, Lance de Gardien,
+     Canon à bolts Lastrum, Carronade/Canon Arachnus, etc.) n'ont pas
+     de profil connu — contrairement aux 3 Unités ci-dessus, aucune
+     page d'Arsenal (tableau de caractéristiques d'Armes) n'a été
+     fournie pour ce reste du roster, seulement les fiches d'Unité.
+     Conformément à la règle 6 de CLAUDE.md (ne jamais inventer un
+     profil), ces objets restent du texte d'équipement brut, sans
+     entrée `armes-data.js` : ils s'afficheront sur la fiche récap
+     comme simple ligne de texte, pas comme table de caractéristiques.
+     Seule exception : « La Lance Apollonienne » (Constantin Valdor),
+     dont le profil complet (Tir ET Mêlée) est donné en encart dédié.
+     Le Bocle Tarsus et les deux Boucliers Praesidium (base et Gravis)
+     ont eux un texte de règle complet (encarts dédiés) : ajoutés à
+     js/regles-data.js plutôt qu'à armes-data.js, sur le même principe
+     que le Bouclier tempête modèle Proteus déjà existant.
+     Tactica de Legio (« Seule la Mort »), Réaction Avancée (« La Lame
+     se Scinde ») et les 4 Postures de Défi (Élan du Rapace, Frappe
+     des Cieux, Fléau du Serpent du Monde, Égide de la Pierre) sont
+     elles aussi ajoutées à regles-data.js pour référence, mais NON
+     injectées automatiquement dans les `regles` des Unités ci-dessous :
+     aucun mécanisme de rattachement Trait → Règle Spéciale automatique
+     n'existe sur ce site pour le Trait [Legio Custodes] (à la
+     différence de `reglesAppliquees`, réservé aux Avantages
+     Principaux) — gap documenté dans CLAUDE.md, cohérent avec le
+     traitement déjà réservé au Trait [Legiones Astartes] ailleurs
+     dans ce fichier (jamais injecté ligne à ligne non plus).
+     Le Dreadnought Lourd Telemon liste « Fumigènes » dans son
+     équipement mais SEULEMENT « Loyaliste »/« Legio Custodes » dans
+     ses Traits, sans « Écran de Fumée » (à la différence des deux
+     autres Dreadnoughts Legio Custodes ci-dessous, qui l'ont bien) :
+     transcrit tel quel depuis la fiche plutôt que « corrigé » par
+     supposition de symétrie — à vérifier contre le livre en cas de
+     doute. « Affrelance Achillus » (Dreadnought Contemptor-Achillus)
+     est le nom exact imprimé sur la fiche fournie, conservé tel quel
+     malgré sa sonorité inhabituelle plutôt que substitué par une
+     traduction plus attendue (« Griffe »/« Serre » Achillus). --- */
+  {
+    id: "constantin-valdor",
+    nom: "Constantin Valdor",
+    faction: "legio-custodes",
+    categorie: "Seigneur de Guerre",
+    cout: 400,
+    composition: "1 Constantin Valdor",
+    notes:
+      "Capitaine-Général de la Legio Custodes, le Bouclier de l'Empereur, Magisterium Ultima. Constantin Valdor siège à la droite de l'Empereur, dont il est le plus fidèle compagnon, lui qui veille avec un dévouement inaltérable et une valeur martiale quasi inégalée. Cette dernière, conjuguée aux aptitudes physiques et mentales de Valdor, lui vaut à la Cour Impériale d'être qualifié à mots couverts de « Primarque inavoué ». C'est une assertion fallacieuse, car si puissant qu'il soit, Valdor joue un rôle moins ambitieux, celui de Seigneur Commandant de la Garde Custodienne. Pour Valdor, la gloire et la conquête, la domination et la victoire, ne sont que de mesquins enfantillages comparés au devoir qu'il a juré d'accomplir. Ainsi, si le rang de Constantin Valdor le place par certains côtés au-dessus même des Primarques, et qu'il est au cœur du pouvoir impérial sur Terra, il exerce rarement son influence, hormis dans les domaines qui le concernent directement, et jamais au service de quelque ambition personnelle que ce soit. Mais si son rôle venait à être remis en question, ou pis, si l'Empereur ou ses représentants venaient à être menacés, Valdor serait alors tel un demi-dieu de la vengeance : invincible et implacable.",
+    traits: ["Loyaliste", "[Legio Custodes]", "Exemple d'Or", "La Sodalité"],
+    equipement: ["La Lance Apollonienne", "Misericordia", "Hurleur Arae"],
+    variantes: [
+      {
+        nom: "Constantin Valdor",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 7,
+          CT: 6,
+          F: 5,
+          E: 5,
+          PV: 6,
+          I: 6,
+          A: 6,
+          Cd: 12,
+          Sf: 10,
+          Vo: 10,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (4)",
+          "Guerrier Éternel (2)",
+          "Haine (Parangons)",
+          "Maître de la Légion d'Or",
+          "Avant-garde (3)",
+        ],
+        type: "Parangon (Unique)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "custodes-tribun",
+    nom: "Tribun",
+    faction: "legio-custodes",
+    categorie: "Quartier Général",
+    cout: 250,
+    composition: "1 Tribun",
+    notes:
+      "On trouve, sous l'autorité absolue du Capitaine-Général et des trois Legatii, le Tribunat Custodien, corps qui forme le conseil de guerre définissant la politique de la Legio Custodes et qui a le privilège incomparable de soumettre son avis à l'Empereur lui-même. Chaque Tribun doit avoir gagné au moins dix noms et remporté trois grandes victoires, et les autres Custodiens le tiennent en très haute estime. Seul un Tribun dispose d'une autorité suffisante pour mobiliser un Ost-rempart de la Legio Custodes, car il compte parmi les plus grands guerriers et stratèges de l'Imperium, et où qu'il aille, c'est la mort qui le suit.",
+    traits: ["Loyaliste", "[Legio Custodes]", "Exemple d'Or", "La Sodalité"],
+    equipement: ["Lance d'Éternité", "Misericordia", "Hurleur Arae"],
+    variantes: [
+      {
+        nom: "Tribun",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 7,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 5,
+          I: 6,
+          A: 6,
+          Cd: 12,
+          Sf: 10,
+          Vo: 10,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Massif (2)", "Guerrier Éternel (2)", "Avant-garde (3)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "lance-eternite",
+        libelle: "Remplacer gratuitement la lance d'Éternité",
+        remplace: "Lance d'Éternité",
+        choix: [
+          { nom: "— Conserver la lance d'Éternité —", cout: 0 },
+          { nom: "Lame d'Éternité et bouclier Praesidium", cout: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "custodes-capitaine-rempart",
+    nom: "Capitaine-rempart",
+    faction: "legio-custodes",
+    categorie: "État-major",
+    cout: 175,
+    composition: "1 Capitaine-rempart",
+    notes:
+      "Fort de la confiance de ses pairs, promu avec l'assentiment direct de l'Empereur, chacun de ces guerriers a fait la preuve d'aptitudes surhumaines mais également d'un savoir, d'une finesse d'analyse et d'une clairvoyance peu communs. Pourvu des meilleures armes de l'Imperium, un tel combattant légendaire dirige la Legio Custodes contre toutes sortes de menaces, et que sa Compagnie-rempart compte une poignée de Sodalités détachées pour prononcer le jugement de l'Empereur, ou plus de cent guerriers massés pour la bataille, il manifeste sous la forme d'un guerrier indomptable la puissance concentrée de la Legio.",
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Lame d'Éternité", "Misericordia", "Bouclier Praesidium"],
+    variantes: [
+      {
+        nom: "Capitaine-rempart",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 6,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Massif (2)", "Guerrier Éternel (1)", "Avant-garde (3)"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "paire",
+        id: "lance-eternite",
+        libelle:
+          "Remplacer gratuitement la lame d'Éternité et le bouclier Praesidium contre une lance d'Éternité",
+        cout: 0,
+        ajoute: "Lance d'Éternité",
+        remplaceListe: ["Lame d'Éternité", "Bouclier Praesidium"],
+      },
+      {
+        type: "case",
+        id: "hurleur-arae",
+        libelle: "Hurleur Arae",
+        cout: 50,
+        ajoute: "Hurleur Arae",
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-terminators-aquilon",
+    nom: "Sodalité de Terminators Aquilon",
+    faction: "legio-custodes",
+    categorie: "Assaut Lourd",
+    cout: 255,
+    composition: "3 Terminators Aquilon",
+    effectif: { base: 3, max: 9, cout: 85 },
+    notes:
+      "Développement de l'armure Terminator modèle Cataphractii des Legiones Astartes, le modèle Aquilon tient compte du physique des membres de la Legio Custodes, et il intègre des systèmes d'alimentation supplémentaires pour compenser les limitations du modèle d'origine. Les Sodalités de Terminators Aquilon n'étaient mobilisées qu'en cas de besoin impérieux, comme lors des rares cas où les Custodiens intervenaient dans des conditions dites de « Zone Mortalis ». La Legio soucieuse de minimiser ses pertes recourait alors à la protection supérieure de l'armure Terminator Aquilon et à ses qualités de plate-forme de tir mobile.",
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    equipement: ["Pique de feu Infernus", "Serre énergétique solarite", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Terminators Aquilon",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 6,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (3)",
+          "Guerrier Éternel (1)",
+          "Avance Implacable",
+          "Avant-garde (3)",
+        ],
+        type: "Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "pique-feu-bolter",
+        libelle:
+          "Figurines : bolter d'assaut Lastrum (à la place de la pique de feu Infernus)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "arme-lourde",
+        remplaceIntegral: "Pique de feu Infernus",
+        ajoute: "Bolter d'assaut Lastrum (à la place de la pique de feu Infernus)",
+      },
+      {
+        type: "quantite",
+        id: "pique-feu-destructeur",
+        libelle:
+          "Figurines : combi-destructeur adrathique (à la place de la pique de feu Infernus)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "arme-lourde",
+        remplaceIntegral: "Pique de feu Infernus",
+        ajoute:
+          "Combi-destructeur adrathique (à la place de la pique de feu Infernus)",
+      },
+      {
+        type: "quantite",
+        id: "serre-gantelet",
+        libelle:
+          "Figurines : gantelet énergétique solarite (à la place de la serre énergétique solarite)",
+        cout: 5,
+        parTranche: 1,
+        remplaceIntegral: "Serre énergétique solarite",
+        ajoute:
+          "Gantelet énergétique solarite (à la place de la serre énergétique solarite)",
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-gardes-custodiens",
+    nom: "Sodalité de Gardes Custodiens",
+    faction: "legio-custodes",
+    categorie: "Troupes",
+    cout: 270,
+    composition: "6 Gardes Custodiens",
+    effectif: { base: 6, max: 12, cout: 45 },
+    notes:
+      "Encore plus forts, plus vifs et plus résistants que les guerriers transhumains des Legiones Astartes, des guerriers à la puissance terrifiante, dont l'armure en alliage unique et les lances de Gardien meurtrières en font des symboles vivants de l'autorité de l'Empereur. Que ce soit dans le cadre de leur fonction de veille ou dans les situations qui exigent de la Legio Custodes qu'elle intervienne hors du domaine de l'Empereur, les Gardes Custodiens sont les premiers mobilisés, et au long de leur histoire, la majorité des Hykanatoi qui composent la Legio Custodes ont combattu en cette qualité de Gardes.",
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Lance de Gardien", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Gardes Custodiens",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "vexillum",
+        libelle: "Un Garde Custodien : vexillum du Magisterium",
+        prefixeFiche: "Un Garde Custodien : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Conserver la lance de Gardien —", cout: 0 },
+          { nom: "Vexillum du Magisterium", cout: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-gardes-sentinelles",
+    nom: "Sodalité de Gardes Sentinelles",
+    faction: "legio-custodes",
+    categorie: "Troupes",
+    cout: 240,
+    composition: "6 Gardes Sentinelles",
+    effectif: { base: 6, max: 12, cout: 40 },
+    notes:
+      "Les Sodalités de Gardes Sentinelles se déploient principalement pour protéger des émissaires en territoire dangereux et tenir des positions défensives contre les pires assauts, munis de leurs boucliers à champ de force dits « Praesidium », précurseurs de leurs homologues en service chez les Legiones Astartes, capables d'endurer les salves les plus violentes. Outre ce rôle protecteur, en vertu des prouesses physiques de tout Custodien et de l'équipement inégalé dont ils sont nantis, les Gardes Sentinelles sont assez mobiles pour jouer des rôles bien plus agressifs au combat, d'autant que leur résistance en fait de terribles briseurs de lignes.",
+    traits: [
+      "Loyaliste",
+      "[Legio Custodes]",
+      "Bouclier (Garde Sentinelle seulement)",
+      "La Sodalité",
+    ],
+    equipement: [
+      "Lame de Sentinelle",
+      "Misericordia",
+      "Bouclier Praesidium (Garde Sentinelle seulement)",
+      "Vexillum du Magisterium (Vexillaire Sentinelle seulement)",
+    ],
+    variantes: [
+      {
+        nom: "Sodalité de Gardes Sentinelles",
+        cout: 0,
+        profils: [
+          {
+            nom: "Garde Sentinelle",
+            profil: {
+              M: 8,
+              CC: 5,
+              CT: 5,
+              F: 5,
+              E: 5,
+              PV: 2,
+              I: 5,
+              A: 3,
+              Cd: 10,
+              Sf: 10,
+              Vo: 8,
+              Int: 8,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Vexillaire Sentinelle",
+            profil: {
+              M: 8,
+              CC: 5,
+              CT: 5,
+              F: 5,
+              E: 5,
+              PV: 2,
+              I: 5,
+              A: 3,
+              Cd: 10,
+              Sf: 10,
+              Vo: 8,
+              Int: 8,
+              Sv: "2+",
+              Inv: "6+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "vexillaire-sentinelle",
+        libelle: "Un Garde Sentinelle remplacé par un Vexillaire Sentinelle",
+        cout: 30,
+        ajoute: "Un Garde Sentinelle remplacé par un Vexillaire Sentinelle",
+      },
+    ],
+  },
+  {
+    id: "dreadnought-contemptor-achillus",
+    nom: "Dreadnought Contemptor-Achillus",
+    faction: "legio-custodes",
+    categorie: "Engins de Guerre",
+    cout: 250,
+    composition: "1 Dreadnought Contemptor-Achillus",
+    notes:
+      "Il faut déchaîner une force considérable pour venir à bout d'un Custodien, et il n'y a guère de blessures dont il ne peut se remettre avec le temps. Cependant, dans les cas où le corps a été pratiquement détruit mais que l'esprit du Custodien demeure intact, on en vient à l'inhumer dans le châssis froid et inaltérable d'un Dreadnought, car chez la Legio Custodes, seule la mort met fin au devoir. Les quelques Dreadnoughts de la Legio Custodes, très sophistiqués, comptaient surtout le Contemptor-Achillus, une unité de combat multitâche qui conjuguait sa force et sa vitesse phénoménales à la valeur martiale de son occupant.",
+    traits: ["Loyaliste", "[Legio Custodes]", "Écran de Fumée"],
+    equipement: [
+      "Affrelance Achillus",
+      "Incinérateur Infernus n°1",
+      "Incinérateur Infernus n°2",
+      "Fumigènes",
+    ],
+    variantes: [
+      {
+        nom: "Dreadnought Contemptor-Achillus",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 8,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 5,
+          Cd: 12,
+          Sf: 10,
+          Vo: 9,
+          Int: 5,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (6)",
+          "Guerrier Éternel (1)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "incinerateur-1",
+        libelle: "Remplacer le premier incinérateur Infernus",
+        remplace: "Incinérateur Infernus n°1",
+        choix: [
+          { nom: "— Conserver l'incinérateur Infernus —", cout: 0 },
+          { nom: "Bolter d'assaut Lastrum", cout: 0 },
+          { nom: "Combi-destructeur adrathique", cout: 5 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "incinerateur-2",
+        libelle: "Remplacer le second incinérateur Infernus",
+        remplace: "Incinérateur Infernus n°2",
+        choix: [
+          { nom: "— Conserver l'incinérateur Infernus —", cout: 0 },
+          { nom: "Bolter d'assaut Lastrum", cout: 0 },
+          { nom: "Combi-destructeur adrathique", cout: 5 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dreadnought-contemptor-galatus",
+    nom: "Dreadnought Contemptor-Galatus",
+    faction: "legio-custodes",
+    categorie: "Engins de Guerre",
+    cout: 225,
+    composition: "1 Dreadnought Contemptor-Galatus",
+    notes:
+      "Sous-variante du Contemptor-Achillus, le Contemptor-Galatus est conçu pour servir sur le terrain d'ancrage mobile et efficacement n'importe quel assaut d'infanterie, ou de pourfendre tout aussi facilement les véhicules blindés et les monstres xénos. C'est pourtant la capacité défensive hors-norme du bouclier Praesidium qui caractérise véritablement le Contemptor-Galatus, car elle rend quasi invulnérable le robuste châssis du Contemptor, même face à la puissance de feu la plus concentrée.",
+    traits: ["Loyaliste", "[Legio Custodes]", "Bouclier", "Écran de Fumée"],
+    equipement: ["Lame de Galatus", "Bouclier Praesidium Gravis", "Fumigènes"],
+    variantes: [
+      {
+        nom: "Dreadnought Contemptor-Galatus",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 8,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 5,
+          Cd: 12,
+          Sf: 10,
+          Vo: 9,
+          Int: 5,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (6)",
+          "Guerrier Éternel (1)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+        ],
+        type: "Marcheur",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "dreadnought-lourd-telemon",
+    nom: "Dreadnought Lourd Telemon",
+    faction: "legio-custodes",
+    categorie: "Engins de Guerre",
+    cout: 360,
+    composition: "1 Dreadnought Lourd Telemon",
+    notes:
+      "On dit que l'arsenal de la Legio Custodes ne compte qu'une poignée de Dreadnoughts Telemon, destinés à veiller sur ses protégés quelle que soit l'adversité. Cette rareté tient en partie au coût immense en ressources et en main-d'œuvre pour créer un engin de guerre aussi remarquable, d'autant que chacun arbore au moins une plaque réalisée de la main de l'Empereur en personne. Malgré tout cela, les performances d'un Dreadnought de classe Telemon justifient les contraintes de sa construction, car presque rien ne peut résister à son armement ésotérique, ni au guerrier prodigieux qu'est le Custodien vétéran cloîtré à son bord.",
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    equipement: ["Lance-missiles Spiculus", "Fumigènes"],
+    variantes: [
+      {
+        nom: "Dreadnought Lourd Telemon",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 9,
+          E: 8,
+          PV: 8,
+          I: 3,
+          A: 3,
+          Cd: 12,
+          Sf: 10,
+          Vo: 9,
+          Int: 3,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (8)",
+          "Guerrier Éternel (1)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Avant-garde (2)",
+        ],
+        type: "Marcheur (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bras-1",
+        libelle: "Bras n°1 (choix obligatoire)",
+        ajoute: true,
+        obligatoire: true,
+        desactiveSiOptionActive: "paire-cestes",
+        choix: [
+          {
+            nom: "Ceste de Telemon et un projecteur à cascade de neutronium jumelé",
+            cout: 5,
+          },
+          { nom: "Canon tempête Arachnus", cout: 20 },
+          { nom: "Désolateur adrathique", cout: 15 },
+          { nom: "Couleuvrine accélératrice Iliastus", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "bras-2",
+        libelle: "Bras n°2 (choix obligatoire)",
+        ajoute: true,
+        obligatoire: true,
+        desactiveSiOptionActive: "paire-cestes",
+        choix: [
+          {
+            nom: "Ceste de Telemon et un projecteur à cascade de neutronium jumelé",
+            cout: 5,
+          },
+          { nom: "Canon tempête Arachnus", cout: 20 },
+          { nom: "Désolateur adrathique", cout: 15 },
+          { nom: "Couleuvrine accélératrice Iliastus", cout: 15 },
+        ],
+      },
+      {
+        type: "case",
+        id: "paire-cestes",
+        libelle:
+          "Paire de cestes de Telemon et deux projecteurs à cascade de neutronium jumelés (les deux bras, à la place des Bras n°1/n°2)",
+        cout: 15,
+        ajoute:
+          "Paire de cestes de Telemon et deux projecteurs à cascade de neutronium jumelés",
+      },
+    ],
+  },
+  {
+    id: "graviporteur-coronus",
+    nom: "Graviporteur Coronus",
+    faction: "legio-custodes",
+    categorie: "Transports Lourds",
+    cout: 180,
+    composition: "1 Graviporteur Coronus",
+    notes:
+      "Cette Figurine a un Point d'Accès à l'Arrière. L'utilisation d'engins antigrav par la Legio Custodes accordait à ses forces un degré de souplesse et de célérité inaccessible aux pesantes unités blindées des autres forces de l'Imperium, ce qui leur permettait de se déployer, de se redéployer et de se retirer sans courir de risque d'être clouées sur place par les troupes ennemies ou un terrain accidenté. Le graviporteur Coronus en est sans doute l'exemple le plus connu, à la fois transport principal des Sodalités de la Legio et modèle des engins antigrav Enyalas ultérieurs, fournissant à la Legio Custodes son arsenal exclusif de véhicules blindés hautement sophistiqués.",
+    equipement: [
+      "Canon ardant Arachnus jumelé de Tourelle",
+      "Canon à bolts Lastrum jumelé de Coque (Avant)",
+    ],
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    variantes: [
+      {
+        nom: "Graviporteur Coronus",
+        cout: 0,
+        profilVehicule: {
+          M: 12,
+          CT: 5,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 8,
+          transport: 14,
+        },
+        regles: [
+          "Véhicule d'Assaut",
+          "Autoréparation (3+)",
+          "Frappe en Profondeur",
+          "Explose (6+)",
+        ],
+        type: "Véhicule (Antigrav, Transport)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canon-bolts",
+        libelle: "Remplacer le canon à bolts Lastrum jumelé de Coque (Avant)",
+        remplace: "Canon à bolts Lastrum jumelé de Coque (Avant)",
+        choix: [
+          {
+            nom: "— Conserver le canon à bolts Lastrum jumelé (Avant) —",
+            cout: 0,
+          },
+          {
+            nom: "Projecteur à cascade de neutronium jumelé de Coque (Avant)",
+            cout: 15,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-venatari",
+    nom: "Sodalité de Venatari",
+    faction: "legio-custodes",
+    categorie: "Reco",
+    cout: 165,
+    composition: "3 Venatari",
+    effectif: { base: 3, max: 6, cout: 55 },
+    notes:
+      "Chez la Legio Custodes, c'est un grand honneur que d'intégrer le corps des Custodiens Venatari. Peu nombreux, ce sont ceux qui ont prouvé leur vaillance au cours des Parties de Chasse, ces exercices qu'organise la Legio Custodes pour éprouver les points faibles des défenses personnelles de l'Empereur, et qui ont le talent pour utiliser l'équipement de vol et l'armement archéotech des Venatari. Les toits et les flèches du Palais Impérial sont leur domaine, tout comme l'espace aérien lors des assauts de la Legio Custodes, d'où ils évaluent les menaces au sol avant de fondre sur elles depuis leurs aires de Terra ou la soute d'un aéronef.",
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Destructeur cinétique", "Bocle Tarsus", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Venatari",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "3+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (3)",
+          "Frappe en Profondeur",
+          "Guerrier Éternel (1)",
+          "Orage de Feu",
+          "Attaque de Flanc",
+          "Avant-garde (3)",
+        ],
+        type: "Infanterie (Antigrav, Léger)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "lance-verutum",
+        libelle:
+          "Figurines : lance Verutum (à la place du destructeur cinétique et du bocle Tarsus)",
+        cout: 0,
+        parTranche: 1,
+        remplaceIntegral: ["Destructeur cinétique", "Bocle Tarsus"],
+        ajoute: "Lance Verutum",
+      },
+      {
+        type: "quantite",
+        id: "mines-neutronium",
+        libelle: "Figurines : mines à cascade de neutronium",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Mines à cascade de neutronium",
+      },
+    ],
+  },
+  {
+    id: "custodes-sodalite-gyrfalcon",
+    nom: "Sodalité de Motojets Gyrfalcon",
+    faction: "legio-custodes",
+    categorie: "Attaque Rapide",
+    cout: 140,
+    composition: "2 Gyrfalcon Agamatus",
+    effectif: { base: 2, max: 10, cout: 70 },
+    notes:
+      "Entre autres modèles de motojets en service chez la Legio Custodes, les Sodalités Agamatus ont pour destrier le modèle Gyrfalcon, doté d'une puissante motorisation à plasma. En plus de supporter la masse d'un Custodien en armure, il dispose d'un redoutable arsenal. Ainsi équipées, les Sodalités Agamatus servent d'unités de réaction rapide et de neutralisation, afin d'empêcher tout encerclement de la force principale des Custodiens, de saper sans délai les attaques adverses et de pourchasser sans merci les fuyards démoralisés par la puissance de la Legio Custodes, pour s'assurer que l'ennemi soit dûment exterminé.",
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    equipement: ["Canon à bolts Lastrum", "Lance énergétique solarite", "Misericordia"],
+    variantes: [
+      {
+        nom: "Sodalité de Motojets Gyrfalcon",
+        cout: 0,
+        profil: {
+          M: 16,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 3,
+          I: 5,
+          A: 2,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 8,
+          Sv: "3+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (5)",
+          "Frappe en Profondeur",
+          "Guerrier Éternel (1)",
+          "Avance Implacable",
+          "Attaque de Flanc",
+          "Avant-garde (3)",
+        ],
+        type: "Cavalerie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "canon-devastateur",
+        libelle:
+          "Figurines : dévastateur adrathique (à la place du canon à bolts Lastrum)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "arme",
+        remplaceIntegral: "Canon à bolts Lastrum",
+        ajoute: "Dévastateur adrathique (à la place du canon à bolts Lastrum)",
+      },
+      {
+        type: "quantite",
+        id: "canon-pulseur",
+        libelle:
+          "Figurines : pulseur laser Corvae jumelé (à la place du canon à bolts Lastrum)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "arme",
+        remplaceIntegral: "Canon à bolts Lastrum",
+        ajoute:
+          "Pulseur laser Corvae jumelé (à la place du canon à bolts Lastrum)",
+      },
+    ],
+  },
+  {
+    id: "antigrav-attaque-pallas",
+    nom: "Antigrav d'Attaque Pallas",
+    faction: "legio-custodes",
+    categorie: "Attaque Rapide",
+    cout: 105,
+    composition: "1 Antigrav d'Attaque Pallas",
+    notes:
+      "Appareil de recherche et destruction à haute maniabilité, le modèle Pallas qui équipe les escadrons d'attaque antigrav de la Legio Custodes autorise une capacité de frappe inaccessible aux unités terrestres. Basé sur la technologie avancée de répulsion antigravité dont le Coronus fut le pionnier, le Pallas a un rôle tactique qui exploite son agilité pour exécuter des attaques de harcèlement meurtrières ou pourchasser les ennemis en déroute. Grâce à la technologie et à la facture supérieures dont jouit l'arsenal de la Legio Custodes, le Pallas est solide et doté d'une puissance de feu qu'amplifie la vertu martiale du pilote custodien.",
+    equipement: ["Fusil accélérateur Iliastus jumelé d'Axe Central"],
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    variantes: [
+      {
+        nom: "Antigrav d'Attaque Pallas",
+        cout: 0,
+        profilVehicule: {
+          M: 16,
+          CT: 5,
+          avant: 12,
+          flanc: 11,
+          arriere: 11,
+          PC: 4,
+          transport: "—",
+        },
+        regles: ["Autoréparation (3+)", "Frappe en Profondeur", "Explose (6+)"],
+        type: "Véhicule (Antigrav, Rapide)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "fusil-accelerateur",
+        libelle: "Remplacer le fusil accélérateur Iliastus jumelé d'Axe Central",
+        remplace: "Fusil accélérateur Iliastus jumelé d'Axe Central",
+        choix: [
+          {
+            nom: "— Conserver le fusil accélérateur Iliastus jumelé —",
+            cout: 0,
+          },
+          { nom: "Canon ardant Arachnus jumelé d'Axe Central", cout: 25 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "char-antigrav-caladius",
+    nom: "Char Antigrav Caladius",
+    faction: "legio-custodes",
+    categorie: "Blindés",
+    cout: 225,
+    composition: "1 Char Antigrav Caladius",
+    notes:
+      "Basé sur la technologie du Coronus, le char antigrav Caladius est une plate-forme rapide et solide qui met à profit la puissance jumelé accordée par les pièces lourdes propres à l'arsenal de la Legio Custodes sous la forme d'un canon accélérateur Iliastus jumelé ou d'une carronade ardante Arachnus. De par cette fusion de systèmes et d'armes avancés, le Caladius est peut-être le blindé le plus puissant de son tonnage chez les forces de l'Imperium, grâce à des technologies et à des matériaux hérités du Moyen-Âge Technologique, mais aussi grâce à des développements légués par deux siècles de Grande Croisade.",
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    /* Les deux Figurines exclusives (base/Annihilator) diffèrent par
+       leur Arme de Tourelle : les deux entrées sont donc posées ici,
+       chacune masquée sur la mauvaise variante via `variantesExclues`
+       (voir le bug corrigé sur les montures Outrider/Jetbike Scimitar,
+       CLAUDE.md) plutôt que dans un `equipement` par variante, qui
+       n'est pas lu par equipementFinal (js/unites.js). */
+    equipement: [
+      { nom: "Canon accélérateur Iliastus jumelé de Tourelle", variantesExclues: [1] },
+      { nom: "Carronade ardante Arachnus jumelée de Tourelle", variantesExclues: [0] },
+      "Canon à bolts Lastrum jumelé de Coque (Avant)",
+    ],
+    variantes: [
+      {
+        nom: "Char Antigrav Caladius",
+        cout: 0,
+        profilVehicule: {
+          M: 14,
+          CT: 5,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 7,
+          transport: "—",
+        },
+        regles: ["Autoréparation (3+)", "Frappe en Profondeur", "Explose (6+)"],
+        type: "Véhicule (Antigrav, Rapide)",
+      },
+      {
+        nom: "Char Antigrav Caladius Annihilator",
+        cout: 10,
+        profilVehicule: {
+          M: 14,
+          CT: 5,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 7,
+          transport: "—",
+        },
+        regles: ["Autoréparation (3+)", "Frappe en Profondeur", "Explose (6+)"],
+        type: "Véhicule (Antigrav, Rapide)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canon-bolts",
+        libelle: "Remplacer le canon à bolts Lastrum jumelé de Coque (Avant)",
+        remplace: "Canon à bolts Lastrum jumelé de Coque (Avant)",
+        choix: [
+          {
+            nom: "— Conserver le canon à bolts Lastrum jumelé (Avant) —",
+            cout: 0,
+          },
+          {
+            nom: "Projecteur à cascade de neutronium jumelé de Coque (Avant)",
+            cout: 15,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "escorteur-ares",
+    nom: "Escorteur Ares",
+    faction: "legio-custodes",
+    categorie: "Seigneurs des Batailles",
+    cout: 650,
+    composition: "1 Escorteur Ares",
+    notes:
+      "L'Escorteur Ares a pour base une cellule d'Orion, elle-même construite autour d'un canon à magnacascade de neutronium une arme au pouvoir destructeur cauchemardesque dont la production consomme des ressources immenses et qui exige de dépouiller l'arrière du fuselage de l'Ares pour accueillir un appareillage d'alimentation et de refroidissement massif. La Legio Custodes utilise l'Ares comme arme de terreur et de pure dévastation, pour raser les forteresses et les monuments chers à l'ennemi de sorte à supprimer ses défenses tout en écrasant sa volonté de se battre, afin que nul ne doute de la domination absolue de l'Empereur.",
+    equipement: [
+      "Carronade tempête Arachnus jumelée d'Axe Central",
+      "Canon à magnacascade de neutronium de Coque (Avant)",
+      "Deux grappes de bombes Infernus d'Axe Central (Avant, Arrière)",
+      "Bouclier éclipse",
+    ],
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    variantes: [
+      {
+        nom: "Escorteur Ares",
+        cout: 0,
+        profilVehicule: {
+          M: 18,
+          CT: 5,
+          avant: 13,
+          flanc: 13,
+          arriere: 13,
+          PC: 12,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule (Super-lourd, Aéronef)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "navette-assaut-orion",
+    nom: "Navette d'Assaut Orion",
+    faction: "legio-custodes",
+    categorie: "Seigneurs des Batailles",
+    cout: 600,
+    composition: "1 Navette d'Assaut Orion",
+    notes:
+      "Cette Figurine a un Point d'Accès à l'Arrière. Créée en tant que navette d'assaut super-lourde pour la Legio Custodes, l'Orion modèle Enyalas peut transporter au combat plusieurs Sodalités de Custodiens et appuyer leur attaque par des salves meurtrières. Protégée par un blindage frontal supérieur à celui de tout autre appareil de sa taille, l'Orion dispose d'une carronade ardante Arachnus jumelée apte à déchiqueter les aéronefs comme les blindés, ainsi que d'une combinaison de nacelles Spiculus et de canons à bolts Lastrum afin de dégager la zone où elle dépose ses guerriers, avant de reprendre son essor pour semer la mort sur tout ennemi qui oserait s'approcher.",
+    equipement: [
+      "Carronade ardante Arachnus jumelée d'Axe Central",
+      "Deux canons à bolts Lastrum jumelés de Coque (Avant)",
+      "Deux nacelles à missiles lourds Spiculus de Coque (Avant)",
+      "Bouclier éclipse",
+    ],
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    variantes: [
+      {
+        nom: "Navette d'Assaut Orion",
+        cout: 0,
+        profilVehicule: {
+          M: 18,
+          CT: 5,
+          avant: 13,
+          flanc: 13,
+          arriere: 13,
+          PC: 12,
+          transport: 26,
+        },
+        regles: ["Véhicule d'Assaut"],
+        type: "Véhicule (Transport, Super-lourd, Aéronef)",
+      },
+    ],
+    options: [],
+  },
+
   /* ============================================================
      Legacies of the Age of Darkness : The Legiones Inductii (PDF
      dédié, p. 1-22) — Escouade Inductii, générique par Légion (I,
@@ -37330,5 +38310,246 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
       optionBaionnette(),
     ],
+  },
+
+  /* ============================================================
+     ANATHEMA PSYKANA (livre d'armée officiel, la Sororité Silencieuse)
+     `faction: "anathema-psykana"` (activée dans FACTIONS, js/
+     organigramme.js). Toutes les Unités portent le Trait fixe
+     « Loyaliste » (pas de placeholder « [Allégeance] » : cette Liste
+     d'Armée n'a pas de variante Renégate) et le Trait générique
+     « [Anathema Psykana] » (masqué sur la fiche récap comme « [Legio
+     Custodes] »/« [Legiones Astartes] », voir construireFiche,
+     js/unites.js). « Serres de l'Empereur » est le Trait organisation-
+     nel générique de cette Faction (pas de texte intégral fourni dans
+     les fiches transcrites ici, laissé en texte brut, sur le même
+     principe que « La Sodalité » avant que son texte ne soit connu).
+     « Ex Oblivio » (Chevalière Centura, Jenetia Krole) n'a lui non plus
+     aucun texte intégral fourni : nom seul dans `regles`, conformément
+     à la règle 6 de CLAUDE.md. Aucune page d'Arsenal (tableau de
+     caractéristiques d'Armes) n'a été fournie pour ce lot hormis
+     l'encart dédié de L'Épée de l'Oubli (Jenetia Krole) : les autres
+     Armes nommées (Arroi de canons lourd Hellion, missiles vratins
+     lourds, Espadon d'exécution) restent du texte d'équipement brut,
+     sans entrée armes-data.js — même principe que pour le reste du
+     roster Legio Custodes plus haut dans ce fichier.
+     ============================================================ */
+  {
+    id: "cadre-anathema",
+    nom: "Cadre Anathema",
+    faction: "anathema-psykana",
+    categorie: "Troupes",
+    cout: 65,
+    composition: "4 Sœurs du Néant et 1 Maîtresse du Néant",
+    effectif: { base: 5, max: 10, cout: 10 },
+    // Paragraphe de fluff volontairement omis, même raison que la
+    // Chevalière Centura/Jenetia Krole ci-dessous : photo pivotée trop
+    // peu lisible pour une transcription fidèle.
+    traits: ["Loyaliste", "[Anathema Psykana]", "Serres de l'Empereur"],
+    equipement: ["Bolter"],
+    variantes: [
+      {
+        nom: "Cadre Anathema",
+        cout: 0,
+        profils: [
+          {
+            nom: "Sœur du Néant",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 10,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Maîtresse du Néant",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 7,
+              Vo: 10,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Peur (1)", "Haine (Psykers, Maléfiques)"],
+        type: "Maîtresse du Néant : Infanterie (Sergent, Léger) · Sœur du Néant : Infanterie (Léger)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Toute l'Unité : remplacer le bolter (même objet pour toutes les Figurines)",
+        remplace: "Bolter",
+        parFigurine: true,
+        choix: [
+          { nom: "— Conserver le bolter —", cout: 0 },
+          { nom: "Deux pistolets bolters", cout: 0 },
+          { nom: "Lance-flammes", cout: 5 },
+          { nom: "Espadon d'exécution", cout: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "chevaliere-centura",
+    nom: "Chevalière Centura",
+    faction: "anathema-psykana",
+    categorie: "État-major",
+    cout: 75,
+    composition: "1 Chevalière Centura",
+    // Paragraphe de fluff volontairement omis : la photo source (page
+    // pivotée) n'était pas assez lisible pour une transcription fidèle,
+    // et une première tentative avait produit du texte incohérent
+    // (« quilon les liasse rivre » n'est pas du français) — mieux vaut
+    // aucune note que du texte inventé pour combler les trous.
+    traits: [
+      "Loyaliste",
+      "[Anathema Psykana]",
+      "Serres de l'Empereur",
+      "Investigatus-Militant",
+    ],
+    equipement: ["Lame de parangon"],
+    variantes: [
+      {
+        nom: "Chevalière Centura",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 4,
+          F: 3,
+          E: 3,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 12,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Ex Oblivio",
+          "Peur (1)",
+          "Haine (Psykers, Maléfiques)",
+          "Précision (6+)",
+        ],
+        type: "Infanterie (État-major, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "jenetia-krole",
+    nom: "Jenetia Krole",
+    faction: "anathema-psykana",
+    categorie: "Quartier Général",
+    cout: 125,
+    composition: "1 Jenetia Krole",
+    // Paragraphe de fluff volontairement omis, même raison que la
+    // Chevalière Centura ci-dessus : photo pivotée trop peu lisible
+    // pour une transcription fidèle.
+    traits: [
+      "Loyaliste",
+      "[Anathema Psykana]",
+      "Serres de l'Empereur",
+      "Investigatus-Militant",
+    ],
+    equipement: ["L'Épée de l'Oubli", "Pistolet archéotech"],
+    variantes: [
+      {
+        nom: "Jenetia Krole",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 6,
+          CT: 5,
+          F: 3,
+          E: 3,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 10,
+          Vo: 12,
+          Int: 10,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Guerrier Éternel (1)",
+          "Ex Oblivio",
+          "Peur (1)",
+          "Haine (Psykers, Maléfiques)",
+          "Précision (5+)",
+          "La Reine Sans Âme",
+        ],
+        type: "Infanterie (Unique, État-major, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "acquisitor-kharon",
+    nom: "Acquisitor Modèle Kharon",
+    faction: "anathema-psykana",
+    categorie: "Transports Lourds",
+    cout: 120,
+    composition: "1 Acquisitor Kharon",
+    // Le paragraphe de fluff est volontairement omis (photo pivotée
+    // trop peu lisible pour une transcription fidèle), seule
+    // l'information mécanique du Point d'Accès est conservée.
+    notes: "Cette Figurine a un Point d'Accès à l'Avant.",
+    equipement: [
+      "Arroi de canons lourd Hellion de Coque (Avant)",
+      "Deux missiles vratins lourds d'Axe Central",
+    ],
+    traits: ["Loyaliste", "[Anathema Psykana]", "Serres de l'Empereur"],
+    variantes: [
+      {
+        nom: "Acquisitor Kharon",
+        cout: 0,
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 13,
+          flanc: 12,
+          arriere: 11,
+          PC: 5,
+          transport: 12,
+        },
+        regles: [
+          "Véhicule d'Assaut",
+          "Peur (1)",
+          "Transport Léger",
+          "Attaque de Flanc",
+          "Dissimulation (5+)",
+        ],
+        type: "Véhicule (Antigrav, Transport)",
+      },
+    ],
+    options: [],
   },
 ];

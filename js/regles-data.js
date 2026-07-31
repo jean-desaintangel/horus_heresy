@@ -2322,4 +2322,82 @@ const REGLES_DIVERSES = [
     texte:
       "Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ne peut pas être prise pour cible par une Attaque de Tir au premier Tour de Bataille. Une Unité entièrement composée de Figurines ayant cette Règle Spéciale ne peut pas être choisie comme Unité Cible d'une Attaque de Tir au premier Tour de Bataille. Cette Règle Spéciale n'a aucun effet sur les Attaques de Volée ni sur les Attaques de Tir faites dans le cadre d'une Réaction.",
   },
+
+  /* --- Legio Custodes (livre d'armée officiel, GW 2026) : Tactica de
+     Legio, Postures de Défi et Réaction Avancée propres au Trait
+     Legio Custodes, plus les deux boucliers Praesidium. Non injectées
+     automatiquement dans les `regles` des Unités (aucun mécanisme de
+     rattachement Trait → Règle Spéciale automatique n'existe pour ce
+     Trait, à la différence de `reglesAppliquees` qui ne vise que les
+     Avantages Principaux) : entrées de glossaire de référence
+     uniquement, gap documenté dans CLAUDE.md. --- */
+  {
+    nom: "Seule la Mort",
+    texte:
+      "Tactica de Legio : toutes les Figurines qui ont le Trait Legio Custodes, sauf les Figurines de Type Véhicule, sont sujettes à cette Règle Spéciale. En Combat, les Unités composées uniquement de Figurines ayant cette Règle Spéciale sont Sonnées au lieu d'être en Déroute, et ne peuvent ni Battre en Retraite ni se Désengager d'un Combat. Quand une Figurine ayant cette Règle Spéciale est censée gagner le Statut Tactique En Déroute à l'étape Faire les Tests de Panique de la Sous-phase de Résolution de la Phase d'Assaut, elle gagne à la place le Statut Tactique Sonnée, à moins qu'il y ait, dans la même Unité qu'elle, au moins une Figurine dépourvue de cette Règle Spéciale. De plus, une Unité composée uniquement de Figurines ayant cette Règle Spéciale ne peut jamais choisir de se Désengager ni de Battre en Retraite parmi les options de Répercussions, sauf si par ailleurs elle se compose uniquement de Figurines de Sous-type Antigrav, auquel cas elle a malgré tout l'option de se Désengager.",
+  },
+  {
+    nom: "Maître de la Légion d'Or",
+    texte:
+      "Si une Figurine ayant cette Règle Spéciale fait partie d'une Armée, toutes les Figurines de la même Armée qui ont le Trait Legio Custodes (sauf les Figurines de Type Véhicule) ont la Règle Spéciale Peur (1) jusqu'à la fin du premier Tour de Bataille. En outre, une fois par Tour, quand le Joueur en Contrôle fait un Jet de Réserves pour une Unité composée uniquement de Figurines qui ont le Trait Legio Custodes et la Règle Spéciale Frappe en Profondeur, avant de faire le Jet de Réserves, ledit Joueur a le droit de le modifier de +1. S'il applique ce modificateur, il doit déployer l'Unité concernée selon la Règle Spéciale Frappe en Profondeur.",
+  },
+  {
+    nom: "La Lame se Scinde",
+    texte:
+      "Réaction Avancée de la Legio Custodes qui scinde une Unité Réactive en deux Unités distinctes. Une fois par Bataille, le Joueur Réactif peut la déclarer à l'Étape 2 du processus de la Sous-phase de Déplacement si une Unité ennemie finit un Déplacement à 12 pouces et en Ligne de Vue d'une Unité sous son contrôle (coût : 1 Point d'Attribution de Réactions). L'Unité Réactive doit se trouver à 12 pouces et en Ligne de Vue de l'Unité Cible, être uniquement composée de Figurines qui ont les Traits Legio Custodes ET La Sodalité, et comprendre au moins six Figurines. Une fois le Déplacement de l'Unité Cible résolu, le Joueur Réactif doit déplacer au moins trois Figurines de l'Unité Réactive d'un nombre de pouces égal à la Caractéristique d'Initiative de chaque Figurine, de sorte qu'elles ne se trouvent plus en Cohésion d'Unité avec le reste de l'Unité Réactive mais restent en Cohésion d'Unité entre elles ; il doit rester au moins trois Figurines de l'Unité Réactive qui ne se sont pas déplacées et qui demeurent en Cohésion d'Unité entre elles. Les Figurines déplacées forment alors une nouvelle Unité distincte du reste de l'Unité Réactive à tous égards, y compris pour marquer des Points de Victoire (l'Objectif Secondaire Dernier Debout (X) excepté). Toutes les Figurines qui se trouvaient dans l'Unité Réactive au moment où la Réaction a été déclarée sont considérées comme ayant effectué une Réaction à ce Tour de Joueur.",
+  },
+  {
+    nom: "Élan du Rapace",
+    texte:
+      "Posture de Défi de la Legio Custodes disponible tant qu'une Figurine ayant le Trait Legio Custodes est Engagée en Défi. Cette Posture confère à une Figurine des attaques supplémentaires en fonction du nombre de Figurines ennemies impliquées dans le même Combat qu'elle. Si cette Posture est choisie, dans le cas où le Joueur Adverse a un Bonus de Soutien Extérieur supérieur à celui du Joueur en Contrôle à l'Étape de Concentration, la Figurine qui l'adopte gagne un bonus à sa Caractéristique d'Attaques actuelle à l'Étape de Frappe suivante égal à la différence entre les Bonus de Soutien Extérieur des Joueurs lors de ce Défi, jusqu'à un maximum de +3.",
+  },
+  {
+    nom: "Frappe des Cieux",
+    texte:
+      "Posture de Défi de la Legio Custodes qui réduit de moitié la Caractéristique d'Attaques de la Figurine, mais remplace la Règle Spéciale Touche Critique (6+) par Touche Critique (5+) sur son Arme. Si cette Posture est choisie, tant que la Figurine qui l'adopte a déclaré au début de l'Étape de Concentration qu'elle utilise une Arme ayant la Règle Spéciale Touche Critique (6+), cette dernière est remplacée par la Règle Spéciale Touche Critique (5+), et la Caractéristique d'Attaques de Base de la Figurine est divisée pour la durée de l'Étape de Frappe.",
+  },
+  {
+    nom: "Fléau du Serpent du Monde",
+    texte:
+      "Posture de Défi de la Legio Custodes qui limite une Figurine à une seule attaque, mais dont la Caractéristique de Dégâts est fixée au nombre de Points de Vie restants de la Figurine. Si cette Posture est choisie, la Figurine qui l'adopte ne peut faire qu'une seule attaque à l'Étape de Frappe suivante, quelle que soit sa Caractéristique d'Attaques, mais la Caractéristique de Dégâts de l'Arme utilisée pour cette attaque est modifiée de sorte à être égale à la Valeur Actuelle de la Caractéristique de Points de Vie de la Figurine, le temps de résoudre cette attaque.",
+  },
+  {
+    nom: "Égide de la Pierre",
+    texte:
+      "Posture de Défi de la Legio Custodes, réservée à une Figurine qui a le Trait Bouclier, qui modifie de +1 l'Endurance d'une Figurine mais fait rater automatiquement sur un résultat naturel de 1 ou 2 les Jets de Blessure faits pour elle. Si cette Posture est choisie, la Figurine qui l'adopte gagne un modificateur de +1 à sa Caractéristique d'Endurance pour la durée de l'Étape de Frappe, mais tous les Jets de Blessure faits pour ladite Figurine à la même Étape de Frappe ratent automatiquement sur un résultat naturel de 1 ou 2.",
+  },
+  {
+    nom: "Bouclier Praesidium",
+    texte:
+      "Une Figurine dotée d'un bouclier Praesidium gagne une Sauvegarde Invulnérable de 5+ et le Trait Bouclier.",
+  },
+  {
+    nom: "Bouclier Praesidium Gravis",
+    texte:
+      "Cumulant des strates de boucliers énergétiques et un véritable rempart de plastacier et de céramite renforcée, le Praesidium Gravis est un pavois impénétrable quelles que soient les attaques. Ses dimensions et sa masse sont telles qu'aucun guerrier normal ne pourrait en faire usage ; le maniement d'un tel bouclier est l'apanage du châssis blindé d'un Dreadnought. Une Figurine dotée d'un bouclier Praesidium Gravis gagne une Sauvegarde Invulnérable de 4+ et le Trait Bouclier.",
+  },
+  {
+    nom: "Bocle Tarsus",
+    texte:
+      "Ce petit bouclier n'offre à lui seul guère de protection, mais il émet des champs d'énergie complexes qui diffractent et affaiblissent les radiations et l'énergie cinétique destinées au porteur. Ces champs directionnels affectent une aire relativement réduite, ce qui nécessite d'orienter le bocle précisément, chose ardue hormis pour la Legio Custodes. On modifie de -1 la Force de Tir des attaques faites au cours d'une Attaque de Volée ou d'une Réaction État d'Alerte quand on résout les Jets de Blessure contre une Unité qui inclut au moins une Figurine dotée d'un bocle Tarsus.",
+  },
+
+  /* --- Anathema Psykana (livre d'armée officiel, la Sororité
+     Silencieuse) : Tactica de Divisio, Posture de Défi de Jenetia
+     Krole et Trait Investigatus-Militant. --- */
+  {
+    nom: "Anathème",
+    texte:
+      "Tactica de Divisio : toutes les Figurines qui ont le Trait Anathema Psykana, sauf les Figurines de Type Véhicule, sont sujettes à cette Règle Spéciale. Les Figurines ayant cette Règle Spéciale ignorent les effets des Aptitudes Psychiques et des Armes Psychiques, et une Arme qui a le Trait Psychique ou Immatériel ne peut les blesser que sur 5+. En outre, les Jets de Blessure faits pour des Armes qui ont le Trait Psychique ou Immatériel, qui ciblent uniquement une Unité composée uniquement de Figurines ayant cette Règle Spéciale, et qui obtiennent un résultat non modifié de 1, 2, 3 ou 4, sont toujours des échecs, quelles que soient les Règles Spéciales qui fixent le Nombre Cible des Jets de Blessure. Cette Règle Spéciale est sans effet sur les Jets de Pénétration de Blindage.",
+  },
+  {
+    nom: "La Reine Sans Âme",
+    texte:
+      "Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Frappe Abyssale — quand cette Posture est choisie, le Joueur en Contrôle gagne un modificateur positif à son Jet de Concentration égal à la Valeur de Base de la Caractéristique de Volonté de Krole, moins la Caractéristique Actuelle de Volonté de la Figurine adverse en Défi.",
+  },
+  {
+    nom: "Investigatus-Militant",
+    texte:
+      "Si le Détachement Principal d'une Armée est issu de la Liste d'Armée de l'Anathema Psykana et inclut au moins une Unité ayant ce Trait, le Joueur en Contrôle gagne un Point de Réaction bonus pour ce Détachement.",
+  },
 ];

@@ -3283,6 +3283,12 @@ const ARMES_TIR = [
         regles: "Vulnérante (6+), Limitée (I), Combi",
         traits: "Désintégrateur",
       },
+      {
+        nom: "La Lance Apollonienne (Tir)",
+        stats: ["18", "2", "5", "2", "2"],
+        regles: "Neutralisation (1)",
+        traits: "Assaut, Bolts",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
@@ -4933,7 +4939,25 @@ const ARMES_MELEE = [
         regles: "Impact (MA)",
         traits: "Énergétique",
       },
+      {
+        nom: "La Lance Apollonienne (Mêlée)",
+        stats: ["1", "A", "+2", "2", "2"],
+        regles: "Touche Critique (5+), Atout du Duelliste (2), Impact (MA)",
+        traits: "Énergétique",
+      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
+  },
+  /* --- Arsenal de l'Anathema Psykana. --- */
+  {
+    titre: "Armes de l'Anathema Psykana",
+    armes: [
+      {
+        nom: "L'Épée de l'Oubli",
+        stats: ["1", "A", "+2", "2", "2"],
+        regles: "Touche Critique (6+), Atout du Duelliste (2)",
+        traits: "-",
+      },
+    ],
   },
 ];
