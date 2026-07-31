@@ -544,7 +544,7 @@ const ARMES_TIR = [
         traits: "Bolts",
       },
       {
-        nom: "Batterie de b. lourds Gravis",
+        nom: "Batterie de bolters lourds Gravis",
         stats: ["36", "8", "5", "4", "1"],
         regles: "Neutralisation (2)",
         traits: "Bolts",
@@ -897,6 +897,15 @@ const ARMES_TIR = [
         nom: "Déchiqueteur à gravitons",
         stats: ["18", "2", "6", "4", "1"],
         regles: "Brèche (6+), Choc (Fixée), Fixation (1)",
+        traits: "Assaut, Gravitons",
+      },
+      {
+        // Arsenal des Iron Hands (Xe Légion) : échange contre un
+        // pistolet à plasma pour toute Figurine de Sous-type État-major
+        // ou Champion ayant le Trait Iron Hands (+5 Points/Figurine).
+        nom: "Pistolet à graviton",
+        stats: ["12", "2", "6", "4", "1"],
+        regles: "Pistolet, Brèche (6+), Choc (Fixée), Fixation (1)",
         traits: "Assaut, Gravitons",
       },
       {
@@ -4008,14 +4017,14 @@ const ARMES_MELEE = [
         // arme énergétique pour toute Figurine ayant le Trait Sons of
         // Horus, +5 Points par Figurine.
         nom: "Hache énergétique carsoraine",
-        stats: ["-1", "A", "+1", "3", "1"],
+        stats: ["-2", "A", "+1", "3", "1"],
         regles: "Brèche (5+), Lacération (6+)",
         traits: "Énergétique",
       },
       {
         // Arsenal des Sons of Horus (XVIe Légion) : voir Hache
         // énergétique carsoraine, +10 Points par Figurine.
-        nom: "Tabar énergétique carsoraine",
+        nom: "Tabar énergétique carsorain",
         stats: ["-2", "A", "+2", "3", "1"],
         regles: "Brèche (5+), Lacération (5+)",
         traits: "Énergétique",

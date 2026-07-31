@@ -565,6 +565,17 @@ function optionLegionOk(opt) {
   );
 }
 
+// Même principe qu'optionLegionOk ci-dessus, mais pour `opt.requiertAllegeance`
+// (ex : Hurleurs soniques/Lance sonique, Arsenal des Emperor's Children —
+// combiné à `opt.requiertLegion` sur la même option, puisque la page exige
+// à la fois le Trait Emperor's Children ET Renégat). Pas de repli sur une
+// Allégeance « alliée » : cette notion n'existe pas dans ce fichier.
+function optionAllegeanceOk(opt) {
+  if (!opt.requiertAllegeance) return true;
+  if (!orgaPret || typeof Organigramme === "undefined") return false;
+  return Organigramme.allegeanceActuelle() === opt.requiertAllegeance;
+}
+
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
   if (
@@ -573,6 +584,7 @@ function optionRealisable(unite, instance, opt) {
   )
     return false;
   if (!optionLegionOk(opt)) return false;
+  if (!optionAllegeanceOk(opt)) return false;
   if (opt.requiertPivotArme) {
     const pivot = armeSurPivotChoisie(unite, instance);
     if (!pivot || pivot.startsWith("Lanceur Havoc sur Pivot")) return false;
@@ -1084,32 +1096,67 @@ function construireLigneRegles(titre, regles, avecArmes) {
   p.appendChild(el("strong", null, titre + " : "));
   regles.forEach((regle, i) => {
     if (i > 0) p.appendChild(document.createTextNode(" · "));
-    const definition = trouverDefinitionRegle(regle);
-    if (definition) {
-      p.appendChild(creerRegleTag(regle, definition));
-      return;
-    }
-    const correspondanceArme = avecArmes ? trouverArmeDansTexte(regle) : null;
-    if (correspondanceArme) {
-      if (correspondanceArme.avant)
-        p.appendChild(document.createTextNode(correspondanceArme.avant));
-      const tagArme = creerRegleTag(
-        correspondanceArme.trouve,
-        resumeArme(correspondanceArme.arme),
-      );
-      // Marqueur lu par construireDefinitions : cette arme a déjà sa
-      // table de caractéristiques complète plus haut sur la fiche (ou
-      // dans l'export imprimé), inutile de répéter son résumé dans le
-      // bloc « Définitions ».
-      tagArme.classList.add("regle-tag-arme");
-      p.appendChild(tagArme);
-      if (correspondanceArme.apres)
-        p.appendChild(document.createTextNode(correspondanceArme.apres));
-      return;
-    }
-    p.appendChild(document.createTextNode(regle));
+    ajouterRegleFiche(p, regle, avecArmes);
   });
   return p;
+}
+
+// Résout `texte` en une définition de Règle/Trait connue
+// (trouverDefinitionRegle) ou, à défaut et si `avecArmes`, une arme de
+// l'Arsenal reconnue n'importe où dans le texte (trouverArmeDansTexte).
+// Retourne null si rien ne correspond, sinon { avant, texteTag,
+// definition, aTagArme, apres } — même forme dans les deux cas pour que
+// ajouterRegleFiche n'ait qu'un seul chemin de rendu.
+function resoudreRegleFiche(texte, avecArmes) {
+  const definition = trouverDefinitionRegle(texte);
+  if (definition) {
+    return { avant: "", texteTag: texte, definition, aTagArme: false, apres: "" };
+  }
+  const correspondanceArme = avecArmes ? trouverArmeDansTexte(texte) : null;
+  if (correspondanceArme) {
+    return {
+      avant: correspondanceArme.avant || "",
+      texteTag: correspondanceArme.trouve,
+      definition: resumeArme(correspondanceArme.arme),
+      aTagArme: true,
+      apres: correspondanceArme.apres || "",
+    };
+  }
+  return null;
+}
+
+// Ajoute une entrée de la ligne "Règles spéciales"/"Traits"/"Équipement"
+// à `p`, habillée d'un .regle-tag portant sa définition quand elle est
+// reconnue (voir resoudreRegleFiche). Une entrée d'Équipement ajoutée
+// via une option `prefixeFiche` (ex : "Sergent : Nuncio-vox", voir
+// equipementFinal) ne correspond telle quelle à aucune Règle/Arme
+// connue : si la résolution échoue sur le texte entier, on retente sur
+// la partie après le premier " : ", en gardant le préfixe en texte brut
+// devant le tag.
+function ajouterRegleFiche(p, regle, avecArmes) {
+  let resultat = resoudreRegleFiche(regle, avecArmes);
+  let prefixe = "";
+  if (!resultat) {
+    const correspondancePrefixe = regle.match(/^(.+? : )(.+)$/);
+    if (correspondancePrefixe) {
+      resultat = resoudreRegleFiche(correspondancePrefixe[2], avecArmes);
+      if (resultat) prefixe = correspondancePrefixe[1];
+    }
+  }
+  if (!resultat) {
+    p.appendChild(document.createTextNode(regle));
+    return;
+  }
+  if (prefixe || resultat.avant)
+    p.appendChild(document.createTextNode(prefixe + resultat.avant));
+  const tag = creerRegleTag(resultat.texteTag, resultat.definition);
+  // Marqueur lu par construireDefinitions : cette arme a déjà sa table
+  // de caractéristiques complète plus haut sur la fiche (ou dans
+  // l'export imprimé), inutile de répéter son résumé dans le bloc
+  // « Définitions ».
+  if (resultat.aTagArme) tag.classList.add("regle-tag-arme");
+  p.appendChild(tag);
+  if (resultat.apres) p.appendChild(document.createTextNode(resultat.apres));
 }
 
 // Ajoute un nom de Type/Sous-type de Figurine à `parent`, habillé d'un
@@ -1464,10 +1511,10 @@ function construireTablesArmes(equipement, factionUnite) {
     // Auxilia) » compte, pas le « Chargeur volkite » générique) ;
     // sinon le(s) profil(s) générique(s) sans suffixe de Faction (ex :
     // Unité Legio Astartes → seul « Chargeur volkite » compte, pas
-    // « (Solar Auxilia) »/« (Mechanicum) ») ; sinon, si l'Arsenal n'a
-    // QUE des profils réservés à d'autres Factions pour ce montage
-    // (ex : « Batterie de bolters lourds Gravis », wargear Solar
-    // Auxilia réutilisé tel quel par le Châssis Rapier Legio Astartes),
+    // « (Solar Auxilia) »/« (Mechanicum) ») ; sinon (filet de sécurité,
+    // ne devrait plus arriver depuis que « Batterie de bolters lourds
+    // Gravis » a un profil générique — voir CLAUDE.md), si l'Arsenal
+    // n'a QUE des profils réservés à d'autres Factions pour ce montage,
     // les montrer quand même plutôt que de laisser la table vide.
     const propresFaction = candidats.filter(
       (arme) => suffixeFactionArme(arme) === faction,
@@ -1587,6 +1634,23 @@ function traitFactionSkitariiDe(unite, instance) {
   return unite.traits.find((t) => TRAITS_FACTION_SKITARII.includes(t)) || null;
 }
 
+// Règles Spéciales ajoutées à la fiche par l'Avantage Principal choisi
+// pour la Case Principale occupée par cette instance (champ
+// `reglesAppliquees`, réservé aux Avantages « purs » — voir la
+// documentation d'AVANTAGES_PRINCIPAUX, js/organigramme-data.js). Les
+// Avantages plus complexes (échange d'arme, bonus de Caractéristique,
+// gain de Sous-type…) n'ont pas ce champ et restent appliqués
+// manuellement par le joueur, comme documenté à chacun d'eux.
+// L'éligibilité (Rôle/Trait/Type/Sous-type) est déjà vérifiée par
+// Organigramme.avantagesPossibles avant de permettre le choix : pas
+// revérifiée ici.
+function reglesAvantagePrincipalDe(instance) {
+  if (!orgaPret || !window.Organigramme) return [];
+  const avantageId = Organigramme.avantageDe(instance.uid);
+  const avantage = AVANTAGES_PRINCIPAUX.find((a) => a.id === avantageId);
+  return (avantage && avantage.reglesAppliquees) || [];
+}
+
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
 function construireFiche(unite, instance) {
   const fiche = el("div", "unite-fiche");
@@ -1647,7 +1711,12 @@ function construireFiche(unite, instance) {
   if (traitsAffiches.length > 0) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
   }
-  fiche.appendChild(construireLigneRegles("Règles spéciales", variante.regles));
+  fiche.appendChild(
+    construireLigneRegles(
+      "Règles spéciales",
+      variante.regles.concat(reglesAvantagePrincipalDe(instance)),
+    ),
+  );
   fiche.appendChild(construireLigneType(variante.type));
   if (unite.notes)
     fiche.appendChild(
@@ -1768,12 +1837,15 @@ function synchroniserConfig(carte, unite, instance) {
     }
   }
 
-  // 1 quinquies. requiertLegion sur une entrée de `choix` (armes forgées
-  // Artifice de Nocturne, Salamanders) : si la Légion choisie change
-  // après coup et que la valeur enregistrée ne correspond plus,
-  // retombe sur l'indice 0 plutôt que de garder une valeur invalide —
-  // même principe que le repli sur trait-skitarii ci-dessus, mais
-  // générique à toute option plutôt que câblé sur un seul id.
+  // 1 quinquies. requiertLegion/requiertAllegeance sur une entrée de
+  // `choix` (armes forgées Artifice de Nocturne Salamanders,
+  // Hurleurs soniques/Lance sonique Emperor's Children — ce dernier
+  // combinant les deux champs sur la même entrée) : si la Légion ou
+  // l'Allégeance choisie change après coup et que la valeur enregistrée
+  // ne correspond plus, retombe sur l'indice 0 plutôt que de garder une
+  // valeur invalide — même principe que le repli sur trait-skitarii
+  // ci-dessus, mais générique à toute option plutôt que câblé sur un
+  // seul id.
   for (const opt of unite.options) {
     if (opt.type !== "choix") continue;
     const choixActuel = opt.choix[instance.valeurs[opt.id]];
@@ -1786,6 +1858,15 @@ function synchroniserConfig(carte, unite, instance) {
     ) {
       instance.valeurs[opt.id] = 0;
       modifie = true;
+    } else if (
+      choixActuel &&
+      choixActuel.requiertAllegeance &&
+      (!orgaPret ||
+        typeof Organigramme === "undefined" ||
+        Organigramme.allegeanceActuelle() !== choixActuel.requiertAllegeance)
+    ) {
+      instance.valeurs[opt.id] = 0;
+      modifie = true;
     }
   }
 
@@ -1793,13 +1874,16 @@ function synchroniserConfig(carte, unite, instance) {
   for (const opt of unite.options) {
     const realisable = optionRealisable(unite, instance, opt);
     // Une option réservée à une Légion (opt.requiertLegion, ex : Arcane
-    // de Prospero/Thousand Sons, Décurion Sagittar/Imperial Fists) est
-    // entièrement masquée si la Légion ne correspond pas — contrairement
-    // au reste d'optionRealisable, qui ne fait que griser le champ.
-    if (opt.requiertLegion) {
+    // de Prospero/Thousand Sons, Décurion Sagittar/Imperial Fists) et/ou
+    // à une Allégeance (opt.requiertAllegeance, ex : Hurleurs soniques/
+    // Lance sonique, Emperor's Children — combinée à requiertLegion sur
+    // la même option) est entièrement masquée si l'une des deux ne
+    // correspond pas — contrairement au reste d'optionRealisable, qui ne
+    // fait que griser le champ.
+    if (opt.requiertLegion || opt.requiertAllegeance) {
       const controle = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
       const ligne = controle && controle.closest(".option-ligne");
-      if (ligne) ligne.hidden = !optionLegionOk(opt);
+      if (ligne) ligne.hidden = !optionLegionOk(opt) || !optionAllegeanceOk(opt);
     }
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);

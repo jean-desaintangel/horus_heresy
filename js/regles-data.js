@@ -724,7 +724,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Spectres",
     texte:
-      "Avantage Principal réservé à une Unité de Rôle Tactique Troupes entièrement composée de Figurines ayant le Trait Raven Guard occupant une Case Principale : ses Figurines gagnent la Règle Spéciale Spectres — après avoir Foncé, un Test de Volonté réussi rend Désordonnée toute Charge ciblant l'Unité au tour de Joueur suivant ; en cas d'échec, l'Unité gagne le Statut Tactique Sonnée à la place.",
+      "Après avoir Foncé, un Test de Volonté réussi rend Désordonnée toute Charge ciblant l'Unité au tour de Joueur suivant ; en cas d'échec, l'Unité gagne le Statut Tactique Sonnée à la place.",
   },
   {
     nom: "Caméléolin",
@@ -1231,7 +1231,7 @@ const REGLES_DIVERSES = [
       "Permettent aux attaques d'ignorer les Jets de Mitigation de Dégâts de Dissimulation. On augmente de +1 (jusqu'à un maximum de 6+) le Nombre Cible de tous les Jets de Mitigation de Dégâts de Dissimulation consécutifs aux Blessures, Touches Pénétrantes ou Touches Superficielles infligées par les Attaques de Tir faites par une Figurine dotée de projecteurs qui a Ligne de Vue vers l'Unité Cible. Réciproquement, une Figurine dotée de projecteurs ne peut pas tenter de Jets de Mitigation de Dégâts de Dissimulation pour annuler les Blessures, Touches Pénétrantes ou Touches Superficielles en question.",
   },
   {
-    nom: "Scanner Augure",
+    nom: "Scanner augure",
     texte:
       "Permettent aux attaques d'ignorer les Jets de Mitigation de Dégâts de Dissimulation. Quand une Attaque de Tir faite par une Unité incluant la moindre Figurine dotée d'un scanner augure inflige des Touches (à l'exclusion des Touches d'attaques au Jugé), on ne peut pas tenter de Jets de Mitigation de Dégâts de Dissimulation contre les Touches en question.",
   },

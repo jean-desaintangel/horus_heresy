@@ -3450,6 +3450,25 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  construireCarteDetachement dans js/organigramme.js).
    Rappel du livre : si l'unité inclut une figurine de Sous-type
    Unique, seul « Bénéfice Logistique » reste disponible.
+   - reglesAppliquees : [noms de Règles Spéciales] — pour un Avantage
+                 « pur » (accorde uniquement une/des Règles Spéciales à
+                 TOUTE l'Unité, sans échange d'arme, bonus de
+                 Caractéristique ni gain de Sous-type), ces noms sont
+                 ajoutés automatiquement à la ligne « Règles spéciales »
+                 de la fiche récap de toute Unité occupant une Case
+                 Principale avec cet Avantage sélectionné (voir
+                 reglesAvantagePrincipalDe, js/unites.js) — pas besoin de
+                 les cocher/ajouter manuellement. Les autres Avantages
+                 (Castellan, Garde Phénix, Paladin de l'Hekatonystika,
+                 Thegn de Meute, Résistance Anormale, Enchaînés, Bardé de
+                 Fer, Logisticae…) restent, comme documenté au fil de ce
+                 tableau, appliqués manuellement par le joueur : leur
+                 effet mêle échange d'équipement, bonus de profil, gain
+                 de Sous-type ou choix d'une seconde Unité, qu'aucun
+                 mécanisme unique ne peut représenter fidèlement ici.
+                 L'éligibilité (Rôle/Trait/Type/Sous-type) est déjà
+                 vérifiée par avantagesPossibles avant de permettre le
+                 choix : reglesAvantagePrincipalDe ne la revérifie pas.
    ---------------------------------------------------------- */
 const AVANTAGES_PRINCIPAUX = [
   {
@@ -3520,6 +3539,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Assaut Zélé (Word Bearers)",
     roleRequis: "Troupes",
     traitRequis: "Word Bearers",
+    reglesAppliquees: ["Impact (F)"],
     texte:
       "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Word Bearers : les Figurines de l'Unité gagnent la Règle Spéciale Impact (F).",
   },
@@ -3531,6 +3551,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Déplacement Télékinétique (Thousand Sons)",
     roleRequis: "Troupes",
     traitRequis: "Thousand Sons",
+    reglesAppliquees: ["Déplacement Télékinétique"],
     texte:
       "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Thousand Sons : les Figurines de l'Unité gagnent la Règle Spéciale Déplacement Télékinétique (quand l'Unité Fonce, un Test de Volonté réussi lui donne le Sous-type Antigrav et la Règle Spéciale Mouvement à Couvert jusqu'à la fin de la Phase de Mouvement ; s'il est raté, l'Unité ne peut pas se Déplacer ce tour-ci).",
   },
@@ -3601,6 +3622,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Les Défavorisés (Iron Warriors)",
     typesRequis: ["Infanterie"],
     traitRequis: "Iron Warriors",
+    reglesAppliquees: ["Sacrifiable (1)"],
     texte:
       "Réservé à une Unité de Type Infanterie composée uniquement de Figurines ayant le Trait Iron Warriors : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1).",
   },
@@ -3627,6 +3649,7 @@ const AVANTAGES_PRINCIPAUX = [
       { id: "escouade-etat-major-tartaros" },
     ],
     traitRequis: "Night Lords",
+    reglesAppliquees: ["Frappe en Profondeur", "Impact (1)"],
     texte:
       "Réservé à une Figurine de Centurion en Armure Terminator (Cataphractii ou Tartaros) ou d'Escouade d'État-major Terminator (Cataphractii ou Tartaros) ayant le Trait Night Lords : les Figurines de l'Unité gagnent les Règles Spéciales Frappe en Profondeur et Impact (1).",
   },
@@ -3727,6 +3750,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Spectres (Raven Guard)",
     roleRequis: "Troupes",
     traitRequis: "Raven Guard",
+    reglesAppliquees: ["Spectres"],
     texte:
       "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Raven Guard : les Figurines de l'Unité gagnent la Règle Spéciale Spectres (après avoir Foncé, un Test de Volonté réussi rend Désordonnées les Charges qui ciblent l'Unité à la Phase d'Assaut du Tour de Joueur suivant ; en cas d'échec, l'Unité gagne le Statut Tactique Sonnée à la place).",
   },
@@ -3770,6 +3794,7 @@ const AVANTAGES_PRINCIPAUX = [
     id: "revenants",
     nom: "Revenants (Blood Angels)",
     traitRequis: "Blood Angels",
+    reglesAppliquees: ["Peur (1)"],
     texte:
       "Réservé à une Unité composée uniquement de Figurines ayant le Trait Blood Angels, sélectionnée pour occuper n'importe quelle Case Principale d'Organigramme de Force : les Figurines de l'Unité gagnent la Règle Spéciale Peur (1).",
   },
@@ -3781,6 +3806,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Le Devoir Avant la Mort (Salamanders)",
     roleRequis: "Troupes",
     traitRequis: "Salamanders",
+    reglesAppliquees: ["Insensible à la Douleur (6+)"],
     texte:
       "Réservé à une Unité de Rôle Tactique Troupes composée uniquement de Figurines ayant le Trait Salamanders : les Figurines de l'Unité gagnent la Règle Spéciale Insensible à la Douleur (6+).",
   },
@@ -3794,6 +3820,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Les Sagyar Mazan (White Scars)",
     typesRequis: ["Infanterie", "Cavalerie"],
     traitRequis: "White Scars",
+    reglesAppliquees: ["Sacrifiable (2)"],
     texte:
       "Réservé à une Unité composée uniquement de Figurines ayant le Trait White Scars et de Type Infanterie ou Cavalerie : toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (2).",
   },
@@ -3826,6 +3853,10 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Précepteur (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    // Le bonus d'Intelligence 8 « pour les besoins de la Règle Spéciale
+    // Guerrier-artisan (X) » n'est pas une Règle Spéciale nommée : reste
+    // texte seul, non appliqué par reglesAvantagePrincipalDe.
+    reglesAppliquees: ["Guerrier-artisan (2)"],
     texte:
       "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Guerrier-artisan (2) et comptent comme ayant une Caractéristique d'Intelligence de 8 pour les besoins de la Règle Spéciale Guerrier-artisan (X). Débloque le Détachement Additionnel Serre d'Automates.",
   },
@@ -3834,6 +3865,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Uhlan (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    reglesAppliquees: ["Vif (2)", "Impact (A)"],
     texte:
       "0-1 par Armée. Toutes les Figurines de l'Unité gagnent les Règles Spéciales Vif (2) et Impact (A). On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Empressement pour une Figurine de l'Unité.",
   },
@@ -3842,6 +3874,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Auctellier (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    reglesAppliquees: ["Précision (5+) (Armes de Mêlée)"],
     texte:
       "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Précision (5+) sur les Armes de Mêlée dont elles sont dotées. On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Exécution pour une Figurine de l'Unité.",
   },
@@ -3850,6 +3883,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Endeuilleur (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    reglesAppliquees: ["Peur (2)"],
     texte:
       "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Peur (2). On ne peut pas déclarer de Vœu Questoris autre que le Vœu d'Abattage pour une Figurine de l'Unité.",
   },
@@ -3858,6 +3892,7 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Preux Implacable (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    reglesAppliquees: ["Orage de Feu"],
     texte:
       "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Orage de Feu. On ne peut pas déclarer de Vœu Questoris autre que le Vœu de Résolution pour une Figurine de l'Unité.",
   },
@@ -3889,6 +3924,10 @@ const AVANTAGES_PRINCIPAUX = [
     id: "preux-aspirant",
     nom: "Preux Aspirant (Rang de Maisonnée)",
     chevalier: true,
+    // Le modificateur -1 à la Règle Spéciale Autoréparation (X) déjà
+    // présente sur la Figurine n'est pas un gain de Règle Spéciale :
+    // reste texte seul, non appliqué par reglesAvantagePrincipalDe.
+    reglesAppliquees: ["Sacrifiable (1)"],
     texte:
       "Toutes les Figurines de l'Unité gagnent la Règle Spéciale Sacrifiable (1) et modifient de -1 la valeur de X de la Règle Spéciale Autoréparation (X) qu'elles possèdent. Débloque le Détachement Additionnel Serre d'Armigères.",
   },

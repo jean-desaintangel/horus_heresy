@@ -1157,5 +1157,452 @@ Règles Spéciales :
   modifiée cette session-ci tant que la divergence n'est pas tranchée
   par le propriétaire contre le livre.
 
+- **Arsenal des Sons of Horus (Liber Astartes/Hereticus, livre de
+  base) : Bolters Banestrike (Bolter/Combi-bolter), Haches Énergétiques
+  Carsoraines (Hache/Tabar).** Les profils Bolter Banestrike et
+  Combi-bolter Banestrike existaient déjà dans `armes-data.js` (déjà
+  utilisés en équipement fixe sur plusieurs Figurines nommées Sons of
+  Horus — Ezekyle Abaddon-like Chef de Guerre, Escouade Terminator
+  Justaerin, Alpha Legion Headhunter Kill Team) ; seule leur **écriture
+  générique** (échange sur une Unité de base, +5 Points) manquait. Deux
+  bugs de transcription corrigés au passage sur « Hache/Tabar
+  énergétique carsorain(e) » (`armes-data.js`), signalés à l'utilisateur
+  via AskUserQuestion puis corrigés sur son choix explicite : MI `-1`
+  → `-2` (Hache), et « Tabar énergétique carsoraine » (accord féminin,
+  copié-collé fautif depuis Hache) → **« Tabar énergétique carsorain »**
+  (masculin, « un tabar »). Suprématie Martiale (Avantage Principal,
+  déjà existant dans `AVANTAGES_PRINCIPAUX`) vérifiée conforme à la
+  photo, aucune modification nécessaire.
+  **Bolters Banestrike** (échange +5 Points, réservé État-major/
+  Champion) : câblé en objet brut `{ nom, cout: 5, requiertLegion: "XVI" }`
+  directement dans le `choix` de l'option « bolter »/« combi-bolter »
+  de chaque Unité à profil unique concernée — PAS via une constante
+  `LISTES_ARSENAL_SONS_OF_HORUS` façon Night Lords/Alpha Legion/Iron
+  Warriors/Imperial Fists, car cette règle ne remplace QUE le Bolter ou
+  QUE le Combi-bolter, jamais le pistolet bolter — alors que les listes
+  partagées `officier`/`meleeSergent` sont consommées à la fois par
+  l'option « Remplacer le bolter » ET « Remplacer le pistolet bolter »
+  (fidèle au fonctionnement déjà établi de la liste « Officer of the
+  Legion » du livre de base, qui autorise un remplacement de l'un OU
+  l'autre par un item de la même liste — mais Bolter Banestrike n'est
+  pas un item de cette liste générique, juste une règle Sons of Horus
+  à part qui ne vise que le Bolter/Combi-bolter lui-même). Câblé sur 8
+  sites « bolter » (Praetor, Centurion, Delegatus, Fauteur de Guerre,
+  Pisteur, Optae, Iron Father en Armure Artificer, Forgeguerre en
+  Armure Artificer) et 5 sites « combi-bolter » (Praetor/Centurion/
+  Delegatus/Fauteur de Guerre/Seigneur de Forge en Armure Terminator).
+  Volontairement exclus : les variantes montées (Praetor/Centurion/
+  Delegatus/Seigneur de Forge sur Motojet — leur arme de tir est
+  « Bolter jumelé »/« Bolter lourd », pas un Bolter/Combi-bolter nu),
+  Armistos et Seigneur de Forge de base (aucun des deux n'a de Bolter/
+  Combi-bolter nu dans son équipement), et Primus Medicae/Mortificator
+  en Armure Terminator (Sous-type Spécialiste, non éligible — même
+  logique d'exclusion que pour tous les Arsenals précédents).
+  **Haches Énergétiques Carsoraines** (échange Hache +5/Tabar +10,
+  « Toute Figurine ayant le Trait Sons of Horus » — SANS restriction de
+  Sous-type, seul Arsenal de Légion jusqu'ici à s'appliquer y compris au
+  rang-et-fichier) : nouveau marqueur **`toutesFigurines: true`** ajouté
+  sur ces deux entrées de `CHOIX_ARMES_ENERGETIQUES`, consommé par
+  `optionTypeArmeEnergetique()` (dont le filtre `.filter((c) =>
+  !c.requiertLegion || c.toutesFigurines)` a été étendu en conséquence)
+  et par le filtre manuel du Primus Medicae en Armure Terminator — pour
+  laisser passer ces deux entrées même sur les Escouades mixtes/
+  Spécialistes où tout autre `requiertLegion` reste filtré. Escouade
+  Terminator Justaerin (déjà existante, Trait Sons of Horus fixe) avait
+  déjà « Hache énergétique carsoraine » codée en dur dans son option
+  « arme-cac » : Tabar énergétique carsorain ajouté juste à côté au
+  même endroit (+10 Points), pas besoin de `requiertLegion` ici
+  puisque l'Unité elle-même est déjà réservée à cette Légion par ses
+  `traits`.
+  **Bolters Banestrike, cas particuliers en `quantite` partagée** :
+  Escouade Traqueuse (échange GRATUIT Bolter Kraken → Bolter
+  Banestrike, `parTranche: 1`, `groupe: "tir"`) et Escouade de Vétérans
+  Tactiques (échange +5 Bolter → Bolter Banestrike, même structure) —
+  toutes deux déjà existantes, Trait Sons of Horus fixe, `requiertLegion`
+  posé quand même par cohérence avec le reste du fichier bien que non
+  strictement nécessaire (Unité déjà réservée à la Légion).
+  Vérification : script Node dédié confirmant qu'aucune des 13 Unités
+  ciblées n'a fui vers une Unité non éligible (Spécialiste, montée, ou
+  sans Bolter/Combi-bolter nu) et que le mécanisme `toutesFigurines`
+  laisse bien passer Hache/Tabar carsorain sur les sites mixtes/
+  Spécialiste sans y laisser fuir les `requiertLegion` des cinq autres
+  Arsenals déjà câblés ; vérification live par navigateur (Sons of
+  Horus vs Dark Angels) confirmant l'affichage correct de Bolter
+  Banestrike/Combi-bolter Banestrike/Hache et Tabar carsorain et leur
+  absence totale hors Sons of Horus, sans erreur console.
+
+- **Arsenal de la Death Guard (XIVe Légion, Liber Astartes/Hereticus,
+  livre de base) : Faux Énergétiques, Résistance Anormale, Néfos.**
+  Contrairement aux six Arsenals précédents, le profil de la Faux
+  énergétique (`armes-data.js`), l'Avantage Principal Résistance
+  Anormale (`AVANTAGES_PRINCIPAUX`, réservé Centurion/Centurion
+  Cataphractii, +1 PV base + Guerrier Éternel (2), une fois par Armée)
+  et le texte intégral de Néfos (`regles-data.js`) existaient déjà,
+  vérifiés mot pour mot conformes à la photo sans aucune correction
+  nécessaire — seul le **câblage générique** de la Faux énergétique sur
+  le reste du roster manquait (le profil n'était utilisé qu'en
+  équipement fixe par l'Escouade Terminator du Linceul/Deathshroud et
+  par le Chimiarque du Garde-tombe, ce dernier ayant déjà son propre
+  échange Sergent-only gantelet→faux).
+  **Faux Énergétiques** (« Toute Figurine de Sous-type État-major,
+  Champion, Spécialiste OU SERGENT ayant le Trait Death Guard » —
+  premier Arsenal de Légion à inclure ces QUATRE Sous-types pour la
+  même arme, aucun des six précédents n'en excluait aucun) : +10 Points
+  en échange d'une arme énergétique, +5 Points en échange d'un gantelet
+  énergétique. Ajoutée à `CHOIX_ARMES_ENERGETIQUES` (+10, requiertLegion
+  "XIV" — couvre tous les contextes Terminator où le placeholder
+  « Arme énergétique » est gratuit) et à une nouvelle
+  `LISTES_ARSENAL_DEATH_GUARD` (`officier`/`meleeSergent` à +20 — coût
+  de base de l'arme remplacée dans ces listes, 10 pour une arme
+  énergétique ou 15 pour un gantelet, plus le surcoût de la page,
+  aboutissant au même total absolu dans les deux cas ; `meleeTerminatorSergent`
+  à +10, sans coût de base à ajouter, sur le même principe que Night
+  Lords). Chaînée après `LISTES_ARSENAL_NIGHT_LORDS` sur les 22 sites
+  `officier` + 40 sites `meleeSergent` + 1 site `meleeTerminatorSergent`
+  déjà identifiés pour les Arsenals précédents (script d'insertion
+  automatique, vérifié safe car ce Sous-type est un sur-ensemble de
+  tous les précédents). **Incluant le Spécialiste** (comme seul
+  l'Artifice de Nocturne Salamanders le faisait jusqu'ici) : 5 sites
+  supplémentaires identifiés et câblés à la main, faute d'ancre
+  Night Lords à chaîner dessus (ces sites n'avaient jamais reçu aucun
+  Arsenal de Légion État-major/Champion/Sergent-only auparavant) —
+  Primus Medicae et Primus Medicae Monté (options `pistolet`/
+  `epee-tronconneuse`, liste `officier`), Apothicaire (option `epee`,
+  liste `meleeSergent`), et le filtre de Primus Medicae en Armure
+  Terminator (`arme-energetique`, étendu de
+  `c.requiertLegion === "XVIII"` à `... || c.requiertLegion === "XIV"`,
+  sur le même principe que l'exception `toutesFigurines` déjà en place
+  pour Sons of Horus). Mortificator en Armure Terminator vérifié non
+  concerné (aucune arme énergétique/gantelet à échanger, équipement
+  fixe Bâton Corposant/Servobras).
+  **Gap documenté, volontairement accepté** : l'unique site où
+  `CHOIX_ARMES_ENERGETIQUES` est spread pour remplacer un **gantelet
+  énergétique déjà fixe** plutôt que le placeholder « Arme énergétique »
+  (Escouade Terminator Indomitus, option `arme-energetique-sergent`,
+  Sergent Terminator Indomitus) affiche donc la Faux énergétique à +10
+  au lieu des +5 que la page prévoit pour un échange depuis un gantelet
+  — recherché exhaustivement (seuls Escouade Terminator Indomitus,
+  Garde-tombe et Escouade Terminator Tyrans de Siège Iron Warriors ont
+  un gantelet énergétique fixe dans tout le fichier ; le Garde-tombe a
+  déjà son propre échange Chimiarque-only correct à +5, Tyrans de
+  Siège est verrouillé Iron Warriors donc jamais concerné) : corriger
+  ce seul site demanderait une distinction par contexte que
+  `CHOIX_ARMES_ENERGETIQUES` ne permet pas nativement (le même tableau
+  sert indifféremment de résolution de placeholder ET de remplacement
+  de gantelet fixe selon le site) — accepté comme simplification
+  conservatrice (le joueur paie plus cher que prévu, jamais moins).
+  Vérification : audit Node dédié confirmant 75 sites au total offrant
+  la Faux énergétique (68 chaînages explicites + 7 sites où elle
+  apparaît automatiquement via le spread direct de
+  `CHOIX_ARMES_ENERGETIQUES`), coûts corrects (+20 officier/meleeSergent,
+  +10 arme-energetique/meleeTerminatorSergent), zéro fuite vers un
+  Sous-type non éligible (script de vérification étendu à "XIV" avec
+  reconnaissance du Spécialiste comme éligible, sur le même principe
+  que "XVIII") ; vérification live par navigateur (Death Guard vs Dark
+  Angels) confirmant l'affichage et les coûts corrects sur Praetor
+  (bolter/pistolet, terminator) et l'absence totale hors Death Guard,
+  sans erreur console.
+
+- **Arsenal des Emperor's Children (IIIe Légion, Liber Astartes/
+  Hereticus, livre de base) : Augmentations Chirurgicales (Hurleurs
+  soniques/Lance sonique), Lances Énergétiques Phénix, Garde Phénix.**
+  Comme pour la Death Guard, les trois profils/mécaniques (Lance
+  sonique et Lance énergétique Phénix dans `armes-data.js`, l'Avantage
+  Principal Garde Phénix dans `AVANTAGES_PRINCIPAUX`, le texte intégral
+  de « Hurleurs soniques »/« Adresse Inégalée » dans `regles-data.js`)
+  existaient déjà, vérifiés mot pour mot conformes aux deux photos sans
+  aucune correction — seul le câblage générique de la Lance énergétique
+  Phénix manquait, plus une mécanique entièrement nouvelle pour
+  Hurleurs soniques/Lance sonique.
+  **Lances Énergétiques Phénix** (échange arme énergétique +10 Points,
+  État-major/Champion/Sergent — Spécialiste explicitement exclu, à la
+  différence de la Faux énergétique Death Guard) : ajoutée à
+  `CHOIX_ARMES_ENERGETIQUES` (+10, requiertLegion "III") et à une
+  nouvelle `LISTES_ARSENAL_EMPERORS_CHILDREN` (officier/meleeSergent
+  +20, meleeTerminatorSergent +10 — même logique de coût absolu que les
+  Arsenals précédents), chaînée sur exactement les mêmes 22 sites
+  officier + 40 sites meleeSergent + 1 site meleeTerminatorSergent que
+  Night Lords/Death Guard. **Piège rencontré en chaînant** : un premier
+  passage automatique (ancré sur les lignes `LISTES_ARSENAL_DEATH_GUARD`
+  plutôt que `LISTES_ARSENAL_NIGHT_LORDS`, pour rester à jour après le
+  chantier Death Guard) a chaîné Emperor's Children sur 26 sites
+  officier et 41 sites meleeSergent au lieu de 22/40 — les 4 + 1 sites
+  en trop étaient précisément les sites Spécialiste-only (Primus
+  Medicae, Primus Medicae Monté, Apothicaire) que Death Guard seul
+  avait rejoints (Spécialiste inclus) et que Night Lords avait toujours
+  exclus : retirés individuellement après détection par script (aucun
+  ancrage Night Lords à proximité), confirmant la mise en garde déjà
+  documentée plus haut — chaîner après l'Arsenal le plus récent ne
+  garantit pas la bonne portée de Sous-type pour le suivant, à
+  revérifier systématiquement.
+  **Hurleurs soniques / Lance sonique** (« Toute Figurine de Sous-type
+  État-major ou Champion qui a les Traits Emperor's Children ET
+  Renégat » — AJOUT optionnel au choix entre les deux, +15/+10 Points,
+  premier Arsenal de Légion à exiger une Allégeance en plus de la
+  Légion) : nouvelle fabrique `optionArmesSoniques()`, avec
+  `requiertLegion`/`requiertAllegeance` posés sur l'OPTION elle-même
+  (pas sur une entrée de `choix`) pour masquer la ligne entière tant
+  que les deux conditions ne sont pas réunies — mécanisme
+  `requiertAllegeance` au niveau option qui n'existait pas encore dans
+  `js/unites.js` (jusqu'ici seulement au niveau d'une entrée de `choix`,
+  ex. Vindicator/Flagellator Skitarii) : ajouté `optionAllegeanceOk()`
+  (miroir exact d'`optionLegionOk()`), branché dans `optionRealisable()`
+  et dans le bloc de masquage de ligne de `synchroniserConfig` (désormais
+  déclenché par `opt.requiertLegion || opt.requiertAllegeance`). Au
+  passage, généralisé le repli sur l'indice 0 quand la valeur enregistrée
+  devient invalide (déjà en place pour `choix.requiertLegion` sur une
+  entrée) à `choix.requiertAllegeance` également — gap latent découvert
+  en écrivant cette option (aurait aussi affecté Vindicator/Flagellator :
+  si l'Allégeance de l'Armée changeait après coup sans que la Légion ne
+  change, la valeur enregistrée restait invalide sans jamais retomber
+  sur « — Aucun — »). Ajoutée comme 20e option (juste après
+  `optionTropheesDuJugement()`) sur les 19 mêmes Unités État-major à
+  profil unique que Sphères à venin/Trophées du Jugement. **Même gap
+  documenté que ces deux options** : les rôles Champion au sein
+  d'Escouades mixtes (Chef de Frappe Locutarus, Escouade de Lames
+  Palatines, etc.) restent hors périmètre, faute de `prefixeFiche`/prix
+  par Figurine déjà en place à réutiliser.
+  **Prix distinct déjà en place, non modifié** : l'Escouade Terminator
+  Phénix a sa propre option `arme-sonique` (Hurleurs soniques/Lance
+  sonique à +5 Points chacune, `parFigurine: true`, condition « si
+  toutes les Figurines de l'Unité ont le Trait Renégat ») — prix et
+  condition différents de la page générale ci-dessus (+15/+10,
+  Figurine par Figurine, sans condition d'uniformité d'Unité). Faute de
+  la photo source de cette Unité pour trancher si c'est un rabais de
+  Legacy Wargear intentionnel ou une transcription antérieure à
+  corriger, laissé tel quel sans y toucher — à vérifier contre le livre
+  si le proprio a un doute.
+  Vérification : audit Node dédié confirmant les 22/40/1/19 sites
+  attendus (après retrait des 5 sites Spécialiste en trop), zéro fuite
+  vers un Sous-type non éligible sur les 8 Arsenals désormais dans le
+  fichier, et aucune fuite de `armes-soniques` vers une Escouade mixte ;
+  vérification live par navigateur (Dark Angels vs Emperor's Children
+  Loyaliste vs Emperor's Children Renégat) confirmant que la Lance
+  énergétique Phénix apparaît dès que la Légion correspond (peu importe
+  l'Allégeance) alors que Hurleurs soniques/Lance sonique n'apparaissent
+  QUE si les deux conditions sont réunies, sans erreur console.
+
+- **Arsenal des Iron Hands (Xe Légion, Liber Astartes/Hereticus, livre
+  de base) : Armatus Necrotechnika, Hache Énergétique d'Artificier,
+  Pistolet à Graviton, Bardé de Fer.** Comme pour Death Guard/Emperor's
+  Children, la Hache énergétique d'artificier (profil dans
+  `armes-data.js`, déjà utilisée par le Terminator Gorgone/Révérends de
+  Fer) et l'Avantage Principal Bardé de Fer (`AVANTAGES_PRINCIPAUX`)
+  existaient déjà, vérifiés mot pour mot conformes à la photo — aucune
+  correction. **Pas de phrase générique d'échange donnée pour la Hache
+  énergétique d'artificier sur cette page** (contrairement à toutes les
+  autres armes d'Arsenal jusqu'ici) : rien câblé pour elle au-delà de
+  l'existant, conformément à la règle de ne jamais inventer un
+  droit d'accès non fourni par la photo.
+  **Pistolet à Graviton** (échange **pistolet à plasma** — pas le
+  pistolet bolter — contre un pistolet à graviton, +5 Points,
+  État-major OU Champion SEULEMENT, ni Sergent ni Spécialiste) :
+  nouveau profil (`armes-data.js`, catégorie Armes à Gravitons,
+  distinct du Déchiqueteur à gravitons Legacy déjà existant — portée 12
+  au lieu de 18, Trait Pistolet). Câblée via une nouvelle
+  `LISTES_ARSENAL_IRON_HANDS.pistolets` (+10 = 5 Pistolet à plasma dans
+  la liste + 5 Points de la page), chaînée UNIQUEMENT dans les options
+  « Remplacer le pistolet bolter » (pas « Remplacer le bolter », un
+  pistolet n'y ayant pas sa place) — première fois qu'un ajout
+  d'Arsenal ne vise qu'un seul des deux slots officier. Câblée sur les
+  14 sites déjà identifiés comme chaînant `LISTES_EQUIPEMENT.officier`
+  dans leur option `pistolet` ; 2 d'entre eux (Primus Medicae, Primus
+  Medicae Monté — Spécialiste, chaînent `officier` pour leur équipement
+  de base sans être éligibles aux ajouts d'Arsenal État-major/Champion)
+  détectés en trop et retirés après audit — même piège que celui déjà
+  rencontré et documenté pour Emperor's Children.
+  **Armatus Necrotechnika** (ajout, +10 Points, « Toute Figurine de
+  **Type Véhicule** » — premier Arsenal de Légion à porter sur le TYPE
+  d'une Figurine plutôt que son Sous-type, donc sans lien avec
+  État-major/Champion/Sergent/Spécialiste) : nouvelle fabrique
+  `optionArmatusNecrotechnika()` (`case`, +10, `requiertLegion: "X"`,
+  gagne Autoréparation (5+) — le bonus conditionnel de +1 au Jet de
+  Réparation si des pertes ont eu lieu à 6" n'est pas appliqué
+  automatiquement, décrit en texte dans l'`ajoute`, même limite que
+  Bouclier tempête modèle Proteus). Câblée sur les 37 Unités génériques
+  « Legio Astartes » (faction absente/`"legio-astartes"`, sans `legion`
+  fixe) de Type « Véhicule » du fichier — **volontairement exclus les
+  Marcheurs** (Dreadnoughts Contemptor/Castra Ferrum/Deredeo/Leviathan/
+  Saturnine, Type « Marcheur » dans ce fichier) : la page dit « Type
+  Véhicule », pas « Véhicule ou Marcheur », et ce fichier traite déjà
+  ces deux Types comme distincts ailleurs — à ne pas étendre aux
+  Marcheurs sans confirmation contraire. Les 100 Unités de Type
+  Véhicule toutes factions confondues ont d'abord été recensées puis
+  réduites à 37 en excluant Legio Custodes/Titanicus/Chevaliers/Solar
+  Auxilia/Mechanicum/Skitarii (factions distinctes, jamais concernées
+  par un Trait de Légion Astartes).
+  **Bugs de câblage rencontrés et corrigés** (chantier le plus large à
+  ce jour, 37 sites sur des Unités entières plutôt que 60-90 sites sur
+  ~20 Unités) : le script d'insertion automatique cherchait, pour
+  chaque Unité cible, la première ligne `options: [` ou `options: [],`
+  après sa ligne `id:` — trois Unités (Mastodon, Typhon, Cerbère) ont un
+  `options: [...]` compact sur une seule ligne avec du contenu, ne
+  matchant aucun des deux motifs : le script a donc dépassé leur propre
+  bloc et le premier motif suivant trouvé dans le fichier a reçu
+  l'insertion à leur place, produisant un DOUBLE insertion sur le
+  Stormbird Sokar (dont la ligne `options: [` a ainsi été visée deux
+  fois par deux Unités cibles différentes en cascade) et une insertion
+  ERRONÉE sur Corvus Corax (Primarque Raven Guard, `legion: "XIX"`,
+  aucun rapport avec les Iron Hands) dont le `options: []` vide a fini
+  par absorber la dernière insertion de la cascade. Détecté par un
+  script d'audit dédié (comptage direct via l'array `UNITES` parsé,
+  pas une recherche de motif sur le texte source) comparant le nombre
+  d'occurrences réelles de l'option à la liste des 37 id ciblés ;
+  corrigé en retirant le doublon sur Stormbird Sokar, en retirant
+  l'insertion sur Corvus Corax, et en traitant Mastodon/Typhon/Cerbère
+  manuellement (insertion directe dans leur unique ligne `options: [...]`
+  existante). **Leçon à retenir pour toute Unité à `options` sur une
+  seule ligne avec contenu** (motif déjà vu mais pas systématisé) :
+  un script d'insertion automatique par motif de ligne doit soit gérer
+  explicitement ce troisième cas, soit signaler un échec exploitable
+  (au lieu de continuer à chercher plus loin dans le fichier) — la
+  vérification finale doit toujours recompter directement sur les
+  données parsées (`UNITES`), jamais seulement sur le nombre de lignes
+  insérées par le script, pour détecter ce genre de dérive en cascade.
+  Vérification : audit Node confirmant les 37 Unités correctes sans
+  doublon ni extra (après correction), zéro fuite sur les 9 Arsenals
+  désormais dans le fichier ; vérification live par navigateur (Dark
+  Angels vs Iron Hands) confirmant Pistolet à graviton sur le Praetor
+  et Armatus Necrotechnika sur le Rhino, tous deux masqués hors Iron
+  Hands, sans erreur console.
+
+- **Arsenal des Ultramarines (XIIIe Légion, Liber Astartes/Hereticus,
+  livre de base) : Hache Légatine, Bouclier d'Abordage Modèle Argyrum,
+  Logisticae.** Comme pour les quatre Arsenals précédents, les trois
+  éléments (profil de la Hache légatine dans `armes-data.js`, déjà
+  utilisé par l'Escouade de Suzerains Invictarus ; texte intégral du
+  Bouclier d'Abordage Modèle Argyrum dans `regles-data.js` ; Avantage
+  Principal Logisticae dans `AVANTAGES_PRINCIPAUX`, y compris son
+  mécanisme `rolesCaseAjoutee` à deux choix Transport/Transport Lourd)
+  existaient déjà, vérifiés mot pour mot conformes à la photo — seul le
+  câblage générique manquait.
+  **Hache Légatine** (échange arme énergétique +5 Points, État-major/
+  Champion/Sergent — Spécialiste exclu, même portée que la Vouge
+  tronçonneur Night Lords) : ajoutée à `CHOIX_ARMES_ENERGETIQUES` (+5,
+  requiertLegion "XIII") et à une nouvelle `LISTES_ARSENAL_ULTRAMARINES`
+  (officier/meleeSergent +15, meleeTerminatorSergent +5), chaînée sur
+  les mêmes 22/40/1 sites que les Arsenals précédents (ancrée après
+  Emperor's Children cette fois, déjà nettoyé de ses fuites Spécialiste
+  — donc directement fiable comme point d'ancrage, contrairement au
+  chantier Death Guard → Emperor's Children où l'ancrage avait fui).
+  **Bouclier d'Abordage Modèle Argyrum** (ajout, +15 Points, État-major
+  OU Champion SEULEMENT — ni Sergent ni Spécialiste) : nouvelle
+  fabrique `optionBouclierArgyrum()`, insérée comme 21e option (juste
+  après `optionArmesSoniques()`) sur les mêmes 19 Unités État-major à
+  profil unique que Sphères à venin/Trophées du Jugement/Hurleurs
+  soniques. Même gap déjà documenté pour ces trois options : les rôles
+  Champion au sein d'Escouades mixtes restent hors périmètre.
+  Vérification : audit Node confirmant zéro fuite sur les 10 Arsenals
+  désormais dans le fichier (aucune régression du nettoyage Iron
+  Hands/Emperor's Children) ; vérification live par navigateur (Dark
+  Angels vs Ultramarines) confirmant Hache légatine sur le Praetor
+  (bolter et pistolet) et Bouclier d'Abordage Modèle Argyrum (avec son
+  info-bulle de glossaire), tous deux masqués hors Ultramarines, sans
+  erreur console.
+
+- **Application automatique des Avantages Principaux « purs » (champ
+  `reglesAppliquees`, `AVANTAGES_PRINCIPAUX` dans
+  `js/organigramme-data.js`)** : jusqu'ici, TOUS les Avantages
+  Principaux spécifiques à une Légion/à un Rang de Maisonnée Chevaliers
+  Questoris étaient volontairement « texte seul », à appliquer
+  manuellement par le joueur (documenté à chaque entrée du tableau).
+  Bug signalé (2026-07-31) : Spectres (Raven Guard) n'ajoutait pas la
+  Règle Spéciale correspondante sur la fiche de l'Unité concernée — pas
+  un cas isolé, mais le même comportement que ~20 autres entrées.
+  Décision du proprio (confirmée par question posée) : automatiser
+  uniquement les Avantages « purs » (accordent UNE OU DES Règles
+  Spéciales à TOUTE l'Unité, sans échange d'arme, bonus de
+  Caractéristique ni gain de Sous-type) — nouveau champ
+  `reglesAppliquees: [noms de Règles Spéciales]`, posé sur 14 entrées
+  (Assaut Zélé, Déplacement Télékinétique, Les Défavorisés, Atramentar,
+  Revenants, Le Devoir Avant la Mort, Les Sagyar Mazan, Spectres, et les
+  Rangs de Maisonnée Précepteur/Uhlan/Auctellier/Endeuilleur/Preux
+  Implacable/Preux Aspirant). Consommé par `reglesAvantagePrincipalDe`
+  (js/unites.js), qui lit `Organigramme.avantageDe(instance.uid)` et
+  ajoute les noms à la ligne « Règles spéciales » de `construireFiche` —
+  sans revérifier l'éligibilité (Rôle/Trait/Type/Sous-type), déjà
+  garantie par `avantagesPossibles` avant que le choix ne soit permis.
+  Les Avantages plus complexes (Castellan, Garde Phénix, Paladin de
+  l'Hekatonystika, Thegn de Meute, Résistance Anormale, Enchaînés, Bardé
+  de Fer, Logisticae, Suprématie Martiale…) restent, eux, appliqués
+  manuellement — leur effet mêle échange d'équipement/bonus de profil/
+  gain de Sous-type/choix d'une seconde Unité, qu'aucun mécanisme unique
+  ne peut représenter fidèlement.
+  Bug annexe corrigé au passage : l'entrée de glossaire « Spectres »
+  (`js/regles-data.js`) recopiait tout le texte de l'Avantage Principal
+  (« Avantage Principal réservé à… ») au lieu de décrire seulement le
+  mécanisme de la Règle Spéciale — devenu visible dès que la Règle
+  s'affiche réellement sur la fiche (via `reglesAppliquees`), corrigé en
+  ne gardant que la phrase mécanique.
+  Bug sans rapport corrigé dans la même session : la ligne « Équipement »
+  de la fiche récap (`construireLigneRegles`/`ajouterRegleFiche`,
+  js/unites.js) ne reconnaissait jamais un objet ajouté avec un
+  préfixe de rôle (`prefixeFiche`, ex : « Sergent : Nuncio-vox »,
+  « Inductii : Scanner augure ») — la recherche de définition
+  (`trouverDefinitionRegle`/`trouverArmeDansTexte`) portait sur la
+  chaîne ENTIÈRE, préfixe inclus, qui ne correspond jamais à rien.
+  Touchait potentiellement toutes les occurrences de
+  `optionsEquipementLegion`/options « Équipement de Légion » à
+  `prefixeFiche` non vide à travers le fichier (Nuncio-vox/Scanner
+  augure très majoritairement, mais le correctif est générique : tout
+  objet préfixé par un rôle). Corrigé en retentant la résolution sur la
+  partie après le premier « : » quand la chaîne entière échoue, le
+  préfixe restant affiché en texte brut devant le tag.
+  Et un troisième bug identifié en creusant celui-ci : l'arme
+  générique « Batterie de bolters lourds Gravis » (`js/armes-data.js`)
+  portait un nom abrégé fautif (« Batterie de b. lourds Gravis », jamais
+  reconnu dans le texte des Unités qui l'utilisent, toujours orthographié
+  en toutes lettres) — de fait, `construireTablesArmes` retombait
+  toujours sur le seul profil restant partageant le même nom de base une
+  fois les parenthèses retirées, celui réservé au Solar Auxilia (« …
+  (Solar Auxilia) »), et l'affichait à tort sur des Unités Legio Astartes
+  (Batterie de Rapier, Fire Raptor, un Aéronef de type Stormbird).
+  Corrigé en réécrivant le nom générique en toutes lettres ; la
+  priorisation par Faction dans `construireTablesArmes` prend alors le
+  relais normalement (aucune autre modification nécessaire, le
+  mécanisme de repli documenté juste au-dessus dans le code n'est plus
+  jamais sollicité pour ce montage).
+
+- **Arsenal des Thousand Sons (XVe Légion, Liber Astartes/Hereticus,
+  livre de base) : Épées de Force Modèle Achea, Déplacement
+  Télékinétique.** Comme pour les Arsenals précédents, le profil de
+  l'Épée de force modèle Achea (`armes-data.js`, déjà utilisé par la
+  Cabale de Terminators Sekhmet) et l'Avantage Principal Déplacement
+  Télékinétique (`AVANTAGES_PRINCIPAUX`, déjà équipé de
+  `reglesAppliquees: ["Déplacement Télékinétique"]` — appliqué
+  automatiquement sur la fiche, voir l'entrée juste au-dessus sur ce
+  mécanisme) existaient déjà, vérifiés mot pour mot conformes à la
+  photo — seul le câblage générique de l'épée manquait.
+  **Épée de Force Modèle Achea** (échange arme énergétique +5 Points,
+  État-major OU CHAMPION SEULEMENT — ni Sergent ni Spécialiste,
+  contrairement à Ultramarines/Night Lords/Emperor's Children, qui
+  incluent tous le Sergent) : ajoutée à `CHOIX_ARMES_ENERGETIQUES` (+5,
+  requiertLegion "XV") et à une nouvelle `LISTES_ARSENAL_THOUSAND_SONS`
+  (`officier` +15 SEULEMENT — pas de variante `meleeSergent`/
+  `meleeTerminatorSergent`, sur le même principe que le Broyeur à
+  gravitons Iron Warriors, également État-major/Champion uniquement),
+  chaînée sur les 22 sites officier déjà identifiés.
+  **Fuite détectée et corrigée** : l'option `arme-energetique-sergent`
+  de l'Escouade Terminator Indomitus (Sergent Terminator Indomitus,
+  qui remplace son gantelet énergétique fixe par un spread BRUT et non
+  filtré de `CHOIX_ARMES_ENERGETIQUES` — déjà signalé comme site
+  fragile lors du chantier Death Guard) exposait l'Épée de force Achea
+  au Sergent alors que l'Arsenal l'exclut explicitement. Contrairement
+  à Death Guard (qui inclut le Sergent, donc sans problème sur ce
+  site), corrigé cette fois en filtrant `c.requiertLegion !== "XV"`
+  directement dans le spread de cette option précise — ne retire que
+  Thousand Sons, laisse intacts Death Guard/tous les autres. À
+  revérifier systématiquement pour tout futur Arsenal État-major/
+  Champion-only : ce site spécifique est le seul de tout le fichier à
+  spreader `CHOIX_ARMES_ENERGETIQUES` sans aucun filtre pour un rôle
+  Sergent, donc le seul à risque pour ce genre de fuite.
+  Vérification : audit Node confirmant zéro fuite sur les 11 Arsenals
+  désormais dans le fichier (eligibilité État-major/Champion-only
+  vérifiée spécifiquement, en plus des vérifications Spécialiste
+  habituelles) ; vérification live par navigateur (Dark Angels vs
+  Thousand Sons, plus Optae en Thousand Sons pour confirmer l'exclusion
+  Sergent) confirmant l'affichage correct et l'absence totale hors
+  Thousand Sons et sur les rôles Sergent, sans erreur console.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

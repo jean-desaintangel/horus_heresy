@@ -488,6 +488,225 @@ const LISTES_ARSENAL_NIGHT_LORDS = {
   },
 };
 
+/* ----------------------------------------------------------
+   ARSENAL DE LA DEATH GUARD (XIVe Légion, Liber Astartes/Hereticus,
+   livre de base) : faux énergétique, échangée contre une arme
+   énergétique (+10 Points) ou contre un gantelet énergétique
+   (+5 Points), réservée aux Figurines de Sous-type État-major,
+   Champion, Spécialiste OU SERGENT ayant le Trait Death Guard — seul
+   Arsenal de Légion jusqu'ici à inclure ces QUATRE Sous-types pour la
+   même arme (à la différence de tous les précédents, qui excluaient
+   toujours au moins l'un d'entre eux). Le profil existait déjà dans
+   js/armes-data.js (utilisé en équipement fixe par l'Escouade
+   Terminator du Linceul/Deathshroud et par le Chimiarque, voir
+   js/unites-data.js) ; seul le câblage générique manquait. Coût dans
+   officier/meleeSergent = coût de base de l'arme remplacée dans
+   chaque liste (10 pour une arme énergétique de base, 15 pour un
+   gantelet énergétique) + le surcoût de la page (+10/+5) : les deux
+   chemins aboutissent au même total absolu de 20. Incluant le
+   Spécialiste, cette entrée doit aussi être autorisée sur les sites
+   Spécialiste-only (Primus Medicae, Apothicaire) qui filtrent
+   normalement tout `requiertLegion` sauf Salamanders — voir les
+   `.filter` correspondants dans js/unites-data.js.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_DEATH_GUARD = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Death Guard)",
+    items: [{ nom: "Faux énergétique", cout: 20, requiertLegion: "XIV" }],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Death Guard)",
+    items: [{ nom: "Faux énergétique", cout: 20, requiertLegion: "XIV" }],
+  },
+  // Variante pour les options déjà scopées à un Sergent via une liste
+  // meleeTerminator (ex : Sergent Terminator Tartaros) : pas de coût
+  // de base d'arme énergétique dans cette liste, donc +10 net (même
+  // prix que dans CHOIX_ARMES_ENERGETIQUES, aucune remise de base).
+  meleeTerminatorSergent: {
+    nom: "Armes de Mêlée de Terminator de Légion (Death Guard)",
+    items: [{ nom: "Faux énergétique", cout: 10, requiertLegion: "XIV" }],
+  },
+};
+
+/* ----------------------------------------------------------
+   ARSENAL DES EMPEROR'S CHILDREN (IIIe Légion, Liber Astartes/
+   Hereticus, livre de base) : lance énergétique Phénix, échangée
+   contre une arme énergétique (+10 Points), réservée aux Figurines de
+   Sous-type État-major, Champion OU Sergent ayant le Trait Emperor's
+   Children — Spécialiste explicitement exclu (contrairement à la Faux
+   énergétique Death Guard). Le profil existait déjà dans
+   js/armes-data.js (utilisé en équipement fixe par l'Escouade
+   Terminator Phénix) ; seul le câblage générique manquait. Coût dans
+   officier/meleeSergent = coût de base de l'arme énergétique dans
+   chaque liste (10) + le surcoût de la page (+10) = 20.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_EMPERORS_CHILDREN = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Emperor's Children)",
+    items: [{ nom: "Lance énergétique Phénix", cout: 20, requiertLegion: "III" }],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Emperor's Children)",
+    items: [{ nom: "Lance énergétique Phénix", cout: 20, requiertLegion: "III" }],
+  },
+  // Variante pour les options déjà scopées à un Sergent via une liste
+  // meleeTerminator (ex : Sergent Terminator Tartaros) : pas de coût
+  // de base d'arme énergétique dans cette liste, donc +10 net (même
+  // prix que dans CHOIX_ARMES_ENERGETIQUES, aucune remise de base).
+  meleeTerminatorSergent: {
+    nom: "Armes de Mêlée de Terminator de Légion (Emperor's Children)",
+    items: [{ nom: "Lance énergétique Phénix", cout: 10, requiertLegion: "III" }],
+  },
+};
+
+/* ----------------------------------------------------------
+   ARSENAL DES IRON HANDS (Xe Légion, Liber Astartes/Hereticus, livre
+   de base) : Pistolet à graviton, échangé contre un PISTOLET À PLASMA
+   (pas le pistolet bolter de base) pour +5 Points, réservé aux
+   Figurines de Sous-type État-major OU Champion ayant le Trait Iron
+   Hands — ni Sergent ni Spécialiste, contrairement à tous les Arsenals
+   précédents qui visaient toujours l'arme énergétique/le bolter/le
+   gantelet. Comme le Pistolet à plasma est lui-même une des
+   alternatives de LISTES_EQUIPEMENT.officier (coût 5) dans l'option
+   « Remplacer le pistolet bolter », le Pistolet à graviton est ajouté
+   à CETTE liste uniquement (pas à `officier`/`meleeSergent` en
+   général, qui sont partagés avec l'option « Remplacer le bolter » où
+   un pistolet n'a pas sa place) : coût absolu 10 = 5 (Pistolet à
+   plasma dans cette liste) + 5 (surcoût de la page). Le profil est
+   nouveau (voir js/armes-data.js, catégorie Armes à Gravitons) —
+   aucune Unité ne l'utilisait avant cette session.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_IRON_HANDS = {
+  pistolets: {
+    nom: "Pistolets de Légion (Iron Hands)",
+    items: [{ nom: "Pistolet à graviton", cout: 10, requiertLegion: "X" }],
+  },
+};
+
+// Armatus Necrotechnika (Arsenal des Iron Hands, page « Armatus
+// Necrotechnika ») : « Toute Figurine de TYPE VÉHICULE qui a le Trait
+// Iron Hands » — premier Arsenal de Légion à porter sur le Type plutôt
+// que sur le Sous-type d'une Figurine. +10 Points, gagne Autoréparation
+// (5+) ; le bonus conditionnel (+1 au Jet de Réparation si des
+// Figurines d'une Unité voisine à 6" ont été Retirées comme Pertes au
+// même Tour) n'est pas appliqué automatiquement par le site (comme les
+// autres effets conditionnels complexes déjà rencontrés, ex. Bouclier
+// tempête modèle Proteus) : décrit en texte dans l'`ajoute`, à vérifier
+// manuellement. Câblée sur toute Unité générique « Legio Astartes » de
+// Type Véhicule (pas les Marcheurs/Dreadnoughts, un Type distinct dans
+// ce fichier — la page dit bien « Type Véhicule », pas « Véhicule ou
+// Marcheur ») ; les Véhicules déjà verrouillés à une autre Légion (ex :
+// Rhino d'Assaut Salamanders) ne sont de toute façon jamais accessibles
+// à une Armée Iron Hands (voir uniteAccessible, js/unites.js).
+function optionArmatusNecrotechnika() {
+  return {
+    type: "case",
+    id: "armatus-necrotechnika",
+    libelle: "Armatus Necrotechnika",
+    cout: 10,
+    requiertLegion: "X",
+    ajoute:
+      "Armatus Necrotechnika (gagne Autoréparation (5+) ; +1 au Jet de Réparation ce Tour-ci si des Figurines d'une Unité comptant des Figurines à 6\" ont été Retirées comme Pertes ce Tour-ci)",
+  };
+}
+
+/* ----------------------------------------------------------
+   ARSENAL DES ULTRAMARINES (XIIIe Légion, Liber Astartes/Hereticus,
+   livre de base) : Hache légatine, échangée contre une arme
+   énergétique (+5 Points), réservée aux Figurines de Sous-type
+   État-major, Champion OU Sergent ayant le Trait Ultramarines —
+   Spécialiste exclu, même portée que la Vouge tronçonneur Night
+   Lords. Le profil existait déjà dans js/armes-data.js (utilisé par
+   l'Escouade de Suzerains Invictarus) ; seul le câblage générique
+   manquait. Coût dans officier/meleeSergent = coût de base de l'arme
+   énergétique (10) + le surcoût de la page (+5) = 15.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_ULTRAMARINES = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Ultramarines)",
+    items: [{ nom: "Hache légatine", cout: 15, requiertLegion: "XIII" }],
+  },
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Ultramarines)",
+    items: [{ nom: "Hache légatine", cout: 15, requiertLegion: "XIII" }],
+  },
+  // Variante pour les options déjà scopées à un Sergent via une liste
+  // meleeTerminator (ex : Sergent Terminator Tartaros) : pas de coût
+  // de base d'arme énergétique dans cette liste, donc +5 net (même
+  // prix que dans CHOIX_ARMES_ENERGETIQUES, aucune remise de base).
+  meleeTerminatorSergent: {
+    nom: "Armes de Mêlée de Terminator de Légion (Ultramarines)",
+    items: [{ nom: "Hache légatine", cout: 5, requiertLegion: "XIII" }],
+  },
+};
+
+// Bouclier d'Abordage Modèle Argyrum (Arsenal des Ultramarines, page
+// du même nom) : ajout optionnel (jamais un remplacement), réservé aux
+// Sous-types État-major OU Champion SEULEMENT — ni Sergent ni
+// Spécialiste. +15 Points, confère Sauvegarde Invulnérable 5+ (4+
+// contre les Armes de Mêlée), Trait Bouclier et Sous-type Lourd — texte
+// intégral déjà dans regles-data.js (glossaire), effet non appliqué
+// mécaniquement par le site (même limite que le Bouclier tempête
+// modèle Proteus/Storm modèle Vigil déjà rencontrés).
+function optionBouclierArgyrum() {
+  return {
+    type: "case",
+    id: "bouclier-argyrum",
+    libelle: "Bouclier d'Abordage Modèle Argyrum",
+    cout: 15,
+    requiertLegion: "XIII",
+    ajoute: "Bouclier d'Abordage Modèle Argyrum",
+  };
+}
+
+/* ----------------------------------------------------------
+   ARSENAL DES THOUSAND SONS (XVe Légion, Liber Astartes/Hereticus,
+   livre de base) : Épée de force modèle Achea, échangée contre une
+   arme énergétique (+5 Points), réservée aux Figurines de Sous-type
+   État-major OU CHAMPION SEULEMENT ayant le Trait Thousand Sons — ni
+   Sergent ni Spécialiste, à la différence de la Hache légatine
+   Ultramarines/Vouge tronçonneur Night Lords ci-dessus. Le profil
+   existait déjà dans js/armes-data.js (utilisé par la Cabale de
+   Terminators Sekhmet) ; seul le câblage générique manquait. Pas de
+   variante `meleeSergent`/`meleeTerminatorSergent` (Sergent exclu) —
+   uniquement `officier`, chaînée sur les seuls sites officier
+   (État-major/Champion), jamais meleeSergent. Coût dans officier =
+   coût de base de l'arme énergétique (10) + le surcoût de la page
+   (+5) = 15.
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_THOUSAND_SONS = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Thousand Sons)",
+    items: [{ nom: "Épée de force modèle Achea", cout: 15, requiertLegion: "XV" }],
+  },
+};
+
+// Hurleurs soniques/Lance sonique (Arsenal des Emperor's Children,
+// page « Augmentations Chirurgicales ») : ajout optionnel (jamais un
+// remplacement), réservé aux Sous-types État-major OU Champion ayant
+// LES DEUX Traits Emperor's Children ET Renégat — seul Arsenal de
+// Légion jusqu'ici à exiger une Allégeance en plus de la Légion. Les
+// deux profils existaient déjà dans js/armes-data.js. `requiertLegion`
+// ET `requiertAllegeance` posés sur l'option elle-même (pas sur une
+// entrée de `choix`) : masquent la ligne entière si l'une des deux
+// conditions n'est pas remplie (voir optionAllegeanceOk, js/unites.js,
+// généralisé pour l'occasion sur le même principe qu'optionLegionOk).
+function optionArmesSoniques() {
+  return {
+    type: "choix",
+    id: "armes-soniques",
+    libelle: "Hurleurs soniques ou lance sonique",
+    ajoute: true,
+    requiertLegion: "III",
+    requiertAllegeance: "renegat",
+    choix: [
+      { nom: "— Aucun —", cout: 0 },
+      { nom: "Hurleurs soniques", cout: 15 },
+      { nom: "Lance sonique", cout: 10 },
+    ],
+  };
+}
+
 // Trophées du Jugement (Arsenal des Night Lords) : ajout optionnel,
 // jamais un remplacement, réservé aux Sous-types État-major ou
 // Champion — PAS Sergent. +10 Points par Figurine, accorde Peur (1)
@@ -559,6 +778,57 @@ const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
     { nom: "Vouge tronçonneur", cout: 5, requiertLegion: "VIII" },
     { nom: "Hache de bourreau", cout: 10, requiertLegion: "VIII" },
   ],
+  // Arsenal des Sons of Horus, page « Haches Énergétiques Carsoraines » :
+  // « Toute Figurine qui a le Trait Sons of Horus » — SANS restriction
+  // de Sous-type, à la différence de tous les autres Arsenals de
+  // Légion ci-dessus. `toutesFigurines: true` marque ces deux entrées
+  // comme sûres pour un choix `obligatoire` partagé par tout le
+  // rang-et-fichier (optionTypeArmeEnergetique ci-dessous ne les filtre
+  // donc pas, contrairement aux autres entrées `requiertLegion`).
+  [
+    {
+      nom: "Hache énergétique carsoraine",
+      cout: 5,
+      requiertLegion: "XVI",
+      toutesFigurines: true,
+    },
+    {
+      nom: "Tabar énergétique carsorain",
+      cout: 10,
+      requiertLegion: "XVI",
+      toutesFigurines: true,
+    },
+  ],
+  // Arsenal de la Death Guard, page « Faux Énergétiques » : « Toute
+  // Figurine de Sous-type État-major, Champion, Spécialiste ou Sergent
+  // ayant le Trait Death Guard » —+10 Points en échange d'une arme
+  // énergétique (coût couvert ici, baseline gratuite dans ce contexte),
+  // +5 Points en échange d'un gantelet énergétique (voir
+  // LISTES_ARSENAL_DEATH_GUARD plus bas pour le reste de cet Arsenal :
+  // le total absolu dans les listes officier/meleeSergent est de 20
+  // dans les deux cas, arme énergétique de base (10) + 10 ou gantelet
+  // énergétique (15) + 5 aboutissant au même total).
+  [{ nom: "Faux énergétique", cout: 10, requiertLegion: "XIV" }],
+  // Arsenal des Emperor's Children, page « Lances Énergétiques Phénix » :
+  // « Toute Figurine de Sous-type État-major, Champion ou Sergent ayant
+  // le Trait Emperor's Children » — +10 Points en échange d'une arme
+  // énergétique (Spécialiste explicitement exclu, à la différence de la
+  // Faux énergétique Death Guard ci-dessus). Voir
+  // LISTES_ARSENAL_EMPERORS_CHILDREN plus bas pour le reste de cet
+  // Arsenal (Hurleurs soniques/Lance sonique).
+  [{ nom: "Lance énergétique Phénix", cout: 10, requiertLegion: "III" }],
+  // Arsenal des Ultramarines, page « Hache Légatine » : « Toute
+  // Figurine de Sous-type État-major, Champion ou Sergent ayant le
+  // Trait Ultramarines » — +5 Points en échange d'une arme énergétique
+  // (Spécialiste exclu). Voir LISTES_ARSENAL_ULTRAMARINES plus bas pour
+  // le reste de cet Arsenal (Bouclier d'Abordage Modèle Argyrum).
+  [{ nom: "Hache légatine", cout: 5, requiertLegion: "XIII" }],
+  // Arsenal des Thousand Sons, page « Épées de Force Modèle Achea » :
+  // « Toute Figurine de Sous-type État-major OU Champion ayant le
+  // Trait Thousand Sons » — +5 Points en échange d'une arme énergétique
+  // (ni Sergent ni Spécialiste, contrairement à Ultramarines/Night
+  // Lords ci-dessus). Voir LISTES_ARSENAL_THOUSAND_SONS plus bas.
+  [{ nom: "Épée de force modèle Achea", cout: 5, requiertLegion: "XV" }],
 );
 
 // Option "choix" obligatoire (coût nul) qui résout une « Arme
@@ -577,7 +847,10 @@ const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
 // forgées Salamanders, Dague énergétique Alpha Legion, etc., toutes
 // réservées à un Sous-type précis) doivent donc être filtrées ici :
 // sinon tout rang-et-fichier hérite de ces armes réservées via ce
-// choix partagé, faute de `prefixeFiche` pour les isoler.
+// choix partagé, faute de `prefixeFiche` pour les isoler. Exception :
+// `toutesFigurines: true` (Sons of Horus, Haches Énergétiques
+// Carsoraines — sans restriction de Sous-type) reste inclus, puisque
+// le rang-et-fichier y est justement éligible.
 function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
   return {
     type: "choix",
@@ -585,7 +858,9 @@ function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
     libelle,
     obligatoire: true,
     ajoute: true,
-    choix: CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion),
+    choix: CHOIX_ARMES_ENERGETIQUES.filter(
+      (c) => !c.requiertLegion || c.toutesFigurines,
+    ),
   };
 }
 
@@ -1254,6 +1529,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1275,6 +1552,15 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          // Arsenal des Sons of Horus, page « Bolters Banestrike » :
+          // réservé au Bolter (pas au pistolet bolter), État-major/
+          // Champion — ajouté ici seulement, pas dans la liste
+          // partagée LISTES_EQUIPEMENT.officier.
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -1292,6 +1578,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -1373,6 +1664,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1388,6 +1681,7 @@ const UNITES = [
             cout: 5,
             requiertLegion: "VII",
           },
+          { nom: "Combi-bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -1567,6 +1861,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -1582,6 +1878,10 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
         ],
       },
       {
@@ -1599,6 +1899,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       optionBombesFusion(),
@@ -1782,6 +2087,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1801,6 +2108,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -1816,6 +2128,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -1910,6 +2227,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -1925,6 +2244,7 @@ const UNITES = [
             cout: 5,
             requiertLegion: "VII",
           },
+          { nom: "Combi-bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -2011,6 +2331,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -2027,8 +2349,12 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -2049,6 +2375,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -2104,6 +2433,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       /* Le livre autorise : chaque bolter sur Pivot → combi-bolter
          sur Pivot (+5), et UN SEUL des deux bolters → un objet de la
          liste des Armes sur Pivot. On modélise donc : pivot n°1 =
@@ -2451,6 +2781,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -2464,6 +2796,10 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
         ],
       },
       {
@@ -2479,6 +2815,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       optionBombesFusion(),
@@ -3139,6 +3480,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3153,6 +3496,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -3262,6 +3610,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "pistolet",
@@ -3275,6 +3625,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -3396,6 +3751,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3411,6 +3768,7 @@ const UNITES = [
             cout: 5,
             requiertLegion: "VII",
           },
+          { nom: "Combi-bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -3514,6 +3872,7 @@ const UNITES = [
           { nom: "Chargeur volkite", cout: 2 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
         ],
       },
@@ -3526,6 +3885,7 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
         ],
       },
       optionBombesFusion(),
@@ -3615,6 +3975,7 @@ const UNITES = [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
         ],
       },
       {
@@ -3626,6 +3987,7 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.officier),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
         ],
       },
       optionBombesFusion(),
@@ -3741,14 +4103,20 @@ const UNITES = [
         // armes réservées État-major/Champion/Sergent d'un Arsenal de
         // Légion (Gantelet Solarite Imperial Fists, Dague énergétique
         // Alpha Legion, Vouge tronçonneur/Hache de bourreau Night
-        // Lords…) — SAUF l'Artifice de Nocturne Salamanders (XVIII),
-        // qui inclut le Spécialiste et reste donc seul autorisé ici :
-        // filtre tout `requiertLegion` AUTRE que Salamanders, sinon
+        // Lords…) — SAUF l'Artifice de Nocturne Salamanders (XVIII) et
+        // la Faux énergétique Death Guard (XIV), qui incluent toutes
+        // deux le Spécialiste, et les entrées `toutesFigurines: true`
+        // (Sons of Horus, Haches Énergétiques Carsoraines — sans
+        // restriction de Sous-type) : filtre tout le reste, sinon
         // hérité automatiquement via le spread direct de
         // CHOIX_ARMES_ENERGETIQUES.
         choix: [
           ...CHOIX_ARMES_ENERGETIQUES.filter(
-            (c) => !c.requiertLegion || c.requiertLegion === "XVIII",
+            (c) =>
+              !c.requiertLegion ||
+              c.requiertLegion === "XVIII" ||
+              c.requiertLegion === "XIV" ||
+              c.toutesFigurines,
           ),
           ...depuisListes(LISTES_EQUIPEMENT.meleeTerminator),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeTerminator),
@@ -3816,6 +4184,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -3833,7 +4203,12 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -3849,6 +4224,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -3940,6 +4320,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "epee-tronconneuse",
@@ -3953,6 +4335,10 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
         ],
       },
       {
@@ -3968,6 +4354,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       optionBombesFusion(),
@@ -4062,6 +4453,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4077,6 +4470,7 @@ const UNITES = [
             cout: 5,
             requiertLegion: "VII",
           },
+          { nom: "Combi-bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -4281,6 +4675,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4298,7 +4694,12 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -4314,6 +4715,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -4402,6 +4808,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4417,6 +4825,7 @@ const UNITES = [
             cout: 5,
             requiertLegion: "VII",
           },
+          { nom: "Combi-bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -4483,6 +4892,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4501,7 +4912,12 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
           ...depuisListes(LISTES_EQUIPEMENT.combinees),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -4517,6 +4933,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -4575,6 +4996,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -4596,6 +5019,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -7198,6 +7624,9 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeTerminator),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeTerminator),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeTerminatorSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeTerminatorSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeTerminatorSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeTerminatorSergent),
         ],
       },
       {
@@ -7319,7 +7748,14 @@ const UNITES = [
         ajoute: true,
         choix: [
           { nom: "— Aucun —", cout: 0 },
-          ...CHOIX_ARMES_ENERGETIQUES.map((c) => ({
+          // Épée de force modèle Achea (Thousand Sons, XV) exclue : ce
+          // Sous-type est Sergent, réservé État-major/Champion
+          // SEULEMENT pour cet Arsenal (contrairement aux autres
+          // entrées de CHOIX_ARMES_ENERGETIQUES qui incluent toutes le
+          // Sergent).
+          ...CHOIX_ARMES_ENERGETIQUES.filter(
+            (c) => c.requiertLegion !== "XV",
+          ).map((c) => ({
             ...c,
             nom:
               c.nom +
@@ -7456,6 +7892,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -7660,6 +8099,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -7985,6 +8427,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -8082,6 +8527,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -8100,6 +8548,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
@@ -8117,7 +8568,7 @@ const UNITES = [
         id: "vexillum",
         libelle: "Un Légionnaire : vexillum",
         cout: 10,
-        ajoute: "Vexillum (un Légionnaire)",
+        ajoute: "Vexillum",
       },
       {
         type: "choix",
@@ -8236,6 +8687,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -8254,6 +8708,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
@@ -8286,7 +8743,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "epee",
-        ajoute: "Épée tronçonneuse lourde (Légionnaire)",
+        ajoute: "Épée tronçonneuse lourde",
       },
       ...eclaterQuantiteArmeEnergetique({
         type: "quantite",
@@ -8296,7 +8753,7 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "epee",
-        ajoute: "Arme énergétique (Légionnaire)",
+        ajoute: "Arme énergétique",
       }),
       {
         type: "quantite",
@@ -8306,7 +8763,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "epee",
-        ajoute: "Sabre charnabal (Légionnaire)",
+        ajoute: "Sabre charnabal",
       },
       {
         type: "quantite",
@@ -8315,14 +8772,14 @@ const UNITES = [
           "Légionnaires : pistolet de la liste des Pistolets de Légion (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
-        ajoute: "Pistolet de Légion (Légionnaire)",
+        ajoute: "Pistolet de Légion",
       },
       {
         type: "case",
         id: "vexillum",
         libelle: "Un Légionnaire : vexillum",
         cout: 10,
-        ajoute: "Vexillum (un Légionnaire)",
+        ajoute: "Vexillum",
       },
       {
         type: "choix",
@@ -8428,6 +8885,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -8447,6 +8907,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
@@ -8477,7 +8940,7 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "melee",
-        ajoute: "Arme énergétique (Légionnaire)",
+        ajoute: "Arme énergétique",
       }),
       {
         type: "quantite",
@@ -8487,7 +8950,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "melee",
-        ajoute: "Sabre charnabal (Légionnaire)",
+        ajoute: "Sabre charnabal",
       },
       {
         type: "quantite",
@@ -8497,7 +8960,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "melee",
-        ajoute: "Épée tronçonneuse lourde (Légionnaire)",
+        ajoute: "Épée tronçonneuse lourde",
       },
       {
         type: "quantite",
@@ -8507,7 +8970,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         parTrancheMax: 2,
-        ajoute: "Hache tronçonneuse lourde (Légionnaire)",
+        ajoute: "Hache tronçonneuse lourde",
       },
       {
         type: "quantite",
@@ -8516,7 +8979,7 @@ const UNITES = [
           "Légionnaires : pistolet de la liste des Pistolets de Légion (1 par tranche de 5 figurines)",
         cout: 5,
         parTranche: 5,
-        ajoute: "Pistolet de Légion (Légionnaire)",
+        ajoute: "Pistolet de Légion",
       },
       {
         type: "case",
@@ -8619,6 +9082,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -8652,7 +9118,7 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "bolter",
-        ajoute: "Fusil à gravitons (Légionnaire)",
+        ajoute: "Fusil à gravitons",
       },
       {
         type: "quantite",
@@ -8662,14 +9128,14 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "bolter",
-        ajoute: "Découpeur laser¹ (Légionnaire)",
+        ajoute: "Découpeur laser¹",
       },
       {
         type: "case",
         id: "vexillum",
         libelle: "Un Légionnaire : vexillum",
         cout: 10,
-        ajoute: "Vexillum (un Légionnaire)",
+        ajoute: "Vexillum",
       },
       {
         type: "choix",
@@ -8730,7 +9196,7 @@ const UNITES = [
         type: "Véhicule",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -8762,7 +9228,7 @@ const UNITES = [
         type: "Véhicule",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -8880,6 +9346,7 @@ const UNITES = [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
         ],
       },
       {
@@ -9101,6 +9568,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -9222,6 +9692,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -9656,6 +10129,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -9759,6 +10235,22 @@ const UNITES = [
         groupe: "tir",
         remplace: "du bolter Kraken",
       }),
+      // Arsenal des Sons of Horus, page « Bolters Banestrike » :
+      // « Toute Figurine d'une Unité d'Escouade Traqueuse ayant le
+      // Trait Sons of Horus peut échanger GRATUITEMENT son bolter
+      // Kraken contre un bolter Banestrike. »
+      {
+        remplaceIntegral: "Bolter Kraken",
+        type: "quantite",
+        id: "bolter-banestrike",
+        libelle:
+          "Figurines échangeant gratuitement leur bolter Kraken contre un bolter Banestrike",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "XVI",
+        ajoute: "Bolter Banestrike (à la place du bolter Kraken)",
+      },
       {
         type: "choix",
         id: "sergent-bolter",
@@ -9770,6 +10262,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -9786,6 +10281,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -10044,6 +10542,21 @@ const UNITES = [
     ],
     options: [
       ARCANE_DE_PROSPERO,
+      // Arsenal des Sons of Horus, page « Bolters Banestrike » :
+      // « Toute Figurine d'une Unité d'Escouade de Vétérans Tactiques
+      // ayant le Trait Sons of Horus peut échanger son bolter contre
+      // un bolter Banestrike pour +5 Points par Figurine. »
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "bolter-banestrike",
+        libelle: "Figurines : bolter Banestrike (à la place du bolter)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "tir",
+        requiertLegion: "XVI",
+        ajoute: "Bolter Banestrike (à la place du bolter)",
+      },
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -10124,6 +10637,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -10140,6 +10656,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -11543,6 +12062,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -11620,6 +12142,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "batteries-laterales",
@@ -11675,6 +12198,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "bolter-lourd-jumele",
@@ -11728,7 +12252,7 @@ const UNITES = [
         type: "Véhicule (Aéronef)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   /* ----------------------------------------------------------
@@ -11761,6 +12285,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       optionPivotLegion(),
       {
         type: "choix",
@@ -11884,6 +12409,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -11950,6 +12478,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "anvilus",
@@ -12072,6 +12601,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -12088,6 +12620,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -12384,7 +12919,7 @@ const UNITES = [
         type: "Véhicule",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
   {
     id: "medusa-de-legion",
@@ -12417,7 +12952,7 @@ const UNITES = [
         type: "Véhicule",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
   {
     id: "arquitor",
@@ -12448,6 +12983,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "case",
         id: "obus-phosphex",
@@ -12503,6 +13039,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "pivot-1",
@@ -12546,6 +13083,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "canon-demolisher",
@@ -12592,6 +13130,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "case",
         id: "obus-bruleurs",
@@ -12664,6 +13203,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       optionLaterauxLegion(),
       optionPivotLegion(),
       ...optionsFinBlinde({ bulldozer: false }),
@@ -12700,6 +13240,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "autocanon",
@@ -12751,6 +13292,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "canon-predator",
@@ -12822,6 +13364,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "case",
         id: "missiles-pyrax",
@@ -13478,6 +14021,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       /* Chaque bolter → combi-bolter (+5) ; UN SEUL des deux peut
          prendre la liste des Armes sur Pivot (pivot n°1 ici). */
       {
@@ -13554,7 +14098,7 @@ const UNITES = [
         type: "Véhicule (Transport)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -13587,6 +14131,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "combi-bolters",
@@ -13636,6 +14181,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "sponsons",
@@ -13681,7 +14227,7 @@ const UNITES = [
         type: "Véhicule (Transport, Aéronef)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
   {
     id: "kharybdis",
@@ -13709,7 +14255,7 @@ const UNITES = [
         type: "Véhicule (Aéronef, Transport)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -13738,7 +14284,7 @@ const UNITES = [
         type: "Véhicule (Aéronef, Transport)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -13771,7 +14317,7 @@ const UNITES = [
         type: "Véhicule (Transport)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -13804,6 +14350,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "affuts-lateraux",
@@ -13861,6 +14408,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "bolter-lourd-avant",
@@ -13924,7 +14472,7 @@ const UNITES = [
     // de départ — ce sont deux emplacements obligatoires à pourvoir
     // indépendamment. Pas encore modélisé (option "quantite"/"multi"
     // à choix multiples avec doublons autorisés, à confirmer).
-    options: [...optionsMissileEtProjecteurs()],
+    options: [optionArmatusNecrotechnika(), ...optionsMissileEtProjecteurs()],
   },
 
   {
@@ -13961,6 +14509,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "canons-gauche",
@@ -14025,7 +14574,7 @@ const UNITES = [
         type: "Véhicule (Transport, Super-lourd, Aéronef)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -14056,7 +14605,7 @@ const UNITES = [
         type: "Véhicule (Transport, Super-lourd, Aéronef)",
       },
     ],
-    options: [],
+    options: [optionArmatusNecrotechnika()],
   },
 
   {
@@ -14088,6 +14637,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "affuts-lateraux",
@@ -14134,6 +14684,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "bolter-lourd-avant",
@@ -14190,6 +14741,7 @@ const UNITES = [
       },
     ],
     options: [
+      optionArmatusNecrotechnika(),
       {
         type: "choix",
         id: "bolter-lourd-avant",
@@ -14244,7 +14796,11 @@ const UNITES = [
         type: "Véhicule (Super-lourd)",
       },
     ],
-    options: [optionLaterauxLegion(), ...optionsVehiculeSuperLourdPivot()],
+    options: [
+      optionArmatusNecrotechnika(),
+      optionLaterauxLegion(),
+      ...optionsVehiculeSuperLourdPivot(),
+    ],
   },
 
   {
@@ -14275,7 +14831,11 @@ const UNITES = [
         type: "Véhicule (Super-lourd)",
       },
     ],
-    options: [optionLaterauxLegion(), ...optionsVehiculeSuperLourdPivot()],
+    options: [
+      optionArmatusNecrotechnika(),
+      optionLaterauxLegion(),
+      ...optionsVehiculeSuperLourdPivot(),
+    ],
   },
 
   /* ----------------------------------------------------------
@@ -14903,6 +15463,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -15076,6 +15639,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -15505,6 +16071,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -15700,6 +16269,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -16539,6 +17111,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -17722,6 +18297,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -17958,6 +18536,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -20770,6 +21351,9 @@ const UNITES = [
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -21310,6 +21894,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "bolter",
@@ -21331,6 +21917,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -21349,6 +21940,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -22077,6 +22673,10 @@ const UNITES = [
           {
             nom: "Hache énergétique carsoraine (à la place de l'arme énergétique)",
             cout: 5,
+          },
+          {
+            nom: "Tabar énergétique carsorain (à la place de l'arme énergétique)",
+            cout: 10,
           },
           {
             nom: "Gantelet énergétique (à la place de l'arme énergétique)",
@@ -25299,6 +25899,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -25730,6 +26333,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -26105,6 +26711,8 @@ const UNITES = [
     options: [
       optionSpheresVenin(),
       optionTropheesDuJugement(),
+      optionArmesSoniques(),
+      optionBouclierArgyrum(),
       {
         type: "choix",
         id: "bolter",
@@ -26131,6 +26739,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          { nom: "Bolter Banestrike", cout: 5, requiertLegion: "XVI" },
         ],
       },
       {
@@ -26153,6 +26766,11 @@ const UNITES = [
           ...depuisListes(LISTES_ARSENAL_IRON_WARRIORS.officier),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.officier),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.officier),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.officier),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.officier),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.officier),
+          ...depuisListes(LISTES_ARSENAL_THOUSAND_SONS.officier),
+          ...depuisListes(LISTES_ARSENAL_IRON_HANDS.pistolets),
         ],
       },
       {
@@ -26420,6 +27038,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -26862,6 +27483,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -35358,6 +35982,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -35374,6 +36001,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -35902,6 +36532,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
@@ -35918,6 +36551,9 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_ULTRAMARINES.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_ALPHA_LEGION.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_IMPERIAL_FISTS.meleeSergent),
         ],
