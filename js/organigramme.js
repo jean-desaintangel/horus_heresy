@@ -663,6 +663,29 @@ const Organigramme = (() => {
     return typeDe(det).id === "allie" ? det.legionAlliee : etat.legion;
   }
 
+  // Paradigme de Maisonnée pertinent pour un Détachement (livre
+  // d'armée Chevaliers Questoris) : celui propre au Détachement de
+  // Seigneur des Batailles (`maisonneeSeigneurBatailles`, menu
+  // « Maisonnée » de sa carte — seul moyen pour une Armée d'une AUTRE
+  // Faction d'y faire valoir un Paradigme, `etat.maisonnee` n'étant
+  // réglable que pour la Faction Chevaliers Questoris elle-même) pour
+  // ce type de Détachement, sinon celui de l'Armée (etat.maisonnee) —
+  // même principe que legionPertinentePourCase ci-dessus. Consommée
+  // par detachementDebloque()/estCasePrincipale()/avantagesPossibles()
+  // pour le bonus de chaque Paradigme (Serre d'Automates/d'Armigères,
+  // Maisnie Roturière, exemption 0-1 par Armée, Cases Seigneurs des
+  // Batailles « comme si » Principales pour Mendicus). Le Détachement
+  // Allié (qui a lui aussi son propre `maisonneeAlliee`, purement
+  // décoratif) est volontairement exclu : les 3 règles de Paradigme ne
+  // citent que le Détachement Principal de Maisonnées de Chevaliers et
+  // le Détachement de Seigneur des Batailles comme points de
+  // rattachement possibles.
+  function maisonneePertinentePourDetachement(det) {
+    const id = typeDe(det).id;
+    if (id === "seigneur-batailles") return det.maisonneeSeigneurBatailles;
+    return etat.maisonnee;
+  }
+
   // id du type de Détachement Principal correspondant à la Faction
   // actuelle (etat.faction) : "principal" (Legiones Astartes) ou
   // "ordinal-titanique" (Legio Titanicus, livre d'armée Legio
@@ -698,6 +721,29 @@ const Organigramme = (() => {
       : "legio-astartes";
   }
 
+  // Un Détachement de Seigneur des Batailles Additionnel de l'Armée
+  // porte-t-il la Maisonnée requise par `type` (`type.requiertMaisonnee`,
+  // voir MODÈLE DE DONNÉES) ? Seul bypass de visibilité connu pour un
+  // type par ailleurs réservé à la Faction Chevaliers Questoris (Serre
+  // d'Armigères/d'Automates, Maisnie Roturière) : permet à une Armée
+  // d'une AUTRE Faction (ex : Legio Astartes) de voir apparaître ce
+  // Détachement dès qu'elle a réglé la Maisonnée de son propre
+  // Détachement de Seigneur des Batailles sur la bonne valeur — sans
+  // exiger qu'un Chevalier y soit déjà placé (la présence effective d'un
+  // Chevalier n'est vérifiée qu'ensuite, par detachementDebloque(), pour
+  // décider si le bouton est actif ou grisé). Utilisé par
+  // typeDisponiblePourFaction() ci-dessous uniquement.
+  function maisonneeSeigneurBataillesDebloqueVisibilite(type) {
+    return (
+      !!type.requiertMaisonnee &&
+      etat.detachements.some(
+        (d) =>
+          typeDe(d).id === "seigneur-batailles" &&
+          d.maisonneeSeigneurBatailles === type.requiertMaisonnee,
+      )
+    );
+  }
+
   // Ce type de Détachement doit-il être proposé/accepté pour la Faction
   // actuelle (etat.faction) ? Même règle par défaut que caseAccepte()
   // pour les unités : `factionLibre` dispense de la vérification,
@@ -713,9 +759,20 @@ const Organigramme = (() => {
   // Détachement) — à la différence des `factionLibre` sans `faction`
   // ci-dessous (Seigneur des Batailles, Détachement Allié, Détachement
   // Narratif, Appui Lourd), volontairement proposés dans TOUTE Faction.
+  // EXCEPTION supplémentaire (Paradigmes de Maisonnée Chevaliers
+  // Questoris) : un type à `faction: "chevaliers-questoris"` qui porte
+  // aussi `requiertMaisonnee` reste visible hors Chevaliers Questoris
+  // dès que la Maisonnée d'un Détachement de Seigneur des Batailles de
+  // l'Armée correspond (voir maisonneeSeigneurBataillesDebloqueVisibilite
+  // ci-dessus) — seul moyen de faire apparaître Serre d'Armigères/
+  // d'Automates/Maisnie Roturière pour une Armée d'une autre Faction.
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
-    if (type.faction) return type.faction === etat.faction;
+    if (type.faction)
+      return (
+        type.faction === etat.faction ||
+        maisonneeSeigneurBataillesDebloqueVisibilite(type)
+      );
     return type.factionLibre || factionCroisadeParDefaut() === etat.faction;
   }
 
@@ -735,6 +792,14 @@ const Organigramme = (() => {
 
   function avantageParId(id) {
     return AVANTAGES_PRINCIPAUX.find((a) => a.id === id);
+  }
+
+  // Nom lisible d'un Paradigme de Maisonnée (id de MAISONNEES), pour
+  // les messages de raison de detachementDebloque()/disponibilite() —
+  // repli sur l'id brut si introuvable (ne devrait pas arriver).
+  function nomMaisonnee(id) {
+    const trouve = MAISONNEES.find(([v]) => v === id);
+    return trouve ? trouve[1] : id;
   }
 
   // Instance d'unité (js/unites.js) occupant une case, avec sa fiche.
@@ -959,11 +1024,56 @@ const Organigramme = (() => {
 
   // Statut Case Principale effectif d'une Case : son statut fixe
   // (organigramme-data.js) OU un déblocage dynamique « Sire des X »
-  // (Cases Troupes du Détachement Principal uniquement).
+  // (Cases Troupes du Détachement Principal uniquement) OU — Paradigme
+  // de Maisonnée Mendicus (livre d'armée Chevaliers Questoris) — une
+  // Case Seigneurs des Batailles du Détachement de Seigneur des
+  // Batailles occupée par une Unité de Sous-type Chevalier : les
+  // Unités de la Liste d'Armée de Questoris Familia y reçoivent alors
+  // un Avantage Principal de Rang de Maisonnée comme si leur Case
+  // était Principale (menu « Maisonnée » de ce Détachement, voir
+  // construireSelectMaisonneeSeigneurBatailles).
   function estCasePrincipale(det, caseOrga) {
-    return (
-      caseOrga.principale ||
-      (caseOrga.role === "Troupes" && troupesPrincipalesParSireDe(det))
+    if (caseOrga.principale) return true;
+    if (caseOrga.role === "Troupes" && troupesPrincipalesParSireDe(det))
+      return true;
+    if (
+      typeDe(det).id === "seigneur-batailles" &&
+      caseOrga.role === "Seigneurs des Batailles" &&
+      maisonneePertinentePourDetachement(det) === "mendicus"
+    ) {
+      const occ = occupant(caseOrga);
+      if (occ && aSousType(occ, "Chevalier")) return true;
+    }
+    return false;
+  }
+
+  // Un Détachement dont le type porte `requiertAvantage` (Serre
+  // d'Armigères/d'Automates, Maisnie Roturière) est débloqué soit par
+  // la voie normale (cet Avantage Principal choisi n'importe où dans
+  // l'Armée), soit — Paradigme de Maisonnée correspondant
+  // (`requiertMaisonnee`, livre d'armée Chevaliers Questoris) — quand
+  // le Détachement Principal de Maisonnées de Chevaliers ou un
+  // Détachement de Seigneur des Batailles dont la Maisonnée pertinente
+  // (maisonneePertinentePourDetachement()) est celle-ci contient au
+  // moins une Figurine de Sous-type Chevalier. Consolidée ici pour les
+  // 3 emplacements qui vérifiaient jusqu'ici `requiertAvantage` seul
+  // (disponibilite, validerArmee, retirerDetachementsAvantageInvalide).
+  function detachementDebloque(type) {
+    if (!type.requiertAvantage) return true;
+    if (
+      etat.detachements.some((d) =>
+        d.cases.some((c) => c.avantage === type.requiertAvantage),
+      )
+    )
+      return true;
+    if (!type.requiertMaisonnee) return false;
+    return etat.detachements.some(
+      (d) =>
+        maisonneePertinentePourDetachement(d) === type.requiertMaisonnee &&
+        d.cases.some((c) => {
+          const occ = occupant(c);
+          return occ && aSousType(occ, "Chevalier");
+        }),
     );
   }
 
@@ -999,6 +1109,15 @@ const Organigramme = (() => {
       // Détachement Allié — n'a de sens que si `factionAlliee` vaut
       // "solar-auxilia". Sans objet (null) sinon.
       doctrineCohorteAlliee: type.id === "allie" ? "" : null,
+      // Paradigme de Maisonnée (livre d'armée Chevaliers Questoris)
+      // propre à ce Détachement de Seigneur des Batailles, indépendant
+      // de la Faction de l'Armée — seul moyen pour une Armée d'une
+      // AUTRE Faction que Chevaliers Questoris de faire valoir un
+      // Paradigme sur les Chevaliers qu'elle y fait entrer (menu
+      // « Maisonnée » de sa carte, construireSelectMaisonneeSeigneurBatailles).
+      // Sans objet (null) pour tout autre type de détachement — voir
+      // maisonneePertinentePourDetachement().
+      maisonneeSeigneurBatailles: type.id === "seigneur-batailles" ? "" : null,
       cases: type.cases.map((c) => ({
         role: c.role,
         principale: Boolean(c.principale),
@@ -1578,19 +1697,20 @@ const Organigramme = (() => {
           ".",
       };
     }
-    if (
-      type.requiertAvantage &&
-      !etat.detachements.some((d) =>
-        d.cases.some((c) => c.avantage === type.requiertAvantage),
-      )
-    ) {
+    if (!detachementDebloque(type)) {
       const avantage = avantageParId(type.requiertAvantage);
+      const nomAvantage = avantage ? avantage.nom : type.requiertAvantage;
       return {
         possible: false,
-        raison:
-          "Nécessite l'Avantage Principal « " +
-          (avantage ? avantage.nom : type.requiertAvantage) +
-          " » choisi sur au moins une Case de l'Armée.",
+        raison: type.requiertMaisonnee
+          ? "Nécessite l'Avantage Principal « " +
+            nomAvantage +
+            " » choisi sur au moins une Case de l'Armée, OU une Armée avec le Paradigme de Maisonnée " +
+            nomMaisonnee(type.requiertMaisonnee) +
+            " comptant une Figurine de Sous-type Chevalier dans son Détachement Principal de Maisonnées de Chevaliers ou un Détachement de Seigneur des Batailles."
+          : "Nécessite l'Avantage Principal « " +
+            nomAvantage +
+            " » choisi sur au moins une Case de l'Armée.",
       };
     }
     if (type.famille === "apex" && credits.apexRestants <= 0) {
@@ -1716,11 +1836,17 @@ const Organigramme = (() => {
     // 2. Quota combiné Seigneur de Guerre + Seigneur des Batailles (p. 283).
     // Ignoré pour une Armée dont le Détachement Principal est l'Ordinal
     // Titanique (livre d'armée Legio Titanicus) : un seul choix de
-    // Seigneur des Batailles peut alors consommer tous les Points.
+    // Seigneur des Batailles peut alors consommer tous les Points. Même
+    // exemption pour le Détachement Principal de Maisonnées de Chevaliers
+    // (livre d'armée Chevaliers Questoris, p. 20) : « peut inclure
+    // n'importe quel nombre de Points en Unités de Rôle Tactique Seigneur
+    // des Batailles... jusqu'à concurrence de la Limite de Points de
+    // l'Armée » — ses 4 Cases sont toutes de ce Rôle Tactique.
     const seigneurs = coutSeigneurs();
     const plafond25 = Math.ceil(etat.limite * 0.25);
     const quotaSeigneursIgnore =
-      idDetachementPrincipal() === "ordinal-titanique";
+      idDetachementPrincipal() === "ordinal-titanique" ||
+      idDetachementPrincipal() === "maisonnees-chevaliers";
     if (!quotaSeigneursIgnore && etat.limite >= 3000 && seigneurs > plafond25) {
       erreurs.push(
         "Quota Seigneur de Guerre + Seigneur des Batailles dépassé : " +
@@ -1848,17 +1974,24 @@ const Organigramme = (() => {
       if (
         type.requiertAvantage &&
         etat.detachements.some((d) => d.typeId === type.id) &&
-        !etat.detachements.some((d) =>
-          d.cases.some((c) => c.avantage === type.requiertAvantage),
-        )
+        !detachementDebloque(type)
       ) {
         const avantage = avantageParId(type.requiertAvantage);
+        const nomAvantage = avantage ? avantage.nom : type.requiertAvantage;
         erreurs.push(
-          "« " +
-            type.nom +
-            " » nécessite l'Avantage Principal « " +
-            (avantage ? avantage.nom : type.requiertAvantage) +
-            " » choisi sur au moins une Case de l'Armée.",
+          type.requiertMaisonnee
+            ? "« " +
+                type.nom +
+                " » nécessite l'Avantage Principal « " +
+                nomAvantage +
+                " » choisi sur au moins une Case de l'Armée, OU une Armée avec le Paradigme de Maisonnée " +
+                nomMaisonnee(type.requiertMaisonnee) +
+                " comptant une Figurine de Sous-type Chevalier dans son Détachement Principal de Maisonnées de Chevaliers ou un Détachement de Seigneur des Batailles."
+            : "« " +
+                type.nom +
+                " » nécessite l'Avantage Principal « " +
+                nomAvantage +
+                " » choisi sur au moins une Case de l'Armée.",
         );
       }
       // Rite de Guerre choisi dans les paramètres de la partie (menu
@@ -1952,7 +2085,23 @@ const Organigramme = (() => {
       }
     }
     for (const avantage of AVANTAGES_PRINCIPAUX) {
-      if (avantage.unParArmee && parIdArmee[avantage.id] > 1) {
+      if (
+        avantage.unParArmee &&
+        parIdArmee[avantage.id] > 1 &&
+        // Paradigme de Maisonnée (livre d'armée Chevaliers Questoris) :
+        // la restriction 0-1 par Armée saute pour Précepteur/Seigneur
+        // Preux si un Détachement de l'Armée a la Maisonnée assortie —
+        // simplification assumée, sans décompte fin par Détachement
+        // (voir MODÈLE DE DONNÉES, `exempteUnParArmeeSiMaisonnee`).
+        !(
+          avantage.exempteUnParArmeeSiMaisonnee &&
+          etat.detachements.some(
+            (d) =>
+              maisonneePertinentePourDetachement(d) ===
+              avantage.exempteUnParArmeeSiMaisonnee,
+          )
+        )
+      ) {
         erreurs.push(
           "« " + avantage.nom + " » ne peut être choisi qu'une fois par Armée.",
         );
@@ -2139,6 +2288,13 @@ const Organigramme = (() => {
         caseOrga.avantage !== avantage.id &&
         etat.detachements.some((d) =>
           d.cases.some((c) => c !== caseOrga && c.avantage === avantage.id),
+        ) &&
+        // Paradigme de Maisonnée : voir le bloc analogue de
+        // validerArmee() ci-dessus.
+        !(
+          avantage.exempteUnParArmeeSiMaisonnee &&
+          maisonneePertinentePourDetachement(det) ===
+            avantage.exempteUnParArmeeSiMaisonnee
         )
       ) {
         raison =
@@ -2248,8 +2404,9 @@ const Organigramme = (() => {
 
   /* Retire tout Détachement dont la condition `requiertAvantage` n'est
      plus remplie nulle part dans l'Armée (ex : Serre d'Armigères,
-     débloqué par Preux Aspirant) après un changement d'Avantage
-     Principal — contrairement à requiertAllegeance/requiertRiteDeGuerre,
+     débloqué par Preux Aspirant — OU par le Paradigme de Maisonnée
+     Mendicus, voir detachementDebloque()) après un changement
+     d'Avantage Principal — contrairement à requiertAllegeance/requiertRiteDeGuerre,
      simplement signalés en erreur par validerArmee() sans retrait
      automatique (choix assumé : un changement d'Allégeance ou de Rite de
      Guerre affecte potentiellement toute l'Armée, alors qu'un Avantage
@@ -2269,13 +2426,7 @@ const Organigramme = (() => {
       retire = false;
       for (const det of etat.detachements) {
         const type = typeDe(det);
-        if (
-          !type.requiertAvantage ||
-          etat.detachements.some((d) =>
-            d.cases.some((c) => c.avantage === type.requiertAvantage),
-          )
-        )
-          continue;
+        if (!type.requiertAvantage || detachementDebloque(type)) continue;
         const occupees = det.cases.filter((c) => c.uniteUid !== null);
         if (
           occupees.length > 0 &&
@@ -2377,6 +2528,7 @@ const Organigramme = (() => {
             legionAlliee: d.legionAlliee || null,
             maisonneeAlliee: d.maisonneeAlliee || null,
             doctrineCohorteAlliee: d.doctrineCohorteAlliee || null,
+            maisonneeSeigneurBatailles: d.maisonneeSeigneurBatailles || null,
             cases: d.cases.map((c) => ({
               role: c.role,
               uniteUid: c.uniteUid,
@@ -2514,6 +2666,14 @@ const Organigramme = (() => {
               ))
           ) {
             det.doctrineCohorteAlliee = brute.doctrineCohorteAlliee;
+          }
+        } else if (type.id === "seigneur-batailles") {
+          if (
+            typeof brute.maisonneeSeigneurBatailles === "string" &&
+            (brute.maisonneeSeigneurBatailles === "" ||
+              MAISONNEES.some(([v]) => v === brute.maisonneeSeigneurBatailles))
+          ) {
+            det.maisonneeSeigneurBatailles = brute.maisonneeSeigneurBatailles;
           }
         }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
@@ -3256,10 +3416,12 @@ const Organigramme = (() => {
         " · Quota Seigneur de Guerre + Seigneurs des Batailles : " +
         (idDetachementPrincipal() === "ordinal-titanique"
           ? coutSeigneurs() + " pts (ignoré — Ordinal Titanique)"
-          : coutSeigneurs() +
-            " / " +
-            Math.ceil(etat.limite * 0.25) +
-            " pts (25 %)"),
+          : idDetachementPrincipal() === "maisonnees-chevaliers"
+            ? coutSeigneurs() + " pts (ignoré — Maisonnées de Chevaliers)"
+            : coutSeigneurs() +
+              " / " +
+              Math.ceil(etat.limite * 0.25) +
+              " pts (25 %)"),
     );
     conteneur.appendChild(texte);
 
@@ -3544,6 +3706,47 @@ const Organigramme = (() => {
     return ligne;
   }
 
+  /* Menu « Maisonnée » d'une carte de Détachement de Seigneur des
+     Batailles (livre d'armée Chevaliers Questoris, Paradigmes de
+     Maisonnée) : affiché inconditionnellement sur ce type de
+     Détachement (contrairement à Maisonnée Alliée ci-dessus, qui
+     n'apparaît que pour un Détachement Allié de Faction Chevaliers
+     Questoris) — c'est le seul moyen, pour une Armée d'une AUTRE
+     Faction que Chevaliers Questoris, de déclarer un Paradigme sur les
+     Chevaliers qu'elle y fait entrer, `etat.maisonnee` n'étant réglable
+     que pour la Faction Chevaliers Questoris elle-même (menu
+     « Maisonnée » des paramètres de la partie). Aucune option
+     désactivée ici (contrairement à Maisonnée Alliée, qui exclut la
+     Maisonnée déjà choisie pour le Détachement Principal) : rien
+     n'empêche ce Détachement de partager la même Maisonnée que
+     l'Armée si celle-ci est elle-même Chevaliers Questoris — cas
+     hypothétique (les deux Détachements sont par ailleurs mutuellement
+     exclusifs, voir `excluAvec`), géré sans complication particulière.
+     Ne filtre aujourd'hui aucune Unité (comme Maisonnée Alliée) :
+     consommée uniquement par maisonneePertinentePourDetachement()
+     pour les 3 bonus de Paradigme. */
+  function construireSelectMaisonneeSeigneurBatailles(det) {
+    const ligne = el("p", "orga-detachement-maisonnee");
+    const label = el("label", null, "Maisonnée ");
+    const select = document.createElement("select");
+    select.setAttribute(
+      "aria-label",
+      "Maisonnée du Détachement de Seigneur des Batailles",
+    );
+    ajouterOption(select, "", "— Choisir la Maisonnée —");
+    for (const [valeur, texte] of MAISONNEES) {
+      ajouterOption(select, valeur, texte);
+    }
+    select.value = det.maisonneeSeigneurBatailles || "";
+    select.addEventListener("change", () => {
+      det.maisonneeSeigneurBatailles = select.value;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
   /* Menu « Doctrine de Cohorte Alliée » d'une carte de Détachement
      Allié, affiché uniquement quand det.factionAlliee vaut
      "solar-auxilia" — même principe que construireSelectMaisonneeAlliee
@@ -3631,6 +3834,8 @@ const Organigramme = (() => {
       } else if (det.factionAlliee === "solar-auxilia") {
         carte.appendChild(construireSelectDoctrineAlliee(det));
       }
+    } else if (type.id === "seigneur-batailles") {
+      carte.appendChild(construireSelectMaisonneeSeigneurBatailles(det));
     }
 
     const liste = el("ul", "orga-cases-liste");

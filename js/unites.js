@@ -267,7 +267,29 @@ function uniteAccessible(unite) {
       !factionsAllieesActuelles.includes(factionUnite) &&
       !(
         unite.categorie === "Seigneurs des Batailles" &&
-        factionUnite === "legio-titanicus"
+        // Un Titan Legio Titanicus OU un Chevalier Questoris (livre
+        // d'armée Chevaliers Questoris, Paradigmes de Maisonnée) reste
+        // accessible quelle que soit la Faction de l'Armée : même
+        // exception « à sens unique », le Détachement de Seigneur des
+        // Batailles acceptant n'importe quelle Faction (`factionLibre`,
+        // js/organigramme-data.js) — c'est le seul moyen de faire
+        // entrer des Chevaliers dans une Armée d'une autre Faction pour
+        // faire valoir un Paradigme de Maisonnée sur eux (menu
+        // « Maisonnée » propre à ce Détachement).
+        (factionUnite === "legio-titanicus" ||
+          factionUnite === "chevaliers-questoris")
+      ) &&
+      !(
+        // Même principe pour un Armigère (categorie "Engins de Guerre",
+        // faction chevaliers-questoris) : le Détachement Auxiliaire
+        // générique « Appui Lourd » (factionLibre, une seule Case Engins
+        // de Guerre, voir son commentaire dans js/organigramme-data.js)
+        // et la Serre d'Armigères (Paradigme de Maisonnée Mendicus, même
+        // fichier) l'acceptent tous deux quelle que soit la Faction de
+        // l'Armée — sans cette exception l'Armigère resterait introuvable
+        // dans le sélecteur malgré une Case qui l'accepterait bel et bien.
+        unite.categorie === "Engins de Guerre" &&
+        factionUnite === "chevaliers-questoris"
       ) &&
       !uniteAccessibleParDetachementCroise(unite)
     )

@@ -103,6 +103,25 @@
                  détachement) — même mécanique que requiertAllegeance
                  ci-dessus (ex : Conclave Exalté, qui exige Vrais
                  Croyants).
+     requiertMaisonnee : "mechanicum" | "mendicus" | "imperialis" —
+                 voie de déblocage ALTERNATIVE à `requiertAvantage`
+                 (livre d'armée Chevaliers Questoris, Paradigmes de
+                 Maisonnée) : ce Détachement devient accessible même
+                 sans l'Avantage Principal de Rang de Maisonnée requis
+                 dès qu'un Détachement Principal de Maisonnées de
+                 Chevaliers ou un Détachement de Seigneur des Batailles
+                 dont la Maisonnée pertinente
+                 (maisonneePertinentePourDetachement(), js/
+                 organigramme.js) est celle-ci contient au moins une
+                 Figurine de Sous-type Chevalier — vérifié par
+                 detachementDebloque() (js/organigramme.js), qui
+                 remplace l'ancien test `requiertAvantage` nu aux 3
+                 emplacements où il était dupliqué (disponibilite,
+                 validerArmee, retirerDetachementsAvantageInvalide).
+                 Toujours posé À CÔTÉ de `requiertAvantage` (jamais
+                 seul), les deux voies restant valides en parallèle
+                 (ex : Serre d'Automates, débloquée par Précepteur OU
+                 par la Maisonnée Mechanicum).
      avantagesAutorises : [ids d'AVANTAGES_PRINCIPAUX] — restreint
                  l'Avantage Principal sélectionnable sur TOUTES les
                  Cases Principales de ce Détachement à cette liste
@@ -415,8 +434,30 @@ const TYPES_DETACHEMENTS = [
     // (Chevaliers Questoris, voir plus bas) : ses propres Cases
     // Seigneurs des Batailles en tiennent déjà lieu.
     excluAvec: ["maisonnees-chevaliers"],
+    // Paradigme de Maisonnée Mendicus (livre d'armée Chevaliers
+    // Questoris) : une Unité de Sous-type Chevalier occupant une Case
+    // de ce Détachement peut recevoir un Avantage Principal de Rang de
+    // Maisonnée comme si sa Case était Principale (voir
+    // estCasePrincipale, js/organigramme.js, et le menu « Maisonnée »
+    // propre à ce Détachement, construireSelectMaisonneeSeigneurBatailles).
+    // `avantagesAutorises` (mêmes ids que maisonnees-chevaliers/
+    // banniere-appui ci-dessous) n'a d'effet que dans ce cas précis :
+    // tant qu'aucune Case n'est Principale (Armée sans Chevalier, ou
+    // Maisonnée différente de Mendicus), cette liste ne change rien.
+    avantagesAutorises: [
+      "preux-martial",
+      "precepteur",
+      "uhlan",
+      "auctellier",
+      "endeuilleur",
+      "preux-implacable",
+      "senechal",
+      "seigneur-preux",
+      "arbaletrier",
+      "preux-aspirant",
+    ],
     texte:
-      "Un seul par armée, de n'importe quelle Faction. Le coût total des unités de Rôle Seigneur de Guerre + Seigneur des Batailles ne doit pas dépasser 25 % de la Limite de Points (quota combiné, arrondi à l'entier supérieur). Avec l'Ordinal Titanique (Détachement Principal) comme Détachement Principal, ne peut inclure aucune Unité Legio Titanicus.",
+      "Un seul par armée, de n'importe quelle Faction. Le coût total des unités de Rôle Seigneur de Guerre + Seigneur des Batailles ne doit pas dépasser 25 % de la Limite de Points (quota combiné, arrondi à l'entier supérieur). Avec l'Ordinal Titanique (Détachement Principal) comme Détachement Principal, ne peut inclure aucune Unité Legio Titanicus. Paradigme de Maisonnée Mendicus : les Unités de Sous-type Chevalier y occupant une Case peuvent chacune recevoir un Avantage Principal de Rang de Maisonnée comme si leur Case était Principale (menu « Maisonnée » de ce Détachement).",
     cases: [
       _caseOrga("Seigneurs des Batailles"),
       _caseOrga("Seigneurs des Batailles"),
@@ -510,8 +551,9 @@ const TYPES_DETACHEMENTS = [
     famille: "additionnel",
     faction: "chevaliers-questoris",
     requiertAvantage: "preux-aspirant",
+    requiertMaisonnee: "mendicus",
     texte:
-      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Preux Aspirant. 4 Cases Engins de Guerre (Armigères).",
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Preux Aspirant, OU sans condition pour une Armée avec le Paradigme de Maisonnée Mendicus dont le Détachement Principal de Maisonnées de Chevaliers ou un Détachement de Seigneur des Batailles contient au moins une Figurine de Sous-type Chevalier. 4 Cases Engins de Guerre (Armigères).",
     cases: [
       _caseOrga("Engins de Guerre"),
       _caseOrga("Engins de Guerre"),
@@ -568,8 +610,9 @@ const TYPES_DETACHEMENTS = [
     faction: "chevaliers-questoris",
     factionLibre: true,
     requiertAvantage: "precepteur",
+    requiertMaisonnee: "mechanicum",
     texte:
-      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Précepteur. 1 Case Élite (Manipule Domitar), 1 Case Appui (Manipule Castellax), 1 Case Reco (Manipule Vorax), 1 Case Attaque Rapide (Escadron Stratos Vultarax) — toutes issues du Liber Mechanicum.",
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Précepteur, OU sans condition pour une Armée avec le Paradigme de Maisonnée Mechanicum dont le Détachement Principal de Maisonnées de Chevaliers ou un Détachement de Seigneur des Batailles contient au moins une Figurine de Sous-type Chevalier. 1 Case Élite (Manipule Domitar), 1 Case Appui (Manipule Castellax), 1 Case Reco (Manipule Vorax), 1 Case Attaque Rapide (Escadron Stratos Vultarax) — toutes issues du Liber Mechanicum.",
     restrictions: {
       Elite: ["mech-combat-domitar"],
       Appui: ["mech-combat-castellax"],
@@ -590,8 +633,9 @@ const TYPES_DETACHEMENTS = [
     faction: "chevaliers-questoris",
     factionLibre: true,
     requiertAvantage: "seigneur-preux",
+    requiertMaisonnee: "imperialis",
     texte:
-      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Seigneur Preux. 2 Cases Troupes, 2 Cases Appui, 2 Cases Blindés — issues des Solar Auxilia (et, non transcrite sur ce site, de l'Imperialis Militia).",
+      "Débloqué quand une Unité a l'Avantage Principal de Rang de Maisonnée Seigneur Preux, OU sans condition pour une Armée avec le Paradigme de Maisonnée Imperialis dont le Détachement Principal de Maisonnées de Chevaliers ou un Détachement de Seigneur des Batailles contient au moins une Figurine de Sous-type Chevalier. 2 Cases Troupes, 2 Cases Appui, 2 Cases Blindés — issues des Solar Auxilia (et, non transcrite sur ce site, de l'Imperialis Militia).",
     restrictions: {
       Troupes: ["sa-ryeliers"],
       Appui: ["sa-rapier", "sa-basilisk", "sa-medusa"],
@@ -3426,6 +3470,19 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
    - unParArmee   : sélectionnable une seule fois par ARMÉE (tous
                  détachements confondus), à la différence de
                  `unParDetachement` ci-dessus.
+   - exempteUnParArmeeSiMaisonnee : "mechanicum" | "imperialis" —
+                 supprime la restriction `unParArmee` ci-dessus quand
+                 la Maisonnée pertinente du Détachement (voir
+                 maisonneePertinentePourDetachement(), js/
+                 organigramme.js) où cet Avantage est choisi correspond
+                 (livre d'armée Chevaliers Questoris, Paradigmes de
+                 Maisonnée — ex : Précepteur, dont la restriction 0-1
+                 par Armée saute pour le Paradigme Mechanicum).
+                 Vérifié par avantagesPossibles() (grisage) et
+                 validerArmee() (erreur), simplification assumée dans
+                 ce second cas : pas de décompte fin par Détachement,
+                 juste « au moins un Détachement de l'Armée a la
+                 Maisonnée assortie ».
    - typesRequis  : [Types] — l'unité doit inclure AU MOINS UN des
                  Types listés (logique OU), vérifié comme
                  `sergent`/`etatMajor` ci-dessus via aSousType (ex :
@@ -3832,16 +3889,23 @@ const AVANTAGES_PRINCIPAUX = [
      js/organigramme.js — vérifie que le Type de la variante choisie
      contient « Chevalier », comme pour un Véhicule de Sous-type
      Chevalier sur pages/vehicule.html#sous-types). Sélectionnables sur
-     toute Case Principale occupée par un Chevalier (Détachement
-     Principal de Maisonnées de Chevaliers, Bannière d'Appui, ou
-     Détachement de Seigneur des Batailles générique), mais réservés
-     aux SEULES Cases du Détachement Principal de Maisonnées de
-     Chevaliers et de Bannière d'Appui via `avantagesAutorises` posé sur
-     ces deux types (voir TYPES_DETACHEMENTS plus haut). Les restrictions
-     de Vœu Questoris mentionnées dans le livre (« on ne peut pas
-     déclarer de Vœu Questoris autre que… ») sont purement descriptives
-     ici : les Vœux Questoris ne sont pas un choix modélisé par ce site
-     (voir le tutoriel Chevaliers Questoris sur pages/construction-liste.html). --- */
+     toute Case Principale occupée par un Chevalier : Détachement
+     Principal de Maisonnées de Chevaliers et Bannière d'Appui (Cases
+     statiquement Principales, `avantagesAutorises` posé sur ces deux
+     types restreint leurs Cases aux seuls Avantages de cette liste) ;
+     Détachement de Seigneur des Batailles générique UNIQUEMENT pour le
+     Paradigme de Maisonnée Mendicus, où ses Cases Seigneurs des
+     Batailles occupées par un Chevalier deviennent dynamiquement
+     Principales (estCasePrincipale, js/organigramme.js — même
+     mécanique que le « Sire des X » des Cases Troupes), avec le même
+     `avantagesAutorises` posé sur ce type. Les restrictions de Vœu
+     Questoris mentionnées dans le livre (« on ne peut pas déclarer de
+     Vœu Questoris autre que… ») sont purement descriptives ici : les
+     Vœux Questoris ne sont pas un choix modélisé par ce site (voir le
+     tutoriel Chevaliers Questoris sur pages/construction-liste.html).
+     Deux de ces Avantages (Précepteur, Seigneur Preux) perdent leur
+     restriction 0-1 par Armée pour le Paradigme de Maisonnée assorti
+     (`exempteUnParArmeeSiMaisonnee`, voir MODÈLE DE DONNÉES). --- */
   {
     id: "preux-martial",
     nom: "Preux Martial (Rang de Maisonnée)",
@@ -3854,12 +3918,13 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Précepteur (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    exempteUnParArmeeSiMaisonnee: "mechanicum",
     // Le bonus d'Intelligence 8 « pour les besoins de la Règle Spéciale
     // Guerrier-artisan (X) » n'est pas une Règle Spéciale nommée : reste
     // texte seul, non appliqué par reglesAvantagePrincipalDe.
     reglesAppliquees: ["Guerrier-artisan (2)"],
     texte:
-      "0-1 par Armée. Toutes les Figurines de l'Unité gagnent la Règle Spéciale Guerrier-artisan (2) et comptent comme ayant une Caractéristique d'Intelligence de 8 pour les besoins de la Règle Spéciale Guerrier-artisan (X). Débloque le Détachement Additionnel Serre d'Automates.",
+      "0-1 par Armée (restriction levée pour une Armée avec le Paradigme de Maisonnée Mechanicum). Toutes les Figurines de l'Unité gagnent la Règle Spéciale Guerrier-artisan (2) et comptent comme ayant une Caractéristique d'Intelligence de 8 pour les besoins de la Règle Spéciale Guerrier-artisan (X). Débloque le Détachement Additionnel Serre d'Automates.",
   },
   {
     id: "uhlan",
@@ -3910,8 +3975,9 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Seigneur Preux (Rang de Maisonnée)",
     chevalier: true,
     unParArmee: true,
+    exempteUnParArmeeSiMaisonnee: "imperialis",
     texte:
-      "0-1 par Armée. Toutes les Figurines de l'Unité peuvent bénéficier de deux Jets de Réparation du Joueur Actif à chacune de ses Sous-phases des Statuts, au lieu d'un. Débloque le Détachement Additionnel Maisnie Roturière.",
+      "0-1 par Armée (restriction levée pour une Armée avec le Paradigme de Maisonnée Imperialis). Toutes les Figurines de l'Unité peuvent bénéficier de deux Jets de Réparation du Joueur Actif à chacune de ses Sous-phases des Statuts, au lieu d'un. Débloque le Détachement Additionnel Maisnie Roturière.",
   },
   {
     id: "arbaletrier",
