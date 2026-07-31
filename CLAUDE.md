@@ -1604,5 +1604,284 @@ Règles Spéciales :
   Sergent) confirmant l'affichage correct et l'absence totale hors
   Thousand Sons et sur les rôles Sergent, sans erreur console.
 
+- **Arsenal des Word Bearers (XVIIe Légion, Liber Astartes/Hereticus,
+  livre de base) : Tradition Ardente, Assaut Zélé.** Assaut Zélé
+  (Avantage Principal, Troupes/Word Bearers, `reglesAppliquees:
+  ["Impact (F)"]` déjà appliqué automatiquement) existait déjà,
+  vérifié conforme à la photo — aucune modification. Erebus (Unité
+  nommée déjà existante) a déjà « Psyker »/« Anathemata » en `traits`
+  fixes et « Discipline Anathemata » en `regles` fixe : rien à faire
+  pour lui non plus, la Discipline Anathemata étant déjà son
+  fonctionnement normal. L'Ésotériste (Unité générique État-major
+  Psyker de base, toutes Légions confondues) a lui aussi « Psyker »/
+  « Anathemata »/« Discipline Anathemata » déjà en dur — vérifié SANS
+  RAPPORT avec l'Arsenal Word Bearers (Discipline par défaut de ce
+  rôle générique dans ce fichier, pas un privilège propre à une
+  Légion) : ne pas y toucher.
+  **Tradition Ardente** (« Toute Figurine de RÔLE TACTIQUE QUARTIER
+  GÉNÉRAL ayant le Trait Word Bearers », +40 Points, peut être dotée du
+  Trait Psyker et de la Discipline Psychique Anathemata) — **premier
+  Arsenal de Légion à porter sur la CATÉGORIE/Rôle Tactique d'une
+  Unité plutôt que sur le Sous-type OU le Type d'une Figurine** (les
+  deux dimensions déjà rencontrées jusqu'ici — voir Armatus
+  Necrotechnika Iron Hands pour le Type). Nouvelle fabrique
+  `optionTraditionArdente()` (`case`, +40, `requiertLegion: "XVII"`,
+  effet non appliqué mécaniquement — même limite que les Pouvoirs
+  Psychiques d'Arcane de Prospero/Thousand Sons, ce fichier ne
+  modélisant pas les Pouvoirs Psychiques un par un). Câblée sur les 4
+  Unités Quartier Général **génériques** (sans `legion` fixe) qui
+  utilisent ce rôle dans ce fichier : Praetor, Praetor en Armure
+  Terminator, Praetor sur moto, Praetor en Armure Terminator Saturnine
+  (cette dernière découverte au passage sans les options Sphères à
+  venin/Trophées du Jugement/Hurleurs soniques/Bouclier Argyrum déjà
+  posées sur les 19 autres Unités État-major — jamais incluse dans ce
+  lot, contrairement à ce que son rôle Quartier Général aurait pu
+  laisser supposer ; corrigé seulement pour Tradition Ardente ici, les
+  quatre autres options restant hors périmètre de cette session).
+  **Volontairement exclues** : Iron Father/Forgeguerre en Armure
+  Artificer (également Quartier Général générique en apparence, mais
+  chacun verrouillé `legion: "X"`/`"IV"` — jamais accessibles à une
+  Armée Word Bearers, contrairement aux quatre chaînages précédents
+  d'Arsenal officier/meleeSergent qui les touchaient systématiquement
+  sans incidence réelle puisque ces deux Figurines ne peuvent de toute
+  façon apparaître que dans leur propre Légion) ; Kor Phaeron et Argel
+  Tal (Figurines nommées Word Bearers, Trait déjà fixe — ce fichier
+  n'étend pas les ajouts d'Arsenal génériques aux Figurines uniques,
+  cohérent avec l'absence d'ajout similaire sur les autres Figurines
+  nommées d'autres Légions dans les dix Arsenals précédents).
+  Vérification : audit Node confirmant zéro fuite (ni de Sous-type sur
+  les 11 Arsenals précédents, ni de Catégorie/verrouillage de Légion
+  sur Tradition Ardente) ; vérification live par navigateur (Dark
+  Angels vs Word Bearers, plus Centurion en Word Bearers pour confirmer
+  que la restriction de Catégorie — pas seulement de Légion — est bien
+  respectée) confirmant l'affichage correct, sans erreur console.
+
+- **Quatre Arsenals en une session : Dark Angels (Ire), Space Wolves
+  (VIe), White Scars (Ve), Raven Guard (XIXe Légion, tous Liber
+  Astartes/Hereticus, livre de base).** Comme pour les cinq Arsenals
+  précédents, la quasi-totalité des profils/textes/Avantages Principaux
+  existaient déjà (transcrits lors de sessions antérieures aux côtés
+  des Unités propres à chaque Légion) — seul le câblage générique
+  manquait, sauf mention contraire ci-dessous.
+  **Dark Angels — Lame de Caliban** (échange arme énergétique +5,
+  État-major/Champion/Sergent) et **Espadon terranique** (échange
+  GRATUIT d'un **gantelet énergétique** — pas la même arme source,
+  État-major/Champion SEULEMENT) : Lame de Caliban ajoutée à
+  `CHOIX_ARMES_ENERGETIQUES` et `LISTES_ARSENAL_DARK_ANGELS` (officier/
+  meleeSergent/meleeTerminatorSergent) ; Espadon terranique ajouté
+  SEULEMENT à `officier` (jamais Sergent-tier, donc sûr sans filtre).
+  **Paladin de l'Hekatonystika** (Avantage Principal, déjà existant) :
+  l'hypothèse de transcription antérieure sur le nom manuscrit de la
+  Règle Spéciale gagnée (« Parangon de l'Ordre ») est CONFIRMÉE exacte
+  par cette nouvelle photo plus lisible — commentaire mis à jour pour
+  retirer la mise en garde. Brûleur/Incinérateur à plasma : profils
+  déjà corrects, aucune phrase d'échange générique donnée sur cette
+  page (comme la Hache Énergétique d'Artificier, Iron Hands) — rien
+  câblé au-delà de l'existant.
+  **Space Wolves — Épée/Hache/Griffe/Grande lame de givre** (État-major
+  OU Champion SEULEMENT, ni Sergent ni Spécialiste — Griffe de givre
+  remplaçant une Griffe Lightning plutôt qu'une arme énergétique de
+  base, traitée comme une résolution alternative du même placeholder
+  sur le même principe que la Hache Légatine Ultramarines) ajoutées à
+  `CHOIX_ARMES_ENERGETIQUES` et `LISTES_ARSENAL_SPACE_WOLVES.officier`
+  SEULEMENT (jamais meleeSergent/meleeTerminatorSergent). **Hache de
+  Fenris** (échange GRATUIT+2 d'une Épée tronçonneuse, « Toute
+  Figurine » — SANS restriction de Sous-type, seul autre Arsenal avec
+  Sons of Horus à s'appliquer aussi au Spécialiste) : nouvelle clé
+  `toutesFigurines` sur `LISTES_ARSENAL_SPACE_WOLVES` (distincte du
+  marqueur `toutesFigurines: true` sur une entrée de
+  CHOIX_ARMES_ENERGETIQUES — ici une liste PARALLÈLE ne contenant que
+  la Hache de Fenris, chaînée spécifiquement sur les 5 sites
+  Spécialiste-only en plus des 22/40 sites officier/meleeSergent
+  habituels).
+  **Bug pré-existant découvert et corrigé en câblant Space Wolves/
+  Thousand Sons** : l'option `arme-energetique-sergent` de l'Escouade
+  Terminator Indomitus (Sergent Terminator Indomitus, qui spread
+  `CHOIX_ARMES_ENERGETIQUES` sans filtre pour remplacer son gantelet
+  énergétique fixe) exposait déjà « Hache de bourreau » (Night Lords,
+  État-major SEULEMENT) au Sergent AVANT ce chantier — fuite non
+  détectée lors de la session Night Lords faute d'y avoir alors prêté
+  attention. Le filtre ponctuel `requiertLegion !== "XV"` posé lors du
+  chantier Thousand Sons a été généralisé en un filtre PAR NOM D'ARME
+  (`["Hache de bourreau", "Épée de force modèle Achea", "Épée de
+  givre", "Hache de givre", "Griffe de givre", "Grande lame de givre",
+  "Vouge énergétique"]`) plutôt que par code de Légion : un même code
+  de Légion peut mélanger des entrées éligibles et inéligibles au
+  Sergent (Night Lords VIII en est la preuve — Vouge tronçonneur inclut
+  le Sergent, Hache de bourreau non), donc filtrer par `requiertLegion`
+  seul est structurellement insuffisant dès qu'un Arsenal introduit
+  plus d'une entrée avec des portées de Sous-type différentes. À
+  réutiliser tel quel (ajouter le nom de toute nouvelle arme
+  État-major/Champion-only à cette liste) pour tout Arsenal futur.
+  **White Scars — Vouge Énergétique** (échange arme énergétique +10,
+  **ÉTAT-MAJOR SEULEMENT** — ni Champion ni Sergent, la contrainte la
+  plus étroite rencontrée à ce jour) ajoutée à `CHOIX_ARMES_ENERGETIQUES`
+  et `LISTES_ARSENAL_WHITE_SCARS.officier`, également ajoutée à la
+  liste d'exclusion par nom du site Sergent Terminator Indomitus.
+  **Cyber-faucon** (ajout +10, État-major SEULEMENT, accorde Mouvement
+  à Couvert à toute l'Unité — texte intégral déjà dans regles-data.js) :
+  nouvelle fabrique `optionCyberFaucon()`, ajoutée comme 22e option sur
+  les 19 Unités État-major à profil unique déjà utilisées pour Sphères
+  à venin/Trophées du Jugement/Hurleurs soniques/Bouclier Argyrum.
+  **Raven Guard — Serre de Corbeau** (échange GRATUIT d'une Griffe
+  Lightning, État-major SEULEMENT) ajoutée à
+  `LISTES_ARSENAL_RAVEN_GUARD.officier` (coût = coût de base de la
+  Griffe Lightning dans cette liste, 10, + 0 de surcoût). **Gap
+  documenté** : la Paire de Serres de Corbeau (échange GRATUIT d'une
+  Paire de griffes Lightning, État-major SEULEMENT) n'est PAS câblée
+  génériquement — contrairement à un simple ajout de liste, elle
+  remplacerait un ensemble de DEUX objets différents selon l'Unité
+  (Bolter+Pistolet bolter ou Combi-bolter+Arme énergétique), que le
+  mécanisme de liste partagée (`depuisListes`) ne permet pas de
+  représenter sans une option `paire` dédiée par site (12 sites déjà
+  identifiés, structure non uniforme) — à faire au cas par cas si
+  demandé. **Réacteurs Modèle Corvidé** (+10, liste NOMMÉE de variantes
+  plutôt qu'une contrainte de Sous-type — Praetor à Réacteurs, Centurion
+  à Réacteurs, Optae à Réacteurs, Moritat) : nouvelle fabrique
+  `optionReacteursCorvide()`, posée avec `variantesExclues: [0]` sur
+  Praetor/Centurion/Optae (leur variante 0, sans réacteurs, reste
+  grisée) et sans exclusion sur Moritat (une seule variante, toujours
+  Antigrav) — vérifié via bascule de variante en direct (radio bouton
+  `variante-<uid>`, PAS un `<select>`) que l'option passe bien de grisée
+  à активable au changement de variante. **Spectres** (Avantage
+  Principal, déjà existant avec `reglesAppliquees` posé lors d'une
+  session antérieure) : vérifié conforme, aucune modification.
+  Vérification : audit Node étendu à ces quatre nouveaux codes de
+  Légion (I/VI/V/XIX, avec la contrainte État-major SEULEMENT pour V et
+  XIX) confirmant zéro fuite sur les 15 Arsenals désormais dans le
+  fichier ; vérification live par navigateur (Dark Angels, Space
+  Wolves avec Apothicaire Spécialiste, White Scars, Raven Guard avec
+  bascule de variante Praetor à Réacteurs) confirmant l'affichage, les
+  coûts et les états grisé/actif corrects, sans erreur console.
+
+- **Arsenal des Blood Angels (IXe Légion, Liber Astartes/Hereticus,
+  livre de base) : Pistolet Inferno, Armes de Perdition, Canon
+  d'assaut Iliastus, Revenants.** Comme d'habitude, tous les profils
+  (Pistolet Inferno — avec un doublon pré-existant inoffensif signalé
+  plus bas —, les 4 Armes de Perdition, Canon d'assaut Iliastus/jumelé)
+  et l'Avantage Principal Revenants (`reglesAppliquees: ["Peur (1)"]`
+  déjà posé) existaient déjà, conformes à la photo — seul le câblage
+  générique manquait, et celui-ci s'est révélé être le plus large et
+  le plus varié à ce jour (une seule page couvrant CINQ mécanismes
+  distincts).
+  **Pistolet Inferno** (échange +5, « Toute Figurine » — SANS
+  restriction de Sous-type, comme Sons of Horus/Hache de Fenris) et
+  **Armes de Perdition** (échange arme énergétique +5, État-major/
+  Champion/Sergent, quatre résolutions distinctes comme l'Artifice de
+  Nocturne Salamanders) : câblés respectivement via une nouvelle clé
+  `toutesFigurines` et les clés `officier`/`meleeSergent`/
+  `meleeTerminatorSergent` habituelles de `LISTES_ARSENAL_BLOOD_ANGELS`,
+  chaînés sur les mêmes 22/40/1/5 sites que les Arsenals précédents.
+  **Canon d'assaut Iliastus**, câblé en QUATRE mécanismes séparés :
+  (1) Escouade de Vétérans Tactiques + Escouade d'État-Major de
+  Centurion — échange du lance-flammes lourd (+10, coût absolu 20),
+  nouvelle clé `lourdes` chaînée via `quantiteDepuisListe` sur les deux
+  sites concernés ; (2) Predator — échange GRATUIT du Canon Predator de
+  Tourelle contre la version jumelée de Tourelle, ajouté directement à
+  son option `canon-predator` ; (3) toute Figurine de Type Véhicule —
+  version sur Pivot (+20), ajoutée directement dans la fabrique PARTAGÉE
+  `optionPivotLegion()` (donc automatiquement répercutée sur ses 13
+  sites plutôt que chaînée site par site, la première fois qu'un
+  Arsenal modifie une fabrique partagée au lieu d'ajouter à une liste) —
+  nécessite un **nouveau profil** « Canon d'assaut Iliastus sur Pivot
+  (Blood Angels) » (armes-data.js), distinct du montage Décurion
+  Sagittar (Imperial Fists) déjà existant sous le même nom de base mais
+  avec Antiaérien/Précision (6+) en plus, sur le principe déjà établi
+  du « Missile traqueur (Mechanicum) »/« (Skitarii) » ; (4) Dreadnought
+  Leviathan — échange de ses deux lance-flammes lourds contre deux
+  canons d'assaut Iliastus pour +30, ajouté à son option `lance-flammes`
+  existante. **Gap documenté** : « Tout Terminator Cataphractii » (même
+  échange que Vétérans Tactiques/État-Major de Centurion) non câblé —
+  aucune Escouade Terminator Cataphractii générique n'existe dans ce
+  fichier avec une option lance-flammes lourd (seule l'Escouade
+  d'État-Major Terminator Cataphractii existe, sans arme lourde).
+  **Bug de fond découvert et corrigé, portée plus large que Blood
+  Angels** : `quantiteDepuisListe()` (fabrique générant les options
+  `type: "quantite"` à partir d'une liste d'items) ignorait
+  silencieusement `item.requiertLegion` — le champ n'était tout
+  simplement jamais recopié sur l'option générée. Les Canons d'assaut
+  Iliastus de l'Escouade de Vétérans Tactiques/de l'Escouade d'État-
+  Major de Centurion se seraient donc affichés pour N'IMPORTE QUELLE
+  Légion, pas seulement Blood Angels. Corrigé en propageant
+  `item.requiertLegion` sur l'option générée elle-même (un `quantite`
+  n'a pas d'entrées de `choix` où le poser séparément), lu par
+  `optionLegionOk`/`optionRealisable` (déjà génériques à tout type
+  d'option, comme pour les Avantages Sphères à venin/Trophées du
+  Jugement/etc.). Vérifié que cette fabrique n'avait jamais été
+  utilisée auparavant avec une liste `LISTES_ARSENAL_*` dans les
+  quinze Arsenals précédents (uniquement avec des listes non
+  restreintes de LISTES_EQUIPEMENT) : bug isolé à ce chantier, sans
+  régression à corriger ailleurs.
+  **Doublon pré-existant signalé, non corrigé** : « Pistolet Inferno »
+  a deux entrées identiques dans `armes-data.js` (une pour
+  l'Iconoclaste de l'Escouade du Cercle de Cendres, Word Bearers ; une
+  pour l'Arsenal des Blood Angels), mêmes stats exactement — probablement
+  transcrites indépendamment lors de deux sessions différentes sans
+  remarquer le doublon. Sans incidence fonctionnelle connue (stats
+  identiques), laissé tel quel plutôt que de risquer de casser une
+  référence existante en supprimant l'un des deux ; à fusionner si le
+  proprio le souhaite.
+  Vérification : audit Node confirmant zéro fuite sur les 16 Arsenals
+  désormais dans le fichier (les alertes du script sur les
+  emplacements Type Véhicule/Figurine nommée sont des faux positifs
+  déjà attendus, ce script ne distinguant pas les contraintes de
+  Sous-type des contraintes de Type/Unité nommée) ; vérification
+  directe des quatre sites Canon d'assaut Iliastus après le correctif
+  `quantiteDepuisListe` confirmant `requiertLegion: "IX"` bien présent
+  partout ; vérification live par navigateur (Dark Angels vs Blood
+  Angels) confirmant Perdition/Pistolet Inferno sur le Praetor, sans
+  erreur console — les sites Predator/Escouade de Vétérans Tactiques/
+  Dreadnought Leviathan nécessitaient un Détachement supplémentaire non
+  obtenu de façon fiable via l'interface pendant cette session, mais
+  vérifiés directement sur les données structurées.
+
+- **Arsenal des World Eaters (XIIe Légion, Liber Astartes/Hereticus,
+  livre de base) : Lames des Arènes, Armes des Caedere, Enchaînés —
+  session de VÉRIFICATION SEULE, aucune modification de code.**
+  Contrairement aux seize Arsenals précédents, cette photo plus claire
+  ne révèle aucun écart : les 4 profils d'Armes des Caedere (Marteau
+  météore, Hache tronçonneuse Excoriator, Paire de falax, Fouet
+  barbelé — `armes-data.js`) et l'Avantage Principal Enchaînés (avec le
+  texte intégral de Frères de Chaîne déjà présent dans son `texte`,
+  `organigramme-data.js`) sont déjà mot pour mot conformes ; le
+  câblage de l'échange d'Armes des Caedere était déjà en place depuis
+  une session antérieure sur les deux seules Unités qui commencent
+  avec une telle arme en équipement de base (Escouade Saccageuse —
+  choix obligatoire de tout l'Unité, plus un échange propre au Champion
+  Saccageur ; Escouades de Destructeurs Main Rouge Mortalis/d'Assaut —
+  échange `quantite` par Figurine, +10) : aucun `requiertLegion` posé
+  sur ces sites, sans besoin puisque les deux Unités sont déjà
+  verrouillées `legion: "XII"`.
+  **Lames des Arènes** (« Dans toute Unité composée uniquement de
+  Figurines qui ont le Trait World Eaters, toute Figurine peut
+  échanger GRATUITEMENT son épée tronçonneuse contre une hache
+  tronçonneuse » — AUCUNE restriction de Sous-type, y compris le
+  rang-et-fichier) : **volontairement non câblé**, car cet échange est
+  déjà mécaniquement possible SANS AUCUNE restriction de Légion
+  partout où `LISTES_EQUIPEMENT.officier`/`meleeSergent` sont
+  consommées — Épée tronçonneuse et Hache tronçonneuse y sont déjà
+  toutes deux gratuites, de simples alternatives interchangeables dans
+  la même liste, jamais réservées à une Légion précise dans ce
+  fichier. La seule vraie plus-value de cette page pour World Eaters
+  est d'étendre ce même échange gratuit au rang-et-fichier hors
+  État-major/Champion/Sergent (Légionnaires de base, qui n'ont
+  normalement aucune option d'échange d'arme) — **gap documenté**,
+  volontairement non câblé, l'ampleur d'un tel câblage (chaque
+  Escouade de Troupes/Assaut du fichier) dépassant largement la
+  portée des Arsenals de Légion traités jusqu'ici (qui touchent
+  toujours un ensemble de sites délimité, jamais le rang-et-fichier
+  générique dans son intégralité) — même logique de simplification déjà
+  acceptée pour la Hache de Fenris (Space Wolves)/le Pistolet Inferno
+  (Blood Angels), mais poussée plus loin ici faute d'ancrage
+  État-major/Champion/Sergent existant à réutiliser.
+  **Distinction notée avec un gap déjà documenté plus tôt** : cette
+  page (livre de base) décrit un échange LATÉRAL entre deux Armes des
+  Caedere (réservé aux Figurines qui EN ONT DÉJÀ une) — différent de
+  « l'Armurerie générique World Eaters » du wargear PDF déjà signalée
+  comme gap plus haut (échanger une arme énergétique CONTRE une arme
+  des Caedere, ouvrant l'accès à qui n'en a pas) : les deux mécaniques
+  sont distinctes et non redondantes, ce document ne comble que la
+  première (déjà faite), la seconde reste un gap séparé.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

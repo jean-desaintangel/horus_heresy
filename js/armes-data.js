@@ -225,6 +225,28 @@ const ARMES_TIR = [
           "Lourde (PF), Brèche (6+), Surcharge (1), Antiaérien, Précision (6+)",
         traits: "Auto",
       },
+      // Arsenal des Blood Angels (IXe Légion) : « Au lieu d'être dotée
+      // d'une option de la liste des Armes sur Pivot de Légion, toute
+      // Figurine de Type Véhicule ayant le Trait Blood Angels peut être
+      // dotée d'un canon d'assaut Iliastus sur Pivot pour +20 Points par
+      // Figurine. » Profil PLAIN (sans Antiaérien/Précision (6+)),
+      // distinct du montage ci-dessus réservé au Décurion Sagittar
+      // (Imperial Fists) — nom suffixé « (Blood Angels) » pour éviter
+      // que construireTablesArmes (js/unites.js) ne fusionne les deux
+      // tables sous un même nom, sur le même principe que « Missile
+      // traqueur (Mechanicum) »/« Missile traqueur (Skitarii) ».
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot (Blood Angels) — Tir soutenu",
+        stats: ["24", "3", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot (Blood Angels) — Tir maximal",
+        stats: ["24", "5", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
+        traits: "Auto",
+      },
       {
         nom: "Autocanon Gravis",
         stats: ["48", "3", "8", "4", "2"],

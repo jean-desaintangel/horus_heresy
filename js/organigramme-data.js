@@ -3692,10 +3692,11 @@ const AVANTAGES_PRINCIPAUX = [
      de Règle Spéciale ne sont pas appliqués automatiquement par le
      site (comme Garde Phénix, ci-dessus) : à faire manuellement sur
      la fiche de la Figurine concernée.
-     HYPOTHÈSE DE TRANSCRIPTION : le nom de la Règle Spéciale gagnée
-     est manuscrit (annotation au crayon) sur la photo du livre et
-     retranscrit ici sous toutes réserves (« Parangon de l'Ordre ») —
-     à corriger contre le livre en cas de doute. --- */
+     « Parangon de l'Ordre » (nom de la Règle Spéciale gagnée) était
+     transcrit sous toutes réserves depuis une annotation manuscrite au
+     crayon sur une première photo — CONFIRMÉ EXACT depuis une seconde
+     photo plus lisible du livre (2026-07-31, chantier Dark Angels/
+     Space Wolves/White Scars/Raven Guard). --- */
   {
     id: "paladin-hekatonystika",
     nom: "Paladin de l'Hekatonystika (Dark Angels)",

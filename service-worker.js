@@ -45,7 +45,11 @@
 // incrémenter cette version : sinon un visiteur déjà venu continue de
 // recevoir indéfiniment les anciens fichiers depuis son cache local,
 // et ne verra aucune des corrections.
-const CACHE_VERSION = "v34";
+// v36 : Arsenals de Légion pour Thousand Sons, Word Bearers, Iron
+// Hands, Dark Angels, Space Wolves, White Scars, Raven Guard, Blood
+// Angels (js/unites-data.js, js/armes-data.js, js/organigramme-data.js,
+// js/unites.js).
+const CACHE_VERSION = "v36";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
