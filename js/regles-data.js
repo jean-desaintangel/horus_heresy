@@ -2620,4 +2620,89 @@ const REGLES_DIVERSES = [
     texte:
       "Réaction Avancée. Déclencheur : le Joueur Réactif peut déclarer cette Réaction à l'Étape 2 du processus de la Sous-Phase de Mouvement, après qu'une Unité ennemie a terminé un Mouvement. Coût : le Joueur Réactif doit dépenser 1 point de son Allocation de Réactions pour la déclarer, payé dès que la déclaration est faite. Cible : l'Unité Cible est toujours l'Unité dont le Mouvement a déclenché la Réaction. Le Joueur Réactif doit sélectionner une Unité sous son contrôle qui ne comprend que des Figurines ayant la Règle Spéciale Positions Dissimulées et qui est en Réserves ; cette Unité est l'Unité Réactive. Processus : (1) le Joueur Réactif sélectionne un Modèle de l'Unité Réactive et le place n'importe où sur le champ de bataille hors de la Zone de Déploiement adverse, à moins de 6 pouces de l'Unité ayant déclenché la Réaction et à au moins 5 pouces de toute Figurine ennemie, ainsi qu'à 1 pouce de toute Bordure de champ de bataille ou pièce de Terrain Infranchissable ; les Modèles restants sont ensuite placés en Cohérence d'Unité avec au moins une autre Figurine de la même Unité et à moins de 6 pouces du premier Modèle placé, sous les mêmes contraintes de distance ; toute Figurine qui ne peut être placée ainsi est Retirée comme Perte immédiatement ; (2) une fois l'Unité Réactive déployée, le Joueur Réactif peut soit faire une Attaque de Tir avec elle contre l'Unité ayant déclenché la Réaction (en Tirs au Jugé), soit faire une Charge Désordonnée avec elle, qui doit viser cette même Unité.",
   },
+
+  /* --- Démons de la Tempête de la Ruine (« Legacies of the Age of
+     Darkness : Daemons of the Ruinstorm », Faction complète — pas des
+     ajouts Legacy sur un roster de Légion existant, voir CLAUDE.md).
+     Les 8 Dominions Éthériques ci-dessous sont normalement choisis UNE
+     FOIS pour toute l'Armée (menu « Dominion Éthérique »,
+     js/organigramme.js) ; Ka'bandha/Cor'bax Utterblight/Samus ont
+     chacun le leur fixé en dur (Trait non remplaçable). --- */
+  {
+    nom: "Profanateurs",
+    texte:
+      "Un Modèle ayant cette Règle Spéciale qui réussit un Test de Volonté gagne la Règle Spéciale Ligne (X). Au début de chaque Sous-phase de Victoire, le Joueur en Contrôle d'une Unité entièrement composée de Modèles ayant cette Règle Spéciale peut faire un Test de Volonté ; s'il est réussi, tous les Modèles de l'Unité gagnent la Règle Spéciale Ligne (X) jusqu'à la fin de la Sous-phase de Victoire en cours, la valeur de X étant déterminée par l'écart entre le résultat final du Test et la Caractéristique de Volonté utilisée pour ce Test : 0-1 → Ligne (1) ; 2 → Ligne (2) ; 3 ou plus → Ligne (3). Si le Test de Volonté est raté, l'Unité subit les Périls du Warp.",
+  },
+  {
+    nom: "Terreur Primordiale",
+    texte:
+      "Quand une Unité qui comprend une Figurine ayant cette Règle Spéciale est déclarée Unité Cible d'une Charge, ou Unité Cible d'une Réaction ou d'une Réaction Avancée, le Joueur en Contrôle de l'Unité pour laquelle la Charge ou la Réaction est déclarée doit faire un Test de Commandement. Si le Test est réussi, la Charge ou la Réaction se résout normalement. Si le Test est raté, l'Unité pour laquelle la Charge ou la Réaction a été déclarée gagne immédiatement le Statut Sonnée et le Joueur en Contrôle ne peut déclarer aucune autre Charge ni Réaction pour cette Unité pendant cette Phase, mais son Allocation de Réactions restante n'est pas réduite.",
+  },
+  {
+    nom: "Champion du Dominion",
+    texte:
+      "Pendant la Sous-phase de Défi, si une Figurine ayant cette Règle Spéciale est éligible, elle doit être déclarée Challenger ou pour accepter un Défi ; si plusieurs Figurines ayant cette Règle Spéciale sont éligibles, le Joueur en Contrôle choisit laquelle. De plus, si une Figurine ayant cette Règle Spéciale devait gagner le Statut Disgracié, elle subit à la place des blessures automatiques selon le Sous-type Maléfique, mais ces blessures doivent être allouées à la Figurine ayant cette Règle Spéciale, et ne peuvent pas être allouées aux Figurines de toute Unité qu'elle aurait rejointe.",
+  },
+  {
+    nom: "Héraut de l'Irréalité",
+    texte:
+      "Pendant l'Étape Déclarer les Réserves de la Mission, le Joueur en Contrôle peut sélectionner une autre Unité de la Liste d'Armée des Démons de la Tempête de la Ruine faisant partie de l'Armée, pour chaque Figurine ayant cette Règle Spéciale dans l'Armée. Chaque Figurine de chacune des Unités sélectionnées gagne la Règle Spéciale Frappe en Profondeur et le Trait Faille du Warp pour la durée de la Bataille. Pendant l'une de ses Sous-phases de Réserves, le Joueur en Contrôle d'une Figurine ayant cette Règle Spéciale peut sélectionner une Figurine amie ayant cette Règle Spéciale, qui n'est pas Verrouillée en Combat, pour ouvrir une faille du warp ; s'il le fait, il peut alors sélectionner une Unité de son Armée qui est en Réserves et qui ne comporte que des Figurines ayant le Trait Faille du Warp. Les Jets de Réserve faits pour cette Unité pendant cette Sous-phase réussissent automatiquement et l'Unité effectue une Frappe en Profondeur normalement, à deux exceptions près : la première Figurine de l'Unité doit être placée au Contact Socle à Socle avec la Figurine qui a ouvert la faille du warp, et une Charge peut être déclarée pour l'Unité pendant la Sous-phase de Charge de ce même Tour de Joueur.",
+  },
+  {
+    // Objet de Wargear (page 23), pas une Règle Spéciale d'Arme — même
+    // principe que le Bouclier tempête modèle Proteus déjà existant.
+    nom: "Totem de Dominion",
+    texte:
+      "Quand une Unité entièrement composée de Modèles de Sous-type Maléfique qui comprend au moins un Modèle ayant cet objet de Wargear devrait gagner un Statut Tactique quel qu'il soit, cette Unité subit à la place 1 blessure automatique avec une Caractéristique de Dégâts de 1, contre laquelle aucune Sauvegarde d'aucune sorte ne peut être faite, au lieu des D3 blessures normalement prévues par le Sous-type Maléfique.",
+  },
+  {
+    // Trait porté par le Souverain Démoniaque, Ka'bandha, Cor'bax
+    // Utterblight et Samus — lié au bonus de Réaction « Additional
+    // Reaction Point » (p. 6), non simulé mécaniquement par cet outil
+    // (même principe que État-major Suprême de Cohorte/Investigatus-
+    // Militant).
+    nom: "Champion de la Tempête de la Ruine",
+    texte:
+      "Si le Détachement Principal d'une Armée est issu de la Liste d'Armée des Démons de la Tempête de la Ruine et inclut au moins une Figurine ayant ce Trait, ou qu'un Détachement de Seigneur des Batailles de la même Liste d'Armée en inclut une, le Joueur en Contrôle gagne un Point de Réaction bonus.",
+  },
+  {
+    nom: "Ruine Rampante",
+    texte:
+      "Dominion Éthérique. Un Modèle ayant ce Trait gagne les Règles Spéciales Frappe en Profondeur et Profanateurs. Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et jusqu'à deux des Disciplines Psychiques suivantes : Pyromancie (+10 Points par Modèle), Télékinésie (+20 Points par Modèle), Divination (+20 Points par Modèle).",
+  },
+  {
+    nom: "Massacre Insouciant",
+    texte:
+      "Dominion Éthérique. Un Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs. De plus, aucune Unité qui comprend au moins un Modèle ayant ce Trait ne peut jamais être la Cible ou le Focus d'une Bénédiction ou d'une Malédiction Psychique.",
+  },
+  {
+    nom: "Corruption Putride",
+    texte:
+      "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs, la Règle Spéciale Insensible à la Douleur (6+) et le Sous-type Lourd. De plus, chaque Modèle ayant ce Trait qui a aussi une variante de la Règle Spéciale Massif (X) gagne également la Règle Spéciale Explose (5+). Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et la Discipline Psychique Biomancie pour +20 Points par Modèle.",
+  },
+  {
+    nom: "Sensation Extatique",
+    texte:
+      "Dominion Éthérique. Un Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs. Tout Modèle ayant ce Trait qui n'a pas le Sous-type Lourd gagne le Sous-type Léger. Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et jusqu'à deux des Disciplines Psychiques suivantes : Télékinésie (+20 Points par Modèle), Télépathie (+10 Points par Modèle).",
+  },
+  {
+    nom: "Distorsion Informe",
+    texte:
+      "Dominion Éthérique. Un Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs. Chaque fois qu'une Unité qui comprend un Modèle ayant ce Trait est déclarée Unité Cible d'une Charge, tout Mouvement de Mise en Place fait par l'Unité chargeuse adverse est réduit de D3 pouces, jusqu'à un minimum de 1 pouce. Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et jusqu'à deux des Disciplines Psychiques suivantes : Divination (+20 Points par Modèle), Télépathie (+10 Points par Modèle).",
+  },
+  {
+    nom: "Tempête Infernale",
+    texte:
+      "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs et la Règle Spéciale En Feu (1). Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et la Discipline Psychique Pyromancie pour +10 Points par Modèle.",
+  },
+  {
+    nom: "Dissolution Vorace",
+    texte:
+      "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs et la Règle Spéciale Haine (Maléfique, Psyker). Un Modèle ayant ce Trait de Dominion Éthérique et le Sous-type État-major ou Champion peut recevoir le Trait Psyker et jusqu'à deux des Disciplines Psychiques suivantes : Télékinésie (+20 Points par Modèle), Divination (+20 Points par Modèle), Télépathie (+10 Points par Modèle).",
+  },
+  {
+    nom: "Artifice Malveillant",
+    texte:
+      "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs et la Règle Spéciale Brise-blindage (4+).",
+  },
 ];

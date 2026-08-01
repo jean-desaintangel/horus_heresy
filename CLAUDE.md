@@ -2899,5 +2899,105 @@ Règles Spéciales :
     Dropsite Massacre, Journal Tactica The Forges of Saturn, Journal
     Tactica Zone Mortalis (liens boutique warhammer.com/fr-FR).
 
+- **Nouvelle Faction « Démons de la Tempête de la Ruine » (`faction:
+  "daemons-ruinstorm"`, PDF « Legacies of the Age of Darkness : Daemons
+  of the Ruinstorm », Third Edition v1.0)** : Faction complète (comme
+  Legio Custodes/Anathema Psykana/Skitarii/Divisio Assassinorum), **PAS**
+  des ajouts Legacy sur un roster de Légion existant — `legacy: true`
+  volontairement absent des 14 Unités, cohérent avec le précédent déjà
+  établi pour ces autres Factions complètes tirées d'un PDF « Legacies »
+  (voir la note « legacy:true ≠ PDF Legacies », mémoire auto). Traduction
+  « Démons de la Tempête de la Ruine »/« Brutes Démoniaques de la Tempête
+  de la Ruine » **retrouvée telle quelle déjà en dur** dans
+  `organigramme-data.js` (Détachement Auxiliaire « Manifestation
+  Démoniaque », préparé par anticipation lors d'une session antérieure,
+  avec un `indisponible` signalant l'absence des Unités) : réutilisée
+  sans invention, et ce gap comblé (`factionLibre: true` ajouté au
+  Détachement — il lui manquait pour accepter des Unités d'une Faction
+  différente de celle de l'Armée, sur le même principe que « Tercio de
+  Fer » (Solar Auxilia/Mechanicum) — `restrictions` pointe maintenant
+  vers `ruinstorm-brutes`, `indisponible` retiré).
+  **Allégeance verrouillée sur Renégat** (aucune variante Loyaliste dans
+  ce livre d'armée) : miroir exact et inversé du verrouillage Loyaliste
+  déjà en place pour Legio Custodes/Anathema Psykana — mêmes 4 points de
+  forçage (restauration localStorage, changement de Faction, verrouillage
+  + info-bulle du `<select>` Allégeance) dupliqués en sens inverse dans
+  `js/organigramme.js`. Toutes les Unités portent le Trait fixe
+  « Renégat » (traduction retenue pour le Trait « Traitor » du PDF — seul
+  mot-clé reconnu par `uniteAccessible`, pas de nouveau mot-clé
+  « Traître » introduit).
+  **Mécanisme « Dominion Éthérique » (Æthetic Dominion, p. 3-6)** :
+  8 Traits nommés (Ruine Rampante/Massacre Insouciant/Corruption
+  Putride/Sensation Extatique/Distorsion Informe/Tempête Infernale/
+  Dissolution Vorace/Artifice Malveillant), choisis **UNE SEULE FOIS
+  POUR TOUTE L'ARMÉE** (le livre l'exige au niveau Armée, pas par
+  Détachement comme le Techno-arcane Mechanicum, ni par Unité comme le
+  Trait Skitarii) — nouveau menu « Dominion Éthérique » dans les
+  paramètres de la partie (`etat.dominion`, simple chaîne = le nom
+  français choisi, pas un id séparé — choix de simplicité), sur le
+  même moule que le menu Légion/Maisonnée mais SANS confirmation de
+  réinitialisation de l'Armée au changement (ce choix ne change jamais
+  quelles Unités sont accessibles, seulement le Trait affiché sur leur
+  fiche). Nouvelle fonction `dominionEtheriqueDe(unite)`
+  (js/unites.js, miroir simplifié de `traitFactionMechanicumDe`/
+  `traitFactionSkitariiDe`) : résout le placeholder « [Dominion
+  Éthérique] » en le choix d'Armée (pas d'option par Unité), retourne le
+  Trait déjà fixe pour Ka'bandha/Cor'bax Utterblight/Samus (Dominion
+  imposé par leur fiche, non remplaçable — respecte la règle du livre).
+  Pas de hook `caseAccepte`/uniformité par Détachement nécessaire
+  (contrairement à Mechanicum/Skitarii) : un seul choix d'Armée est
+  déjà uniforme par construction. **Gap volontairement non modélisé** :
+  l'octroi conditionnel du Trait Psyker + Disciplines Psychiques (payant,
+  réservé État-major/Champion) à une Figurine ayant un Dominion Éthérique
+  n'est pas appliqué mécaniquement (texte transcrit intégralement dans
+  `regles-data.js` mais ce fichier ne modélise déjà les Pouvoirs
+  Psychiques d'aucune autre Faction individuellement) ; de même pour le
+  Prime Advantage « Paragon of Malevolence » (Malevolent Artifice, p. 6 —
+  mécanique de Prime Slot déjà non modélisée sur ce site, voir Legio
+  Custodes/Inductii) et pour la règle d'Armée « Additional Reaction
+  Point » (p. 6, texte informatif seul dans `regles-data.js`, entrée
+  « Champion de la Tempête de la Ruine » — même limite que État-major
+  Suprême de Cohorte/Investigatus-Militant).
+  **14 Unités transcrites** : Souverain/Hiérarque/Héraut Démoniaques
+  (avec/sans Ailes en 2 `variantes` pour les deux premiers, motif déjà
+  établi Centurion à Réacteurs), Brutes/Démons Mineurs/Essaims/Grande
+  Bête/Bêtes/Béhémoth/Harceleurs/Cavaliers Démoniaques (génériques,
+  Rôles Tactiques Assaut Lourd/Troupes ×2/Appui ×2/Engins de
+  Guerre/Reco/Attaque Rapide), et Ka'bandha/Cor'bax Utterblight/Samus
+  (Seigneurs des Batailles, Dominion fixe, Type `Parangon (Unique, …)`
+  déjà établi ce nom pour Paragon plutôt qu'inventé). Nouvelle
+  catégorie d'Arsenal « Armes des Démons de la Tempête de la Ruine »
+  (Tir et Mêlée, `armes-data.js`) : toutes les armes de ce PDF ont un
+  profil complet donné (aucun gap de profil manquant, cas rare). Trait
+  d'Arme « Immaterial » → **Immatériel** (nouveau, jamais utilisé
+  ailleurs dans ce fichier). Armement de Ka'bandha (Baneaxe + Ironlash,
+  un seul WARGEAR mais deux profils Mêlée/Tir) → **Hache-Fléau** +
+  **Lanière de Fer**, listés séparément dans `equipement` pour que les
+  deux tables d'Armes s'affichent sur la fiche (Cor'bax a lui deux
+  WARGEAR distincts dès le livre : Reaping claws/Noxious vomit →
+  **Griffes Moissonneuses**/**Vomissure Nauséabonde**). Deux réutilisations
+  de Règles Spéciales déjà établies plutôt que doublons : Aflame (X) →
+  **En Feu (X)** (mécanique identique : blessure en Mêlée → malus de
+  Commandement) et Armour-breaker (X) → **Brise-blindage (X)** (déjà
+  établi pour les Arsenals Chevaliers/Titans) — aucune des deux n'étant
+  en fait utilisée par une Unité/Arme de ce PDF, non ajoutées comme
+  entrées séparées de `regles-data.js` (auraient pu prêter à confusion
+  avec un futur « vrai » Aflame/Armour-breaker distinct si jamais requis
+  ailleurs). « Template » (Range + Règle Spéciale, gabarit non-flamme
+  générique) → réutilise **Souffle** déjà établi (même mécanique :
+  gabarit posé sans Jet de Touche), pas de nouvelle entrée « Gabarit ».
+  Vérifié par test fonctionnel en DOM headless (jsdom, scratchpad) :
+  bascule de Faction verrouillant l'Allégeance sur Renégat, menu
+  Dominion Éthérique peuplé de ses 8 choix, Démons Mineurs (générique)
+  accessibles et ajoutables avec le Dominion choisi résolu sur la fiche
+  + options fonctionnelles (échange Griffes→Lame/Grande Lame Infernale,
+  Projectiles Immatériels, Totem de Dominion), Ka'bandha accessible une
+  fois un Détachement de Seigneur des Batailles ajouté avec son
+  Dominion fixe et ses deux tables d'Armes (Hache-Fléau/Lanière de Fer)
+  correctement résolues, et absence totale d'une Unité Legio Astartes
+  (Escouade Tactique) dans le sélecteur tant qu'aucun Détachement Allié
+  ne débloque cette Faction — confirmant qu'aucune fuite entre Factions
+  n'a été introduite.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

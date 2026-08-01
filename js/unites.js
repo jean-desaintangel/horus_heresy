@@ -804,13 +804,13 @@ function segmentsIdentiteActuelle() {
   return segments.filter(Boolean);
 }
 
-// Nom de fichier "Faction-Légion-Allégeance-date.extension", partagé
+// Nom de fichier "Faction-Légion-Allégeance-XXXXPoints.extension", partagé
 // par l'Export JSON et les Téléchargements PDF/Word : reconnaissable
 // sans avoir à l'ouvrir, voir segmentsIdentiteActuelle() ci-dessus.
 function nomFichierArmee(extension) {
-  const date = new Date().toISOString().slice(0, 10);
+  const points = coutArmee() + "Points";
   return (
-    segmentsIdentiteActuelle().map(nomFichierSlug).concat(date).join("-") +
+    segmentsIdentiteActuelle().map(nomFichierSlug).concat(points).join("-") +
     "." +
     extension
   );
@@ -1664,6 +1664,22 @@ function traitFactionSkitariiDe(unite, instance) {
   return unite.traits.find((t) => TRAITS_FACTION_SKITARII.includes(t)) || null;
 }
 
+// Dominion Éthérique effectif d'une Unité (un des 8 DOMINIONS_ETHERIQUES_
+// NOMS, js/unites-data.js) : soit fixe (déjà écrit en dur dans `traits`,
+// ex. Ka'bandha — « Massacre Insouciant »), soit résolu par le choix
+// d'Armée unique (menu « Dominion Éthérique », js/organigramme.js — pas
+// d'option par Unité ici, contrairement à traitFactionMechanicumDe/
+// traitFactionSkitariiDe ci-dessus, le livre imposant un seul Dominion
+// pour toute l'Armée). Retourne null hors Faction Démons de la Tempête
+// de la Ruine, ou si aucun Dominion n'a encore été choisi pour l'Armée.
+function dominionEtheriqueDe(unite) {
+  if (unite.faction !== "daemons-ruinstorm" || !unite.traits) return null;
+  if (unite.traits.includes("[Dominion Éthérique]")) {
+    return (orgaPret && window.Organigramme && Organigramme.dominionActuel()) || null;
+  }
+  return unite.traits.find((t) => DOMINIONS_ETHERIQUES_NOMS.includes(t)) || null;
+}
+
 // Règles Spéciales ajoutées à la fiche par l'Avantage Principal choisi
 // pour la Case Principale occupée par cette instance (champ
 // `reglesAppliquees`, réservé aux Avantages « purs » — voir la
@@ -1714,6 +1730,7 @@ function construireFiche(unite, instance) {
   // ou choisi via son option dédiée.
   const traitMechanicum = traitFactionMechanicumDe(unite, instance);
   const traitSkitarii = traitFactionSkitariiDe(unite, instance);
+  const traitDominion = dominionEtheriqueDe(unite);
   const traitsAffiches = unite.traits
     .filter(
       (trait) =>
@@ -1726,6 +1743,8 @@ function construireFiche(unite, instance) {
     .map((trait) => {
       if (trait === "[Mechanicum]" && traitMechanicum) return traitMechanicum;
       if (trait === "[Skitarii]" && traitSkitarii) return traitSkitarii;
+      if (trait === "[Dominion Éthérique]" && traitDominion)
+        return traitDominion;
       return trait;
     });
   // Trait accordé par le Détachement Auxiliaire occupé (ex : Tercio
@@ -4198,6 +4217,7 @@ function initialiserChoixUnite() {
     "legio-custodes": "Legio Custodes",
     "anathema-psykana": "Anathema Psykana",
     "divisio-assassinorum": "Divisio Assassinorum",
+    "daemons-ruinstorm": "Démons de la Tempête de la Ruine",
   };
 
   function rendre() {

@@ -1271,6 +1271,11 @@ const TYPES_DETACHEMENTS = [
     id: "manifestation-demoniaque",
     nom: "Manifestation Démoniaque",
     famille: "auxiliaire",
+    // factionLibre (comme "tercio-de-fer" plus haut) : ses Cases
+    // d'Assaut Lourd accueillent des Unités de la Faction "daemons-
+    // ruinstorm" (Liste d'Armée des Démons de la Tempête de la Ruine)
+    // au lieu des Unités Legio Astartes habituelles.
+    factionLibre: true,
     texte:
       "Débloqué quand un Ésotériste d'Allégeance Renégate occupe une Case d'État-major. Les Cases d'Assaut Lourd n'acceptent que des Brutes Démoniaques de la Tempête de la Ruine.",
     deblocage: {
@@ -1278,14 +1283,12 @@ const TYPES_DETACHEMENTS = [
       uniteIds: ["esoteriste"],
       allegeance: "renegat",
     },
-    restrictions: { "Assaut Lourd": [] }, // aucune unité Démon transcrite
+    restrictions: { "Assaut Lourd": ["ruinstorm-brutes"] },
     cases: [
       _caseOrga("Assaut Lourd"),
       _caseOrga("Assaut Lourd"),
       _caseOrga("Assaut Lourd"),
     ],
-    indisponible:
-      "Les Brutes Démoniaques (Liste d'Armée des Démons de la Tempête de la Ruine) ne sont pas encore transcrites dans les fiches du site.",
   },
   /* NOTE (hypothèse de transcription) : sur les photos du livre, le
      texte de déblocage du Cénacle et de la Délégation est hors

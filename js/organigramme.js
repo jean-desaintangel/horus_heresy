@@ -44,6 +44,7 @@ const Organigramme = (() => {
     doctrineCohorte: "", // id DOCTRINES_DE_COHORTE ou "" (Solar Auxilia seulement)
     designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
     chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — toute Faction sauf Legio Titanicus, facultatif
+    dominion: "", // id DOMINIONS_ETHERIQUES ou "" (Choisir un Dominion Éthérique, Démons de la Tempête de la Ruine seulement)
     detachements: [],
   };
 
@@ -66,6 +67,7 @@ const Organigramme = (() => {
     ["solar-auxilia", "Solar Auxilia", true],
     ["skitarii", "Conclaves Skitarii", true],
     ["anathema-psykana", "Anathema Psykana", true],
+    ["daemons-ruinstorm", "Démons de la Tempête de la Ruine", true],
   ];
 
   const LEGIONS = [
@@ -87,6 +89,27 @@ const Organigramme = (() => {
     ["XVIII", "XVIII – Salamanders"],
     ["XIX", "XIX – Raven Guard"],
     ["XX", "XX – Alpha Legion"],
+  ];
+
+  // Dominions Éthériques (Liber Ruinstorm, « Daemons of the Ruinstorm »,
+  // p. 3-6) : Trait choisi UNE FOIS pour toute l'Armée (pas par
+  // Détachement ni par Unité, contrairement au Techno-arcane Majeur
+  // Mechanicum/au Trait de Faction Skitarii) — le livre impose que
+  // toute Unité du Détachement Principal ayant un Dominion Éthérique
+  // partage le même. Remplace le placeholder « [Dominion Éthérique] »
+  // posé dans `traits` des Unités génériques de cette Faction (voir
+  // dominionEtheriqueDe, js/unites.js) ; les Unités/Figurines propres à
+  // un Dominion précis (ex : Ka'bandha, Heedless Slaughter) portent leur
+  // Trait fixe en dur et ne sont jamais concernées par ce menu.
+  const DOMINIONS_ETHERIQUES = [
+    "Ruine Rampante",
+    "Massacre Insouciant",
+    "Corruption Putride",
+    "Sensation Extatique",
+    "Distorsion Informe",
+    "Tempête Infernale",
+    "Dissolution Vorace",
+    "Artifice Malveillant",
   ];
 
   // Types de Maisonnée du livre d'armée Chevaliers Questoris, choisis
@@ -768,7 +791,8 @@ const Organigramme = (() => {
       etat.faction === "mechanicum" ||
       etat.faction === "skitarii" ||
       etat.faction === "legio-custodes" ||
-      etat.faction === "anathema-psykana"
+      etat.faction === "anathema-psykana" ||
+      etat.faction === "daemons-ruinstorm"
       ? etat.faction
       : "legio-astartes";
   }
@@ -2607,6 +2631,7 @@ const Organigramme = (() => {
           doctrineCohorte: etat.doctrineCohorte,
           designationAuxilia: etat.designationAuxilia,
           chartPrincipal: etat.chartPrincipal,
+          dominion: etat.dominion,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
@@ -2693,6 +2718,13 @@ const Organigramme = (() => {
       ) {
         etat.chartPrincipal = donnees.chartPrincipal;
       }
+      if (
+        typeof donnees.dominion === "string" &&
+        (donnees.dominion === "" ||
+          DOMINIONS_ETHERIQUES.includes(donnees.dominion))
+      ) {
+        etat.dominion = donnees.dominion;
+      }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
         typeof donnees.riteDeGuerre === "string" &&
@@ -2720,6 +2752,13 @@ const Organigramme = (() => {
         etat.faction === "anathema-psykana"
       ) {
         etat.allegeance = "loyaliste";
+      }
+      // Les Démons de la Tempête de la Ruine n'ont, à l'inverse, aucune
+      // variante Loyaliste (toutes leurs Unités portent le Trait fixe
+      // « Renégat », voir js/unites-data.js) : même forçage que ci-dessus,
+      // en sens inverse.
+      if (etat.faction === "daemons-ruinstorm") {
+        etat.allegeance = "renegat";
       }
       if (!Array.isArray(donnees.detachements)) return;
       // On revalide tout : les données du navigateur ne sont jamais
@@ -3101,6 +3140,7 @@ const Organigramme = (() => {
         etat.doctrineCohorte = "";
         etat.designationAuxilia = "";
         etat.chartPrincipal = "";
+        etat.dominion = "";
         // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
         // Renégate dans leur livre d'armée (toutes leurs unités portent
         // le Trait fixe « Loyaliste », voir js/unites-data.js) : sans ce
@@ -3112,6 +3152,11 @@ const Organigramme = (() => {
           nouvelleFaction === "anathema-psykana"
         ) {
           etat.allegeance = "loyaliste";
+        }
+        // Symétrique pour les Démons de la Tempête de la Ruine, qui n'ont
+        // à l'inverse aucune variante Loyaliste (Trait fixe « Renégat »).
+        if (nouvelleFaction === "daemons-ruinstorm") {
+          etat.allegeance = "renegat";
         }
       }
       actualiser();
@@ -3287,6 +3332,27 @@ const Organigramme = (() => {
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelMaisonnee, selectMaisonnee));
+    } else if (etat.faction === "daemons-ruinstorm") {
+      // Dominion Éthérique (Liber Ruinstorm p. 3-6) : un seul choix pour
+      // toute l'Armée (voir DOMINIONS_ETHERIQUES ci-dessus), pas de
+      // confirmation de réinitialisation au changement — contrairement à
+      // la Faction/Légion/Maisonnée, ce choix ne change jamais quelles
+      // Unités sont accessibles, seulement le Trait affiché sur leur
+      // fiche (voir dominionEtheriqueDe, js/unites.js).
+      const labelDominion = el("label", null, "Dominion Éthérique");
+      const selectDominion = document.createElement("select");
+      selectDominion.id = "dominion-armee";
+      labelDominion.htmlFor = selectDominion.id;
+      ajouterOption(selectDominion, "", "Choisir un Dominion Éthérique");
+      for (const nom of DOMINIONS_ETHERIQUES) {
+        ajouterOption(selectDominion, nom, nom);
+      }
+      selectDominion.value = etat.dominion;
+      selectDominion.addEventListener("change", () => {
+        etat.dominion = selectDominion.value;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelDominion, selectDominion));
     } else if (etat.faction === "solar-auxilia") {
       // Doctrine de Cohorte (livre d'armée Solar Auxilia, Liber
       // Auxilia p. 11-16) : un unique choix par Armée, obligatoire
@@ -3429,9 +3495,14 @@ const Organigramme = (() => {
     // forçage au changement de Faction ci-dessus).
     const allegeanceForceeCustodes =
       etat.faction === "legio-custodes" || etat.faction === "anathema-psykana";
+    // Les Démons de la Tempête de la Ruine sont le miroir inverse : verrouillés
+    // sur Renégat, aucune variante Loyaliste dans leur livre d'armée.
+    const allegeanceForceeRuinstorm = etat.faction === "daemons-ruinstorm";
     selectAllegeance.value = etat.allegeance;
     selectAllegeance.disabled =
-      Boolean(allegeanceForcee) || allegeanceForceeCustodes;
+      Boolean(allegeanceForcee) ||
+      allegeanceForceeCustodes ||
+      allegeanceForceeRuinstorm;
     if (allegeanceForcee) {
       selectAllegeance.title =
         "Allégeance imposée par le Rite de Guerre « " + riteActif.nom + " ».";
@@ -3440,6 +3511,9 @@ const Organigramme = (() => {
         etat.faction === "anathema-psykana"
           ? "L'Anathema Psykana ne compte aucune unité Renégate."
           : "La Legio Custodes ne compte aucune unité Renégate.";
+    } else if (allegeanceForceeRuinstorm) {
+      selectAllegeance.title =
+        "Les Démons de la Tempête de la Ruine ne comptent aucune unité Loyaliste.";
     }
     selectAllegeance.addEventListener("change", () => {
       const nouvelleAllegeance = selectAllegeance.value;
@@ -4616,6 +4690,11 @@ const Organigramme = (() => {
     // consommée par js/unites.js pour filtrer les unités réservées à
     // une Légion (champ `legion` dans js/unites-data.js).
     legionActuelle: () => etat.legion,
+    // Dominion Éthérique choisi dans les paramètres de la partie ("" =
+    // aucun, Faction Démons de la Tempête de la Ruine uniquement) :
+    // consommé par dominionEtheriqueDe (js/unites.js) pour résoudre le
+    // placeholder « [Dominion Éthérique] » des Unités génériques.
+    dominionActuel: () => etat.dominion,
     // Maisonnée choisie dans les paramètres de la partie ("" = aucune,
     // Faction Chevaliers Questoris uniquement) : consommée par
     // js/unites.js pour verrouiller le sélecteur « Unité à ajouter »

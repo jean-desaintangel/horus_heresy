@@ -3650,6 +3650,40 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Arsenal des Démons de la Tempête de la Ruine (« Legacies of the
+     Age of Darkness : Daemons of the Ruinstorm »). --- */
+  {
+    titre: "Armes des Démons de la Tempête de la Ruine",
+    armes: [
+      {
+        nom: "Projectiles immatériels",
+        stats: ["18", "1", "4", "5", "1"],
+        regles: "-",
+        traits: "Assaut, Immatériel",
+      },
+      {
+        nom: "Déluge immonde",
+        stats: ["Souffle", "1", "4", "5", "1"],
+        regles: "Souffle, Lourde (PF)",
+        traits: "Assaut, Immatériel",
+      },
+      {
+        // Ironlash, moitié Tir de l'Armement de Ka'bandha (voir Hache-
+        // Fléau, Armes de Mêlée ci-dessous, pour la moitié Mêlée).
+        nom: "Lanière de fer",
+        stats: ["6", "5", "8", "3", "2"],
+        regles: "-",
+        traits: "Assaut, Immatériel",
+      },
+      {
+        // Noxious vomit (Cor'bax Utterblight).
+        nom: "Vomissure nauséabonde",
+        stats: ["Souffle", "1", "5", "4", "2"],
+        regles: "Souffle, Empoisonnée (5+), Panique (1)",
+        traits: "Assaut, Immatériel",
+      },
+    ],
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -5515,6 +5549,112 @@ const ARMES_MELEE = [
         stats: ["1", "A", "F", "3", "1"],
         regles: "Brèche (6+)",
         traits: "Énergétique",
+      },
+    ],
+  },
+  /* --- Arsenal des Démons de la Tempête de la Ruine (« Legacies of the
+     Age of Darkness : Daemons of the Ruinstorm »), tables « Immaterial
+     Blades » et « Forms of Ruin ». --- */
+  {
+    titre: "Armes des Démons de la Tempête de la Ruine",
+    armes: [
+      {
+        nom: "Lame du Souverain",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Phage (F), Fauchage (1)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Grande lame du Souverain",
+        stats: ["-2", "A", "+3", "2", "3"],
+        regles: "Phage (F), Fauchage (2)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Lame du Hiérarque",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Atout du Duelliste (1), Touche Critique (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Grande lame du Hiérarque",
+        stats: ["-2", "A", "+2", "2", "2"],
+        regles: "Touche Critique (5+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Lame du Héraut",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (5+), Lacération (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Armement immatériel",
+        stats: ["1", "A", "F", "3", "2"],
+        regles: "Brèche (5+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Griffes démoniaques",
+        stats: ["1", "A", "F", "5", "1"],
+        regles: "Lacération (5+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Lame infernale",
+        stats: ["1", "-1", "F", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Grande lame infernale",
+        stats: ["-1", "-1", "+2", "3", "2"],
+        regles: "Brèche (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Lance infernale",
+        stats: ["+1", "1", "F", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Gueule et serre",
+        stats: ["1", "A", "F", "4", "2"],
+        regles: "Brèche (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Grande gueule et serre",
+        stats: ["1", "A", "F", "4", "2"],
+        regles: "Brèche (5+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Membres pulvérisateurs",
+        stats: ["1", "A", "F", "5", "2"],
+        regles: "-",
+        traits: "Immatériel",
+      },
+      {
+        // Baneaxe, moitié Mêlée de l'Armement de Ka'bandha (voir
+        // Lanière de fer, Armes de Tir plus haut, pour la moitié Tir).
+        nom: "Hache-Fléau",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Touche Critique (5+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Griffes moissonneuses",
+        stats: ["1", "A", "F", "3", "2"],
+        regles: "Fauchage (2), Brèche (6+)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Lame de Samus",
+        stats: ["1", "A", "F", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Immatériel",
       },
     ],
   },
