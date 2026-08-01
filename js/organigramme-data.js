@@ -3502,9 +3502,20 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  QG/État-major/Seigneurs » (ex : Bardé de Fer, Iron
                  Hands, limité à Engins de Guerre ; Logisticae,
                  Ultramarines, limité à Transport/Transport Lourd). Un
-                 seul Rôle dans la liste : préaffecté directement, sans
-                 passer par le menu déroulant (voir changerAvantage,
+                 seul Rôle dans la liste : préaffecté directement et
+                 FIXE — aucun menu déroulant de Rôle Tactique n'est
+                 affiché pour la case ajoutée, contrairement au cas à
+                 plusieurs Rôles au choix (voir changerAvantage,
                  construireCarteDetachement dans js/organigramme.js).
+   - nombreCasesAjoutees : nombre de cases ajoutées d'un coup par
+                 `ajouteCase` (défaut 1 si absent — Bénéfice Logistique,
+                 Le Salaire de la Traîtrise, Bardé de Fer, Logisticae).
+                 Agent de Clade (Divisio Assassinorum, voir plus bas)
+                 pose 3 : le livre l'autorise à ajouter trois Cases
+                 d'Appui d'un coup, désormais modélisées toutes les
+                 trois (changerAvantage/reconcilier/restauration
+                 localStorage, js/organigramme.js, traitent ces cases
+                 comme un groupe : ajoutées/retirées ensemble).
    Rappel du livre : si l'unité inclut une figurine de Sous-type
    Unique, seul « Bénéfice Logistique » reste disponible.
    - reglesAppliquees : [noms de Règles Spéciales] — pour un Avantage
@@ -3547,11 +3558,8 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  Organigramme.factionsDebloqueesParAvantage() (consommée
                  par uniteAccessible, js/unites.js).
                  Le livre autorise Agent de Clade à ajouter TROIS Cases
-                 d'Appui d'un coup ; par cohérence avec la simplification
-                 déjà assumée pour Bénéfice Logistique/Le Salaire de la
-                 Traîtrise (une seule case ajoutée à la fois par
-                 détachement, quel que soit l'Avantage qui l'a créée),
-                 ce site n'en modélise qu'une seule.
+                 d'Appui d'un coup : modélisé via `nombreCasesAjoutees: 3`
+                 ci-dessus (voir cette entrée pour le détail).
    ---------------------------------------------------------- */
 const AVANTAGES_PRINCIPAUX = [
   {
@@ -4056,9 +4064,10 @@ const AVANTAGES_PRINCIPAUX = [
     principalUniquement: true,
     ajouteCase: true,
     rolesCaseAjoutee: ["Appui"],
+    nombreCasesAjoutees: 3,
     factionCaseAjoutee: "divisio-assassinorum",
     texte:
-      "Réservé à une Unité d'Allégeance Loyaliste sélectionnée pour occuper une Case Principale d'Organigramme de Force dans le Détachement Principal d'une Armée, une seule fois par Armée : ajoute une Case de Rôle Tactique Appui au Détachement, qui ne peut être occupée que par une Unité de la Liste d'Armée de la Divisio Assassinorum (le livre autorise d'en ajouter trois d'un coup ; par cohérence avec Bénéfice Logistique/Le Salaire de la Traîtrise, ce site n'en modélise qu'une seule).",
+      "Réservé à une Unité d'Allégeance Loyaliste sélectionnée pour occuper une Case Principale d'Organigramme de Force dans le Détachement Principal d'une Armée, une seule fois par Armée : ajoute trois Cases de Rôle Tactique Appui au Détachement, qui ne peuvent être occupées que par une Unité de la Liste d'Armée de la Divisio Assassinorum.",
   },
 ];
 

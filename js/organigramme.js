@@ -2425,16 +2425,22 @@ const Organigramme = (() => {
       ancienAvantage.ajouteCase &&
       caseOrga.avantage !== nouvelId
     ) {
-      const extraIdx = det.cases.findIndex((c) => c.extra);
-      if (extraIdx !== -1) {
-        if (det.cases[extraIdx].uniteUid !== null) {
-          return (
-            "La case ajoutée par « " +
-            ancienAvantage.nom +
-            " » est occupée : retirez ou déplacez d'abord son unité."
-          );
-        }
-        det.cases.splice(extraIdx, 1);
+      // Groupe de cases ajoutées par cet Avantage (`nombreCasesAjoutees`,
+      // ex : Agent de Clade en ajoute 3 d'un coup) : retirées ensemble,
+      // bloqué si au moins une est occupée.
+      const extraIndices = [];
+      det.cases.forEach((c, i) => {
+        if (c.extra && c.origineAvantage === ancienAvantage.id) extraIndices.push(i);
+      });
+      if (extraIndices.some((i) => det.cases[i].uniteUid !== null)) {
+        return (
+          "La case ajoutée par « " +
+          ancienAvantage.nom +
+          " » est occupée : retirez ou déplacez d'abord son unité."
+        );
+      }
+      for (let i = extraIndices.length - 1; i >= 0; i--) {
+        det.cases.splice(extraIndices[i], 1);
       }
     }
     caseOrga.avantage = nouvelId;
@@ -2447,19 +2453,26 @@ const Organigramme = (() => {
       // QG/État-major/Seigneurs, ROLES_INTERDITS_LOGISTIQUE), sauf si
       // l'Avantage restreint la liste (`rolesCaseAjoutee`, ex : Bardé
       // de Fer, réservé à Engins de Guerre) — un seul Rôle possible
-      // dans cette liste est alors préaffecté directement.
+      // dans cette liste est alors préaffecté directement et FIXE (pas
+      // de menu déroulant, voir construireCarteDetachement plus bas).
+      // `nombreCasesAjoutees` (défaut 1) répète l'ajout, ex : Agent de
+      // Clade qui ajoute 3 Cases d'Appui d'un coup.
       const rolesPossibles = nouvelAvantage.rolesCaseAjoutee;
-      det.cases.push({
-        role:
-          rolesPossibles && rolesPossibles.length === 1
-            ? rolesPossibles[0]
-            : null,
-        principale: false,
-        uniteUid: null,
-        avantage: "aucun",
-        extra: true,
-        origineAvantage: nouvelId,
-      });
+      const roleFixe =
+        rolesPossibles && rolesPossibles.length === 1
+          ? rolesPossibles[0]
+          : null;
+      const nombre = nouvelAvantage.nombreCasesAjoutees || 1;
+      for (let i = 0; i < nombre; i++) {
+        det.cases.push({
+          role: roleFixe,
+          principale: false,
+          uniteUid: null,
+          avantage: "aucun",
+          extra: true,
+          origineAvantage: nouvelId,
+        });
+      }
     }
     retirerDetachementsAvantageInvalide();
     actualiser();
@@ -2763,10 +2776,14 @@ const Organigramme = (() => {
             });
           }
         }
-        // Case supplémentaire d'un Avantage `ajouteCase` éventuelle
-        // (Bénéfice Logistique, Le Salaire de la Traîtrise).
-        const extraSauvee = casesSauvees.find((c) => c && c.extra);
-        if (extraSauvee) {
+        // Case(s) supplémentaire(s) d'un Avantage `ajouteCase` éventuel
+        // (Bénéfice Logistique, Le Salaire de la Traîtrise, Agent de
+        // Clade — ce dernier en ajoute plusieurs d'un coup, voir
+        // `nombreCasesAjoutees`) : restaurées une par une, dans l'ordre
+        // où elles ont été sauvegardées (voir sauvegarderOrga, qui les
+        // sérialise dans le même ordre que det.cases).
+        const extraSauvees = casesSauvees.filter((c) => c && c.extra);
+        for (const extraSauvee of extraSauvees) {
           det.cases.push({
             role:
               typeof extraSauvee.role === "string" ? extraSauvee.role : null,
@@ -2780,8 +2797,11 @@ const Organigramme = (() => {
                 : "benefice-logistique",
           });
         }
+        let indiceExtra = 0;
         det.cases.forEach((caseOrga, indice) => {
-          const sauvee = caseOrga.extra ? extraSauvee : casesSauvees[indice];
+          const sauvee = caseOrga.extra
+            ? extraSauvees[indiceExtra++]
+            : casesSauvees[indice];
           if (!sauvee) return;
           if (AVANTAGES_PRINCIPAUX.some((a) => a.id === sauvee.avantage)) {
             caseOrga.avantage =
@@ -2823,14 +2843,62 @@ const Organigramme = (() => {
     // ne porte l'Avantage qui l'a créée) : on la retire, comme le fait
     // déjà `liberer` pour les cas normaux.
     for (const det of etat.detachements) {
-      const extraIdx = det.cases.findIndex((c) => c.extra);
-      if (extraIdx === -1) continue;
-      const origine =
-        det.cases[extraIdx].origineAvantage || "benefice-logistique";
-      const encoreAccorde = det.cases.some(
-        (c) => !c.extra && c.avantage === origine,
+      // Regroupées par Avantage d'origine (`origineAvantage`) : un
+      // Avantage peut ajouter plusieurs cases d'un coup
+      // (`nombreCasesAjoutees`, ex : Agent de Clade → 3 Cases
+      // d'Appui), retirées ensemble si l'Avantage n'est plus accordé.
+      const origines = new Set(
+        det.cases
+          .filter((c) => c.extra)
+          .map((c) => c.origineAvantage || "benefice-logistique"),
       );
-      if (!encoreAccorde) det.cases.splice(extraIdx, 1);
+      for (const origine of origines) {
+        const encoreAccorde = det.cases.some(
+          (c) => !c.extra && c.avantage === origine,
+        );
+        if (encoreAccorde) continue;
+        for (let i = det.cases.length - 1; i >= 0; i--) {
+          const c = det.cases[i];
+          if (c.extra && (c.origineAvantage || "benefice-logistique") === origine) {
+            det.cases.splice(i, 1);
+          }
+        }
+      }
+    }
+    // Case(s) manquante(s) pour un Avantage `ajouteCase` toujours
+    // accordé mais dont le nombre de cases ajoutées ne correspond plus
+    // à `nombreCasesAjoutees` — ex : une Armée sauvegardée avant
+    // l'introduction de ce champ pour Agent de Clade n'a encore qu'une
+    // seule Case d'Appui au lieu des trois désormais attendues :
+    // complétée ici plutôt que de forcer le joueur à désélectionner
+    // puis resélectionner l'Avantage.
+    for (const det of etat.detachements) {
+      for (const c of det.cases) {
+        if (c.extra || c.avantage === "aucun") continue;
+        const avantage = avantageParId(c.avantage);
+        if (!avantage || !avantage.ajouteCase) continue;
+        const attendu = avantage.nombreCasesAjoutees || 1;
+        const existantes = det.cases.filter(
+          (x) => x.extra && (x.origineAvantage || "benefice-logistique") === avantage.id,
+        ).length;
+        const manquantes = attendu - existantes;
+        if (manquantes <= 0) continue;
+        const rolesPossibles = avantage.rolesCaseAjoutee;
+        const roleFixe =
+          rolesPossibles && rolesPossibles.length === 1
+            ? rolesPossibles[0]
+            : null;
+        for (let i = 0; i < manquantes; i++) {
+          det.cases.push({
+            role: roleFixe,
+            principale: false,
+            uniteUid: null,
+            avantage: "aucun",
+            extra: true,
+            origineAvantage: avantage.id,
+          });
+        }
+      }
     }
     // Migration d'une liste créée avant l'organigramme : on tente de
     // placer chaque unité non assignée dans une case libre compatible.
@@ -3984,6 +4052,10 @@ const Organigramme = (() => {
       // à la demande sur un Détachement `casesLibres`, ex : Détachement
       // Narratif) suit le même principe de sélection, mais SANS
       // exclusion : tous les Rôles Tactiques y sont proposés.
+      // Si un seul Rôle est possible (`rolesCaseAjoutee` à un élément,
+      // ex : Bardé de Fer, Agent de Clade), le Rôle est déjà préaffecté
+      // et FIXE (voir changerAvantage) : pas de menu déroulant, pour ne
+      // pas laisser croire qu'il pourrait être changé.
       if (caseOrga.extra || caseOrga.libre) {
         const origineExtra = avantageParId(caseOrga.origineAvantage);
         const rolesPossiblesExtra = caseOrga.libre
@@ -3992,23 +4064,28 @@ const Organigramme = (() => {
             Object.keys(ROLES_TACTIQUES).filter(
               (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
             );
-        const selectRole = document.createElement("select");
-        selectRole.className = "orga-case-role-select";
-        selectRole.setAttribute(
-          "aria-label",
-          "Rôle Tactique de la case ajoutée",
-        );
-        ajouterOption(selectRole, "", "— Choisir un Rôle Tactique —");
-        for (const cle of rolesPossiblesExtra) {
-          ajouterOption(selectRole, cle, ROLES_TACTIQUES[cle].livre);
+        if (rolesPossiblesExtra.length !== 1) {
+          // Rôle fixe (liste à un seul élément, ex : Bardé de Fer, Agent
+          // de Clade) : rien à afficher ici, déjà visible dans la ligne
+          // "orga-case-role" ci-dessus, sans menu déroulant.
+          const selectRole = document.createElement("select");
+          selectRole.className = "orga-case-role-select";
+          selectRole.setAttribute(
+            "aria-label",
+            "Rôle Tactique de la case ajoutée",
+          );
+          ajouterOption(selectRole, "", "— Choisir un Rôle Tactique —");
+          for (const cle of rolesPossiblesExtra) {
+            ajouterOption(selectRole, cle, ROLES_TACTIQUES[cle].livre);
+          }
+          selectRole.value = caseOrga.role || "";
+          selectRole.disabled = caseOrga.uniteUid !== null; // rôle figé tant qu'occupée
+          selectRole.addEventListener("change", () => {
+            caseOrga.role = selectRole.value || null;
+            actualiser();
+          });
+          contenu.appendChild(selectRole);
         }
-        selectRole.value = caseOrga.role || "";
-        selectRole.disabled = caseOrga.uniteUid !== null; // rôle figé tant qu'occupée
-        selectRole.addEventListener("change", () => {
-          caseOrga.role = selectRole.value || null;
-          actualiser();
-        });
-        contenu.appendChild(selectRole);
       }
 
       const occ = occupant(caseOrga);

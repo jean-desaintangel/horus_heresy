@@ -1148,6 +1148,10 @@ const SOURCES_SITE = [
     href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-questoris-2025-fre",
   },
   {
+    texte: "Liber Custodes",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-custodes-2026-hb-eng",
+  },
+  {
     texte: "Liber Auxilia",
     href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-auxilia-2025-fre",
   },
