@@ -119,7 +119,10 @@
 // sources Journal Tactica ajoutées (js/main.js) — voir CLAUDE.md.
 // v60 : corrige la capitalisation « Zone mortalis » → « Zone Mortalis »
 // dans le nom de 4 Unités (js/unites-data.js) — voir CLAUDE.md.
-const CACHE_VERSION = "v65";
+// v66 : explication Export/Import (sauvegarde d'une liste pour la
+// reprendre plus tard, à distinguer du PDF/Word) ajoutée sous la barre
+// d'actions (pages/construction-liste.html, css/style.css).
+const CACHE_VERSION = "v66";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

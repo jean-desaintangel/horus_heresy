@@ -2223,6 +2223,16 @@ footer p {
   gap: 0.6rem;
 }
 
+/* Explication statique Export/Import vs PDF/Word, sous la barre d'actions
+   ci-dessus : même gabarit de texte atténué que .unites-barre p, mais sans
+   son gras (simple précision, pas le total à retenir). */
+.unites-barre-note {
+  flex-basis: 100%;
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--texte-attenue);
+}
+
 /* Petit menu déroulant (Téléchargement PDF/Word, Export/Import) : même
    principe d'ouverture/fermeture que .unite-combobox-liste (bouton qui
    bascule un <ul> masqué par [hidden]), mais en popup ancrée sous un
