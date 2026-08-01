@@ -117,7 +117,9 @@
 // Zone Mortalis est sélectionné, js/unites.js) ; Maître de la
 // Descente n'est plus verrouillé aux Word Bearers ; 3 nouvelles
 // sources Journal Tactica ajoutées (js/main.js) — voir CLAUDE.md.
-const CACHE_VERSION = "v59";
+// v60 : corrige la capitalisation « Zone mortalis » → « Zone Mortalis »
+// dans le nom de 4 Unités (js/unites-data.js) — voir CLAUDE.md.
+const CACHE_VERSION = "v60";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

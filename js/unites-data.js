@@ -11282,7 +11282,7 @@ const UNITES = [
     // recoupe ce nom (vérifié par recherche) : Unité entièrement
     // nouvelle, pas de correction d'une entrée Legacies existante.
     id: "escouade-veterans-despoiler",
-    nom: "Escouade de Vétérans Despoiler (Zone mortalis)",
+    nom: "Escouade de Vétérans Despoiler (Zone Mortalis)",
     categorie: "Elite",
     cout: 95,
     composition: "1 Sergent Vétéran Despoiler, 4 Vétérans Despoiler",
@@ -11299,7 +11299,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Escouade de Vétérans Despoiler (Zone mortalis)",
+        nom: "Escouade de Vétérans Despoiler (Zone Mortalis)",
         cout: 0,
         profils: [
           {
@@ -31953,7 +31953,7 @@ const UNITES = [
     // bouclier d'abordage contre un objet de cette liste n'est donc pas
     // câblée.
     id: "sa-raiders-veletaris",
-    nom: "Section de Raiders Veletaris (Zone mortalis)",
+    nom: "Section de Raiders Veletaris (Zone Mortalis)",
     faction: "solar-auxilia",
     categorie: "Elite",
     cout: 85,
@@ -31972,7 +31972,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Section de Raiders Veletaris (Zone mortalis)",
+        nom: "Section de Raiders Veletaris (Zone Mortalis)",
         cout: 0,
         profils: [
           {
@@ -32191,7 +32191,7 @@ const UNITES = [
     // Zone Mortalis) n'est pas non plus modélisé mécaniquement — voir
     // son entrée de glossaire dans regles-data.js.
     id: "sa-technicien-combat",
-    nom: "Section Technicien de Combat Auxilia (Zone mortalis)",
+    nom: "Section Technicien de Combat Auxilia (Zone Mortalis)",
     faction: "solar-auxilia",
     categorie: "Appui",
     cout: 35,
@@ -32209,7 +32209,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Section Technicien de Combat Auxilia (Zone mortalis)",
+        nom: "Section Technicien de Combat Auxilia (Zone Mortalis)",
         cout: 0,
         profils: [
           {
@@ -35287,7 +35287,7 @@ const UNITES = [
     // SAV2+/INV4+ pour les deux autres, sans Brise-blindage mais avec
     // Vanguard (3) en plus) : pas un doublon, Unité séparée.
     id: "mech-castellax-infernus",
-    nom: "Manipule Castellax Infernus (Zone mortalis)",
+    nom: "Manipule Castellax Infernus (Zone Mortalis)",
     faction: "mechanicum",
     categorie: "Appui",
     cout: 110,
