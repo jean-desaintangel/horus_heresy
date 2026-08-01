@@ -4421,10 +4421,16 @@ function initialiserChoixUnite() {
       // n'apparaît qu'au survol souris — inutilisable au doigt sur
       // mobile/tablette. On affiche donc le même texte dans
       // #ajout-message (déjà utilisé par « Ajouter à la liste »/
-      // « Dupliquer ») au tap, sans fermer la liste, pour que
-      // l'explication reste lisible au doigt comme à la souris.
+      // « Dupliquer ») au tap. Contrairement à une sélection réussie,
+      // on referme ici la liste ET on retire le focus du champ (masque
+      // le clavier virtuel) avant d'afficher le message : sur mobile,
+      // la liste déroulante (jusqu'à 320px) plus le clavier occupent
+      // sinon tout l'écran et cachent complètement #ajout-message, ce
+      // qui donnait l'impression que le tap ne faisait rien.
       const messageAjout = document.getElementById("ajout-message");
       if (messageAjout && li.title) {
+        fermer();
+        champ.blur();
         messageAjout.textContent = li.title;
         messageAjout.hidden = false;
         messageAjout.scrollIntoView({ behavior: "smooth", block: "center" });
