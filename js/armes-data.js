@@ -5080,9 +5080,13 @@ const ARMES_MELEE = [
         traits: "-",
       },
       {
+        // Corrigée (2026-08-02, signalé par le proprio) : héritait par
+        // erreur de copier-coller de « Fléau des Blindages » depuis la
+        // Paire de trépans de siège Leviathan juste au-dessus, sans
+        // rapport avec une simple baïonnette.
         nom: "Baïonnette",
         stats: ["1", "A", "F", "5", "1"],
-        regles: "Fléau des Blindages",
+        regles: "-",
         traits: "Baïonnette",
       },
       /* --- Arsenal des Solar Auxilia (Liber Auxilia) : les Unités
@@ -5094,10 +5098,13 @@ const ARMES_MELEE = [
         traits: "-",
       },
       {
+        // Corrigé au passage (même copier-coller fautif que la
+        // Baïonnette ci-dessus) : des Bombes à fusion n'ont aucune
+        // raison de porter le Trait Baïonnette.
         nom: "Bombes à fusion (Solar Auxilia)",
         stats: ["-3", "1", "9", "2", "4"],
         regles: "Fléau des Blindages, Détonation",
-        traits: "Baïonnette",
+        traits: "-",
       },
       {
         nom: "Baïonnette (Solar Auxilia)",

@@ -2816,5 +2816,17 @@ Règles Spéciales :
   remplie) et Maelstrom Sentry Battery (après Maître des Signaux en
   Case d'État-major) dans le panneau « Ajouter un détachement ».
 
+- **Bug de copier-coller corrigé (2026-08-02, signalé par le proprio) :
+  Baïonnette générique et Bombes à fusion (Solar Auxilia)**
+  (`js/armes-data.js`). La Baïonnette générique portait « Fléau des
+  Blindages » (regles), hérité par erreur de la Paire de trépans de
+  siège Leviathan juste au-dessus dans le fichier — retiré
+  (`regles: "-"`). En vérifiant l'entrée voisine, même artefact trouvé
+  sur les Bombes à fusion (Solar Auxilia) : Trait `"Baïonnette"` sans
+  aucun sens pour une grenade — retiré aussi (`traits: "-"`). À
+  garder en tête pour toute future relecture d'un cluster d'armes
+  proches dans ce fichier : un copier-coller depuis l'entrée
+  précédente peut laisser une Règle Spéciale ou un Trait orphelin.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

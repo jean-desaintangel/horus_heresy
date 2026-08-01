@@ -99,7 +99,11 @@
 // Force/Bulwark/Linebreaker et Linebreaker Echelon/Maelstrom Sentry
 // Battery, confirmées par le proprio contre le livre
 // (js/organigramme-data.js) — voir CLAUDE.md.
-const CACHE_VERSION = "v56";
+// v57 : corrige la Baïonnette générique et les Bombes à fusion (Solar
+// Auxilia), qui héritaient par erreur de copier-coller de « Fléau des
+// Blindages »/du Trait Baïonnette d'une arme voisine
+// (js/armes-data.js) — voir CLAUDE.md.
+const CACHE_VERSION = "v57";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
