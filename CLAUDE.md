@@ -2743,5 +2743,66 @@ Règles Spéciales :
   Spéciales des Assassins précédents (gardé seulement le mécanisme
   clairement identifiable). Vérifié par le même test headless.
 
+- **Trois suppléments « Journal Tactica » (Zone Mortalis, The Forges of
+  Saturn, Dropsite) transcrits dans une même session (2026-08-02).**
+  Chaque Unité Legio Astartes générique ajoutée sans champ `legion`
+  sauf mention contraire ; catégories/restrictions Légion demandées
+  explicitement par le proprio, suivies telles quelles même quand elles
+  divergeaient du texte du PDF (ex : Char à Missiles Hyperios en
+  Seigneurs des Batailles malgré un gabarit de Blindé standard, Maître
+  de la Descente réservé Word Bearers malgré un texte de règle
+  générique) — confirmées par AskUserQuestion avant d'écrire quoi que
+  ce soit de surprenant plutôt que de « corriger » silencieusement.
+  **Zone Mortalis** : Escouade de Vétérans Breacher (Zone Mortalis)
+  (Elite, doublon volontaire de l'entrée Legacies existante avec des
+  coûts différents — créée en Unité séparée sur demande explicite,
+  cf. entrée Legacies plus haut), Escouade de Vétérans Despoiler
+  (Elite), Section Technicien de Combat Auxilia (Appui, Solar Auxilia),
+  Section de Raiders Veletaris (Elite, Solar Auxilia), Manipule
+  Castellax Infernus (Appui, Mechanicum, 3ᵉ variante de Castellax).
+  **The Forges of Saturn** : Centurion/Escouade de Commandement
+  Terminator Saturnine (État-major/Suites, génériques) et Conclave des
+  Phraetus Oints (Elite, Word Bearers Renégat) — nouvelle Arme Paire de
+  poings disrupteurs Saturnine, Détachement d'Apex Linebreaker Echelon
+  et Détachement Auxiliaire Maelstrom Sentry Battery (ce dernier avec
+  un gap documenté : aucune Unité Legio Astartes « Batterie Tarantula »
+  n'existe encore dans ce fichier pour ses Cases de Reco).
+  **Dropsite** : Char à Missiles Hyperios, Escouade de Commandement et
+  de Contrôle Augure (Suites), Maître de la Descente (État-major, Word
+  Bearers) — Détachement Auxiliaire Fer de Lance de Chute débloqué par
+  ce dernier. Page « Additional Prime Advantage » (Cadres
+  d'Interdiction) documentée en glossaire texte seul, non modélisée
+  mécaniquement : mécanique anglaise du « Prime Slot », déjà notée
+  ailleurs dans ce fichier comme non implémentée sur ce site (distincte
+  des Avantages Principaux de Cases Principales).
+  **Nouveau moteur : sélecteur de Chart de Détachement Principal**
+  (`etat.chartPrincipal`, js/organigramme.js) — les trois Charts
+  alternatifs de la page « Zone Mortalis Primary Detachments »
+  (Strike Force/Bulwark/Linebreaker, `famille: "principal"` dans
+  organigramme-data.js, sans condition de Mission Zone Mortalis — non
+  modélisée sur ce site) sont désormais sélectionnables via un nouveau
+  menu dans les paramètres de la partie (Legio Astartes seulement),
+  à la place du Détachement Principal de Croisade standard, sur le
+  même principe que le menu Légion/Rite de Guerre. Persisté dans
+  localStorage (sauvegarde + validation à la restauration, comme
+  `doctrineCohorte`). **Bug trouvé et corrigé pendant le test
+  fonctionnel** : le premier jet ne swappait pas réellement le
+  Détachement Principal au changement de menu, car `actualiser()` seul
+  ne réévalue jamais le type de Détachement Principal attendu (seule
+  l'initialisation de page le fait, dans `initialiser()`) —
+  contrairement au menu Doctrine de Cohorte (qui ne change jamais le
+  résultat d'`idDetachementPrincipal()`), un changement de
+  `chartPrincipal` DOIT reconstruire `etat.detachements` explicitement
+  avec `creerDetachement(idDetachementPrincipal())`, sur le même
+  principe que le handler de changement de Faction. Composition de
+  Zone Mortalis Linebreaker la moins sûre des trois (icônes peu nettes
+  sur la photo source pour ses 2 dernières Cases, retenues « Troupes »
+  par défaut) : à corriger si le proprio confirme contre le livre.
+  Vérifié par test fonctionnel jsdom (page réelle) : les 4 options du
+  sélecteur, la composition exacte de Cases rendue pour chacun des 3
+  Charts, et la disponibilité de Linebreaker Echelon (après Case QG
+  remplie) et Maelstrom Sentry Battery (après Maître des Signaux en
+  Case d'État-major) dans le panneau « Ajouter un détachement ».
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

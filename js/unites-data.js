@@ -2628,6 +2628,89 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Journal Tactica : The Forges of Saturn. Générique « Legio
+    // Astartes » (pas de champ `legion`, comme le Centurion en Armure
+    // Terminator ci-dessus).
+    id: "centurion-armure-terminator-saturnine",
+    nom: "Centurion en Armure Terminator Saturnine",
+    categorie: "État-major",
+    cout: 150,
+    composition: "1 Centurion Saturnine",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Bombarde à plasma",
+      "Poing disrupteur Saturnine",
+      "Auspex de ciblage Occulix",
+      "Champ de diffraction thermique",
+      "Synchroniseur de téléportation Saturnine",
+    ],
+    variantes: [
+      {
+        nom: "Centurion Saturnine",
+        cout: 0,
+        profil: {
+          M: 5,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 6,
+          PV: 5,
+          I: 4,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Officier de Ligne (2)",
+          "Massif (4)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+        ],
+        type: "Infanterie (État-major, Lourd)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        type: "choix",
+        id: "poing-echange",
+        libelle: "Ce Modèle peut échanger son poing disrupteur Saturnine",
+        remplace: "Poing disrupteur Saturnine",
+        choix: [
+          { nom: "— Conserver le poing disrupteur —", cout: 0 },
+          { nom: "Bombarde à plasma", cout: 0 },
+          { nom: "Désintégrateur lourd jumelé", cout: 10 },
+        ],
+      },
+      {
+        type: "case",
+        id: "desintegrateur-bombarde",
+        remplaceIntegral: "Bombarde à plasma",
+        libelle:
+          "Ce Modèle peut échanger sa bombarde à plasma contre un désintégrateur lourd jumelé",
+        cout: 10,
+        ajoute: "Désintégrateur lourd jumelé (à la place de la bombarde à plasma)",
+      },
+      {
+        type: "choix",
+        id: "arme-particules",
+        libelle:
+          "Si ce Modèle a conservé son poing disrupteur Saturnine : objet additionnel",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Lacérateur à particules", cout: 5 },
+          { nom: "Blaster à plasma", cout: 10 },
+        ],
+      },
+    ],
+  },
 
   {
     id: "optae",
@@ -6434,6 +6517,201 @@ const UNITES = [
      complété par les options propres à chaque escouade (étendard,
      équipement de Légion…).
      ---------------------------------------------------------- */
+  {
+    // Journal Tactica : The Forges of Saturn. Générique « Legio
+    // Astartes » (pas de champ `legion`).
+    id: "escouade-commandement-terminator-saturnine",
+    nom: "Escouade de Commandement Terminator Saturnine",
+    categorie: "Suites",
+    cout: 160,
+    composition: "1 Champion Élu Saturnine, 1 Élu Saturnine",
+    effectif: { base: 2, max: 6, cout: 60 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Paire de poings disrupteurs Saturnine",
+      "Champ de diffraction thermique",
+      "Synchroniseur de téléportation Saturnine",
+    ],
+    variantes: [
+      {
+        nom: "Escouade de Commandement Terminator Saturnine",
+        cout: 0,
+        profils: [
+          {
+            nom: "Élu Saturnine",
+            profil: {
+              M: 5,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Champion Élu Saturnine",
+            profil: {
+              M: 5,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (4)",
+          "Explose (6+)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+        ],
+        type: "Champion Élu Saturnine : Infanterie (Champion, Sergent, Lourd) · Élu Saturnine : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-bombarde",
+        libelle:
+          "Figurines : bombarde à plasma et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Bombarde à plasma et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-desintegrateur",
+        libelle:
+          "Figurines : désintégrateur lourd jumelé et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Désintégrateur lourd jumelé et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-hache",
+        libelle:
+          "Figurines : hache de guerre Saturnine et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Hache de guerre Saturnine et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-marteau",
+        libelle:
+          "Figurines : marteau commotionneur Saturnine et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Marteau commotionneur Saturnine et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        type: "quantite",
+        id: "lacerateur",
+        libelle:
+          "Figurines avec poing disrupteur Saturnine : lacérateur à particules",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Lacérateur à particules",
+      },
+      {
+        type: "quantite",
+        id: "blaster",
+        libelle: "Figurines avec poing disrupteur Saturnine : blaster à plasma",
+        cout: 10,
+        parTranche: 1,
+        ajoute: "Blaster à plasma",
+      },
+      {
+        type: "case",
+        id: "etendard",
+        libelle: "Un Élu Saturnine peut recevoir un étendard de Légion",
+        cout: 20,
+        ajoute: "Étendard de Légion (un Élu Saturnine)",
+      },
+    ],
+  },
+  {
+    // Journal Tactica : Dropsite. Générique « Legio Astartes » (pas de
+    // champ `legion`).
+    id: "escouade-commandement-controle-augure",
+    nom: "Escouade de Commandement et de Contrôle Augure",
+    categorie: "Suites",
+    cout: 80,
+    composition: "4 Légionnaires de Commandement et de Contrôle",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    notes:
+      "De nombreuses Légions emploient des cadres de Légionnaires chargés de superviser la coordination et la répartition des Unités. Accompagnant souvent des officiers tels que les Briseurs de Siège ou les Maîtres des Signaux dont la fonction est de relier les éléments combattants et les éléments d'appui de la Légion, ces spécialistes se tiennent à l'écart de la ligne de front. Recoupant un mélange de données provenant de rapports de reconnaissance directs jusqu'à des enregistrements pictographiques individuels de Légionnaires, ils fournissent un suivi constant de l'état plus large de la bataille. Quand la menace ennemie se fait sentir, ces guerriers restent néanmoins plus que capables de repousser les assauts en attendant que des renforts soient redirigés pour les soulager.",
+    equipement: ["Bolter", "Pistolet bolter", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Légionnaire de Commandement et de Contrôle",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 4,
+          A: 2,
+          Cd: 8,
+          Sf: 8,
+          Vo: 7,
+          Int: 8,
+          Sv: "3+",
+          Inv: "—",
+        },
+        regles: ["Unité d'Appui (2)", "Coordinateurs de Champ de Bataille"],
+        type: "Infanterie",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "bolter",
+        libelle: "Un Légionnaire : remplacer le bolter",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.speciales),
+        ],
+      },
+    ],
+  },
   {
     id: "escouade-etat-major-cataphractii",
     nom: "Escouade d'État-Major Terminator Cataphractii",
@@ -10536,6 +10814,252 @@ const UNITES = [
     ],
   },
   {
+    // Journal Tactica : Zone Mortalis — recoupe l'Escouade de Vétérans
+    // Breacher (Legacies, "escouade-veterans-perce-lignes") sous le même
+    // nom anglais mais avec des coûts différents (125+22/figurine contre
+    // 115+20, sabre charnabal 10 contre 5, liste d'Équipement de Légion
+    // combinée à 15 contre Nuncio-vox/Scanner augure séparés à 10
+    // chacun) : sur demande explicite du proprio, transcrite comme une
+    // Unité séparée plutôt que comme une correction de l'entrée Legacies
+    // existante (voir CLAUDE.md).
+    id: "escouade-veterans-breacher-zone-mortalis",
+    nom: "Escouade de Vétérans Breacher (Zone Mortalis)",
+    categorie: "Elite",
+    cout: 125,
+    composition: "1 Sergent Vétéran Breacher, 4 Vétérans Breacher",
+    effectif: { base: 5, max: 10, cout: 22 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Bouclier"],
+    notes:
+      "Plus rares que leurs homologues des Escouades Tactiques et d'Assaut dans la plupart des Légions, les Vétérans Breacher opéraient typiquement en tant que force d'assaut lourde, employés offensivement comme briseurs de ligne et défensivement comme réserve d'élite. Ces capacités les voyaient le plus souvent déployés dans des environnements dits de « Zone Mortalis », leur équipement leur conférant la résilience nécessaire pour endurer de telles zones de guerre infernales, tandis que leur maîtrise du combat — acquise au fil de décennies aux avant-postes de la Grande Croisade — leur permettait de tailler en pièces même les adversaires les plus endurcis.",
+    equipement: [
+      "Bolter",
+      "Pistolet bolter",
+      "Bouclier d'abordage",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Escouade de Vétérans Breacher (Zone Mortalis)",
+        cout: 0,
+        profils: [
+          {
+            nom: "Vétéran Breacher",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Sergent Vétéran Breacher",
+            profil: {
+              M: 7,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: ["Avant-garde (3)"],
+        type: "Sergent Vétéran Breacher : Infanterie (Sergent, Lourd) · Vétéran Breacher : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "chainsword-zm",
+        libelle: "Figurines : épée tronçonneuse (à la place du bolter)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Épée tronçonneuse (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "fusil-a-pompe-astartes-zm",
+        libelle: "Figurines : fusil à pompe Astartes (à la place du bolter)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Fusil à pompe Astartes (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "chargeur-volkite-zm",
+        libelle: "Figurines : chargeur volkite (à la place du bolter)",
+        cout: 2,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Chargeur volkite (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "sabre-charnabal-zm",
+        libelle: "Figurines : sabre charnabal (à la place du bolter)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Sabre charnabal (à la place du bolter)",
+      },
+      ...eclaterQuantiteArmeEnergetique({
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "arme-energetique-zm",
+        libelle: "Figurines : arme énergétique (à la place du bolter)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Arme énergétique (à la place du bolter)",
+      }),
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "gantelet-energetique-zm",
+        libelle: "Figurines : gantelet énergétique (à la place du bolter)",
+        cout: 15,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Gantelet énergétique (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "griffe-lightning-zm",
+        libelle: "Figurines : griffe Lightning (à la place du bolter)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "arme-principale-zm",
+        ajoute: "Griffe Lightning (à la place du bolter)",
+      },
+      {
+        type: "case",
+        id: "pistolet-desintegrateur-sergent-zm",
+        libelle:
+          "Le Sergent Vétéran Breacher peut échanger son pistolet bolter contre un pistolet désintégrateur",
+        cout: 5,
+        ajoute:
+          "Pistolet désintégrateur (à la place du pistolet bolter, Sergent Vétéran Breacher)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "lance-flammes-zm",
+        libelle:
+          "Pour cinq Figurines : lance-flammes à la place du bolter (jusqu'à deux Vétérans Breacher)",
+        cout: 5,
+        parTranche: 5,
+        parTrancheMax: 2,
+        groupe: "arme-lourde-zm",
+        ajoute: "Lance-flammes (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "fusil-a-gravitons-zm",
+        libelle:
+          "Pour cinq Figurines : fusil à gravitons à la place du bolter (jusqu'à deux Vétérans Breacher)",
+        cout: 10,
+        parTranche: 5,
+        parTrancheMax: 2,
+        groupe: "arme-lourde-zm",
+        ajoute: "Fusil à gravitons (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "decoupeur-laser-zm",
+        libelle:
+          "Pour cinq Figurines : découpeur laser à la place du bolter (jusqu'à deux Vétérans Breacher)",
+        cout: 10,
+        parTranche: 5,
+        parTrancheMax: 2,
+        groupe: "arme-lourde-zm",
+        ajoute: "Découpeur laser¹ (à la place du bolter)",
+      },
+      {
+        remplaceIntegral: "Bolter",
+        type: "quantite",
+        id: "fuseur-zm",
+        libelle:
+          "Pour cinq Figurines : fuseur à la place du bolter (jusqu'à deux Vétérans Breacher)",
+        cout: 15,
+        parTranche: 5,
+        parTrancheMax: 2,
+        groupe: "arme-lourde-zm",
+        ajoute: "Fuseur (à la place du bolter)",
+      },
+      {
+        type: "case",
+        id: "bombes-fusion-sergent-zm",
+        libelle:
+          "Le Sergent Vétéran Breacher peut recevoir des bombes à fusion",
+        cout: 10,
+        ajoute: "Bombes à fusion (Sergent Vétéran Breacher)",
+      },
+      {
+        type: "case",
+        id: "vexillum-zm",
+        libelle: "Un Vétéran Breacher peut recevoir un vexillum",
+        cout: 10,
+        ajoute: "Vexillum (un Vétéran Breacher)",
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-1-zm",
+        libelle:
+          "Jusqu'à deux Vétérans Breacher peuvent chacun recevoir un objet de la liste d'Équipement de Légion (1er Vétéran)",
+        ajoute: true,
+        prefixeFiche: "Un Vétéran Breacher : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 15 },
+          { nom: "Scanner augure", cout: 15 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "equipement-legion-2-zm",
+        libelle:
+          "Jusqu'à deux Vétérans Breacher peuvent chacun recevoir un objet de la liste d'Équipement de Légion (2e Vétéran)",
+        ajoute: true,
+        prefixeFiche: "Un Vétéran Breacher : ",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Nuncio-vox", cout: 15 },
+          { nom: "Scanner augure", cout: 15 },
+        ],
+      },
+    ],
+  },
+  {
     id: "escouade-veterans-appui-lourd",
     nom: "Escouade de Vétérans d'Appui Lourd",
     legacy: true,
@@ -10672,6 +11196,141 @@ const UNITES = [
         max: 2,
         groupe: "equipement-legion-appui",
         ajoute: "Scanner augure (un Vétéran d'Appui)",
+      },
+    ],
+  },
+  {
+    // Journal Tactica : Zone Mortalis. Aucune Unité existante ne
+    // recoupe ce nom (vérifié par recherche) : Unité entièrement
+    // nouvelle, pas de correction d'une entrée Legacies existante.
+    id: "escouade-veterans-despoiler",
+    nom: "Escouade de Vétérans Despoiler",
+    categorie: "Elite",
+    cout: 95,
+    composition: "1 Sergent Vétéran Despoiler, 4 Vétérans Despoiler",
+    effectif: { base: 5, max: 10, cout: 18 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "Quand ils doivent combattre dans des espaces confinés, les vétérans qui privilégient le corps-à-corps délaissent les encombrants Jump Packs plus souvent emportés lors d'engagements en terrain découvert. Adoptant une doctrine plus agressive que leurs frères affectés aux Escouades de Destructeurs classiques, ces Légionnaires se retrouvent au plus épais de la mêlée, prélevant un lourd tribut sur leurs ennemis.",
+    equipement: [
+      "Pistolet bolter",
+      "Épée tronçonneuse",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Escouade de Vétérans Despoiler",
+        cout: 0,
+        profils: [
+          {
+            nom: "Vétéran Despoiler",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Sergent Vétéran Despoiler",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Avant-garde (3)"],
+        type: "Sergent Vétéran Despoiler : Infanterie (Sergent) · Vétéran Despoiler : Infanterie",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
+        groupe: "melee",
+        remplace: "de l'épée tronçonneuse",
+      }),
+      {
+        remplaceIntegral: "Pistolet bolter",
+        type: "quantite",
+        id: "bouclier-combat",
+        libelle:
+          "Figurines : bouclier de combat (à la place du pistolet bolter)",
+        cout: 2,
+        parTranche: 1,
+        groupe: "pistolet",
+        ajoute: "Bouclier de combat (à la place du pistolet bolter)",
+      },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
+        groupe: "pistolet",
+        remplace: "du pistolet bolter",
+      }),
+      {
+        type: "case",
+        id: "sergent-pistolet-desintegrateur",
+        libelle: "Sergent Vétéran Despoiler : pistolet désintégrateur",
+        cout: 5,
+        ajoute:
+          "Pistolet désintégrateur (à la place du pistolet bolter, Sergent Vétéran Despoiler)",
+      },
+      {
+        type: "case",
+        id: "sergent-bombes",
+        libelle: "Sergent Vétéran Despoiler : bombes à fusion",
+        cout: 10,
+        ajoute: "Bombes à fusion (Sergent Vétéran Despoiler)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Vétéran Despoiler peut recevoir un vexillum",
+        cout: 10,
+        ajoute: "Vexillum (un Vétéran Despoiler)",
+      },
+      {
+        type: "quantite",
+        id: "nuncio-vox",
+        libelle:
+          "Jusqu'à deux Vétérans Despoiler peuvent chacun recevoir un objet de la liste d'Équipement de Légion : Nuncio-vox",
+        cout: 10,
+        max: 2,
+        groupe: "equipement-legion",
+        ajoute: "Nuncio-vox (un Vétéran Despoiler)",
+      },
+      {
+        type: "quantite",
+        id: "scanner-augure",
+        libelle:
+          "Jusqu'à deux Vétérans Despoiler peuvent chacun recevoir un objet de la liste d'Équipement de Légion : Scanner augure",
+        cout: 10,
+        max: 2,
+        groupe: "equipement-legion",
+        ajoute: "Scanner augure (un Vétéran Despoiler)",
       },
     ],
   },
@@ -14987,6 +15646,54 @@ const UNITES = [
      comme les Blindés (voir optionLaterauxLegion, section Blindés
      ci-dessus). Le Mastodon reste incomplet : voir sa note.
      ---------------------------------------------------------- */
+  {
+    // Journal Tactica : Dropsite. Catégorie "Seigneurs des Batailles"
+    // demandée explicitement par le proprio malgré un gabarit de
+    // Blindage/PV (12/11/10/5) qui correspond plutôt à un Blindé
+    // standard qu'à un Super-lourd (confirmé après question posée) —
+    // ne pas « corriger » vers "Blindés" en cas de doute futur.
+    id: "hyperios",
+    nom: "Char à Missiles Hyperios",
+    categorie: "Seigneurs des Batailles",
+    cout: 120,
+    composition: "1 Char à Missiles Hyperios",
+    traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
+    equipement: [
+      "Lance-missiles Hyperios de Tourelle",
+      "Deux bolters sur Pivot",
+    ],
+    variantes: [
+      {
+        nom: "Char à Missiles Hyperios",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 4,
+          avant: 12,
+          flanc: 11,
+          arriere: 10,
+          PC: 5,
+          transport: "—",
+        },
+        regles: [],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pivot",
+        libelle:
+          "Objet de la liste des Armes sur Pivot de Légion (à la place d'un bolter sur Pivot)",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.pivot),
+        ],
+      },
+      ...optionsFinBlinde({ missile: "Coque (Avant)", bulldozer: true }),
+    ],
+  },
   {
     id: "mastodon",
     nom: "Transport d'Assaut Super-lourd Mastodon",
@@ -24341,6 +25048,80 @@ const UNITES = [
     legion: "XVII",
   },
   {
+    // Journal Tactica : Dropsite. Le texte de règle de cette fiche ne
+    // mentionne aucune restriction de Légion ni d'Allégeance (« This
+    // Unit can be included in Detachments from the Legiones Astartes
+    // Army List », TRAITS : [Allegiance]/[Legiones Astartes] seuls) —
+    // `legion: "XVII"` posé sur demande explicite du proprio malgré
+    // cela, comme pour la catégorie du Char à Missiles Hyperios.
+    id: "maitre-descente",
+    nom: "Maître de la Descente",
+    categorie: "État-major",
+    cout: 115,
+    composition: "1 Maître de la Descente",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    equipement: [
+      "Épée tronçonneuse",
+      "Pistolet bolter",
+      "Strato-vox",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Maître de la Descente",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 9,
+          Sf: 8,
+          Vo: 8,
+          Int: 9,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (2)",
+          "Frappe en Profondeur",
+          "Maître de la Descente",
+          "Fer de Lance",
+        ],
+        type: "Infanterie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "pistolet",
+        libelle: "Remplacer le pistolet bolter",
+        remplace: "Pistolet bolter",
+        choix: [
+          { nom: "— Conserver le pistolet bolter —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+        ],
+      },
+      {
+        type: "choix",
+        id: "epee",
+        libelle: "Remplacer l'épée tronçonneuse",
+        remplace: "Épée tronçonneuse",
+        choix: [
+          { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.officier),
+        ],
+      },
+      optionBombesFusion(),
+    ],
+    legion: "XVII",
+  },
+  {
     id: "diaboliste",
     nom: "Diaboliste",
     legacy: true,
@@ -24626,6 +25407,138 @@ const UNITES = [
       },
     ],
     legion: "XVII",
+  },
+  {
+    // Journal Tactica : The Forges of Saturn. « Aflame (X) » (Règle
+    // Spéciale d'Arme/Trait) : aucun texte intégral fourni par ce PDF,
+    // laissée en l'état sans traduction ni entrée de glossaire — voir
+    // règle 6 de CLAUDE.md.
+    id: "conclave-phraetus-oints",
+    nom: "Conclave des Phraetus Oints",
+    categorie: "Elite",
+    legion: "XVII",
+    cout: 240,
+    composition: "1 Disciple Phraetus, 2 Oints Phraetus",
+    effectif: { base: 3, max: 6, cout: 65 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["Renégat", "Word Bearers"],
+    notes:
+      "Alors que la XVIIe Légion s'enfonçait toujours plus profondément dans les arcanes occultes, les alliés du Dark Mechanicum du Word Bearers adultérèrent la plaque Saturnine parmi de nombreuses technologies avec le profane. Les Phraetus Oints furent les premiers d'une nouvelle lignée de Terminators Saturnine, remplaçant plusieurs composants avancés de leur armure par des systèmes de confinement destinés à héberger un démon lié, épuisant le porteur mais lui conférant un pouvoir d'un autre monde. Conçus en premier lieu par des éléments loyaux à Kor Phaeron, les Phraetus Oints se répandirent rapidement à travers la XVIIe Légion à mesure que les agents de Lorgar et d'Erebus découvraient les secrets de leur fabrication.",
+    equipement: [
+      "Paire de poings disrupteurs Saturnine",
+      "Manteau à Feu Warp",
+      "Synchroniseur de téléportation Saturnine",
+    ],
+    variantes: [
+      {
+        nom: "Conclave des Phraetus Oints",
+        cout: 0,
+        profils: [
+          {
+            nom: "Oint Phraetus",
+            profil: {
+              M: 5,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 3,
+              Cd: 8,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Disciple Phraetus",
+            profil: {
+              M: 5,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 3,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 8,
+              Int: 7,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (4)",
+          "Aflame (2)",
+          "Guerrier Éternel (1)",
+          "Explose (5+)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+        ],
+        type: "Disciple Phraetus : Infanterie (Champion, Sergent, Lourd, Maléfique) · Oint Phraetus : Infanterie (Lourd, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-bombarde",
+        libelle:
+          "Figurines : bombarde à plasma et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Bombarde à plasma et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-desintegrateur",
+        libelle:
+          "Figurines : désintégrateur lourd jumelé et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Désintégrateur lourd jumelé et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        remplaceIntegral: "Paire de poings disrupteurs Saturnine",
+        type: "quantite",
+        id: "echange-hache",
+        libelle:
+          "Figurines : hache de guerre Saturnine et poing disrupteur Saturnine (à la place de la paire de poings)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "paire",
+        ajoute:
+          "Hache de guerre Saturnine et poing disrupteur Saturnine (à la place de la paire de poings disrupteurs)",
+      },
+      {
+        type: "quantite",
+        id: "lacerateur",
+        libelle:
+          "Figurines avec poing disrupteur Saturnine : lacérateur à particules",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Lacérateur à particules",
+      },
+      {
+        type: "case",
+        id: "transpondeur",
+        libelle:
+          "Le Disciple Phraetus peut recevoir un transpondeur de téléportation Saturnine",
+        cout: 60,
+        ajoute: "Transpondeur de téléportation Saturnine (donne Frappe en Profondeur, Disciple Phraetus)",
+      },
+    ],
   },
   {
     id: "procurateurs",
@@ -30953,6 +31866,107 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Journal Tactica : Zone Mortalis. « Auxilia Melee Weapons list »/
+    // « Auxilia Pistols list » non modélisées (contenu non fourni par
+    // ce PDF) — même gap que la Section de Compagnons (Legacies, voir
+    // CLAUDE.md) : l'option de la Veletarii Prime pour échanger son
+    // bouclier d'abordage contre un objet de cette liste n'est donc pas
+    // câblée.
+    id: "sa-raiders-veletaris",
+    nom: "Section de Raiders Veletaris",
+    faction: "solar-auxilia",
+    categorie: "Elite",
+    cout: 85,
+    composition: "1 Veletarii Prime, 9 Veletarii",
+    effectif: { base: 10, max: 11, cout: 7 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    notes:
+      "Dans les environnements où les combats se dérouleront au corps-à-corps, certaines Maisons autorisent leurs Veletarii à entrer en combat avec un armement dicté par le Principal Bellicosa. Convenablement équipés grâce à l'armement d'élite des flottes de Rogue Trader, ces Veletarii sont connus pour porter au combat de brutaux fusils à pompe à courte portée et de puissantes massues, tout comme des boucliers d'abordage, plus habituellement maniés lors d'actions d'abordage agressives contre des vaisseaux ennemis.",
+    equipement: [
+      "Fusil à pompe de brèche",
+      "Massue Storm",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Bouclier d'abordage",
+    ],
+    variantes: [
+      {
+        nom: "Section de Raiders Veletaris",
+        cout: 0,
+        profils: [
+          {
+            nom: "Veletarii",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 6,
+              Sf: 6,
+              Vo: 6,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Veletarii Prime",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 7,
+              Sf: 6,
+              Vo: 6,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Avant-garde (3)"],
+        type: "Veletarii Prime : Infanterie (Sergent) · Veletarii : Infanterie",
+      },
+    ],
+    options: [
+      {
+        remplaceIntegral: "Fusil à pompe de brèche",
+        type: "quantite",
+        id: "pistolet-laser-tabar",
+        libelle:
+          "Figurines : pistolet laser et tabar charnabal (à la place du fusil à pompe de brèche)",
+        cout: 0,
+        parTranche: 1,
+        ajoute:
+          "Pistolet laser et tabar charnabal (à la place du fusil à pompe de brèche)",
+      },
+      {
+        type: "case",
+        id: "vox",
+        libelle: "Un Veletarii : vox internodal",
+        cout: 5,
+        ajoute: "Vox internodal (un Veletarii)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Veletarii : vexillum",
+        cout: 5,
+        ajoute: "Vexillum (un Veletarii)",
+      },
+    ],
+  },
 
   /* ---------- Assaut Lourd ---------- */
   {
@@ -31088,6 +32102,94 @@ const UNITES = [
   },
 
   /* ---------- Appui ---------- */
+  {
+    // Journal Tactica : Zone Mortalis. « Auxilia Melee Weapons list »
+    // non modélisée (contenu non fourni par ce PDF) — même gap que la
+    // Section de Compagnons (Legacies, voir CLAUDE.md) : les deux
+    // options d'échange d'arme de mêlée (Auxilia Technician Prime, un
+    // Auxilia Technician) ne sont donc pas câblées. Le mécanisme exact
+    // du Décrypteur de combat (Règle Spéciale « Bypass Cogitator (X) »,
+    // Zone Mortalis) n'est pas non plus modélisé mécaniquement — voir
+    // son entrée de glossaire dans regles-data.js.
+    id: "sa-technicien-combat",
+    nom: "Section Technicien de Combat Auxilia",
+    faction: "solar-auxilia",
+    categorie: "Appui",
+    cout: 35,
+    composition: "1 Chef Technicien Auxilia, 4 Techniciens Auxilia",
+    effectif: { base: 5, max: 13, cout: 7 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Solar Auxilia"],
+    notes:
+      "Les sections de techniciens de combat sont des spécialistes rarement vus au sein des cohortes, bien que chacune en conserve un petit nombre pour un déploiement en cas de besoin. Tenus à l'écart des lignes de front pour dépouiller renseignements et données tactiques, leur expertise est parfois requise pour identifier et interroger des opérateurs ennemis capturés, ou pour interpréter des dispositifs non sanctionnés par le Mechanicum. Équipés d'un éventail de dispositifs technologiques, les techniciens ne sont pas déconcertés par les moyens techniques adverses.",
+    equipement: [
+      "Pistolet à souffle",
+      "Grenades Frag",
+      "Grenades Krak",
+      "Décrypteur de combat",
+    ],
+    variantes: [
+      {
+        nom: "Section Technicien de Combat Auxilia",
+        cout: 0,
+        profils: [
+          {
+            nom: "Technicien Auxilia",
+            profil: {
+              M: 6,
+              CC: 3,
+              CT: 3,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 1,
+              Cd: 6,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Chef Technicien Auxilia",
+            profil: {
+              M: 6,
+              CC: 3,
+              CT: 3,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 7,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: [],
+        type: "Chef Technicien Auxilia : Infanterie (Sergent, Tirailleurs) · Technicien Auxilia : Infanterie (Tirailleurs)",
+      },
+    ],
+    options: [
+      {
+        remplaceIntegral: "Pistolet à souffle",
+        type: "quantite",
+        id: "pistolet-laser",
+        libelle:
+          "Figurines : pistolet laser et chargeur d'impulsion (à la place du pistolet à souffle)",
+        cout: 0,
+        parTranche: 1,
+        ajoute:
+          "Pistolet laser et chargeur d'impulsion (à la place du pistolet à souffle)",
+      },
+    ],
+  },
   {
     id: "sa-basilisk",
     nom: "Char d'Artillerie Basilisk",
@@ -34098,6 +35200,57 @@ const UNITES = [
         ajoute: "Lance-flammes (à la place d'un bolter)",
       },
     ],
+  },
+  {
+    // Journal Tactica : Zone Mortalis. Troisième variante de Castellax
+    // (après Manipule Castellax Destructor et Manipule de Combat
+    // Castellax), profil distinct (CT3/A2/SAV3+/INV6+ contre CT6/A3/
+    // SAV2+/INV4+ pour les deux autres, sans Brise-blindage mais avec
+    // Vanguard (3) en plus) : pas un doublon, Unité séparée.
+    id: "mech-castellax-infernus",
+    nom: "Manipule Castellax Infernus",
+    faction: "mechanicum",
+    categorie: "Appui",
+    cout: 110,
+    composition: "2 Castellax",
+    effectif: { base: 2, max: 6, cout: 55 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Cybernetica"],
+    notes:
+      "Mars Taghmata incorpore un petit nombre d'automates en configuration Infernus, réservés aux actions rapprochées telles que le combat en tunnels ou l'abordage de vaisseaux ennemis. Montant une double rampe d'incinérateurs de purge aux embouchures jumelées, ainsi qu'un appui feu de tunnel, ces Manipules Castellax Infernus sont capables de submerger des ennemis en surnombre par des embrasements meurtriers. Une fois toute résistance vaincue, ils avancent dans les décombres pour achever, à l'aide de leurs lames motorisées, tout ennemi n'ayant pas fait match pour les puissants bâtiments blindés et postures défensives.",
+    equipement: ["Purge incinérateur", "Deux lance-flammes", "Épée énergétique (paire)"],
+    variantes: [
+      {
+        nom: "Castellax",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 3,
+          CT: 3,
+          F: 6,
+          E: 6,
+          PV: 4,
+          I: 3,
+          A: 2,
+          Cd: 7,
+          Sf: 12,
+          Vo: 4,
+          Int: 4,
+          Sv: "3+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (4)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Protocoles de Tir (3)",
+          "Avant-garde (3)",
+          "Boucliers Réfracteurs Phasés",
+        ],
+        type: "Automate",
+      },
+    ],
+    options: [],
   },
   {
     // Legacies (Liber Mechanicum) : voir CLAUDE.md.

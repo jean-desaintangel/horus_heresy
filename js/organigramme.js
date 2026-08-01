@@ -43,6 +43,7 @@ const Organigramme = (() => {
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
     doctrineCohorte: "", // id DOCTRINES_DE_COHORTE ou "" (Solar Auxilia seulement)
     designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
+    chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — Legio Astartes seulement, facultatif
     detachements: [],
   };
 
@@ -739,6 +740,8 @@ const Organigramme = (() => {
   function idDetachementPrincipal() {
     if (etat.faction === "legio-titanicus") return "ordinal-titanique";
     if (etat.faction === "chevaliers-questoris") return "maisonnees-chevaliers";
+    if (etat.faction === "legio-astartes" && etat.chartPrincipal)
+      return etat.chartPrincipal;
     return "principal";
   }
 
@@ -2599,6 +2602,7 @@ const Organigramme = (() => {
           riteDeGuerre: etat.riteDeGuerre,
           doctrineCohorte: etat.doctrineCohorte,
           designationAuxilia: etat.designationAuxilia,
+          chartPrincipal: etat.chartPrincipal,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
@@ -2671,6 +2675,19 @@ const Organigramme = (() => {
           ))
       ) {
         etat.designationAuxilia = donnees.designationAuxilia;
+      }
+      if (
+        typeof donnees.chartPrincipal === "string" &&
+        (donnees.chartPrincipal === "" ||
+          TYPES_DETACHEMENTS.some(
+            (t) =>
+              t.id === donnees.chartPrincipal &&
+              t.famille === "principal" &&
+              t.id !== "principal" &&
+              !t.faction,
+          ))
+      ) {
+        etat.chartPrincipal = donnees.chartPrincipal;
       }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
@@ -3079,6 +3096,7 @@ const Organigramme = (() => {
         etat.maisonnee = "";
         etat.doctrineCohorte = "";
         etat.designationAuxilia = "";
+        etat.chartPrincipal = "";
         // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
         // Renégate dans leur livre d'armée (toutes leurs unités portent
         // le Trait fixe « Loyaliste », voir js/unites-data.js) : sans ce
@@ -3232,6 +3250,52 @@ const Organigramme = (() => {
           actualiser();
         });
         ligne.appendChild(groupeParametre(labelRite, selectRite));
+      }
+
+      // Chart de Détachement Principal (Journal Tactica : Zone
+      // Mortalis, p. 285) : alternatives facultatives au Détachement
+      // Principal de Croisade standard, sans condition de mission
+      // (non modélisée sur ce site — voir TYPES_DETACHEMENTS,
+      // js/organigramme-data.js). Un changement remplace le
+      // Détachement Principal comme un changement de Légion/Rite de
+      // Guerre ci-dessus.
+      const chartsPrincipaux = TYPES_DETACHEMENTS.filter(
+        (t) => t.famille === "principal" && t.id !== "principal" && !t.faction,
+      );
+      if (chartsPrincipaux.length > 0) {
+        const labelChart = el("label", null, "Chart de Détachement Principal");
+        const selectChart = document.createElement("select");
+        selectChart.id = "chart-principal-armee";
+        labelChart.htmlFor = selectChart.id;
+        ajouterOption(selectChart, "", "Détachement Principal de Croisade");
+        for (const chart of chartsPrincipaux) {
+          ajouterOption(selectChart, chart.id, chart.nom);
+        }
+        selectChart.value = etat.chartPrincipal;
+        selectChart.addEventListener("change", () => {
+          const nouveauChart = selectChart.value;
+          if (nouveauChart !== etat.chartPrincipal) {
+            if (
+              !reinitialiserArmeeAvecConfirmation(
+                "Changer de Chart de Détachement Principal réinitialise la " +
+                  "liste d'armée et les détachements sélectionnés. Continuer ?",
+              )
+            ) {
+              selectChart.value = etat.chartPrincipal;
+              return;
+            }
+            // reinitialiserArmeeAvecConfirmation() vient de recréer le
+            // Détachement Principal avec l'ANCIEN chartPrincipal (lu via
+            // idDetachementPrincipal() avant la ligne suivante) : il faut
+            // le reconstruire une seconde fois une fois le nouveau choix
+            // affecté, sans quoi le Détachement affiché resterait celui
+            // d'avant le changement.
+            etat.chartPrincipal = nouveauChart;
+            etat.detachements = [creerDetachement(idDetachementPrincipal())];
+          }
+          actualiser();
+        });
+        ligne.appendChild(groupeParametre(labelChart, selectChart));
       }
     } else if (etat.faction === "chevaliers-questoris") {
       // Maisonnée (livre d'armée Chevaliers Questoris) : remplace le

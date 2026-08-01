@@ -88,7 +88,14 @@
 // v50 : tampon d'inquisition du PDF ramené à sa taille d'origine mais
 // repositionné deux fois plus près du haut de page (js/unites.js) —
 // voir CLAUDE.md.
-const CACHE_VERSION = "v54";
+// v55 : suppléments Journal Tactica Zone Mortalis, The Forges of Saturn
+// et Dropsite (nouvelles Unités et Armes Legio Astartes/Solar Auxilia/
+// Mechanicum/Word Bearers, Détachements Auxiliaires/d'Apex Maelstrom
+// Sentry Battery/Linebreaker Echelon/Fer de Lance de Chute), et nouveau
+// sélecteur de Chart de Détachement Principal Zone Mortalis dans les
+// paramètres de la partie (js/organigramme.js, js/organigramme-data.js)
+// — voir CLAUDE.md.
+const CACHE_VERSION = "v55";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

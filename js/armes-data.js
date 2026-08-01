@@ -144,6 +144,14 @@ const ARMES_TIR = [
         traits: "Assaut, Auto",
       },
       {
+        // Arme de la Section de Raiders Veletaris (Solar Auxilia,
+        // Journal Tactica : Zone Mortalis).
+        nom: "Fusil à pompe de brèche",
+        stats: ["10", "1", "5", "4", "1"],
+        regles: "Brèche (6+)",
+        traits: "Assaut, Auto",
+      },
+      {
         nom: "Canon rotor",
         stats: ["24", "3", "3", "-", "1"],
         regles: "Lourde (PF), Neutralisation (1)",
@@ -1015,6 +1023,14 @@ const ARMES_TIR = [
         nom: "Lance-flammes lourd",
         stats: ["Souffle", "1", "5", "4", "1"],
         regles: "Souffle, Panique (1)",
+        traits: "Flammes",
+      },
+      {
+        // Arme du Manipule Castellax Infernus (Mechanicum, Journal
+        // Tactica : Zone Mortalis).
+        nom: "Purge incinérateur",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Brèche (6+), Panique (1)",
         traits: "Flammes",
       },
       {
@@ -3853,6 +3869,16 @@ const ARMES_MELEE = [
         traits: "Énergétique",
       },
       {
+        // Arme de la Section de Raiders Veletaris (Solar Auxilia,
+        // Journal Tactica : Zone Mortalis). Le texte complet de la
+        // Règle Spéciale d'Arme « Concussive » n'est pas fourni par ce
+        // PDF (nom seul, non traduit — voir règle 6 de CLAUDE.md).
+        nom: "Massue Storm",
+        stats: ["-1", "A", "+2", "4", "1"],
+        regles: "Concussive (0)",
+        traits: "Énergétique",
+      },
+      {
         nom: "Lance énergétique",
         stats: ["+1", "A", "F", "3", "1"],
         regles: "Précision (6+)",
@@ -4028,6 +4054,18 @@ const ARMES_MELEE = [
       {
         nom: "Poing disrupteur Saturnine",
         stats: ["-2", "A", "+2", "2", "3"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        // Journal Tactica : The Forges of Saturn — équipement de base de
+        // la Saturnine Terminator Command Squad/Phraetus Anointed
+        // Conclave, profil donné en encart dédié (seule différence avec
+        // le Poing disrupteur Saturnine simple : AM +1 au lieu de
+        // inchangé, sur le même principe que Griffe Lightning/Paire de
+        // griffes Lightning).
+        nom: "Paire de poings disrupteurs Saturnine",
+        stats: ["-2", "+1", "+2", "2", "3"],
         regles: "-",
         traits: "Énergétique",
       },

@@ -318,6 +318,74 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachements Principaux alternatifs (Journal Tactica :
+     Zone Mortalis, p. 285, « Zone Mortalis Primary Detachments ») :
+     facultatifs, sélectionnables via le menu « Chart de Détachement
+     Principal » des paramètres de la partie (Legio Astartes
+     seulement) à la place du Détachement Principal de Croisade
+     ci-dessus. Le livre les réserve aux parties jouées sur une
+     Mission Zone Mortalis — condition non modélisée sur ce site
+     (aucune notion de type de mission), donc laissée au joueur de
+     vérifier lui-même. Compositions relues sur la photo du livre à
+     deux reprises mais restant incertaines sur le détail exact de
+     quelques Cases (voir commentaires sur chaque Détachement) : à
+     corriger si le proprio a le livre sous les yeux. Pas de Case
+     Principale (comme l'Ordinal Titanique) : ces charts alternatifs
+     n'ont pas de symbole étoilé documenté sur la page source. */
+  {
+    id: "zone-mortalis-strike-force",
+    nom: "Zone Mortalis Strike Force",
+    famille: "principal",
+    texte:
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 6 Cases Troupes.",
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+    ],
+  },
+  {
+    id: "zone-mortalis-bulwark",
+    nom: "Zone Mortalis Bulwark",
+    famille: "principal",
+    texte:
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 2 Cases Transports, 2 Cases Transports Lourds.",
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major"),
+      _caseOrga("Transports"),
+      _caseOrga("Transports"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
+    ],
+  },
+  {
+    // Composition des 2 dernières Cases la moins certaine des trois
+    // charts (icônes distinctes des deux autres sur la photo source,
+    // décrites comme « tourelle/couteau » sans correspondance nette
+    // dans le tableau des Rôles Tactiques) : retenu "Troupes" par
+    // défaut plutôt que d'inventer une Catégorie improbable — à
+    // corriger si le proprio confirme contre le livre.
+    id: "zone-mortalis-linebreaker",
+    nom: "Zone Mortalis Linebreaker",
+    famille: "principal",
+    texte:
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 4 Cases Troupes (2 dernières Cases incertaines, voir commentaire).",
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+    ],
+  },
+
   /* ---------- Détachement Principal de Legio Titanicus ----------
      Livre d'armée Legio Titanicus. Deuxième façon (avec le Titan
      isolé en Détachement de Seigneur des Batailles, voir plus bas)
@@ -729,6 +797,68 @@ const TYPES_DETACHEMENTS = [
       "Des unités d'Attaque Rapide qui frappent vite et se replient aussitôt.",
     cases: [_caseOrga("Attaque Rapide"), _caseOrga("Attaque Rapide")],
   },
+  {
+    // Journal Tactica : Dropsite, « Tip of the Spear ». Débloqué par la
+    // Règle Spéciale Fer de Lance (Maître de la Descente) quand cette
+    // Figurine occupe une Case d'État-major du Détachement Principal —
+    // le livre dit « dont le Détachement Principal comprend une
+    // Figurine ayant cette Règle Spéciale », sans exiger de Case
+    // précise ; `deblocage.caseRole` aligné sur la catégorie du Maître
+    // de la Descente (État-major) faute d'un mécanisme de détection
+    // « Figurine présente n'importe où dans le Détachement Principal »
+    // pour ce type de règle dans ce fichier.
+    id: "fer-de-lance-de-chute",
+    nom: "Fer de Lance de Chute",
+    famille: "auxiliaire",
+    texte:
+      "Débloqué quand un Maître de la Descente occupe une Case d'État-major du Détachement Principal. Cases de Suites : Escouade d'État-Major Prétorienne à Réacteurs uniquement. Cases d'Élite : Escouade de Vétérans d'Assaut uniquement.",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["maitre-descente"],
+    },
+    restrictions: {
+      Suites: ["escouade-etat-major-pretorienne-reacteurs"],
+      Elite: ["escouade-veterans-assaut"],
+    },
+    cases: [
+      _caseOrga("Suites", true),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+  },
+  {
+    // Journal Tactica : The Forges of Saturn, « Legiones Astartes
+    // Detachments ». Débloqué quand une Unité Maître des Signaux
+    // occupe une Case d'État-major (« Command Force Organisation Slot »
+    // du PDF — le Maître des Signaux est catégorie "État-major" dans ce
+    // fichier, pas "Quartier Général", donc caseRole aligné là-dessus
+    // plutôt que sur la traduction littérale du PDF). Restriction des
+    // Cases de Reco : le PDF vise les « Tarantula Battery Units », mais
+    // aucune Unité Legio Astartes générique de ce nom n'est encore
+    // transcrite dans ce fichier (seules des variantes Solar Auxilia/
+    // Mechanicum existent, `sa-section-tarantula`/`mech-tarantula`,
+    // toutes deux d'une autre Faction) : gap documenté, restriction
+    // laissée non câblée sur les Cases de Reco en attendant.
+    id: "maelstrom-sentry-battery",
+    nom: "Maelstrom Sentry Battery",
+    famille: "auxiliaire",
+    texte:
+      "Débloqué quand un Maître des Signaux occupe une Case d'État-major. Cases d'Appui : Plates-formes d'Accélérateur Quadritube Araknae uniquement. Cases de Reco : Unités de Batterie Tarantula uniquement (non transcrites pour les Legiones Astartes à ce jour).",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["maitre-signaux", "maitre-signaux-monte"],
+    },
+    restrictions: {
+      Appui: ["araknae"],
+    },
+    cases: [
+      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+      _caseOrga("Reco"),
+    ],
+  },
 
   /* ---------- Détachements Auxiliaires des Solar Auxilia (Liber
      Auxilia, p. 18-19) : chacun débloqué par une Section d'État-major
@@ -1032,6 +1162,31 @@ const TYPES_DETACHEMENTS = [
     famille: "apex",
     texte: "Des unités d'Élite, les guerriers les plus redoutables de l'armée.",
     cases: [_caseOrga("Elite", true), _caseOrga("Elite"), _caseOrga("Elite")],
+  },
+  {
+    // Journal Tactica : The Forges of Saturn, « Legiones Astartes
+    // Detachments ». Le livre exige qu'à la sélection de ce Détachement,
+    // le joueur choisisse un des trois mots « Saturnine »/
+    // « Cataphractii »/« Tartaros », et que les Cases de Suites/Assaut
+    // Lourd n'acceptent ensuite que les Unités dont le NOM contient ce
+    // mot — mécanisme dynamique de filtrage par sous-chaîne de nom,
+    // sans équivalent dans ce fichier (le champ `restrictions` existant
+    // ne modélise qu'une liste fixe d'ids, jamais un choix du joueur
+    // fait au moment de la sélection du Détachement) : non câblé
+    // mécaniquement, gap documenté ici plutôt qu'une approximation
+    // trompeuse (ex : autoriser toutes les Unités des trois familles à
+    // la fois irait à l'encontre du texte du livre).
+    id: "linebreaker-echelon",
+    nom: "Linebreaker Echelon",
+    famille: "apex",
+    texte:
+      "À la sélection de ce Détachement, choisir un des mots suivants : « Saturnine », « Cataphractii » ou « Tartaros ». Les Cases de Suites et d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Unités dont le nom contient le mot choisi (restriction non appliquée mécaniquement par ce site — à vérifier soi-même).",
+    cases: [
+      _caseOrga("Suites", true),
+      _caseOrga("Suites"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+    ],
   },
   /* Premier Détachement d'Apex réservé à une Légion sur le site.
      Composition confirmée par Jean : 4 Cases (Troupes principale ×2,

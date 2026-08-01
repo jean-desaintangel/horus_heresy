@@ -2541,4 +2541,83 @@ const REGLES_DIVERSES = [
     texte:
       "Les Figurines ayant cette Règle Spéciale ignorent les Jets de Mitigation de Dégâts de Dissimulation (X) contre les Blessures infligées au cours d'une Attaque de Tir. En outre, quand on fait une Attaque de Tir pour une Figurine ayant cette Règle Spéciale, au début de l'Étape 3 de la procédure d'Attaque de Tir, le Joueur en Contrôle peut appliquer une des Règles Spéciales suivantes à toutes les Armes dont la Figurine est dotée, pour la durée de cette Attaque de Tir : Meurtrière (5+), Lacération (5+), ou Choc (Fixée, Neutralisée).",
   },
+  {
+    // Journal Tactica : Zone Mortalis (Section Technicien de Combat
+    // Auxilia). Le passage décrivant précisément « Contourner le
+    // Cogitateur (X) »/le Test d'Interface était partiellement
+    // recouvert par une autre colonne de texte sur la photo source :
+    // gardé seulement le mécanisme clairement lisible.
+    nom: "Décrypteur de combat",
+    texte:
+      "Ces dispositifs sont amorcés avec des données-djinn de faible qualité et d'autres esprits-codes agressifs mais éphémères. Une fois libérés dans un système, ils envahissent en masse les nœuds cogitateurs, retardant temporairement le déploiement des protocoles de sécurité et permettant à l'opérateur de manipuler librement l'hôte. Les Décrypteurs de combat permettent aux Figurines d'interagir avec les Règles Spéciales et Réactions Avancées de Zone Mortalis : une Unité qui compte au moins une Figurine dotée d'un Décrypteur de combat peut utiliser la Règle Spéciale Bypass Cogitator (X) comme si cette Figurine avait la Règle Spéciale Guerrier-artisan (X) ; de plus, lors d'un Test d'Interface, une Figurine dotée d'un Décrypteur de combat est considérée avoir une caractéristique d'Intelligence de base de 9.",
+  },
+  {
+    // Journal Tactica : The Forges of Saturn (Centurion en Armure
+    // Terminator Saturnine, Escouade de Commandement Terminator
+    // Saturnine, Conclave des Phraetus Oints).
+    nom: "Synchroniseur de téléportation Saturnine",
+    texte:
+      "Intégrés aux imposants plastrons qui caractérisent l'Armure Terminator Saturnine, les synchroniseurs de téléportation se lient aux transpondeurs de téléportation des officiers supérieurs, permettant des assauts de téléportation massifs par des guerriers équipés en Saturnine. Une Figurine dotée d'un synchroniseur de téléportation Saturnine qui est en Réserves gagne la Règle Spéciale Frappe en Profondeur si son Unité a été rejointe par une Figurine dotée d'un transpondeur de téléportation Saturnine.",
+  },
+  {
+    // Journal Tactica : The Forges of Saturn (Conclave des Phraetus
+    // Oints, Word Bearers). Le passage décrivant précisément le
+    // déclenchement était réparti sur deux colonnes qui se recoupaient
+    // sur la photo source : reconstruit en ne gardant que le mécanisme
+    // clairement identifiable (Test d'Endurance des Unités proches en
+    // fin de Sous-Phase d'Attaques, D3 Blessures automatiques en cas
+    // d'échec).
+    nom: "Manteau à Feu Warp",
+    texte:
+      "Choisis par prognostication rituelle, les démons liés aux armures Saturnine que portent les Oints Phraetus dégagent un maléfique effluve d'ombre, drainant l'énergie de la puissance de feu adverse pour la restituer en geysers de Feu Warp bouillonnant. Les manteaux à Feu Warp donnent aux Figurines une chance d'infliger des Blessures aux Unités proches quand elles sont touchées par des Attaques de Tir. À la fin de la Sous-Phase d'Attaques de toute Phase de Tir, si une Unité comprend au moins une Figurine dotée d'un manteau à Feu Warp et qu'elle a réussi au moins un Test de Sauvegarde d'Armure ou Invulnérable contre des Blessures infligées par des Attaques de Tir au cours de cette Phase de Tir, toute Unité ayant au moins une Figurine à moins de 8 pouces d'au moins une Figurine de cette Unité doit faire un Test d'Endurance, sauf si elle comprend elle-même au moins une Figurine dotée d'un manteau à Feu Warp. Une Unité qui échoue ce Test subit D3 Blessures automatiques avec une Caractéristique de Dégâts de 1 et un PA de 2, sans Sauvegarde d'aucune sorte, qui peuvent être allouées comme si elles avaient été infligées par une Attaque de Tir.",
+  },
+  {
+    // Journal Tactica : Dropsite (Escouade de Commandement et de
+    // Contrôle Augure).
+    nom: "Coordinateurs de Champ de Bataille",
+    texte:
+      "Certains guerriers sont spécifiquement entraînés à l'exécution de stratégies plus larges, dignes de confiance pour coordonner leurs semblables sous la conduite de leur commandant. Cette Règle Spéciale permet au Joueur en Contrôle de réduire le coût en Points de Réaction d'une Réaction, une fois par Tour. Une fois par Tour, si une Unité qui comprend au moins une Figurine ayant cette Règle Spéciale est à moins de 18 pouces d'une Unité qui fait une Réaction, le Joueur en Contrôle peut faire un Test d'Intelligence pour cette Unité. Si une Figurine de l'Unité ayant cette Règle Spéciale a Ligne de Vue sur une Figurine de l'Unité Réactive, le Joueur en Contrôle peut modifier le résultat de ce Test de -1. Si le Test est réussi, cette Réaction coûte un Point de Réaction de moins (jusqu'à un minimum de 0).",
+  },
+  {
+    // Journal Tactica : Dropsite (Maître de la Descente).
+    nom: "Maître de la Descente",
+    texte:
+      "Les Maîtres de la Descente plongent sur le champ de bataille en avant du reste de leurs forces, souvent les premiers à fouler le sol du champ de bataille. Une Figurine ayant cette Règle Spéciale peut arriver par Frappe en Profondeur dès le premier Tour de Bataille. Si une Figurine ayant cette Règle Spéciale est en Réserves, et si cette Figurine ainsi que toutes les autres Figurines de la même Unité ont le Type Infanterie et le Sous-type Antigrav, l'Unité de cette Figurine peut utiliser la Règle Spéciale Frappe en Profondeur pour entrer en jeu dès le premier Tour de Bataille. Une seule Unité d'une Armée peut faire usage de cette Règle Spéciale au cours d'un même Tour de Bataille.",
+  },
+  {
+    // Journal Tactica : Dropsite (Maître de la Descente) — débloque le
+    // Détachement Auxiliaire Fer de Lance de Chute
+    // (organigramme-data.js).
+    nom: "Fer de Lance",
+    texte:
+      "En tant que fer de lance d'un assaut aéroporté des Legiones Astartes, les Maîtres de la Descente s'entourent des guerriers les plus capables de leur compagnie, chacun un exemple de leur Légion et armé des meilleures armes et compétences aiguisées au fil d'innombrables batailles. Une Armée dont le Détachement Principal comprend une Figurine ayant cette Règle Spéciale peut choisir le Détachement Auxiliaire Fer de Lance de Chute une fois par Armée, en suivant toutes les Règles normales de sélection des Détachements Auxiliaires.",
+  },
+  {
+    // Journal Tactica : Dropsite (Maître de la Descente).
+    nom: "Strato-vox",
+    texte:
+      "Les strato-vox sont des terminaux de commandement et de contrôle à haut gain, capables de se coordonner avec les systèmes de guidage des Drop Pods et autres engins de largage, et même des téléportariums, ajustant automatiquement les coordonnées d'arrivée en temps réel pendant que la cible est en approche du champ de bataille, assurant un déploiement précis des forces d'appui. Tant qu'au moins une Figurine dotée d'un strato-vox est sur le champ de bataille, avant de faire un Test de Réserves pour une Unité en Réserves qui comprend des Figurines ayant la Règle Spéciale Frappe en Profondeur, le Joueur en Contrôle peut choisir d'activer ce strato-vox. S'il le fait, ce Test de Réserves est automatiquement réussi, mais l'Unité pour laquelle il a été activé doit faire une Frappe en Profondeur au lieu de se déployer normalement.",
+  },
+  {
+    // Journal Tactica : Dropsite, page « Additional Prime Advantage ».
+    // Mécanique de Case d'Organigramme de Force Suprême/Avantage
+    // Principal au sens du LIVRE ANGLAIS (« Prime Slot »), distincte des
+    // Avantages Principaux de Cases Principales déjà modélisés sur ce
+    // site (même homonymie déjà actée pour Avantage Principal/Case
+    // d'Organigramme de Force Suprême, voir CLAUDE.md, Inductii) — non
+    // modélisée mécaniquement, texte seul.
+    nom: "Cadres d'Interdiction",
+    texte:
+      "Si une Unité Escouade Tactique ou Despoiler Squad (non transcrite pour les Legiones Astartes à ce jour) de la Liste d'Armée des Legiones Astartes est sélectionnée pour occuper une Case d'Organigramme de Force Suprême, le Joueur en Contrôle peut sélectionner l'Avantage Principal suivant : Cadres d'Interdiction — toutes les Figurines d'une Unité sélectionnée pour occuper une Case d'Organigramme de Force Suprême avec cet Avantage Principal gagnent les Règles Spéciales Positions Dissimulées et Sacrifiable (1).",
+  },
+  {
+    nom: "Positions Dissimulées",
+    texte:
+      "Que ce soit par dissimulation optique, repaires cachés ou simplement en se soustrayant à la vue, de nombreuses forces usent de subterfuges pour tendre une embuscade à leur ennemi. Cette Règle Spéciale permet aux Figurines d'utiliser une Réaction Avancée pour arriver depuis les Réserves à proximité immédiate d'une Unité ennemie. Le Joueur en Contrôle d'une Unité qui ne comprend que des Figurines ayant cette Règle Spéciale peut utiliser la Réaction Avancée Embuscade Dissimulée.",
+  },
+  {
+    nom: "Embuscade Dissimulée",
+    texte:
+      "Réaction Avancée. Déclencheur : le Joueur Réactif peut déclarer cette Réaction à l'Étape 2 du processus de la Sous-Phase de Mouvement, après qu'une Unité ennemie a terminé un Mouvement. Coût : le Joueur Réactif doit dépenser 1 point de son Allocation de Réactions pour la déclarer, payé dès que la déclaration est faite. Cible : l'Unité Cible est toujours l'Unité dont le Mouvement a déclenché la Réaction. Le Joueur Réactif doit sélectionner une Unité sous son contrôle qui ne comprend que des Figurines ayant la Règle Spéciale Positions Dissimulées et qui est en Réserves ; cette Unité est l'Unité Réactive. Processus : (1) le Joueur Réactif sélectionne un Modèle de l'Unité Réactive et le place n'importe où sur le champ de bataille hors de la Zone de Déploiement adverse, à moins de 6 pouces de l'Unité ayant déclenché la Réaction et à au moins 5 pouces de toute Figurine ennemie, ainsi qu'à 1 pouce de toute Bordure de champ de bataille ou pièce de Terrain Infranchissable ; les Modèles restants sont ensuite placés en Cohérence d'Unité avec au moins une autre Figurine de la même Unité et à moins de 6 pouces du premier Modèle placé, sous les mêmes contraintes de distance ; toute Figurine qui ne peut être placée ainsi est Retirée comme Perte immédiatement ; (2) une fois l'Unité Réactive déployée, le Joueur Réactif peut soit faire une Attaque de Tir avec elle contre l'Unité ayant déclenché la Réaction (en Tirs au Jugé), soit faire une Charge Désordonnée avec elle, qui doit viser cette même Unité.",
+  },
 ];
