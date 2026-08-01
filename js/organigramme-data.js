@@ -326,24 +326,24 @@ const TYPES_DETACHEMENTS = [
      ci-dessus. Le livre les réserve aux parties jouées sur une
      Mission Zone Mortalis — condition non modélisée sur ce site
      (aucune notion de type de mission), donc laissée au joueur de
-     vérifier lui-même. Compositions relues sur la photo du livre à
-     deux reprises mais restant incertaines sur le détail exact de
-     quelques Cases (voir commentaires sur chaque Détachement) : à
-     corriger si le proprio a le livre sous les yeux. Pas de Case
-     Principale (comme l'Ordinal Titanique) : ces charts alternatifs
-     n'ont pas de symbole étoilé documenté sur la page source. */
+     vérifier lui-même. Compositions confirmées par le proprio
+     (2026-08-02), corrigeant une première lecture approximative des
+     icônes de la photo. Une seule Case Principale par Chart (jamais
+     la Case État-major, à la différence du Détachement Principal de
+     Croisade) : la 1ʳᵉ Case du dernier groupe listé dans chaque
+     composition. */
   {
     id: "zone-mortalis-strike-force",
     nom: "Zone Mortalis Strike Force",
     famille: "principal",
     texte:
-      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 6 Cases Troupes.",
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 2 Cases Assaut Lourd, 4 Cases Troupes (Case Principale).",
     cases: [
       _caseOrga("Quartier Général"),
       _caseOrga("État-major"),
-      _caseOrga("Troupes"),
-      _caseOrga("Troupes"),
-      _caseOrga("Troupes"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Troupes", true),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
@@ -354,35 +354,33 @@ const TYPES_DETACHEMENTS = [
     nom: "Zone Mortalis Bulwark",
     famille: "principal",
     texte:
-      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 2 Cases Transports, 2 Cases Transports Lourds.",
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 2 Cases Engins de Guerre, 2 Cases Appui, 2 Cases Troupes (Case Principale).",
     cases: [
       _caseOrga("Quartier Général"),
       _caseOrga("État-major"),
-      _caseOrga("Transports"),
-      _caseOrga("Transports"),
-      _caseOrga("Transports Lourds"),
-      _caseOrga("Transports Lourds"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+      _caseOrga("Troupes", true),
+      _caseOrga("Troupes"),
     ],
   },
   {
-    // Composition des 2 dernières Cases la moins certaine des trois
-    // charts (icônes distinctes des deux autres sur la photo source,
-    // décrites comme « tourelle/couteau » sans correspondance nette
-    // dans le tableau des Rôles Tactiques) : retenu "Troupes" par
-    // défaut plutôt que d'inventer une Catégorie improbable — à
-    // corriger si le proprio confirme contre le livre.
     id: "zone-mortalis-linebreaker",
     nom: "Zone Mortalis Linebreaker",
     famille: "principal",
     texte:
-      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 4 Cases Troupes (2 dernières Cases incertaines, voir commentaire).",
+      "Alternative facultative au Détachement Principal de Croisade, réservée en principe aux Missions Zone Mortalis (non vérifié par ce site). 1 Case Quartier Général, 1 Case État-major, 2 Cases Assaut Lourd, 2 Cases Troupes, 2 Cases Elite (Case Principale).",
     cases: [
       _caseOrga("Quartier Général"),
       _caseOrga("État-major"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
-      _caseOrga("Troupes"),
-      _caseOrga("Troupes"),
+      _caseOrga("Elite", true),
+      _caseOrga("Elite"),
     ],
   },
 
@@ -852,7 +850,7 @@ const TYPES_DETACHEMENTS = [
       Appui: ["araknae"],
     },
     cases: [
-      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
       _caseOrga("Appui"),
       _caseOrga("Reco"),
       _caseOrga("Reco"),
@@ -1175,17 +1173,20 @@ const TYPES_DETACHEMENTS = [
     // fait au moment de la sélection du Détachement) : non câblé
     // mécaniquement, gap documenté ici plutôt qu'une approximation
     // trompeuse (ex : autoriser toutes les Unités des trois familles à
-    // la fois irait à l'encontre du texte du livre).
+    // la fois irait à l'encontre du texte du livre). Composition
+    // (2 Assaut Lourd, 1 Suite, 1 Engin de Guerre) confirmée par le
+    // proprio (2026-08-02), corrigeant une première lecture des icônes
+    // qui avait retenu 2 Suites/2 Assaut Lourd sans Engin de Guerre.
     id: "linebreaker-echelon",
     nom: "Linebreaker Echelon",
     famille: "apex",
     texte:
       "À la sélection de ce Détachement, choisir un des mots suivants : « Saturnine », « Cataphractii » ou « Tartaros ». Les Cases de Suites et d'Assaut Lourd de ce Détachement ne peuvent accueillir que des Unités dont le nom contient le mot choisi (restriction non appliquée mécaniquement par ce site — à vérifier soi-même).",
     cases: [
-      _caseOrga("Suites", true),
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd"),
       _caseOrga("Suites"),
-      _caseOrga("Assaut Lourd"),
-      _caseOrga("Assaut Lourd"),
+      _caseOrga("Engins de Guerre"),
     ],
   },
   /* Premier Détachement d'Apex réservé à une Légion sur le site.

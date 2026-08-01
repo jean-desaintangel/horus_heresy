@@ -95,7 +95,11 @@
 // sélecteur de Chart de Détachement Principal Zone Mortalis dans les
 // paramètres de la partie (js/organigramme.js, js/organigramme-data.js)
 // — voir CLAUDE.md.
-const CACHE_VERSION = "v55";
+// v56 : compositions corrigées des Détachements Zone Mortalis Strike
+// Force/Bulwark/Linebreaker et Linebreaker Echelon/Maelstrom Sentry
+// Battery, confirmées par le proprio contre le livre
+// (js/organigramme-data.js) — voir CLAUDE.md.
+const CACHE_VERSION = "v56";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

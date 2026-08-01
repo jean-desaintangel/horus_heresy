@@ -2794,10 +2794,22 @@ Règles Spéciales :
   résultat d'`idDetachementPrincipal()`), un changement de
   `chartPrincipal` DOIT reconstruire `etat.detachements` explicitement
   avec `creerDetachement(idDetachementPrincipal())`, sur le même
-  principe que le handler de changement de Faction. Composition de
-  Zone Mortalis Linebreaker la moins sûre des trois (icônes peu nettes
-  sur la photo source pour ses 2 dernières Cases, retenues « Troupes »
-  par défaut) : à corriger si le proprio confirme contre le livre.
+  principe que le handler de changement de Faction.
+  **Compositions corrigées (2026-08-02)** après confirmation du
+  proprio contre le livre — toutes les premières lectures d'icônes de
+  cette session s'étaient révélées imprécises : Zone Mortalis Strike
+  Force = 1 QG, 1 État-major, 2 Assaut Lourd, 4 Troupes (Case
+  Principale) ; Zone Mortalis Bulwark = 1 QG, 1 État-major, 2 Engins de
+  Guerre, 2 Appui, 2 Troupes (Case Principale) ; Zone Mortalis
+  Linebreaker = 1 QG, 1 État-major, 2 Assaut Lourd, 2 Troupes, 2 Elite
+  (Case Principale) — aucune des trois ne marque la Case État-major
+  comme Principale, à la différence du Détachement Principal de
+  Croisade. Linebreaker Echelon (Apex, The Forges of Saturn, voir plus
+  haut) corrigé en 2 Assaut Lourd (Case Principale) + 1 Suite + 1 Engin
+  de Guerre (la première lecture avait retenu 2 Suites + 2 Assaut Lourd
+  sans Engin de Guerre). Maelstrom Sentry Battery (Auxiliaire, voir
+  plus haut) confirmé exact (2 Appui, 3 Reco) mais sans Case Principale
+  (celle posée par erreur sur la première Case d'Appui retirée).
   Vérifié par test fonctionnel jsdom (page réelle) : les 4 options du
   sélecteur, la composition exacte de Cases rendue pour chacun des 3
   Charts, et la disponibilité de Linebreaker Echelon (après Case QG
