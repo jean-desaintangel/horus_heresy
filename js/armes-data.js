@@ -3255,6 +3255,276 @@ const ARMES_TIR = [
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
+  /* --- Arsenal des Forces de l'Empereur (Legio Custodes), page
+     d'Arsenal dédiée fournie par le propriétaire : complète les
+     Armes déjà transcrites ci-dessous (Lance adrasite/pyrithite,
+     Arquebuse à bolts Adrastus, La Lance Apollonienne). --- */
+  {
+    titre: "Armes Cinétiques",
+    armes: [
+      {
+        nom: "Destructeur cinétique",
+        stats: ["12", "3", "7", "4", "1"],
+        regles: "Brèche (5+)",
+        traits: "Assaut",
+      },
+    ],
+  },
+  {
+    titre: "Armes à Bolts Lastrum",
+    armes: [
+      {
+        nom: "Bolter d'assaut Lastrum",
+        stats: ["24", "4", "5", "4", "1"],
+        regles: "Lacération (5+)",
+        traits: "Bolts",
+      },
+      {
+        nom: "Canon à bolts Lastrum",
+        stats: ["36", "3", "6", "4", "2"],
+        regles: "-",
+        traits: "Bolts",
+      },
+      {
+        nom: "Canon à bolts Lastrum jumelé",
+        stats: ["36", "6", "6", "4", "2"],
+        regles: "-",
+        traits: "Bolts",
+      },
+    ],
+  },
+  {
+    titre: "Armes à Cascade de Neutronium",
+    armes: [
+      {
+        nom: "Projecteur à cascade de neutronium jumelé",
+        stats: ["Souffle", "1", "7", "3", "2"],
+        regles:
+          "Souffle, Brèche (6+), Annihilation en Cascade (7), Phage (E)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Canon à magnacascade de neutronium",
+        stats: ["Souffle", "1", "10", "3", "3"],
+        regles:
+          "Souffle (Fournaise), Brèche (4+), Annihilation en Cascade (10), Phage (E)",
+        traits: "-",
+      },
+    ],
+  },
+  {
+    titre: "Armes Adrathiques",
+    armes: [
+      {
+        nom: "Combi-destructeur adrathique",
+        stats: ["12", "2", "5", "2", "2"],
+        regles: "Vulnérante (6+)",
+        traits: "Désintégrateur",
+      },
+      {
+        nom: "Dévastateur adrathique",
+        stats: ["18", "1", "6", "2", "4"],
+        regles: "Vulnérante (5+)",
+        traits: "Désintégrateur",
+      },
+      {
+        nom: "Désolateur adrathique",
+        stats: ["24", "2", "7", "2", "4"],
+        regles: "Vulnérante (4+)",
+        traits: "Désintégrateur",
+      },
+    ],
+  },
+  {
+    titre: "Armes Laser Arachnus",
+    armes: [
+      {
+        nom: "Canon ardant Arachnus jumelé — Tir concentré",
+        stats: ["48", "2", "9", "2", "2"],
+        regles: "Lourde (D), Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Canon ardant Arachnus jumelé — Tir en rafale",
+        stats: ["36", "5", "6", "3", "1"],
+        regles: "Lourde (PF)",
+        traits: "Laser",
+      },
+      {
+        nom: "Carronade ardante Arachnus jumelée — Tir concentré",
+        stats: ["72", "2", "10", "2", "2"],
+        regles: "Artillerie (D), Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Carronade ardante Arachnus jumelée — Tir en rafale",
+        stats: ["48", "6", "7", "3", "2"],
+        regles: "Lourde (PF)",
+        traits: "Laser",
+      },
+      {
+        nom: "Carronade tempête Arachnus jumelée — Tir concentré",
+        stats: ["30", "2", "10", "2", "2"],
+        regles: "Lourde (D), Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Carronade tempête Arachnus jumelée — Tir en rafale",
+        stats: ["24", "6", "7", "3", "2"],
+        regles: "Lourde (PF)",
+        traits: "Laser",
+      },
+      {
+        nom: "Canon tempête Arachnus — Tir concentré",
+        stats: ["30", "2", "9", "2", "3"],
+        regles: "Lourde (PF), Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Canon tempête Arachnus — Tir en rafale",
+        stats: ["24", "4", "6", "3", "2"],
+        regles: "Lourde (PF)",
+        traits: "Laser",
+      },
+    ],
+  },
+  {
+    titre: "Armes de Gardien",
+    armes: [
+      {
+        nom: "Lance de Gardien (Tir)",
+        stats: ["18", "2", "4", "4", "1"],
+        regles: "Lacération (5+)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Lame de Sentinelle (Tir)",
+        stats: ["8", "3", "4", "4", "1"],
+        regles: "Lacération (6+)",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Lance Verutum (Tir)",
+        stats: ["8", "1", "5", "4", "1"],
+        regles: "Sonner (1)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Affrelance Achillus (Tir)",
+        stats: ["18", "1", "10", "3", "2"],
+        regles: "Fléau des Blindages, Brise-blindage (4+)",
+        traits: "Laser",
+      },
+      {
+        nom: "Lame de Galatus (Tir)",
+        stats: ["Souffle", "1", "6", "4", "2"],
+        regles: "Souffle, Panique (2)",
+        traits: "Flammes",
+      },
+      {
+        nom: "Lance d'Éternité (Tir)",
+        stats: ["18", "2", "4", "3", "1"],
+        regles: "Lacération (5+)",
+        traits: "Assaut, Bolts",
+      },
+    ],
+    note: "Ces Armes possèdent à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
+  },
+  {
+    titre: "Lanceurs Spiculus",
+    armes: [
+      {
+        nom: "Lance-missiles Spiculus",
+        stats: ["36", "6", "5", "4", "1"],
+        regles: "Brèche (6+), Neutralisation (2)",
+        traits: "Missile",
+      },
+      {
+        nom: "Nacelle à missiles lourds Spiculus",
+        stats: ["48", "4", "6", "4", "2"],
+        regles: "Brèche (5+), Neutralisation (1)",
+        traits: "Missile",
+      },
+    ],
+  },
+  {
+    /* Le Pistolet archéotech, le Pistolet bolter, le Bolter et le
+       Lance-flammes de cette page sont les mêmes profils génériques
+       déjà présents plus haut (catégories Pistolet Archéotech/Armes à
+       Bolts/Armes à Flammes) : non dupliqués ici. */
+    titre: "Armes de la Sororité Silencieuse",
+    armes: [
+      {
+        nom: "Arroi de canons lourd Hellion",
+        stats: ["24", "6", "7", "4", "1"],
+        regles: "Neutralisation (1)",
+        traits: "Auto",
+      },
+      {
+        nom: "Missiles vratins lourds",
+        stats: ["48", "1", "4", "5", "1"],
+        regles: 'Explosion (3"), Panique (1), Choc Psy, Limitée (1)',
+        traits: "Missile",
+      },
+    ],
+  },
+  {
+    titre: "Armes Laser Corvae",
+    armes: [
+      {
+        nom: "Pulseur laser Corvae jumelé",
+        stats: ["18", "1", "10", "3", "3"],
+        regles: "Fléau des Blindages, Brise-blindage (4+)",
+        traits: "Laser",
+      },
+    ],
+  },
+  {
+    titre: "Armes à Flammes Infernus",
+    armes: [
+      {
+        nom: "Incinérateur Infernus",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Panique (1)",
+        traits: "Flammes",
+      },
+      {
+        nom: "Pique de feu Infernus",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Panique (2)",
+        traits: "Flammes",
+      },
+      {
+        nom: "Grappes de bombes Infernus",
+        stats: ["18", "1", "6", "4", "2"],
+        regles: 'Explosion (7"), Panique (2), Limitée (1)',
+        traits: "Flammes",
+      },
+    ],
+  },
+  {
+    titre: "Armes Accélératrices Iliastus",
+    armes: [
+      {
+        nom: "Fusil accélérateur Iliastus jumelé",
+        stats: ["24", "4", "7", "3", "2"],
+        regles: "Brèche (6+), Poursuite Rapide",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon accélérateur Iliastus jumelé",
+        stats: ["60", "6", "8", "3", "2"],
+        regles: "Brèche (6+), Poursuite Rapide",
+        traits: "Auto",
+      },
+      {
+        nom: "Couleuvrine accélératrice Iliastus",
+        stats: ["36", "4", "9", "3", "2"],
+        regles: "Brèche (5+), Poursuite Rapide",
+        traits: "Auto",
+      },
+    ],
+  },
   /* --- Arsenal de la Legio Custodes. --- */
   {
     titre: "Armes de la Legio Custodes",
@@ -3291,6 +3561,78 @@ const ARMES_TIR = [
       },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
+  },
+  /* --- Arsenal de la Divisio Assassinorum (Clade Adamus/Callidus). --- */
+  {
+    titre: "Armes de la Divisio Assassinorum",
+    armes: [
+      {
+        nom: "Éclateur à aiguilles — Pistolet bolter (Principal)",
+        stats: ["12", "1", "4", "5", "1"],
+        regles: "Pistolet, Combi",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Éclateur à aiguilles — Lance-aiguilles (Secondaire)",
+        stats: ["12", "3", "6", "4", "1"],
+        regles: "Précision (2+), Brèche (5+), Phage (E), Limitée (1), Combi",
+        traits: "Assaut, Aiguilles",
+      },
+      {
+        nom: "Neuro-lacérateur",
+        stats: ["Souffle", "1", "3", "3", "1"],
+        regles: "Souffle, Fixation (3)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Lames empoisonnées",
+        stats: ["12", "3", "2", "5", "1"],
+        regles: "Précision (3+), Empoisonnée (3+), Brèche (4+), Limitée (1)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Animus speculum",
+        stats: ["Souffle", "1", "5", "4", "1"],
+        regles: "Souffle, Brèche (5+), Panique (1), Choc Psy",
+        traits: "Assaut",
+      },
+      {
+        nom: "Pistolet Executioner — Pistolet bolter (Principal)",
+        stats: ["12", "1", "4", "5", "1"],
+        regles: "Pistolet, Combi",
+        traits: "Assaut, Bolts",
+      },
+      {
+        nom: "Pistolet Executioner — Pistolet à aiguilles (Secondaire)",
+        stats: ["12", "2", "2", "-", "1"],
+        regles: "Empoisonnée (3+), Pistolet, Fixation (1), Combi",
+        traits: "Assaut, Aiguilles",
+      },
+      {
+        nom: "Éjecteur de toxines",
+        stats: ["Souffle", "1", "5", "4", "1"],
+        regles: "Souffle, Brèche (5+), Empoisonnée (3+), Fléau des Blindages",
+        traits: "Assaut",
+      },
+      {
+        nom: "Globes de poison",
+        stats: ["8", "1", "1", "3", "2"],
+        regles: 'Explosion (3"), Empoisonnée (3+), Panique (1), Limitée (1)',
+        traits: "Assaut",
+      },
+      {
+        nom: "Fusil Extius",
+        stats: ["100", "1", "7", "-", "2"],
+        regles: "Artillerie (PA), Précision (2+), Fixation (1)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Pistolet Extius",
+        stats: ["12", "3", "6", "3", "1"],
+        regles: "Pistolet, Précision (4+)",
+        traits: "-",
+      },
+    ],
   },
 ];
 
@@ -4287,7 +4629,7 @@ const ARMES_MELEE = [
         nom: "Lame de parangon",
         stats: ["1", "A", "+1", "2", "1"],
         regles: "Touche Critique (6+)",
-        traits: "-",
+        traits: "Énergétique",
       },
       {
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
@@ -4923,6 +5265,125 @@ const ARMES_MELEE = [
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
   },
+  /* --- Arsenal des Forces de l'Empereur (Legio Custodes), suite
+     (voir la note miroir côté Armes de Tir ci-dessus). --- */
+  {
+    titre: "Armes de Gardien",
+    armes: [
+      {
+        nom: "Lance de Gardien (Mêlée)",
+        stats: ["I", "A", "+1", "2", "1"],
+        regles: "Impact (MA)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lame de Sentinelle (Mêlée)",
+        stats: ["I", "A", "F", "2", "1"],
+        regles: "-",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance Verutum (Mêlée)",
+        stats: ["I", "A", "+1", "2", "1"],
+        regles: "Précision (5+), Impact (MA)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Affrelance Achillus (Mêlée)",
+        stats: ["I", "A", "+3", "2", "3"],
+        regles: "Fléau des Blindages, Impact (MA)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lame de Galatus (Mêlée)",
+        stats: ["I", "A", "F", "2", "2"],
+        regles: "En Feu (2), Fauchage (3)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance d'Éternité (Mêlée)",
+        stats: ["I", "A", "+1", "2", "1"],
+        regles: "En Feu (2), Touche Critique (6+), Impact (MA), Lacération (5+)",
+        traits: "-",
+      },
+    ],
+    note: "Ces Armes possèdent à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
+  },
+  {
+    titre: "Armes Diverses",
+    armes: [
+      {
+        nom: "Mine à cascade de Neutronium",
+        stats: ["-3", "1", "9", "3", "3"],
+        regles: "Fléau des Blindages, Détonation, Annihilation en Cascade (9)",
+        traits: "-",
+      },
+    ],
+  },
+  {
+    titre: "Armes de la Sororité Silencieuse",
+    armes: [
+      {
+        nom: "Espadon d'exécution",
+        stats: ["I", "A", "+1", "3", "1"],
+        regles: "Vulnérante (6+), Brèche (6+)",
+        traits: "Énergétique",
+      },
+    ],
+  },
+  {
+    titre: "Armes d'Éternité",
+    armes: [
+      {
+        nom: "Lame d'Éternité",
+        stats: ["+1", "A", "+1", "2", "1"],
+        regles:
+          "En Feu (2), Touche Critique (6+), Lacération (4+), Atout du Duelliste (1)",
+        traits: "-",
+      },
+    ],
+  },
+  {
+    titre: "Armes Solarites",
+    armes: [
+      {
+        nom: "Gantelet énergétique solarite",
+        stats: ["-3", "A", "+4", "2", "2"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Serre énergétique solarite",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "Touche Critique (6+), Fauchage (2)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance énergétique solarite — Frappe en charge",
+        stats: ["+4", "0", "+5", "2", "3"],
+        regles: "Impact (MA), Touche Critique (6+), Fléau des Blindages",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Lance énergétique solarite — Frappe défensive",
+        stats: ["-1", "A", "F", "2", "1"],
+        regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Ceste de Telemon",
+        stats: ["1", "A", "+3", "2", "3"],
+        regles: "Touche Critique (6+), Choc (Fixée), Fléau des Blindages",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Paire de cestes de Telemon",
+        stats: ["1", "+1", "+3", "2", "4"],
+        regles: "Touche Critique (6+), Choc (Fixée), Fléau des Blindages",
+        traits: "Énergétique",
+      },
+    ],
+  },
   /* --- Arsenal de la Legio Custodes. --- */
   {
     titre: "Armes de la Legio Custodes",
@@ -4957,6 +5418,54 @@ const ARMES_MELEE = [
         stats: ["1", "A", "+2", "2", "2"],
         regles: "Touche Critique (6+), Atout du Duelliste (2)",
         traits: "-",
+      },
+    ],
+  },
+  /* --- Arsenal de la Divisio Assassinorum (Clade Adamus/Callidus). --- */
+  {
+    titre: "Armes de la Divisio Assassinorum",
+    armes: [
+      {
+        nom: "Lame Nemesii",
+        stats: ["1", "A", "F", "2", "1"],
+        regles: "Touche Critique (5+), Lacération (5+)",
+        traits: "-",
+      },
+      {
+        nom: "Épée de phase",
+        stats: ["+2", "A", "F", "2", "1"],
+        regles: "Précision (5+), Vulnérante (6+), Décalage de Phase (6+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Grenades anti-psy",
+        stats: ["1", "3", "5", "3", "2"],
+        regles: "En Feu (2), Vulnérante (6+), Précision (6+), Limitée (3)",
+        traits: "-",
+      },
+      {
+        nom: "Neuro-gantelet",
+        stats: ["+1", "+1", "F", "3", "2"],
+        regles: "Vulnérante (4+), Empoisonnée (4+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Datapics syntones",
+        stats: ["+1", "+2", "F", "3", "1"],
+        regles: "Vulnérante (6+), Précision (6+), Choc (Sonnée)",
+        traits: "-",
+      },
+      {
+        nom: "Crochet",
+        stats: ["+1", "A", "F", "3", "1"],
+        regles: "Vulnérante (6+), Précision (2+), Le Venem",
+        traits: "-",
+      },
+      {
+        nom: "Lame d'Assassin",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Brèche (6+)",
+        traits: "Énergétique",
       },
     ],
   },

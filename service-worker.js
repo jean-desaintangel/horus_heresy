@@ -88,7 +88,7 @@
 // v50 : tampon d'inquisition du PDF ramené à sa taille d'origine mais
 // repositionné deux fois plus près du haut de page (js/unites.js) —
 // voir CLAUDE.md.
-const CACHE_VERSION = "v51";
+const CACHE_VERSION = "v52";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

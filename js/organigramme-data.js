@@ -3526,6 +3526,32 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  L'éligibilité (Rôle/Trait/Type/Sous-type) est déjà
                  vérifiée par avantagesPossibles avant de permettre le
                  choix : reglesAvantagePrincipalDe ne la revérifie pas.
+   - loyaliste    : Allégeance Loyaliste uniquement (miroir de `renegat`
+                 ci-dessus — ex : Agent de Clade, Divisio Assassinorum).
+   - principalUniquement : ne peut être choisi que pour une Case du
+                 Détachement Principal de l'Armée (`type.famille ===
+                 "principal"`), pas dans un Détachement Auxiliaire/
+                 d'Apex/Allié/de Seigneur des Batailles (ex : Agent de
+                 Clade).
+   - factionCaseAjoutee : id FACTIONS — combiné à `ajouteCase`
+                 ci-dessus, impose que la Case AJOUTÉE (pas celle qui
+                 porte l'Avantage) n'accepte que cette Faction précise
+                 au lieu de la Faction du Détachement qui la porte (voir
+                 caseAccepte, js/organigramme.js) — ex : Agent de Clade
+                 ajoute une Case d'Appui réservée à la Divisio
+                 Assassinorum, quelle que soit la Faction du
+                 Détachement qui la porte. Cette Faction n'est jamais
+                 sélectionnable comme Faction d'Armée ni de Détachement
+                 Allié (absente de FACTIONS, js/organigramme.js) :
+                 seule cette Case ajoutée y donne accès, via
+                 Organigramme.factionsDebloqueesParAvantage() (consommée
+                 par uniteAccessible, js/unites.js).
+                 Le livre autorise Agent de Clade à ajouter TROIS Cases
+                 d'Appui d'un coup ; par cohérence avec la simplification
+                 déjà assumée pour Bénéfice Logistique/Le Salaire de la
+                 Traîtrise (une seule case ajoutée à la fois par
+                 détachement, quel que soit l'Avantage qui l'a créée),
+                 ce site n'en modélise qu'une seule.
    ---------------------------------------------------------- */
 const AVANTAGES_PRINCIPAUX = [
   {
@@ -4020,6 +4046,19 @@ const AVANTAGES_PRINCIPAUX = [
     unParArmee: true,
     texte:
       "Chez l'Unité sélectionnée pour occuper une Case Principale octroyant cet Avantage Principal, on porte à 2 la valeur de X de la Règle Spéciale Guerrier Éternel (X) possédée par les Figurines de Type Infanterie ou Cavalerie qui ont le Trait Legio Custodes. On ne peut sélectionner cet Avantage Principal qu'une fois par Armée, à moins que ladite Armée comprenne au moins une Figurine qui a le Trait Exemple d'Or, auquel cas on peut sélectionner cet Avantage Principal une fois supplémentaire pour chaque Figurine de l'Armée qui a ce Trait (restriction du nombre de Figurines à Exemple d'Or non recomptée automatiquement par ce site — voir CLAUDE.md).",
+  },
+  /* --- Divisio Assassinorum (livre d'armée officiel). --- */
+  {
+    id: "agent-de-clade",
+    nom: "Agent de Clade",
+    loyaliste: true,
+    unParArmee: true,
+    principalUniquement: true,
+    ajouteCase: true,
+    rolesCaseAjoutee: ["Appui"],
+    factionCaseAjoutee: "divisio-assassinorum",
+    texte:
+      "Réservé à une Unité d'Allégeance Loyaliste sélectionnée pour occuper une Case Principale d'Organigramme de Force dans le Détachement Principal d'une Armée, une seule fois par Armée : ajoute une Case de Rôle Tactique Appui au Détachement, qui ne peut être occupée que par une Unité de la Liste d'Armée de la Divisio Assassinorum (le livre autorise d'en ajouter trois d'un coup ; par cohérence avec Bénéfice Logistique/Le Salaire de la Traîtrise, ce site n'en modélise qu'une seule).",
   },
 ];
 

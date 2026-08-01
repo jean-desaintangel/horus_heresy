@@ -260,11 +260,21 @@ function uniteAccessible(unite) {
       orgaPret && typeof Organigramme !== "undefined"
         ? Organigramme.factionsAlliees()
         : [];
+    // Factions débloquées par une Case ajoutée d'Avantage Principal à
+    // Faction imposée (ex : Agent de Clade, Divisio Assassinorum) —
+    // cette Faction ne peut jamais être choisie comme Faction d'un
+    // Détachement Allié, donc `factionsAllieesActuelles` ne suffit pas
+    // à elle seule pour rendre ses Unités visibles ici.
+    const factionsDebloqueesAvantage =
+      orgaPret && typeof Organigramme !== "undefined"
+        ? Organigramme.factionsDebloqueesParAvantage()
+        : [];
     const factionUnite = unite.faction || "legio-astartes";
     if (
       factionActuelle !== factionUnite &&
       !factionsAllieesActuelles.includes(factionUnite) &&
-      !uniteAccessibleParDetachementCroise(unite)
+      !uniteAccessibleParDetachementCroise(unite) &&
+      !factionsDebloqueesAvantage.includes(factionUnite)
     )
       return false;
     if (unite.legion) {
@@ -4157,6 +4167,7 @@ function initialiserChoixUnite() {
     skitarii: "Conclaves Skitarii",
     "legio-custodes": "Legio Custodes",
     "anathema-psykana": "Anathema Psykana",
+    "divisio-assassinorum": "Divisio Assassinorum",
   };
 
   function rendre() {

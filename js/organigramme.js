@@ -1266,6 +1266,18 @@ const Organigramme = (() => {
     //   (règle 1 de l'Ordinal Titanique — sinon, un Titan isolé DANS ce
     //   détachement est justement la façon d'en aligner un sans lui).
     const factionUnite = unite.faction || "legio-astartes";
+    // Case ajoutée par un Avantage Principal à Faction imposée (ex :
+    // Agent de Clade, Divisio Assassinorum, voir `factionCaseAjoutee`
+    // dans js/organigramme-data.js) : la Faction requise est celle
+    // fixée par l'Avantage lui-même, pas celle du Détachement qui
+    // porte la Case ajoutée — cette Faction n'est d'ailleurs jamais
+    // sélectionnable comme Faction d'Armée ou de Détachement Allié.
+    if (caseOrga.extra && caseOrga.origineAvantage) {
+      const avantageOrigine = avantageParId(caseOrga.origineAvantage);
+      if (avantageOrigine && avantageOrigine.factionCaseAjoutee) {
+        return factionUnite === avantageOrigine.factionCaseAjoutee;
+      }
+    }
     if (type.id === "allie") {
       if (factionUnite !== (det.factionAlliee || "legio-astartes"))
         return false;
@@ -2311,6 +2323,13 @@ const Organigramme = (() => {
       } else if (avantage.renegat && etat.allegeance !== "renegat") {
         raison =
           "Réservé aux armées d'Allégeance Renégate (Légions Corrompues).";
+      } else if (avantage.loyaliste && etat.allegeance !== "loyaliste") {
+        raison = "Réservé aux armées d'Allégeance Loyaliste.";
+      } else if (
+        avantage.principalUniquement &&
+        type.famille !== "principal"
+      ) {
+        raison = "Réservé à une Case du Détachement Principal de l'Armée.";
       } else if (
         avantage.factionRequise &&
         etat.faction !== avantage.factionRequise
@@ -4575,6 +4594,25 @@ const Organigramme = (() => {
       etat.detachements
         .filter((d) => typeDe(d).id === "allie" && d.legionAlliee)
         .map((d) => d.legionAlliee),
+    // Factions débloquées par une Case ajoutée d'Avantage Principal à
+    // Faction imposée (`factionCaseAjoutee`, ex : Agent de Clade,
+    // Divisio Assassinorum) plutôt que par un Détachement Allié —
+    // consommée par js/unites.js (uniteAccessible) pour rendre visibles
+    // au sélecteur « Unité à ajouter » les Unités de cette Faction, qui
+    // ne peut jamais être choisie comme Faction d'un Détachement Allié.
+    factionsDebloqueesParAvantage: () => {
+      const factions = [];
+      for (const det of etat.detachements) {
+        for (const c of det.cases) {
+          if (!c.extra || !c.origineAvantage) continue;
+          const avantageOrigine = avantageParId(c.origineAvantage);
+          if (avantageOrigine && avantageOrigine.factionCaseAjoutee) {
+            factions.push(avantageOrigine.factionCaseAjoutee);
+          }
+        }
+      }
+      return factions;
+    },
     // Un Détachement Narratif est-il présent dans l'Armée ? Consommée
     // par js/unites.js (uniteAccessible) pour lever, dès qu'il est
     // présent, les vérifications de Faction/Légion/Allégeance du

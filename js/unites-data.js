@@ -38552,4 +38552,343 @@ const UNITES = [
     ],
     options: [],
   },
+
+  /* ============================================================
+     DIVISIO ASSASSINORUM (livre d'armée officiel, `faction:
+     "divisio-assassinorum"`). Faction délibérément ABSENTE de FACTIONS
+     (js/organigramme.js) : le livre précise qu'« un Détachement ne peut
+     jamais être de la Faction Divisio Assassinorum » — ses Unités ne
+     sont accessibles que via l'Avantage Principal Agent de Clade (voir
+     js/organigramme-data.js), qui ajoute une Case de Rôle Tactique
+     Appui réservée à cette Faction au Détachement Principal d'une
+     Armée Loyaliste, quelle que soit sa propre Faction (mécanisme
+     `factionCaseAjoutee`/`factionsDebloqueesParAvantage`, voir
+     js/organigramme.js et js/unites.js). Toutes les Unités portent le
+     Trait fixe « Loyaliste » (jamais de placeholder « [Allégeance]») et
+     le Trait « Divisio Assassinorum » (SANS crochets, à la différence
+     de « [Legio Custodes]»/« [Anathema Psykana]» : le livre ne le
+     traite pas comme un Trait générique à substituer, donc pas masqué
+     sur la fiche récap) ainsi que « Serres de l'Empereur » (même Trait
+     organisationnel générique que l'Anathema Psykana, sans texte
+     intégral connu). La Règle Spéciale Némésis (Tactica de Divisio,
+     texte intégral dans js/regles-data.js) n'est PAS injectée
+     automatiquement dans `regles` : aucun mécanisme de rattachement
+     Trait → Règle Spéciale automatique n'existe sur ce site pour un
+     Trait de Faction générique (même limite déjà documentée pour
+     [Legio Custodes]/[Anathema Psykana]). ============================================================ */
+  {
+    id: "assassin-adamus",
+    nom: "Assassin Adamus",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 125,
+    composition: "1 Assassin Adamus",
+    notes:
+      "Il s'agit sans doute du plus ancien des ordres d'Assassins en activité avec l'assentiment impérial, car les racines du Clade Adamus remontent aux traditions prohibées des maîtres bretteurs de la région Panpacifique de Terra. L'histoire du Clade est d'autant plus obscure qu'une partie a été perdue depuis le Moyen-Âge Technologique, mais les érudits avancent que son nom même a une provenance théologique, et signifierait « les premières lames ». L'art du Clade Adamus consiste à étudier le langage martial de l'ennemi afin de le retourner contre lui, d'en contrer les forces pour en révéler les faiblesses. Dès lors, le coup fatal s'ensuit inexorablement.",
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Éclateur à aiguilles", "Lame Nemesii", "Grenades Nemesii"],
+    variantes: [
+      {
+        nom: "Assassin Adamus",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 7,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Artisan de Mort",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Champion, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-callidus",
+    nom: "Assassin Callidus",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 125,
+    composition: "1 Assassin Callidus",
+    notes:
+      "L'Assassin Callidus est architecte de bizarrerie, qui recourt à un composé appelé polymorphine en conjonction avec des implants sous-cutanés pour altérer son apparence et sa morphologie afin de duper l'adversaire. Adoptant la forme de duplicata de corps d'officiers ou de confidents de l'ennemi, un Assassin Callidus donne des instructions contradictoires pour semer le trouble et la confusion chez les forces ennemies. Ce n'est que lorsqu'il porte la confusion à son paroxysme que l'Assassin Callidus frappe directement sa cible, en révélant sa vraie nature et son arsenal meurtrier, un instant seulement avant de porter le coup fatal.",
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Neuro-lacérateur", "Lames empoisonnées", "Épée de phase"],
+    variantes: [
+      {
+        nom: "Assassin Callidus",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 7,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Polymorphine",
+          "La Confusion Règne",
+          "Négligence",
+          "Infiltration (6)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Champion, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-culexus",
+    nom: "Assassin Culexus",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 140,
+    composition: "1 Assassin Culexus",
+    // Paragraphe de fluff volontairement omis (photo pivotée, texte
+    // trop incohérent après OCR pour une transcription fidèle — même
+    // choix déjà fait pour la Chevalière Centura/Jenetia Krole,
+    // Anathema Psykana) : seules les données de jeu sont transcrites.
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Animus speculum", "Grenades anti-psy"],
+    variantes: [
+      {
+        nom: "Assassin Culexus",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 10,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Etherium",
+          "Anathème",
+          "Ex Oblivio",
+          "Peur (1)",
+          "Haine (Psykers)",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Champion, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-eversor",
+    nom: "Assassin Eversor",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 125,
+    composition: "1 Assassin Eversor",
+    // Paragraphe de fluff volontairement omis (photo pivotée, texte
+    // trop incohérent après OCR pour une transcription fidèle — même
+    // choix déjà fait pour les Assassins Callidus/Culexus).
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Pistolet Executioner", "Neuro-gantelet", "Épée énergétique"],
+    variantes: [
+      {
+        nom: "Assassin Eversor",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 7,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Frenzon",
+          "Fauchage (3)",
+          "Guerrier Éternel (1)",
+          "Explose (2+)",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Champion, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-vanus",
+    nom: "Assassin Infocyte Vanus",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 105,
+    composition: "1 Assassin Infocyte Vanus",
+    // Paragraphe de fluff volontairement omis (photo pivotée, texte
+    // trop incohérent après OCR pour une transcription fidèle — même
+    // choix déjà fait pour les autres Assassins).
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Deux pistolets laser", "Datapics syntones"],
+    variantes: [
+      {
+        nom: "Assassin Infocyte Vanus",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 8,
+          Int: 10,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Infocyte",
+          "Servomembres Autotomiques",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-venenum",
+    nom: "Assassin Venenum",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 125,
+    composition: "1 Assassin Venenum",
+    // Paragraphe de fluff volontairement omis (photo pivotée, texte
+    // trop incohérent après OCR pour une transcription fidèle — même
+    // choix déjà fait pour les autres Assassins).
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Éjecteur de toxines", "Globes de poison", "Crochet"],
+    variantes: [
+      {
+        nom: "Assassin Venenum",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 7,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Conditionnement Contre-nature",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Champion, Léger)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "assassin-vindicare",
+    nom: "Assassin Vindicare",
+    faction: "divisio-assassinorum",
+    categorie: "Appui",
+    cout: 150,
+    composition: "1 Assassin Vindicare",
+    notes:
+      "Les Assassins du Clade Vindicare alimentent les mythes et légendes de l'Imperium, car on dit qu'une fois en ligne de mire d'un de ces tueurs insaisissables, la proie ne peut échapper à un tir à la précision inouïe. Entraînés des décennies durant pour élever le rang d'art meurtrier, ils conjuguent positionnement physique, cartographie topologique et étude approfondie de leur cible pour l'abattre promptement de loin, avant de s'éclipser en ne laissant que la mort pour toute preuve de leur venue. De nombreux tireurs d'élite hantent les champs de bataille de la galaxie, mais aucun ne peut se dire l'égal du Clade Vindicare.",
+    traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
+    equipement: ["Fusil Extius", "Pistolet Extius", "Lame d'Assassin"],
+    variantes: [
+      {
+        nom: "Assassin Vindicare",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 7,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 2,
+          Cd: 10,
+          Sf: 10,
+          Vo: 7,
+          Int: 7,
+          Sv: "4+",
+          Inv: "4+",
+        },
+        regles: [
+          "Tir Fatal",
+          "Négligence",
+          "Infiltration (9)",
+          "Mouvement à Couvert",
+          "Dissimulation (5+)",
+        ],
+        type: "Infanterie (Léger)",
+      },
+    ],
+    options: [],
+  },
 ];

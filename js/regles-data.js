@@ -101,12 +101,12 @@ const REGLES_ARMES = [
   {
     nom: "Choc (X)",
     texte:
-      "Contre un Véhicule ou un Marcheur, un jet de touche de 5 ou 6 (avant modificateur) inflige un statut tactique — lequel dépend de X — même sans percer le blindage.",
+      "Les Armes ayant cette Règle Spéciale ont une chance d'infliger des Statuts aux Véhicules même sans pénétrer leur blindage. Quand on fait un Jet de Touche pour une Arme ayant cette Règle Spéciale contre une Unité Cible qui inclut la moindre Figurine de Type Véhicule ou Marcheur, il faut relever le résultat du Jet de Touche avant tout modificateur. Si le résultat est « 5 » ou « 6 » avant tout modificateur, toutes les Figurines de Type Véhicule ou Marcheur de l'Unité Cible gagnent un Statut (fonction de la valeur de X) à la fin de l'Étape 11 du processus d'Attaque de Tir ou de l'Étape 10 du processus du Rang d'Initiative ; si la Figurine a déjà ce Statut, ou que l'attaque l'appliquerait à plusieurs reprises, il n'y a pas d'autre effet. Cette Règle Spéciale ne fait jamais perdre de Points de Vie ou de Points de Coque, et les Touches infligées n'entraînent pas de Jet de Blessure ni de Jet de Pénétration de Blindage.",
   },
   {
     nom: "Combi",
     texte:
-      "L'arme peut tirer avec plusieurs profils en même temps lors de la même Attaque de Tir.",
+      "Une Arme ayant cette Règle Spéciale peut tirer simultanément selon plusieurs profils. Chaque fois qu'une Figurine fait une Attaque de Tir avec un Profil d'Arme ayant cette Règle Spéciale, le Joueur en Contrôle peut choisir un autre Profil de la même Arme ayant cette Règle Spéciale et faire des attaques avec lui au cours de la même Attaque de Tir. Si ce Profil a aussi la Règle Spéciale Limitée (X), cela ne permet pas de le choisir pour faire davantage d'attaques que la valeur de X attachée à cette dernière.",
   },
   {
     nom: "Déflagration (X)",
@@ -190,6 +190,18 @@ const REGLES_ARMES = [
     texte:
       "Quand, à l'étape Déclarer les Armes et Définir les Rangs d'Initiative de la Sous-phase de Combat, on choisit une Arme ayant cette Règle Spéciale pour faire des Attaques, toutes les Figurines qui ont le Trait [Skitarii] et qui appartiennent à la même Unité que la Figurine dotée d'une Arme ayant cette Règle Spéciale sont immédiatement soulagées des Statuts Tactiques Fixée, Neutralisée et Sonnée.",
   },
+  /* --- Arsenal des Forces de l'Empereur (Legio Custodes). --- */
+  {
+    nom: "Annihilation en Cascade (X)",
+    texte:
+      "Les Touches Pénétrantes qu'infligent des attaques ayant cette Règle Spéciale peuvent provoquer des Touches supplémentaires. À la fin de l'Étape 9 du processus d'Attaque de Tir, ou à l'Étape 8 du processus Résoudre un Rang d'Initiative, d'un Groupe de Tirs ou d'un Groupe de Coups qui inclut des Armes ayant cette Règle Spéciale et qui a infligé au moins une Touche Pénétrante, on crée un nouveau Groupe de Tirs ou Groupe de Coups (respectivement), résolu à l'Étape suivante. Ce nouveau Groupe se compose d'un nombre de Touches égal au nombre de Points de Coque perdus par la Figurine Cible à cause du Groupe déclencheur ; ces Touches ont toutes une Force égale à la valeur de X, une PA de « - », des Dégâts de 1 et aucune Règle Spéciale.",
+  },
+  /* --- Arsenal de la Divisio Assassinorum (Assassin Vindicare). --- */
+  {
+    nom: "Meurtrière (X)",
+    texte:
+      "Quand on fait un Jet de Blessure pour une Attaque ayant cette Règle Spéciale, si le résultat est supérieur ou égal à la Valeur de X attachée à cette variante de la Règle Spéciale (sans tenir compte des modificateurs), les Blessures ainsi infligées ignorent la Règle Spéciale Guerrier Éternel (X) de la Figurine Cible.",
+  },
 ];
 
 // --- Règles diverses ---
@@ -212,7 +224,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Bouclier",
     texte:
-      "Trait qui donne accès à la Réaction avancée des Legiones Astartes « Mur de Bouclier » (coût 1 Point d'Attribution de Réactions), déclarable au début de l'Étape 3 d'une Attaque de Tir ou de l'Étape 4 (Attaques de Volée) d'une Charge faite par l'adversaire : si la majorité des Figurines de l'Unité visée ont ce Trait, l'Unité gagne +1 en Endurance pour la durée de la Phase.",
+      "Trait qui augmente de 1 la Caractéristique de Sang-Froid d'une Figurine qui l'a, et qui donne accès à la Réaction avancée des Legiones Astartes « Mur de Bouclier » (coût 1 Point d'Attribution de Réactions), déclarable au début de l'Étape 3 d'une Attaque de Tir ou de l'Étape 4 (Attaques de Volée) d'une Charge faite par l'adversaire : si la majorité des Figurines de l'Unité visée ont ce Trait, l'Unité gagne +1 en Endurance pour la durée de la Phase.",
   },
   {
     nom: "Charge désordonnée",
@@ -633,7 +645,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Orage de Feu",
     texte:
-      "L'unité n'est pas limitée au tir au jugé lors d'une attaque de volée : elle tire normalement.",
+      "Une Figurine ayant cette Règle Spéciale n'est pas tenue de faire ses Attaques de Volée en tant que Tirs au Jugé : elle tire normalement. De plus, après avoir fait des Attaques de Volée à l'Étape 4 de la Procédure de Charge, une Unité comprenant la moindre Figurine ayant cette Règle Spéciale n'est pas tenue de faire un Jet de Charge à l'Étape 5. Si le Joueur en Contrôle choisit de ne pas faire de Jet de Charge à cette Étape, la Charge prend aussitôt fin.",
   },
   {
     nom: "Ouverture à l'Impact",
@@ -2381,6 +2393,56 @@ const REGLES_DIVERSES = [
     texte:
       "Ce petit bouclier n'offre à lui seul guère de protection, mais il émet des champs d'énergie complexes qui diffractent et affaiblissent les radiations et l'énergie cinétique destinées au porteur. Ces champs directionnels affectent une aire relativement réduite, ce qui nécessite d'orienter le bocle précisément, chose ardue hormis pour la Legio Custodes. On modifie de -1 la Force de Tir des attaques faites au cours d'une Attaque de Volée ou d'une Réaction État d'Alerte quand on résout les Jets de Blessure contre une Unité qui inclut au moins une Figurine dotée d'un bocle Tarsus.",
   },
+  {
+    nom: "Bouclier éclipse",
+    texte:
+      "Le bouclier éclipse confère un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre les Attaques de Tir quand une Figurine subit une Touche Pénétrante. La première fois d'un Tour de Bataille qu'une Figurine dotée d'un bouclier éclipse subit une Touche Pénétrante, elle gagne un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre toutes les Attaques de Tir suivantes, jusqu'à ce qu'elle retourne en Réserves Aériennes.",
+  },
+  {
+    nom: "Fumigènes",
+    texte: "Une Figurine dotée de fumigènes a le Trait Écran de Fumée.",
+  },
+  {
+    nom: "Hurleur Arae",
+    texte:
+      "Une Figurine dotée d'un hurleur Arae gagne la Règle Spéciale Frappe en Profondeur, et si elle rejoint une Unité en Réserve composée uniquement de Figurines qui ont le Trait Legio Custodes, toutes ces dernières gagnent elles aussi la Règle Spéciale Frappe en Profondeur. De plus, à la Sous-phase des Effets de la Phase de Fin de son Tour de Joueur, le Joueur en Contrôle d'une Figurine dotée d'un hurleur Arae qui se trouve sur le Champ de Bataille peut faire un Test d'Intelligence pour ladite Figurine ; s'il est réussi, le Joueur adverse doit appliquer un modificateur de -1 au résultat du premier Jet de Réserves qu'il tente à la Sous-phase de Réserves du Tour de Joueur suivant. Aucun Jet de Réserves ne peut être modifié de la sorte par plus d'un hurleur Arae.",
+  },
+  {
+    nom: "Vexillum du Magisterium",
+    texte:
+      "Les Unités à 8 pouces d'une Figurine ennemie dotée d'un vexillum du Magisterium doivent réussir un Test de Commandement quand elles marquent un Objectif, sous peine de ne marquer qu'un seul Point de Victoire. À la Sous-phase de Victoire de toute Phase de Fin, quand une Unité dont au moins une Figurine se trouve à 8 pouces et en Ligne de Vue d'une Figurine ennemie dotée d'un vexillum du Magisterium est censée marquer des Points de Victoire car elle Contrôle ou Conteste un Objectif, elle doit d'abord faire un Test de Commandement. En cas de réussite, il n'y a pas d'autre effet ; en cas d'échec, l'Unité ne peut marquer qu'un seul Point de Victoire du fait qu'elle Contrôle ou Conteste l'Objectif à cette Sous-phase de Victoire, sans tenir compte des autres Règles Spéciales telles que Ligne (X) ou Comptrôleur (X).",
+  },
+  {
+    nom: "Misericordia",
+    texte:
+      "Une Unité qui comprend au moins une Figurine dotée d'une Misericordia peut choisir une option de Répercussions unique, au cours de laquelle elle fait une attaque spéciale contre une Unité ennemie impliquée dans le même Combat : « La Lame de Miséricorde », choisissable à l'Étape 4 de la Sous-phase de Résolution de la Phase d'Assaut de tout Combat qui s'est soldé par une victoire ou une égalité pour l'Unité. Le Joueur en Contrôle choisit une seule Figurine dotée d'une Misericordia de cette Unité, avec laquelle il résout les Étapes 4 à 10 de la séquence Résoudre un Rang d'Initiative en ciblant une Unité ennemie impliquée dans le Combat pour laquelle a été choisie l'option de Répercussions Battre en Retraite. Ces attaques utilisent le profil suivant : MI 1, MA 1, MF (Force normale), PA 3, Précision (2+), Brèche (5+), Trait Énergétique ; la Caractéristique de Dégâts de cette Arme de Mêlée est égale au nombre de Figurines dotées d'une Misericordia que comprend l'Unité pour laquelle on a choisi cette option de Répercussions.",
+  },
+  {
+    nom: "Coups Éclairs",
+    texte:
+      "Après une Charge réussie, les Armes de Mêlée d'une Figurine ayant la Règle Spéciale Coups Éclairs gagnent temporairement la Règle Spéciale Touche Critique (6+). Si une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale réussit une Charge, jusqu'à la fin de la Phase d'Assaut, toutes les Figurines de l'Unité ayant cette Règle Spéciale gagnent la Règle Spéciale Touche Critique (6+) pour les Armes de Mêlée dont elles sont dotées.",
+  },
+  {
+    nom: "Ex Oblivio",
+    texte:
+      "À la fin d'un Combat, les Figurines ayant cette Règle Spéciale infligent automatiquement les Périls du Warp à toute Unité comprenant des Figurines de Sous-type Maléfique ou qui ont le Trait Psyker. Si, à la fin de l'Étape 5 de la Sous-phase de Combat de la Phase d'Assaut, un Combat implique au moins une Figurine ayant cette Règle Spéciale, toutes les Unités (amies ou ennemies) dans ce même Combat comprenant au moins une Figurine de Sous-type Maléfique ou qui a le Trait Psyker subissent immédiatement le résultat Rupture Warp sur le Tableau des Périls du Warp. De plus, on considère qu'une Figurine ayant cette Règle Spéciale a le Trait Psyker pour ce qui est de désigner une Figurine comme Focus de la Réaction Avancée Annuler, tant qu'au moins une Figurine de l'Unité Cible se trouve à 12 pouces de la Figurine ayant cette Règle Spéciale.",
+  },
+
+  /* Collision de nom relevée en transcrivant l'Arsenal des Forces de
+     l'Empereur (Legio Custodes) : la page « Choc Psy » y définit une
+     Règle Spéciale d'Arme (Missiles vratins lourds) sans aucun rapport
+     avec la Réaction Avancée « Choc Psy » de la Désignation Gardespire
+     Prosperienne déjà transcrite ci-dessus (js/regles-data.js) — même
+     nom exact, deux mécaniques distinctes. `trouverDefinitionRegle`
+     (js/main.js) indexe par nom normalisé dans une seule Map : une
+     seconde entrée « Choc Psy » écraserait silencieusement l'une des
+     deux définitions pour tous les usages du site (tables d'Armes ET
+     Règles Spéciales d'Unité confondues), sans distinction de contexte
+     possible. Volontairement NON ajoutée pour préserver l'entrée déjà
+     établie : le tag "Choc Psy" sur Missiles vratins lourds reste donc
+     sans info-bulle (repli documenté, comme une Règle Spéciale connue
+     par son nom seul). À résoudre uniquement si un mécanisme de
+     désambiguïsation par contexte est ajouté à trouverDefinitionRegle. */
 
   /* --- Anathema Psykana (livre d'armée officiel, la Sororité
      Silencieuse) : Tactica de Divisio, Posture de Défi de Jenetia
@@ -2388,7 +2450,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Anathème",
     texte:
-      "Tactica de Divisio : toutes les Figurines qui ont le Trait Anathema Psykana, sauf les Figurines de Type Véhicule, sont sujettes à cette Règle Spéciale. Les Figurines ayant cette Règle Spéciale ignorent les effets des Aptitudes Psychiques et des Armes Psychiques, et une Arme qui a le Trait Psychique ou Immatériel ne peut les blesser que sur 5+. En outre, les Jets de Blessure faits pour des Armes qui ont le Trait Psychique ou Immatériel, qui ciblent uniquement une Unité composée uniquement de Figurines ayant cette Règle Spéciale, et qui obtiennent un résultat non modifié de 1, 2, 3 ou 4, sont toujours des échecs, quelles que soient les Règles Spéciales qui fixent le Nombre Cible des Jets de Blessure. Cette Règle Spéciale est sans effet sur les Jets de Pénétration de Blindage.",
+      "Tactica de Divisio : toutes les Figurines qui ont le Trait Anathema Psykana, sauf les Figurines de Type Véhicule, sont sujettes à cette Règle Spéciale. Les Figurines ayant cette Règle Spéciale ignorent les effets des Aptitudes Psychiques et des Armes Psychiques, et une Arme qui a le Trait Psychique ou Immatériel ne peut les blesser que sur 5+. Une Unité qui inclut la moindre Figurine ayant cette Règle Spéciale ne peut jamais être choisie comme cible d'une Bénédiction ou d'une Malédiction Psychique, et les Figurines ayant cette Règle Spéciale ignorent tout Dégât infligé par des Pouvoirs Psychiques, Armes Psychiques, Réactions Psychiques ou Périls du Warp : si une telle Figurine est choisie comme Figurine Cible d'une attaque ou d'une blessure infligée de la sorte, les Dégâts occasionnés sont sans effet et on ne fait aucun Jet de Blessure, de Sauvegarde d'Armure ou de Mitigation de Dégâts. En outre, les Jets de Blessure faits pour des Armes qui ont le Trait Psychique ou Immatériel, qui ciblent une Unité composée uniquement de Figurines ayant cette Règle Spéciale, et qui obtiennent un résultat non modifié de 1, 2, 3 ou 4, sont toujours des échecs, quelles que soient la Caractéristique de Force d'une Touche ou les Règles Spéciales qui fixent le Nombre Cible des Jets de Blessure. Cette Règle Spéciale est sans effet sur les Jets de Pénétration de Blindage.",
   },
   {
     nom: "La Reine Sans Âme",
@@ -2399,5 +2461,84 @@ const REGLES_DIVERSES = [
     nom: "Investigatus-Militant",
     texte:
       "Si le Détachement Principal d'une Armée est issu de la Liste d'Armée de l'Anathema Psykana et inclut au moins une Unité ayant ce Trait, le Joueur en Contrôle gagne un Point de Réaction bonus pour ce Détachement.",
+  },
+
+  /* --- Divisio Assassinorum (livre d'armée officiel) : Tactica de
+     Divisio, et Règles Spéciales/équipement de l'Assassin Adamus et de
+     l'Assassin Callidus. --- */
+  {
+    nom: "Némésis",
+    texte:
+      "Tactica de Divisio : toutes les Figurines qui ont le Trait Divisio Assassinorum, sauf les Figurines de Type Véhicule, sont sujettes à cette Règle Spéciale. Les Attaques de Tir qui ciblent une Figurine ayant cette Règle Spéciale se font toujours au Jugé, sauf si c'est la Figurine ennemie la plus proche. Quand une Unité composée uniquement de Figurines ayant cette Règle Spéciale est la cible d'une Attaque de Tir, toutes les attaques faites au cours de ladite Attaque de Tir doivent se faire au Jugé, sauf si l'Unité en question est l'Unité ennemie la plus proche de l'Unité qui fait l'Attaque de Tir. Cette Règle Spéciale est sans effet sur les Attaques de Volée et les attaques faites avec la Règle Spéciale Précision (X).",
+  },
+  {
+    nom: "Artisan de Mort",
+    texte:
+      "Cette Posture permet à un Assassin Adamus en Défi de Toucher sur un Nombre Cible fixe et de combattre à une Étape de Frappe lors de laquelle il a perdu son dernier Point de Vie. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle doit adopter la Posture Forme Miroir ; on ignore toute Règle Spéciale ou Posture susceptible d'empêcher le Joueur en Contrôle d'adopter cette Posture. Forme Miroir : si cette Posture est choisie, les Jets de Touche faits pour cette Figurine à l'Étape de Frappe suivante réussissent toujours sur un résultat de 4+, quelle que soit la Caractéristique de Capacité de Combat de la Figurine adverse. En outre, si le Joueur en Contrôle n'a pas l'Avantage en Défi à l'Étape de Frappe suivante et que la Caractéristique de Points de Vie de cette Figurine est réduite à 0 ou moins, le Joueur en Contrôle peut malgré tout faire des attaques pour cette Figurine à cette Étape de Frappe, avant qu'elle soit retirée comme Perte.",
+  },
+  {
+    nom: "Grenades Nemesii",
+    texte:
+      "Une Charge déclarée contre une Unité comprenant au moins une Figurine dotée de grenades Nemesii et qui n'est pas Verrouillée en Combat est toujours une Charge Désordonnée, et si on fait un Mouvement de Charge pour une telle Charge, on considère que toutes les Figurines de l'Unité Assaillante traversent du Terrain Dangereux.",
+  },
+  {
+    nom: "Polymorphine",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale ne peut être ciblée ni par les Attaques de Tir ni par les Charges, sauf si elle a déjà attaqué au cours de la Bataille ou si une Unité ennemie a réussi un Test d'Intelligence à cette fin. Une Unité composée uniquement de Figurines ayant cette Règle Spéciale ne peut pas être choisie comme Cible d'une Attaque de Tir ou d'une Charge. Quand une Unité ennemie achève un Déplacement à 3 pouces d'une Figurine ayant cette Règle Spéciale, le Joueur en Contrôle de l'Unité ennemie peut faire un Test d'Intelligence pour ladite Unité ; s'il est réussi, cette Règle Spéciale n'a plus aucun effet sur cette Figurine pour le reste de la Bataille.",
+  },
+  {
+    nom: "La Confusion Règne",
+    texte:
+      "La première Unité qu'une Figurine ayant cette Règle Spéciale Charge au cours de la Bataille se retrouve Sonnée.",
+  },
+  {
+    nom: "Décalage de Phase (X)",
+    texte:
+      "Les Attaques faites avec la Règle Spéciale Décalage de Phase (X) ignorent parfois l'ensemble des Jets de Mitigation de Dégâts et des Jets de Sauvegarde. Quand on fait un Jet de Blessure pour une Attaque ayant cette Règle Spéciale, et que ce Jet de Blessure est supérieur ou égal à la Valeur de X attachée à cette variante de la Règle Spéciale, on ignore tout Jet de Mitigation de Dégâts et de Sauvegarde pour la Blessure infligée. Cette Règle Spéciale ne peut être déclenchée que par un Jet de Blessure et n'a aucun effet quand on fait un Jet de Pénétration de Blindage.",
+  },
+  {
+    nom: "Etherium",
+    texte:
+      "Quand une Figurine ayant cette Règle Spéciale se voit allouer une Blessure Non Sauvegardée suite à une Attaque de Tir, les Dégâts de ladite Blessure Non Sauvegardée sont réduits de 1, jusqu'à un minimum de 1.",
+  },
+  {
+    nom: "Frenzon",
+    texte:
+      "Posture de Défi qui augmente la Caractéristique d'Attaques de la Figurine et confère un bonus au résultat d'un Jet de Concentration qu'on fait pour elle en Défi, au prix d'une Blessure automatique. Tant qu'une Figurine ayant cette Règle Spéciale est Engagée en Défi, son Joueur en Contrôle doit adopter la Posture Surcharge Biologique ; on ignore toute Règle Spéciale ou Posture susceptible de l'en empêcher. Surcharge Biologique : si cette Posture est choisie, le Joueur en Contrôle gagne un modificateur de +3 à son Jet de Concentration à l'Étape de Concentration suivante, et on modifie de +3 la Caractéristique d'Attaques de cette Figurine pour la durée de l'Étape de Frappe suivante. Cependant, pour chaque résultat de 1 obtenu à un Jet de Touche fait pour les Attaques de cette Figurine à cette Étape de Frappe, cette dernière subit une Blessure Non Sauvegardée avec des Dégâts de 1, allouée à la fin de l'Étape de Frappe.",
+  },
+  {
+    nom: "Infocyte",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale donne accès aux Réactions Avancées Auspectre et Dérivation de Signum à son Joueur en Contrôle.",
+  },
+  {
+    nom: "Servomembres Autotomiques",
+    texte:
+      "À l'Étape Répercussions de la Sous-phase de Résolution de la Phase d'Assaut, une Figurine ayant cette Règle Spéciale choisit toujours l'option de Répercussions Se Désengager, quel que soit le vainqueur du Combat.",
+  },
+  {
+    nom: "Auspectre",
+    texte:
+      "Réaction Avancée du Clade Vanus (Divisio Assassinorum) qui permet au Joueur Réactif de perturber le placement d'un Aéronef ennemi qui arrive des Réserves Aériennes. Déclencheur : le Joueur Réactif peut la déclarer à la Sous-phase de Réserves quand le Joueur Actif réussit un Jet de Réserves pour une Unité qui arrive des Réserves Aériennes. Coût : gratuite. Cible : l'Unité en Réserves Aériennes pour laquelle le Joueur Actif vient de réussir ce Jet de Réserves. Processus : (1) le Joueur Actif doit donner une Affectation de Combat à l'Unité Cible ; (2) avant que le Joueur Actif ne la place sur le Champ de Bataille, le Joueur Réactif fait un Test d'Intelligence pour l'Unité Réactive ; (3) s'il est réussi, le Joueur Réactif peut, à la place du Joueur Actif, placer l'Unité Cible n'importe où le long d'un Bord du Champ de Bataille valide pour son Affectation de Combat — s'il est raté, cette Réaction est sans effet ; (4) à la Phase de Mouvement suivante, le Joueur Actif peut aussitôt faire pivoter l'Unité Cible avant de la déplacer normalement, conformément à son Affectation de Combat.",
+  },
+  {
+    nom: "Dérivation de Signum",
+    texte:
+      "Réaction Avancée du Clade Vanus (Divisio Assassinorum) qui permet au Joueur Réactif de tenter de Neutraliser ou de Fixer une Unité qui arrive des Réserves. Déclencheur : le Joueur Réactif peut la déclarer à la Phase de Mouvement, quand le Joueur Actif déploie une Unité qui arrive des Réserves. Coût : gratuite. Cible : l'Unité qui entre ainsi en jeu depuis les Réserves, si elle se trouve à 12 pouces et en Ligne de Vue du Joueur Réactif. Processus : le Joueur en Contrôle fait un Test d'Intelligence pour l'Unité Réactive ; s'il est réussi, l'Unité Cible gagne le Statut Tactique Neutralisée ou Fixée, au choix du Joueur Réactif ; s'il est raté, cette Réaction est sans effet.",
+  },
+  {
+    nom: "Conditionnement Contre-nature",
+    texte:
+      "Les Règles Spéciales Phage (X) et Empoisonnée (X) sont sans effet sur une Figurine ayant cette Règle Spéciale : on ignore les effets de toutes les variantes de ces deux Règles Spéciales quand on cible une Figurine ayant cette Règle Spéciale.",
+  },
+  {
+    nom: "Le Venem",
+    texte:
+      "Une Figurine blessée par une Arme ayant cette Règle Spéciale doit réussir un Jet d'Endurance à la fin de chaque Tour de Bataille suivant, sous peine de subir une nouvelle Blessure. On ne peut tenter aucun Jet de Sauvegarde ni de Mitigation de Dégâts contre une Blessure ainsi subie. Une Figurine dont la Caractéristique de Points de Vie est réduite à 0 à cause de cette Règle Spéciale est retirée comme Perte, y compris si elle est Embarquée à bord d'une autre Figurine ou si elle se trouve en Réserves.",
+  },
+  {
+    nom: "Tir Fatal",
+    texte:
+      "Les Figurines ayant cette Règle Spéciale ignorent les Jets de Mitigation de Dégâts de Dissimulation (X) contre les Blessures infligées au cours d'une Attaque de Tir. En outre, quand on fait une Attaque de Tir pour une Figurine ayant cette Règle Spéciale, au début de l'Étape 3 de la procédure d'Attaque de Tir, le Joueur en Contrôle peut appliquer une des Règles Spéciales suivantes à toutes les Armes dont la Figurine est dotée, pour la durée de cette Attaque de Tir : Meurtrière (5+), Lacération (5+), ou Choc (Fixée, Neutralisée).",
   },
 ];

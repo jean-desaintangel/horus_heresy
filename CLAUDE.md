@@ -2465,5 +2465,283 @@ Règles Spéciales :
   transcription complète lors d'une session précédente ; Divisio
   Assassinorum ajoutée en Phase II.
 
+- **Page d'Arsenal « Forces de l'Empereur » (Legio Custodes) transcrite
+  depuis des photos fournies par le propriétaire** — comble le plus
+  gros gap documenté jusqu'ici (voir plus haut, section roster Legio
+  Custodes : « aucune page d'Arsenal n'a été fournie pour ce lot de
+  fiches »). Nouvelles catégories dans `js/armes-data.js`, Tir et
+  Mêlée : Armes Cinétiques, Armes à Bolts Lastrum, Armes à Cascade de
+  Neutronium, Armes Adrathiques, Armes Laser Arachnus, Armes de Gardien
+  (profil double Tir/Mêlée, convention `(Tir)`/`(Mêlée)` comme « La
+  Lance Apollonienne » plutôt que le marqueur ¹ de Lance adrasite/
+  pyrithite, car les noms bruts déjà utilisés dans `unites-data.js`
+  — Lance de Gardien, Lame de Sentinelle, Lance Verutum, Affrelance
+  Achillus, Lame de Galatus, Lance d'Éternité — n'ont pas ce marqueur),
+  Lanceurs Spiculus, Armes Laser Corvae, Armes à Flammes Infernus,
+  Armes Accélératrices Iliastus, Armes d'Éternité (Lame d'Éternité,
+  Mêlée seule), Armes Solarites, Armes Diverses (Mine à cascade de
+  Neutronium) et Armes de la Sororité Silencieuse (Tir : Arroi de
+  canons lourd Hellion, Missiles vratins lourds ; Mêlée : Espadon
+  d'exécution) — ces deux dernières profitent en fait à l'Anathema
+  Psykana (Jenetia Krole/Chevalière Centura/Acquisitor Kharon), dont le
+  wargear restait en texte brut faute de profil. La page « Armes à
+  Plasma » de ce même chantier s'est révélée être exactement l'Arsenal
+  générique déjà présent dans ce fichier (mêmes noms, mêmes stats) :
+  rien à dupliquer. Pistolet archéotech/Pistolet bolter/Bolter/
+  Lance-flammes de la page Sororité Silencieuse, idem (génériques déjà
+  existants, non dupliqués).
+  **Bug de transcription corrigé** : « Lame de parangon » (arme
+  générique Legiones Astartes déjà utilisée par une quinzaine
+  d'Unités) portait `traits: "-"` au lieu de `"Énergétique"` — corrigé
+  d'après cette nouvelle page qui la liste avec ce Trait, cohérent avec
+  toutes les autres armes énergétiques du fichier.
+  Règles Spéciales (`js/regles-data.js`) : ajoutées Annihilation en
+  Cascade (X), Ex Oblivio (texte intégral, remplace l'entrée « nom seul »
+  posée lors de la création de l'Anathema Psykana), Coups Éclairs,
+  Vexillum du Magisterium (distincte du Vexillum générique déjà
+  existant — bonus de Résolution de Combat — qui est une tout autre
+  Règle malgré le nom proche, comme Vexillum des Cohortes/Vexillum
+  Auxilia déjà coexistants), Misericordia (avec le profil de « La Lame
+  de Miséricorde » décrit en prose, faute de mécanique de profil
+  variable-par-Figurine modélisable autrement dans ce fichier), Bouclier
+  éclipse, Fumigènes ; complétées avec le texte intégral désormais
+  disponible : Choc (X), Combi, Orage de Feu, Anathème (ajoute les
+  clauses d'immunité aux Pouvoirs/Armes/Réactions Psychiques et Périls
+  du Warp qui manquaient depuis la création de l'Anathema Psykana).
+  **Collision de nom relevée et volontairement non résolue** : la
+  Règle Spéciale d'Arme « Choc Psy » (Missiles vratins lourds) porte
+  exactement le même nom que la Réaction Avancée « Choc Psy » de la
+  Désignation Gardespire Prosperienne (Thousand Sons, Solar Auxilia)
+  déjà transcrite — `trouverDefinitionRegle` (js/main.js) indexe par
+  nom normalisé dans une seule Map partagée par tout le site (tables
+  d'Armes et Règles Spéciales d'Unité confondues), donc une seconde
+  entrée sous ce nom écraserait silencieusement l'une des deux
+  définitions sans distinction de contexte possible : non ajoutée,
+  gap documenté en commentaire dans `regles-data.js` à cet endroit
+  précis plutôt que de deviner laquelle des deux mérite le nom.
+  Panique (X)/Négligence/Détonation/Bocle Tarsus/Bouclier Praesidium/
+  Dissimulation (X)/Brise-blindage (X)/Poursuite Rapide déjà exacts,
+  vérifiés conformes sans modification.
+
+- **Nouvelle Faction « Divisio Assassinorum » (livre d'armée officiel),
+  1ʳᵉ Unité — Assassin Adamus (Appui, 125 Points)** : architecture
+  fondamentalement différente des Factions précédentes (Legio Custodes/
+  Anathema Psykana/Skitarii), le livre précisant explicitement qu'« un
+  Détachement ne peut jamais être de la Faction Divisio Assassinorum ».
+  `faction: "divisio-assassinorum"` volontairement **ABSENTE** de
+  `FACTIONS` (js/organigramme.js) : pas de menu Faction, pas de
+  Détachement Allié possible, pas de skin/tutoriel dédié. Les Unités de
+  cette Liste d'Armée ne sont accessibles que via le nouvel Avantage
+  Principal **Agent de Clade** (`js/organigramme-data.js`,
+  `AVANTAGES_PRINCIPAUX`) : réservé à une Unité d'Allégeance Loyaliste
+  sur une Case Principale du Détachement Principal (une fois par
+  Armée), il ajoute une Case de Rôle Tactique Appui réservée à la
+  Divisio Assassinorum — quelle que soit la Faction du Détachement qui
+  la porte (Legio Custodes, Legio Astartes...). Le livre autorise
+  d'ajouter TROIS Cases d'un coup ; par cohérence avec la
+  simplification déjà assumée pour Bénéfice Logistique/Le Salaire de la
+  Traîtrise (« un seul détachement ne porte jamais plus d'une case
+  ajoutée à la fois »), une seule est modélisée ici.
+  Trois mécanismes génériques nouveaux, réutilisables pour toute future
+  Faction du même genre (« Prime Advantage » de Faction hors
+  organigramme normal, à ne pas confondre avec les Avantages Principaux
+  de Cases Principales déjà existants) :
+  1. `loyaliste: true` sur un Avantage Principal (miroir exact de
+     `renegat: true` déjà existant, ex. Vrais Croyants) — grisé si
+     `etat.allegeance !== "loyaliste"` (`avantagesPossibles`,
+     js/organigramme.js).
+  2. `principalUniquement: true` — grisé si la Case n'est pas dans un
+     Détachement de `famille: "principal"` (nouveau champ, aucun
+     Avantage précédent n'avait cette restriction).
+  3. `factionCaseAjoutee: "<id Faction>"` sur un Avantage `ajouteCase` —
+     la Case AJOUTÉE (pas la Case qui porte l'Avantage) n'accepte que
+     cette Faction précise, vérifié par un nouveau garde-fou en tête de
+     `caseAccepte()` (`caseOrga.extra && caseOrga.origineAvantage`,
+     lookup de l'Avantage d'origine) qui court-circuite le filtre de
+     Faction habituel (celui du Détachement) pour cette seule Case.
+     Nouvelle méthode `Organigramme.factionsDebloqueesParAvantage()`
+     (miroir de `factionsAlliees()`) : scanne toutes les Cases
+     `extra` de l'Armée et retourne les Factions ainsi débloquées,
+     consommée par `uniteAccessible()` (js/unites.js) en plus de
+     `factionsAllieesActuelles`/`uniteAccessibleParDetachementCroise` —
+     nécessaire précisément parce que cette Faction ne peut JAMAIS être
+     un Détachement Allié (donc invisible sans ce 3ᵉ chemin
+     d'accessibilité).
+  Assassin Adamus : Trait fixe « Divisio Assassinorum » (SANS crochets,
+  contrairement à « [Legio Custodes]»/« [Anathema Psykana]» — le livre
+  ne le présente pas comme un Trait générique à substituer, donc pas
+  masqué sur la fiche récap) + « Serres de l'Empereur » (même Trait
+  organisationnel générique déjà utilisé par l'Anathema Psykana, sans
+  texte connu). Tactica de Divisio **Némésis** (texte intégral dans
+  `js/regles-data.js`) volontairement NON injectée automatiquement dans
+  `regles` — même gap déjà documenté pour Seule la Mort/Anathème (pas de
+  mécanisme de rattachement Trait → Règle Spéciale générique). Équipement :
+  Éclateur à aiguilles (arme Combi à 2 profils, Pistolet bolter
+  Principal + Lance-aiguilles Secondaire — même convention de nommage
+  « — X (Principal/Secondaire) » qu'Arquebuse à bolts Adrastus déjà
+  existante), Lame Nemesii (profil Mêlée simple), Grenades Nemesii
+  (texte de règle seul, pas de profil d'Arme — Charge systématiquement
+  Désordonnée + Terrain Dangereux). Règles Spéciales propres : Artisan
+  de Mort (Posture de Défi « Forme Miroir », texte intégral) et
+  Négligence (déjà existante, réutilisée telle quelle). Nouvelle
+  catégorie d'Arsenal « Armes de la Divisio Assassinorum »
+  (`armes-data.js`, Tir et Mêlée).
+  Vérifié par test fonctionnel en DOM headless (jsdom, installé
+  temporairement dans le scratchpad de session — pas de dépendance npm
+  dans ce dépôt) : Assassin Adamus absent du sélecteur « Unité à
+  ajouter » par défaut (Legio Astartes ET Legio Custodes sans Agent de
+  Clade), apparaît et s'ajoute correctement dès qu'Agent de Clade est
+  choisi sur la Case Principale d'une Sodalité de Gardes Custodiens
+  dans un Détachement Principal Legio Custodes.
+
+- **2ᵉ Unité Divisio Assassinorum — Assassin Callidus (Appui, 125
+  Points)** : même profil de base que l'Assassin Adamus (M8/CC5/CT5/
+  F4/E4/PV3/I5/A4/Cd10/Sf10/Vo7/Int7/Sv4+/Inv4+ — les deux Clades
+  d'Assassins partagent apparemment ce socle), mêmes Traits (Loyaliste/
+  Divisio Assassinorum/Serres de l'Empereur), accessible par le même
+  mécanisme Agent de Clade déjà en place (aucun changement de moteur
+  nécessaire, seulement de nouvelles données). Équipement : Neuro-
+  lacérateur (Souffle, nouveau profil), Lames empoisonnées (nouveau
+  profil, Trait Assaut), Épée de phase (nouveau profil Mêlée, Trait
+  Énergétique) — tous ajoutés à la catégorie d'Arsenal « Armes de la
+  Divisio Assassinorum » déjà créée pour l'Assassin Adamus. Règles
+  Spéciales propres ajoutées à `regles-data.js` : **Polymorphine**
+  (ne peut être ciblée par Tir/Charge sauf si elle a déjà attaqué ou
+  si un Test d'Intelligence la démasque à 3 pouces), **La Confusion
+  Règne** (la première Unité chargée par la Figurine au cours de la
+  Bataille est Sonnée), **Décalage de Phase (X)** (Règle Spéciale
+  d'Arme portée par l'Épée de phase : ignore Mitigation de Dégâts et
+  Sauvegarde si le Jet de Blessure ≥ X). Cette dernière transcrite à
+  partir d'une photo partiellement obscurcie par une ombre : le
+  passage décrivant précisément l'effet contenait une répétition/
+  incohérence OCR (fragment de phrase de habillage flavor mélangé à la
+  phrase mécanique) — reformulé en ne gardant que le mécanisme
+  effectivement lisible (ignore Mitigation de Dégâts/Sauvegarde au-delà
+  du seuil X, ne se déclenche que sur un Jet de Blessure, sans effet
+  sur un Jet de Pénétration de Blindage) plutôt que de recopier tel
+  quel le texte confus. Vérifié par le même test fonctionnel headless
+  que l'Assassin Adamus (recherche « Assassin Callidus » avant/après
+  Agent de Clade) : comportement identique.
+
+- **3ᵉ Unité Divisio Assassinorum — Assassin Culexus (Appui, 140
+  Points)** : même mécanisme Agent de Clade, aucun changement de
+  moteur. Profil légèrement différent des deux autres Clades (Vo 10 au
+  lieu de 7, cohérent avec sa thématique anti-psyker). Équipement :
+  Animus speculum (nouveau profil de Tir, Trait Assaut — porte la
+  Règle Spéciale d'Arme « Choc Psy », qui retombe donc sur le même gap
+  de collision de nom déjà documenté pour les Missiles vratins lourds
+  de la Legio Custodes : reste sans info-bulle, aucune nouvelle entrée
+  ajoutée) et Grenades anti-psy (nouveau profil, **Mêlée** malgré le
+  nom — le livre la modélise comme une Arme de Mêlée avec un profil
+  MI/MA/MF propre, pas comme une grenade lancée classique). Règles
+  Spéciales propres : **Etherium** (texte intégral, réduit de 1 les
+  Dégâts d'une Blessure Non Sauvegardée subie par Tir, minimum 1) ;
+  Anathème et Ex Oblivio réutilisées telles quelles (déjà établies pour
+  l'Anathema Psykana — cohérent, l'Assassin Culexus étant lui aussi un
+  Pariah anti-psyker). Paragraphe de fluff omis (même raison que
+  l'Assassin Callidus ci-dessus : photo pivotée, texte incohérent
+  après OCR). Vérifié par le même test headless : présent seulement
+  après sélection d'Agent de Clade.
+
+- **4ᵉ Unité Divisio Assassinorum — Assassin Eversor (Appui, 125
+  Points)** : même mécanisme Agent de Clade. Profil distinct des trois
+  autres Clades (M6/CT4 au lieu de M8/CT5 — brute de mêlée plus lente
+  et moins précise au tir que les autres Assassins). Équipement :
+  Pistolet Executioner (arme Combi à 2 profils, même convention de
+  nommage « — X (Principal/Secondaire) » que l'Éclateur à aiguilles de
+  l'Assassin Adamus), Neuro-gantelet (nouveau profil Mêlée,
+  Vulnérante (4+)/Empoisonnée (4+), cohérent avec son thème de toxines
+  décrit sur la fiche), Épée énergétique — **réutilise le profil
+  générique déjà existant** (Brèche (6+), utilisé par des dizaines
+  d'Unités), pas de nouvelle entrée : la photo ne mentionne aucune
+  variante propre à ce point pour cette arme précise, à la différence
+  du Neuro-gantelet dont le texte de fluff mentionne explicitement un
+  poison. Règle Spéciale propre : **Frenzon** (Posture de Défi
+  Surcharge Biologique — +3 Attaques et +3 au Jet de Concentration en
+  Défi, au prix d'une Blessure automatique par résultat de 1 obtenu à
+  un Jet de Touche). Texte reconstruit à partir d'une photo partagée
+  avec des répétitions OCR (fragments de phrase dupliqués) : gardé
+  seulement le mécanisme clairement identifiable, sur le même principe
+  que Décalage de Phase (X) plus haut. Fluff omis (même raison que les
+  Assassins Callidus/Culexus). Vérifié par le même test headless.
+
+- **5ᵉ Unité Divisio Assassinorum — Assassin Infocyte Vanus (Appui,
+  105 Points)** : même mécanisme Agent de Clade. Seule Unité du Clade
+  sans Sous-type Champion (`Type: "Infanterie (Léger)"`, contre
+  « Infanterie (Champion, Léger) » pour les quatre autres Assassins) —
+  transcrit tel quel depuis la fiche, pas une omission. Équipement :
+  deux pistolets laser (**réutilise le profil générique déjà
+  existant**, Arsenal des Solar Auxilia — stats identiques vérifiées
+  avant tout ajout, aucune nouvelle entrée créée) et Datapics syntones
+  (nouveau profil Mêlée). Règles Spéciales propres ajoutées à
+  `regles-data.js` : **Infocyte** (donne accès aux Réactions Avancées
+  Auspectre et Dérivation de Signum) et **Servomembres Autotomiques**
+  (choisit toujours l'option de Répercussions Se Désengager après un
+  Combat, quel que soit le vainqueur). Les deux Réactions Avancées
+  elles-mêmes (**Auspectre** : intercepte le placement d'un Aéronef
+  ennemi sortant des Réserves Aériennes ; **Dérivation de Signum** :
+  inflige Neutralisée ou Fixée à une Unité ennemie sortant des Réserves
+  à 12 pouces) reconstruites à partir d'une photo avec un texte de
+  fluff assez dégradé par l'OCR mais dont la partie mécanique
+  (Déclencheur/Coût/Cible/Processus) restait cohérente une fois
+  recoupée entre les deux Réactions — condensées en un seul paragraphe
+  chacune, même convention que les autres Réactions Avancées déjà
+  transcrites dans ce fichier (ex. Maréchal Élu, Skitarii). Fluff de
+  l'Unité elle-même omis (même raison que les Assassins précédents).
+  Vérifié par le même test headless.
+
+- **6ᵉ et dernière Unité Divisio Assassinorum — Assassin Venenum
+  (Appui, 125 Points) : roster des 6 Clades d'Assassins désormais
+  complet** (Adamus, Callidus, Culexus, Eversor, Vanus, Venenum).
+  Même mécanisme Agent de Clade, profil de base identique à Adamus/
+  Callidus/Venenum (M8/CC5/CT5/F4/E4/PV3/I5/A4/Cd10/Sf10/Vo7/Int7/
+  Sv4+/Inv4+). Équipement : Éjecteur de toxines et Globes de poison
+  (deux nouveaux profils de Tir) et Crochet (nouveau profil Mêlée,
+  porte la Règle Spéciale d'Arme « Le Venem »). Règles Spéciales
+  propres ajoutées à `regles-data.js` : **Conditionnement
+  Contre-nature** (immunise contre Phage (X) et Empoisonnée (X), texte
+  intégral clair) et **Le Venem** (poison à retardement : Jet
+  d'Endurance à la fin de chaque Tour de Bataille sous peine d'une
+  nouvelle Blessure sans Sauvegarde ni Mitigation possible, y compris
+  contre une Figurine Embarquée ou en Réserves) — reconstruite à
+  partir d'un texte assez répétitif après OCR, en ne gardant que le
+  mécanisme clairement identifiable, même principe que Décalage de
+  Phase (X)/Frenzon plus haut. Fluff omis (même raison que les
+  Assassins précédents). Vérifié par le même test headless.
+  **Bilan du chantier Divisio Assassinorum** : nouvelle Faction
+  volontairement absente de `FACTIONS` (js/organigramme.js, accès
+  exclusivement via le nouvel Avantage Principal Agent de Clade),
+  3 nouveaux champs génériques sur les Avantages Principaux
+  (`loyaliste`, `principalUniquement`, `factionCaseAjoutee`)
+  réutilisables pour toute future Faction du même genre, nouvelle
+  méthode `Organigramme.factionsDebloqueesParAvantage()`, et 6 Unités
+  Appui complètes avec leurs Armes/Règles Spéciales propres dans
+  `armes-data.js`/`regles-data.js`. Chaque nouvelle arme a été vérifiée
+  contre les profils déjà existants avant ajout (plusieurs génériques
+  déjà en place ont été réutilisées telles quelles — Pistolet bolter,
+  Pistolet archéotech, Bolter, Lance-flammes, deux pistolets laser,
+  Épée énergétique — évitant ainsi tout doublon).
+
+- **7ᵉ Unité Divisio Assassinorum — Assassin Vindicare (Appui, 150
+  Points)** : un 7ᵉ Clade d'Assassin s'ajoute donc au bilan ci-dessus
+  (le roster n'était pas complet à 6 en fait). Même mécanisme Agent de
+  Clade. Profil distinct des autres (CT7/A2 — meilleur tireur mais
+  piètre combattant au contact, cohérent avec le thème sniper). Fluff
+  transcrit intégralement cette fois : photo nettement plus lisible que
+  les Assassins précédents, sans incohérence de répétition OCR
+  détectée à la relecture. Équipement : Fusil Extius et Pistolet
+  Extius (deux nouveaux profils de Tir, portée 100 pas pour le Fusil),
+  Lame d'Assassin (nouveau profil Mêlée). Règles Spéciales propres :
+  **Tir Fatal** (ignore la Dissimulation (X) en tirant, et permet de
+  doter toutes les Armes de la Figurine de Meurtrière (5+), Lacération
+  (5+) ou Choc (Fixée, Neutralisée) au choix pour l'Attaque de Tir en
+  cours) et **Meurtrière (X)** — nouvelle Règle Spéciale d'Arme
+  générique ajoutée à `REGLES_ARMES` (pas `REGLES_DIVERSES`, à la
+  différence des Règles propres aux Unités) : ignore Guerrier Éternel
+  (X) sur un Jet de Blessure ≥ X. Les deux reconstruites à partir d'un
+  texte source avec des répétitions OCR, même principe que les Règles
+  Spéciales des Assassins précédents (gardé seulement le mécanisme
+  clairement identifiable). Vérifié par le même test headless.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
