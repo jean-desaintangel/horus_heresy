@@ -4416,7 +4416,21 @@ function initialiserChoixUnite() {
     const li = evenement.target.closest("[role='option']");
     if (!li) return;
     evenement.preventDefault();
-    if (li.getAttribute("aria-disabled") === "true") return;
+    if (li.getAttribute("aria-disabled") === "true") {
+      // Le `title` (info-bulle native) posé sur cette option grisée
+      // n'apparaît qu'au survol souris — inutilisable au doigt sur
+      // mobile/tablette. On affiche donc le même texte dans
+      // #ajout-message (déjà utilisé par « Ajouter à la liste »/
+      // « Dupliquer ») au tap, sans fermer la liste, pour que
+      // l'explication reste lisible au doigt comme à la souris.
+      const messageAjout = document.getElementById("ajout-message");
+      if (messageAjout && li.title) {
+        messageAjout.textContent = li.title;
+        messageAjout.hidden = false;
+        messageAjout.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
     const unite = trouverUnite(li.dataset.uniteId);
     if (unite) choisir(unite);
   });
