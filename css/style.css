@@ -806,11 +806,16 @@ strong {
    rapport au viewport, la bulle échappe à ce rognage quelle que soit
    la hauteur du tableau qui la contient.
    Partagé par .orga-boite (organigramme, construction-liste.html), .regle-tag
-   (règles spéciales des tables d'armes, armes.html) et .orga-badge
-   (badges de Rôles Tactiques du constructeur d'armée, construction-liste.html). */
+   (règles spéciales des tables d'armes, armes.html), .orga-badge
+   (badges de Rôles Tactiques du constructeur d'armée, construction-liste.html)
+   et .unite-combobox-option--indisponible (unité grisée dans la liste
+   « Unité à ajouter », construction-liste.html — explique pourquoi elle est
+   indisponible, y compris au doigt sur mobile où un simple `title`
+   ne se déclenche jamais). */
 .orga-boite .tooltip,
 .regle-tag .tooltip,
-.orga-badge .tooltip {
+.orga-badge .tooltip,
+.unite-combobox-option--indisponible .tooltip {
   visibility: hidden;
   opacity: 0;
   /* Base mobile : la bulle s'affiche en bandeau fixé en bas d'écran,
@@ -839,7 +844,9 @@ strong {
 .regle-tag:hover .tooltip,
 .regle-tag:focus .tooltip,
 .orga-badge:hover .tooltip,
-.orga-badge:focus .tooltip {
+.orga-badge:focus .tooltip,
+.unite-combobox-option--indisponible:hover .tooltip,
+.unite-combobox-option--indisponible:focus .tooltip {
   visibility: visible;
   opacity: 1;
 }
@@ -853,7 +860,8 @@ strong {
 @media (min-width: 601px) {
   .orga-boite .tooltip,
   .regle-tag .tooltip,
-  .orga-badge .tooltip {
+  .orga-badge .tooltip,
+  .unite-combobox-option--indisponible .tooltip {
     position: fixed;
     bottom: calc(100% + 8px);
     left: 50%;

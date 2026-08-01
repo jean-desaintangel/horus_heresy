@@ -499,9 +499,11 @@ function creerRegleTag(texte, definition) {
 
 /* ----------------------------------------------------------
    ACCESSIBILITÉ — info-bulles (WCAG 1.3.1 / 4.1.2)
-   Chaque case .orga-boite (organigramme, construction-liste.html) et chaque
-   .regle-tag (règles spéciales des tables d'armes, armes.html) est
-   focalisable (tabindex="0") et révèle une description au focus. On
+   Chaque case .orga-boite (organigramme, construction-liste.html), chaque
+   .regle-tag (règles spéciales des tables d'armes, armes.html) et chaque
+   option .unite-combobox-option--indisponible (unité grisée de la
+   liste « Unité à ajouter », construction-liste.html) est focalisable
+   (tabindex="0") et révèle une description au focus. On
    associe la description à son déclencheur via aria-describedby pour
    qu'un lecteur d'écran l'annonce.
    Pas de role="button" : un « bouton » devrait réagir à Entrée/Espace
@@ -516,7 +518,9 @@ function creerRegleTag(texte, definition) {
 let compteurInfoBulle = 0;
 function cablerInfoBulles(racine) {
   (racine || document)
-    .querySelectorAll(".orga-boite, .regle-tag, .orga-badge")
+    .querySelectorAll(
+      ".orga-boite, .regle-tag, .orga-badge, .unite-combobox-option--indisponible",
+    )
     .forEach((declencheur) => {
       const bulle = declencheur.querySelector(".tooltip");
       if (!bulle) return;
@@ -583,13 +587,13 @@ function positionnerBulle(cible) {
 // délégation unique sur document plutôt qu'un écouteur par bulle.
 document.addEventListener("mouseover", (evenement) => {
   const cible = evenement.target.closest(
-    ".orga-boite, .regle-tag, .orga-badge",
+    ".orga-boite, .regle-tag, .orga-badge, .unite-combobox-option--indisponible",
   );
   if (cible) positionnerBulle(cible);
 });
 document.addEventListener("focusin", (evenement) => {
   const cible = evenement.target.closest(
-    ".orga-boite, .regle-tag, .orga-badge",
+    ".orga-boite, .regle-tag, .orga-badge, .unite-combobox-option--indisponible",
   );
   if (cible) positionnerBulle(cible);
 });
@@ -601,10 +605,12 @@ document.addEventListener("focusin", (evenement) => {
 function repositionnerBullesVisibles() {
   document
     .querySelectorAll(
-      ".orga-boite:hover .tooltip, .regle-tag:hover .tooltip, .orga-badge:hover .tooltip, .orga-boite:focus-within .tooltip, .regle-tag:focus-within .tooltip, .orga-badge:focus-within .tooltip",
+      ".orga-boite:hover .tooltip, .regle-tag:hover .tooltip, .orga-badge:hover .tooltip, .unite-combobox-option--indisponible:hover .tooltip, .orga-boite:focus-within .tooltip, .regle-tag:focus-within .tooltip, .orga-badge:focus-within .tooltip, .unite-combobox-option--indisponible:focus-within .tooltip",
     )
     .forEach((bulle) => {
-      const cible = bulle.closest(".orga-boite, .regle-tag, .orga-badge");
+      const cible = bulle.closest(
+        ".orga-boite, .regle-tag, .orga-badge, .unite-combobox-option--indisponible",
+      );
       if (cible) positionnerBulle(cible);
     });
 }

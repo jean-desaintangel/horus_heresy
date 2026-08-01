@@ -4303,9 +4303,23 @@ function initialiserChoixUnite() {
       li.dataset.uniteId = entree.unite.id;
       li.setAttribute("aria-selected", String(entree.unite.id === uniteId));
       li.setAttribute("aria-disabled", String(!disponible));
-      if (!disponible) li.title = Organigramme.suggestionPourRole(entree.unite);
+      if (!disponible) {
+        // Bulle .tooltip (même mécanisme que les Règles Spéciales des
+        // tables d'armes/l'Organigramme — voir creerRegleTag,
+        // js/main.js) plutôt qu'un simple attribut `title` : sur
+        // mobile, `title` ne se déclenche jamais au doigt, alors que
+        // la bulle s'affiche en bandeau fixé en bas d'écran au focus
+        // (CSS), déclenché explicitement au tap (voir mousedown plus
+        // bas). tabIndex la rend focalisable, requis pour le focus
+        // clavier/tactile.
+        li.tabIndex = 0;
+        li.appendChild(
+          el("span", "tooltip", Organigramme.suggestionPourRole(entree.unite)),
+        );
+      }
       liste.appendChild(li);
     }
+    if (window.cablerInfoBulles) window.cablerInfoBulles(liste);
   }
 
   function surligner(indice) {
@@ -4417,24 +4431,15 @@ function initialiserChoixUnite() {
     if (!li) return;
     evenement.preventDefault();
     if (li.getAttribute("aria-disabled") === "true") {
-      // Le `title` (info-bulle native) posé sur cette option grisée
-      // n'apparaît qu'au survol souris — inutilisable au doigt sur
-      // mobile/tablette. On affiche donc le même texte dans
-      // #ajout-message (déjà utilisé par « Ajouter à la liste »/
-      // « Dupliquer ») au tap. Contrairement à une sélection réussie,
-      // on referme ici la liste ET on retire le focus du champ (masque
-      // le clavier virtuel) avant d'afficher le message : sur mobile,
-      // la liste déroulante (jusqu'à 320px) plus le clavier occupent
-      // sinon tout l'écran et cachent complètement #ajout-message, ce
-      // qui donnait l'impression que le tap ne faisait rien.
-      const messageAjout = document.getElementById("ajout-message");
-      if (messageAjout && li.title) {
-        fermer();
-        champ.blur();
-        messageAjout.textContent = li.title;
-        messageAjout.hidden = false;
-        messageAjout.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      // Cette option porte désormais une bulle .tooltip (voir rendre()
+      // ci-dessus) plutôt qu'un `title`, sur le même principe que les
+      // Règles Spéciales des tables d'armes : elle s'affiche au focus
+      // (CSS), en bandeau fixé en bas d'écran sur mobile — jamais
+      // recouverte par la liste ouverte ni par le clavier virtuel,
+      // contrairement à `title` (jamais déclenché au doigt) ou à un
+      // message inline. preventDefault() ci-dessus empêchant le focus
+      // natif du navigateur, on le déclenche nous-mêmes.
+      li.focus();
       return;
     }
     const unite = trouverUnite(li.dataset.uniteId);
