@@ -296,6 +296,31 @@ function uniteAccessible(unite) {
         return false;
     }
   }
+  // Choix de Détachement Principal Zone Mortalis (Journal Tactica :
+  // Zone Mortalis, js/organigramme-data.js) : quand l'un des 3 Charts
+  // alternatifs est sélectionné, les Unités Aéronef et les Véhicules à
+  // plus de 2 PC (Points de Coque) deviennent indisponibles, quelle que
+  // soit la Faction — restriction non tirée du livre (pas de texte de
+  // règle fourni pour ces Charts au-delà de leur composition de Cases),
+  // demande explicite du proprio. Vérifié sur `unite.variantes` : une
+  // Unité est bloquée dès qu'AU MOINS une de ses variantes est un
+  // Aéronef ou un Véhicule trop lourd (ex : une variante Outrider/à
+  // pied d'une même Unité ne bloque jamais une variante Véhicule
+  // distincte, et réciproquement).
+  const chartActuel =
+    orgaPret && typeof Organigramme !== "undefined"
+      ? Organigramme.chartPrincipalActuel()
+      : "";
+  if (chartActuel && chartActuel.startsWith("zone-mortalis-")) {
+    const estAeronef = unite.variantes.some(
+      (v) => v.type && v.type.includes("Aéronef"),
+    );
+    if (estAeronef) return false;
+    const vehiculeTropLourd = unite.variantes.some(
+      (v) => v.profilVehicule && Number(v.profilVehicule.PC) > 2,
+    );
+    if (vehiculeTropLourd) return false;
+  }
   if (
     unite.excluAvec &&
     unite.excluAvec.some((id) => armee.some((inst) => inst.uniteId === id))
@@ -3994,11 +4019,16 @@ function initialiserChoixUnite() {
   );
 
   // Liste plate, dans l'ordre d'affichage : un en-tête { groupe }
-  // suivi des unités { unite } de cette catégorie.
+  // suivi des unités { unite } de cette catégorie, triées par ordre
+  // alphabétique de leur nom (plutôt que l'ordre d'apparition dans
+  // js/unites-data.js, qui ne reflète que l'ordre de transcription).
   const entrees = [];
   for (const categorie of categories) {
     entrees.push({ groupe: categorie });
-    for (const unite of UNITES.filter((u) => u.categorie === categorie)) {
+    const unitesCategorie = UNITES.filter((u) => u.categorie === categorie).sort(
+      (a, b) => a.nom.localeCompare(b.nom, "fr"),
+    );
+    for (const unite of unitesCategorie) {
       entrees.push({ unite });
     }
   }

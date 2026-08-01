@@ -43,7 +43,7 @@ const Organigramme = (() => {
     riteDeGuerre: "", // id d'un RITES_DE_GUERRE[legion] ou "" (aucun choisi)
     doctrineCohorte: "", // id DOCTRINES_DE_COHORTE ou "" (Solar Auxilia seulement)
     designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
-    chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — Legio Astartes seulement, facultatif
+    chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — toute Faction sauf Legio Titanicus, facultatif
     detachements: [],
   };
 
@@ -739,9 +739,13 @@ const Organigramme = (() => {
   // reinitialiserArmeeAvecConfirmation).
   function idDetachementPrincipal() {
     if (etat.faction === "legio-titanicus") return "ordinal-titanique";
+    // Le Choix de Détachement Principal (chartPrincipal, menu des
+    // paramètres de la partie) prend le pas sur le Détachement
+    // Principal de Maisonnées habituel de Chevaliers Questoris quand
+    // il est renseigné — proposé pour toute Faction sauf Legio
+    // Titanicus, voir construireParametres().
+    if (etat.chartPrincipal) return etat.chartPrincipal;
     if (etat.faction === "chevaliers-questoris") return "maisonnees-chevaliers";
-    if (etat.faction === "legio-astartes" && etat.chartPrincipal)
-      return etat.chartPrincipal;
     return "principal";
   }
 
@@ -3251,52 +3255,6 @@ const Organigramme = (() => {
         });
         ligne.appendChild(groupeParametre(labelRite, selectRite));
       }
-
-      // Chart de Détachement Principal (Journal Tactica : Zone
-      // Mortalis, p. 285) : alternatives facultatives au Détachement
-      // Principal de Croisade standard, sans condition de mission
-      // (non modélisée sur ce site — voir TYPES_DETACHEMENTS,
-      // js/organigramme-data.js). Un changement remplace le
-      // Détachement Principal comme un changement de Légion/Rite de
-      // Guerre ci-dessus.
-      const chartsPrincipaux = TYPES_DETACHEMENTS.filter(
-        (t) => t.famille === "principal" && t.id !== "principal" && !t.faction,
-      );
-      if (chartsPrincipaux.length > 0) {
-        const labelChart = el("label", null, "Chart de Détachement Principal");
-        const selectChart = document.createElement("select");
-        selectChart.id = "chart-principal-armee";
-        labelChart.htmlFor = selectChart.id;
-        ajouterOption(selectChart, "", "Détachement Principal de Croisade");
-        for (const chart of chartsPrincipaux) {
-          ajouterOption(selectChart, chart.id, chart.nom);
-        }
-        selectChart.value = etat.chartPrincipal;
-        selectChart.addEventListener("change", () => {
-          const nouveauChart = selectChart.value;
-          if (nouveauChart !== etat.chartPrincipal) {
-            if (
-              !reinitialiserArmeeAvecConfirmation(
-                "Changer de Chart de Détachement Principal réinitialise la " +
-                  "liste d'armée et les détachements sélectionnés. Continuer ?",
-              )
-            ) {
-              selectChart.value = etat.chartPrincipal;
-              return;
-            }
-            // reinitialiserArmeeAvecConfirmation() vient de recréer le
-            // Détachement Principal avec l'ANCIEN chartPrincipal (lu via
-            // idDetachementPrincipal() avant la ligne suivante) : il faut
-            // le reconstruire une seconde fois une fois le nouveau choix
-            // affecté, sans quoi le Détachement affiché resterait celui
-            // d'avant le changement.
-            etat.chartPrincipal = nouveauChart;
-            etat.detachements = [creerDetachement(idDetachementPrincipal())];
-          }
-          actualiser();
-        });
-        ligne.appendChild(groupeParametre(labelChart, selectChart));
-      }
     } else if (etat.faction === "chevaliers-questoris") {
       // Maisonnée (livre d'armée Chevaliers Questoris) : remplace le
       // menu Légion pour cette Faction (MAISONNEES ci-dessus). Aucune
@@ -3401,6 +3359,58 @@ const Organigramme = (() => {
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelDesignation, selectDesignation));
+    }
+
+    // Choix de Détachement Principal (Journal Tactica : Zone Mortalis,
+    // p. 285) : alternatives facultatives au Détachement Principal de
+    // Croisade standard, sans condition de mission (non modélisée sur
+    // ce site — voir TYPES_DETACHEMENTS, js/organigramme-data.js).
+    // Proposé pour toute Faction SAUF Legio Titanicus (dont le
+    // Détachement Principal Ordinal Titanique est propre à sa Liste
+    // d'Armée et n'a pas de sens à remplacer) — y compris Chevaliers
+    // Questoris, dont le choix prend alors le pas sur le Détachement
+    // Principal de Maisonnées habituel (voir idDetachementPrincipal()).
+    // Un changement remplace le Détachement Principal comme un
+    // changement de Légion/Rite de Guerre ci-dessus.
+    if (etat.faction !== "legio-titanicus") {
+      const chartsPrincipaux = TYPES_DETACHEMENTS.filter(
+        (t) => t.famille === "principal" && t.id !== "principal" && !t.faction,
+      );
+      if (chartsPrincipaux.length > 0) {
+        const labelChart = el("label", null, "Choix de Détachement Principal");
+        const selectChart = document.createElement("select");
+        selectChart.id = "chart-principal-armee";
+        labelChart.htmlFor = selectChart.id;
+        ajouterOption(selectChart, "", "Détachement Principal de Croisade");
+        for (const chart of chartsPrincipaux) {
+          ajouterOption(selectChart, chart.id, chart.nom);
+        }
+        selectChart.value = etat.chartPrincipal;
+        selectChart.addEventListener("change", () => {
+          const nouveauChart = selectChart.value;
+          if (nouveauChart !== etat.chartPrincipal) {
+            if (
+              !reinitialiserArmeeAvecConfirmation(
+                "Changer de Choix de Détachement Principal réinitialise la " +
+                  "liste d'armée et les détachements sélectionnés. Continuer ?",
+              )
+            ) {
+              selectChart.value = etat.chartPrincipal;
+              return;
+            }
+            // reinitialiserArmeeAvecConfirmation() vient de recréer le
+            // Détachement Principal avec l'ANCIEN chartPrincipal (lu via
+            // idDetachementPrincipal() avant la ligne suivante) : il faut
+            // le reconstruire une seconde fois une fois le nouveau choix
+            // affecté, sans quoi le Détachement affiché resterait celui
+            // d'avant le changement.
+            etat.chartPrincipal = nouveauChart;
+            etat.detachements = [creerDetachement(idDetachementPrincipal())];
+          }
+          actualiser();
+        });
+        ligne.appendChild(groupeParametre(labelChart, selectChart));
+      }
     }
 
     const labelAllegeance = el("label", null, "Allégeance");
@@ -4618,6 +4628,7 @@ const Organigramme = (() => {
     // choisie, même principe que maisonneeActuelle() ci-dessus pour
     // Chevaliers Questoris.
     doctrineCohorteActuelle: () => etat.doctrineCohorte,
+    chartPrincipalActuel: () => etat.chartPrincipal,
     // Désignation de Legiones Auxilia choisie ("" = aucune, Faction
     // Solar Auxilia uniquement, choix facultatif — voir
     // DESIGNATIONS_LEGIONES_AUXILIA, js/organigramme-data.js) :

@@ -105,7 +105,19 @@
 // (js/armes-data.js) — voir CLAUDE.md.
 // v58 : corrige le MI de l'Épée énergétique générique ("1" au lieu de
 // "I", signalé par le proprio) (js/armes-data.js) — voir CLAUDE.md.
-const CACHE_VERSION = "v58";
+// v59 : tri alphabétique des Unités dans chaque catégorie du menu
+// « Unité à ajouter » (js/unites.js) ; nouvelle Unité Champion de
+// Légion en Armure Terminator (js/unites-data.js, js/
+// organigramme-data.js) ; renommages (Unités Zone Mortalis/Forges of
+// Saturn/Dropsite marquées de leur supplément source, Unités "Monté"
+// devenues "à moto") ; menu « Chart de Détachement Principal »
+// renommé « Choix de Détachement Principal » et étendu à toute
+// Faction sauf Legio Titanicus ; restrictions Zone Mortalis (Unités
+// Aéronef et Véhicules à plus de 2 PC indisponibles quand un Chart
+// Zone Mortalis est sélectionné, js/unites.js) ; Maître de la
+// Descente n'est plus verrouillé aux Word Bearers ; 3 nouvelles
+// sources Journal Tactica ajoutées (js/main.js) — voir CLAUDE.md.
+const CACHE_VERSION = "v59";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

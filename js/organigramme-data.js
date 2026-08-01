@@ -320,18 +320,19 @@ const TYPES_DETACHEMENTS = [
 
   /* ---------- Détachements Principaux alternatifs (Journal Tactica :
      Zone Mortalis, p. 285, « Zone Mortalis Primary Detachments ») :
-     facultatifs, sélectionnables via le menu « Chart de Détachement
-     Principal » des paramètres de la partie (Legio Astartes
-     seulement) à la place du Détachement Principal de Croisade
-     ci-dessus. Le livre les réserve aux parties jouées sur une
-     Mission Zone Mortalis — condition non modélisée sur ce site
-     (aucune notion de type de mission), donc laissée au joueur de
-     vérifier lui-même. Compositions confirmées par le proprio
-     (2026-08-02), corrigeant une première lecture approximative des
-     icônes de la photo. Une seule Case Principale par Chart (jamais
-     la Case État-major, à la différence du Détachement Principal de
-     Croisade) : la 1ʳᵉ Case du dernier groupe listé dans chaque
-     composition. */
+     facultatifs, sélectionnables via le menu « Choix de Détachement
+     Principal » des paramètres de la partie (toute Faction sauf Legio
+     Titanicus, y compris Chevaliers Questoris — voir
+     idDetachementPrincipal(), js/organigramme.js) à la place du
+     Détachement Principal de Croisade ci-dessus. Le livre les réserve
+     aux parties jouées sur une Mission Zone Mortalis — condition non
+     modélisée sur ce site (aucune notion de type de mission), donc
+     laissée au joueur de vérifier lui-même. Compositions confirmées
+     par le proprio (2026-08-02), corrigeant une première lecture
+     approximative des icônes de la photo. Une seule Case Principale
+     par Chart (jamais la Case État-major, à la différence du
+     Détachement Principal de Croisade) : la 1ʳᵉ Case du dernier
+     groupe listé dans chaque composition. */
   {
     id: "zone-mortalis-strike-force",
     nom: "Zone Mortalis Strike Force",
@@ -1223,12 +1224,13 @@ const TYPES_DETACHEMENTS = [
     nom: "Cadre de Vétérans",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Champion de Légion — à pied ou Monté (Motard / Motojet Scimitar) — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
-    // « Champion sur Scimitar » (js/unites-data.js) compte comme une
-    // Unité de Champion de Légion pour ce déblocage (voir sa note).
+      "Débloqué quand un Champion de Légion — à pied, Monté (Motard / Motojet Scimitar) ou en Armure Terminator — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
+    // « Champion sur Scimitar » et « Champion de Légion en Armure
+    // Terminator » (js/unites-data.js) comptent tous deux comme une
+    // Unité de Champion de Légion pour ce déblocage (voir leur note).
     deblocage: {
       caseRole: "État-major",
-      uniteIds: ["champion", "champion-monte"],
+      uniteIds: ["champion", "champion-monte", "champion-armure-terminator"],
     },
     cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports")],
   },

@@ -2633,7 +2633,7 @@ const UNITES = [
     // Astartes » (pas de champ `legion`, comme le Centurion en Armure
     // Terminator ci-dessus).
     id: "centurion-armure-terminator-saturnine",
-    nom: "Centurion en Armure Terminator Saturnine",
+    nom: "Centurion en Armure Terminator Saturnine (Forges of Saturn)",
     categorie: "État-major",
     cout: 150,
     composition: "1 Centurion Saturnine",
@@ -3151,6 +3151,84 @@ const UNITES = [
     ],
   },
 
+  {
+    // Journal Tactica (source précise non communiquée). Générique
+    // « Legio Astartes » (pas de champ `legion`).
+    id: "champion-armure-terminator",
+    nom: "Champion de Légion en Armure Terminator",
+    categorie: "État-major",
+    cout: 135,
+    composition: "1 Champion de Légion Cataphractii",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "Les cadres Terminator tels que les Justaerin et les Firedrakes sont réputés pour leur prouesse au combat, et il n'est guère surprenant que de nombreux Champions de Légion se retrouvent à leur tour dans leurs rangs. Là où certains pourraient objecter que l'encombrement d'une Armure Terminator est inacceptable pour des duellistes de cette trempe, la traînée de commandants et de maîtres d'armes abattus qu'ils laissent dans leur sillage témoigne de leur puissance redoutable. Cette Unité compte comme une Unité de Champion de Légion pour la sélection du Détachement Auxiliaire Cadre de Vétérans.",
+    equipement: ["Combi-bolter", "Lame de parangon"],
+    variantes: [
+      {
+        nom: "Champion de Légion Cataphractii",
+        cout: 0,
+        profil: {
+          M: 6,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 8,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (2)",
+          "Avance Implacable",
+          "Lent et Méthodique",
+          "Ne Jamais Céder",
+        ],
+        type: "Infanterie (État-major, Lourd)",
+      },
+      {
+        nom: "Champion de Légion Tartaros",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 8,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Massif (2)", "Avance Implacable", "Ne Jamais Céder"],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        type: "choix",
+        id: "combi-bolter",
+        libelle: "Remplacer le combi-bolter",
+        remplace: "Combi-bolter",
+        choix: [
+          { nom: "— Conserver le combi-bolter —", cout: 0 },
+          { nom: "Chargeur volkite", cout: 0 },
+          ...depuisListes(LISTES_EQUIPEMENT.combinees),
+        ],
+      },
+    ],
+  },
   {
     id: "centurion-monte",
     nom: "Centurion sur moto",
@@ -3705,7 +3783,7 @@ const UNITES = [
      ---------------------------------------------------------- */
   {
     id: "maitre-signaux-monte",
-    nom: "Maître des Signaux Monté",
+    nom: "Maître des Signaux à moto",
     legacy: true,
     categorie: "État-major",
     cout: 145,
@@ -3993,7 +4071,7 @@ const UNITES = [
   },
   {
     id: "seigneur-forge-monte",
-    nom: "Seigneur de Forge Monté",
+    nom: "Seigneur de Forge à moto",
     legacy: true,
     categorie: "État-major",
     cout: 140,
@@ -4368,7 +4446,7 @@ const UNITES = [
   },
   {
     id: "primus-medicae-monte",
-    nom: "Primus Medicae Monté",
+    nom: "Primus Medicae à moto",
     legacy: true,
     categorie: "État-major",
     cout: 130,
@@ -4736,7 +4814,7 @@ const UNITES = [
   },
   {
     id: "delegatus-monte",
-    nom: "Delegatus Monté",
+    nom: "Delegatus à moto",
     legacy: true,
     categorie: "État-major",
     cout: 130,
@@ -6198,7 +6276,7 @@ const UNITES = [
   },
   {
     id: "devin-de-lorage-monte",
-    nom: "Devin de l'Orage Monté",
+    nom: "Devin de l'Orage à moto",
     legacy: true,
     categorie: "État-major",
     cout: 125,
@@ -6521,7 +6599,7 @@ const UNITES = [
     // Journal Tactica : The Forges of Saturn. Générique « Legio
     // Astartes » (pas de champ `legion`).
     id: "escouade-commandement-terminator-saturnine",
-    nom: "Escouade de Commandement Terminator Saturnine",
+    nom: "Escouade de Commandement Terminator Saturnine (Forges of Saturn)",
     categorie: "Suites",
     cout: 160,
     composition: "1 Champion Élu Saturnine, 1 Élu Saturnine",
@@ -6535,7 +6613,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Escouade de Commandement Terminator Saturnine",
+        nom: "Escouade de Commandement Terminator Saturnine (Forges of Saturn)",
         cout: 0,
         profils: [
           {
@@ -6666,7 +6744,7 @@ const UNITES = [
     // Journal Tactica : Dropsite. Générique « Legio Astartes » (pas de
     // champ `legion`).
     id: "escouade-commandement-controle-augure",
-    nom: "Escouade de Commandement et de Contrôle Augure",
+    nom: "Escouade de Commandement et de Contrôle Augure (Dropsite massacre)",
     categorie: "Suites",
     cout: 80,
     composition: "4 Légionnaires de Commandement et de Contrôle",
@@ -11204,7 +11282,7 @@ const UNITES = [
     // recoupe ce nom (vérifié par recherche) : Unité entièrement
     // nouvelle, pas de correction d'une entrée Legacies existante.
     id: "escouade-veterans-despoiler",
-    nom: "Escouade de Vétérans Despoiler",
+    nom: "Escouade de Vétérans Despoiler (Zone mortalis)",
     categorie: "Elite",
     cout: 95,
     composition: "1 Sergent Vétéran Despoiler, 4 Vétérans Despoiler",
@@ -11221,7 +11299,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Escouade de Vétérans Despoiler",
+        nom: "Escouade de Vétérans Despoiler (Zone mortalis)",
         cout: 0,
         profils: [
           {
@@ -15653,7 +15731,7 @@ const UNITES = [
     // standard qu'à un Super-lourd (confirmé après question posée) —
     // ne pas « corriger » vers "Blindés" en cas de doute futur.
     id: "hyperios",
-    nom: "Char à Missiles Hyperios",
+    nom: "Char à Missiles Hyperios (Dropsite massacre)",
     categorie: "Seigneurs des Batailles",
     cout: 120,
     composition: "1 Char à Missiles Hyperios",
@@ -15664,7 +15742,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Char à Missiles Hyperios",
+        nom: "Char à Missiles Hyperios (Dropsite massacre)",
         cout: 0,
         profilVehicule: {
           M: 10,
@@ -21894,7 +21972,7 @@ const UNITES = [
   },
   {
     id: "tireur-de-runes-monte",
-    nom: "Tireur de Runes Monté",
+    nom: "Tireur de Runes à moto",
     legacy: true,
     categorie: "État-major",
     cout: 150,
@@ -22181,7 +22259,7 @@ const UNITES = [
   },
   {
     id: "porte-parole-des-morts-monte",
-    nom: "Porte-Parole des Morts Monté",
+    nom: "Porte-Parole des Morts à moto",
     legacy: true,
     categorie: "État-major",
     cout: 130,
@@ -25048,14 +25126,16 @@ const UNITES = [
     legion: "XVII",
   },
   {
-    // Journal Tactica : Dropsite. Le texte de règle de cette fiche ne
-    // mentionne aucune restriction de Légion ni d'Allégeance (« This
-    // Unit can be included in Detachments from the Legiones Astartes
-    // Army List », TRAITS : [Allegiance]/[Legiones Astartes] seuls) —
-    // `legion: "XVII"` posé sur demande explicite du proprio malgré
-    // cela, comme pour la catégorie du Char à Missiles Hyperios.
+    // Journal Tactica : Dropsite. Générique « Legio Astartes », toute
+    // Légion (pas de champ `legion`) — corrigé (2026-08-02, signalé
+    // par le proprio) : une session précédente avait posé
+    // `legion: "XVII"` sur demande explicite, mais le texte de règle
+    // de cette fiche ne mentionne en réalité aucune restriction de
+    // Légion ni d'Allégeance (« This Unit can be included in
+    // Detachments from the Legiones Astartes Army List », TRAITS :
+    // [Allegiance]/[Legiones Astartes] seuls) ; retiré.
     id: "maitre-descente",
-    nom: "Maître de la Descente",
+    nom: "Maître de la Descente (Dropsite massacre)",
     categorie: "État-major",
     cout: 115,
     composition: "1 Maître de la Descente",
@@ -25069,7 +25149,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Maître de la Descente",
+        nom: "Maître de la Descente (Dropsite massacre)",
         cout: 0,
         profil: {
           M: 12,
@@ -25119,7 +25199,6 @@ const UNITES = [
       },
       optionBombesFusion(),
     ],
-    legion: "XVII",
   },
   {
     id: "diaboliste",
@@ -25292,7 +25371,7 @@ const UNITES = [
   },
   {
     id: "diaboliste-monte",
-    nom: "Diaboliste Monté",
+    nom: "Diaboliste à moto",
     legacy: true,
     categorie: "État-major",
     cout: 145,
@@ -25414,7 +25493,7 @@ const UNITES = [
     // laissée en l'état sans traduction ni entrée de glossaire — voir
     // règle 6 de CLAUDE.md.
     id: "conclave-phraetus-oints",
-    nom: "Conclave des Phraetus Oints",
+    nom: "Conclave des Phraetus Oints (Forges of Saturn)",
     categorie: "Elite",
     legion: "XVII",
     cout: 240,
@@ -25431,7 +25510,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Conclave des Phraetus Oints",
+        nom: "Conclave des Phraetus Oints (Forges of Saturn)",
         cout: 0,
         profils: [
           {
@@ -31874,7 +31953,7 @@ const UNITES = [
     // bouclier d'abordage contre un objet de cette liste n'est donc pas
     // câblée.
     id: "sa-raiders-veletaris",
-    nom: "Section de Raiders Veletaris",
+    nom: "Section de Raiders Veletaris (Zone mortalis)",
     faction: "solar-auxilia",
     categorie: "Elite",
     cout: 85,
@@ -31893,7 +31972,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Section de Raiders Veletaris",
+        nom: "Section de Raiders Veletaris (Zone mortalis)",
         cout: 0,
         profils: [
           {
@@ -32112,7 +32191,7 @@ const UNITES = [
     // Zone Mortalis) n'est pas non plus modélisé mécaniquement — voir
     // son entrée de glossaire dans regles-data.js.
     id: "sa-technicien-combat",
-    nom: "Section Technicien de Combat Auxilia",
+    nom: "Section Technicien de Combat Auxilia (Zone mortalis)",
     faction: "solar-auxilia",
     categorie: "Appui",
     cout: 35,
@@ -32130,7 +32209,7 @@ const UNITES = [
     ],
     variantes: [
       {
-        nom: "Section Technicien de Combat Auxilia",
+        nom: "Section Technicien de Combat Auxilia (Zone mortalis)",
         cout: 0,
         profils: [
           {
@@ -35208,7 +35287,7 @@ const UNITES = [
     // SAV2+/INV4+ pour les deux autres, sans Brise-blindage mais avec
     // Vanguard (3) en plus) : pas un doublon, Unité séparée.
     id: "mech-castellax-infernus",
-    nom: "Manipule Castellax Infernus",
+    nom: "Manipule Castellax Infernus (Zone mortalis)",
     faction: "mechanicum",
     categorie: "Appui",
     cout: 110,

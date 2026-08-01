@@ -1160,6 +1160,18 @@ const SOURCES_SITE = [
     href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-mechanicum-2025-fre",
   },
   {
+    texte: "Journal Tactica : The Isstvan V Dropsite Massacre",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-isstvan-v-part-1-2025-eng",
+  },
+  {
+    texte: "Journal Tactica : The Forges of Saturn",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-the-forges-of-saturn-eng-2025",
+  },
+  {
+    texte: "Journal Tactica : Zone Mortalis",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-zone-mortalis-eng-2026",
+  },
+  {
     texte: "Unités Legacies",
     href: "https://assets.warhammer-community.com/eng_30-10_thehorusheresy_aod_legacies-rosvjdnd1o-gqos8xkdx7.pdf",
   },

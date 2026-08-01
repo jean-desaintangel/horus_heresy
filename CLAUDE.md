@@ -2836,5 +2836,68 @@ Règles Spéciales :
   déjà le cas de l'Épée énergétique Argean juste en dessous — même
   famille d'arme). Corrigé en `"I"`.
 
+- **Session de finition post-suppléments (2026-08-02)**, demandes
+  successives du proprio après les chantiers Zone Mortalis/Forges of
+  Saturn/Dropsite :
+  - **Tri alphabétique** du menu « Unité à ajouter » : chaque
+    catégorie trie désormais ses Unités par `nom` (`localeCompare`
+    locale "fr") plutôt que par ordre d'apparition dans
+    `js/unites-data.js` (`initialiserChoixUnite`, js/unites.js).
+  - **Nouvelle Unité Champion de Légion en Armure Terminator**
+    (État-major, générique Legio Astartes, 135 Points, deux variantes
+    Cataphractii/Tartaros échangeables gratuitement, Ne Jamais Céder
+    déjà établi) — compte comme un Champion de Légion pour le
+    Détachement Auxiliaire Cadre de Vétérans, dont `deblocage.uniteIds`
+    a été complété en conséquence.
+  - **Renommages par supplément source**, sur demande explicite du
+    proprio pour distinguer les Unités par PDF d'origine dans le
+    sélecteur : suffixe « (Zone mortalis) » sur Escouade de Vétérans
+    Despoiler/Section Technicien de Combat Auxilia/Section de Raiders
+    Veletaris/Manipule Castellax Infernus ; « (Dropsite massacre) » sur
+    Char à Missiles Hyperios/Escouade de Commandement et de Contrôle
+    Augure/Maître de la Descente ; « (Forges of Saturn) » sur
+    Centurion/Escouade de Commandement Terminator Saturnine/Conclave
+    des Phraetus Oints. Renommé aussi les 8 Unités « Monté » (Maître
+    des Signaux, Seigneur de Forge, Primus Medicae, Delegatus, Devin de
+    l'Orage, Tireur de Runes, Porte-Parole des Morts, Diaboliste) en
+    « à moto », sur le même principe que « Champion sur moto »/
+    « Centurion sur moto » déjà établis — seul le `nom` affiché change,
+    jamais l'`id`.
+  - **Bug corrigé : Maître de la Descente verrouillé à tort aux Word
+    Bearers.** Une session précédente avait posé `legion: "XVII"` sur
+    demande explicite, mais en révisant la fiche son texte de règle ne
+    mentionne en réalité aucune restriction de Légion — retiré, l'Unité
+    est maintenant accessible à toute Légion.
+  - **Menu « Chart de Détachement Principal » renommé « Choix de
+    Détachement Principal » et étendu à toute Faction sauf Legio
+    Titanicus** (auparavant Legio Astartes seulement) — y compris
+    Chevaliers Questoris, où ce choix prend désormais le pas sur son
+    Détachement Principal de Maisonnées habituel
+    (`idDetachementPrincipal()`, js/organigramme.js : `chartPrincipal`
+    vérifié avant le cas Chevaliers Questoris, seul Legio Titanicus
+    reste prioritaire et non contournable). Le menu lui-même a été
+    déplacé hors du bloc de rendu propre à Legio Astartes vers un bloc
+    partagé juste avant le menu Allégeance.
+  - **Nouvelles restrictions Zone Mortalis** : quand un des 3 Charts
+    alternatifs est sélectionné, les Unités Aéronef et les Véhicules à
+    plus de 2 PC (Points de Coque) deviennent indisponibles à la
+    sélection, quelle que soit la Faction — règle demandée par le
+    proprio, sans texte du livre au-delà de la composition des Cases de
+    ces Charts. Nouvel accesseur `Organigramme.chartPrincipalActuel()`
+    et nouvelle vérification dans `uniteAccessible()` (js/unites.js),
+    évaluée sur `unite.variantes` (Aéronef détecté par sous-chaîne dans
+    `type`, PC lu dans `profilVehicule.PC`) : une Unité avec plusieurs
+    variantes n'est bloquée que si AU MOINS une variante correspond,
+    jamais à cause d'une variante sans rapport de la même Unité.
+    Vérifié par test fonctionnel jsdom (page réelle) : Fire Raptor,
+    Char à Missiles Hyperios et Rhino disparaissent bien du sélecteur
+    dès qu'un Chart Zone Mortalis est actif (Praetor, Infanterie, reste
+    disponible), et réapparaissent au retour au Détachement Principal
+    de Croisade standard.
+  - **3 nouvelles sources** ajoutées à `SOURCES_SITE` (js/main.js),
+    juste après Liber Mechanicum : Journal Tactica The Isstvan V
+    Dropsite Massacre, Journal Tactica The Forges of Saturn, Journal
+    Tactica Zone Mortalis (liens boutique warhammer.com/fr-FR).
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
