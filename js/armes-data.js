@@ -3844,8 +3844,12 @@ const ARMES_MELEE = [
     titre: "Armes Énergétiques",
     armes: [
       {
+        // Corrigé (2026-08-02, signalé par le proprio) : MI valait "1"
+        // (bare, sans signe) au lieu de "I" (utilise l'Initiative
+        // propre au porteur, sans modificateur — comme l'Épée
+        // énergétique Argean juste en dessous, même famille d'arme).
         nom: "Épée énergétique",
-        stats: ["1", "A", "F", "3", "1"],
+        stats: ["I", "A", "F", "3", "1"],
         regles: "Brèche (6+)",
         traits: "Énergétique",
       },

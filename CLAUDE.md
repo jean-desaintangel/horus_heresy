@@ -2828,5 +2828,13 @@ Règles Spéciales :
   proches dans ce fichier : un copier-coller depuis l'entrée
   précédente peut laisser une Règle Spéciale ou un Trait orphelin.
 
+- **Bug corrigé (2026-08-02, signalé par le proprio) : MI de l'Épée
+  énergétique générique** (`js/armes-data.js`) — valait `"1"` (valeur
+  brute sans signe), incohérent avec le reste du fichier (`"+1"` pour
+  un vrai bonus d'Initiative comme la Lance énergétique, `"I"` pour un
+  profil qui utilise l'Initiative propre au porteur sans modification,
+  déjà le cas de l'Épée énergétique Argean juste en dessous — même
+  famille d'arme). Corrigé en `"I"`.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

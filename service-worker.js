@@ -103,7 +103,9 @@
 // Auxilia), qui héritaient par erreur de copier-coller de « Fléau des
 // Blindages »/du Trait Baïonnette d'une arme voisine
 // (js/armes-data.js) — voir CLAUDE.md.
-const CACHE_VERSION = "v57";
+// v58 : corrige le MI de l'Épée énergétique générique ("1" au lieu de
+// "I", signalé par le proprio) (js/armes-data.js) — voir CLAUDE.md.
+const CACHE_VERSION = "v58";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
