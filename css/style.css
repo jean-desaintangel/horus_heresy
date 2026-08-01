@@ -1869,6 +1869,16 @@ button:focus-visible,
   opacity: 0.85;
 }
 
+.groupe-boutons-telechargement {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.groupe-boutons-telechargement .bouton-telecharger {
+  flex: 1 1 auto;
+}
+
 /* ============================================================
    PIED DE PAGE
    ============================================================ */
