@@ -152,7 +152,7 @@
 // qualificatif entre parenthèses (js/main.js) et traduit « Aflame (2) »
 // resté en anglais (js/unites-data.js) — js/regles-data.js, js/main.js,
 // js/unites-data.js.
-const CACHE_VERSION = "v75";
+const CACHE_VERSION = "v76";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

@@ -9838,7 +9838,7 @@ const UNITES = [
         type: "case",
         id: "sergent-griffes",
         libelle:
-          "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse)",
+          "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse, ou son bouclier de combat et son épée tronçonneuse)",
         cout: 10,
         ajoute: "Sergent : paire de griffes Lightning",
       },
@@ -9901,22 +9901,29 @@ const UNITES = [
         ajoute: "Pistolet de Légion",
       },
       {
-        type: "case",
+        type: "quantite",
         id: "haches",
         libelle:
-          "Toute l'unité : haches tronçonneuses au lieu des épées tronçonneuses",
+          "Toute Figurine : hache tronçonneuse (gratuit, à la place de l'épée tronçonneuse)",
         cout: 0,
-        ajoute: "Haches tronçonneuses (toute l'unité, remplacent les épées)",
+        parTranche: 1,
+        remplaceIntegral: "Épée tronçonneuse",
+        ajoute: "Hache tronçonneuse (à la place de l'épée tronçonneuse)",
       },
       {
-        type: "case",
+        type: "choix",
         id: "boucliers",
         libelle:
           "Toute l'unité : boucliers de combat au lieu des pistolets bolters",
-        cout: 2,
         parFigurine: true,
-        ajoute:
-          "Boucliers de combat (toute l'unité, remplacent les pistolets bolters)",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          {
+            nom: "Boucliers de combat (toute l'unité, remplacent les pistolets bolters)",
+            cout: 2,
+            remplace: "Pistolet bolter",
+          },
+        ],
       },
     ],
   },
