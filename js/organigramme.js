@@ -4593,6 +4593,16 @@ const Organigramme = (() => {
     if (sectionTutorielAnathema) {
       sectionTutorielAnathema.hidden = etat.faction !== "anathema-psykana";
     }
+    // Tutoriel des Démons de la Tempête de la Ruine : partage lui aussi
+    // l'Organigramme de Force de Croisade générique (voir
+    // factionCroisadeParDefaut ci-dessus), même principe de masquage
+    // que Skitarii/Legio Custodes/Anathema Psykana ci-dessus.
+    const sectionTutorielRuinstorm = document.getElementById(
+      "construction-armee-daemons-ruinstorm",
+    );
+    if (sectionTutorielRuinstorm) {
+      sectionTutorielRuinstorm.hidden = etat.faction !== "daemons-ruinstorm";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");

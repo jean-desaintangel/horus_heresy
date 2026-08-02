@@ -129,7 +129,10 @@
 // v69 : corrige le calcul des crédits de Détachements Auxiliaires, qui
 // ignorait la Règle Officier de Ligne (X) accordée par un Avantage
 // Principal (Préfet) au lieu d'une Unité (js/organigramme.js).
-const CACHE_VERSION = "v69";
+// v70 : ajoute le tutoriel « Voir le tutoriel » de la Faction Démons de
+// la Tempête de la Ruine (pages/construction-liste.html,
+// js/organigramme.js).
+const CACHE_VERSION = "v70";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
