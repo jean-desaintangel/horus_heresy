@@ -2696,6 +2696,38 @@ footer p {
   }
 }
 
+/* Groupe de cases à cocher « Légions choisies » (Faction Légions
+   Brisées) : remplace le <select> Légion unique de Legio Astartes par
+   un choix multiple (2 ou 3 parmi 18) — voir js/organigramme.js,
+   construireParametres(). Les règles génériques .orga-parametres input
+   ci-dessus (largeur fixe 6.5rem, pensées pour le champ Limite de
+   Points) ne doivent pas s'appliquer à ces cases à cocher. */
+.orga-legions-brisees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  width: 100%;
+}
+
+.orga-legions-brisees-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.orga-parametres .orga-legions-brisees-item input {
+  width: auto;
+}
+
+.orga-legions-brisees-avertissement {
+  width: 100%;
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+}
+
 /* ---------- Bandeau de contexte historique (skin de Légion) ---------- */
 .legion-banniere {
   margin: -0.4rem 0 1rem;
@@ -3424,6 +3456,71 @@ body.skin-legion-skitarii {
     );
 }
 
+/* Démons de la Tempête de la Ruine, Légions Brisées, Blackshields
+   (Factions sans blason fourni à ce jour, suppléments Legacies) :
+   skins couleurs seules, même principe que les trois ci-dessus (voir
+   SKIN_DAEMONS_RUINSTORM/SKIN_LEGIONS_BRISEES/SKIN_BLACKSHIELDS,
+   js/organigramme.js) — à compléter avec des blasons si des images
+   deviennent disponibles. Contrastes --accent/--accent-clair sur fond
+   blanc vérifiés ≥4.5:1 (WCAG 1.4.3/RGAA 3.2), même méthode que les
+   palettes précédentes. */
+body.skin-legion-daemons-ruinstorm {
+  --accent: #5b2a6e;
+  --accent-clair: #7a3a91;
+  --fond-secondaire: #ece0f0;
+  --carte-hover: #f3ebf5;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(91, 42, 110, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(122, 58, 145, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-legions-brisees {
+  --accent: #3a4a5c;
+  --accent-clair: #4f6478;
+  --fond-secondaire: #e2e8ec;
+  --carte-hover: #eaeff2;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 74, 92, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(79, 100, 120, 0.08) 0%,
+      transparent 50%
+    );
+}
+
+body.skin-legion-blackshields {
+  --accent: #3a2020;
+  --accent-clair: #5c2f2f;
+  --fond-secondaire: #e6dede;
+  --carte-hover: #eee7e7;
+  background-image:
+    radial-gradient(circle at 20% 0%, #ffffff 0%, var(--fond) 60%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(58, 32, 32, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(92, 47, 47, 0.08) 0%,
+      transparent 50%
+    );
+}
+
 /* Désignations de Legiones Auxilia (Faction Solar Auxilia, livre
    Legiones Auxilia intégré au Liber Auxilia p. 50-84) : remplace les
    anciens skins de Doctrine de Cohorte (retirés — six teintes
@@ -3955,6 +4052,32 @@ body.nuit-eternelle .orga-erreurs-titre {
 .orga-detachement-legion select,
 .orga-detachement-maisonnee select,
 .orga-detachement-doctrine select {
+  margin-left: 0.4rem;
+  padding: 0.2rem 0.4rem;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/* Serments du Moment (Blackshields, js/organigramme.js —
+   construireSelectSermentsDetachement/construireSelectSermentsRattaches) :
+   .orga-legions-brisees/-item déjà stylées (Légions choisies, Légions
+   Brisées) réutilisées telles quelles pour la grille de cases à cocher. */
+.orga-detachement-serments {
+  margin: -0.3rem 0 0.6rem;
+}
+
+.orga-detachement-serments-titre {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0 0 0.3rem;
+}
+
+.orga-detachement-serment-sous-choix {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.85rem;
+}
+
+.orga-detachement-serment-sous-choix select {
   margin-left: 0.4rem;
   padding: 0.2rem 0.4rem;
   max-width: 100%;

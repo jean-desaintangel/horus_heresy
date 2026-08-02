@@ -1182,6 +1182,18 @@ const SOURCES_SITE = [
     href: "https://assets.warhammer-community.com/eng_30-10_thehorusheresy_aod_legacies-rosvjdnd1o-gqos8xkdx7.pdf",
   },
   {
+    texte: "Légions Brisées",
+    href: "https://www.warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/",
+  },
+  {
+    texte: "Blackshields",
+    href: "https://www.warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/",
+  },
+  {
+    texte: "Démons de la Tempête de la Ruine",
+    href: "https://www.warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/",
+  },
+  {
     texte: "logos des Légions",
     href: "https://fr.pinterest.com/pin/512143788883678481/",
   },
@@ -1454,6 +1466,15 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (donnees.faction === "skitarii") {
     // Skin couleurs seules, sans blason (SKIN_SKITARII, organigramme.js).
     document.body.classList.add("skin-legion-skitarii");
+  } else if (donnees.faction === "daemons-ruinstorm") {
+    // Skin couleurs seules, sans blason (SKIN_DAEMONS_RUINSTORM, organigramme.js).
+    document.body.classList.add("skin-legion-daemons-ruinstorm");
+  } else if (donnees.faction === "legions-brisees") {
+    // Skin couleurs seules, sans blason (SKIN_LEGIONS_BRISEES, organigramme.js).
+    document.body.classList.add("skin-legion-legions-brisees");
+  } else if (donnees.faction === "blackshields") {
+    // Skin couleurs seules, sans blason (SKIN_BLACKSHIELDS, organigramme.js).
+    document.body.classList.add("skin-legion-blackshields");
   }
 })();
 

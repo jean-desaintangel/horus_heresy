@@ -132,7 +132,22 @@
 // v70 : ajoute le tutoriel « Voir le tutoriel » de la Faction Démons de
 // la Tempête de la Ruine (pages/construction-liste.html,
 // js/organigramme.js).
-const CACHE_VERSION = "v70";
+// v71 : ajoute la Faction Légions Brisées (choix de 2-3 Légions, Trait
+// de remplacement, Tactiques Mutables) — pages/construction-liste.html,
+// js/organigramme.js, js/unites.js, js/regles-data.js, css/style.css.
+// v72 : ajoute la Faction Blackshields (Endryd Haar, Rite de Guerre,
+// Serments du Moment) et met à jour la frise de la page d'accueil —
+// pages/construction-liste.html, js/organigramme.js, js/unites.js,
+// js/unites-data.js, js/armes-data.js, js/regles-data.js, index.html.
+// v73 : câble mécaniquement les Serments du Moment (Blackshields) et
+// les Armureries de Légion (Légions Brisées) au lieu de les laisser en
+// texte de référence seul — pages/construction-liste.html,
+// js/organigramme.js, js/organigramme-data.js, js/unites.js,
+// js/unites-data.js, css/style.css.
+// v74 : ajoute les skins couleurs seules pour Démons de la Tempête de
+// la Ruine/Légions Brisées/Blackshields et 3 sources dans le pied de
+// page — js/organigramme.js, js/main.js, js/unites.js, css/style.css.
+const CACHE_VERSION = "v74";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

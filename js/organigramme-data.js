@@ -4231,6 +4231,21 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Réservé à une Unité d'Allégeance Loyaliste sélectionnée pour occuper une Case Principale d'Organigramme de Force dans le Détachement Principal d'une Armée, une seule fois par Armée : ajoute trois Cases de Rôle Tactique Appui au Détachement, qui ne peuvent être occupées que par une Unité de la Liste d'Armée de la Divisio Assassinorum.",
   },
+  /* --- Blackshields (« Legacies of the Age of Darkness : Legiones
+     Astartes Blackshields »). --- */
+  {
+    // N'existe QUE sous le Serment du Moment Dans la Disgrâce, Tous sont
+    // Égaux (SERMENTS_DU_MOMENT, id "disgrace-egaux") : jamais listé
+    // pour une Case Principale ordinaire (voir avantagesPossibles(),
+    // js/organigramme.js, filtre `avantage.id === "petit-seigneur-de-
+    // guerre"`). Bonus de Caractéristiques identique à Maître-sergent :
+    // réutilise le même code (bonusAvantagePrincipal, js/unites.js).
+    id: "petit-seigneur-de-guerre",
+    nom: "Petit Seigneur de Guerre",
+    sergent: true,
+    texte:
+      "Avantage Principal réservé aux Cases d'Organigramme de Force Suprême du Serment du Moment Dans la Disgrâce, Tous sont Égaux. Un Modèle de Sous-type Sergent de l'Unité qui occupe la Case gagne +1 à ses Caractéristiques d'Attaques, de Capacité de Combat et de Commandement, ainsi que le Sous-type Champion (s'il l'a déjà, il gagne +1 de Commandement supplémentaire à la place). Si cet Avantage est choisi pour une Unité d'un Détachement Principal ou Allié, un Détachement Auxiliaire peut lui être rattaché comme si cette Unité occupait un Choix de Quartier Général ; toutes les Cases de ce Détachement Auxiliaire deviennent alors elles-mêmes des Cases d'Organigramme de Force Suprême, réservées au même Avantage Principal Petit Seigneur de Guerre.",
+  },
 ];
 
 /* Rôles interdits à la case supplémentaire du Bénéfice Logistique
@@ -4240,4 +4255,174 @@ const ROLES_INTERDITS_LOGISTIQUE = [
   "État-major",
   "Seigneur de Guerre",
   "Seigneurs des Batailles",
+];
+
+/* ----------------------------------------------------------
+   SERMENTS DU MOMENT (Oaths of Moment) — « Legacies of the Age of
+   Darkness : Legiones Astartes Blackshields », Third Edition v1.1.
+   Choisis sur une carte de Détachement Principal (jusqu'à 2) ou Allié
+   (jusqu'à 1) d'une Armée de Faction "blackshields" (voir
+   js/organigramme.js, construireCarteDetachement) ; tout Détachement
+   Auxiliaire/d'Apex hérite des Serments du Détachement Principal/Allié
+   auquel le joueur le rattache explicitement (`det.serimentsRattaches`
+   — ce site ne conserve pas de lien formel "quelle Case a débloqué
+   quel Détachement", voir CLAUDE.md/debloqueursDisponibles, d'où ce
+   choix explicite plutôt qu'une déduction automatique).
+
+   Consommés par js/unites.js :
+   - `reglesSermentsDe(unite, instance)` : Règles Spéciales/Traits
+     accordés (reglesAppliquees/traitsAppliques, avec filtre optionnel
+     `sousTypesRequis`/`excluVehicule`) + transformation Ligne (X)/
+     Avant-garde (X) → Règle Spéciale de remplacement
+     (`transformeLigneVanguard`).
+   - `typeEffectifDe(unite, instance)` : remplacement de Type Infanterie
+     → Automate (`remplaceTypeInfanterieParAutomate`).
+   - `legionRequiseSatisfaite`/options d'équipement : Légion choisie
+     pour le Serment Panoplie d'Antan (`requiertChoixLegion`) et armes
+     débloquées par Souillure Xenos/Armes du Désespoir
+     (`debloqueArmes`/`imposeEchangeBolters`).
+   - `bonusSermentDuMoment` (miroir de `bonusAvantagePrincipal`) :
+     modificateurs de Caractéristiques de L'Hélice Brisée
+     (`choixCloneAberrant`).
+
+   Consommés par js/organigramme.js (caseAccepte/construireCarteDetachement) :
+   - `convertitRoleCase` : { de, vers, restreintUniteIds? } — rôle
+     effectif d'une Case ordinaire (non `extra`) réaffecté tant que ce
+     Serment est actif sur le Détachement (La Fierté est Notre
+     Armure/Seuls et Oubliés).
+   - `interditTroupes` : aucune Case de Rôle Troupes ne peut plus être
+     occupée dans ce Détachement NI dans un Détachement Auxiliaire/
+     d'Apex qui lui est rattaché.
+   - `interditQGEtatMajor` + `toutesCasesDeviennentPrime` +
+     `avantagePrincipalRestreint` : Dans la Disgrâce, Tous sont Égaux —
+     bloque les Cases Quartier Général/État-major, et restreint
+     l'Avantage Principal sélectionnable sur toute Case ordinaire du
+     Détachement au seul Petit Seigneur de Guerre (mécanisme de Case
+     d'Organigramme de Force Suprême propre à ce Serment, qui CRÉE
+     lui-même ses Cases Suprêmes plutôt que de dépendre de la règle de
+     base du livre — voir la note plus haut sur Parangons de la Légion,
+     dont l'équivalent Légions Brisées reste hors de portée de ce
+     fichier faute du texte de la règle de base des Cases
+     d'Organigramme de Force Suprême).
+
+   `excluAvec` : [id de Serment] — ne peut pas être combiné, dans le
+   MÊME Détachement, avec l'un des Serments listés (réciproque, les
+   deux entrées se référencent mutuellement) — vérifié par
+   `sermentsCompatibles`, js/organigramme.js.
+   ---------------------------------------------------------- */
+const SERMENTS_DU_MOMENT = [
+  {
+    id: "vendetta-eternelle",
+    nom: "La Vendetta Éternelle",
+    reglesAppliquees: ["Haine (Legiones Astartes)"],
+  },
+  {
+    id: "panoplie-antan",
+    nom: "Panoplie d’Antan",
+    requiertChoixLegion: true,
+  },
+  {
+    id: "seule-la-mort",
+    nom: "Seule la Mort Achève le Devoir",
+  },
+  {
+    id: "depouilles-victoire",
+    nom: "Les Dépouilles de la Victoire",
+    excluAvec: ["faucheurs-vies"],
+    transformeLigneVanguard: {
+      nomRemplacement: "Piller les Morts",
+      diviseurAvantGarde: 2,
+    },
+  },
+  {
+    id: "eternite-guerre",
+    nom: "Une Éternité de Guerre",
+  },
+  {
+    id: "chair-est-faible",
+    nom: "La Chair est Faible",
+    excluVehicule: true,
+    remplaceTypeInfanterieParAutomate: true,
+    remplaceReglePar: {
+      ancienne: "Fils Bâtards du Destin",
+      nouvelle: "Unités à Cogitateurs Liés",
+    },
+    transportGagneRegle: "Baie de Transport Augmétique",
+  },
+  {
+    id: "heritage-nikaea",
+    nom: "L’Héritage de Nikaea",
+    sousTypesRequis: ["Sergent", "Champion", "Spécialiste", "État-major"],
+    traitsAppliques: ["Psyker"],
+    reglesAppliquees: ["Malfaisance"],
+  },
+  {
+    id: "helice-brisee",
+    nom: "L’Hélice Brisée",
+    excluVehicule: true,
+    choixCloneAberrant: true,
+  },
+  {
+    id: "disgrace-egaux",
+    nom: "Dans la Disgrâce, Tous sont Égaux",
+    interditQGEtatMajor: true,
+    toutesCasesDeviennentPrime: true,
+    avantagePrincipalRestreint: "petit-seigneur-de-guerre",
+  },
+  {
+    id: "fierte-armure",
+    nom: "La Fierté est Notre Armure",
+    convertitRoleCase: { de: "Troupes", vers: "Elite" },
+    interditTroupes: true,
+  },
+  {
+    id: "souillure-xenos",
+    nom: "La Souillure Xenos",
+    debloqueArmes: ["Deathlock", "Doomlock", "Lame de Halo"],
+  },
+  {
+    id: "armes-desespoir",
+    nom: "Les Armes du Désespoir",
+    excluVehicule: true,
+    imposeEchangeBolters: true,
+  },
+  {
+    id: "lame-du-juste",
+    nom: "La Lame du Juste",
+    excluAvec: ["faucheurs-vies", "depouilles-victoire"],
+    transformeLigneVanguard: {
+      nomRemplacement: "Héroïsme Funeste",
+      multiplicateur: 2,
+      valeurParDefaut: 3,
+    },
+  },
+  {
+    id: "faucheurs-vies",
+    nom: "Faucheurs de Vies",
+    excluAvec: ["depouilles-victoire", "lame-du-juste"],
+    transformeLigneVanguard: { nomRemplacement: null },
+  },
+  {
+    id: "seuls-oublies",
+    nom: "Seuls et Oubliés",
+    // "Command Slots" (anglais) = Cases d'État-major sur ce site (voir
+    // ROLES_TACTIQUES : Quartier Général = "High Command", État-major =
+    // "Command") — pas Quartier Général, malgré la tentation du nom
+    // français « Choix de Commandement ».
+    convertitRoleCase: {
+      de: "Troupes",
+      vers: "État-major",
+      restreintUniteIds: ["centurion", "centurion-terminator"],
+    },
+    // « A Detachment that has this Oath of Moment may only include
+    // Command Choices » : au-delà des Cases Troupes reconverties
+    // ci-dessus, TOUTE AUTRE Case (Quartier Général, Suite,
+    // Transports…) du Détachement reste bloquée — seules les Cases
+    // d'État-major (d'origine ou reconverties) restent occupables.
+    restreintRoleUnique: "État-major",
+    reglesAppliqueesUniteIds: {
+      uniteIds: ["centurion", "centurion-terminator"],
+      regles: ["Insouciant", "Combattre et Mourir Seul"],
+    },
+  },
 ];

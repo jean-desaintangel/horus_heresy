@@ -270,8 +270,19 @@ function uniteAccessible(unite) {
         ? Organigramme.factionsDebloqueesParAvantage()
         : [];
     const factionUnite = unite.faction || "legio-astartes";
+    // Légions Brisées (Legacies of the Age of Darkness : The Shattered
+    // Legions) et Blackshields (Legacies of the Age of Darkness :
+    // Legiones Astartes Blackshields) : ces deux suppléments réutilisent
+    // entièrement la Liste d'Armée Legiones Astartes (aucune Unité
+    // propre) — une Unité Legio Astartes générique (`faction` absent)
+    // reste donc accessible sous ces Factions, exactement comme sous
+    // "legio-astartes" lui-même.
+    const legionsBriseesActives = factionActuelle === "legions-brisees";
+    const reutiliseLegioAstartes =
+      legionsBriseesActives || factionActuelle === "blackshields";
     if (
       factionActuelle !== factionUnite &&
+      !(reutiliseLegioAstartes && factionUnite === "legio-astartes") &&
       !factionsAllieesActuelles.includes(factionUnite) &&
       !uniteAccessibleParDetachementCroise(unite) &&
       !factionsDebloqueesAvantage.includes(factionUnite)
@@ -281,9 +292,30 @@ function uniteAccessible(unite) {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
       const legionOk =
         Organigramme.legionActuelle() === unite.legion ||
-        Organigramme.legionsAlliees().includes(unite.legion);
+        Organigramme.legionsAlliees().includes(unite.legion) ||
+        (legionsBriseesActives &&
+          Organigramme.legionsBriseesActuelles().includes(unite.legion));
       if (!legionOk) return false;
     }
+    // Blackshields (voir CLAUDE.md) : « no Legion specific Units… may
+    // be selected in a Blackshields army » — même sans `unite.legion`
+    // fixé, le check ci-dessus l'exclurait déjà naturellement (etat.legion
+    // reste vide pour cette Faction), sauf via un Détachement Allié qui a
+    // sa propre Légion choisie (ce qui reste correct : cette Unité-là
+    // rejoint alors ce Détachement Allié, pas un Détachement Blackshields).
+    // Unité réservée à une Faction d'Armée précise (ex : Endryd Haar,
+    // uniquement dans une Armée Blackshields) : distinct de `unite.faction`
+    // (qui reste "legio-astartes" par défaut pour rester compatible avec
+    // le placement en Case dans l'Organigramme de Force de Croisade
+    // générique, voir caseAccepte()/factionCroisadeParDefaut()) — un
+    // changement de Faction vide toujours l'Armée (reinitialiserArmee-
+    // AvecConfirmation), donc ce contrôle au seul niveau du sélecteur
+    // suffit, sans contrepartie nécessaire dans caseAccepte().
+    if (
+      unite.requiertFactionArmee &&
+      unite.requiertFactionArmee !== factionActuelle
+    )
+      return false;
     if (
       unite.traits &&
       (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
@@ -578,6 +610,52 @@ function armeSurPivotChoisie(unite, instance) {
    `interditPivotArme` conditionnent l'option à la présence/l'absence
    d'une Arme sur Pivot déjà choisie via l'option "pivot" (voir
    armeSurPivotChoisie ci-dessus). */
+// Une Légion requise (`requiertLegion`, sur une option entière ou sur
+// une entrée de `choix`) est-elle satisfaite par l'état actuel de
+// l'Armée ? Centralise quatre sources possibles :
+// 1. La Légion unique de Legio Astartes (etat.legion).
+// 2. Une Légion Alliée (`legionsAlliees`, seulement pour les options
+//    qui l'acceptent déjà — voir `avecLegionsAlliees`).
+// 3. Les 2 ou 3 Légions choisies pour une Armée Légions Brisées
+//    (`Organigramme.legionsBriseesActuelles()`) : câblage réel de la
+//    Règle « Legion Armouries » du PDF Shattered Legions (p. 3, « The
+//    Controlling Player may select from any of the Armoury pages
+//    selected as part of the Shattered Legion Faction Trait ») — toute
+//    option d'Arsenal de Légion déjà câblée sur ce site devient donc
+//    disponible dès que sa Légion figure parmi celles choisies.
+//    Simplification assumée (documentée dans CLAUDE.md) : le livre
+//    limite chaque Modèle à l'Armurerie d'UNE SEULE Légion parmi celles
+//    choisies ; ce site ne verrouille pas ce choix par Modèle et laisse
+//    piocher librement parmi les options de chacune des Légions
+//    choisies sur un même Modèle.
+// 4. La Légion choisie pour le Serment du Moment Panoplie d'Antan
+//    (Blackshields, `det.legionPanoplie`) du Détachement qui occupe
+//    `instance` — même mécanique « Legion Armouries » que ci-dessus,
+//    mais une seule Légion choisie par Détachement plutôt que 2-3 pour
+//    toute l'Armée. Ne s'applique que si `instance` est fournie (les
+//    entrées de `choix`/options simples n'en ont pas toujours besoin).
+function legionRequiseSatisfaite(
+  legionRequise,
+  { legionsAlliees, instance } = {},
+) {
+  if (!orgaPret || typeof Organigramme === "undefined") return false;
+  if (Organigramme.legionActuelle() === legionRequise) return true;
+  if (legionsAlliees && Organigramme.legionsAlliees().includes(legionRequise))
+    return true;
+  if (
+    Organigramme.factionActuelle() === "legions-brisees" &&
+    Organigramme.legionsBriseesActuelles().includes(legionRequise)
+  )
+    return true;
+  if (
+    instance &&
+    Organigramme.factionActuelle() === "blackshields" &&
+    Organigramme.legionPanoplieDe(instance.uid) === legionRequise
+  )
+    return true;
+  return false;
+}
+
 // La Légion (ou une Légion Alliée) actuelle de l'Armée satisfait-elle
 // `opt.requiertLegion` ? Extrait d'optionRealisable pour être réutilisé
 // tel quel par synchroniserConfig (ci-dessous), qui masque entièrement
@@ -586,13 +664,23 @@ function armeSurPivotChoisie(unite, instance) {
 // Prospero (réservée Thousand Sons) est ajoutée à la quasi-totalité des
 // Unités État-major génériques, où elle ne serait jamais qu'un grisé
 // permanent et inutile pour les 17 autres Légions.
-function optionLegionOk(opt) {
+function optionLegionOk(opt, instance) {
   if (!opt.requiertLegion) return true;
-  if (!orgaPret || typeof Organigramme === "undefined") return false;
-  return (
-    Organigramme.legionActuelle() === opt.requiertLegion ||
-    Organigramme.legionsAlliees().includes(opt.requiertLegion)
-  );
+  return legionRequiseSatisfaite(opt.requiertLegion, {
+    legionsAlliees: true,
+    instance,
+  });
+}
+
+// Même principe qu'optionLegionOk ci-dessus, mais pour `opt.requiertSerment`
+// (ex : Deathlock/Doomlock/Lame de Halo, Serment du Moment La Souillure
+// Xenos ; armes récupérées, Les Armes du Désespoir — Blackshields,
+// js/unites-data.js, LISTES_EQUIPEMENT). Le Serment doit être actif sur
+// le Détachement de CETTE instance (voir Organigramme.sermentsDe).
+function optionSermentOk(opt, instance) {
+  if (!opt.requiertSerment) return true;
+  if (!instance || !orgaPret || !window.Organigramme) return false;
+  return Organigramme.sermentsDe(instance.uid).includes(opt.requiertSerment);
 }
 
 // Même principe qu'optionLegionOk ci-dessus, mais pour `opt.requiertAllegeance`
@@ -613,8 +701,9 @@ function optionRealisable(unite, instance, opt) {
     armee.some((i) => i.uniteId === opt.requiertAbsenceUnite)
   )
     return false;
-  if (!optionLegionOk(opt)) return false;
+  if (!optionLegionOk(opt, instance)) return false;
   if (!optionAllegeanceOk(opt)) return false;
+  if (!optionSermentOk(opt, instance)) return false;
   if (opt.requiertPivotArme) {
     const pivot = armeSurPivotChoisie(unite, instance);
     if (!pivot || pivot.startsWith("Lanceur Havoc sur Pivot")) return false;
@@ -895,7 +984,11 @@ function bonusAvantagePrincipal(avantageId, variante, nomLigne, car) {
     // Toutes les figurines de l'unité (p. 283) : Cd, Sf, Vo, Int.
     return ["Cd", "Sf", "Vo", "Int"].includes(car) ? 1 : 0;
   }
-  if (avantageId === "maitre-sergent") {
+  // Petit Seigneur de Guerre (Blackshields, Serment du Moment Dans la
+  // Disgrâce, Tous sont Égaux) accorde EXACTEMENT le même bonus que
+  // Maître-sergent (+1 CC/A, +1 ou +2 Cd) à une Figurine de Sous-type
+  // Sergent — même code, pas de logique séparée à écrire.
+  if (avantageId === "maitre-sergent" || avantageId === "petit-seigneur-de-guerre") {
     if (!sousTypesLigne(variante, nomLigne).includes("Sergent")) return 0;
     if (car === "A" || car === "CC") return 1;
     // Gagne aussi le Sous-type Champion ; s'il l'a déjà, +1 Cd de plus
@@ -918,11 +1011,44 @@ function bonusAvantagePrincipal(avantageId, variante, nomLigne, car) {
   return 0;
 }
 
-// Applique le bonus à une valeur de caractéristique (seules M, CC, CT,
-// F, E, PV, I, A, Cd, Sf, Vo, Int sont numériques ; Sv/Inv, en chaîne,
-// ne reçoivent jamais de bonus). Vétérans de Combat plafonne à 10.
-function appliquerBonusPrincipal(avantageId, variante, nomLigne, car, valeur) {
-  const bonus = bonusAvantagePrincipal(avantageId, variante, nomLigne, car);
+// Bonus du Serment du Moment L'Hélice Brisée (Blackshields, choix
+// Clone/Aberrant — voir Organigramme.choixCloneAberrantDe) : -1 en
+// Commandement/Volonté/Intelligence/Sang-froid pour Clone ET Aberrant,
+// +1 Force/Attaques en plus pour Aberrant — sauf Sous-type Sergent/
+// Champion/Spécialiste/État-major, exempté par le livre. Séparé de
+// bonusAvantagePrincipal (Case Principale) : un Serment s'applique à
+// toute Unité du Détachement, pas à une seule Case.
+function bonusSermentDuMoment(variante, nomLigne, car, instance) {
+  if (!instance || !orgaPret || !window.Organigramme) return 0;
+  const choix = Organigramme.choixCloneAberrantDe(instance.uid);
+  if (!choix) return 0;
+  const exclu = ["Sergent", "Champion", "Spécialiste", "État-major"].some(
+    (st) => sousTypesLigne(variante, nomLigne).includes(st),
+  );
+  if (exclu) return 0;
+  if (["Cd", "Vo", "Int", "Sf"].includes(car)) return -1;
+  if (choix === "aberrant" && (car === "F" || car === "A")) return 1;
+  return 0;
+}
+
+// Applique le(s) bonus à une valeur de caractéristique (seules M, CC,
+// CT, F, E, PV, I, A, Cd, Sf, Vo, Int sont numériques ; Sv/Inv, en
+// chaîne, ne reçoivent jamais de bonus). Vétérans de Combat plafonne à
+// 10. `instance` (facultatif) ajoute le bonus des Serments du Moment
+// actifs (Blackshields) en plus de celui de l'Avantage Principal —
+// les deux peuvent se cumuler (2 Serments possibles par Détachement
+// Principal).
+function appliquerBonusPrincipal(
+  avantageId,
+  variante,
+  nomLigne,
+  car,
+  valeur,
+  instance,
+) {
+  const bonus =
+    bonusAvantagePrincipal(avantageId, variante, nomLigne, car) +
+    bonusSermentDuMoment(variante, nomLigne, car, instance);
   if (bonus === 0 || typeof valeur !== "number") return valeur;
   const plafond = avantageId === "veterans-combat" ? 10 : Infinity;
   return Math.min(plafond, valeur + bonus);
@@ -1008,7 +1134,14 @@ function construireTableProfil(unite, instance) {
     lignes = variante.profils.map((p) => ({
       libelle: p.nom,
       valeurs: ENTETES_PROFIL.map((c) =>
-        appliquerBonusPrincipal(avantageId, variante, p.nom, c, p.profil[c]),
+        appliquerBonusPrincipal(
+          avantageId,
+          variante,
+          p.nom,
+          c,
+          p.profil[c],
+          instance,
+        ),
       ),
     }));
   } else {
@@ -1023,6 +1156,7 @@ function construireTableProfil(unite, instance) {
             null,
             c,
             variante.profil[c],
+            instance,
           ),
         ),
       },
@@ -1054,6 +1188,9 @@ function construireTableProfil(unite, instance) {
           ? null
           : ENTETES_PROFIL[indiceCol];
       const td = el("td", null, String(v));
+      const bonusSerment = car
+        ? bonusSermentDuMoment(variante, nomLigne, car, instance)
+        : 0;
       if (
         car &&
         bonusAvantagePrincipal(avantageId, variante, nomLigne, car) !== 0
@@ -1061,6 +1198,9 @@ function construireTableProfil(unite, instance) {
         const avantage = AVANTAGES_PRINCIPAUX.find((a) => a.id === avantageId);
         td.className = "profil-bonus";
         if (avantage) td.title = "Bonus « " + avantage.nom + " »";
+      } else if (car && bonusSerment !== 0) {
+        td.className = "profil-bonus";
+        td.title = "Modifié par le Serment du Moment L’Hélice Brisée";
       } else if (
         variante.profilsVehicule &&
         indiceCol === 1 &&
@@ -1703,6 +1843,160 @@ function reglesAvantagePrincipalDe(instance) {
   return (avantage && avantage.reglesAppliquees) || [];
 }
 
+/* ----------------------------------------------------------
+   SERMENTS DU MOMENT (Blackshields) — effets appliqués à la fiche
+   récap. Voir SERMENTS_DU_MOMENT (js/organigramme-data.js) pour le
+   détail de chaque champ consommé ici. Contrairement à un Avantage
+   Principal (une seule Case), un Serment s'applique à TOUTE Unité du
+   Détachement (voir Organigramme.sermentsDe) — d'où des fonctions
+   séparées plutôt qu'une extension de reglesAvantagePrincipalDe.
+   ---------------------------------------------------------- */
+
+// Un Serment s'applique-t-il à cette Figurine ? (Type Véhicule exclu si
+// `excluVehicule`, Sous-type filtré si `sousTypesRequis` — vérifié sur
+// la chaîne `variante.type` complète, même convention que aSousType,
+// js/organigramme.js : imprécis pour un profil à plusieurs lignes
+// nommées, mais aucune Unité concernée par les Serments n'en a dans ce
+// fichier à ce jour).
+function sermentApplicableA(serment, variante) {
+  if (serment.excluVehicule && variante.type.includes("Véhicule")) return false;
+  if (
+    serment.sousTypesRequis &&
+    !serment.sousTypesRequis.some((st) => variante.type.includes(st))
+  )
+    return false;
+  return true;
+}
+
+// Règles Spéciales/Traits accordés par les Serments du Moment actifs
+// sur le Détachement de cette instance, plus la transformation Ligne
+// (X)/Avant-garde (X) → Piller les Morts/Héroïsme Funeste (etc.) et le
+// remplacement Fils Bâtards du Destin → Unités à Cogitateurs Liés (La
+// Chair est Faible). Retourne la liste FINALE de Règles Spéciales à
+// afficher (regles de base + Avantage Principal + Serments), prête à
+// passer à construireLigneRegles.
+function reglesFinales(unite, variante, instance) {
+  let regles = variante.regles.concat(reglesAvantagePrincipalDe(instance));
+  if (!orgaPret || !window.Organigramme) return regles;
+  // Tactica Blackshields de base (« Fils Bâtards du Destin ») : accordée
+  // à TOUTE Figurine ayant le Trait Blackshields (sauf Type Véhicule),
+  // pas seulement listée au Glossaire — toute Armée de Faction
+  // "blackshields" en bénéficie, qu'un Serment du Moment soit actif ou
+  // non (voir SERMENTS_DU_MOMENT/La Chair est Faible ci-dessous, qui la
+  // REMPLACE plutôt que de s'y ajouter).
+  if (
+    Organigramme.factionActuelle() === "blackshields" &&
+    !variante.type.includes("Véhicule") &&
+    !regles.includes("Fils Bâtards du Destin")
+  ) {
+    regles = [...regles, "Fils Bâtards du Destin"];
+  }
+  const serments = Organigramme.sermentsDe(instance.uid)
+    .map((id) => SERMENTS_DU_MOMENT.find((s) => s.id === id))
+    .filter((s) => s && sermentApplicableA(s, variante));
+  for (const serment of serments) {
+    if (serment.transformeLigneVanguard) {
+      regles = appliquerTransformationLigneVanguard(
+        regles,
+        serment.transformeLigneVanguard,
+      );
+    }
+    if (serment.remplaceReglePar) {
+      const { ancienne, nouvelle } = serment.remplaceReglePar;
+      regles = regles.map((r) => (r === ancienne ? nouvelle : r));
+    }
+    if (serment.reglesAppliquees) {
+      for (const r of serment.reglesAppliquees) {
+        if (!regles.includes(r)) regles.push(r);
+      }
+    }
+    if (
+      serment.reglesAppliqueesUniteIds &&
+      serment.reglesAppliqueesUniteIds.uniteIds.includes(unite.id)
+    ) {
+      for (const r of serment.reglesAppliqueesUniteIds.regles) {
+        if (!regles.includes(r)) regles.push(r);
+      }
+    }
+    if (
+      serment.transportGagneRegle &&
+      variante.type.includes("Transport") &&
+      !regles.includes(serment.transportGagneRegle)
+    ) {
+      regles.push(serment.transportGagneRegle);
+    }
+  }
+  return regles;
+}
+
+// Traits ajoutés par les Serments du Moment actifs (ex : Psyker,
+// L'Héritage de Nikaea) — séparé de reglesFinales ci-dessus car les
+// Traits s'affichent sur une ligne distincte de la fiche récap.
+function traitsSermentsDe(unite, variante, instance) {
+  if (!orgaPret || !window.Organigramme) return [];
+  return Organigramme.sermentsDe(instance.uid)
+    .map((id) => SERMENTS_DU_MOMENT.find((s) => s.id === id))
+    .filter((s) => s && s.traitsAppliques && sermentApplicableA(s, variante))
+    .flatMap((s) => s.traitsAppliques);
+}
+
+// Un Modèle avec le Trait Légions Brisées/Blackshields de Type
+// Infanterie devient-il un Automate ? (Serment La Chair est Faible,
+// Blackshields — voir SERMENTS_DU_MOMENT). Consommé par
+// construireLigneType pour l'affichage, et par sermentApplicableA
+// ci-dessus indirectement via variante.type (non modifié : seul
+// l'AFFICHAGE change, la Figurine reste juridiquement Infanterie pour
+// les autres calculs de ce fichier — même simplification que déjà
+// documentée pour d'autres Serments plus haut).
+function typeAfficheSermentsDe(unite, variante, instance) {
+  if (!orgaPret || !window.Organigramme) return variante.type;
+  const active = Organigramme.sermentsDe(instance.uid)
+    .map((id) => SERMENTS_DU_MOMENT.find((s) => s.id === id))
+    .some(
+      (s) =>
+        s &&
+        s.remplaceTypeInfanterieParAutomate &&
+        variante.type.includes("Infanterie"),
+    );
+  return active ? variante.type.replace("Infanterie", "Automate") : variante.type;
+}
+
+// Transformation Ligne (X)/Avant-garde (X) → Règle Spéciale de
+// remplacement (Piller les Morts/Héroïsme Funeste) ou suppression pure
+// (Faucheurs de Vies, `nomRemplacement: null`) — voir
+// SERMENTS_DU_MOMENT pour le détail des trois variantes déjà utilisées.
+function appliquerTransformationLigneVanguard(regles, transformation) {
+  let valeur = null;
+  let estAvantGarde = false;
+  const restantes = regles.filter((r) => {
+    const mLigne = /^Ligne \((\d+)\)$/.exec(r);
+    if (mLigne) {
+      valeur = Number(mLigne[1]);
+      return false;
+    }
+    const mAvantGarde = /^Avant-garde \((\d+)\)$/.exec(r);
+    if (mAvantGarde) {
+      valeur = Number(mAvantGarde[1]);
+      estAvantGarde = true;
+      return false;
+    }
+    return true;
+  });
+  if (valeur === null && !transformation.valeurParDefaut) return regles;
+  if (!transformation.nomRemplacement) return restantes;
+  let x;
+  if (valeur === null) {
+    x = transformation.valeurParDefaut;
+  } else if (transformation.multiplicateur) {
+    x = valeur * transformation.multiplicateur;
+  } else if (estAvantGarde && transformation.diviseurAvantGarde) {
+    x = Math.round(valeur / transformation.diviseurAvantGarde);
+  } else {
+    x = valeur;
+  }
+  return [...restantes, transformation.nomRemplacement + " (" + x + ")"];
+}
+
 // Partie « fiche récap » d'une carte (reconstruite à chaque changement).
 function construireFiche(unite, instance) {
   const fiche = el("div", "unite-fiche");
@@ -1764,16 +2058,20 @@ function construireFiche(unite, instance) {
   if (traitDetachement && !traitsAffiches.includes(traitDetachement)) {
     traitsAffiches.push(traitDetachement);
   }
+  // Traits accordés par un Serment du Moment actif (Blackshields, ex :
+  // Psyker via L'Héritage de Nikaea) — voir traitsSermentsDe ci-dessus.
+  for (const trait of traitsSermentsDe(unite, variante, instance)) {
+    if (!traitsAffiches.includes(trait)) traitsAffiches.push(trait);
+  }
   if (traitsAffiches.length > 0) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
   }
   fiche.appendChild(
-    construireLigneRegles(
-      "Règles spéciales",
-      variante.regles.concat(reglesAvantagePrincipalDe(instance)),
-    ),
+    construireLigneRegles("Règles spéciales", reglesFinales(unite, variante, instance)),
   );
-  fiche.appendChild(construireLigneType(variante.type));
+  fiche.appendChild(
+    construireLigneType(typeAfficheSermentsDe(unite, variante, instance)),
+  );
   if (unite.notes)
     fiche.appendChild(
       construireLigneFiche("Notes", [unite.notes], "fiche-ligne--notes"),
@@ -1908,9 +2206,7 @@ function synchroniserConfig(carte, unite, instance) {
     if (
       choixActuel &&
       choixActuel.requiertLegion &&
-      (!orgaPret ||
-        typeof Organigramme === "undefined" ||
-        Organigramme.legionActuelle() !== choixActuel.requiertLegion)
+      !legionRequiseSatisfaite(choixActuel.requiertLegion, { instance })
     ) {
       instance.valeurs[opt.id] = 0;
       modifie = true;
@@ -1923,6 +2219,13 @@ function synchroniserConfig(carte, unite, instance) {
     ) {
       instance.valeurs[opt.id] = 0;
       modifie = true;
+    } else if (
+      choixActuel &&
+      choixActuel.requiertSerment &&
+      !optionSermentOk(choixActuel, instance)
+    ) {
+      instance.valeurs[opt.id] = 0;
+      modifie = true;
     }
   }
 
@@ -1930,21 +2233,30 @@ function synchroniserConfig(carte, unite, instance) {
   for (const opt of unite.options) {
     const realisable = optionRealisable(unite, instance, opt);
     // Une option réservée à une Légion (opt.requiertLegion, ex : Arcane
-    // de Prospero/Thousand Sons, Décurion Sagittar/Imperial Fists) et/ou
-    // à une Allégeance (opt.requiertAllegeance, ex : Hurleurs soniques/
+    // de Prospero/Thousand Sons, Décurion Sagittar/Imperial Fists), à
+    // une Allégeance (opt.requiertAllegeance, ex : Hurleurs soniques/
     // Lance sonique, Emperor's Children — combinée à requiertLegion sur
-    // la même option) est entièrement masquée si l'une des deux ne
-    // correspond pas — contrairement au reste d'optionRealisable, qui ne
-    // fait que griser le champ.
-    if (opt.requiertLegion || opt.requiertAllegeance) {
+    // la même option) et/ou à un Serment du Moment (opt.requiertSerment,
+    // Blackshields) est entièrement masquée si l'une de ces conditions
+    // ne correspond pas — contrairement au reste d'optionRealisable, qui
+    // ne fait que griser le champ.
+    if (opt.requiertLegion || opt.requiertAllegeance || opt.requiertSerment) {
       const controle = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
       const ligne = controle && controle.closest(".option-ligne");
-      if (ligne) ligne.hidden = !optionLegionOk(opt) || !optionAllegeanceOk(opt);
+      if (ligne)
+        ligne.hidden =
+          !optionLegionOk(opt, instance) ||
+          !optionAllegeanceOk(opt) ||
+          !optionSermentOk(opt, instance);
     }
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
-      if (opt.choix.some((c) => c.requiertAllegeance || c.requiertLegion))
-        peuplerChoixSelect(select, opt);
+      if (
+        opt.choix.some(
+          (c) => c.requiertAllegeance || c.requiertLegion || c.requiertSerment,
+        )
+      )
+        peuplerChoixSelect(select, opt, instance);
       select.value = String(instance.valeurs[opt.id]);
       select.disabled =
         !realisable ||
@@ -2034,7 +2346,7 @@ function actualiserCarte(carte, unite, instance) {
    menu se remette à jour si l'Allégeance change après coup — sinon les
    <option> resteraient figées sur celles visibles au moment de la
    construction initiale de la carte. */
-function peuplerChoixSelect(select, opt) {
+function peuplerChoixSelect(select, opt, instance) {
   select.replaceChildren();
   const entrees = [];
   opt.choix.forEach((choix, indice) => {
@@ -2052,14 +2364,20 @@ function peuplerChoixSelect(select, opt) {
     // sans repli sur les Légions Alliées (contrairement à
     // `opt.requiertLegion`, optionRealisable) : la règle source exige
     // que la Figurine ait elle-même le Trait de la Légion, pas
-    // seulement d'être alliée à elle.
+    // seulement d'être alliée à elle. `instance` permet en revanche le
+    // repli Panoplie d'Antan/Légions Brisées (voir legionRequiseSatisfaite) :
+    // ces deux mécaniques considèrent explicitement la Figurine comme
+    // ayant le Trait de la Légion choisie.
     if (
       choix.requiertLegion &&
-      (!orgaPret ||
-        typeof Organigramme === "undefined" ||
-        Organigramme.legionActuelle() !== choix.requiertLegion)
+      !legionRequiseSatisfaite(choix.requiertLegion, { instance })
     )
       return;
+    // requiertSerment sur une entrée de `choix` (ex : Deathlock/Doomlock/
+    // Lame de Halo, armes récupérées — Serments du Moment Blackshields,
+    // js/unites-data.js) : même principe, sur les Serments actifs du
+    // Détachement de cette instance plutôt que sur la Légion/l'Allégeance.
+    if (choix.requiertSerment && !optionSermentOk(choix, instance)) return;
     const texteOption =
       indice === 0 && !opt.obligatoire
         ? nomCourt(choix.nom)
@@ -2165,7 +2483,7 @@ function construireConfig(carte, unite, instance) {
         const select = document.createElement("select");
         select.id = "opt-" + instance.uid + "-" + opt.id;
         label.htmlFor = select.id;
-        peuplerChoixSelect(select, opt);
+        peuplerChoixSelect(select, opt, instance);
         select.addEventListener("change", () => {
           instance.valeurs[opt.id] = Number(select.value);
           actualiserCarte(carte, unite, instance);
@@ -3400,10 +3718,13 @@ async function genererPDF() {
         }
       } else {
         // Identité couleurs seules (sans blason) pour les Factions Legio
-        // Custodes/Anathema Psykana/Conclaves Skitarii (SKIN_LEGIO_
-        // CUSTODES/SKIN_ANATHEMA_PSYKANA/SKIN_SKITARII, js/organigramme.js)
-        // : nom centré en gras, devise centrée en dessous — même principe
-        // que le nom de Cohorte seul ci-dessous quand aucune Désignation
+        // Custodes/Anathema Psykana/Conclaves Skitarii/Démons de la
+        // Tempête de la Ruine/Légions Brisées/Blackshields (SKIN_LEGIO_
+        // CUSTODES/SKIN_ANATHEMA_PSYKANA/SKIN_SKITARII/SKIN_DAEMONS_
+        // RUINSTORM/SKIN_LEGIONS_BRISEES/SKIN_BLACKSHIELDS,
+        // js/organigramme.js) : nom centré en gras, devise centrée en
+        // dessous — même principe que le nom de Cohorte seul ci-dessous
+        // quand aucune Désignation
         // n'est choisie.
         const skinSansBlason =
           (Organigramme.skinLegioCustodesActuel &&
@@ -3411,6 +3732,12 @@ async function genererPDF() {
           (Organigramme.skinAnathemaPsykanaActuel &&
             Organigramme.skinAnathemaPsykanaActuel()) ||
           (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          (Organigramme.skinRuinstormActuel &&
+            Organigramme.skinRuinstormActuel()) ||
+          (Organigramme.skinLegionsBriseesActuel &&
+            Organigramme.skinLegionsBriseesActuel()) ||
+          (Organigramme.skinBlackshieldsActuel &&
+            Organigramme.skinBlackshieldsActuel()) ||
           null;
         if (skinSansBlason) {
           paragrapheCentre(assainirPDF(skinSansBlason.nom), 16, "bold", accentRGB);
@@ -3837,6 +4164,12 @@ async function genererWordHTML() {
           (Organigramme.skinAnathemaPsykanaActuel &&
             Organigramme.skinAnathemaPsykanaActuel()) ||
           (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          (Organigramme.skinRuinstormActuel &&
+            Organigramme.skinRuinstormActuel()) ||
+          (Organigramme.skinLegionsBriseesActuel &&
+            Organigramme.skinLegionsBriseesActuel()) ||
+          (Organigramme.skinBlackshieldsActuel &&
+            Organigramme.skinBlackshieldsActuel()) ||
           null;
         if (skinSansBlason) {
           corps +=

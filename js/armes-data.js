@@ -3684,6 +3684,85 @@ const ARMES_TIR = [
       },
     ],
   },
+  {
+    // Legacies of the Age of Darkness : Legiones Astartes Blackshields
+    // (Third Edition, Version 1.1) — armes des Serments du Moment « La
+    // Souillure Xenos » (Deathlock/Doomlock) et « Les Armes du
+    // Désespoir » (Autofusil/Autopistolet/Fusil laser/Pistolet laser/
+    // Fusil à pompe/Stubber lourd récupérés), et Arme Psychique
+    // Torrent Warp de la Discipline Malfaisance (Serment « L'Héritage
+    // de Nikaea »). Ces Serments du Moment ne sont pas câblés comme
+    // options sélectionnables sur une Unité générique (voir CLAUDE.md,
+    // gap documenté) : profils ajoutés pour référence dans l'Arsenal.
+    titre: "Armes des Blackshields",
+    armes: [
+      {
+        nom: "Deathlock",
+        stats: ["18", "2", "6", "2", "1"],
+        regles: "Lacération (6+), Surcharge (2)",
+        traits: "Xenos",
+      },
+      {
+        nom: "Doomlock",
+        stats: ["9", "2", "6", "2", "1"],
+        regles: "Pistolet, Lacération (6+), Surcharge (2)",
+        traits: "Xenos, Assaut",
+      },
+      {
+        nom: "Autofusil récupéré",
+        stats: ["18", "3", "3", "-", "1"],
+        regles: "Pistolet",
+        traits: "Auto, Assaut",
+      },
+      {
+        nom: "Autopistolet récupéré",
+        stats: ["9", "3", "3", "-", "1"],
+        regles: "Pistolet",
+        traits: "Auto, Assaut",
+      },
+      {
+        nom: "Fusil laser récupéré",
+        stats: ["24", "2", "3", "6", "1"],
+        regles: "Pistolet",
+        traits: "Laser, Assaut",
+      },
+      {
+        nom: "Pistolet laser récupéré",
+        stats: ["12", "2", "3", "6", "1"],
+        regles: "Pistolet",
+        traits: "Laser, Assaut",
+      },
+      {
+        nom: "Fusil à pompe récupéré",
+        stats: ["12", "2", "4", "-", "1"],
+        regles: "Sonner (0)",
+        traits: "Auto, Assaut",
+      },
+      {
+        nom: "Stubber lourd récupéré",
+        stats: ["36", "5", "4", "-", "1"],
+        regles: "Neutralisation (0)",
+        traits: "Auto, Assaut",
+      },
+      {
+        // Deux profils partageant une même Arme (encart du livre) : le
+        // profil « Malfaisance » se choisit à la place du profil de
+        // base « Torrent » (nom de la Discipline Psychique — voir
+        // js/regles-data.js), même convention que Canon d'assaut
+        // Iliastus — Tir soutenu/maximal ci-dessus.
+        nom: "Torrent Warp — Torrent",
+        stats: ["12", "4", "5", "4", "1"],
+        regles: "Déflagration (5), Surcharge (1), Force (PF)",
+        traits: "Assaut",
+      },
+      {
+        nom: "Torrent Warp — Malfaisance",
+        stats: ["12", "1", "5", "2", "2"],
+        regles: "Déflagration (5), Surcharge (2), Force (FT)",
+        traits: "Assaut",
+      },
+    ],
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -4018,6 +4097,14 @@ const ARMES_MELEE = [
         nom: "Gantelet énergétique Solarite",
         stats: ["-3", "A", "+4", "2", "2"],
         regles: "Touche Critique (6+)",
+        traits: "Énergétique",
+      },
+      {
+        // Legacies of the Age of Darkness : Legiones Astartes Blackshields
+        // (p. 14) — équipement fixe d'Endryd Haar.
+        nom: "Gantelet énergétique modèle Terrawatt",
+        stats: ["2", "-1", "+4", "2", "3"],
+        regles: "-",
         traits: "Énergétique",
       },
       {
@@ -5655,6 +5742,26 @@ const ARMES_MELEE = [
         stats: ["1", "A", "F", "2", "2"],
         regles: "Touche Critique (6+)",
         traits: "Immatériel",
+      },
+    ],
+  },
+  {
+    // Legacies of the Age of Darkness : Legiones Astartes Blackshields
+    // — voir le commentaire de tête de la catégorie « Armes des
+    // Blackshields » (Armes de Tir plus haut) pour le contexte complet.
+    titre: "Armes des Blackshields",
+    armes: [
+      {
+        nom: "Lame de Halo",
+        stats: ["1", "A", "+2", "2", "1"],
+        regles: "Lacération (5+)",
+        traits: "Xenos",
+      },
+      {
+        nom: "Arme de mêlée récupérée",
+        stats: ["-1", "A", "+1", "5", "1"],
+        regles: "Vulnérante (6+)",
+        traits: "-",
       },
     ],
   },

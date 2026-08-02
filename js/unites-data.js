@@ -126,6 +126,46 @@ const LISTES_EQUIPEMENT = {
       { nom: "Marteau Thunder", cout: 15 },
       { nom: "Bouclier de combat", cout: 0 },
       { nom: "Bouclier d'abordage", cout: 5 },
+      // Legacies of the Age of Darkness : Legiones Astartes Blackshields,
+      // Serment du Moment La Souillure Xenos (p. 10, « Legion Officer
+      // Wargear list ») et Les Armes du Désespoir (p. 10, remplacement
+      // gratuit du bolter/pistolet bolter — voir CLAUDE.md).
+      { nom: "Lame de Halo", cout: 15, requiertSerment: "souillure-xenos" },
+      {
+        nom: "Autofusil récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Autopistolet récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Fusil laser récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Pistolet laser récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Fusil à pompe récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Stubber lourd récupéré",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
+      {
+        nom: "Arme de mêlée récupérée",
+        cout: 0,
+        requiertSerment: "armes-desespoir",
+      },
     ],
   },
   meleeTerminator: {
@@ -182,6 +222,11 @@ const LISTES_EQUIPEMENT = {
       { nom: "Chargeur volkite", cout: 5 },
       { nom: "Arquebuse volkite", cout: 10 },
       { nom: "Canon rotor", cout: 10 },
+      // Legacies of the Age of Darkness : Legiones Astartes Blackshields,
+      // Serment du Moment La Souillure Xenos (p. 10, « Legion Special
+      // Weapons list »).
+      { nom: "Deathlock", cout: 15, requiertSerment: "souillure-xenos" },
+      { nom: "Doomlock", cout: 10, requiertSerment: "souillure-xenos" },
     ],
   },
   lourdes: {
@@ -1190,6 +1235,9 @@ function depuisListes(...listes) {
         cout: item.cout,
         ...(item.requiertLegion
           ? { requiertLegion: item.requiertLegion }
+          : {}),
+        ...(item.requiertSerment
+          ? { requiertSerment: item.requiertSerment }
           : {}),
       });
     }
@@ -40902,6 +40950,67 @@ const UNITES = [
           "Terreur Primordiale",
         ],
         type: "Parangon (Unique, Maléfique)",
+      },
+    ],
+    options: [],
+  },
+  /* ============================================================
+     BLACKSHIELDS
+     « Legacies of the Age of Darkness : Legiones Astartes
+     Blackshields » (Third Edition, Version 1.1) — comme les Légions
+     Brisées (voir plus haut), ce supplément réutilise entièrement la
+     Liste d'Armée Legiones Astartes (faction: absent = "legio-astartes"
+     par défaut) plutôt que d'introduire un roster propre. Un seul
+     personnage nommé est donné avec un profil complet dans ce
+     document : Endryd Haar. Accessible UNIQUEMENT dans une Armée de
+     Faction "blackshields" (voir `requiertFactionArmee`, js/unites.js,
+     uniteAccessible) — contrairement à `legion`, ce champ ne restreint
+     que la visibilité dans le sélecteur, pas le placement en Case (déjà
+     garanti par un changement de Faction qui vide toujours l'Armée).
+     ============================================================ */
+  {
+    id: "endryd-haar",
+    nom: "Endryd Haar",
+    categorie: "Quartier Général",
+    cout: 165,
+    composition: "1 Endryd Haar",
+    requiertFactionArmee: "blackshields",
+    notes:
+      "Le Molosse Déchiré, Praetor du Blackshield, Les Crocs de l'Empereur. Autrefois de la Légion des World Eaters, Endryd Haar et son commandement furent crus longtemps perdus en Croisade quand leurs frères d'armes rallièrent la cause des Traîtres. Endryd sombra dans une folie froide en découvrant la trahison de sa Légion à son retour, trouvant l'Imperium déchiré par la guerre civile ; il effaça toute trace des insignes et des honneurs de sa Légion, et jura un serment de mort pour racheter les crimes de la XIIe Légion. Endryd Haar combattit aux côtés des Loyalistes en tant que commandant de terrain dans les jours sombres qui précédèrent le Siège de Terra, acceptant toute mission, quelles que soient les chances de survie, du moment qu'elle lui permettait de verser le sang de l'ennemi.",
+    traits: ["Loyaliste", "Blackshields", "Maître de la Légion"],
+    equipement: [
+      "Pistolet archéotech",
+      "Gantelet énergétique modèle Terrawatt",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Endryd Haar",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 5,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Crocs de l'Empereur",
+          "Le Molosse Déchiré",
+          "Haine (World Eaters)",
+          "Guerrier Éternel (1)",
+        ],
+        type: "Infanterie (Unique, État-major)",
       },
     ],
     options: [],

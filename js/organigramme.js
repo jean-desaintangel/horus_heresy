@@ -45,6 +45,7 @@ const Organigramme = (() => {
     designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
     chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — toute Faction sauf Legio Titanicus, facultatif
     dominion: "", // id DOMINIONS_ETHERIQUES ou "" (Choisir un Dominion Éthérique, Démons de la Tempête de la Ruine seulement)
+    legionsBrisees: [], // codes LEGIONS choisis (2 ou 3) — Faction Légions Brisées seulement, remplace etat.legion pour cette Faction
     detachements: [],
   };
 
@@ -68,6 +69,8 @@ const Organigramme = (() => {
     ["skitarii", "Conclaves Skitarii", true],
     ["anathema-psykana", "Anathema Psykana", true],
     ["daemons-ruinstorm", "Démons de la Tempête de la Ruine", true],
+    ["legions-brisees", "Légions Brisées", true],
+    ["blackshields", "Blackshields", true],
   ];
 
   const LEGIONS = [
@@ -438,6 +441,28 @@ const Organigramme = (() => {
     nom: "Conclaves Skitarii",
     devise:
       "Vassaux augmentés des Seigneurs des Forges, les Pérégrins de Combat Skitarii marchent sans relâche, corps et âme sacrifiés à la quête des reliques perdues.",
+  };
+  // Skins couleurs seules des trois Factions ajoutées ensuite (Démons de
+  // la Tempête de la Ruine, Légions Brisées, Blackshields) : même
+  // mécanique et même absence de blason que les trois ci-dessus (aucun
+  // asset d'image sourcé pour ces suppléments Legacies).
+  const SKIN_DAEMONS_RUINSTORM = {
+    classe: "skin-legion-daemons-ruinstorm",
+    nom: "Démons de la Tempête de la Ruine",
+    devise:
+      "Nées dans la tourmente du Warp, les hordes de la Tempête de la Ruine ne connaissent ni loi ni pitié : leur seul dessein est de faire déferler le chaos sur la galaxie.",
+  };
+  const SKIN_LEGIONS_BRISEES = {
+    classe: "skin-legion-legions-brisees",
+    nom: "Légions Brisées",
+    devise:
+      "Rejetés ou déserteurs de leur Légion d'origine, les guerriers des Légions Brisées ne répondent plus qu'à leurs propres serments, forgés dans l'adversité de l'Hérésie.",
+  };
+  const SKIN_BLACKSHIELDS = {
+    classe: "skin-legion-blackshields",
+    nom: "Blackshields",
+    devise:
+      "Le blason noirci, l'honneur perdu, les Blackshields ne se battent plus pour un Primarque ou un Empereur, mais pour leurs propres et amères raisons.",
   };
 
   /* Skins des types de Maisonnée (livre d'armée Chevaliers Questoris) :
@@ -849,7 +874,18 @@ const Organigramme = (() => {
         type.faction === etat.faction ||
         maisonneeSeigneurBataillesDebloqueVisibilite(type)
       );
-    return type.factionLibre || factionCroisadeParDefaut() === etat.faction;
+    // Légions Brisées et Blackshields (voir FACTIONS ci-dessus)
+    // réutilisent entièrement les Détachements génériques Legiones
+    // Astartes (Poing Blindé, Appui Tactique…) — factionCroisadeParDefaut()
+    // retombe sur "legio-astartes" pour ces deux Factions (absentes de
+    // sa liste spéciale), donc jamais égal à etat.faction sans ce cas
+    // particulier.
+    return (
+      type.factionLibre ||
+      factionCroisadeParDefaut() === etat.faction ||
+      etat.faction === "legions-brisees" ||
+      etat.faction === "blackshields"
+    );
   }
 
   function trouverDetachement(uid) {
@@ -1207,6 +1243,31 @@ const Organigramme = (() => {
       // Sans objet (null) pour tout autre type de détachement — voir
       // maisonneePertinentePourDetachement().
       maisonneeSeigneurBatailles: type.id === "seigneur-batailles" ? "" : null,
+      // Serments du Moment (Blackshields, voir SERMENTS_DU_MOMENT,
+      // js/organigramme-data.js) : liste d'ids choisis directement sur
+      // CE Détachement — n'a de sens que pour un Détachement Principal
+      // (max 2) ou Allié (max 1) d'une Armée de Faction "blackshields".
+      serments: [],
+      // uid du Détachement Principal/Allié dont ce Détachement hérite
+      // les Serments du Moment — n'a de sens que pour un Détachement
+      // Auxiliaire/d'Apex (le livre : « must use the same Oaths of
+      // Moment as the Detachment to which they are attached »). Choisi
+      // explicitement par le joueur (menu sur la carte, voir
+      // construireSelectSermentsRattaches) : ce site ne conserve pas de
+      // lien formel « quelle Case a débloqué quel Détachement » (voir
+      // debloqueursDisponibles ci-dessus), donc pas de déduction
+      // automatique possible.
+      serimentsRattaches: null,
+      // Légion choisie pour le Serment du Moment Panoplie d'Antan (une
+      // seule pour tout le Détachement, voir CLAUDE.md) — "" tant que
+      // rien n'est choisi. Sans objet si "panoplie-antan" n'est pas
+      // dans `serments`.
+      legionPanoplie: "",
+      // Clone/Aberrant choisi pour le Serment du Moment L'Hélice Brisée
+      // (un seul choix pour tout le Détachement, tous les Modèles
+      // concernés doivent avoir la même Règle Spéciale sélectionnée) —
+      // "" tant que rien n'est choisi.
+      choixCloneAberrant: "",
       cases: type.cases.map((c) => ({
         role: c.role,
         principale: Boolean(c.principale),
@@ -1343,9 +1404,22 @@ const Organigramme = (() => {
     // Détachement Allié qui l'accueille (menu « Légion Alliée » de sa
     // carte, vide tant qu'elle n'est pas choisie).
     if (unite.legion && !type.legionLibre) {
-      const legionRequise =
-        type.id === "allie" ? det.legionAlliee : etat.legion;
-      if (unite.legion !== legionRequise) return false;
+      // Légions Brisées (voir plus haut, FACTIONS) : pas de Légion
+      // unique (etat.legion reste vide pour cette Faction), mais un
+      // ensemble de 2 ou 3 Légions choisies pour toute l'Armée — une
+      // Unité réservée à une Légion est acceptée dès que celle-ci en
+      // fait partie, sur tout Détachement non Allié.
+      if (
+        etat.faction === "legions-brisees" &&
+        type.id !== "allie" &&
+        etat.legionsBrisees.includes(unite.legion)
+      ) {
+        // légion acceptée, on continue les autres vérifications
+      } else {
+        const legionRequise =
+          type.id === "allie" ? det.legionAlliee : etat.legion;
+        if (unite.legion !== legionRequise) return false;
+      }
     }
     // Escouade Inductii (Legacies, Legiones Inductii, p. 1) : Troupe
     // générique par Légion mais volontairement moins expérimentée que
@@ -1354,6 +1428,75 @@ const Organigramme = (() => {
     // Principale`, js/unites-data.js).
     if (unite.interditCasePrincipale && estCasePrincipale(det, caseOrga))
       return false;
+    // Serments du Moment (Blackshields) qui restructurent l'Organigramme
+    // d'un Détachement (voir SERMENTS_DU_MOMENT, js/organigramme-data.js) :
+    // vérifiés avant le test normal `unite.categorie === caseOrga.role`
+    // ci-dessous, qui reste inchangé pour tout Détachement sans Serment
+    // actif de ce type.
+    {
+      const sermentsActifs = sermentsActifsDe(det);
+      if (sermentsActifs.length > 0) {
+        // Dans la Disgrâce, Tous sont Égaux : aucun Choix d'État-major
+        // ni de Quartier Général — Cases entièrement bloquées, quelle
+        // que soit l'Unité.
+        if (
+          sermentsActifs.some(
+            (id) => sermentParId(id) && sermentParId(id).interditQGEtatMajor,
+          ) &&
+          (caseOrga.role === "État-major" || caseOrga.role === "Quartier Général")
+        ) {
+          return false;
+        }
+        // La Fierté est Notre Armure/Faucheurs analogues : plus aucun
+        // Choix de Troupes dans ce Détachement (ni un Auxiliaire/Apex
+        // qui lui est rattaché) — les Cases Troupes existantes sont
+        // reconverties (convertitRoleCase ci-dessous), donc une Unité
+        // de Rôle Troupes n'y a plus sa place nulle part.
+        if (
+          sermentsActifs.some(
+            (id) => sermentParId(id) && sermentParId(id).interditTroupes,
+          ) &&
+          unite.categorie === "Troupes"
+        ) {
+          return false;
+        }
+        // Seuls et Oubliés : plus aucune Case d'un autre Rôle Tactique
+        // que celui listé n'est occupable dans ce Détachement (même les
+        // Cases jamais reconverties, ex : Quartier Général, Transports).
+        for (const id of sermentsActifs) {
+          const serment = sermentParId(id);
+          if (
+            serment &&
+            serment.restreintRoleUnique &&
+            !caseOrga.extra &&
+            !caseOrga.libre &&
+            caseOrga.role !== serment.restreintRoleUnique &&
+            !(
+              serment.convertitRoleCase &&
+              serment.convertitRoleCase.de === caseOrga.role &&
+              serment.convertitRoleCase.vers === serment.restreintRoleUnique
+            )
+          ) {
+            return false;
+          }
+        }
+        // Rôle effectif d'une Case ordinaire (non extra/libre) reconverti
+        // par un Serment (ex : Troupes → Élite, Troupes → État-major
+        // réservé aux Centurions) : la Case garde son `role` de base en
+        // mémoire (résumé/comptages inchangés, même simplification déjà
+        // en place pour « Sire des White Scars » ci-dessus), seule
+        // l'acceptation d'Unité en tient compte ici.
+        for (const id of sermentsActifs) {
+          const serment = sermentParId(id);
+          const conv = serment && serment.convertitRoleCase;
+          if (!conv || conv.de !== caseOrga.role || caseOrga.extra || caseOrga.libre)
+            continue;
+          if (conv.restreintUniteIds && !conv.restreintUniteIds.includes(unite.id))
+            return false;
+          if (unite.categorie === conv.vers) return true;
+        }
+      }
+    }
     // Trait de Faction Mechanicum (Techno-arcane Majeur, Liber
     // Mechanicum p. 13) : uniformité exigée au sein d'un même
     // Détachement Auxiliaire/d'Apex (voir traitFactionMechanicumEtabliDe
@@ -1521,6 +1664,112 @@ const Organigramme = (() => {
       return (type && type.traitAccorde) || null;
     }
     return null;
+  }
+
+  function sermentParId(id) {
+    return SERMENTS_DU_MOMENT.find((s) => s.id === id) || null;
+  }
+
+  // Détachement qui occupe cette instance (uid d'unité), null si aucun.
+  function detachementDe(uniteUid) {
+    return (
+      etat.detachements.find((det) =>
+        det.cases.some((c) => c.uniteUid === uniteUid),
+      ) || null
+    );
+  }
+
+  /* Serments du Moment (Blackshields, voir SERMENTS_DU_MOMENT,
+     js/organigramme-data.js) actifs sur un DÉTACHEMENT : ceux choisis
+     directement dessus s'il est Principal/Allié, ou ceux du Détachement
+     auquel il est rattaché (`serimentsRattaches`) s'il est Auxiliaire/
+     d'Apex/autre. Toujours [] hors Faction Blackshields. Consommée par
+     caseAccepte()/avantagesPossibles() (placement/Avantage Principal)
+     et par sermentsDe() ci-dessous (fiche récap, js/unites.js). */
+  function sermentsActifsDe(det) {
+    if (etat.faction !== "blackshields") return [];
+    const type = typeDe(det);
+    if (type.famille === "principal" || type.id === "allie") {
+      return det.serments || [];
+    }
+    const parent = etat.detachements.find(
+      (d) => d.uid === det.serimentsRattaches,
+    );
+    return (parent && parent.serments) || [];
+  }
+
+  // Serments du Moment actifs pour une INSTANCE d'unité (remonte à son
+  // Détachement, voir sermentsActifsDe ci-dessus). Consommé par
+  // js/unites.js pour appliquer les Règles Spéciales/Traits accordés et
+  // les transformations de Règles Spéciales (Ligne (X)/Avant-garde (X)
+  // → Piller les Morts/Héroïsme Funeste, etc.).
+  function sermentsDe(uniteUid) {
+    const det = detachementDe(uniteUid);
+    return det ? sermentsActifsDe(det) : [];
+  }
+
+  // Légion choisie pour le Serment du Moment Panoplie d'Antan sur le
+  // Détachement (ou le Détachement rattaché, pour un Auxiliaire/Apex)
+  // qui occupe cette instance — "" si le Serment n'est pas actif ou
+  // qu'aucune Légion n'est encore choisie. Consommé par
+  // legionRequiseSatisfaite (js/unites.js).
+  function legionPanoplieDe(uniteUid) {
+    const det = detachementDe(uniteUid);
+    if (!det) return "";
+    if (!sermentsActifsDe(det).includes("panoplie-antan")) return "";
+    const type = typeDe(det);
+    if (type.famille === "principal" || type.id === "allie") {
+      return det.legionPanoplie || "";
+    }
+    const parent = etat.detachements.find(
+      (d) => d.uid === det.serimentsRattaches,
+    );
+    return (parent && parent.legionPanoplie) || "";
+  }
+
+  // "clone" | "aberrant" | "" — choix fait pour le Serment du Moment
+  // L'Hélice Brisée sur le Détachement (ou le Détachement rattaché) qui
+  // occupe cette instance. Consommé par bonusSermentDuMoment (js/unites.js).
+  function choixCloneAberrantDe(uniteUid) {
+    const det = detachementDe(uniteUid);
+    if (!det) return "";
+    if (!sermentsActifsDe(det).includes("helice-brisee")) return "";
+    const type = typeDe(det);
+    if (type.famille === "principal" || type.id === "allie") {
+      return det.choixCloneAberrant || "";
+    }
+    const parent = etat.detachements.find(
+      (d) => d.uid === det.serimentsRattaches,
+    );
+    return (parent && parent.choixCloneAberrant) || "";
+  }
+
+  // Un Serment du Moment est-il compatible avec ceux déjà choisis sur ce
+  // Détachement (hors lui-même) ? Vérifie la liste réciproque
+  // `excluAvec` des deux côtés (une seule entrée suffit à documenter
+  // l'incompatibilité, mais les deux la portent dans SERMENTS_DU_MOMENT
+  // par clarté).
+  function sermentCompatible(det, id) {
+    const serment = sermentParId(id);
+    if (!serment) return false;
+    const autres = (det.serments || []).filter((autreId) => autreId !== id);
+    return !autres.some((autreId) => {
+      const autre = sermentParId(autreId);
+      return (
+        (serment.excluAvec && serment.excluAvec.includes(autreId)) ||
+        (autre && autre.excluAvec && autre.excluAvec.includes(id))
+      );
+    });
+  }
+
+  // Nombre maximal de Serments du Moment sélectionnables pour ce type de
+  // Détachement (p. 3 : 2 pour un Détachement Principal, 1 pour un
+  // Détachement Allié, 0 — pas de sélection propre — pour tout autre
+  // type, qui hérite via `serimentsRattaches` à la place).
+  function maxSermentsPour(type) {
+    if (type.famille === "principal") return 2;
+    if (type.id === "allie") return 1;
+    return 0;
   }
 
   /* Trait de Faction Mechanicum déjà imposé à cette instance par les
@@ -2232,7 +2481,21 @@ const Organigramme = (() => {
     const occ = occupant(caseOrga);
     const resultat = [];
     const legionCase = legionPertinentePourCase(det);
+    // Dans la Disgrâce, Tous sont Égaux (Blackshields, voir
+    // SERMENTS_DU_MOMENT) : sur un Détachement où ce Serment est actif,
+    // TOUTE Case ordinaire devient une Case d'Organigramme de Force
+    // Suprême — seul l'Avantage Petit Seigneur de Guerre y est
+    // sélectionnable (jamais proposé ailleurs, y compris sur une
+    // véritable Case Principale d'un autre Détachement).
+    const disgraceActive = sermentsActifsDe(det).some(
+      (id) => sermentParId(id) && sermentParId(id).toutesCasesDeviennentPrime,
+    );
     for (const avantage of AVANTAGES_PRINCIPAUX) {
+      if (avantage.id === "petit-seigneur-de-guerre") {
+        if (!disgraceActive) continue;
+      } else if (disgraceActive && avantage.id !== "aucun") {
+        continue;
+      }
       // Avantages d'Arsenal réservés à une AUTRE Légion (`traitRequis`,
       // un par Légion) ou Avantages de Rang de Maisonnée réservés à une
       // AUTRE Faction que Chevaliers Questoris (`chevalier`) : masqués
@@ -2645,6 +2908,7 @@ const Organigramme = (() => {
           designationAuxilia: etat.designationAuxilia,
           chartPrincipal: etat.chartPrincipal,
           dominion: etat.dominion,
+          legionsBrisees: etat.legionsBrisees,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
             factionAlliee: d.factionAlliee || null,
@@ -2652,6 +2916,21 @@ const Organigramme = (() => {
             maisonneeAlliee: d.maisonneeAlliee || null,
             doctrineCohorteAlliee: d.doctrineCohorteAlliee || null,
             maisonneeSeigneurBatailles: d.maisonneeSeigneurBatailles || null,
+            serments: d.serments || [],
+            legionPanoplie: d.legionPanoplie || "",
+            choixCloneAberrant: d.choixCloneAberrant || "",
+            // `serimentsRattaches` pointe vers l'uid d'un AUTRE
+            // Détachement, jamais stable d'une session à l'autre
+            // (compteurDet reparT à zéro à chaque restauration) :
+            // sauvegardé comme un INDICE dans ce même tableau
+            // `detachements`, résolu en uid réel après coup (voir
+            // restaurerOrga, deuxième passe).
+            serimentsRattachesIndex:
+              d.serimentsRattaches == null
+                ? null
+                : etat.detachements.findIndex(
+                    (autre) => autre.uid === d.serimentsRattaches,
+                  ),
             cases: d.cases.map((c) => ({
               role: c.role,
               uniteUid: c.uniteUid,
@@ -2737,6 +3016,17 @@ const Organigramme = (() => {
           DOMINIONS_ETHERIQUES.includes(donnees.dominion))
       ) {
         etat.dominion = donnees.dominion;
+      }
+      if (
+        Array.isArray(donnees.legionsBrisees) &&
+        donnees.legionsBrisees.length <= 3 &&
+        donnees.legionsBrisees.every(
+          (code) =>
+            typeof code === "string" && LEGIONS.some(([v]) => v === code),
+        ) &&
+        new Set(donnees.legionsBrisees).size === donnees.legionsBrisees.length
+      ) {
+        etat.legionsBrisees = donnees.legionsBrisees;
       }
       const ritesLegion = RITES_DE_GUERRE[etat.legion] || [];
       if (
@@ -2829,6 +3119,39 @@ const Organigramme = (() => {
             det.maisonneeSeigneurBatailles = brute.maisonneeSeigneurBatailles;
           }
         }
+        // Serments du Moment (Blackshields) : `serments` n'a de sens que
+        // pour Principal/Allié. `serimentsRattachesIndex` (indice dans
+        // `donnees.detachements`, pas un uid — voir sauvegarderOrga) est
+        // conservé tel quel pour l'instant : résolu en uid réel une fois
+        // TOUS les Détachements recréés (deuxième passe juste après
+        // cette boucle), puisque `etat.detachements` n'est pas encore au
+        // complet ici.
+        if (
+          Array.isArray(brute.serments) &&
+          brute.serments.every(
+            (id) =>
+              typeof id === "string" &&
+              SERMENTS_DU_MOMENT.some((s) => s.id === id),
+          )
+        ) {
+          det.serments = [...new Set(brute.serments)];
+        }
+        if (
+          typeof brute.legionPanoplie === "string" &&
+          (brute.legionPanoplie === "" ||
+            LEGIONS.some(([v]) => v === brute.legionPanoplie))
+        ) {
+          det.legionPanoplie = brute.legionPanoplie;
+        }
+        if (
+          brute.choixCloneAberrant === "clone" ||
+          brute.choixCloneAberrant === "aberrant"
+        ) {
+          det.choixCloneAberrant = brute.choixCloneAberrant;
+        }
+        if (Number.isInteger(brute.serimentsRattachesIndex)) {
+          det.serimentsRattachesIndexBrut = brute.serimentsRattachesIndex;
+        }
         const casesSauvees = Array.isArray(brute.cases) ? brute.cases : [];
         // Détachement `casesLibres` (Détachement Narratif) : contrairement
         // à l'unique case `extra` ci-dessous, on restaure ICI autant de
@@ -2885,6 +3208,15 @@ const Organigramme = (() => {
         });
         etat.detachements.push(det);
       }
+      // Deuxième passe : résout serimentsRattachesIndexBrut (indice dans
+      // le tableau sauvegardé) en un uid réel, maintenant que tous les
+      // Détachements existent avec leurs uids définitifs.
+      for (const det of etat.detachements) {
+        if (!Number.isInteger(det.serimentsRattachesIndexBrut)) continue;
+        const cible = etat.detachements[det.serimentsRattachesIndexBrut];
+        det.serimentsRattaches = cible ? cible.uid : null;
+        delete det.serimentsRattachesIndexBrut;
+      }
     } catch {
       /* JSON invalide : on repart de zéro */
     }
@@ -2894,6 +3226,17 @@ const Organigramme = (() => {
      des unités disparues, les doublons, et les placements devenus
      illégaux (données altérées ou fiche d'unité modifiée). */
   function reconcilier() {
+    // Rattachement de Serments du Moment (Blackshields) devenu orphelin
+    // (Détachement Principal/Allié cible retiré depuis) : retombe sur
+    // « aucun rattachement » plutôt que de garder un uid mort.
+    for (const det of etat.detachements) {
+      if (
+        det.serimentsRattaches !== null &&
+        !etat.detachements.some((d) => d.uid === det.serimentsRattaches)
+      ) {
+        det.serimentsRattaches = null;
+      }
+    }
     const vus = new Set();
     for (const det of etat.detachements) {
       for (const caseOrga of det.cases) {
@@ -3154,6 +3497,7 @@ const Organigramme = (() => {
         etat.designationAuxilia = "";
         etat.chartPrincipal = "";
         etat.dominion = "";
+        etat.legionsBrisees = [];
         // La Legio Custodes et l'Anathema Psykana n'ont pas de variante
         // Renégate dans leur livre d'armée (toutes leurs unités portent
         // le Trait fixe « Loyaliste », voir js/unites-data.js) : sans ce
@@ -3366,6 +3710,64 @@ const Organigramme = (() => {
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelDominion, selectDominion));
+    } else if (etat.faction === "legions-brisees") {
+      // Légions Brisées (Legacies of the Age of Darkness : The
+      // Shattered Legions, p. 2) : remplace le menu Légion unique de
+      // Legio Astartes (etat.legion reste vide pour cette Faction) —
+      // le livre impose de choisir 2 OU 3 Légions pour toute l'Armée.
+      // Une Unité réservée à une Légion (`unite.legion`,
+      // js/unites-data.js) devient accessible dès que sa Légion figure
+      // parmi celles cochées ici (voir legionsBriseesActuelles
+      // ci-dessous et uniteAccessible, js/unites.js).
+      const labelLegions = el("label", null, "Légions choisies (2 ou 3)");
+      const groupeLegions = el("span", "orga-legions-brisees");
+      groupeLegions.setAttribute("role", "group");
+      groupeLegions.setAttribute("aria-label", "Légions choisies (2 ou 3)");
+      for (const [valeur, texte] of LEGIONS) {
+        const idCase = "legion-brisee-" + valeur;
+        const caseACocher = document.createElement("input");
+        caseACocher.type = "checkbox";
+        caseACocher.id = idCase;
+        const dejaChoisie = etat.legionsBrisees.includes(valeur);
+        caseACocher.checked = dejaChoisie;
+        // Une 4e Légion ne peut pas être cochée tant que 3 sont déjà
+        // choisies (règle du livre : 2 OU 3, jamais plus) — grisée
+        // plutôt que refusée silencieusement au clic.
+        caseACocher.disabled = !dejaChoisie && etat.legionsBrisees.length >= 3;
+        caseACocher.addEventListener("change", () => {
+          const cocheeAvant = etat.legionsBrisees.includes(valeur);
+          if (caseACocher.checked === cocheeAvant) return;
+          if (
+            !reinitialiserArmeeAvecConfirmation(
+              "Changer les Légions choisies réinitialise la liste " +
+                "d'armée et les détachements sélectionnés. Continuer ?",
+            )
+          ) {
+            caseACocher.checked = cocheeAvant;
+            return;
+          }
+          etat.legionsBrisees = caseACocher.checked
+            ? [...etat.legionsBrisees, valeur]
+            : etat.legionsBrisees.filter((v) => v !== valeur);
+          actualiser();
+        });
+        const etiquette = el("label", "orga-legions-brisees-item");
+        etiquette.htmlFor = idCase;
+        etiquette.appendChild(caseACocher);
+        etiquette.appendChild(document.createTextNode(" " + texte));
+        groupeLegions.appendChild(etiquette);
+      }
+      ligne.appendChild(groupeParametre(labelLegions, groupeLegions));
+      if (etat.legionsBrisees.length < 2) {
+        ligne.appendChild(
+          el(
+            "p",
+            "orga-legions-brisees-avertissement",
+            "Choisis 2 ou 3 Légions pour débloquer les Unités " +
+              "réservées à une Légion.",
+          ),
+        );
+      }
     } else if (etat.faction === "solar-auxilia") {
       // Doctrine de Cohorte (livre d'armée Solar Auxilia, Liber
       // Auxilia p. 11-16) : un unique choix par Armée, obligatoire
@@ -3559,6 +3961,9 @@ const Organigramme = (() => {
     document.body.classList.remove(SKIN_LEGIO_CUSTODES.classe);
     document.body.classList.remove(SKIN_ANATHEMA_PSYKANA.classe);
     document.body.classList.remove(SKIN_SKITARII.classe);
+    document.body.classList.remove(SKIN_DAEMONS_RUINSTORM.classe);
+    document.body.classList.remove(SKIN_LEGIONS_BRISEES.classe);
+    document.body.classList.remove(SKIN_BLACKSHIELDS.classe);
     for (const info of Object.values(SKINS_DESIGNATION_AUXILIA)) {
       document.body.classList.remove(info.classe);
     }
@@ -3575,6 +3980,12 @@ const Organigramme = (() => {
       etat.faction === "anathema-psykana" ? SKIN_ANATHEMA_PSYKANA : null;
     const skinSkitarii =
       etat.faction === "skitarii" ? SKIN_SKITARII : null;
+    const skinRuinstorm =
+      etat.faction === "daemons-ruinstorm" ? SKIN_DAEMONS_RUINSTORM : null;
+    const skinLegionsBrisees =
+      etat.faction === "legions-brisees" ? SKIN_LEGIONS_BRISEES : null;
+    const skinBlackshields =
+      etat.faction === "blackshields" ? SKIN_BLACKSHIELDS : null;
     const skinDesignation =
       SKINS_DESIGNATION_AUXILIA[etat.designationAuxilia] || null;
     const titre = document.querySelector("h1.titre-page");
@@ -3715,6 +4126,33 @@ const Organigramme = (() => {
       banniere.appendChild(entete);
       if (skinSkitarii.devise)
         banniere.appendChild(el("em", null, skinSkitarii.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinRuinstorm) {
+      // Skin couleurs seules, sans blason (voir SKIN_DAEMONS_RUINSTORM).
+      document.body.classList.add(skinRuinstorm.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinRuinstorm.nom);
+      banniere.appendChild(entete);
+      if (skinRuinstorm.devise)
+        banniere.appendChild(el("em", null, skinRuinstorm.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinLegionsBrisees) {
+      // Skin couleurs seules, sans blason (voir SKIN_LEGIONS_BRISEES).
+      document.body.classList.add(skinLegionsBrisees.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinLegionsBrisees.nom);
+      banniere.appendChild(entete);
+      if (skinLegionsBrisees.devise)
+        banniere.appendChild(el("em", null, skinLegionsBrisees.devise));
+      conteneur.appendChild(banniere);
+    } else if (skinBlackshields) {
+      // Skin couleurs seules, sans blason (voir SKIN_BLACKSHIELDS).
+      document.body.classList.add(skinBlackshields.classe);
+      const banniere = el("p", "legion-banniere");
+      const entete = el("strong", "legion-item", skinBlackshields.nom);
+      banniere.appendChild(entete);
+      if (skinBlackshields.devise)
+        banniere.appendChild(el("em", null, skinBlackshields.devise));
       conteneur.appendChild(banniere);
     } else if (skinDesignation) {
       document.body.classList.add(skinDesignation.classe);
@@ -4085,6 +4523,166 @@ const Organigramme = (() => {
     return ligne;
   }
 
+  /* Menu « Légion » du Serment du Moment Panoplie d'Antan (Blackshields) :
+     une seule Légion pour tout le Détachement, débloque les options
+     d'Armurerie de cette Légion pour toutes ses Unités (voir
+     legionRequiseSatisfaite, js/unites.js — étendu à cette source au
+     même titre que les Légions Brisées). */
+  function construireSelectLegionPanoplie(det) {
+    const ligne = el("p", "orga-detachement-serment-sous-choix");
+    const label = el("label", null, "Légion (Panoplie d’Antan) ");
+    const select = document.createElement("select");
+    select.setAttribute(
+      "aria-label",
+      "Légion choisie pour le Serment du Moment Panoplie d’Antan",
+    );
+    ajouterOption(select, "", "— Choisir une Légion —");
+    for (const [valeur, texte] of LEGIONS) {
+      ajouterOption(select, valeur, texte);
+    }
+    select.value = det.legionPanoplie || "";
+    select.addEventListener("change", () => {
+      det.legionPanoplie = select.value;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
+  /* Menu Clone/Aberrant du Serment du Moment L'Hélice Brisée
+     (Blackshields) : un seul choix pour tout le Détachement (voir
+     CLAUDE.md — même principe que Dominion Éthérique/Techno-arcane
+     Majeur, un choix unique appliqué à toutes les Unités concernées). */
+  function construireSelectCloneAberrant(det) {
+    const ligne = el("p", "orga-detachement-serment-sous-choix");
+    const label = el("label", null, "Clone ou Aberrant (L’Hélice Brisée) ");
+    const select = document.createElement("select");
+    select.setAttribute(
+      "aria-label",
+      "Choix Clone ou Aberrant pour le Serment du Moment L’Hélice Brisée",
+    );
+    ajouterOption(select, "", "— Choisir —");
+    ajouterOption(select, "clone", "Clone");
+    ajouterOption(select, "aberrant", "Aberrant");
+    select.value = det.choixCloneAberrant || "";
+    select.addEventListener("change", () => {
+      det.choixCloneAberrant = select.value;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
+  /* Cases à cocher « Serments du Moment » (Blackshields, voir
+     SERMENTS_DU_MOMENT, js/organigramme-data.js) d'un Détachement
+     Principal (max 2) ou Allié (max 1) : même gabarit que les cases à
+     cocher « Légions choisies » des Légions Brisées
+     (.orga-legions-brisees, css/style.css), avec sous-menus déclenchés
+     par certains Serments. */
+  function construireSelectSermentsDetachement(det) {
+    const max = maxSermentsPour(typeDe(det));
+    const conteneur = el("div", "orga-detachement-serments");
+    conteneur.appendChild(
+      el(
+        "p",
+        "orga-detachement-serments-titre",
+        "Serments du Moment (jusqu’à " + max + ")",
+      ),
+    );
+    const groupe = el("span", "orga-legions-brisees");
+    groupe.setAttribute("role", "group");
+    groupe.setAttribute("aria-label", "Serments du Moment du Détachement");
+    for (const serment of SERMENTS_DU_MOMENT) {
+      const idCase = "serment-" + det.uid + "-" + serment.id;
+      const caseACocher = document.createElement("input");
+      caseACocher.type = "checkbox";
+      caseACocher.id = idCase;
+      const dejaChoisi = det.serments.includes(serment.id);
+      caseACocher.checked = dejaChoisi;
+      const compatible = sermentCompatible(det, serment.id);
+      caseACocher.disabled =
+        !dejaChoisi && (det.serments.length >= max || !compatible);
+      if (!dejaChoisi && !compatible) {
+        caseACocher.title =
+          "Incompatible avec un Serment du Moment déjà choisi sur ce Détachement.";
+      }
+      caseACocher.addEventListener("change", () => {
+        if (caseACocher.checked) {
+          if (
+            det.serments.length >= max ||
+            !sermentCompatible(det, serment.id)
+          ) {
+            caseACocher.checked = false;
+            return;
+          }
+          det.serments = [...det.serments, serment.id];
+        } else {
+          det.serments = det.serments.filter((id) => id !== serment.id);
+        }
+        actualiser();
+      });
+      const etiquette = el("label", "orga-legions-brisees-item");
+      etiquette.htmlFor = idCase;
+      etiquette.appendChild(caseACocher);
+      etiquette.appendChild(creerRegleTag(" " + serment.nom, serment.texte));
+      groupe.appendChild(etiquette);
+    }
+    conteneur.appendChild(groupe);
+    if (det.serments.includes("panoplie-antan")) {
+      conteneur.appendChild(construireSelectLegionPanoplie(det));
+    }
+    if (det.serments.includes("helice-brisee")) {
+      conteneur.appendChild(construireSelectCloneAberrant(det));
+    }
+    return conteneur;
+  }
+
+  /* Menu « Rattaché à » d'un Détachement Auxiliaire/d'Apex (Blackshields) :
+     ce site ne conserve pas de lien formel « quelle Case a débloqué quel
+     Détachement » (voir debloqueursDisponibles/creerDetachement plus
+     haut), donc le rattachement — nécessaire pour hériter des Serments
+     du Moment du Détachement Principal/Allié « auquel il est attaché »,
+     p. 3 du PDF — est choisi explicitement par le joueur ici. */
+  function construireSelectSermentsRattaches(det) {
+    const parents = etat.detachements.filter((d) => {
+      if (d.uid === det.uid) return false;
+      const t = typeDe(d);
+      return t.famille === "principal" || t.id === "allie";
+    });
+    const ligne = el("p", "orga-detachement-serment-sous-choix");
+    const label = el("label", null, "Rattaché à (Serments du Moment) ");
+    const select = document.createElement("select");
+    select.setAttribute(
+      "aria-label",
+      "Détachement Principal ou Allié dont ce Détachement hérite les Serments du Moment",
+    );
+    ajouterOption(select, "", "— Aucun (pas de Serment du Moment) —");
+    for (const parent of parents) {
+      const nomsSerments = (parent.serments || [])
+        .map((id) => (sermentParId(id) || {}).nom)
+        .filter(Boolean)
+        .join(", ");
+      ajouterOption(
+        select,
+        String(parent.uid),
+        typeDe(parent).nom +
+          " #" +
+          parent.uid +
+          (nomsSerments ? " (" + nomsSerments + ")" : " (aucun Serment choisi)"),
+      );
+    }
+    select.value = det.serimentsRattaches ? String(det.serimentsRattaches) : "";
+    select.addEventListener("change", () => {
+      det.serimentsRattaches = select.value ? Number(select.value) : null;
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
   /* Menu « Doctrine de Cohorte Alliée » d'une carte de Détachement
      Allié, affiché uniquement quand det.factionAlliee vaut
      "solar-auxilia" — même principe que construireSelectMaisonneeAlliee
@@ -4175,6 +4773,20 @@ const Organigramme = (() => {
     } else if (type.id === "seigneur-batailles") {
       carte.appendChild(construireSelectMaisonneeSeigneurBatailles(det));
     }
+    // Serments du Moment (Blackshields, voir SERMENTS_DU_MOMENT) : choix
+    // propre sur un Détachement Principal/Allié, ou rattachement à l'un
+    // d'eux pour tout autre type (Auxiliaire, Apex...) — jamais les deux
+    // sur la même carte.
+    if (etat.faction === "blackshields") {
+      if (type.famille === "principal" || type.id === "allie") {
+        carte.appendChild(construireSelectSermentsDetachement(det));
+      } else if (type.famille === "auxiliaire" || type.famille === "apex") {
+        // « Other types of Detachment may not have Oaths of Moment
+        // selected for them » (p. 3) : Seigneur de Guerre/des Batailles/
+        // Narratif n'ont donc ni choix propre ni rattachement.
+        carte.appendChild(construireSelectSermentsRattaches(det));
+      }
+    }
 
     const liste = el("ul", "orga-cases-liste");
     det.cases.forEach((caseOrga, indice) => {
@@ -4261,8 +4873,20 @@ const Organigramme = (() => {
         ligneUnite.appendChild(lien);
         contenu.appendChild(ligneUnite);
 
-        // Avantage Principal (cases principales occupées, p. 283).
-        if (estCasePrincipale(det, caseOrga)) {
+        // Avantage Principal (cases principales occupées, p. 283) —
+        // aussi affiché sur une Case ordinaire occupée si le Serment du
+        // Moment Dans la Disgrâce, Tous sont Égaux (Blackshields) est
+        // actif sur ce Détachement : toute Case en devient une Case
+        // d'Organigramme de Force Suprême (voir avantagesPossibles, qui
+        // y restreint déjà le menu au seul Petit Seigneur de Guerre).
+        const casePrimeDisgrace =
+          !caseOrga.extra &&
+          !caseOrga.libre &&
+          sermentsActifsDe(det).some(
+            (id) =>
+              sermentParId(id) && sermentParId(id).toutesCasesDeviennentPrime,
+          );
+        if (estCasePrincipale(det, caseOrga) || casePrimeDisgrace) {
           const labelAv = el(
             "label",
             "orga-case-avantage-label",
@@ -4603,6 +5227,22 @@ const Organigramme = (() => {
     if (sectionTutorielRuinstorm) {
       sectionTutorielRuinstorm.hidden = etat.faction !== "daemons-ruinstorm";
     }
+    // Tutoriel des Légions Brisées : masqué entièrement tant que cette
+    // Faction n'est pas sélectionnée, même principe que ci-dessus.
+    const sectionTutorielLegionsBrisees = document.getElementById(
+      "construction-armee-legions-brisees",
+    );
+    if (sectionTutorielLegionsBrisees) {
+      sectionTutorielLegionsBrisees.hidden = etat.faction !== "legions-brisees";
+    }
+    // Tutoriel des Blackshields : masqué entièrement tant que cette
+    // Faction n'est pas sélectionnée, même principe que ci-dessus.
+    const sectionTutorielBlackshields = document.getElementById(
+      "construction-armee-blackshields",
+    );
+    if (sectionTutorielBlackshields) {
+      sectionTutorielBlackshields.hidden = etat.faction !== "blackshields";
+    }
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");
@@ -4701,6 +5341,13 @@ const Organigramme = (() => {
     assignationDe,
     avantageDe,
     traitDetachementDe,
+    // Serments du Moment (Blackshields) actifs pour une instance d'unité
+    // (voir sermentsDe ci-dessus) : consommée par js/unites.js pour
+    // appliquer leurs effets sur la fiche récap (Règles Spéciales/
+    // Traits accordés, transformation de Ligne (X)/Avant-garde (X)...).
+    sermentsDe,
+    legionPanoplieDe,
+    choixCloneAberrantDe,
     traitFactionMechanicumRequisPour,
     traitFactionSkitariiRequisPour,
     // Faction choisie dans les paramètres de la partie (id FACTIONS) :
@@ -4718,6 +5365,13 @@ const Organigramme = (() => {
     // consommé par dominionEtheriqueDe (js/unites.js) pour résoudre le
     // placeholder « [Dominion Éthérique] » des Unités génériques.
     dominionActuel: () => etat.dominion,
+    // Légions choisies dans les paramètres de la partie (tableau de 0
+    // à 3 codes LEGIONS, Faction Légions Brisées uniquement) :
+    // consommée par js/unites.js (uniteAccessible) pour rendre
+    // accessible une Unité réservée à une Légion (`unite.legion`) dès
+    // que celle-ci figure dans ce tableau, et par caseAccepte()
+    // ci-dessus pour le même filtre au niveau d'une Case.
+    legionsBriseesActuelles: () => etat.legionsBrisees,
     // Maisonnée choisie dans les paramètres de la partie ("" = aucune,
     // Faction Chevaliers Questoris uniquement) : consommée par
     // js/unites.js pour verrouiller le sélecteur « Unité à ajouter »
@@ -4827,6 +5481,15 @@ const Organigramme = (() => {
       etat.faction === "anathema-psykana" ? SKIN_ANATHEMA_PSYKANA : null,
     skinSkitariiActuel: () =>
       etat.faction === "skitarii" ? SKIN_SKITARII : null,
+    // Skins couleurs seules des trois Factions ajoutées ensuite (Démons
+    // de la Tempête de la Ruine, Légions Brisées, Blackshields) — même
+    // principe que les trois accesseurs ci-dessus.
+    skinRuinstormActuel: () =>
+      etat.faction === "daemons-ruinstorm" ? SKIN_DAEMONS_RUINSTORM : null,
+    skinLegionsBriseesActuel: () =>
+      etat.faction === "legions-brisees" ? SKIN_LEGIONS_BRISEES : null,
+    skinBlackshieldsActuel: () =>
+      etat.faction === "blackshields" ? SKIN_BLACKSHIELDS : null,
     // Factions des Détachements Alliés actuellement dans l'Armée (une
     // par Détachement Allié dont la Faction a été choisie, doublons
     // possibles). Consommée par js/unites.js (uniteAccessible) pour

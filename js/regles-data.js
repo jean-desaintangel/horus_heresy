@@ -2705,4 +2705,311 @@ const REGLES_DIVERSES = [
     texte:
       "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs et la Règle Spéciale Brise-blindage (4+).",
   },
+
+  /* --- Légions Brisées (« Legacies of the Age of Darkness : The
+     Shattered Legions », Third Edition, Version 1.0) — supplément qui
+     réutilise entièrement la Liste d'Armée Legiones Astartes (Liber
+     Astartes/Hereticus), pas une Faction avec ses propres Unités. Le
+     Trait Légions Brisées remplace le Trait [Legiones Astartes] et les
+     18 Traits de Légion qu'il est possible de choisir à sa place (voir
+     FACTIONS/js/organigramme.js) ; les 18 entrées de Tactiques Mutables
+     ci-dessous ne sont pas appliquées mécaniquement (bonus de combat
+     conditionnels, comme les Mutable Tactics/Rites de Guerre déjà
+     documentés ailleurs sur ce site), texte de référence seul. */
+  {
+    nom: "Légions Brisées",
+    texte:
+      "Trait de Faction qui remplace le Trait [Legiones Astartes], au même titre que les 18 Traits de Légion qu'il est possible de choisir à sa place. Une Armée qui compte au moins un Détachement à ce Trait doit choisir 2 ou 3 Légions parmi les dix-huit et les noter sur sa Feuille de Déploiement d'Armée : ce choix conditionne les Rites de Guerre Légions Brisées sélectionnables et la façon dont ils interagissent avec les Unités de l'Armée.",
+  },
+  {
+    // Prime Advantage (« Case d'Organigramme de Force Suprême » au sens
+    // du livre anglais, « Prime Slot ») — mécanique non modélisée sur
+    // ce site (même limite que Cadres d'Interdiction/Paladin de
+    // l'Hekatonystika/Inductii), texte seul.
+    nom: "Parangons de la Légion",
+    texte:
+      "Avantage Principal réservé à une Unité de Rôle Tactique Commandement, entièrement composée de Modèles ayant le Trait Légions Brisées, sélectionnée pour remplir une Case d'Organigramme de Force Suprême. Ajoute une Case d'Organigramme supplémentaire (n'importe quel Rôle Tactique sauf Haut Commandement, Commandement, Seigneur de Guerre ou Seigneur des Batailles) au Détachement qui inclut cette Unité. Chaque Unité choisie pour occuper cette Case doit être issue de la Liste d'Armée Legiones Astartes, ne comprendre aucun Modèle de Sous-type Unique, et avoir un Trait de Faction correspondant à la Légion représentée par le Modèle qui a servi à choisir cet Avantage. Tous les Modèles de ces Unités voient alors leur Trait de Faction remplacé par « Légions Brisées » et gagnent la Règle Spéciale Spécialistes de Légion.",
+  },
+  {
+    nom: "Spécialistes de Légion",
+    texte:
+      "Si un Modèle ayant cette Règle Spéciale devait bénéficier de la Règle Spéciale Tactiques Mutables, il ne peut bénéficier que du bonus lié à la seule Légion dont le Trait a été remplacé par l'Avantage Principal Parangons de la Légion.",
+  },
+  {
+    nom: "Armureries de Légion",
+    texte:
+      "Un Modèle ayant le Trait Légions Brisées peut recevoir des options d'Armurerie (mais aucun Avantage Principal) tirées des pages d'Armurerie de Légion de n'importe laquelle des Légions choisies pour l'Armée, à raison d'une seule Légion par Modèle ; pour l'usage de ces seules options, ce Modèle est alors considéré comme ayant le Trait de cette Légion.",
+  },
+  {
+    nom: "Commandants des Légions Brisées",
+    texte:
+      "Hibou Khan (White Scars), Alexis Polux (Imperial Fists), Shadrak Meduson (Iron Hands), Saul Tarvitz (Emperor's Children) et Garviel Loken (Sons of Horus) peuvent rejoindre un Détachement Légions Brisées si leur Légion figure parmi celles choisies pour l'Armée ; leur Trait d'Allégeance reste inchangé, mais leur Trait de Faction est alors remplacé par « Légions Brisées ».",
+  },
+  {
+    nom: "Tactiques Mutables",
+    texte:
+      "Tactica de Légion du Rite de Guerre Les Légions Brisées. Tout Modèle ayant le Trait Légions Brisées, sauf de Type Véhicule, gagne un bonus pour chacune des Légions choisies pour les Détachements Légions Brisées de l'Armée (voir le détail de chaque Légion dans le Glossaire). Si seulement deux Légions ont été choisies, ces Modèles gagnent également la Règle Spéciale Liés par le Sang.",
+  },
+  {
+    nom: "Liés par le Sang",
+    texte:
+      "Si seulement deux Légions ont été choisies pour les Détachements Légions Brisées de l'Armée, tout Modèle sujet à la Règle Spéciale Tactiques Mutables modifie ses Caractéristiques de Commandement et de Sang-froid de +1 au deuxième et au troisième Tour de Bataille, et de +2 à partir du quatrième Tour de Bataille et de tout Tour de Bataille suivant.",
+  },
+  {
+    nom: "Enfants de l'Antique Nuit",
+    texte:
+      "Dark Angels. Si les Dark Angels ont été choisis pour les Détachements Légions Brisées de l'Armée, un Modèle sujet à la Règle Spéciale Tactiques Mutables n'est affecté par une Règle Spéciale Peur (X) que s'il se trouve à moins de 6 pouces (au lieu de 12 pouces) d'un Modèle ayant cette Règle Spéciale.",
+  },
+  {
+    nom: "Habileté Sans Égale",
+    texte:
+      "Emperor's Children. Si les Emperor's Children ont été choisis pour les Détachements Légions Brisées de l'Armée, un résultat de 4+ à un Jet pour Toucher fait pour une Attaque de Mêlée d'un Modèle sujet à la Règle Spéciale Tactiques Mutables est toujours un succès.",
+  },
+  {
+    nom: "Accoutumés à la Dévastation",
+    texte:
+      "Iron Warriors. Si les Iron Warriors ont été choisis pour les Détachements Légions Brisées de l'Armée, un résultat de 9 ou moins à un Test de Commandement fait en Sous-phase de Moral pour une Unité sujette à la Règle Spéciale Tactiques Mutables est toujours un succès.",
+  },
+  {
+    nom: "Prompts à l'Action",
+    texte:
+      "White Scars. Si les White Scars ont été choisis pour les Détachements Légions Brisées de l'Armée, une Unité entièrement composée de Modèles sujets à la Règle Spéciale Tactiques Mutables qui fait un Mouvement de Mise en Place ou est sélectionnée pour Ruée modifie l'Initiative de ses Modèles de +1 jusqu'à la fin de la Sous-phase.",
+  },
+  {
+    nom: "Esprit de Fenris",
+    texte:
+      "Space Wolves. Si les Space Wolves ont été choisis pour les Détachements Légions Brisées de l'Armée, pour un Mouvement de Mise en Place fait pour un Modèle sujet à la Règle Spéciale Tactiques Mutables, le Joueur en Contrôle peut ajouter +1 pouce à la distance du Mouvement, jusqu'à un maximum de 6 pouces.",
+  },
+  {
+    nom: "Volées Dévastatrices",
+    texte:
+      "Imperial Fists. Si les Imperial Fists ont été choisis pour les Détachements Légions Brisées de l'Armée, pour une Attaque de Volée faite pour un Modèle sujet à la Règle Spéciale Tactiques Mutables, ce Modèle peut faire des Attaques de Volée avec un bolter comme s'il avait le Trait Assaut.",
+  },
+  {
+    nom: "Réputation Meurtrière",
+    texte:
+      "Night Lords. Si les Night Lords ont été choisis pour les Détachements Légions Brisées de l'Armée, si une Unité qui comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables fait Retirer comme Perte au moins un Modèle ennemi, le Joueur en Contrôle marque 1 Point de Résolution de Combat supplémentaire lors de la résolution de ce Combat pendant ce Tour de Joueur.",
+  },
+  {
+    nom: "Coups Vengeurs",
+    texte:
+      "Blood Angels. Si les Blood Angels ont été choisis pour les Détachements Légions Brisées de l'Armée, pour un Jet de Blessure fait pour une Attaque de Mêlée d'un Modèle sujet à la Règle Spéciale Tactiques Mutables, ajoutez un modificateur de +1 au résultat si un Modèle de la même Unité a été Retiré comme Perte pendant cette Phase.",
+  },
+  {
+    nom: "Résolution de Fer",
+    texte:
+      "Iron Hands. Si les Iron Hands ont été choisis pour les Détachements Légions Brisées de l'Armée, quand des attaques faites dans le cadre d'une Attaque de Volée sont allouées, si le Modèle Cible est sujet à la Règle Spéciale Tactiques Mutables, ce Modèle gagne la Règle Spéciale Insensible à la Douleur (4+) jusqu'à la résolution de cette attaque.",
+  },
+  {
+    nom: "Poursuite Frénétique",
+    texte:
+      "World Eaters. Si les World Eaters ont été choisis pour les Détachements Légions Brisées de l'Armée, quand une Unité qui comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables Poursuit une Unité ennemie, le Joueur en Contrôle peut ajouter +2 pouces à la distance du Mouvement.",
+  },
+  {
+    nom: "Combattants Méthodiques",
+    texte:
+      "Ultramarines. Si les Ultramarines ont été choisis pour les Détachements Légions Brisées de l'Armée, quand une Unité ennemie fait une Attaque de Tir dans le cadre d'une Réaction Ciblant une Unité qui comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables, les attaques faites dans le cadre de cette Attaque de Tir sont faites en Tirs au Jugé.",
+  },
+  {
+    nom: "Enfants de Barbarus",
+    texte:
+      "Death Guard. Si les Death Guard ont été choisis pour les Détachements Légions Brisées de l'Armée, un Modèle sujet à la Règle Spéciale Tactiques Mutables ignore les effets du Terrain Difficile et du Terrain Dangereux ; s'il doit faire un Test de Terrain Dangereux, il est considéré comme le réussissant automatiquement, sans lancer de dé.",
+  },
+  {
+    nom: "Illusions Convoquées",
+    texte:
+      "Thousand Sons. Si les Thousand Sons ont été choisis pour les Détachements Légions Brisées de l'Armée, une Unité ennemie ne peut pas se voir sélectionner l'option Poursuite lors des Répercussions si une Unité qui a choisi Se Replier comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables.",
+  },
+  {
+    nom: "Tradition Brutale",
+    texte:
+      "Sons of Horus. Si les Sons of Horus ont été choisis pour les Détachements Légions Brisées de l'Armée, pour un Jet pour Toucher fait pour un Modèle sujet à la Règle Spéciale Tactiques Mutables, ajoutez un modificateur de +1 au résultat si son Joueur en Contrôle contrôle le moins de Modèles dans ce Combat (un Modèle ayant la Règle Spéciale Massif (X) compte pour un nombre de Modèles égal à X).",
+  },
+  {
+    nom: "Dévotion Zélée",
+    texte:
+      "Word Bearers. Si les Word Bearers ont été choisis pour les Détachements Légions Brisées de l'Armée, pour un Jet de Charge fait pour une Unité qui comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables, le Joueur en Contrôle lance un dé supplémentaire et écarte les deux dés dont les résultats sont les plus faibles.",
+  },
+  {
+    nom: "Rejetons de la Flamme",
+    texte:
+      "Salamanders. Si les Salamanders ont été choisis pour les Détachements Légions Brisées de l'Armée, une Unité qui comprend un Modèle sujet à la Règle Spéciale Tactiques Mutables n'est pas affectée par la Règle Spéciale Panique (X) portée par une Arme ayant le Trait Flamme.",
+  },
+  {
+    nom: "Maîtres de l'Occultation",
+    texte:
+      "Raven Guard. Si les Raven Guard ont été choisis pour les Détachements Légions Brisées de l'Armée, un Modèle sujet à la Règle Spéciale Tactiques Mutables qui ne reste pas Stationnaire en Sous-phase de Mouvement de son Joueur en Contrôle gagne la Règle Spéciale Shrouded (6+) jusqu'au début du prochain Tour de son Joueur en Contrôle — Règle Spéciale distincte de la Dissimulation liée aux Jets de Mitigation de Dégâts déjà établie sur ce site.",
+  },
+  {
+    nom: "Tactiques d'Assassinat",
+    texte:
+      "Alpha Legion. Si l'Alpha Legion a été choisie pour les Détachements Légions Brisées de l'Armée, les Attaques de Volée faites pour un Modèle sujet à la Règle Spéciale Tactiques Mutables gagnent la Règle Spéciale Précision (6+).",
+  },
+  {
+    nom: "Faire Payer le Prix",
+    texte:
+      "Réaction Avancée du Rite de Guerre Les Légions Brisées. Déclencheur : une fois par Bataille, le Joueur Réactif d'une Unité qui ne comprend que des Modèles ayant le Trait Légions Brisées peut la déclarer à la fin de l'Étape 5 du processus de Charge, pour toute Charge déclarée par le Joueur Actif qui Cible cette Unité. Coût : 1, 2 ou 3 Points d'Attribution de Réactions, payés dès la déclaration. Cible : l'Unité Cible est toujours l'Unité dont la Charge a déclenché la Réaction ; l'Unité Réactive est toujours l'Unité qui a été déclarée Cible de cette Charge. Processus : le Joueur Réactif déclare combien de Points d'Attribution de Réactions il dépense. Pour 1 Point, les Modèles de l'Unité Réactive gagnent un modificateur de +1 à leur Endurance jusqu'à la fin de la Phase. Pour 2 Points, ils gagnent en plus ce même modificateur, et les Modèles qui attaquent l'Unité Cible gagnent un modificateur de +1 à leurs Attaques jusqu'à la fin de la Phase. Pour 3 Points, les Modèles qui attaquent l'Unité Cible gagnent en plus un modificateur de +1 à leur Force, toujours jusqu'à la fin de la Phase.",
+  },
+  {
+    nom: "Frappe Vindicative",
+    texte:
+      "Gambit du Rite de Guerre Les Légions Brisées, sélectionnable par le Joueur en Contrôle d'un Modèle ayant le Trait Légions Brisées à la place de tout autre Gambit disponible pour ce Modèle, uniquement si sa Caractéristique de Points de Vie a été abaissée sous sa valeur de départ. Tant que ce Gambit est sélectionné, à l'Étape de Concentration, au lieu de faire un Jet de Concentration, le Modèle fait une Attaque de Mêlée avec un modificateur de +1 à son Jet pour Toucher et à son Jet de Blessure. Si le Modèle ennemi est Retiré comme Perte du fait de cette attaque, le Défi passe immédiatement à l'Étape de Gloire. S'il ne l'est pas, ce Modèle est Retiré comme Perte à la place, et le Défi passe de la même façon immédiatement à l'Étape de Gloire.",
+  },
+
+  /* --- Blackshields (« Legacies of the Age of Darkness : Legiones
+     Astartes Blackshields », Third Edition, Version 1.1) — comme les
+     Légions Brisées ci-dessus, ce supplément réutilise entièrement la
+     Liste d'Armée Legiones Astartes (faction: "blackshields", voir
+     FACTIONS/js/organigramme.js) plutôt que d'introduire un roster
+     propre. Les 15 Serments du Moment ci-dessous ne sont pas câblés
+     comme mécanique sélectionnable par Détachement sur ce site (même
+     principe que les Rites de Guerre/Tactica de Légion déjà en place
+     ailleurs) : texte de référence seul, à appliquer manuellement en
+     partie. --- */
+  {
+    nom: "Blackshields",
+    texte:
+      "Trait de Faction qui remplace le Trait [Legiones Astartes] sur toute Unité sélectionnée pour un Détachement qui porte ce Trait. Seules les Unités de la Liste d'Armée Legiones Astartes qui n'ont pas de variante précise du Trait [Legiones Astartes] (c'est-à-dire aucune Unité propre à une seule Légion) peuvent être sélectionnées pour un tel Détachement, qui ne peut inclure aucun Modèle portant un autre Trait de Légion. Toute Unité ainsi sélectionnée conserve son Trait d'Allégeance [Allégeance], remplacé par Loyaliste ou Renégat selon le choix fait pour l'Armée : les Blackshields peuvent aussi bien être Loyalistes que Renégats.",
+  },
+  {
+    nom: "Fils Bâtards du Destin",
+    texte:
+      "Tactica Blackshields. Tout Modèle ayant le Trait Blackshields, sauf de Type Véhicule, qui est affecté par le Statut Tactique Fixée, Neutralisée ou Sonnée gagne un bonus de +1 à ses Caractéristiques d'Endurance et de Force ; s'il est affecté par plus d'un de ces Statuts Tactiques à la fois, ce bonus passe à +2.",
+  },
+  {
+    nom: "Redevable à Personne",
+    texte:
+      "Gambit du Rite de Guerre Blackshields, sélectionnable par le Joueur en Contrôle d'un Modèle ayant le Trait Blackshields à la place de tout autre Gambit disponible pour ce Modèle, uniquement si le Modèle adverse engagé dans le même Défi a le Trait Unique ou le Type Parangon. Si ce Modèle est Retiré comme Perte durant l'Étape de Frappe alors que ce Gambit était sélectionné pour lui, le Modèle adverse subit automatiquement D3 blessures à la fin de l'Étape de Gloire qui suit, avec les Caractéristiques de Dégâts et de Pénétration d'Armure de l'Arme qu'il portait.",
+  },
+  {
+    // Endryd Haar (p. 13-14) : Règle Spéciale fixe, voir js/unites-data.js.
+    nom: "Crocs de l'Empereur",
+    texte:
+      "Si Endryd Haar est choisi comme seul Choix de Quartier Général d'un Détachement Principal, toutes les Unités de ce Détachement Principal entièrement composées de Modèles ayant le Trait Blackshields, le Type Infanterie et n'ayant aucune variante de la Règle Spéciale Massif (X), gagnent la Règle Spéciale Infiltration (12).",
+  },
+  {
+    nom: "Le Molosse Déchiré",
+    texte:
+      "Tant qu'un Modèle ayant cette Règle Spéciale est engagé dans un Défi, son Joueur en Contrôle peut sélectionner le Gambit du même nom : le Modèle ne peut alors faire qu'une seule attaque à l'Étape de Frappe, quelle que soit sa Caractéristique d'Attaques, mais gagne un bonus de +4 à sa Caractéristique de Force et un bonus de +2 à la Caractéristique de Dégâts de son Arme sélectionnée pour cette unique attaque.",
+  },
+  {
+    nom: "La Vendetta Éternelle",
+    texte:
+      "Serment du Moment. Si l'Armée adverse compte un Détachement ayant une variante du Trait [Legiones Astartes], tous les Modèles d'un Détachement ayant ce Serment gagnent la Règle Spéciale Haine (Legiones Astartes) ; si l'Armée adverse compte un Détachement Principal ayant une variante de ce Trait, les effets de cette Règle Spéciale s'étendent à +1 à tous les Jets pour Toucher faits en Combat. Toutefois, toute Unité d'un Détachement ayant ce Serment qui commence la Sous-phase d'Assaut avec un Modèle à moins de 12 pouces d'un Modèle ennemi ayant le Trait Legiones Astartes doit déclarer une Charge visant l'Unité qui inclut ce Modèle ennemi, même si elle ne peut l'atteindre — sauf les Unités incapables de charger (Type Véhicule notamment).",
+  },
+  {
+    nom: "Panoplie d'Antan",
+    texte:
+      "Serment du Moment. Pour chaque Détachement ayant ce Serment, le Joueur en Contrôle choisit un unique Trait de Légion : toutes les Unités de ce Détachement peuvent alors utiliser les options d'équipement de l'Armurerie de cette Légion (à l'exclusion des Règles ou options de ses Rites de Guerre et de ses Avantages Principaux — seules les options qui remplacent de l'équipement). Pour ce seul usage, tous les Modèles du Détachement sont considérés avoir le Trait de Faction de la Légion choisie.",
+  },
+  {
+    nom: "Seule la Mort Achève le Devoir",
+    texte:
+      "Serment du Moment. À la Phase de Fin du Tour du Joueur en Contrôle, toute Unité d'un Détachement ayant ce Serment qui compte des Modèles ayant le Statut Tactique En Déroute peut se voir retirer immédiatement ce Statut Tactique ; si c'est le cas, cette Unité subit alors 1D3+1 blessures avec une Caractéristique de Dégâts de 1 et une Pénétration d'Armure de -.",
+  },
+  {
+    nom: "Les Dépouilles de la Victoire",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields dans un Détachement ayant ce Serment perd toute variante des Règles Spéciales Ligne (X) ou Avant-garde (X) qu'il possède, et ne peut plus en gagner d'aucune source par la suite ; une Unité qui compte un tel Modèle ne peut plus Contrôler ni Contester d'Objectif. À la place, ces Modèles gagnent la Règle Spéciale Piller les Morts (X) : la valeur de X est égale à celle de la variante d'Avant-garde (X) perdue divisée par deux, ou à celle de la variante de Ligne (X) perdue telle quelle. Ce Serment ne peut pas être sélectionné pour un Détachement qui a déjà le Serment Faucheurs de Vies.",
+  },
+  {
+    nom: "Piller les Morts (X)",
+    texte:
+      "Accorde à une Unité qui gagne un Combat l'option Pillage et Saccage lors des Répercussions : à condition que toutes les Unités ennemies impliquées dans ce Combat aient été détruites, Se Replient ou se soient Désengagées, une seule Unité par Combat, entièrement composée de Modèles ayant cette Règle Spéciale, peut choisir cette option plutôt que de se déplacer ou d'attaquer : elle marque alors un nombre de Points de Victoire égal à X, puis tous ses Modèles gagnent le Statut Tactique Fixée.",
+  },
+  {
+    nom: "Une Éternité de Guerre",
+    texte:
+      "Serment du Moment. Quand le Joueur en Contrôle d'une Unité entièrement composée de Modèles ayant le Trait Blackshields, faisant partie d'un Détachement ayant ce Serment, doit faire un Mouvement de Repli en Sous-phase de Mouvement, ce Mouvement peut se faire dans n'importe quelle direction, y compris en Contact Socle à Socle avec des Modèles ennemis ; si un Modèle de l'Unité se retrouve ainsi au contact, tous les Modèles de l'Unité perdent le Statut Tactique En Déroute s'ils l'avaient. Toutefois, si à la Sous-phase des Effets de la Phase de Fin d'un Tour de Bataille après le premier, une telle Unité n'est pas Verrouillée en Combat, elle doit faire un test de Sang-froid ; en cas d'échec, tous ses Modèles gagnent le Statut Tactique En Déroute.",
+  },
+  {
+    nom: "La Chair est Faible",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields et le Type Infanterie dans un Détachement ayant ce Serment du Moment doit remplacer son Type par Automate, et remplace la Règle Spéciale de la Tactica Blackshields (Fils Bâtards du Destin) par la Règle Spéciale Unités à Cogitateurs Liés. De plus, tout Modèle de Sous-type Transport sélectionné dans un tel Détachement gagne la Règle Spéciale Baie de Transport Augmétique.",
+  },
+  {
+    nom: "Unités à Cogitateurs Liés",
+    texte:
+      "Un Modèle ayant cette Règle Spéciale et le Type Automate peut Contrôler et Contester des Objectifs, mais ne bénéficie pas de la Règle Spéciale Ligne (X) : il gagne à la place un bonus au nombre de Points de Victoire marqués en Contrôlant un Objectif, selon le nombre de Modèles ayant cette Règle Spéciale dans l'Unité — un Point de Victoire de moins (minimum 0) si l'Unité en compte quatre ou moins, un Point de Victoire de plus si elle en compte dix ou plus.",
+  },
+  {
+    nom: "Baie de Transport Augmétique",
+    texte:
+      "Un Modèle ayant cette Règle Spéciale ne peut recevoir à son bord que des Modèles ayant le Type Automate et le Trait Blackshields, et voit sa Capacité de Transport augmentée de 3.",
+  },
+  {
+    nom: "L'Héritage de Nikaea",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields et le Sous-type Sergent, Champion, Spécialiste ou État-major dans un Détachement ayant ce Serment du Moment gagne le Trait Psyker et la Discipline Psychique Malfaisance (en plus de toute autre Discipline déjà accessible, s'il avait déjà le Trait Psyker).",
+  },
+  {
+    nom: "Malfaisance",
+    texte:
+      "Discipline Psychique. Un Modèle qui la possède gagne la Règle Spéciale Malfaisance, l'Arme Psychique Torrent Warp et le Trait « Malfaisant ». Un Modèle ayant la Règle Spéciale Malfaisance subit davantage les Périls du Warp : quand une Unité qui compte un tel Modèle subit les Périls du Warp et obtient le résultat Rupture du Warp, la Caractéristique de Volonté de tous les Modèles ayant cette Règle Spéciale dans l'Unité est fixée à 5 pour la résolution de cet incident.",
+  },
+  {
+    nom: "L'Hélice Brisée",
+    texte:
+      "Serment du Moment. Pour chaque Unité qui comprend des Modèles ayant ce Serment du Moment, le Joueur en Contrôle doit choisir l'une de deux options qui remplacent des Règles Spéciales existantes. Un Modèle ayant le Trait Blackshields dans un Détachement ayant ce Serment perd toute variante des Règles Spéciales Fureur de la Légion, Ligne (X) et Avant-garde (X), et ne peut plus en gagner d'aucune source par la suite. À la place, il gagne l'une des deux Règles Spéciales suivantes, au choix du Joueur en Contrôle — tous les Modèles d'un même Détachement ayant ce Serment doivent avoir la même Règle Spéciale sélectionnée : Clone ou Aberrant.",
+  },
+  {
+    nom: "Clone",
+    texte:
+      "Tout Modèle ayant cette Règle Spéciale qui n'a pas aussi le Sous-type État-major, Champion, Spécialiste ou Sergent doit réduire de 1 ses Caractéristiques de Commandement, Volonté, Intelligence et Sang-froid. De plus, une Unité qui compte un tel Modèle ne peut faire ni Réaction ni Réaction Avancée, mais gagne un Jet de Mitigation de Dégâts de 5+, connu sous le nom de Jet de Mitigation de Dégâts de Résilience Clonée.",
+  },
+  {
+    nom: "Aberrant",
+    texte:
+      "Tout Modèle ayant cette Règle Spéciale qui n'a pas aussi le Sous-type État-major, Champion, Spécialiste ou Sergent doit réduire de 1 ses Caractéristiques de Commandement, Volonté, Intelligence et Sang-froid, mais augmente de 1 ses Caractéristiques de Force et d'Attaques. De plus, une Unité qui compte un tel Modèle et qui commence la Sous-phase d'Assaut avec un Modèle à moins de 12 pouces d'un Modèle ennemi doit déclarer une Charge visant l'Unité qui inclut ce Modèle ennemi, même si elle ne peut atteindre l'Unité Cible.",
+  },
+  {
+    nom: "Dans la Disgrâce, Tous sont Égaux",
+    texte:
+      "Serment du Moment. Un Détachement ayant ce Serment du Moment ne peut inclure aucun Choix d'État-major ni de Quartier Général. Toutes les autres Cases de tous les Détachements ayant ce Serment deviennent des Cases d'Organigramme de Force Suprême, mais le seul Avantage Principal sélectionnable pour l'une de ces Cases est Petit Seigneur de Guerre ; une Unité qui compte des Modèles de Type Véhicule ne peut se voir attribuer aucun Avantage Principal de ce type.",
+  },
+  {
+    nom: "Petit Seigneur de Guerre",
+    texte:
+      "Avantage Principal réservé aux Cases d'Organigramme de Force Suprême du Serment du Moment Dans la Disgrâce, Tous sont Égaux. Un Modèle de Sous-type Sergent de l'Unité qui occupe la Case gagne +1 à ses Caractéristiques d'Attaques, de Capacité de Combat et de Commandement, ainsi que le Sous-type Champion (s'il l'a déjà, il gagne +1 de Commandement supplémentaire à la place). Si cet Avantage est choisi pour une Unité d'un Détachement Principal ou Allié, un Détachement Auxiliaire peut lui être rattaché comme si cette Unité occupait un Choix de Quartier Général ; toutes les Cases de ce Détachement Auxiliaire deviennent alors elles-mêmes des Cases d'Organigramme de Force Suprême, réservées au même Avantage Principal Petit Seigneur de Guerre.",
+  },
+  {
+    nom: "La Fierté est Notre Armure",
+    texte:
+      "Serment du Moment. Un Détachement Principal ou Allié ayant ce Serment du Moment remplace toutes ses Cases de Troupes par des Cases d'Élite. De plus, un Détachement ayant ce Serment ne peut inclure aucun Choix de Troupes, y compris dans tout Détachement Auxiliaire ou d'Apex qui lui est rattaché.",
+  },
+  {
+    nom: "La Souillure Xenos",
+    texte:
+      "Serment du Moment. Pour les Modèles ayant le Trait Blackshields dans un Détachement ayant ce Serment, le Deathlock (+15 Points) et le Doomlock (+10 Points) sont considérés comme faisant partie de la liste des Armes Spéciales de Légion, et la Lame de Halo (+15 Points) comme faisant partie de la liste d'Équipement d'Officier de Légion.",
+  },
+  {
+    nom: "Les Armes du Désespoir",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields dans un Détachement ayant ce Serment du Moment doit échanger la totalité de ses bolters et pistolets bolters contre une arme de la liste des Armes du Désespoir (Autofusil, Autopistolet, Fusil laser, Pistolet laser, Fusil à pompe ou Stubber lourd récupérés, ou Arme de mêlée récupérée — cette dernière limitée à un Modèle sur trois par Unité), et ne peut échanger ces bolters/pistolets bolters contre aucune arme d'une autre liste. Tous ces échanges sont gratuits.",
+  },
+  {
+    nom: "La Lame du Juste",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields dans un Détachement ayant ce Serment du Moment perd toute variante des Règles Spéciales Ligne (X) ou Avant-garde (X) et ne peut plus en gagner d'aucune source par la suite. Ces Modèles gagnent la Règle Spéciale Héroïsme Funeste (X), la valeur de X étant égale au double de celle de la Règle Spéciale perdue ; un Modèle qui n'avait ni Insouciant ni aucune variante de Ligne (X)/Avant-garde (X) gagne directement Héroïsme Funeste (3). Ce Serment ne peut pas être sélectionné pour un Détachement qui a déjà le Serment Faucheurs de Vies ou Les Dépouilles de la Victoire.",
+  },
+  {
+    nom: "Héroïsme Funeste (X)",
+    texte:
+      "Chaque fois qu'au moins une Unité comptant une majorité de Modèles ayant cette Règle Spéciale gagne un Combat où au moins l'une des conditions suivantes était vraie au début de la Sous-phase de Combat, le Joueur en Contrôle marque un nombre de Points de Victoire égal à X (en cas de plusieurs variantes dans un même Combat, seule la plus haute valeur de X compte) : le camp ennemi compte plus du double du nombre de Modèles du camp Blackshields ; le camp ennemi compte plus de Modèles de Sous-type État-major, ou au moins un Modèle de Type Parangon ; ou le camp ennemi compte une majorité de Modèles à Capacité de Combat supérieure à celle de la majorité du camp Blackshields.",
+  },
+  {
+    nom: "Faucheurs de Vies",
+    texte:
+      "Serment du Moment. Tout Modèle ayant le Trait Blackshields dans un Détachement ayant ce Serment du Moment perd toute variante des Règles Spéciales Ligne (X) ou Avant-garde (X) et ne peut plus en gagner d'aucune source par la suite ; une Unité qui en compte ne peut plus Contrôler ni Contester d'Objectif, ni marquer de Points de Victoire d'un autre Objectif Principal ou Secondaire. À la place, le Joueur en Contrôle d'un Détachement ayant ce Serment marque D3 Points de Victoire pour chaque Unité ennemie entièrement Retirée comme Perte par une Attaque de Tir faite par une Unité qui compte une majorité de Modèles ayant ce Serment, ou lors d'un Combat qui inclut de tels Modèles sous son contrôle — seulement 1 Point de Victoire si l'Unité qui porte ce Serment est de Type Véhicule, et ce total est réduit de la valeur de X si l'Unité ennemie détruite compte des Modèles ayant la Règle Spéciale Sacrifiable (X) (minimum 0). Ce Serment ne peut pas être sélectionné pour un Détachement qui a déjà le Serment Les Dépouilles de la Victoire ou La Lame du Juste.",
+  },
+  {
+    nom: "Seuls et Oubliés",
+    texte:
+      "Serment du Moment. Un Détachement ayant ce Serment du Moment ne peut inclure que des Choix d'État-major. Toutes les Cases de Troupes d'un Détachement Principal ou Allié ayant ce Serment, ainsi que de tout Détachement Auxiliaire qui lui est rattaché, deviennent des Cases d'État-major — mais seuls des Centurions ou des Centurions en Armure Terminator peuvent les occuper. Tout Choix d'État-major d'un Détachement ayant ce Serment gagne +1 à sa Caractéristique de Base de Points de Vie et peut ajouter +1 à l'une des Caractéristiques suivantes, au choix (chaque Modèle peut choisir une Caractéristique différente) : Volonté, Sang-froid ou Intelligence. Tous les Centurions et Centurions en Armure Terminator ainsi sélectionnés gagnent les Règles Spéciales Insouciant et Combattre et Mourir Seul.",
+  },
+  {
+    nom: "Combattre et Mourir Seul",
+    texte:
+      "Un Modèle ayant cette Règle Spéciale ne peut rejoindre aucune Unité, ni être rejoint par un autre Modèle. Tant qu'il est engagé dans un Combat où il est le seul Modèle sous le contrôle de son Joueur en Contrôle : ce dernier gagne un bonus de +1 à son Score de Résolution de Combat pour chaque Point de Vie perdu par ce Modèle lors du Round de Combat ; s'il lance ou accepte un Défi, il marque 1 Point de Victoire ; et aucun Joueur ne peut marquer de Points de Victoire si ce Modèle est Retiré comme Perte.",
+  },
 ];

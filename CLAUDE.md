@@ -3073,5 +3073,352 @@ Règles Spéciales :
   `"Officier de Ligne"` dans `reglesAppliquees` à ce jour — seul Préfet
   était concerné par ce bug.
 
+- **Nouvelle Faction « Légions Brisées » (`faction: "legions-brisees"`,
+  « Legacies of the Age of Darkness : The Shattered Legions », Third
+  Edition v1.0)** : architecture fondamentalement différente de toutes
+  les Factions précédentes — ce supplément n'introduit AUCUNE Unité
+  propre, il réutilise ENTIÈREMENT la Liste d'Armée Legiones Astartes
+  (Liber Astartes/Hereticus) avec un Trait de Faction de remplacement.
+  Pas de nouvelles entrées dans `js/unites-data.js` : tout le travail
+  est dans le moteur (`js/organigramme.js`, `js/unites.js`) et le
+  glossaire (`js/regles-data.js`).
+  **Principe retenu** : `etat.faction === "legions-brisees"` se
+  comporte comme `"legio-astartes"` pour tout ce qui gouverne
+  l'accessibilité des Unités/Détachements génériques (Unités sans champ
+  `faction`, Détachements sans champ `faction` explicite) — patché à
+  trois endroits précis plutôt que d'ajouter "legions-brisees" à
+  `factionCroisadeParDefaut()` (qui casserait l'égalité attendue
+  ailleurs) : (1) `typeDisponiblePourFaction()` (js/organigramme.js) —
+  ajout d'un OU explicite `etat.faction === "legions-brisees"`, sinon
+  aucun Détachement Auxiliaire/d'Apex générique (Poing Blindé, Appui
+  Tactique…) n'était proposé ; (2) `uniteAccessible()` (js/unites.js) —
+  `factionUnite === "legio-astartes"` explicitement accepté quand
+  `legionsBriseesActives`, sinon aucune Unité Legio Astartes générique
+  n'apparaissait dans le sélecteur ; (3) `caseAccepte()`
+  (js/organigramme.js) — le contrôle de Faction lui-même (ligne
+  `factionUnite !== (type.faction || factionCroisadeParDefaut())`)
+  n'a PAS eu besoin de patch (les deux valeurs retombent déjà sur
+  "legio-astartes" pour cette Faction), seul le contrôle de LÉGION en
+  a eu besoin (voir plus bas).
+  **Sélection de 2 ou 3 Légions pour toute l'Armée** (p. 2 du PDF,
+  remplace le menu Légion unique de Legio Astartes) : nouveau champ
+  `etat.legionsBrisees` (tableau de 0 à 3 codes `LEGIONS`, persisté/
+  restauré comme `etat.dominion` mais avec validation de cardinalité
+  ≤ 3 et d'unicité) et nouveau bloc UI dans `construireParametres()` —
+  18 cases à cocher (`LEGIONS`), la 4ᵉ case se grise automatiquement
+  dès que 3 sont déjà cochées (règle du livre : 2 OU 3, jamais plus),
+  chaque bascule passe par `reinitialiserArmeeAvecConfirmation` comme
+  un changement de Légion classique. Nouvel accesseur public
+  `Organigramme.legionsBriseesActuelles()`. Toute Unité réservée à une
+  Légion (`unite.legion`) devient accessible dès que sa Légion figure
+  dans ce tableau — patché dans `uniteAccessible()` (legion check) ET
+  `caseAccepte()` (même check, hors Détachement Allié qui garde son
+  propre `legionAlliee` indépendant). **Gap volontairement accepté** :
+  `etat.legion` (singulier) reste vide pour cette Faction — toutes les
+  options d'Arsenal de Légion déjà câblées sur ce site via
+  `requiertLegion` (Artifice de Nocturne Salamanders, Gantelet Solarite
+  Imperial Fists, etc.) ainsi que le panneau Décurion de Légion
+  (Predator/Sicaran/Kratos) restent donc invisibles pour une Armée
+  Légions Brisées, même si le joueur a coché la bonne Légion — la
+  mécanique « Legion Armouries » du PDF (jusqu'à une Légion différente
+  par Modèle, parmi les 2-3 choisies) demanderait une refonte de
+  `requiertLegion` (actuellement lié à un unique `etat.legion` global)
+  qui dépasse la portée de ce chantier ; documenté dans le tutoriel
+  plutôt que masqué.
+  **5 Commandants nommés déjà existants** (Hibou Khan/White Scars,
+  Alexis Polux/Imperial Fists, Shadrak Meduson/Iron Hands, Saul
+  Tarvitz/Emperor's Children, Garviel Loken/Sons of Horus) : aucune
+  modification nécessaire — le check générique `unite.legion` déjà en
+  place suffit à les rendre accessibles dès que leur Légion est cochée,
+  sans mécanisme dédié.
+  **Contenu non modélisé mécaniquement** (texte de référence seul dans
+  `js/regles-data.js`, même principe que les Rites de Guerre/Tactica de
+  Légion déjà en place ailleurs sur ce site) : Tactica de Légion
+  Tactiques Mutables (bonus par Légion choisie, 18 entrées + Liés par
+  le Sang si seulement 2 Légions), Réaction Avancée Faire Payer le
+  Prix, Gambit Frappe Vindicative, et l'Avantage Principal (Prime
+  Advantage, mécanique de Case d'Organigramme de Force Suprême non
+  modélisée sur ce site, voir Cadres d'Interdiction/Inductii) Parangons
+  de la Légion + sa Règle Spéciale Spécialistes de Légion. Traduction
+  « Shrouded (6+) » (bonus Raven Guard) volontairement PAS mappée sur
+  « Dissimulation (X) » (Damage Mitigation Rolls déjà établie) malgré
+  le nom anglais identique — collision déjà documentée pour Raven
+  Guard/Anathema Psykana, note explicite ajoutée dans le texte de
+  regles-data.js et dans le tutoriel plutôt qu'un nouveau nom inventé.
+  Nouveau tutoriel « Voir le tutoriel » (`construction-armee-legions-
+  brisees`, pages/construction-liste.html) sur le moule des copies
+  génériques (Legio Custodes/Anathema Psykana/Skitarii/Ruinstorm — même
+  Organigramme de Force de Croisade, pas de panneau Décurion de Légion)
+  avec 4 panneaux propres : Le Trait Légions Brisées, Armureries de
+  Légion (gap documenté), Commandants des Légions Brisées, Rite de
+  Guerre : Les Légions Brisées (accordéon des 18 Tactiques Mutables +
+  Réaction Avancée + Gambit). Vérifié par test fonctionnel jsdom :
+  bascule de Faction, 18 cases à cocher avec plafond à 3, accessibilité
+  d'une Unité générique (Escouade Tactique) et d'un Commandant nommé
+  (Hibou Khan) avant/après cocher sa Légion, Cases libres trouvées pour
+  un Praetor (générique) et Hibou Khan (réservé à une Légion) dans le
+  Détachement Principal — sans régression sur les Factions précédentes.
+
+- **Nouvelle Faction « Blackshields » (`faction: "blackshields"`,
+  « Legacies of the Age of Darkness : Legiones Astartes Blackshields »,
+  Third Edition v1.1)** : même principe architectural que les Légions
+  Brisées ci-dessus (aucun roster propre, réutilise entièrement la
+  Liste d'Armée Legiones Astartes), mais plus simple sur un point clé —
+  pas de choix de Légion(s) du tout : le PDF exclut purement et
+  simplement toute Unité propre à une Légion d'un Détachement
+  Blackshields (« no Legion specific Units may be selected »), ce qui
+  tombe déjà juste par défaut puisque `etat.legion` reste vide pour
+  cette Faction (le check `unite.legion` existant dans
+  `uniteAccessible()`/`caseAccepte()` refuse alors automatiquement
+  toute Unité à Légion fixe, sans code supplémentaire à écrire pour
+  cette exclusion précise). Seuls deux patchs déjà posés pour Légions
+  Brisées ont dû être étendus à `"blackshields"` : `uniteAccessible()`
+  (js/unites.js, variable renommée `reutiliseLegioAstartes` — Unités
+  Legio Astartes génériques accessibles) et `typeDisponiblePourFaction()`
+  (js/organigramme.js — Détachements Auxiliaires/d'Apex génériques
+  disponibles). `caseAccepte()` n'a nécessité AUCUN patch supplémentaire
+  (le check de Légion existant, sans dérogation, suffit déjà à exclure
+  les Unités à Légion fixe). Allégeance laissée entièrement libre
+  (Loyaliste ou Renégat, comme Legio Astartes) — aucun forçage ajouté,
+  contrairement à Legio Custodes/Anathema Psykana (Loyaliste forcé) ou
+  Démons de la Tempête de la Ruine (Renégat forcé).
+  **Nouveau mécanisme `unite.requiertFactionArmee`** (js/unites-data.js/
+  js/unites.js) : première Unité de ce fichier réservée à une Faction
+  d'Armée précise SANS déroger au Trait Faction générique de placement
+  en Case — contrairement à `unite.faction` (qui gouverne aussi
+  `caseAccepte()` et doit donc rester "legio-astartes" par défaut pour
+  qu'une telle Unité reste compatible avec l'Organigramme de Force de
+  Croisade générique), ce nouveau champ n'est vérifié QUE dans
+  `uniteAccessible()` (visibilité du sélecteur « Unité à ajouter »).
+  Sûr sans contrepartie dans `caseAccepte()` car un changement de
+  Faction vide toujours l'Armée au préalable
+  (`reinitialiserArmeeAvecConfirmation`) : aucun état incohérent où une
+  Unité resterait sur la fiche avec une Faction d'Armée différente de
+  celle exigée. Posé sur **Endryd Haar** (`requiertFactionArmee:
+  "blackshields"`), seul personnage nommé de ce PDF à profil complet
+  (Le Molosse Déchiré, Praetor du Blackshield — ancien World Eaters,
+  165 Points, Quartier Général, Type Infanterie (Unique, État-major)) :
+  Règles Spéciales Crocs de l'Empereur (Infiltration (12) à tout le
+  Détachement Principal s'il en est le seul Choix de Quartier Général),
+  Le Molosse Déchiré (Gambit à +4 Force/+2 Dégâts pour une seule
+  attaque), Haine (World Eaters), Guerrier Éternel (1) ; nouvelle arme
+  Gantelet énergétique modèle Terrawatt (`armes-data.js`).
+  **Rite de Guerre Blackshields** : Tactica Fils Bâtards du Destin
+  (+1, ou +2, Endurance/Force sous Fixée/Neutralisée/Sonnée) et Gambit
+  Redevable à Personne (D3 blessures en retour si vaincu par un Modèle
+  à Trait Unique/Type Parangon) — ajoutés à `regles-data.js`. Point de
+  Réaction Bonus lié au Trait déjà existant **Maître de la Légion**
+  (texte générique déjà en place, réutilisé tel quel plutôt que dupliqué
+  — condition précise décrite en prose dans le tutoriel plutôt que dans
+  une nouvelle entrée de glossaire).
+  **Les Serments du Moment (Oaths of Moment)** : mécanique la plus
+  riche rencontrée à ce jour pour un supplément de ce type — 15 Serments
+  sélectionnables par Détachement (2 pour un Détachement Principal, 1
+  pour un Détachement Allié, obligatoirement partagés par les
+  Détachements Auxiliaires/d'Apex rattachés), certains restructurant
+  profondément l'Organigramme (Cases de Troupes → Élite ou → Quartier
+  Général, Cases → Cases d'Organigramme de Force Suprême...). Décision
+  délibérée de NE PAS les câbler comme mécanique sélectionnable par
+  Détachement (contrairement à la Doctrine de Cohorte/au Techno-arcane
+  Majeur/au Trait de Faction Skitarii/au Dominion Éthérique, qui sont
+  chacun UN SEUL choix simple) — l'ampleur du chantier (potentiellement
+  plusieurs nouveaux types de Détachement, une UI de sélection multiple
+  par Détachement, une resynchronisation des Cases à chaque changement)
+  dépasse largement la portée d'une session, et la plupart de ces effets
+  sont de toute façon des bonus de combat conditionnels que ce site ne
+  simule déjà pas ailleurs. Les 15 Serments + leurs sous-règles nommées
+  (Piller les Morts (X), Unités à Cogitateurs Liés, Baie de Transport
+  Augmétique, Malfaisance, Clone, Aberrant, Petit Seigneur de Guerre,
+  Héroïsme Funeste (X), Combattre et Mourir Seul) ajoutés à
+  `regles-data.js` comme texte de référence seul, avec un encadré
+  « Non simulé sur ce site » explicite dans le tutoriel — même principe
+  que les 18 Tactiques Mutables des Légions Brisées.
+  Nouvelle catégorie d'Arsenal « Armes des Blackshields » (Tir et
+  Mêlée, `armes-data.js`) pour les armes mentionnées par les Serments
+  Souillure Xenos (Deathlock, Doomlock, Lame de Halo) et Armes du
+  Désespoir (Autofusil/Autopistolet/Fusil laser/Pistolet laser/Fusil à
+  pompe/Stubber lourd récupérés) et l'Arme Psychique Torrent Warp de la
+  Discipline Malfaisance — profils complets donnés par le PDF, ajoutés
+  pour référence même si aucune Unité générique ne les propose encore
+  en option sélectionnable (même limite que les Serments eux-mêmes).
+  « Las » (Trait) volontairement PAS utilisé pour les armes laser
+  récupérées : ce fichier utilise déjà « Laser » en toutes lettres
+  (vérifié avant traduction, cf. catégorie « Armes Laser » déjà
+  existante) — à ne pas confondre pour un futur ajout.
+  Nouveau tutoriel « Voir le tutoriel » (`construction-armee-
+  blackshields`, pages/construction-liste.html) sur le moule des
+  Légions Brisées (même Organigramme de Force de Croisade générique,
+  pas de panneau Décurion de Légion — les options d'Arsenal de Légion
+  `requiertLegion` restent hors de portée ici aussi, `etat.legion`
+  n'étant jamais renseigné pour cette Faction) avec 5 panneaux propres :
+  Le Trait Blackshields, Point de Réaction Bonus, Rite de Guerre :
+  Blackshields, Les Serments du Moment (accordéon des 15), Commandant :
+  Endryd Haar. Frise « Ordre de déploiement » (`index.html`) mise à
+  jour : Blackshields et Légion brisée (renommé depuis « Shattered
+  Legion », qui n'était qu'un nom de collection PDF jamais aligné sur
+  le nom réel du site « Légions Brisées » — demande explicite du
+  proprio de le renommer ainsi malgré l'écart de nombre avec la Faction
+  plurielle) déplacés de la Phase II (« En approche ») vers la Phase I
+  (« Déployée »).
+  Vérifié par test fonctionnel jsdom : bascule de Faction, Endryd Haar
+  accessible sous Blackshields et invisible sous Legio Astartes (dans
+  les deux sens), Unité générique (Escouade Tactique) toujours
+  accessible, Unité à Légion fixe (Hibou Khan) correctement EXCLUE sous
+  Blackshields, Allégeance non verrouillée, Cases libres trouvées pour
+  Endryd Haar (Quartier Général) dans le Détachement Principal, contenu
+  du tutoriel présent — sans régression sur les Factions précédentes.
+
+- **Câblage mécanique complet des Serments du Moment (Blackshields) et
+  des Armureries de Légion (Légions Brisées)** — demande explicite du
+  proprio (2026-08-02) de ne plus laisser ces mécaniques en texte de
+  référence seul : le principe par défaut de ce fichier (« bonus de
+  combat conditionnel non simulé, cette page ne sert que de
+  référence ») ne s'applique plus à ces deux mécaniques précises. Reste
+  vrai partout ailleurs (Rites de Guerre/Tactica de Légion classiques,
+  Tactiques Mutables des Légions Brisées elles-mêmes) : ne pas
+  généraliser à tort ce chantier à tout le fichier.
+  **Armureries de Légion (Légions Brisées)** : `legionRequiseSatisfaite`
+  (js/unites.js, remplace l'ancien nom plus étroit) centralise
+  désormais 4 sources de satisfaction pour un `requiertLegion` (Légion
+  unique Legio Astartes, Légion Alliée, 2-3 Légions Brisées, Légion du
+  Serment Panoplie d'Antan) — toute option d'Arsenal de Légion déjà
+  câblée sur ce site (`requiertLegion`, ~12 Légions) devient donc
+  automatiquement disponible sous ces trois mécaniques sans travail
+  supplémentaire par Légion. Simplification assumée et documentée dans
+  le tutoriel : contrairement au livre, ce site ne limite pas une
+  figurine à l'Armurerie d'UNE SEULE Légion parmi celles accessibles.
+  **Serments du Moment (Blackshields)** : nouveau système complet.
+  `det.serments`/`det.serimentsRattaches` (js/organigramme.js,
+  `creerDetachement`) — choix direct sur un Détachement Principal (max
+  2)/Allié (max 1) via une nouvelle UI de cases à cocher
+  (`construireSelectSermentsDetachement`, réutilise le style
+  `.orga-legions-brisees` déjà en place) ; tout Détachement Auxiliaire/
+  d'Apex choisit à qui il est « Rattaché à »
+  (`construireSelectSermentsRattaches`) faute de lien formel Case →
+  Détachement débloqué déjà existant dans ce fichier
+  (`debloqueursDisponibles` ne fait qu'un décompte global, jamais de
+  lien figé — nouveau champ `serimentsRattaches`, un uid d'un AUTRE
+  Détachement, sauvegardé comme un INDICE dans le tableau JSON plutôt
+  qu'un uid brut car `compteurDet` repart de zéro à chaque restauration
+  de session — voir la deuxième passe de résolution dans
+  `restaurerOrga`). Nouvelle donnée `SERMENTS_DU_MOMENT`
+  (js/organigramme-data.js, 15 entrées) et fonctions de résolution
+  `sermentsActifsDe(det)`/`sermentsDe(uniteUid)`/`legionPanoplieDe`/
+  `choixCloneAberrantDe` (js/organigramme.js, exposées via
+  `Organigramme.*`).
+  Effets réellement appliqués sur la fiche récap (`reglesFinales`,
+  `traitsSermentsDe`, `typeAfficheSermentsDe`, `bonusSermentDuMoment`,
+  js/unites.js) : Règles Spéciales/Traits accordés (avec filtre
+  Sous-type/Type Véhicule), transformation Ligne (X)/Avant-garde (X) →
+  Piller les Morts/Héroïsme Funeste ou suppression pure (regex sur le
+  nom de la Règle, voir `appliquerTransformationLigneVanguard`),
+  remplacement Infanterie → Automate + Tactica Fils Bâtards du Destin →
+  Unités à Cogitateurs Liés (La Chair est Faible), bonus/malus de
+  Caractéristiques hors Sous-type État-major/Champion/Spécialiste/
+  Sergent (L'Hélice Brisée, réutilise le plafond/la mécanique déjà en
+  place pour les Avantages Principaux plutôt que d'en inventer une
+  seconde). **Découverte en testant** : la Tactica de base elle-même
+  (« Fils Bâtards du Destin ») n'était accordée à AUCUNE Unité avant ce
+  correctif — seulement documentée au Glossaire — corrigé en l'ajoutant
+  automatiquement à toute Figurine non-Véhicule d'une Armée Blackshields
+  dans `reglesFinales`, avant tout traitement de Serment (pour que La
+  Chair est Faible puisse encore la remplacer).
+  Effets sur l'Organigramme (`caseAccepte`/`avantagesPossibles`/
+  `construireDetachementDOM`, js/organigramme.js) : blocage total des
+  Cases Quartier Général/État-major (Dans la Disgrâce, Tous sont Égaux),
+  reconversion du Rôle Tactique ACCEPTÉ (pas affiché — même
+  simplification déjà en place pour « Sire des White Scars », voir plus
+  haut) d'une Case Troupes vers Élite (La Fierté est Notre Armure) ou
+  État-major restreint aux seuls Centurion/Centurion en Armure
+  Terminator (Seuls et Oubliés — **piège de traduction corrigé en
+  cours de route** : « Command Slots »/« Command Choices » de ce PDF se
+  traduisent par Cases/Choix d'État-major sur ce site, PAS Quartier
+  Général, malgré la tentation — voir ROLES_TACTIQUES, Quartier Général
+  = High Command, État-major = Command ; régles-data.js et le tutoriel
+  ont été corrigés après une première traduction fautive), interdiction
+  totale des Choix de Troupes hors Case reconvertie (`interditTroupes`),
+  restriction à un seul Rôle Tactique occupable dans tout le Détachement
+  (`restreintRoleUnique`, Seuls et Oubliés). Nouvel Avantage Principal
+  **Petit Seigneur de Guerre** (`AVANTAGES_PRINCIPAUX`) qui n'existe que
+  sous Dans la Disgrâce, Tous sont Égaux (toute Case ordinaire du
+  Détachement y devient une Case d'Organigramme de Force Suprême,
+  `avantagesPossibles` y masque tous les autres Avantages sauf « Aucun »)
+  — bonus de Caractéristiques identique à Maître-sergent, réutilisé tel
+  quel (`bonusAvantagePrincipal`) plutôt que dupliqué.
+  Armes débloquées (La Souillure Xenos/Les Armes du Désespoir) : nouveau
+  champ `requiertSerment` sur une entrée `choix`, même mécanique que
+  `requiertLegion` (nouvelle fonction `optionSermentOk`, câblée aux
+  3 mêmes points de contrôle qu'`optionLegionOk`) — Deathlock/Doomlock
+  ajoutés à `LISTES_EQUIPEMENT.speciales`, Lame de Halo et les 7 Armes
+  du Désespoir (gratuites) à `LISTES_EQUIPEMENT.officier`, propagé par
+  `depuisListes()` (étendu pour transporter `requiertSerment` en plus de
+  `requiertLegion`). **Gap documenté, accepté** : seuls `.officier` et
+  `.speciales` ont reçu ces entrées (les listes les plus utilisées à
+  travers le fichier) — `.meleeSergent`/`.meleeTerminator`/`.pistolets`/
+  `.combinees` n'ont pas été auditées site par site, contrairement au
+  travail exhaustif déjà fait par Légion pour les Arsenals (~90 sites
+  chacun) : combler si demandé.
+  **Parangons de la Légion (Prime Advantage des Légions Brisées) reste
+  volontairement NON câblé**, seul point non traité de cette demande :
+  contrairement à Petit Seigneur de Guerre (qui CRÉE lui-même ses Cases
+  d'Organigramme de Force Suprême, donc autonome), Parangons de la
+  Légion s'applique à une Case qui est DÉJÀ une Case d'Organigramme de
+  Force Suprême selon la règle de BASE du livre (p. 278 du Livre de
+  Règles, jamais fournie à ce fichier) — combien de telles Cases une
+  Armée a normalement, et lesquelles. Deviner cette règle violerait la
+  règle 6 de ce fichier (ne jamais inventer un texte de règle) : à
+  combler seulement si le proprio fournit cette page. Même blocage pour
+  les autres mentions déjà connues de ce fichier (Paladin de
+  l'Hekatonystika, Cadres d'Interdiction, Inductii) — pas un nouveau
+  problème introduit ici, juste non résolu par ce chantier.
+  Vérifié par tests fonctionnels jsdom dédiés (cardinalité 2/1 et
+  incompatibilités des Serments, La Vendetta Éternelle → Haine
+  accordée, Les Dépouilles de la Victoire → Ligne (X) remplacée par
+  Piller les Morts (X) avec suppression de la Règle d'origine, La Chair
+  est Faible → Type Automate affiché + Tactica remplacée, Dans la
+  Disgrâce → Case Quartier Général bloquée pour un second Praetor,
+  Seuls et Oubliés → Centurion accepté en Case Troupes reconvertie avec
+  Combattre et Mourir Seul/Insouciant accordés puis Escouade Tactique
+  refusée sur cette même Case, Panoplie d'Antan → Légion choisie
+  débloquant une entrée `requiertLegion` normalement inaccessible) et
+  non-régression (Legio Astartes classique toujours sans Fils Bâtards
+  du Destin, Légions Brisées toujours fonctionnel).
+
+- **Skins couleurs seules pour Démons de la Tempête de la Ruine,
+  Légions Brisées et Blackshields** (`SKIN_DAEMONS_RUINSTORM`/
+  `SKIN_LEGIONS_BRISEES`/`SKIN_BLACKSHIELDS`, js/organigramme.js) :
+  dernières Factions de `FACTIONS` sans skin dédié, comblées sur le
+  même principe que Legio Custodes/Anathema Psykana/Conclaves Skitarii
+  (classe posée sur `<body>`, recolore `--accent`/`--accent-clair`/
+  `--fond-secondaire`/`--carte-hover`, sans blason faute d'asset
+  sourcé). Palettes choisies et validées WCAG 1.4.3/RGAA 3.2 (contraste
+  `--accent`/`--accent-clair` sur fond blanc ≥4.5:1, script Node de
+  luminance relative en scratchpad, même méthode que les palettes
+  précédentes) : Démons de la Tempête de la Ruine = violet warp
+  (`--accent: #5b2a6e`, `--accent-clair: #7a3a91`, 10.49:1/7.39:1) ;
+  Légions Brisées = gris-bleu ardoise (`#3a4a5c`/`#4f6478`,
+  9.08:1/6.13:1) ; Blackshields = noir-rouge charbonneux (`#3a2020`/
+  `#5c2f2f`, 14.92:1/11.04:1, thématique au blason noirci du nom).
+  Blocs CSS ajoutés à `css/style.css` juste après celui de Skitarii,
+  même structure. Bannière ajoutée dans `construireParametres()`
+  (nouvelles branches `else if (skinRuinstorm)`/`(skinLegionsBrisees)`/
+  `(skinBlackshields)` juste après celle de Skitarii) et propagée aux
+  autres pages via 3 nouvelles branches dans `appliquerSkinLegionGlobal()`
+  (`js/main.js`). Nouveaux accesseurs `Organigramme.skinRuinstormActuel()`/
+  `skinLegionsBriseesActuel()`/`skinBlackshieldsActuel()` branchés sur
+  la page de garde PDF/Word (`genererPDF`/`genererWordHTML`,
+  js/unites.js — chaîne `skinSansBlason` déjà en place pour Legio
+  Custodes/Anathema Psykana/Skitarii, étendue avec 3 `||` de plus).
+  Vérifié par test fonctionnel jsdom dédié (bascule sur les 3
+  Factions : classe `<body>` correcte, bannière affichée avec la bonne
+  devise, retour propre à Legio Astartes sans classe résiduelle).
+- **3 nouvelles sources** ajoutées à `SOURCES_SITE` (js/main.js), juste
+  après « Unités Legacies » : Légions Brisées, Blackshields et Démons
+  de la Tempête de la Ruine, toutes trois vers la page de téléchargement
+  officielle des suppléments Legacies of the Age of Darkness
+  (warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/,
+  ces trois PDF n'étant pas vendus en boutique contrairement aux Liber/
+  Journaux Tactica).
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
