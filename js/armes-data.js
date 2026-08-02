@@ -4074,7 +4074,7 @@ const ARMES_MELEE = [
       {
         nom: "Paire de griffes Lightning",
         stats: ["1", "+2", "F", "3", "1"],
-        regles: "Fauchage (2)",
+        regles: "Vulnérante (6+), Brèche (6+)",
         traits: "Énergétique",
       },
       {
