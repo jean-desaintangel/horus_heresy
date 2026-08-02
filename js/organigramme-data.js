@@ -3824,26 +3824,6 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Réservé à une Figurine de Centurion ou de Centurion Cataphractii ayant le Trait Death Guard : elle bénéficie d'un Modificateur de +1 à la Valeur de Base de sa Caractéristique de Points de Vie et gagne la Règle Spéciale Guerrier Éternel (2). Une seule fois par Armée.",
   },
-  /* --- Arsenal des Imperial Fists (VIIe Légion), page « Castellan »
-     (voir js/unites-data.js, LISTES_ARSENAL_IMPERIAL_FISTS pour le
-     reste de cet Arsenal). Contrairement à Résistance Anormale
-     ci-dessus, le livre ne vise QUE le Centurion de base (pas de
-     variante Terminator/Cataphractii) et n'a pas de restriction « une
-     seule fois par Armée » — non ajouté, fidèle à la fiche source.
-     Les deux effets (scanner augure + remplacement forcé des options
-     de Centurion listées par un échange gratuit de bolter) restent en
-     texte seul, sur le même principe que les autres Avantages
-     Principaux complexes de ce tableau (ex : Le Salaire de la
-     Traîtrise, Alpha Legion) : appliqués manuellement par le joueur,
-     non vérifiés par le site. --- */
-  {
-    id: "castellan",
-    nom: "Castellan (Imperial Fists)",
-    uniteRequise: [{ id: "centurion" }],
-    traitRequis: "Imperial Fists",
-    texte:
-      "Réservé à une Figurine de Centurion ayant le Trait Imperial Fists : elle gagne un scanner augure. Elle ne peut choisir aucune des options de Centurion listées, et doit à la place échanger gratuitement son bolter contre l'un des éléments suivants : Bolter lourd, Autocanon, ou Canon d'assaut Iliastus.",
-  },
   /* --- Arsenal de l'Alpha Legion (XXe Légion), page « Le Salaire de
      la Traîtrise » (voir js/unites-data.js, unités réservées à cette
      Légion). Simplification : le livre autorise cet Avantage plusieurs
@@ -3967,7 +3947,20 @@ const AVANTAGES_PRINCIPAUX = [
      variante à Réacteurs, contrairement à Paladin de l'Hekatonystika
      ci-dessus). Le gain de scanner augure et l'échange d'arme ne sont
      pas appliqués automatiquement par le site : à faire manuellement
-     sur la fiche de la Figurine concernée. */
+     sur la fiche de la Figurine concernée.
+     Bug corrigé (2026-08-02, audit suite au signalement Préfet/Legio
+     Custodes) : cette entrée existait EN DOUBLE dans ce tableau (même
+     id "castellan", ajoutée deux fois lors de deux sessions
+     différentes — la première version, sans restriction de variante,
+     était strictement antérieure et moins précise). Comme
+     avantageParId()/AVANTAGES_PRINCIPAUX.find() (js/organigramme.js)
+     ne retiennent que la PREMIÈRE entrée trouvée pour un id donné, la
+     seconde (celle-ci, avec `variante: 0` et la référence de page)
+     n'était en réalité jamais consultée pour la logique d'éligibilité
+     — seul son doublon, plus permissif (aucune restriction de
+     variante), faisait foi. Le doublon obsolète a été supprimé plutôt
+     que celui-ci. À vérifier systématiquement pour tout futur Avantage
+     Principal réutilisant un `id` déjà présent dans ce tableau. */
   {
     id: "castellan",
     nom: "Castellan (Imperial Fists)",
@@ -4205,6 +4198,14 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Préfet",
     traitRequis: "[Legio Custodes]",
     uniteRequise: [{ id: "custodes-capitaine-rempart" }],
+    // Avantage désormais appliqué en vrai (2026-08-02, bug signalé) :
+    // le bonus de +1 PV de Base est appliqué par bonusAvantagePrincipal
+    // (js/unites.js, cas "custodes-prefet"), et la Règle Spéciale
+    // Officier de Ligne (2) par reglesAppliquees ci-dessous — sur le
+    // même principe que Résistance Anormale (Death Guard), qui reste
+    // elle en revanche texte seul (voir plus bas) faute d'avoir été
+    // signalée comme un bug par le proprio.
+    reglesAppliquees: ["Officier de Ligne (2)"],
     texte:
       "Réservé à une Case Principale occupée par une Unité de Capitaine-rempart. Toutes les Figurines de l'Unité sélectionnée pour occuper la Case Principale octroyant cet Avantage Principal ont leur Caractéristique de PV de Base modifiée de +1, et gagnent la Règle Spéciale Officier de Ligne (2).",
   },

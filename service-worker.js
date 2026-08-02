@@ -122,7 +122,11 @@
 // v66 : explication Export/Import (sauvegarde d'une liste pour la
 // reprendre plus tard, à distinguer du PDF/Word) ajoutée sous la barre
 // d'actions (pages/construction-liste.html, css/style.css).
-const CACHE_VERSION = "v67";
+// v68 : corrige l'Avantage Principal Préfet (Legio Custodes), qui ne
+// s'appliquait pas en vrai (+1 PV, Officier de Ligne (2)), et supprime
+// un doublon de l'Avantage Principal Castellan (Imperial Fists) trouvé
+// pendant l'audit (js/unites.js, js/organigramme-data.js).
+const CACHE_VERSION = "v68";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

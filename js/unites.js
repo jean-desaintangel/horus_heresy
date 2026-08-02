@@ -909,6 +909,12 @@ function bonusAvantagePrincipal(avantageId, variante, nomLigne, car) {
     if (!sousTypesLigne(variante, nomLigne).includes("État-major")) return 0;
     return car === "A" || car === "CC" || car === "CT" ? 1 : 0;
   }
+  if (avantageId === "custodes-prefet") {
+    // Toutes les Figurines de l'Unité (p. ex. Capitaine-rempart, une
+    // seule Figurine) : pas de restriction de Sous-type, à la
+    // différence de Maître-sergent/Parangon de Bataille.
+    return car === "PV" ? 1 : 0;
+  }
   return 0;
 }
 

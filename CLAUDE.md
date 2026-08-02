@@ -2999,5 +2999,47 @@ Règles Spéciales :
   ne débloque cette Faction — confirmant qu'aucune fuite entre Factions
   n'a été introduite.
 
+- **Bug corrigé (2026-08-02, signalé par le proprio) : l'Avantage
+  Principal Préfet (Legio Custodes) ne s'appliquait pas en vrai.**
+  Contrairement à ce que documente la note « Application automatique
+  des Avantages Principaux "purs" » plus haut, Préfet n'est pas un
+  Avantage « pur » (il combine un bonus de Caractéristique ET un gain
+  de Règle Spéciale) — mais le proprio l'a explicitement demandé
+  malgré tout, à la différence des autres Avantages du même type
+  (Résistance Anormale, Paladin de l'Hekatonystika…) restés texte seul
+  par choix de conception documenté ailleurs dans ce fichier. Corrigé
+  en deux temps : (1) `bonusAvantagePrincipal` (js/unites.js) reçoit un
+  nouveau cas `"custodes-prefet"` (+1 PV, sans restriction de
+  Sous-type — à la différence de Maître-sergent/Parangon de Bataille,
+  qui eux ciblent un Sous-type précis), sur le même mécanisme déjà en
+  place pour Maître-sergent/Vétérans de Combat/Parangon de Bataille ;
+  (2) `reglesAppliquees: ["Officier de Ligne (2)"]` ajouté à l'entrée
+  (js/organigramme-data.js), réutilisant le mécanisme déjà existant
+  (reglesAvantagePrincipalDe). Vérifié par test fonctionnel jsdom
+  (Capitaine-rempart, Legio Custodes) : PV passe de 3 à 4 et « Officier
+  de Ligne (2) » apparaît bien dans les Règles Spéciales de la fiche
+  dès que Préfet est choisi sur sa Case Principale.
+  **Audit complet des 39 Avantages Principaux du fichier fait dans la
+  foulée** (script Node dédié : ids en double, `uniteRequise` pointant
+  vers un id/variante d'Unité inexistant) : un second bug réel trouvé
+  et corrigé, sans rapport direct avec Préfet — **« Castellan »
+  (Imperial Fists) existait deux fois** dans `AVANTAGES_PRINCIPAUX`
+  (même id, ajoutées lors de deux sessions différentes : une première
+  version sans restriction de variante, une seconde plus précise avec
+  `variante: 0` et la référence de page). Comme
+  `avantageParId()`/`.find()` (js/organigramme.js) ne retiennent que la
+  PREMIÈRE entrée trouvée pour un id donné, la seconde définition
+  n'était en réalité jamais consultée — seul le doublon obsolète,
+  plus permissif, faisait foi. Doublon obsolète supprimé, la version
+  précise conservée ; revérifié par test fonctionnel jsdom (Centurion,
+  Imperial Fists) que le menu ne propose plus qu'une seule entrée
+  « Castellan » et affiche le bon texte (avec la référence p. 188).
+  Tous les autres Avantages sans `reglesAppliquees` restent texte seul
+  par choix de conception déjà documenté (échange d'équipement, gain
+  de Sous-type, choix d'une seconde Unité — voir la note MODÈLE DE
+  DONNÉES sur `reglesAppliquees` plus haut) : aucune autre anomalie
+  structurelle trouvée par l'audit (aucun autre id en double, aucune
+  autre référence `uniteRequise` cassée).
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
