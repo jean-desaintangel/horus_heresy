@@ -147,7 +147,12 @@
 // v74 : ajoute les skins couleurs seules pour Démons de la Tempête de
 // la Ruine/Légions Brisées/Blackshields et 3 sources dans le pied de
 // page — js/organigramme.js, js/main.js, js/unites.js, css/style.css.
-const CACHE_VERSION = "v74";
+// v75 : ajoute le glossaire de « Chercheur d'Expiation » (Hibou Khan),
+// corrige un bug de résolution des popups de Règles Spéciales à double
+// qualificatif entre parenthèses (js/main.js) et traduit « Aflame (2) »
+// resté en anglais (js/unites-data.js) — js/regles-data.js, js/main.js,
+// js/unites-data.js.
+const CACHE_VERSION = "v75";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

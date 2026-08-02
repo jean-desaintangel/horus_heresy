@@ -3420,5 +3420,62 @@ Règles Spéciales :
   ces trois PDF n'étant pas vendus en boutique contrairement aux Liber/
   Journaux Tactica).
 
+- **Bug corrigé (2026-08-02, signalé par le proprio) : la Règle Spéciale
+  « Chercheur d'Expiation » de Hibou Khan (White Scars) s'affichait en
+  texte brut, sans popup, sur sa fiche.** Photo de la fiche source
+  fournie par le proprio (Posture de Défi : tant qu'engagée en Défi,
+  si la Figurine tombe à 0 PV à l'Étape 4 de l'Étape de Frappe, un Dé
+  est jeté — sur 4+ elle n'est pas Retirée comme Perte, reste Engagée
+  en Défi avec 1 PV, et son Joueur en Contrôle gagne l'Avantage en
+  Défi) : texte intégral ajouté à `js/regles-data.js` (REGLES_DIVERSES,
+  même format que les autres Postures nommées déjà transcrites —
+  Élan du Rapace, Frappe des Cieux, Artisan de Mort…). Aucune
+  modification de moteur nécessaire : `construireLigneRegles`
+  résolvait déjà les entrées de `regles:` via `trouverDefinitionRegle`
+  (même mécanisme que « Officier de Ligne (2) »/« Sacrifiable (2) »,
+  déjà tagués sur cette même fiche) — il manquait seulement l'entrée
+  de glossaire elle-même.
+  **Audit demandé dans la foulée sur toutes les Unités du fichier**
+  (« si tu connais les règles, les afficher en popup ») : script Node
+  comparant chaque nom présent dans `regles:`/`traits:` de `UNITES`
+  contre l'index construit par `trouverDefinitionRegle` (réplique
+  exacte de sa logique de normalisation/repli, pas une approximation).
+  Sur ~450 Unités, 93 noms distincts restent non résolus après
+  correction — tous soit des Traits organisationnels de Faction/Légion
+  jamais glossés par convention de ce fichier (Loyaliste, Renégat,
+  noms de Légion, Psyker, La Sodalité, Serres de l'Empereur, Anathemata,
+  Titan Léger/Moyen/Éclaireur…), soit des Règles Spéciales déjà
+  documentées ailleurs dans ce fichier comme « nom seul, texte non
+  connu » (Gabarit de Souffle, Contournement, Devoir Amer, Insouciant,
+  Sans Tête, Boucliers Void (X)…) ou propres à un Personnage nommé sans
+  encart de texte jamais fourni (Sevatar, Loken, Aximand, Maloghurst,
+  Kor Phaeron, Erebus, Tarvitz, Abaddon, Typhon, Ahriman, Amon, Dynat,
+  Zardu Layak, Manipule du Cercle de Fer…) — aucun n'a été inventé,
+  conformément à la règle 6.
+  **Deux vrais bugs distincts trouvés et corrigés par cet audit, sans
+  rapport avec Hibou Khan :**
+  1. « Aflame (2) » restait en anglais non traduit sur le Conclave des
+     Phraetus Oints (Forges of Saturn, `js/unites-data.js`) — laissé
+     ainsi lors de sa transcription faute de texte fourni par CE PDF
+     précis. Or l'équivalent français déjà établi ailleurs pour ce
+     terme, « En Feu (X) » (chantier Démons de la Tempête de la Ruine),
+     a bien une entrée de glossaire complète : traduit en « En Feu (2) »,
+     résout maintenant sur cette entrée déjà existante.
+  2. `trouverDefinitionRegle` (js/main.js) ne retirait que le DERNIER
+     groupe entre parenthèses en fin de chaîne
+     (`/\s*\([^)]*\)\s*$/`) avant de comparer : une entrée à double
+     qualificatif (« Médecin (4+) (Aevos Jovan seulement) »,
+     « Massif (3) (Châssis Rapier seulement) ») ne se réduisait donc
+     qu'à « Médecin (4+) »/« Massif (3) » — la valeur numérique restait
+     collée au nom de base et ne matchait jamais « Médecin (X) »/
+     « Massif (X) », pourtant bien connus du glossaire. Corrigé en
+     répétant le retrait (`/(?:\s*\([^)]*\))+\s*$/`, appliqué aux deux
+     occurrences de la fonction — construction de l'index ET recherche)
+     pour retirer TOUS les groupes de parenthèses en fin de chaîne, pas
+     seulement le dernier. Correctif générique au moteur partagé
+     (js/main.js, utilisé par toutes les pages) : bénéficie
+     immédiatement aux deux sites déjà présents dans le fichier sans
+     toucher à leurs données, et à toute future entrée du même genre.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

@@ -25555,10 +25555,6 @@ const UNITES = [
     legion: "XVII",
   },
   {
-    // Journal Tactica : The Forges of Saturn. « Aflame (X) » (Règle
-    // Spéciale d'Arme/Trait) : aucun texte intégral fourni par ce PDF,
-    // laissée en l'état sans traduction ni entrée de glossaire — voir
-    // règle 6 de CLAUDE.md.
     id: "conclave-phraetus-oints",
     nom: "Conclave des Phraetus Oints (Forges of Saturn)",
     categorie: "Elite",
@@ -25621,7 +25617,7 @@ const UNITES = [
         ],
         regles: [
           "Massif (4)",
-          "Aflame (2)",
+          "En Feu (2)",
           "Guerrier Éternel (1)",
           "Explose (5+)",
           "Avance Implacable",

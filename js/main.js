@@ -441,11 +441,11 @@ function trouverDefinitionRegle(intitule) {
     }
     indexDefinitionsRegles = new Map();
     [...REGLES_ARMES, ...REGLES_DIVERSES].forEach((regle) => {
-      const base = normaliserTexte(regle.nom.replace(/\s*\([^)]*\)\s*$/, ""));
+      const base = normaliserTexte(regle.nom.replace(/(?:\s*\([^)]*\))+\s*$/, ""));
       indexDefinitionsRegles.set(base, regle.texte);
     });
   }
-  const base = normaliserTexte(intitule.replace(/\s*\([^)]*\)\s*$/, ""));
+  const base = normaliserTexte(intitule.replace(/(?:\s*\([^)]*\))+\s*$/, ""));
   if (indexDefinitionsRegles.has(base)) return indexDefinitionsRegles.get(base);
   if (base.endsWith("e") && indexDefinitionsRegles.has(base.slice(0, -1))) {
     return indexDefinitionsRegles.get(base.slice(0, -1));
