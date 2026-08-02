@@ -122,7 +122,7 @@
 // v66 : explication Export/Import (sauvegarde d'une liste pour la
 // reprendre plus tard, à distinguer du PDF/Word) ajoutée sous la barre
 // d'actions (pages/construction-liste.html, css/style.css).
-const CACHE_VERSION = "v66";
+const CACHE_VERSION = "v67";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
