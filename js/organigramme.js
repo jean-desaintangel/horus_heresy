@@ -903,13 +903,26 @@ const Organigramme = (() => {
 
   /* Règle « Officier de Ligne (X) » (livre d'armée) : la Case
      d'État-major occupée par cette unité débloque X Détachements
-     Auxiliaires au lieu d'un seul. */
-  function valeurOfficierDeLigne(occ) {
-    for (const regle of varianteDe(occ).regles || []) {
+     Auxiliaires au lieu d'un seul. Cherche la Règle Spéciale aussi
+     bien dans les `regles` fixes de la variante (ex : Chef de Guerre
+     déjà nommé « Officier de Ligne (X) » sur sa fiche) que dans celles
+     accordées par l'Avantage Principal de la Case (`reglesAppliquees`,
+     ex : Préfet, Legio Custodes — bug corrigé 2026-08-02, signalé par
+     le proprio : la valeur n'était lue qu'à l'affichage de la fiche,
+     jamais par le calcul des crédits de déblocage). Si les deux
+     sources en portent une (cas hypothétique), la plus grande valeur
+     de X l'emporte plutôt que de les additionner. */
+  function valeurOfficierDeLigne(occ, caseOrga) {
+    const avantage = caseOrga && avantageParId(caseOrga.avantage);
+    const toutesRegles = (varianteDe(occ).regles || []).concat(
+      (avantage && avantage.reglesAppliquees) || [],
+    );
+    let valeur = 1;
+    for (const regle of toutesRegles) {
       const m = /officier de ligne\s*\((\d+)\)/i.exec(regle);
-      if (m) return Number(m[1]);
+      if (m) valeur = Math.max(valeur, Number(m[1]));
     }
-    return 1;
+    return valeur;
   }
 
   /* Règle « Sire des X » (livre d'armée, un Primarque par Légion,
@@ -1628,7 +1641,7 @@ const Organigramme = (() => {
           // Une unité QG placée via Affectation Spéciale ne compte pas.
           creditsEM +=
             occ.unite.categorie === "État-major"
-              ? valeurOfficierDeLigne(occ)
+              ? valeurOfficierDeLigne(occ, caseOrga)
               : 0;
         }
       }

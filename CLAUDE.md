@@ -3041,5 +3041,37 @@ Règles Spéciales :
   structurelle trouvée par l'audit (aucun autre id en double, aucune
   autre référence `uniteRequise` cassée).
 
+- **Bug corrigé (2026-08-02, suite au signalement précédent) : la
+  Règle Spéciale Officier de Ligne (X) accordée par Préfet ne comptait
+  pas dans le calcul des crédits de déblocage de Détachements
+  Auxiliaires.** `reglesAppliquees` ne fait qu'ajouter le nom de la
+  Règle à l'affichage de la fiche (`reglesAvantagePrincipalDe`,
+  js/unites.js) — le calcul des crédits (`calculerCredits`/
+  `valeurOfficierDeLigne`, js/organigramme.js, p. 283-284) est un code
+  entièrement séparé qui ne lisait QUE `variante.regles` (les Règles
+  Spéciales fixes de l'unité dans js/unites-data.js, ex : Centurion,
+  Chef de Guerre…), jamais celles accordées dynamiquement par
+  l'Avantage Principal de la Case. Un Capitaine-rempart avec Préfet
+  affichait donc « Officier de Ligne (2) » sur sa fiche sans qu'aucun
+  second Détachement Auxiliaire ne soit réellement débloqué.
+  `valeurOfficierDeLigne(occ, caseOrga)` reçoit maintenant aussi
+  `caseOrga` et complète les Règles à inspecter avec
+  `avantageParId(caseOrga.avantage).reglesAppliquees` (le plus grand X
+  trouvé l'emporte si les deux sources en portent une, cas
+  hypothétique) ; seul son unique appelant (`calculerCredits`) a été
+  mis à jour pour lui passer `caseOrga`, déjà dans sa portée. Vérifié
+  par test fonctionnel jsdom en deux temps : (1) Capitaine-rempart
+  (Legio Custodes) sans Préfet — le bouton « + Pionniers de Combat »
+  (Détachement Auxiliaire générique) se grise après un premier ajout,
+  comme attendu avec 1 seul crédit ; en sélectionnant Préfet sur sa
+  Case, le bouton redevient actif et un second Détachement s'ajoute
+  sans déclencher l'erreur « Trop de Détachements Auxiliaires » ;
+  (2) non-régression sur le cas déjà existant avant ce chantier
+  (Centurion générique, Officier de Ligne (2) fixe dans ses `regles`) :
+  toujours 2 Détachements Auxiliaires disponibles comme avant. Aucune
+  autre entrée de `AVANTAGES_PRINCIPAUX` ne porte
+  `"Officier de Ligne"` dans `reglesAppliquees` à ce jour — seul Préfet
+  était concerné par ce bug.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

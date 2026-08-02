@@ -126,7 +126,10 @@
 // s'appliquait pas en vrai (+1 PV, Officier de Ligne (2)), et supprime
 // un doublon de l'Avantage Principal Castellan (Imperial Fists) trouvé
 // pendant l'audit (js/unites.js, js/organigramme-data.js).
-const CACHE_VERSION = "v68";
+// v69 : corrige le calcul des crédits de Détachements Auxiliaires, qui
+// ignorait la Règle Officier de Ligne (X) accordée par un Avantage
+// Principal (Préfet) au lieu d'une Unité (js/organigramme.js).
+const CACHE_VERSION = "v69";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
