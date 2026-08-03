@@ -24459,14 +24459,15 @@ const UNITES = [
         ],
       },
       {
-        type: "paire",
+        type: "quantite",
         id: "paire-griffes-lightning",
         libelle:
-          "Toute Figurine peut échanger son combi-bolter Banestrike et son arme énergétique contre une paire de griffes Lightning",
+          "Figurines : paire de griffes Lightning (à la place du combi-bolter Banestrike et de l'arme énergétique)",
         cout: 10,
+        parTranche: 1,
+        remplaceIntegral: ["Combi-bolter Banestrike", ARMES_ENERGETIQUES],
         ajoute:
           "Paire de griffes Lightning (à la place du combi-bolter Banestrike et de l'arme énergétique)",
-        remplaceListe: ["Combi-bolter Banestrike", ARMES_ENERGETIQUES],
       },
       {
         remplaceIntegral: "Combi-bolter Banestrike",

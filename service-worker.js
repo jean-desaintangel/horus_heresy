@@ -164,7 +164,7 @@
 // (legacie_wargear.pdf) sur les listes d'équipement génériques et les
 // unités déjà présentes — js/unites-data.js, js/armes-data.js,
 // js/regles-data.js, js/organigramme-data.js.
-const CACHE_VERSION = "v78";
+const CACHE_VERSION = "v79";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
