@@ -819,11 +819,7 @@ const TYPES_DETACHEMENTS = [
       Suites: ["escouade-etat-major-pretorienne-reacteurs"],
       Elite: ["escouade-veterans-assaut"],
     },
-    cases: [
-      _caseOrga("Suites", true),
-      _caseOrga("Elite"),
-      _caseOrga("Elite"),
-    ],
+    cases: [_caseOrga("Suites", true), _caseOrga("Elite"), _caseOrga("Elite")],
   },
   {
     // Journal Tactica : The Forges of Saturn, « Legiones Astartes

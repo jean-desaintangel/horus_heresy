@@ -157,7 +157,17 @@ body {
     var(--legion-fond);
   color: var(--legion-texte);
   font-family: var(--legion-police-texte);
-  font-size: 18px;
+  /* Accessibilité (WCAG 1.4.4 / RGAA 10.4) : en `px`, cette taille est
+     ABSOLUE — elle écrase la taille de police que l'utilisateur a réglée
+     dans les préférences de son navigateur. Quelqu'un qui a mis « Très
+     grand » pour lire confortablement retombe ici à 18 px sans rien
+     avoir demandé. En `rem`, la valeur est relative à cette préférence :
+     1.125rem donne exactement les mêmes 18 px pour un réglage par défaut
+     (16 px × 1,125), donc AUCUN changement visuel dans le cas courant,
+     mais la page suit désormais l'utilisateur qui a besoin de plus grand.
+     C'est aussi l'unité employée partout dans css/style.css : ce fichier
+     était le seul du projet à faire exception. */
+  font-size: 1.125rem;
   line-height: 1.6;
   min-height: 100vh;
   background-attachment: fixed;

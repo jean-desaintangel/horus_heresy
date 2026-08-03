@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Les Véhicules — Horus Heresy</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/vehicule.html" />
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/vehicule.html"
+    />
     <meta
       name="description"
       content="Règles des véhicules Horus Heresy 3e édition simplifiées : mouvement, arcs de tir, blindage et pénétration, tableau de dégâts, assaut, transports et sous-types."
@@ -53,6 +56,11 @@
       content="https://lagrandecroisade.fr/pages/vehicule.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
   </head>
   <body>
@@ -254,11 +262,15 @@
               <h2 class="sous-titre">Armes Défensives et Armes de Bataille</h2>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Armes défensives et armes de bataille : catégories, armes
+                    concernées et avantage
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Catégorie</th>
-                      <th class="gauche">Quelles armes ?</th>
-                      <th class="gauche">Avantage</th>
+                      <th scope="col" class="gauche">Catégorie</th>
+                      <th scope="col" class="gauche">Quelles armes ?</th>
+                      <th scope="col" class="gauche">Avantage</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -290,11 +302,14 @@
               </p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Arcs de tir d’un véhicule selon la monture de l’arme
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Monture</th>
-                      <th class="gauche">Peut tirer…</th>
-                      <th class="gauche">Bonus</th>
+                      <th scope="col" class="gauche">Monture</th>
+                      <th scope="col" class="gauche">Peut tirer…</th>
+                      <th scope="col" class="gauche">Bonus</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -414,11 +429,14 @@
               <p>(1D6 par Touche Superficielle)</p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Tableau de dégâts de véhicule : résultat du dé et effet
+                  </caption>
                   <thead>
                     <tr>
-                      <th>Dé</th>
-                      <th class="gauche">Résultat</th>
-                      <th class="gauche">Effet</th>
+                      <th scope="col">Dé</th>
+                      <th scope="col" class="gauche">Résultat</th>
+                      <th scope="col" class="gauche">Effet</th>
                     </tr>
                   </thead>
                   <tbody>

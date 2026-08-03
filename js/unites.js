@@ -1051,7 +1051,10 @@ function bonusAvantagePrincipal(avantageId, variante, nomLigne, car) {
   // Disgrâce, Tous sont Égaux) accorde EXACTEMENT le même bonus que
   // Maître-sergent (+1 CC/A, +1 ou +2 Cd) à une Figurine de Sous-type
   // Sergent — même code, pas de logique séparée à écrire.
-  if (avantageId === "maitre-sergent" || avantageId === "petit-seigneur-de-guerre") {
+  if (
+    avantageId === "maitre-sergent" ||
+    avantageId === "petit-seigneur-de-guerre"
+  ) {
     if (!sousTypesLigne(variante, nomLigne).includes("Sergent")) return 0;
     if (car === "A" || car === "CC") return 1;
     // Gagne aussi le Sous-type Champion ; s'il l'a déjà, +1 Cd de plus
@@ -1349,7 +1352,13 @@ function construireLigneRegles(titre, regles, avecArmes) {
 function resoudreRegleFiche(texte, avecArmes) {
   const definition = trouverDefinitionRegle(texte);
   if (definition) {
-    return { avant: "", texteTag: texte, definition, aTagArme: false, apres: "" };
+    return {
+      avant: "",
+      texteTag: texte,
+      definition,
+      aTagArme: false,
+      apres: "",
+    };
   }
   const correspondanceArme = avecArmes ? trouverArmeDansTexte(texte) : null;
   if (correspondanceArme) {
@@ -1898,9 +1907,13 @@ function traitFactionSkitariiDe(unite, instance) {
 function dominionEtheriqueDe(unite) {
   if (unite.faction !== "daemons-ruinstorm" || !unite.traits) return null;
   if (unite.traits.includes("[Dominion Éthérique]")) {
-    return (orgaPret && window.Organigramme && Organigramme.dominionActuel()) || null;
+    return (
+      (orgaPret && window.Organigramme && Organigramme.dominionActuel()) || null
+    );
   }
-  return unite.traits.find((t) => DOMINIONS_ETHERIQUES_NOMS.includes(t)) || null;
+  return (
+    unite.traits.find((t) => DOMINIONS_ETHERIQUES_NOMS.includes(t)) || null
+  );
 }
 
 // Règles Spéciales ajoutées à la fiche par l'Avantage Principal choisi
@@ -2035,7 +2048,9 @@ function typeAfficheSermentsDe(unite, variante, instance) {
         s.remplaceTypeInfanterieParAutomate &&
         variante.type.includes("Infanterie"),
     );
-  return active ? variante.type.replace("Infanterie", "Automate") : variante.type;
+  return active
+    ? variante.type.replace("Infanterie", "Automate")
+    : variante.type;
 }
 
 // Transformation Ligne (X)/Avant-garde (X) → Règle Spéciale de
@@ -2144,7 +2159,10 @@ function construireFiche(unite, instance) {
     fiche.appendChild(construireLigneRegles("Traits", traitsAffiches));
   }
   fiche.appendChild(
-    construireLigneRegles("Règles spéciales", reglesFinales(unite, variante, instance)),
+    construireLigneRegles(
+      "Règles spéciales",
+      reglesFinales(unite, variante, instance),
+    ),
   );
   fiche.appendChild(
     construireLigneType(typeAfficheSermentsDe(unite, variante, instance)),
@@ -2318,7 +2336,9 @@ function synchroniserConfig(carte, unite, instance) {
     // ne correspond pas — contrairement au reste d'optionRealisable, qui
     // ne fait que griser le champ.
     if (opt.requiertLegion || opt.requiertAllegeance || opt.requiertSerment) {
-      const controle = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
+      const controle = carte.querySelector(
+        "#opt-" + instance.uid + "-" + opt.id,
+      );
       const ligne = controle && controle.closest(".option-ligne");
       if (ligne)
         ligne.hidden =
@@ -3781,9 +3801,10 @@ async function genererPDF() {
           paragrapheCentre(skinMaison.devise, 9.5);
           y += 6;
         }
-        const detachementParadigme = Organigramme.detachementParadigmeMaisonActuel
-          ? Organigramme.detachementParadigmeMaisonActuel()
-          : null;
+        const detachementParadigme =
+          Organigramme.detachementParadigmeMaisonActuel
+            ? Organigramme.detachementParadigmeMaisonActuel()
+            : null;
         if (detachementParadigme) {
           paragrapheCentre(
             "Paradigme de Maisonnée : débloque le Détachement Additionnel " +
@@ -3808,7 +3829,8 @@ async function genererPDF() {
             Organigramme.skinLegioCustodesActuel()) ||
           (Organigramme.skinAnathemaPsykanaActuel &&
             Organigramme.skinAnathemaPsykanaActuel()) ||
-          (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          (Organigramme.skinSkitariiActuel &&
+            Organigramme.skinSkitariiActuel()) ||
           (Organigramme.skinRuinstormActuel &&
             Organigramme.skinRuinstormActuel()) ||
           (Organigramme.skinLegionsBriseesActuel &&
@@ -3817,7 +3839,12 @@ async function genererPDF() {
             Organigramme.skinBlackshieldsActuel()) ||
           null;
         if (skinSansBlason) {
-          paragrapheCentre(assainirPDF(skinSansBlason.nom), 16, "bold", accentRGB);
+          paragrapheCentre(
+            assainirPDF(skinSansBlason.nom),
+            16,
+            "bold",
+            accentRGB,
+          );
           y += 8;
           if (skinSansBlason.devise) {
             paragrapheCentre(skinSansBlason.devise, 9.5);
@@ -4221,9 +4248,10 @@ async function genererWordHTML() {
             echapperHTML(skinMaison.devise) +
             "</p>";
         }
-        const detachementParadigme = Organigramme.detachementParadigmeMaisonActuel
-          ? Organigramme.detachementParadigmeMaisonActuel()
-          : null;
+        const detachementParadigme =
+          Organigramme.detachementParadigmeMaisonActuel
+            ? Organigramme.detachementParadigmeMaisonActuel()
+            : null;
         if (detachementParadigme) {
           corps +=
             '<p class="legion-identite"><em>Paradigme de Maisonnée : débloque le Détachement Additionnel ' +
@@ -4240,7 +4268,8 @@ async function genererWordHTML() {
             Organigramme.skinLegioCustodesActuel()) ||
           (Organigramme.skinAnathemaPsykanaActuel &&
             Organigramme.skinAnathemaPsykanaActuel()) ||
-          (Organigramme.skinSkitariiActuel && Organigramme.skinSkitariiActuel()) ||
+          (Organigramme.skinSkitariiActuel &&
+            Organigramme.skinSkitariiActuel()) ||
           (Organigramme.skinRuinstormActuel &&
             Organigramme.skinRuinstormActuel()) ||
           (Organigramme.skinLegionsBriseesActuel &&
@@ -4460,9 +4489,9 @@ function initialiserChoixUnite() {
   const entrees = [];
   for (const categorie of categories) {
     entrees.push({ groupe: categorie });
-    const unitesCategorie = UNITES.filter((u) => u.categorie === categorie).sort(
-      (a, b) => a.nom.localeCompare(b.nom, "fr"),
-    );
+    const unitesCategorie = UNITES.filter(
+      (u) => u.categorie === categorie,
+    ).sort((a, b) => a.nom.localeCompare(b.nom, "fr"));
     for (const unite of unitesCategorie) {
       entrees.push({ unite });
     }
@@ -4967,10 +4996,16 @@ function initialiserChoixUnite() {
 }
 
 // Petit menu déroulant générique (Téléchargement PDF/Word, Export/Import) :
-// un bouton bascule un <ul role="menu"> masqué par [hidden], refermé au
-// clic extérieur, sur Échap, ou dès qu'une option à l'intérieur est
-// cliquée — même principe d'ouverture/fermeture que le combobox « Unité
-// à ajouter » (initialiserChoixUnite), en plus simple (pas de recherche).
+// un bouton bascule un <ul> masqué par [hidden], refermé au clic
+// extérieur, sur Échap, ou dès qu'une option à l'intérieur est cliquée —
+// même principe d'ouverture/fermeture que le combobox « Unité à ajouter »
+// (initialiserChoixUnite), en plus simple (pas de recherche).
+// Accessibilité : c'est le motif « disclosure » (bouton + aria-expanded +
+// aria-controls), PAS le motif « menu » d'ARIA. Les rôles menu/menuitem
+// ont été retirés du HTML parce qu'ils promettaient une navigation aux
+// flèches que cette fonction n'implémente pas (voir le commentaire dans
+// pages/construction-liste.html). Si on ajoute un jour cette navigation
+// ici, il faudra reposer ces rôles : les deux vont ensemble.
 function initialiserMenuDeroulant(idBouton, idListe) {
   const bouton = document.getElementById(idBouton);
   const liste = document.getElementById(idListe);

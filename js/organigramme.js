@@ -1443,7 +1443,8 @@ const Organigramme = (() => {
           sermentsActifs.some(
             (id) => sermentParId(id) && sermentParId(id).interditQGEtatMajor,
           ) &&
-          (caseOrga.role === "État-major" || caseOrga.role === "Quartier Général")
+          (caseOrga.role === "État-major" ||
+            caseOrga.role === "Quartier Général")
         ) {
           return false;
         }
@@ -1489,9 +1490,17 @@ const Organigramme = (() => {
         for (const id of sermentsActifs) {
           const serment = sermentParId(id);
           const conv = serment && serment.convertitRoleCase;
-          if (!conv || conv.de !== caseOrga.role || caseOrga.extra || caseOrga.libre)
+          if (
+            !conv ||
+            conv.de !== caseOrga.role ||
+            caseOrga.extra ||
+            caseOrga.libre
+          )
             continue;
-          if (conv.restreintUniteIds && !conv.restreintUniteIds.includes(unite.id))
+          if (
+            conv.restreintUniteIds &&
+            !conv.restreintUniteIds.includes(unite.id)
+          )
             return false;
           if (unite.categorie === conv.vers) return true;
         }
@@ -2632,10 +2641,7 @@ const Organigramme = (() => {
           "Réservé aux armées d'Allégeance Renégate (Légions Corrompues).";
       } else if (avantage.loyaliste && etat.allegeance !== "loyaliste") {
         raison = "Réservé aux armées d'Allégeance Loyaliste.";
-      } else if (
-        avantage.principalUniquement &&
-        type.famille !== "principal"
-      ) {
+      } else if (avantage.principalUniquement && type.famille !== "principal") {
         raison = "Réservé à une Case du Détachement Principal de l'Armée.";
       } else if (
         avantage.factionRequise &&
@@ -2737,7 +2743,8 @@ const Organigramme = (() => {
       // bloqué si au moins une est occupée.
       const extraIndices = [];
       det.cases.forEach((c, i) => {
-        if (c.extra && c.origineAvantage === ancienAvantage.id) extraIndices.push(i);
+        if (c.extra && c.origineAvantage === ancienAvantage.id)
+          extraIndices.push(i);
       });
       if (extraIndices.some((i) => det.cases[i].uniteUid !== null)) {
         return (
@@ -3275,7 +3282,10 @@ const Organigramme = (() => {
         if (encoreAccorde) continue;
         for (let i = det.cases.length - 1; i >= 0; i--) {
           const c = det.cases[i];
-          if (c.extra && (c.origineAvantage || "benefice-logistique") === origine) {
+          if (
+            c.extra &&
+            (c.origineAvantage || "benefice-logistique") === origine
+          ) {
             det.cases.splice(i, 1);
           }
         }
@@ -3295,7 +3305,9 @@ const Organigramme = (() => {
         if (!avantage || !avantage.ajouteCase) continue;
         const attendu = avantage.nombreCasesAjoutees || 1;
         const existantes = det.cases.filter(
-          (x) => x.extra && (x.origineAvantage || "benefice-logistique") === avantage.id,
+          (x) =>
+            x.extra &&
+            (x.origineAvantage || "benefice-logistique") === avantage.id,
         ).length;
         const manquantes = attendu - existantes;
         if (manquantes <= 0) continue;
@@ -3978,8 +3990,7 @@ const Organigramme = (() => {
       etat.faction === "legio-custodes" ? SKIN_LEGIO_CUSTODES : null;
     const skinAnathemaPsykana =
       etat.faction === "anathema-psykana" ? SKIN_ANATHEMA_PSYKANA : null;
-    const skinSkitarii =
-      etat.faction === "skitarii" ? SKIN_SKITARII : null;
+    const skinSkitarii = etat.faction === "skitarii" ? SKIN_SKITARII : null;
     const skinRuinstorm =
       etat.faction === "daemons-ruinstorm" ? SKIN_DAEMONS_RUINSTORM : null;
     const skinLegionsBrisees =
@@ -4670,7 +4681,9 @@ const Organigramme = (() => {
         typeDe(parent).nom +
           " #" +
           parent.uid +
-          (nomsSerments ? " (" + nomsSerments + ")" : " (aucun Serment choisi)"),
+          (nomsSerments
+            ? " (" + nomsSerments + ")"
+            : " (aucun Serment choisi)"),
       );
     }
     select.value = det.serimentsRattaches ? String(det.serimentsRattaches) : "";

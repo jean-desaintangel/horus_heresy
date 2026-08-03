@@ -441,7 +441,9 @@ function trouverDefinitionRegle(intitule) {
     }
     indexDefinitionsRegles = new Map();
     [...REGLES_ARMES, ...REGLES_DIVERSES].forEach((regle) => {
-      const base = normaliserTexte(regle.nom.replace(/(?:\s*\([^)]*\))+\s*$/, ""));
+      const base = normaliserTexte(
+        regle.nom.replace(/(?:\s*\([^)]*\))+\s*$/, ""),
+      );
       indexDefinitionsRegles.set(base, regle.texte);
     });
   }
@@ -667,37 +669,17 @@ function activerClinDoeilErebus() {
 }
 
 /* ----------------------------------------------------------
-   Empreinte SHA-256 (hex) d'une chaîne, via l'API SubtleCrypto du
-   navigateur. Utilisée par les clins d'œil au clavier ci-dessous pour
-   reconnaître un mot-clé tapé sans jamais l'écrire en clair dans ce
-   fichier — bien essayé, jeune acolyte : ni le code source, ni
-   l'inspecteur, ni la recherche plein texte ne révéleront le mot-clé,
-   seule son empreinte y figure.
-   ---------------------------------------------------------- */
-async function empreinteSHA256(texte) {
-  // Contexte non sécurisé (vieux navigateur, etc.) : SubtleCrypto
-  // indisponible, retourne une empreinte qui ne pourra jamais matcher.
-  if (!window.crypto || !window.crypto.subtle) return "";
-  const donnees = new TextEncoder().encode(texte);
-  const empreinte = await crypto.subtle.digest("SHA-256", donnees);
-  return Array.from(new Uint8Array(empreinte))
-    .map((octet) => octet.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-/* ----------------------------------------------------------
    CLIN D'ŒIL — Nuit Éternelle (Konrad Curze)
    Taper un mot-clé précis au clavier (accents/majuscules ignorés,
    n'importe où sur le site) bascule un thème sombre en hommage aux
    Night Lords et à leur philosophie de la peur comme outil de contrôle.
    Purement décoratif — une seule classe sur <body> ; la palette est
    entièrement gérée par CSS (voir "Nuit Éternelle" dans css/style.css).
-   Buffer des N dernières touches tapées (comme un code Konami), ignoré
-   tant que le focus est dans un champ de saisie (input, textarea,
-   contenteditable) pour ne pas basculer le thème pendant qu'on tape le
-   mot-clé dans une barre de recherche par coïncidence.
-   Remis à zéro après un basculement pour ne pas re-basculer en boucle
-   si l'utilisateur laisse la séquence au clavier.
+   La reconnaissance du mot-clé (file glissante des N dernières touches,
+   champs de saisie ignorés, empreinte SHA-256 plutôt que mot-clé en
+   clair) est déléguée à surSequenceClavier, js/sequence-clavier.js :
+   trois clins d'œil du site en avaient chacun leur copie, elles avaient
+   fini par diverger. Ne reste ici que ce qui est PROPRE à celui-ci.
    État persisté dans sessionStorage (pas localStorage : contrairement à
    "hh-armee-organigramme" plus bas, ce thème doit survivre à un
    rafraîchissement/changement de page MAIS s'arrêter à la fermeture du
@@ -705,12 +687,20 @@ async function empreinteSHA256(texte) {
    l'onglet/fenêtre, exactement ce qu'il faut ici).
    ---------------------------------------------------------- */
 function activerNuitEternelle() {
+  // Filet de sécurité : si js/sequence-clavier.js n'a pas pu être chargé
+  // (précache obsolète, réseau coupé au mauvais moment), on renonce au
+  // clin d'œil plutôt que de lever une ReferenceError. Sans ce test,
+  // l'erreur interromprait TOUT le reste de main.js — donc la
+  // navigation, le pied de page et les info-bulles — pour un effet
+  // purement décoratif. Une fonctionnalité accessoire ne doit jamais
+  // pouvoir emporter l'essentiel avec elle.
+  if (typeof surSequenceClavier !== "function") return;
+
   const CLE_STOCKAGE = "hh-nuit-eternelle";
   // Empreinte SHA-256 du mot-clé (bien essayé, jeune acolyte).
   const EMPREINTE =
     "ad2e9e3514ce8a4e248c5cf62d4c8c3c209a7519ecb82cea6e912fcdbfbbdf79";
   const LONGUEUR = 11;
-  let buffer = [];
 
   try {
     if (sessionStorage.getItem(CLE_STOCKAGE) === "1") {
@@ -721,32 +711,13 @@ function activerNuitEternelle() {
     // simplement pas mémorisé d'une page à l'autre.
   }
 
-  document.addEventListener("keydown", async (evenement) => {
-    const cible = evenement.target;
-    const dansChampDeSaisie =
-      cible &&
-      (cible.tagName === "INPUT" ||
-        cible.tagName === "TEXTAREA" ||
-        cible.isContentEditable);
-    // e.key.length === 1 ne garde que les caractères imprimables
-    // (rejette Shift, Tab, Escape, flèches...) — inclut l'espace.
-    if (dansChampDeSaisie || evenement.key.length !== 1) return;
-
-    buffer.push(evenement.key.toLowerCase());
-    if (buffer.length > LONGUEUR) buffer.shift();
-
-    if (
-      buffer.length === LONGUEUR &&
-      (await empreinteSHA256(buffer.join(""))) === EMPREINTE
-    ) {
-      const actif = document.body.classList.toggle("nuit-eternelle");
-      try {
-        sessionStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
-      } catch {
-        // stockage indisponible : le basculement reste effectif pour
-        // cette page, juste pas mémorisé.
-      }
-      buffer = [];
+  surSequenceClavier(LONGUEUR, EMPREINTE, () => {
+    const actif = document.body.classList.toggle("nuit-eternelle");
+    try {
+      sessionStorage.setItem(CLE_STOCKAGE, actif ? "1" : "0");
+    } catch {
+      // stockage indisponible : le basculement reste effectif pour
+      // cette page, juste pas mémorisé.
     }
   });
 }
@@ -764,32 +735,17 @@ function activerNuitEternelle() {
    raccourci.
    ---------------------------------------------------------- */
 function activerZoneMortalis() {
+  // Même filet de sécurité que dans activerNuitEternelle ci-dessus.
+  if (typeof surSequenceClavier !== "function") return;
+
   const EMPREINTE =
     "f5485ade4ddc307998f99c0f5a911ecd4dac60c9957b1e151ea54be432473f65";
   const LONGUEUR = 13;
   const DESTINATION_B64 =
     "aHR0cHM6Ly9qZWFuLWRlc2FpbnRhbmdlbC5naXRodWIuaW8vem9uZS1tb3J0YWxpcy8=";
-  let buffer = [];
 
-  document.addEventListener("keydown", async (evenement) => {
-    const cible = evenement.target;
-    const dansChampDeSaisie =
-      cible &&
-      (cible.tagName === "INPUT" ||
-        cible.tagName === "TEXTAREA" ||
-        cible.isContentEditable);
-    if (dansChampDeSaisie || evenement.key.length !== 1) return;
-
-    buffer.push(evenement.key.toLowerCase());
-    if (buffer.length > LONGUEUR) buffer.shift();
-
-    if (
-      buffer.length === LONGUEUR &&
-      (await empreinteSHA256(buffer.join(""))) === EMPREINTE
-    ) {
-      buffer = [];
-      window.location.href = atob(DESTINATION_B64);
-    }
+  surSequenceClavier(LONGUEUR, EMPREINTE, () => {
+    window.location.href = atob(DESTINATION_B64);
   });
 }
 
@@ -1492,7 +1448,11 @@ document.addEventListener("DOMContentLoaded", () => {
    à la demande (premier clic) plutôt qu'au chargement de la page.
    ---------------------------------------------------------- */
 function activerTableauFlottant() {
-  const PAGES_SANS_TABLEAU_FLOTTANT = ["", "index.html", "construction-liste.html"];
+  const PAGES_SANS_TABLEAU_FLOTTANT = [
+    "",
+    "index.html",
+    "construction-liste.html",
+  ];
   const pageActuelle = location.pathname.split("/").pop();
   if (PAGES_SANS_TABLEAU_FLOTTANT.includes(pageActuelle)) return;
 

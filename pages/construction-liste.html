@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Construction d’armée — Horus Heresy</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/construction-liste.html" />
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/construction-liste.html"
+    />
     <meta
       name="description"
       content="Composez vos fiches d'unités Horus Heresy 3e édition : choisissez vos personnages QG et État-major, leurs armes et options, avec calcul automatique du coût en points et fiche récap imprimable."
@@ -53,6 +56,11 @@
       content="https://lagrandecroisade.fr/pages/construction-liste.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
     <script src="../js/regles-data.js" defer></script>
     <script src="../js/armes-data.js" defer></script>
@@ -456,6 +464,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Legio
+                          Astartes)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -3540,7 +3552,8 @@
                     <ul>
                       <li>
                         <strong>1 Quartier Général</strong> — ton grand chef
-                        (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction) ;
+                        (aucune Unité de ce Rôle Tactique n’est pour l’instant
+                        transcrite pour cette Faction) ;
                       </li>
                       <li>
                         <strong>3 États-Majors</strong> — les officiers de ligne
@@ -3552,11 +3565,15 @@
                       </li>
                       <li>
                         <strong>4 Transports</strong> — les véhicules légers
-                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                        pour déplacer tes troupes (aucune Unité de ce Rôle
+                        Tactique n’est pour l’instant transcrite pour cette
+                        Faction).
                       </li>
                     </ul>
                     <p>
-                      Exemple : 1 Maréchal des Pérégrins de Combat Skitarii (État-Major) et 2 Corpus de Pérégrins de Combat Skitarii (Troupes).
+                      Exemple : 1 Maréchal des Pérégrins de Combat Skitarii
+                      (État-Major) et 2 Corpus de Pérégrins de Combat Skitarii
+                      (Troupes).
                     </p>
                   </div>
                 </div>
@@ -3598,8 +3615,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (une Figurine qui en est dotée, par exemple) permet de
+                        sélectionner non pas 1, mais
+                        <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -3834,6 +3852,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Conclaves
+                          Skitarii)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -4224,13 +4246,13 @@
                   <div class="timeline-details-inner">
                     <p>
                       En plus de l’<strong>[Allégeance]</strong> (Loyaliste ou
-                      Renégat), chaque Unité générique de cette Liste
-                      d’Armée porte le Trait «&nbsp;[Skitarii]&nbsp;». Quand
-                      tu l’ajoutes à ton Armée, tu dois le remplacer par un
-                      des 4 <strong>Traits de Faction</strong> suivants —
-                      même mécanique que <em>[Allégeance]</em>. Toutes les
-                      Unités sélectionnées dans un même Détachement doivent
-                      avoir le même Trait de Faction.
+                      Renégat), chaque Unité générique de cette Liste d’Armée
+                      porte le Trait «&nbsp;[Skitarii]&nbsp;». Quand tu
+                      l’ajoutes à ton Armée, tu dois le remplacer par un des 4
+                      <strong>Traits de Faction</strong> suivants — même
+                      mécanique que <em>[Allégeance]</em>. Toutes les Unités
+                      sélectionnées dans un même Détachement doivent avoir le
+                      même Trait de Faction.
                     </p>
 
                     <div class="accordeon">
@@ -4248,22 +4270,21 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Toutes les figurines qui ont ce Trait (sauf
-                              celles de Type Véhicule) gagnent la Règle
-                              Spéciale
+                              Toutes les figurines qui ont ce Trait (sauf celles
+                              de Type Véhicule) gagnent la Règle Spéciale
                               <strong class="regle-tag" tabindex="0"
                                 >Ligne (1)<span class="tooltip"
-                                  >L'unité contrôle mieux les objectifs :
-                                  bonus de X Points de Victoire quand elle en
-                                  contrôle un, et compte plus dans l'Effectif
+                                  >L'unité contrôle mieux les objectifs : bonus
+                                  de X Points de Victoire quand elle en contrôle
+                                  un, et compte plus dans l'Effectif
                                   Tactique.</span
                                 ></strong
                               >.
                             </p>
                             <p class="conseil-debutant">
-                              <strong>Conseil pratique :</strong> adapté à
-                              une Armée qui compte tenir ses Objectifs plutôt
-                              que de foncer dans le tas.
+                              <strong>Conseil pratique :</strong> adapté à une
+                              Armée qui compte tenir ses Objectifs plutôt que de
+                              foncer dans le tas.
                             </p>
                           </div>
                         </div>
@@ -4283,23 +4304,21 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Toutes les figurines qui ont ce Trait (sauf
-                              celles de Type Véhicule) gagnent la Règle
-                              Spéciale
+                              Toutes les figurines qui ont ce Trait (sauf celles
+                              de Type Véhicule) gagnent la Règle Spéciale
                               <strong class="regle-tag" tabindex="0"
                                 >Avant-garde (3)<span class="tooltip"
-                                  >L'unité ne marque que 1 point de victoire
-                                  sur un objectif, + X si elle est retirée
-                                  comme perte ou fait battre en retraite une
-                                  unité ennemie.</span
+                                  >L'unité ne marque que 1 point de victoire sur
+                                  un objectif, + X si elle est retirée comme
+                                  perte ou fait battre en retraite une unité
+                                  ennemie.</span
                                 ></strong
                               >.
                             </p>
                             <p class="conseil-debutant">
-                              <strong>Conseil pratique :</strong> une Armée
-                              plus agressive, orientée vers l’élimination des
-                              Unités ennemies plutôt que le contrôle
-                              d’Objectifs.
+                              <strong>Conseil pratique :</strong> une Armée plus
+                              agressive, orientée vers l’élimination des Unités
+                              ennemies plutôt que le contrôle d’Objectifs.
                             </p>
                           </div>
                         </div>
@@ -4319,10 +4338,9 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Toutes les figurines qui ont ce Trait (sauf
-                              celles de Type Véhicule) augmentent de +1 la
-                              valeur de toute déclinaison de la Règle
-                              Spéciale
+                              Toutes les figurines qui ont ce Trait (sauf celles
+                              de Type Véhicule) augmentent de +1 la valeur de
+                              toute déclinaison de la Règle Spéciale
                               <strong>Déflagration (X)</strong> qu’elles
                               possèdent, elles ou leurs Armes.
                             </p>
@@ -4330,8 +4348,8 @@
                               <strong>Conseil pratique :</strong> réservé aux
                               Armées Loyalistes — pense aux Unités dotées
                               d’Armes Volkite (Arquebuse volt, Arquebuse
-                              volkite…), qui ont presque toutes Déflagration
-                              (X) de base.
+                              volkite…), qui ont presque toutes Déflagration (X)
+                              de base.
                             </p>
                           </div>
                         </div>
@@ -4351,17 +4369,17 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Toutes les figurines qui ont ce Trait (sauf
-                              celles de Type Véhicule) ajoutent
+                              Toutes les figurines qui ont ce Trait (sauf celles
+                              de Type Véhicule) ajoutent
                               <strong>+1 pouce</strong> à leurs Mouvements de
                               Positionnement, jusqu’à un maximum de
                               <strong>6 pouces</strong>.
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> réservé aux
-                              Armées Renégates — utile pour charger plus loin
-                              ou repositionner tes Unités plus généreusement
-                              en Sous-phase de Déplacement.
+                              Armées Renégates — utile pour charger plus loin ou
+                              repositionner tes Unités plus généreusement en
+                              Sous-phase de Déplacement.
                             </p>
                           </div>
                         </div>
@@ -4371,12 +4389,12 @@
                     <div class="encadre">
                       <p>
                         <strong>Vassaux des Seigneurs des Forges :</strong>
-                        si le Détachement Principal de ton Armée est issu de
-                        la Liste d’Armée des Taghmata du Mechanicum, un
-                        Détachement Allié issu de la Liste d’Armée des
-                        Conclaves Skitarii ne compte pas dans le maximum de
-                        <strong>50 % de la Limite de Points</strong> réservé
-                        aux Détachements Alliés.
+                        si le Détachement Principal de ton Armée est issu de la
+                        Liste d’Armée des Taghmata du Mechanicum, un Détachement
+                        Allié issu de la Liste d’Armée des Conclaves Skitarii ne
+                        compte pas dans le maximum de
+                        <strong>50 % de la Limite de Points</strong> réservé aux
+                        Détachements Alliés.
                       </p>
                     </div>
                   </div>
@@ -4399,38 +4417,36 @@
                   <div class="timeline-details-inner">
                     <p>
                       Permet de remplacer en urgence un maréchal tombé au
-                      combat. Le Joueur Réactif, en contrôle d’Unités
-                      composées uniquement de figurines qui ont le Trait
-                      Skitarii, peut la déclarer
-                      <strong>une fois par Bataille</strong> quand une
-                      figurine de <strong>Maréchal des Pérégrins de Combat
-                      Skitarii</strong> amie est réduite à
-                      <strong>0 Point de Vie</strong> (coût :
-                      <strong>1 Point d’Attribution de Réactions</strong>,
-                      à payer dès la déclaration).
+                      combat. Le Joueur Réactif, en contrôle d’Unités composées
+                      uniquement de figurines qui ont le Trait Skitarii, peut la
+                      déclarer
+                      <strong>une fois par Bataille</strong> quand une figurine
+                      de
+                      <strong>Maréchal des Pérégrins de Combat Skitarii</strong>
+                      amie est réduite à <strong>0 Point de Vie</strong> (coût :
+                      <strong>1 Point d’Attribution de Réactions</strong>, à
+                      payer dès la déclaration).
                     </p>
                     <p>
-                      L’Unité Cible est toujours une Unité amie qui a le
-                      Trait <strong>[Skitarii]</strong> et qui compte au
-                      moins une figurine d’<strong>Ordinator</strong>. À la
-                      Phase de Fin du Tour où la Réaction a été déclarée, tu
-                      choisis une figurine d’Ordinator de l’Unité Cible :
-                      elle gagne le Sous-type <strong>État-major</strong>,
-                      augmente de +1 ses Caractéristiques de Base de
-                      Capacité de Combat, d’Attaques et de Commandement, et
-                      tu peux choisir une de ses Armes de Mêlée pour lui
-                      faire gagner la Règle Spéciale
+                      L’Unité Cible est toujours une Unité amie qui a le Trait
+                      <strong>[Skitarii]</strong> et qui compte au moins une
+                      figurine d’<strong>Ordinator</strong>. À la Phase de Fin
+                      du Tour où la Réaction a été déclarée, tu choisis une
+                      figurine d’Ordinator de l’Unité Cible : elle gagne le
+                      Sous-type <strong>État-major</strong>, augmente de +1 ses
+                      Caractéristiques de Base de Capacité de Combat, d’Attaques
+                      et de Commandement, et tu peux choisir une de ses Armes de
+                      Mêlée pour lui faire gagner la Règle Spéciale
                       <strong class="regle-tag" tabindex="0"
                         >Icône d’Autorité<span class="tooltip"
                           >Quand, à l'étape Déclarer les Armes et Définir les
                           Rangs d'Initiative de la Sous-phase de Combat, on
-                          choisit une Arme ayant cette Règle Spéciale pour
-                          faire des Attaques, toutes les Figurines qui ont le
-                          Trait [Skitarii] et qui appartiennent à la même
-                          Unité que la Figurine dotée d'une Arme ayant cette
-                          Règle Spéciale sont immédiatement soulagées des
-                          Statuts Tactiques Fixée, Neutralisée et
-                          Sonnée.</span
+                          choisit une Arme ayant cette Règle Spéciale pour faire
+                          des Attaques, toutes les Figurines qui ont le Trait
+                          [Skitarii] et qui appartiennent à la même Unité que la
+                          Figurine dotée d'une Arme ayant cette Règle Spéciale
+                          sont immédiatement soulagées des Statuts Tactiques
+                          Fixée, Neutralisée et Sonnée.</span
                         ></strong
                       >.
                     </p>
@@ -4443,7 +4459,8 @@
                     </p>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -4503,15 +4520,20 @@
                       </li>
                       <li>
                         <strong>4 Troupes</strong> — tes escouades de base
-                        (Sodalité de Gardes Custodiens, Sodalité de Gardes Sentinelles) ;
+                        (Sodalité de Gardes Custodiens, Sodalité de Gardes
+                        Sentinelles) ;
                       </li>
                       <li>
                         <strong>4 Transports</strong> — les véhicules légers
-                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                        pour déplacer tes troupes (aucune Unité de ce Rôle
+                        Tactique n’est pour l’instant transcrite pour cette
+                        Faction).
                       </li>
                     </ul>
                     <p>
-                      Exemple : 1 Tribun (Quartier Général), 1 Capitaine-rempart (État-Major) et 2 Sodalités de Gardes Custodiens (Troupes).
+                      Exemple : 1 Tribun (Quartier Général), 1 Capitaine-rempart
+                      (État-Major) et 2 Sodalités de Gardes Custodiens
+                      (Troupes).
                     </p>
                   </div>
                 </div>
@@ -4553,8 +4575,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (le Capitaine-rempart doté de l’Avantage Principal Préfet, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (le Capitaine-rempart doté de l’Avantage Principal
+                        Préfet, par exemple) permet de sélectionner non pas 1,
+                        mais <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -4789,6 +4812,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Legio
+                          Custodes)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -4942,10 +4969,10 @@
                       spécial : ce sont les <strong>cases Principales</strong>.
                       Elles octroient un bénéfice : un
                       <strong>avantage principal</strong> au choix parmi les 5
-                      ci-dessous, plus 2 propres à la Legio Custodes détaillés
-                      à la fin de la liste. Ce sont surtout des améliorations
-                      de caractéristiques… sauf une, très forte pour
-                      structurer ta liste.
+                      ci-dessous, plus 2 propres à la Legio Custodes détaillés à
+                      la fin de la liste. Ce sont surtout des améliorations de
+                      caractéristiques… sauf une, très forte pour structurer ta
+                      liste.
                     </p>
                     <p>
                       <em>Cas particulier :</em> si l’unité choisie inclut des
@@ -5087,9 +5114,9 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> à réserver à
-                              un officier destiné au combat. Un Capitaine-rempart
-                              Parangon de Bataille frappe plus souvent et plus
-                              juste.
+                              un officier destiné au combat. Un
+                              Capitaine-rempart Parangon de Bataille frappe plus
+                              souvent et plus juste.
                             </p>
                           </div>
                         </div>
@@ -5183,8 +5210,8 @@
                               <strong class="regle-tag" tabindex="0"
                                 >Officier de Ligne (2)<span class="tooltip"
                                   >Permet de sélectionner un nombre de
-                                  Détachements Auxiliaires égal à X pour la
-                                  Case d'État-major concernée, au lieu d'un
+                                  Détachements Auxiliaires égal à X pour la Case
+                                  d'État-major concernée, au lieu d'un
                                   seul.</span
                                 ></strong
                               >.
@@ -5213,25 +5240,25 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Chez l’unité occupant la case Principale, porte
-                              à 2 la valeur de X de la Règle Spéciale
+                              Chez l’unité occupant la case Principale, porte à
+                              2 la valeur de X de la Règle Spéciale
                               <strong class="regle-tag" tabindex="0"
                                 >Guerrier Éternel (X)<span class="tooltip"
-                                  >Réduit de X les Dégâts de chaque blessure
-                                  non sauvegardée (minimum 1).</span
+                                  >Réduit de X les Dégâts de chaque blessure non
+                                  sauvegardée (minimum 1).</span
                                 ></strong
                               >
-                              pour ses figurines de Type Infanterie ou
-                              Cavalerie qui ont le Trait Legio Custodes.
+                              pour ses figurines de Type Infanterie ou Cavalerie
+                              qui ont le Trait Legio Custodes.
                             </p>
                             <p>
                               Sélectionnable
-                              <strong>une seule fois par Armée</strong>, sauf
-                              si l’Armée comprend au moins une figurine ayant
-                              le Trait <strong>Exemple d’Or</strong>
-                              (Constantin Valdor, Tribun) : dans ce cas, il
-                              peut être sélectionné une fois de plus pour
-                              chaque figurine ayant ce Trait.
+                              <strong>une seule fois par Armée</strong>, sauf si
+                              l’Armée comprend au moins une figurine ayant le
+                              Trait <strong>Exemple d’Or</strong>
+                              (Constantin Valdor, Tribun) : dans ce cas, il peut
+                              être sélectionné une fois de plus pour chaque
+                              figurine ayant ce Trait.
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> ouvert à
@@ -5263,9 +5290,9 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Toutes les figurines qui ont le Trait Legio Custodes,
-                      sauf celles de Type <strong>Véhicule</strong>, ont la
-                      Règle Spéciale
+                      Toutes les figurines qui ont le Trait Legio Custodes, sauf
+                      celles de Type <strong>Véhicule</strong>, ont la Règle
+                      Spéciale
                       <strong class="regle-tag" tabindex="0"
                         >Seule la Mort<span class="tooltip"
                           >En Combat, les Unités composées uniquement de
@@ -5276,22 +5303,22 @@
                       >.
                     </p>
                     <p>
-                      Concrètement : une unité entièrement Legio Custodes
-                      (hors Véhicules) qui devrait
+                      Concrètement : une unité entièrement Legio Custodes (hors
+                      Véhicules) qui devrait
                       <strong>Battre en Retraite</strong> ou passer
                       <strong>En Déroute</strong> devient
-                      <strong>Sonnée</strong> à la place, et ne peut ni fuir
-                      ni se désengager d’un Combat — sauf si elle est
-                      entièrement composée de figurines de Sous-type
+                      <strong>Sonnée</strong> à la place, et ne peut ni fuir ni
+                      se désengager d’un Combat — sauf si elle est entièrement
+                      composée de figurines de Sous-type
                       <strong>Antigrav</strong>, qui gardent malgré tout
                       l’option de se désengager.
                     </p>
                     <p class="conseil-debutant">
                       <strong>Conseil pratique :</strong> les Custodiens ne
                       fuient jamais le combat — prévois de les faire tenir
-                      jusqu’au bout plutôt que de compter sur une retraite,
-                      sauf pour tes unités montées (Sodalité de Motojets
-                      Gyrfalcon, Char Antigrav Caladius…).
+                      jusqu’au bout plutôt que de compter sur une retraite, sauf
+                      pour tes unités montées (Sodalité de Motojets Gyrfalcon,
+                      Char Antigrav Caladius…).
                     </p>
                   </div>
                 </div>
@@ -5313,9 +5340,9 @@
                   <div class="timeline-details-inner">
                     <p>
                       Tant qu’une figurine qui a le Trait Legio Custodes est
-                      engagée en <strong>Défi</strong>, son joueur en
-                      contrôle peut choisir les 4 Postures suivantes à la
-                      place de toute autre accessible à cette figurine.
+                      engagée en <strong>Défi</strong>, son joueur en contrôle
+                      peut choisir les 4 Postures suivantes à la place de toute
+                      autre accessible à cette figurine.
                     </p>
 
                     <div class="accordeon">
@@ -5333,24 +5360,24 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Confère à la figurine des attaques
-                              supplémentaires selon le nombre de figurines
-                              ennemies impliquées dans le même Combat.
+                              Confère à la figurine des attaques supplémentaires
+                              selon le nombre de figurines ennemies impliquées
+                              dans le même Combat.
                             </p>
                             <p>
                               Si le Joueur Adverse a un
                               <strong>Bonus de Soutien Extérieur</strong>
-                              supérieur au tien à l’Étape de Concentration,
-                              la figurine gagne un bonus à sa Caractéristique
-                              d’Attaques à l’Étape de Frappe suivante égal à
-                              la différence entre les deux Bonus, jusqu’à un
+                              supérieur au tien à l’Étape de Concentration, la
+                              figurine gagne un bonus à sa Caractéristique
+                              d’Attaques à l’Étape de Frappe suivante égal à la
+                              différence entre les deux Bonus, jusqu’à un
                               maximum de <strong>+3</strong>.
                             </p>
                             <p class="conseil-debutant">
-                              <strong>Conseil pratique :</strong> utile quand
-                              ta figurine se retrouve submergée par le nombre
-                              — elle frappe d’autant plus fort que
-                              l’adversaire est mieux soutenu que toi.
+                              <strong>Conseil pratique :</strong> utile quand ta
+                              figurine se retrouve submergée par le nombre —
+                              elle frappe d’autant plus fort que l’adversaire
+                              est mieux soutenu que toi.
                             </p>
                           </div>
                         </div>
@@ -5370,19 +5397,18 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Réduit de moitié la Caractéristique d’Attaques
-                              de la figurine, mais remplace la Règle Spéciale
+                              Réduit de moitié la Caractéristique d’Attaques de
+                              la figurine, mais remplace la Règle Spéciale
                               <strong class="regle-tag" tabindex="0"
                                 >Touche Critique (6+)<span class="tooltip"
                                   >Un jet de touche élevé (X ou plus, avant
                                   modificateur) devient une Touche Critique :
                                   elle blesse automatiquement, sans jet de
-                                  blessure, et inflige 1 dégât de
-                                  plus.</span
+                                  blessure, et inflige 1 dégât de plus.</span
                                 ></strong
                               >
-                              par <strong>Touche Critique (5+)</strong> sur
-                              son Arme, si elle en a une.
+                              par <strong>Touche Critique (5+)</strong> sur son
+                              Arme, si elle en a une.
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> moins
@@ -5412,17 +5438,17 @@
                               <strong>une seule attaque</strong> à l’Étape de
                               Frappe suivante, quelle que soit sa
                               Caractéristique d’Attaques, mais la
-                              Caractéristique de Dégâts de cette attaque
-                              devient égale à la
-                              <strong>Valeur Actuelle de ses Points de
-                              Vie</strong>.
+                              Caractéristique de Dégâts de cette attaque devient
+                              égale à la
+                              <strong
+                                >Valeur Actuelle de ses Points de Vie</strong
+                              >.
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> redoutable
-                              contre une cible à haute Endurance ou dotée
-                              d’une Sauvegarde qui ignore les petits Dégâts —
-                              mais évite-la si ta figurine est déjà bien
-                              amochée.
+                              contre une cible à haute Endurance ou dotée d’une
+                              Sauvegarde qui ignore les petits Dégâts — mais
+                              évite-la si ta figurine est déjà bien amochée.
                             </p>
                           </div>
                         </div>
@@ -5448,25 +5474,24 @@
                                   >Trait qui donne accès à la Réaction avancée
                                   des Legiones Astartes « Mur de Bouclier »
                                   (coût 1 Point d'Attribution de Réactions),
-                                  déclarable au début de l'Étape 3 d'une
-                                  Attaque de Tir ou de l'Étape 4 (Attaques de
-                                  Volée) d'une Charge faite par l'adversaire :
-                                  si la majorité des Figurines de l'Unité
-                                  visée ont ce Trait, l'Unité gagne +1 en
-                                  Endurance pour la durée de la Phase.</span
+                                  déclarable au début de l'Étape 3 d'une Attaque
+                                  de Tir ou de l'Étape 4 (Attaques de Volée)
+                                  d'une Charge faite par l'adversaire : si la
+                                  majorité des Figurines de l'Unité visée ont ce
+                                  Trait, l'Unité gagne +1 en Endurance pour la
+                                  durée de la Phase.</span
                                 ></strong
-                              >. Modifie de <strong>+1</strong> l’Endurance
-                              de la figurine pour la durée de l’Étape de
-                              Frappe, mais tous les Jets de Blessure faits
-                              pour elle à la même Étape ratent automatiquement
-                              sur un résultat naturel de <strong>1 ou
-                              2</strong>.
+                              >. Modifie de <strong>+1</strong> l’Endurance de
+                              la figurine pour la durée de l’Étape de Frappe,
+                              mais tous les Jets de Blessure faits pour elle à
+                              la même Étape ratent automatiquement sur un
+                              résultat naturel de <strong>1 ou 2</strong>.
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> un bon pari
-                              contre une Arme à faible Force qui a besoin
-                              d’un jet élevé pour blesser de toute façon ;
-                              risqué face à une Arme qui blesse déjà sur 2+.
+                              contre une Arme à faible Force qui a besoin d’un
+                              jet élevé pour blesser de toute façon ; risqué
+                              face à une Arme qui blesse déjà sur 2+.
                             </p>
                           </div>
                         </div>
@@ -5491,18 +5516,18 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Une fois par Bataille, le Joueur Réactif peut la
-                      déclarer à l’Étape 2 de la Sous-phase de Déplacement si
-                      une Unité ennemie finit un Déplacement à
-                      <strong>12 pouces</strong> et en Ligne de Vue d’une
-                      Unité sous son contrôle (coût :
+                      Une fois par Bataille, le Joueur Réactif peut la déclarer
+                      à l’Étape 2 de la Sous-phase de Déplacement si une Unité
+                      ennemie finit un Déplacement à
+                      <strong>12 pouces</strong> et en Ligne de Vue d’une Unité
+                      sous son contrôle (coût :
                       <strong>1 Point d’Attribution de Réactions</strong>).
                     </p>
                     <p>
-                      L’<strong>Unité Réactive</strong> choisie doit se
-                      trouver à 12 pouces et en Ligne de Vue de l’Unité
-                      Cible, être composée uniquement de figurines qui ont
-                      les Traits <strong>Legio Custodes</strong> ET
+                      L’<strong>Unité Réactive</strong> choisie doit se trouver
+                      à 12 pouces et en Ligne de Vue de l’Unité Cible, être
+                      composée uniquement de figurines qui ont les Traits
+                      <strong>Legio Custodes</strong> ET
                       <strong>La Sodalité</strong>, et comprendre au moins
                       <strong>six figurines</strong>.
                     </p>
@@ -5512,22 +5537,23 @@
                       (jusqu’à un nombre de pouces égal à leur Caractéristique
                       d’Initiative) de sorte qu’elles quittent la Cohésion
                       d’Unité du reste tout en la gardant entre elles ; les
-                      figurines restées en arrière (au moins trois,
-                      elles-mêmes en Cohésion d’Unité) et celles déplacées
-                      forment alors deux Unités distinctes à tous égards, y
-                      compris pour marquer des Points de Victoire.
+                      figurines restées en arrière (au moins trois, elles-mêmes
+                      en Cohésion d’Unité) et celles déplacées forment alors
+                      deux Unités distinctes à tous égards, y compris pour
+                      marquer des Points de Victoire.
                     </p>
                     <p class="conseil-debutant">
                       <strong>Conseil pratique :</strong> réservée aux grosses
-                      Sodalités (Gardes Adrasites/Pyrithites/Sagittarii,
-                      Gardes Custodiens, Gardes Sentinelles…) d’au moins six
-                      figurines — permet de scinder ton unité en deux pour
-                      contre-attaquer ou tenir deux Objectifs après qu’un
-                      ennemi s’est approché d’un peu trop près.
+                      Sodalités (Gardes Adrasites/Pyrithites/Sagittarii, Gardes
+                      Custodiens, Gardes Sentinelles…) d’au moins six figurines
+                      — permet de scinder ton unité en deux pour contre-attaquer
+                      ou tenir deux Objectifs après qu’un ennemi s’est approché
+                      d’un peu trop près.
                     </p>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -5548,7 +5574,10 @@
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
-        <div class="section-corps" id="construction-armee-anathema-psykana-corps">
+        <div
+          class="section-corps"
+          id="construction-armee-anathema-psykana-corps"
+        >
           <div class="encadre">
             <p>
               Tout part d’un <strong>Détachement Principal de Croisade</strong>,
@@ -5591,11 +5620,14 @@
                       </li>
                       <li>
                         <strong>4 Transports</strong> — les véhicules légers
-                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                        pour déplacer tes troupes (aucune Unité de ce Rôle
+                        Tactique n’est pour l’instant transcrite pour cette
+                        Faction).
                       </li>
                     </ul>
                     <p>
-                      Exemple : 1 Jenetia Krole (Quartier Général), 1 Chevalière Centura (État-Major) et 2 Cadres Anathema (Troupes).
+                      Exemple : 1 Jenetia Krole (Quartier Général), 1 Chevalière
+                      Centura (État-Major) et 2 Cadres Anathema (Troupes).
                     </p>
                   </div>
                 </div>
@@ -5637,8 +5669,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (une Figurine qui en est dotée, par exemple) permet de
+                        sélectionner non pas 1, mais
+                        <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -5873,6 +5906,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Anathema
+                          Psykana)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -6008,7 +6045,10 @@
               </div>
 
               <!-- ===================== CASES PRINCIPALES ===================== -->
-              <div class="timeline-item" id="cases-principales-anathema-psykana">
+              <div
+                class="timeline-item"
+                id="cases-principales-anathema-psykana"
+              >
                 <h3 class="timeline-entete">
                   <button
                     type="button"
@@ -6092,8 +6132,8 @@
                               >.
                             </p>
                             <p class="conseil-debutant">
-                              <strong>Conseil pratique :</strong> adapté à
-                              la Maîtresse du Néant de ton Cadre Anathema. Une
+                              <strong>Conseil pratique :</strong> adapté à la
+                              Maîtresse du Néant de ton Cadre Anathema. Une
                               Maîtresse du Néant Championne peut lancer et
                               relever des défis.
                             </p>
@@ -6262,21 +6302,21 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      À la différence des Unités d’autres Listes d’Armée,
-                      celles de la Liste d’Armée de l’Anathema Psykana n’ont
-                      pas d’Allégeance optionnelle représentée par le Trait
+                      À la différence des Unités d’autres Listes d’Armée, celles
+                      de la Liste d’Armée de l’Anathema Psykana n’ont pas
+                      d’Allégeance optionnelle représentée par le Trait
                       <em>[Allégeance]</em>, car elles ont toujours le Trait
                       <strong>Loyaliste</strong>. Par conséquent, on ne peut
                       sélectionner ces Unités que dans une Armée d’Allégeance
-                      Loyaliste — le sélecteur d’Allégeance des paramètres de
-                      la partie se verrouille automatiquement dessus dès que
-                      tu choisis cette Faction.
+                      Loyaliste — le sélecteur d’Allégeance des paramètres de la
+                      partie se verrouille automatiquement dessus dès que tu
+                      choisis cette Faction.
                     </p>
                     <div class="encadre">
                       <p>
                         <strong>Point de Réaction Bonus :</strong> si le
-                        Détachement Principal de ton Armée est issu de la
-                        Liste d’Armée de l’Anathema Psykana, tu gagnes un
+                        Détachement Principal de ton Armée est issu de la Liste
+                        d’Armée de l’Anathema Psykana, tu gagnes un
                         <strong>Point de Réaction bonus</strong> pour ce
                         Détachement s’il inclut au moins une Unité qui a le
                         Trait <strong>Investigatus-Militant</strong>
@@ -6284,11 +6324,11 @@
                       </p>
                     </div>
                     <p class="conseil-debutant">
-                      <strong>Conseil pratique :</strong> inclure une
-                      Chevalière Centura ou Jenetia Krole dans ton
-                      Détachement Principal ne coûte donc pas seulement des
-                      Points — ça te rapporte un Point de Réaction
-                      supplémentaire à dépenser en cours de partie.
+                      <strong>Conseil pratique :</strong> inclure une Chevalière
+                      Centura ou Jenetia Krole dans ton Détachement Principal ne
+                      coûte donc pas seulement des Points — ça te rapporte un
+                      Point de Réaction supplémentaire à dépenser en cours de
+                      partie.
                     </p>
                   </div>
                 </div>
@@ -6309,42 +6349,43 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Toutes les figurines qui ont le Trait Anathema
-                      Psykana, sauf celles de Type <strong>Véhicule</strong>
+                      Toutes les figurines qui ont le Trait Anathema Psykana,
+                      sauf celles de Type <strong>Véhicule</strong>
                       (l’Acquisitor Modèle Kharon), ont la Règle Spéciale
                       <strong class="regle-tag" tabindex="0"
                         >Anathème<span class="tooltip"
-                          >Les Figurines ayant cette Règle Spéciale ignorent
-                          les effets des Aptitudes Psychiques et des Armes
+                          >Les Figurines ayant cette Règle Spéciale ignorent les
+                          effets des Aptitudes Psychiques et des Armes
                           Psychiques, et une Arme qui a le Trait Psychique ou
                           Immatériel ne peut les blesser que sur 5+.</span
                         ></strong
                       >.
                     </p>
                     <p>
-                      Concrètement : tes Sœurs du Silence ignorent purement
-                      et simplement les Aptitudes et Armes Psychiques
-                      adverses, et une Arme à Trait <strong>Psychique</strong>
-                      ou <strong>Immatériel</strong> ne les blesse que sur
+                      Concrètement : tes Sœurs du Silence ignorent purement et
+                      simplement les Aptitudes et Armes Psychiques adverses, et
+                      une Arme à Trait <strong>Psychique</strong> ou
+                      <strong>Immatériel</strong> ne les blesse que sur
                       <strong>5+</strong>. En outre, contre une Unité
                       entièrement Anathème, les Jets de Blessure d’une Arme
-                      Psychique ou Immatérielle qui obtiennent un résultat
-                      non modifié de 1, 2, 3 ou 4 sont toujours des échecs,
-                      quelle que soit la Règle Spéciale qui fixe
-                      normalement leur Nombre Cible — sans effet, en
-                      revanche, sur la Pénétration de Blindage.
+                      Psychique ou Immatérielle qui obtiennent un résultat non
+                      modifié de 1, 2, 3 ou 4 sont toujours des échecs, quelle
+                      que soit la Règle Spéciale qui fixe normalement leur
+                      Nombre Cible — sans effet, en revanche, sur la Pénétration
+                      de Blindage.
                     </p>
                     <p class="conseil-debutant">
                       <strong>Conseil pratique :</strong> c’est la meilleure
                       arme de l’Anathema Psykana contre les Psykers et les
-                      Unités Maléfiques (voir la Règle Spéciale Haine
-                      (Psykers, Maléfiques) sur presque toutes tes Unités) —
-                      colle du Cadre Anathema ou de la Chevalière Centura au
-                      contact d’une Unité à Psykers pour la neutraliser.
+                      Unités Maléfiques (voir la Règle Spéciale Haine (Psykers,
+                      Maléfiques) sur presque toutes tes Unités) — colle du
+                      Cadre Anathema ou de la Chevalière Centura au contact
+                      d’une Unité à Psykers pour la neutraliser.
                     </p>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -6366,7 +6407,10 @@
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
-        <div class="section-corps" id="construction-armee-daemons-ruinstorm-corps">
+        <div
+          class="section-corps"
+          id="construction-armee-daemons-ruinstorm-corps"
+        >
           <div class="encadre">
             <p>
               Tout part d’un <strong>Détachement Principal de Croisade</strong>,
@@ -6404,12 +6448,14 @@
                         (Hiérarque Démoniaque, Héraut Démoniaque) ;
                       </li>
                       <li>
-                        <strong>4 Troupes</strong> — tes hordes de base
-                        (Démons Mineurs, Essaims Démoniaques) ;
+                        <strong>4 Troupes</strong> — tes hordes de base (Démons
+                        Mineurs, Essaims Démoniaques) ;
                       </li>
                       <li>
                         <strong>4 Transports</strong> — les véhicules légers
-                        pour déplacer tes troupes (aucune Unité de ce Rôle Tactique n’est pour l’instant transcrite pour cette Faction).
+                        pour déplacer tes troupes (aucune Unité de ce Rôle
+                        Tactique n’est pour l’instant transcrite pour cette
+                        Faction).
                       </li>
                     </ul>
                     <p>
@@ -6457,8 +6503,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (une Figurine qui en est dotée, par exemple) permet de
+                        sélectionner non pas 1, mais
+                        <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -6693,6 +6740,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Démons de
+                          la Tempête de la Ruine)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -6828,7 +6879,10 @@
               </div>
 
               <!-- ===================== CASES PRINCIPALES ===================== -->
-              <div class="timeline-item" id="cases-principales-daemons-ruinstorm">
+              <div
+                class="timeline-item"
+                id="cases-principales-daemons-ruinstorm"
+              >
                 <h3 class="timeline-entete">
                   <button
                     type="button"
@@ -6915,8 +6969,8 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> aucune Unité
-                              de la Liste d’Armée des Démons de la Tempête de
-                              la Ruine transcrite sur ce site n’a de sous-type
+                              de la Liste d’Armée des Démons de la Tempête de la
+                              Ruine transcrite sur ce site n’a de sous-type
                               Sergent — cet avantage reste sélectionnable, mais
                               sans effet concret sur ta liste pour l’instant.
                             </p>
@@ -6994,9 +7048,9 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> le Héraut
-                              Démoniaque a le sous-type État-major — Parangon
-                              de Bataille en fait un combattant plus mordant
-                              tout en gardant sa Règle Spéciale Héraut de
+                              Démoniaque a le sous-type État-major — Parangon de
+                              Bataille en fait un combattant plus mordant tout
+                              en gardant sa Règle Spéciale Héraut de
                               l’Irréalité.
                             </p>
                           </div>
@@ -7087,12 +7141,12 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      À la différence des Unités d’autres Listes d’Armée,
-                      celles de la Liste d’Armée des Démons de la Tempête de la
-                      Ruine n’ont pas d’Allégeance optionnelle représentée par
-                      le Trait <em>[Allégeance]</em>, car elles ont toujours le
-                      Trait <strong>Renégat</strong>. C’est le miroir inverse
-                      de l’Anathema Psykana ou de la Legio Custodes (verrouillées
+                      À la différence des Unités d’autres Listes d’Armée, celles
+                      de la Liste d’Armée des Démons de la Tempête de la Ruine
+                      n’ont pas d’Allégeance optionnelle représentée par le
+                      Trait <em>[Allégeance]</em>, car elles ont toujours le
+                      Trait <strong>Renégat</strong>. C’est le miroir inverse de
+                      l’Anathema Psykana ou de la Legio Custodes (verrouillées
                       sur Loyaliste) : le sélecteur d’Allégeance des paramètres
                       de la partie se verrouille automatiquement sur Renégat dès
                       que tu choisis cette Faction.
@@ -7121,12 +7175,11 @@
                     </div>
                     <p class="conseil-debutant">
                       <strong>Conseil pratique :</strong> ton Souverain
-                      Démoniaque porte ce Trait — l’inclure dans ton
-                      Détachement Principal te rapporte donc un Point de
-                      Réaction supplémentaire. Ka’bandha, Cor’bax Utterblight
-                      et Samus le portent également : la même contrepartie
-                      s’applique si tu les alignes dans un Détachement de
-                      Seigneur des Batailles.
+                      Démoniaque porte ce Trait — l’inclure dans ton Détachement
+                      Principal te rapporte donc un Point de Réaction
+                      supplémentaire. Ka’bandha, Cor’bax Utterblight et Samus le
+                      portent également : la même contrepartie s’applique si tu
+                      les alignes dans un Détachement de Seigneur des Batailles.
                     </p>
                   </div>
                 </div>
@@ -7148,23 +7201,23 @@
                   <div class="timeline-details-inner">
                     <p>
                       Presque toutes les Unités génériques de cette Liste
-                      d’Armée portent le Trait
-                      «&nbsp;<strong>[Dominion Éthérique]</strong>&nbsp;». À la
-                      différence de l’<em>[Allégeance]</em> ou du Trait de
-                      Faction des Conclaves Skitarii (choisis Unité par Unité
-                      ou Détachement par Détachement), le
+                      d’Armée portent le Trait «&nbsp;<strong
+                        >[Dominion Éthérique]</strong
+                      >&nbsp;». À la différence de l’<em>[Allégeance]</em> ou du
+                      Trait de Faction des Conclaves Skitarii (choisis Unité par
+                      Unité ou Détachement par Détachement), le
                       <strong>Dominion Éthérique</strong> se choisit
                       <strong>une seule fois pour toute l’Armée</strong>, dans
                       un menu dédié des paramètres de la partie : toutes tes
-                      Unités qui portent ce Trait générique le remplacent
-                      alors par le même Dominion.
+                      Unités qui portent ce Trait générique le remplacent alors
+                      par le même Dominion.
                     </p>
                     <p>
                       Ka’bandha, Cor’bax Utterblight et Samus ont chacun leur
                       propre Dominion Éthérique <strong>déjà fixé</strong> sur
                       leur fiche (respectivement Ruine Rampante, Corruption
-                      Putride et Massacre Insouciant) : ce choix ne les
-                      concerne pas.
+                      Putride et Massacre Insouciant) : ce choix ne les concerne
+                      pas.
                     </p>
 
                     <div class="accordeon">
@@ -7200,8 +7253,8 @@
                                   Spéciale Ligne (X), la valeur de X dépendant
                                   de la marge de réussite. Une Unité entière
                                   peut tenter ce Test au début de chaque
-                                  Sous-phase de Victoire ; en cas d'échec,
-                                  elle subit les Périls du Warp.</span
+                                  Sous-phase de Victoire ; en cas d'échec, elle
+                                  subit les Périls du Warp.</span
                                 ></strong
                               >. Les figurines État-major/Champion peuvent
                               recevoir le Trait Psyker et jusqu’à deux
@@ -7234,13 +7287,13 @@
                                   Spéciale Ligne (X), la valeur de X dépendant
                                   de la marge de réussite. Une Unité entière
                                   peut tenter ce Test au début de chaque
-                                  Sous-phase de Victoire ; en cas d'échec,
-                                  elle subit les Périls du Warp.</span
+                                  Sous-phase de Victoire ; en cas d'échec, elle
+                                  subit les Périls du Warp.</span
                                 ></strong
                               >. Aucune Unité qui comprend une figurine de ce
-                              Dominion ne peut jamais être Ciblée ou Focus
-                              d’une Bénédiction ou d’une Malédiction Psychique
-                              — immunité utile contre les Armées à Psykers.
+                              Dominion ne peut jamais être Ciblée ou Focus d’une
+                              Bénédiction ou d’une Malédiction Psychique —
+                              immunité utile contre les Armées à Psykers.
                             </p>
                           </div>
                         </div>
@@ -7261,10 +7314,10 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Gagne Profanateurs, Insensible à la Douleur (6+)
-                              et le sous-type Lourd ; toute figurine qui a
-                              déjà Massif (X) gagne aussi Explose (5+). Les
-                              figurines État-major/Champion peuvent recevoir
-                              le Trait Psyker et la Discipline Biomancie.
+                              et le sous-type Lourd ; toute figurine qui a déjà
+                              Massif (X) gagne aussi Explose (5+). Les figurines
+                              État-major/Champion peuvent recevoir le Trait
+                              Psyker et la Discipline Biomancie.
                             </p>
                           </div>
                         </div>
@@ -7285,10 +7338,10 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Gagne Profanateurs ; toute figurine qui n’a pas
-                              déjà le sous-type Lourd gagne le sous-type
-                              Léger. Les figurines État-major/Champion peuvent
-                              recevoir le Trait Psyker et jusqu’à deux
-                              Disciplines parmi Télékinésie et Télépathie.
+                              déjà le sous-type Lourd gagne le sous-type Léger.
+                              Les figurines État-major/Champion peuvent recevoir
+                              le Trait Psyker et jusqu’à deux Disciplines parmi
+                              Télékinésie et Télépathie.
                             </p>
                           </div>
                         </div>
@@ -7309,11 +7362,11 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Gagne Profanateurs. Toute Unité qui charge une
-                              figurine de ce Dominion voit son Mouvement de
-                              Mise en Place réduit de D3 pouces (minimum 1).
-                              Les figurines État-major/Champion peuvent
-                              recevoir le Trait Psyker et jusqu’à deux
-                              Disciplines parmi Divination et Télépathie.
+                              figurine de ce Dominion voit son Mouvement de Mise
+                              en Place réduit de D3 pouces (minimum 1). Les
+                              figurines État-major/Champion peuvent recevoir le
+                              Trait Psyker et jusqu’à deux Disciplines parmi
+                              Divination et Télépathie.
                             </p>
                           </div>
                         </div>
@@ -7336,12 +7389,12 @@
                               Gagne Profanateurs et
                               <strong class="regle-tag" tabindex="0"
                                 >En Feu (1)<span class="tooltip"
-                                  >Chaque fois qu'une Figurine ayant cette
-                                  Règle Spéciale inflige au moins une Blessure
-                                  à une Unité ennemie en Mêlée, cette Unité
-                                  ennemie subit un malus de X à sa
-                                  Caractéristique de Commandement jusqu'à la
-                                  fin de la Bataille.</span
+                                  >Chaque fois qu'une Figurine ayant cette Règle
+                                  Spéciale inflige au moins une Blessure à une
+                                  Unité ennemie en Mêlée, cette Unité ennemie
+                                  subit un malus de X à sa Caractéristique de
+                                  Commandement jusqu'à la fin de la
+                                  Bataille.</span
                                 ></strong
                               >. Les figurines État-major/Champion peuvent
                               recevoir le Trait Psyker et la Discipline
@@ -7366,10 +7419,9 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Gagne Profanateurs et Haine (Maléfique, Psyker).
-                              Les figurines État-major/Champion peuvent
-                              recevoir le Trait Psyker et jusqu’à deux
-                              Disciplines parmi Télékinésie, Divination et
-                              Télépathie.
+                              Les figurines État-major/Champion peuvent recevoir
+                              le Trait Psyker et jusqu’à deux Disciplines parmi
+                              Télékinésie, Divination et Télépathie.
                             </p>
                           </div>
                         </div>
@@ -7393,9 +7445,10 @@
                               <strong class="regle-tag" tabindex="0"
                                 >Brise-blindage (4+)<span class="tooltip"
                                   >Quand cette Arme inflige une Blessure Non
-                                  Sauvegardée à une Figurine de Type Véhicule
-                                  ou Marcheur, un jet de dé égal ou supérieur à
-                                  X inflige un Point de Coque supplémentaire.</span
+                                  Sauvegardée à une Figurine de Type Véhicule ou
+                                  Marcheur, un jet de dé égal ou supérieur à X
+                                  inflige un Point de Coque
+                                  supplémentaire.</span
                                 ></strong
                               >.
                             </p>
@@ -7405,19 +7458,19 @@
                     </div>
 
                     <p class="conseil-debutant">
-                      <strong>Conseil pratique :</strong> ce choix est
-                      définitif pour toute l’Armée — pense à l’effet
-                      d’ensemble sur ta liste plutôt qu’Unité par Unité.
-                      Ruine Rampante/Corruption Putride/Sensation
-                      Extatique/Distorsion Informe/Dissolution Vorace
-                      ouvrent chacun l’accès à des Pouvoirs Psychiques pour
-                      tes figurines État-major/Champion (Souverain,
+                      <strong>Conseil pratique :</strong> ce choix est définitif
+                      pour toute l’Armée — pense à l’effet d’ensemble sur ta
+                      liste plutôt qu’Unité par Unité. Ruine Rampante/Corruption
+                      Putride/Sensation Extatique/Distorsion Informe/Dissolution
+                      Vorace ouvrent chacun l’accès à des Pouvoirs Psychiques
+                      pour tes figurines État-major/Champion (Souverain,
                       Hiérarque, Héraut) — les autres Dominions misent plutôt
                       sur un effet permanent (résistance, feu, brise-blindage…).
                     </p>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -7439,17 +7492,20 @@
             <span class="chevron" aria-hidden="true">❯</span>
           </button>
         </h2>
-        <div class="section-corps" id="construction-armee-legions-brisees-corps">
+        <div
+          class="section-corps"
+          id="construction-armee-legions-brisees-corps"
+        >
           <div class="encadre">
             <p>
-              Les Légions Brisées ne sont pas une Liste d’Armée à part :
-              c’est un supplément qui réutilise <strong>entièrement</strong>
+              Les Légions Brisées ne sont pas une Liste d’Armée à part : c’est
+              un supplément qui réutilise <strong>entièrement</strong>
               la Liste d’Armée Legiones Astartes (toutes les Unités déjà
-              présentes sur ce site restent utilisables telles quelles),
-              avec un Trait de Faction de remplacement et quelques règles
-              propres. Tout part toujours d’un
-              <strong>Détachement Principal de Croisade</strong>, auquel
-              il faut ajouter ensuite d’autres détachements.
+              présentes sur ce site restent utilisables telles quelles), avec un
+              Trait de Faction de remplacement et quelques règles propres. Tout
+              part toujours d’un
+              <strong>Détachement Principal de Croisade</strong>, auquel il faut
+              ajouter ensuite d’autres détachements.
             </p>
 
             <div class="timeline">
@@ -7478,8 +7534,8 @@
                         <strong>1 Quartier Général</strong> — ton grand chef ;
                       </li>
                       <li>
-                        <strong>3 États-Majors</strong> — les officiers de
-                        ligne ;
+                        <strong>3 États-Majors</strong> — les officiers de ligne
+                        ;
                       </li>
                       <li>
                         <strong>4 Troupes</strong> — tes escouades de base ;
@@ -7492,9 +7548,9 @@
                     <p>
                       Exemple : 1 Praetor (Quartier Général), 1 Centurion
                       (État-major) et 2 Escouades Tactiques (Troupes), les
-                      figurines de chaque Unité peintes dans les couleurs
-                      d’une des Légions choisies pour l’Armée (voir plus bas,
-                      « Le Trait Légions Brisées »).
+                      figurines de chaque Unité peintes dans les couleurs d’une
+                      des Légions choisies pour l’Armée (voir plus bas, « Le
+                      Trait Légions Brisées »).
                     </p>
                   </div>
                 </div>
@@ -7536,8 +7592,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (une Figurine qui en est dotée, par exemple) permet de
+                        sélectionner non pas 1, mais
+                        <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -7772,6 +7829,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force (Légions
+                          Brisées)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -7992,9 +8053,9 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> adapté au
-                              Sergent d’une Escouade Tactique — parfait pour
-                              un Détachement Légions Brisées mené par un
-                              vétéran de terrain plutôt qu’un officier.
+                              Sergent d’une Escouade Tactique — parfait pour un
+                              Détachement Légions Brisées mené par un vétéran de
+                              terrain plutôt qu’un officier.
                             </p>
                           </div>
                         </div>
@@ -8102,10 +8163,10 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> pratique pour
-                              aligner un second Praetor sans dépasser la
-                              limite de 1 Quartier Général. En contrepartie, tu
-                              perds le détachement auxiliaire que cet
-                              État-Major aurait débloqué.
+                              aligner un second Praetor sans dépasser la limite
+                              de 1 Quartier Général. En contrepartie, tu perds
+                              le détachement auxiliaire que cet État-Major
+                              aurait débloqué.
                             </p>
                           </div>
                         </div>
@@ -8161,43 +8222,40 @@
                   <div class="timeline-details-inner">
                     <p>
                       Choisir la Faction
-                      <strong
-                        class="regle-tag"
-                        tabindex="0"
+                      <strong class="regle-tag" tabindex="0"
                         >Légions Brisées<span class="tooltip"
                           >Trait de Faction qui remplace le Trait [Legiones
-                          Astartes], au même titre que les 18 Traits de
-                          Légion qu'il est possible de choisir à sa place.
-                          Une Armée qui compte au moins un Détachement à ce
-                          Trait doit choisir 2 ou 3 Légions parmi les
-                          dix-huit et les noter sur sa Feuille de
-                          Déploiement d'Armée.</span
+                          Astartes], au même titre que les 18 Traits de Légion
+                          qu'il est possible de choisir à sa place. Une Armée
+                          qui compte au moins un Détachement à ce Trait doit
+                          choisir 2 ou 3 Légions parmi les dix-huit et les noter
+                          sur sa Feuille de Déploiement d'Armée.</span
                         ></strong
                       >
                       remplace le Trait <em>[Legiones Astartes]</em> —
-                      normalement remplacé par un seul Trait de Légion — par
-                      ce Trait unique, commun à toute figurine issue d’un
+                      normalement remplacé par un seul Trait de Légion — par ce
+                      Trait unique, commun à toute figurine issue d’un
                       Détachement Légions Brisées. En contrepartie, tu dois
                       choisir <strong>2 ou 3 Légions</strong> pour toute
                       l’Armée, dans le nouveau menu
-                      <strong>« Légions choisies »</strong> des paramètres de
-                      la partie (à la place du menu « Légion » unique de
-                      Legio Astartes).
+                      <strong>« Légions choisies »</strong> des paramètres de la
+                      partie (à la place du menu « Légion » unique de Legio
+                      Astartes).
                     </p>
                     <p>
-                      Toute Unité réservée à une Légion (par exemple Hibou
-                      Khan, réservé aux White Scars) devient sélectionnable
-                      dès que sa Légion figure parmi celles choisies — les
-                      Unités génériques, elles, restent disponibles quelles
-                      que soient les Légions choisies, comme pour une Armée
-                      Legio Astartes classique.
+                      Toute Unité réservée à une Légion (par exemple Hibou Khan,
+                      réservé aux White Scars) devient sélectionnable dès que sa
+                      Légion figure parmi celles choisies — les Unités
+                      génériques, elles, restent disponibles quelles que soient
+                      les Légions choisies, comme pour une Armée Legio Astartes
+                      classique.
                     </p>
                     <p class="conseil-debutant">
-                      <strong>Conseil pratique :</strong> peins les figurines
-                      de chaque Unité dans les couleurs d’une des Légions
-                      choisies, pour représenter visuellement d’où viennent
-                      tes guerriers dispersés — c’est une recommandation du
-                      livre, pas une règle stricte.
+                      <strong>Conseil pratique :</strong> peins les figurines de
+                      chaque Unité dans les couleurs d’une des Légions choisies,
+                      pour représenter visuellement d’où viennent tes guerriers
+                      dispersés — c’est une recommandation du livre, pas une
+                      règle stricte.
                     </p>
                   </div>
                 </div>
@@ -8218,27 +8276,26 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Une figurine ayant le Trait Légions Brisées peut
-                      recevoir des options d’équipement tirées de la page
-                      d’Armurerie de n’importe laquelle des Légions choisies
-                      pour l’Armée (mais jamais d’Avantage Principal) — une
-                      seule Légion par figurine.
+                      Une figurine ayant le Trait Légions Brisées peut recevoir
+                      des options d’équipement tirées de la page d’Armurerie de
+                      n’importe laquelle des Légions choisies pour l’Armée (mais
+                      jamais d’Avantage Principal) — une seule Légion par
+                      figurine.
                     </p>
                     <div class="encadre">
                       <p>
-                        <strong>Câblé sur ce site :</strong> toutes les
-                        options d’Arsenal de Légion déjà transcrites ici
-                        (Artifice de Nocturne des Salamanders, Gantelet
-                        Solarite des Imperial Fists, etc.) deviennent
-                        automatiquement disponibles sur chaque Unité dès que
-                        la Légion correspondante figure parmi celles
-                        choisies dans « Légions choisies » — inutile de
-                        passer par le sélecteur « Légion » classique.
+                        <strong>Câblé sur ce site :</strong> toutes les options
+                        d’Arsenal de Légion déjà transcrites ici (Artifice de
+                        Nocturne des Salamanders, Gantelet Solarite des Imperial
+                        Fists, etc.) deviennent automatiquement disponibles sur
+                        chaque Unité dès que la Légion correspondante figure
+                        parmi celles choisies dans « Légions choisies » —
+                        inutile de passer par le sélecteur « Légion » classique.
                         Simplification assumée : ce site ne verrouille pas
                         chaque figurine à une seule Légion Armurerie parmi
                         celles choisies (le livre le fait), donc une même
-                        figurine peut piocher librement dans les Armureries
-                        de toutes les Légions cochées.
+                        figurine peut piocher librement dans les Armureries de
+                        toutes les Légions cochées.
                       </p>
                     </div>
                   </div>
@@ -8260,10 +8317,10 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Cinq personnages nommés peuvent rejoindre un
-                      Détachement Légions Brisées, à condition que leur
-                      Légion figure parmi celles choisies pour l’Armée. Leur
-                      Trait d’Allégeance reste inchangé.
+                      Cinq personnages nommés peuvent rejoindre un Détachement
+                      Légions Brisées, à condition que leur Légion figure parmi
+                      celles choisies pour l’Armée. Leur Trait d’Allégeance
+                      reste inchangé.
                     </p>
                     <ul>
                       <li><strong>Hibou Khan</strong> (White Scars)</li>
@@ -8276,8 +8333,8 @@
                     </ul>
                     <p class="conseil-debutant">
                       <strong>Conseil pratique :</strong> pense à ces cinq
-                      personnages en premier pour choisir tes 2 ou 3 Légions
-                      si tu veux construire une Armée autour d’un commandant
+                      personnages en premier pour choisir tes 2 ou 3 Légions si
+                      tu veux construire une Armée autour d’un commandant
                       historique précis.
                     </p>
                   </div>
@@ -8300,34 +8357,32 @@
                   <div class="timeline-details-inner">
                     <p>
                       Un Détachement Légions Brisées doit choisir un Rite de
-                      Guerre Légions Brisées ; ce document n’en propose
-                      qu’un seul, applicable d’office. Toute figurine ayant
-                      le Trait Légions Brisées (sauf de Type Véhicule) gagne
-                      la Règle Spéciale
+                      Guerre Légions Brisées ; ce document n’en propose qu’un
+                      seul, applicable d’office. Toute figurine ayant le Trait
+                      Légions Brisées (sauf de Type Véhicule) gagne la Règle
+                      Spéciale
                       <strong class="regle-tag" tabindex="0"
                         >Tactiques Mutables<span class="tooltip"
                           >Tactica de Légion du Rite de Guerre Les Légions
-                          Brisées. Tout Modèle ayant le Trait Légions
-                          Brisées, sauf de Type Véhicule, gagne un bonus
-                          pour chacune des Légions choisies pour les
-                          Détachements Légions Brisées de l'Armée. Si
-                          seulement deux Légions ont été choisies, ces
-                          Modèles gagnent également la Règle Spéciale Liés
-                          par le Sang.</span
+                          Brisées. Tout Modèle ayant le Trait Légions Brisées,
+                          sauf de Type Véhicule, gagne un bonus pour chacune des
+                          Légions choisies pour les Détachements Légions Brisées
+                          de l'Armée. Si seulement deux Légions ont été
+                          choisies, ces Modèles gagnent également la Règle
+                          Spéciale Liés par le Sang.</span
                         ></strong
                       >
-                      : un bonus pour chaque Légion choisie (détail
-                      ci-dessous), plus la Règle Spéciale
+                      : un bonus pour chaque Légion choisie (détail ci-dessous),
+                      plus la Règle Spéciale
                       <strong class="regle-tag" tabindex="0"
                         >Liés par le Sang<span class="tooltip"
-                          >Si seulement deux Légions ont été choisies pour
-                          les Détachements Légions Brisées de l'Armée, tout
-                          Modèle sujet à la Règle Spéciale Tactiques
-                          Mutables modifie ses Caractéristiques de
-                          Commandement et de Sang-froid de +1 au deuxième et
-                          au troisième Tour de Bataille, et de +2 à partir
-                          du quatrième Tour de Bataille et de tout Tour de
-                          Bataille suivant.</span
+                          >Si seulement deux Légions ont été choisies pour les
+                          Détachements Légions Brisées de l'Armée, tout Modèle
+                          sujet à la Règle Spéciale Tactiques Mutables modifie
+                          ses Caractéristiques de Commandement et de Sang-froid
+                          de +1 au deuxième et au troisième Tour de Bataille, et
+                          de +2 à partir du quatrième Tour de Bataille et de
+                          tout Tour de Bataille suivant.</span
                         ></strong
                       >
                       si seulement 2 Légions (et non 3) ont été choisies.
@@ -8335,11 +8390,11 @@
                     <div class="encadre">
                       <p>
                         <strong>Non simulé sur ce site :</strong> comme les
-                        autres bonus de combat conditionnels (Rites de
-                        Guerre, Tactica de Légion…), les 18 bonus ci-dessous
-                        ne sont pas appliqués automatiquement sur les fiches
-                        d’Unité — à appliquer manuellement en partie, cette
-                        page ne sert que de référence.
+                        autres bonus de combat conditionnels (Rites de Guerre,
+                        Tactica de Légion…), les 18 bonus ci-dessous ne sont pas
+                        appliqués automatiquement sur les fiches d’Unité — à
+                        appliquer manuellement en partie, cette page ne sert que
+                        de référence.
                       </p>
                     </div>
 
@@ -8361,13 +8416,13 @@
                               N’est affecté par une Règle Spéciale
                               <strong class="regle-tag" tabindex="0"
                                 >Peur (X)<span class="tooltip"
-                                  >Si un Modèle avec cette Règle Spéciale
-                                  doit faire un Test de Commandement, il
-                                  subit un malus de X.</span
+                                  >Si un Modèle avec cette Règle Spéciale doit
+                                  faire un Test de Commandement, il subit un
+                                  malus de X.</span
                                 ></strong
                               >
-                              que dans un rayon de 6 pouces (au lieu de 12)
-                              d’un Modèle qui l’a.
+                              que dans un rayon de 6 pouces (au lieu de 12) d’un
+                              Modèle qui l’a.
                             </p>
                           </div>
                         </div>
@@ -8407,8 +8462,8 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Un résultat de 9 ou moins à un Test de
-                              Commandement en Sous-phase de Moral est
-                              toujours un succès.
+                              Commandement en Sous-phase de Moral est toujours
+                              un succès.
                             </p>
                           </div>
                         </div>
@@ -8427,8 +8482,8 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              +1 à l’Initiative pendant un Mouvement de Mise
-                              en Place ou une Ruée.
+                              +1 à l’Initiative pendant un Mouvement de Mise en
+                              Place ou une Ruée.
                             </p>
                           </div>
                         </div>
@@ -8472,15 +8527,13 @@
                                 >Attaques de Volée<span class="tooltip"
                                   >Une Arme de Tir avec le Trait Assaut peut
                                   faire une Attaque de Volée : un nombre
-                                  d'Attaques supplémentaires égal au nombre
-                                  de Figurines de l'Unité (jusqu'à un
-                                  maximum), au prix d'une Sauvegarde
-                                  d'Armure/Invulnérable non modifiée pour la
-                                  Cible.</span
+                                  d'Attaques supplémentaires égal au nombre de
+                                  Figurines de l'Unité (jusqu'à un maximum), au
+                                  prix d'une Sauvegarde d'Armure/Invulnérable
+                                  non modifiée pour la Cible.</span
                                 ></strong
                               >
-                              avec un bolter comme s’il avait le Trait
-                              Assaut.
+                              avec un bolter comme s’il avait le Trait Assaut.
                             </p>
                           </div>
                         </div>
@@ -8503,15 +8556,15 @@
                               <strong class="regle-tag" tabindex="0"
                                 >Point de Résolution de Combat<span
                                   class="tooltip"
-                                  >Total qui détermine le vainqueur d'un
-                                  Combat à la Sous-phase de Résolution :
-                                  chaque camp compare ses Points de
-                                  Résolution de Combat, le perdant subissant
-                                  généralement un Statut Tactique.</span
+                                  >Total qui détermine le vainqueur d'un Combat
+                                  à la Sous-phase de Résolution : chaque camp
+                                  compare ses Points de Résolution de Combat, le
+                                  perdant subissant généralement un Statut
+                                  Tactique.</span
                                 ></strong
                               >
-                              si l’Unité fait Retirer comme Perte au moins
-                              un Modèle ennemi.
+                              si l’Unité fait Retirer comme Perte au moins un
+                              Modèle ennemi.
                             </p>
                           </div>
                         </div>
@@ -8530,9 +8583,9 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              +1 au Jet de Blessure d’une Attaque de Mêlée si
-                              un Modèle de la même Unité a déjà été Retiré
-                              comme Perte pendant cette Phase.
+                              +1 au Jet de Blessure d’une Attaque de Mêlée si un
+                              Modèle de la même Unité a déjà été Retiré comme
+                              Perte pendant cette Phase.
                             </p>
                           </div>
                         </div>
@@ -8555,10 +8608,10 @@
                               <strong class="regle-tag" tabindex="0"
                                 >Insensible à la Douleur (4+)<span
                                   class="tooltip"
-                                  >Chaque fois qu'une Figurine avec cette
-                                  Règle Spéciale devrait perdre un Point de
-                                  Vie, sur le résultat indiqué elle l'ignore
-                                  et ne perd aucun Point de Vie.</span
+                                  >Chaque fois qu'une Figurine avec cette Règle
+                                  Spéciale devrait perdre un Point de Vie, sur
+                                  le résultat indiqué elle l'ignore et ne perd
+                                  aucun Point de Vie.</span
                                 ></strong
                               >
                               contre les Attaques de Volée.
@@ -8580,8 +8633,7 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              +2 pouces à la distance du Mouvement de
-                              Poursuite.
+                              +2 pouces à la distance du Mouvement de Poursuite.
                             </p>
                           </div>
                         </div>
@@ -8600,16 +8652,16 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Les Attaques de Tir faites contre l’Unité dans
-                              le cadre d’une Réaction sont faites en
+                              Les Attaques de Tir faites contre l’Unité dans le
+                              cadre d’une Réaction sont faites en
                               <strong class="regle-tag" tabindex="0"
                                 >Tirs au Jugé<span class="tooltip"
-                                  >Une Attaque de Tir faite en Tirs au Jugé
-                                  ne peut utiliser que la Capacité de Tir de
-                                  base de la Figurine, sans aucun
-                                  modificateur, et ne peut pas bénéficier de
-                                  Règles Spéciales qui modifieraient le
-                                  Nombre Cible du Jet pour Toucher.</span
+                                  >Une Attaque de Tir faite en Tirs au Jugé ne
+                                  peut utiliser que la Capacité de Tir de base
+                                  de la Figurine, sans aucun modificateur, et ne
+                                  peut pas bénéficier de Règles Spéciales qui
+                                  modifieraient le Nombre Cible du Jet pour
+                                  Toucher.</span
                                 ></strong
                               >.
                             </p>
@@ -8631,8 +8683,8 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Ignore le Terrain Difficile et le Terrain
-                              Dangereux ; réussit automatiquement tout Test
-                              de Terrain Dangereux.
+                              Dangereux ; réussit automatiquement tout Test de
+                              Terrain Dangereux.
                             </p>
                           </div>
                         </div>
@@ -8651,8 +8703,8 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Une Unité ennemie qui Se Replie ne peut pas
-                              être Poursuivie.
+                              Une Unité ennemie qui Se Replie ne peut pas être
+                              Poursuivie.
                             </p>
                           </div>
                         </div>
@@ -8691,8 +8743,8 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Un dé supplémentaire au Jet de Charge, en
-                              écartant les deux plus faibles résultats.
+                              Un dé supplémentaire au Jet de Charge, en écartant
+                              les deux plus faibles résultats.
                             </p>
                           </div>
                         </div>
@@ -8738,11 +8790,10 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Gagne Shrouded (6+) — distinct de la
-                              Dissimulation liée aux Jets de Mitigation de
-                              Dégâts déjà établie sur ce site — s’il n’est
-                              pas resté Stationnaire en Sous-phase de
-                              Mouvement.
+                              Gagne Shrouded (6+) — distinct de la Dissimulation
+                              liée aux Jets de Mitigation de Dégâts déjà établie
+                              sur ce site — s’il n’est pas resté Stationnaire en
+                              Sous-phase de Mouvement.
                             </p>
                           </div>
                         </div>
@@ -8764,10 +8815,9 @@
                               Ses Attaques de Volée gagnent
                               <strong class="regle-tag" tabindex="0"
                                 >Précision (6+)<span class="tooltip"
-                                  >Sur un résultat de 6+ à un Jet pour
-                                  Toucher, le Joueur en Contrôle peut choisir
-                                  la Figurine ennemie visée dans l'Unité
-                                  Cible.</span
+                                  >Sur un résultat de 6+ à un Jet pour Toucher,
+                                  le Joueur en Contrôle peut choisir la Figurine
+                                  ennemie visée dans l'Unité Cible.</span
                                 ></strong
                               >.
                             </p>
@@ -8777,47 +8827,46 @@
                     </div>
 
                     <p>
-                      Le Rite de Guerre accorde aussi une Réaction Avancée
-                      et un Gambit, disponibles à toute figurine ayant le
-                      Trait Légions Brisées :
+                      Le Rite de Guerre accorde aussi une Réaction Avancée et un
+                      Gambit, disponibles à toute figurine ayant le Trait
+                      Légions Brisées :
                     </p>
                     <ul>
                       <li>
                         <strong class="regle-tag" tabindex="0"
                           >Faire Payer le Prix<span class="tooltip"
-                            >Réaction Avancée. Une fois par Bataille, quand
-                            une Unité qui ne comprend que des Modèles ayant
-                            le Trait Légions Brisées est Ciblée par une
-                            Charge, dépense 1 à 3 Points d'Attribution de
-                            Réactions pour lui donner +1 en Endurance
-                            (1 Point), et pour donner en plus +1 en
-                            Attaques (2 Points) ou +1 en Attaques et Force
-                            (3 Points) aux Modèles qui l'attaquent, jusqu'à
-                            la fin de la Phase.</span
+                            >Réaction Avancée. Une fois par Bataille, quand une
+                            Unité qui ne comprend que des Modèles ayant le Trait
+                            Légions Brisées est Ciblée par une Charge, dépense 1
+                            à 3 Points d'Attribution de Réactions pour lui
+                            donner +1 en Endurance (1 Point), et pour donner en
+                            plus +1 en Attaques (2 Points) ou +1 en Attaques et
+                            Force (3 Points) aux Modèles qui l'attaquent,
+                            jusqu'à la fin de la Phase.</span
                           ></strong
                         >
                         (Réaction Avancée) — améliore l’Unité Chargée en
-                        dépensant 1, 2 ou 3 Points d’Attribution de
-                        Réactions.
+                        dépensant 1, 2 ou 3 Points d’Attribution de Réactions.
                       </li>
                       <li>
                         <strong class="regle-tag" tabindex="0"
                           >Frappe Vindicative<span class="tooltip"
                             >Gambit sélectionnable si les Points de Vie du
                             Modèle sont sous leur valeur de départ : au lieu
-                            d'un Jet de Concentration, fait une Attaque de
-                            Mêlée à +1 pour Toucher/Blesser ; si elle ne
-                            détruit pas l'ennemi, le Modèle est Retiré comme
-                            Perte à la place.</span
+                            d'un Jet de Concentration, fait une Attaque de Mêlée
+                            à +1 pour Toucher/Blesser ; si elle ne détruit pas
+                            l'ennemi, le Modèle est Retiré comme Perte à la
+                            place.</span
                           ></strong
                         >
-                        (Gambit) — un ultime coup de couteau si les Points
-                        de Vie du Modèle sont déjà entamés.
+                        (Gambit) — un ultime coup de couteau si les Points de
+                        Vie du Modèle sont déjà entamés.
                       </li>
                     </ul>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -8842,15 +8891,14 @@
         <div class="section-corps" id="construction-armee-blackshields-corps">
           <div class="encadre">
             <p>
-              Les Blackshields ne sont pas une Liste d’Armée à part : c’est
-              un supplément qui réutilise <strong>entièrement</strong> la
-              Liste d’Armée Legiones Astartes (toutes les Unités déjà
-              présentes sur ce site restent utilisables telles quelles, à
-              l’exception des Unités propres à une seule Légion), avec un
-              Trait de Faction de remplacement et quelques règles propres.
-              Tout part toujours d’un
-              <strong>Détachement Principal de Croisade</strong>, auquel il
-              faut ajouter ensuite d’autres détachements.
+              Les Blackshields ne sont pas une Liste d’Armée à part : c’est un
+              supplément qui réutilise <strong>entièrement</strong> la Liste
+              d’Armée Legiones Astartes (toutes les Unités déjà présentes sur ce
+              site restent utilisables telles quelles, à l’exception des Unités
+              propres à une seule Légion), avec un Trait de Faction de
+              remplacement et quelques règles propres. Tout part toujours d’un
+              <strong>Détachement Principal de Croisade</strong>, auquel il faut
+              ajouter ensuite d’autres détachements.
             </p>
 
             <div class="timeline">
@@ -8879,8 +8927,8 @@
                         <strong>1 Quartier Général</strong> — ton grand chef ;
                       </li>
                       <li>
-                        <strong>3 États-Majors</strong> — les officiers de
-                        ligne ;
+                        <strong>3 États-Majors</strong> — les officiers de ligne
+                        ;
                       </li>
                       <li>
                         <strong>4 Troupes</strong> — tes escouades de base ;
@@ -8935,8 +8983,9 @@
                             concernée, au lieu d'un seul.</span
                           ></strong
                         >
-                        (une Figurine qui en est dotée, par exemple) permet de sélectionner non
-                        pas 1, mais <strong>2 détachements auxiliaires</strong>
+                        (une Figurine qui en est dotée, par exemple) permet de
+                        sélectionner non pas 1, mais
+                        <strong>2 détachements auxiliaires</strong>
                         pour l’État-Major concerné.
                       </li>
                       <li>
@@ -9171,6 +9220,10 @@
 
                     <div class="table-scroll">
                       <table>
+                        <caption class="sr-only">
+                          Rôles tactiques de l’Organigramme de Force
+                          (Blackshields)
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col" class="gauche">Rôle tactique</th>
@@ -9502,10 +9555,10 @@
                             </p>
                             <p class="conseil-debutant">
                               <strong>Conseil pratique :</strong> pratique pour
-                              aligner un second officier sans dépasser la
-                              limite de 1 Quartier Général — en contrepartie, tu
-                              perds le détachement auxiliaire que cet
-                              État-Major aurait débloqué.
+                              aligner un second officier sans dépasser la limite
+                              de 1 Quartier Général — en contrepartie, tu perds
+                              le détachement auxiliaire que cet État-Major
+                              aurait débloqué.
                             </p>
                           </div>
                         </div>
@@ -9565,12 +9618,12 @@
                         >Blackshields<span class="tooltip"
                           >Trait de Faction qui remplace le Trait [Legiones
                           Astartes] sur toute Unité sélectionnée pour un
-                          Détachement qui porte ce Trait. Seules les Unités
-                          de la Liste d'Armée Legiones Astartes qui n'ont pas
-                          de variante précise du Trait [Legiones Astartes]
-                          peuvent être sélectionnées pour un tel Détachement,
-                          qui ne peut inclure aucun Modèle portant un autre
-                          Trait de Légion.</span
+                          Détachement qui porte ce Trait. Seules les Unités de
+                          la Liste d'Armée Legiones Astartes qui n'ont pas de
+                          variante précise du Trait [Legiones Astartes] peuvent
+                          être sélectionnées pour un tel Détachement, qui ne
+                          peut inclure aucun Modèle portant un autre Trait de
+                          Légion.</span
                         ></strong
                       >
                       remplace le Trait <em>[Legiones Astartes]</em> par ce
@@ -9579,22 +9632,22 @@
                       contrairement à Legio Astartes ou aux Légions Brisées.
                     </p>
                     <p>
-                      Contrepartie : <strong>aucune Unité propre à une
-                      seule Légion</strong> (celles qui portent un Trait de
-                      Légion fixe, ex. Escouade d’Attaque Ravageuse des Sons
-                      of Horus) n’est sélectionnable pour un Détachement
-                      Blackshields. Seules les Unités génériques, sans
-                      Légion imposée, restent disponibles — exactement comme
-                      pour les Légions Brisées, mais sans le choix de 2 ou 3
-                      Légions à faire.
+                      Contrepartie :
+                      <strong>aucune Unité propre à une seule Légion</strong>
+                      (celles qui portent un Trait de Légion fixe, ex. Escouade
+                      d’Attaque Ravageuse des Sons of Horus) n’est
+                      sélectionnable pour un Détachement Blackshields. Seules
+                      les Unités génériques, sans Légion imposée, restent
+                      disponibles — exactement comme pour les Légions Brisées,
+                      mais sans le choix de 2 ou 3 Légions à faire.
                     </p>
                     <p>
                       À la différence de la Legio Custodes, de l’Anathema
                       Psykana ou des Démons de la Tempête de la Ruine, les
-                      Blackshields n’imposent <strong>aucune Allégeance</strong> :
-                      le sélecteur d’Allégeance des paramètres de la partie
-                      reste entièrement libre — Loyaliste ou Renégat, au
-                      choix.
+                      Blackshields n’imposent
+                      <strong>aucune Allégeance</strong> : le sélecteur
+                      d’Allégeance des paramètres de la partie reste entièrement
+                      libre — Loyaliste ou Renégat, au choix.
                     </p>
                   </div>
                 </div>
@@ -9616,13 +9669,13 @@
                   <div class="timeline-details-inner">
                     <div class="encadre">
                       <p>
-                        Si le Détachement Principal de ton Armée est issu de
-                        la Liste d’Armée Legiones Astartes — y compris un
+                        Si le Détachement Principal de ton Armée est issu de la
+                        Liste d’Armée Legiones Astartes — y compris un
                         Détachement Principal Blackshields — tu gagnes un
                         <strong>Point de Réaction bonus</strong> si ce
-                        Détachement, ou un Détachement de Seigneur de Guerre
-                        de la même Liste d’Armée, inclut une Figurine ayant
-                        le Trait
+                        Détachement, ou un Détachement de Seigneur de Guerre de
+                        la même Liste d’Armée, inclut une Figurine ayant le
+                        Trait
                         <strong class="regle-tag" tabindex="0"
                           >Maître de la Légion<span class="tooltip"
                             >Donne une réaction supplémentaire.</span
@@ -9631,8 +9684,8 @@
                       </p>
                     </div>
                     <p class="conseil-debutant">
-                      <strong>Conseil pratique :</strong> Endryd Haar porte
-                      ce Trait — l’inclure dans ton Détachement Principal te
+                      <strong>Conseil pratique :</strong> Endryd Haar porte ce
+                      Trait — l’inclure dans ton Détachement Principal te
                       rapporte donc un Point de Réaction supplémentaire.
                     </p>
                   </div>
@@ -9654,34 +9707,32 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      Toute figurine ayant le Trait Blackshields (sauf de
-                      Type Véhicule) gagne la Tactica
+                      Toute figurine ayant le Trait Blackshields (sauf de Type
+                      Véhicule) gagne la Tactica
                       <strong class="regle-tag" tabindex="0"
                         >Fils Bâtards du Destin<span class="tooltip"
                           >Tactica Blackshields. Tout Modèle ayant le Trait
-                          Blackshields, sauf de Type Véhicule, qui est
-                          affecté par le Statut Tactique Fixée, Neutralisée
-                          ou Sonnée gagne un bonus de +1 à ses
-                          Caractéristiques d'Endurance et de Force ; s'il est
-                          affecté par plus d'un de ces Statuts Tactiques à la
-                          fois, ce bonus passe à +2.</span
+                          Blackshields, sauf de Type Véhicule, qui est affecté
+                          par le Statut Tactique Fixée, Neutralisée ou Sonnée
+                          gagne un bonus de +1 à ses Caractéristiques
+                          d'Endurance et de Force ; s'il est affecté par plus
+                          d'un de ces Statuts Tactiques à la fois, ce bonus
+                          passe à +2.</span
                         ></strong
                       >
                       : +1 en Endurance et Force (voire +2) quand elle est
-                      Fixée, Neutralisée ou Sonnée. Elle a aussi accès au
-                      Gambit
+                      Fixée, Neutralisée ou Sonnée. Elle a aussi accès au Gambit
                       <strong class="regle-tag" tabindex="0"
                         >Redevable à Personne<span class="tooltip"
-                          >Gambit du Rite de Guerre Blackshields,
-                          sélectionnable à la place de tout autre Gambit
-                          disponible, uniquement si le Modèle adverse engagé
-                          dans le même Défi a le Trait Unique ou le Type
-                          Parangon. Si ce Modèle est Retiré comme Perte
-                          durant l'Étape de Frappe alors que ce Gambit était
-                          sélectionné pour lui, le Modèle adverse subit
-                          automatiquement D3 blessures à la fin de l'Étape de
-                          Gloire qui suit, avec les Caractéristiques de
-                          Dégâts et de Pénétration d'Armure de l'Arme qu'il
+                          >Gambit du Rite de Guerre Blackshields, sélectionnable
+                          à la place de tout autre Gambit disponible, uniquement
+                          si le Modèle adverse engagé dans le même Défi a le
+                          Trait Unique ou le Type Parangon. Si ce Modèle est
+                          Retiré comme Perte durant l'Étape de Frappe alors que
+                          ce Gambit était sélectionné pour lui, le Modèle
+                          adverse subit automatiquement D3 blessures à la fin de
+                          l'Étape de Gloire qui suit, avec les Caractéristiques
+                          de Dégâts et de Pénétration d'Armure de l'Arme qu'il
                           portait.</span
                         ></strong
                       >
@@ -9711,49 +9762,48 @@
                       Une Armée qui compte des Détachements Blackshields peut
                       sélectionner des <strong>Serments du Moment</strong>
                       pour chacun d’eux — des lots de règles qui ajoutent des
-                      options et Règles Spéciales aux Unités du Détachement.
-                      Le nombre de Serments dépend du type de Détachement :
+                      options et Règles Spéciales aux Unités du Détachement. Le
+                      nombre de Serments dépend du type de Détachement :
                       <strong>2 pour un Détachement Principal</strong>,
                       <strong>1 pour un Détachement Allié</strong>. Tout
-                      Détachement Auxiliaire ou d’Apex rattaché à un
-                      Détachement Principal ou Allié Blackshields doit
-                      utiliser les <strong>mêmes Serments</strong> que lui —
-                      les autres types de Détachement n’en ont pas.
+                      Détachement Auxiliaire ou d’Apex rattaché à un Détachement
+                      Principal ou Allié Blackshields doit utiliser les
+                      <strong>mêmes Serments</strong> que lui — les autres types
+                      de Détachement n’en ont pas.
                     </p>
                     <p>
                       Les Serments se cochent directement sur la carte du
-                      Détachement Principal/Allié concerné (section
-                      « Organigramme de force » plus bas), avec un menu
-                      « Rattaché à » sur chaque Détachement Auxiliaire/
-                      d’Apex pour choisir de qui il hérite les siens. Deux
-                      Serments (Panoplie d’Antan, L’Hélice Brisée) affichent
-                      un sous-menu supplémentaire une fois cochés (Légion
-                      choisie, Clone ou Aberrant).
+                      Détachement Principal/Allié concerné (section «
+                      Organigramme de force » plus bas), avec un menu « Rattaché
+                      à » sur chaque Détachement Auxiliaire/ d’Apex pour choisir
+                      de qui il hérite les siens. Deux Serments (Panoplie
+                      d’Antan, L’Hélice Brisée) affichent un sous-menu
+                      supplémentaire une fois cochés (Légion choisie, Clone ou
+                      Aberrant).
                     </p>
                     <div class="encadre">
                       <p>
                         <strong>Câblé sur ce site :</strong> les Règles
                         Spéciales/Traits accordés, la transformation Ligne
-                        (X)/Avant-garde (X) → Piller les Morts/Héroïsme
-                        Funeste, le remplacement Infanterie → Automate (La
-                        Chair est Faible), les Cases restructurées (Troupes
-                        → Élite/État-major, blocage Quartier Général/
-                        État-major de Dans la Disgrâce, Tous sont Égaux et
-                        son Avantage Petit Seigneur de Guerre), les bonus/
-                        malus de Caractéristiques de L’Hélice Brisée et les
-                        armes débloquées par La Souillure Xenos/Les Armes du
-                        Désespoir sont tous appliqués automatiquement dès
-                        que le Serment est coché. Restent non simulées (mise
-                        à jour manuelle en partie, comme n’importe quel Rite
-                        de Guerre) : les règles qui n’ont d’effet qu’en
-                        cours de Bataille sans rien changer à la fiche
-                        (Seule la Mort Achève le Devoir, Une Éternité de
-                        Guerre, le score de Victoire de Faucheurs de
-                        Vies/Piller les Morts…), et l’ordre d’application
-                        entre plusieurs Serments qui toucheraient la même
-                        Règle Spéciale (ce site les rend simplement
-                        incompatibles entre eux plutôt que de proposer un
-                        ordre au choix).
+                        (X)/Avant-garde (X) → Piller les Morts/Héroïsme Funeste,
+                        le remplacement Infanterie → Automate (La Chair est
+                        Faible), les Cases restructurées (Troupes →
+                        Élite/État-major, blocage Quartier Général/ État-major
+                        de Dans la Disgrâce, Tous sont Égaux et son Avantage
+                        Petit Seigneur de Guerre), les bonus/ malus de
+                        Caractéristiques de L’Hélice Brisée et les armes
+                        débloquées par La Souillure Xenos/Les Armes du Désespoir
+                        sont tous appliqués automatiquement dès que le Serment
+                        est coché. Restent non simulées (mise à jour manuelle en
+                        partie, comme n’importe quel Rite de Guerre) : les
+                        règles qui n’ont d’effet qu’en cours de Bataille sans
+                        rien changer à la fiche (Seule la Mort Achève le Devoir,
+                        Une Éternité de Guerre, le score de Victoire de
+                        Faucheurs de Vies/Piller les Morts…), et l’ordre
+                        d’application entre plusieurs Serments qui toucheraient
+                        la même Règle Spéciale (ce site les rend simplement
+                        incompatibles entre eux plutôt que de proposer un ordre
+                        au choix).
                       </p>
                     </div>
 
@@ -9772,14 +9822,13 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Contre une Armée adverse Legiones Astartes,
-                              gagne Haine (Legiones Astartes) — étendue à +1
-                              à tous les Jets pour Toucher en Combat si le
-                              Détachement Principal adverse l’est aussi. En
-                              contrepartie, toute Unité qui commence la
-                              Sous-phase d’Assaut à moins de 12 pouces d’un
-                              ennemi Legiones Astartes doit le charger si
-                              elle le peut.
+                              Contre une Armée adverse Legiones Astartes, gagne
+                              Haine (Legiones Astartes) — étendue à +1 à tous
+                              les Jets pour Toucher en Combat si le Détachement
+                              Principal adverse l’est aussi. En contrepartie,
+                              toute Unité qui commence la Sous-phase d’Assaut à
+                              moins de 12 pouces d’un ennemi Legiones Astartes
+                              doit le charger si elle le peut.
                             </p>
                           </div>
                         </div>
@@ -9820,9 +9869,9 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              En Phase de Fin, une Unité En Déroute peut se
-                              voir retirer ce Statut Tactique, au prix de
-                              1D3+1 blessures (Dégâts 1, PA -).
+                              En Phase de Fin, une Unité En Déroute peut se voir
+                              retirer ce Statut Tactique, au prix de 1D3+1
+                              blessures (Dégâts 1, PA -).
                             </p>
                           </div>
                         </div>
@@ -9847,17 +9896,16 @@
                                 >Piller les Morts (X)<span class="tooltip"
                                   >Accorde à une Unité qui gagne un Combat
                                   l'option Pillage et Saccage lors des
-                                  Répercussions : si toutes les Unités
-                                  ennemies du Combat ont été détruites, Se
-                                  Replient ou se sont Désengagées, une seule
-                                  Unité par Combat peut marquer X Points de
-                                  Victoire au lieu de bouger/attaquer, puis
-                                  gagne le Statut Tactique Fixée.</span
+                                  Répercussions : si toutes les Unités ennemies
+                                  du Combat ont été détruites, Se Replient ou se
+                                  sont Désengagées, une seule Unité par Combat
+                                  peut marquer X Points de Victoire au lieu de
+                                  bouger/attaquer, puis gagne le Statut Tactique
+                                  Fixée.</span
                                 ></strong
                               >
-                              ; ne peut plus Contrôler ni Contester
-                              d’Objectif. Incompatible avec Faucheurs de
-                              Vies.
+                              ; ne peut plus Contrôler ni Contester d’Objectif.
+                              Incompatible avec Faucheurs de Vies.
                             </p>
                           </div>
                         </div>
@@ -9876,12 +9924,12 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Le Mouvement de Repli peut se faire dans
-                              n’importe quelle direction (même au contact de
-                              l’ennemi, ce qui retire le Statut En Déroute) ;
-                              mais hors Combat en fin de Tour (à partir du
-                              Tour 2), un test de Sang-froid raté impose le
-                              Statut En Déroute.
+                              Le Mouvement de Repli peut se faire dans n’importe
+                              quelle direction (même au contact de l’ennemi, ce
+                              qui retire le Statut En Déroute) ; mais hors
+                              Combat en fin de Tour (à partir du Tour 2), un
+                              test de Sang-froid raté impose le Statut En
+                              Déroute.
                             </p>
                           </div>
                         </div>
@@ -9903,24 +9951,22 @@
                               Toute figurine d’Infanterie devient Automate et
                               échange Fils Bâtards du Destin contre
                               <strong class="regle-tag" tabindex="0"
-                                >Unités à Cogitateurs Liés<span
-                                  class="tooltip"
-                                  >Un Modèle Automate ayant cette Règle
-                                  Spéciale peut Contrôler/Contester des
-                                  Objectifs sans Ligne (X), avec un bonus/
-                                  malus de Points de Victoire selon la taille
-                                  de l'Unité (-1 si 4 Modèles ou moins,
-                                  minimum 0 ; +1 si 10 Modèles ou
-                                  plus).</span
+                                >Unités à Cogitateurs Liés<span class="tooltip"
+                                  >Un Modèle Automate ayant cette Règle Spéciale
+                                  peut Contrôler/Contester des Objectifs sans
+                                  Ligne (X), avec un bonus/ malus de Points de
+                                  Victoire selon la taille de l'Unité (-1 si 4
+                                  Modèles ou moins, minimum 0 ; +1 si 10 Modèles
+                                  ou plus).</span
                                 ></strong
                               >
                               ; les Transports gagnent
                               <strong class="regle-tag" tabindex="0"
                                 >Baie de Transport Augmétique<span
                                   class="tooltip"
-                                  >N'embarque que des Modèles Automate ayant
-                                  le Trait Blackshields, et augmente sa
-                                  Capacité de Transport de 3.</span
+                                  >N'embarque que des Modèles Automate ayant le
+                                  Trait Blackshields, et augmente sa Capacité de
+                                  Transport de 3.</span
                                 ></strong
                               >.
                             </p>
@@ -9941,18 +9987,18 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Tout Sergent/Champion/Spécialiste/État-major
-                              gagne le Trait Psyker et la Discipline
+                              Tout Sergent/Champion/Spécialiste/État-major gagne
+                              le Trait Psyker et la Discipline
                               <strong class="regle-tag" tabindex="0"
                                 >Malfaisance<span class="tooltip"
                                   >Discipline Psychique. Un Modèle qui la
                                   possède gagne la Règle Spéciale Malfaisance,
-                                  l'Arme Psychique Torrent Warp et le Trait
-                                  « Malfaisant ». Un Modèle ayant la Règle
+                                  l'Arme Psychique Torrent Warp et le Trait «
+                                  Malfaisant ». Un Modèle ayant la Règle
                                   Spéciale Malfaisance subit davantage les
-                                  Périls du Warp : sur un résultat de Rupture
-                                  du Warp, sa Volonté est fixée à 5 pour
-                                  résoudre l'incident.</span
+                                  Périls du Warp : sur un résultat de Rupture du
+                                  Warp, sa Volonté est fixée à 5 pour résoudre
+                                  l'incident.</span
                                 ></strong
                               >.
                             </p>
@@ -9973,28 +10019,28 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Perd Fureur de la Légion/Ligne (X)/Avant-garde
-                              (X) (plus jamais regagnables) contre, au choix
-                              du Détachement,
+                              Perd Fureur de la Légion/Ligne (X)/Avant-garde (X)
+                              (plus jamais regagnables) contre, au choix du
+                              Détachement,
                               <strong class="regle-tag" tabindex="0"
                                 >Clone<span class="tooltip"
-                                  >Hors État-major/Champion/Spécialiste/
-                                  Sergent : -1 en Commandement, Volonté,
-                                  Intelligence, Sang-froid. Ne peut faire ni
-                                  Réaction ni Réaction Avancée, mais gagne un
-                                  Jet de Mitigation de Dégâts de Résilience
-                                  Clonée de 5+.</span
+                                  >Hors État-major/Champion/Spécialiste/ Sergent
+                                  : -1 en Commandement, Volonté, Intelligence,
+                                  Sang-froid. Ne peut faire ni Réaction ni
+                                  Réaction Avancée, mais gagne un Jet de
+                                  Mitigation de Dégâts de Résilience Clonée de
+                                  5+.</span
                                 ></strong
                               >
                               ou
                               <strong class="regle-tag" tabindex="0"
                                 >Aberrant<span class="tooltip"
-                                  >Hors État-major/Champion/Spécialiste/
-                                  Sergent : -1 en Commandement, Volonté,
-                                  Intelligence, Sang-froid, mais +1 en Force
-                                  et Attaques. Doit charger tout ennemi à
-                                  moins de 12 pouces en début de Sous-phase
-                                  d'Assaut, même hors de portée.</span
+                                  >Hors État-major/Champion/Spécialiste/ Sergent
+                                  : -1 en Commandement, Volonté, Intelligence,
+                                  Sang-froid, mais +1 en Force et Attaques. Doit
+                                  charger tout ennemi à moins de 12 pouces en
+                                  début de Sous-phase d'Assaut, même hors de
+                                  portée.</span
                                 ></strong
                               >.
                             </p>
@@ -10015,19 +10061,18 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Aucun Choix de Quartier Général/Haut
-                              Commandement ; toutes les autres Cases
-                              deviennent des Cases d’Organigramme de Force
-                              Suprême, réservées à l’Avantage Principal
+                              Aucun Choix de Quartier Général/Haut Commandement
+                              ; toutes les autres Cases deviennent des Cases
+                              d’Organigramme de Force Suprême, réservées à
+                              l’Avantage Principal
                               <strong class="regle-tag" tabindex="0"
-                                >Petit Seigneur de Guerre<span
-                                  class="tooltip"
+                                >Petit Seigneur de Guerre<span class="tooltip"
                                   >Un Modèle Sergent de l'Unité gagne +1
-                                  Attaques/Capacité de Combat/Commandement et
-                                  le Sous-type Champion (ou +1 Commandement
+                                  Attaques/Capacité de Combat/Commandement et le
+                                  Sous-type Champion (ou +1 Commandement
                                   supplémentaire s'il l'a déjà). Peut débloquer
-                                  un Détachement Auxiliaire supplémentaire,
-                                  lui aussi limité à cet Avantage.</span
+                                  un Détachement Auxiliaire supplémentaire, lui
+                                  aussi limité à cet Avantage.</span
                                 ></strong
                               >
                               (jamais pour un Véhicule).
@@ -10049,9 +10094,9 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Toutes les Cases de Troupes deviennent des
-                              Cases d’Élite ; aucun Choix de Troupes n’est
-                              plus possible, y compris dans les Détachements
+                              Toutes les Cases de Troupes deviennent des Cases
+                              d’Élite ; aucun Choix de Troupes n’est plus
+                              possible, y compris dans les Détachements
                               Auxiliaires/d’Apex rattachés.
                             </p>
                           </div>
@@ -10071,11 +10116,10 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Débloque le Deathlock (+15 Points) et le
-                              Doomlock (+10 Points) dans la liste des Armes
-                              Spéciales de Légion, et la Lame de Halo (+15
-                              Points) dans l’Équipement d’Officier de
-                              Légion.
+                              Débloque le Deathlock (+15 Points) et le Doomlock
+                              (+10 Points) dans la liste des Armes Spéciales de
+                              Légion, et la Lame de Halo (+15 Points) dans
+                              l’Équipement d’Officier de Légion.
                             </p>
                           </div>
                         </div>
@@ -10094,12 +10138,12 @@
                         <div class="accordeon-contenu">
                           <div class="accordeon-contenu-inner">
                             <p>
-                              Tous les bolters/pistolets bolters sont
-                              échangés gratuitement contre une arme de la
-                              liste des Armes du Désespoir (récupérées :
-                              Autofusil, Autopistolet, Fusil laser, Pistolet
-                              laser, Fusil à pompe, Stubber lourd, ou Arme de
-                              mêlée — celle-ci limitée à 1 Modèle sur 3).
+                              Tous les bolters/pistolets bolters sont échangés
+                              gratuitement contre une arme de la liste des Armes
+                              du Désespoir (récupérées : Autofusil,
+                              Autopistolet, Fusil laser, Pistolet laser, Fusil à
+                              pompe, Stubber lourd, ou Arme de mêlée — celle-ci
+                              limitée à 1 Modèle sur 3).
                             </p>
                           </div>
                         </div>
@@ -10124,16 +10168,15 @@
                                 >Héroïsme Funeste (X)<span class="tooltip"
                                   >Si une Unité majoritairement composée de
                                   Modèles ayant cette Règle Spéciale gagne un
-                                  Combat où le camp ennemi est en net
-                                  surnombre, compte plus de Modèles
-                                  État-major/un Parangon, ou une majorité à
-                                  Capacité de Combat supérieure, marque X
-                                  Points de Victoire.</span
+                                  Combat où le camp ennemi est en net surnombre,
+                                  compte plus de Modèles État-major/un Parangon,
+                                  ou une majorité à Capacité de Combat
+                                  supérieure, marque X Points de Victoire.</span
                                 ></strong
                               >
-                              (le double de la valeur perdue, ou 3 par
-                              défaut). Incompatible avec Faucheurs de Vies et
-                              Les Dépouilles de la Victoire.
+                              (le double de la valeur perdue, ou 3 par défaut).
+                              Incompatible avec Faucheurs de Vies et Les
+                              Dépouilles de la Victoire.
                             </p>
                           </div>
                         </div>
@@ -10153,12 +10196,12 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Perd Ligne (X)/Avant-garde (X) et tout Point de
-                              Victoire d’Objectif contre D3 Points de
-                              Victoire par Unité ennemie entièrement détruite
-                              (1 seul si l’Unité qui porte le Serment est un
-                              Véhicule, réduit par Sacrifiable (X) côté
-                              ennemi). Incompatible avec Les Dépouilles de la
-                              Victoire et La Lame du Juste.
+                              Victoire d’Objectif contre D3 Points de Victoire
+                              par Unité ennemie entièrement détruite (1 seul si
+                              l’Unité qui porte le Serment est un Véhicule,
+                              réduit par Sacrifiable (X) côté ennemi).
+                              Incompatible avec Les Dépouilles de la Victoire et
+                              La Lame du Juste.
                             </p>
                           </div>
                         </div>
@@ -10178,20 +10221,18 @@
                           <div class="accordeon-contenu-inner">
                             <p>
                               Uniquement des Choix de Quartier Général ; les
-                              Cases de Troupes deviennent des Cases de
-                              Quartier Général réservées aux Centurions (à
-                              pied ou en Armure Terminator), qui gagnent +1
-                              PV de Base, +1 à une Caractéristique au choix,
-                              Insouciant et
+                              Cases de Troupes deviennent des Cases de Quartier
+                              Général réservées aux Centurions (à pied ou en
+                              Armure Terminator), qui gagnent +1 PV de Base, +1
+                              à une Caractéristique au choix, Insouciant et
                               <strong class="regle-tag" tabindex="0"
-                                >Combattre et Mourir Seul<span
-                                  class="tooltip"
-                                  >Ne peut rejoindre ni être rejoint. Seul
-                                  dans un Combat : +1 au Score de Résolution
-                                  de Combat par Point de Vie perdu ce Round,
-                                  1 Point de Victoire s'il lance/accepte un
-                                  Défi, et aucun Point de Victoire pour
-                                  personne s'il est Retiré comme Perte.</span
+                                >Combattre et Mourir Seul<span class="tooltip"
+                                  >Ne peut rejoindre ni être rejoint. Seul dans
+                                  un Combat : +1 au Score de Résolution de
+                                  Combat par Point de Vie perdu ce Round, 1
+                                  Point de Victoire s'il lance/accepte un Défi,
+                                  et aucun Point de Victoire pour personne s'il
+                                  est Retiré comme Perte.</span
                                 ></strong
                               >.
                             </p>
@@ -10218,34 +10259,33 @@
                 <div class="timeline-details">
                   <div class="timeline-details-inner">
                     <p>
-                      <strong>Endryd Haar</strong>, Le Molosse Déchiré,
-                      Praetor du Blackshield, ancien du XIIe Légion des
-                      World Eaters, est le seul personnage nommé avec un
-                      profil complet dans ce supplément — accessible
-                      uniquement dans une Armée de Faction Blackshields (il
-                      n’apparaît pas dans le sélecteur « Unité à ajouter »
-                      pour Legio Astartes ou les Légions Brisées).
+                      <strong>Endryd Haar</strong>, Le Molosse Déchiré, Praetor
+                      du Blackshield, ancien du XIIe Légion des World Eaters,
+                      est le seul personnage nommé avec un profil complet dans
+                      ce supplément — accessible uniquement dans une Armée de
+                      Faction Blackshields (il n’apparaît pas dans le sélecteur
+                      « Unité à ajouter » pour Legio Astartes ou les Légions
+                      Brisées).
                     </p>
                     <p>
-                      S’il est ton seul Choix de Quartier Général, toute
-                      Unité de ton Détachement Principal entièrement
-                      composée de figurines Blackshields d’Infanterie sans
-                      Massif (X) gagne Infiltration (12). Il porte aussi
-                      Haine (World Eaters) — une vieille rancune envers sa
-                      Légion d’origine — et peut se sacrifier à un Défi
-                      grâce au Gambit Le Molosse Déchiré, pour un unique
-                      coup à +4 en Force et +2 en Dégâts.
+                      S’il est ton seul Choix de Quartier Général, toute Unité
+                      de ton Détachement Principal entièrement composée de
+                      figurines Blackshields d’Infanterie sans Massif (X) gagne
+                      Infiltration (12). Il porte aussi Haine (World Eaters) —
+                      une vieille rancune envers sa Légion d’origine — et peut
+                      se sacrifier à un Défi grâce au Gambit Le Molosse Déchiré,
+                      pour un unique coup à +4 en Force et +2 en Dégâts.
                     </p>
                     <p class="conseil-debutant">
-                      <strong>Conseil pratique :</strong> combine Endryd
-                      Haar avec le Point de Réaction Bonus (il porte
-                      Maître de la Légion) et la Tactica Fils Bâtards du
-                      Destin pour un Détachement Principal endurant et
-                      difficile à retenir.
+                      <strong>Conseil pratique :</strong> combine Endryd Haar
+                      avec le Point de Réaction Bonus (il porte Maître de la
+                      Légion) et la Tactica Fils Bâtards du Destin pour un
+                      Détachement Principal endurant et difficile à retenir.
                     </p>
                   </div>
                 </div>
-              </div>            </div>
+              </div>
+            </div>
             <p>
               <strong>Rappel :</strong> ces fiches sont une retranscription
               manuelle, mais c’est le livre de règles et le livre d’armée qui
@@ -10303,10 +10343,18 @@
           >
             ▾
           </button>
+          <!-- aria-label sur le listbox : un lecteur d'écran annonce le
+               conteneur en même temps que l'option active (« Praetor,
+               120 pts, liste Unités disponibles »). Sans nom, il
+               n'annonce qu'une « liste » nue, que rien ne rattache au
+               champ de recherche — d'autant que les deux sont des
+               éléments distincts, reliés par aria-controls et non par
+               imbrication (WCAG 4.1.2 / RGAA 7.1). -->
           <ul
             id="choix-unite-liste"
             class="unite-combobox-liste"
             role="listbox"
+            aria-label="Unités disponibles"
             hidden
           ></ul>
         </div>
@@ -10341,13 +10389,31 @@
           aria-live="polite"
           aria-atomic="true"
         ></p>
+        <!-- Accessibilité (WCAG 4.1.2 / RGAA 7.1) : ces deux menus
+             annonçaient role="menu" + role="menuitem". Ces rôles ne
+             sont pas un simple habillage sémantique — ils promettent à
+             l'utilisateur d'un lecteur d'écran le composant « menu
+             d'application » du modèle ARIA : navigation aux FLÈCHES
+             haut/bas, un seul élément dans l'ordre de tabulation,
+             Début/Fin, focus déplacé dans le menu à l'ouverture. Rien
+             de tout cela n'est implémenté ici (voir
+             initialiserMenuDeroulant, js/unites.js) : le composant se
+             parcourt à la touche Tab, comme une liste de boutons.
+             Annoncer un rôle dont on ne tient pas le contrat est pire
+             que de ne rien annoncer — le lecteur d'écran bascule en
+             « mode application » et l'utilisateur appuie sur des
+             touches qui ne répondent pas.
+             On décrit donc ce que le composant EST : le motif
+             « disclosure » (un bouton qui révèle un bloc), porté par le
+             seul couple aria-expanded + aria-controls, déjà présent et
+             déjà tenu par le JavaScript. Vérifié avant retrait : aucun
+             sélecteur CSS ni JS ne cible ces rôles. -->
         <div class="unites-barre-actions">
           <div class="menu-deroulant">
             <button
               type="button"
               id="bouton-telechargement"
               class="bouton-secondaire menu-deroulant-bouton"
-              aria-haspopup="true"
               aria-expanded="false"
               aria-controls="menu-telechargement-liste"
             >
@@ -10356,24 +10422,21 @@
             <ul
               id="menu-telechargement-liste"
               class="menu-deroulant-liste"
-              role="menu"
               hidden
             >
-              <li role="none">
+              <li>
                 <button
                   type="button"
                   id="telecharger-pdf"
-                  role="menuitem"
                   class="menu-deroulant-option"
                 >
                   PDF
                 </button>
               </li>
-              <li role="none">
+              <li>
                 <button
                   type="button"
                   id="telecharger-word"
-                  role="menuitem"
                   class="menu-deroulant-option"
                 >
                   Word
@@ -10386,7 +10449,6 @@
               type="button"
               id="bouton-export-import"
               class="bouton-secondaire menu-deroulant-bouton"
-              aria-haspopup="true"
               aria-expanded="false"
               aria-controls="menu-export-import-liste"
             >
@@ -10395,24 +10457,21 @@
             <ul
               id="menu-export-import-liste"
               class="menu-deroulant-liste"
-              role="menu"
               hidden
             >
-              <li role="none">
+              <li>
                 <button
                   type="button"
                   id="exporter-liste"
-                  role="menuitem"
                   class="menu-deroulant-option"
                 >
                   Export
                 </button>
               </li>
-              <li role="none">
+              <li>
                 <button
                   type="button"
                   id="importer-liste"
-                  role="menuitem"
                   class="menu-deroulant-option"
                 >
                   Import
@@ -10437,8 +10496,8 @@
           quelle. Pour la reprendre plus tard, utilisez plutôt
           <strong>Export</strong> : il télécharge un fichier de sauvegarde de
           cette liste sur votre appareil. Le bouton <strong>Import</strong>
-          recharge ensuite ce même fichier sur le site pour continuer à
-          modifier la liste — depuis cet appareil ou un autre.
+          recharge ensuite ce même fichier sur le site pour continuer à modifier
+          la liste — depuis cet appareil ou un autre.
         </p>
         <!-- Message de confirmation/erreur de l'import (rempli par
              js/unites.js). -->

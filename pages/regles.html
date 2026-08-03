@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Règles spéciales — Horus Heresy</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/regles.html" />
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/regles.html"
+    />
     <meta
       name="description"
       content="Référence rapide des règles spéciales Horus Heresy 3e édition : règles d'armes (Sonner, Brèche, Fusion...) et règles diverses (Frappe en profondeur, Peur...), avec recherche instantanée."
@@ -53,6 +56,11 @@
       content="https://lagrandecroisade.fr/pages/regles.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
     <script src="../js/regles-data.js" defer></script>
     <script src="../js/regles.js" defer></script>

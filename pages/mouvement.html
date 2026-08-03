@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>La phase de mouvement — Horus Heresy</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/mouvement.html" />
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/mouvement.html"
+    />
     <meta
       name="description"
       content="Détail de la phase de mouvement Horus Heresy 3e édition : sous-phase de réserves, déplacement normal et cohésion d'unité, terrain difficile et dangereux, foncer, et sous-phase de déroute."
@@ -53,6 +56,11 @@
       content="https://lagrandecroisade.fr/pages/mouvement.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
   </head>
   <body>
@@ -253,12 +261,16 @@
 
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Types de mouvement : distance autorisée, possibilité de
+                    tirer et de charger
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Type de mouvement</th>
-                      <th class="gauche">Distance</th>
-                      <th>Tir ?</th>
-                      <th>Charge ?</th>
+                      <th scope="col" class="gauche">Type de mouvement</th>
+                      <th scope="col" class="gauche">Distance</th>
+                      <th scope="col">Tir ?</th>
+                      <th scope="col">Charge ?</th>
                     </tr>
                   </thead>
                   <tbody>

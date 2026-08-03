@@ -81,15 +81,36 @@ document.addEventListener("DOMContentLoaded", () => {
      JSON au lieu de renvoyer une page HTML de confirmation.
      ---------------------------------------------------------- */
   form.addEventListener("submit", async (e) => {
-    // checkValidity() : la validation HTML native (required,
-    // type="email", minlength). Si un champ ne va pas, on laisse
-    // le navigateur afficher sa bulle d'erreur et on s'arrête.
+    // preventDefault() EN PREMIER, avant tout autre test.
+    //
+    // L'ordre inverse (checkValidity() d'abord) paraissait logique mais
+    // était doublement faux, et c'est une erreur classique qui mérite
+    // d'être comprise :
+    //
+    // 1. Le bloc était MORT. Le navigateur ne déclenche l'événement
+    //    "submit" qu'APRÈS avoir lui-même validé les contraintes HTML
+    //    (required, minlength, type="email"). Tant que le formulaire
+    //    est invalide, il affiche sa bulle d'erreur et n'émet jamais
+    //    l'événement — donc !form.checkValidity() ne pouvait pas être
+    //    vrai ici. Sauf attribut `novalidate` sur le <form>, absent.
+    // 2. S'il avait pu l'être, le `return` sortait SANS avoir coupé le
+    //    comportement par défaut : le navigateur poursuivait alors la
+    //    soumission native vers Formspree et l'utilisateur quittait la
+    //    page — exactement ce que ce fichier cherche à éviter.
+    //
+    // À retenir : dans un gestionnaire de "submit", preventDefault()
+    // se place avant le premier `return` possible, jamais après.
+    e.preventDefault();
+
+    // Le garde-fou devient utile pour un envoi déclenché par code
+    // (form.requestSubmit()), qui, lui, peut contourner la validation
+    // native. On laisse le navigateur afficher sa propre bulle d'erreur
+    // plutôt que de réinventer un message : c'est celui que
+    // l'utilisateur connaît, et il est traduit et vocalisé nativement.
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-
-    e.preventDefault();
 
     // Garde-fou anti double-clic : sans cela, un visiteur impatient
     // peut envoyer trois fois le même message.

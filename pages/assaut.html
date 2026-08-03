@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>La phase d’assaut — Horus Heresy</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/assaut.html" />
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/assaut.html"
+    />
     <meta
       name="description"
       content="Détail de la phase d'assaut Horus Heresy 3e édition : déclarer une charge, mouvement de mise en place et attaque de volée, jet de charge et charge désordonnée, défi, sous-phase de combat et résolution."
@@ -53,6 +56,11 @@
       content="https://lagrandecroisade.fr/pages/assaut.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
     <script src="../js/tables.js" defer></script>
   </head>
@@ -536,11 +544,15 @@
 
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Options de répercussions d’un combat : qui peut les choisir
+                    et leurs effets
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Option</th>
-                      <th class="gauche">Qui peut la choisir</th>
-                      <th class="gauche">Effet</th>
+                      <th scope="col" class="gauche">Option</th>
+                      <th scope="col" class="gauche">Qui peut la choisir</th>
+                      <th scope="col" class="gauche">Effet</th>
                     </tr>
                   </thead>
                   <tbody>

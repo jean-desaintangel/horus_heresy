@@ -53,6 +53,11 @@
       content="https://lagrandecroisade.fr/pages/defi.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
   </head>
   <body>
@@ -233,10 +238,13 @@
                   <h3 class="sous-titre" id="postures">Postures de base</h3>
                   <div class="table-scroll">
                     <table>
+                      <caption class="sr-only">
+                        Postures de défi de base et leurs effets
+                      </caption>
                       <thead>
                         <tr>
-                          <th class="gauche">Posture</th>
-                          <th class="gauche">Effet</th>
+                          <th scope="col" class="gauche">Posture</th>
+                          <th scope="col" class="gauche">Effet</th>
                         </tr>
                       </thead>
                       <tbody>

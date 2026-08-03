@@ -4,10 +4,13 @@
    Rôle   : construit la grille des dix-huit Primarques, ouvre la
    modale d'agrandissement, et renvoie vers pages/construction-liste.html avec la
    Légion choisie en paramètre d'URL.
-   Dépend : aucun (vanilla JS) — stylé par css/choix-legion.css.
-   Cette page ne charge PAS js/main.js : elle est autonome (pas de
-   barre de navigation ni de pied de page communs), d'où sa propre
-   fonction d'empreinte SHA-256 plutôt qu'un appel à celle de main.js.
+   Dépend : js/sequence-clavier.js (chargé avant, voir la balise
+   <script> de pages/choix-legion.html) — stylé par css/choix-legion.css.
+   Cette page ne charge PAS js/main.js : elle est autonome (pas de barre
+   de navigation ni de pied de page communs). C'est précisément pour
+   cela que la reconnaissance du mot-clé au clavier a été sortie dans
+   son propre fichier : elle est nécessaire ici ET dans main.js, sans
+   qu'aucun des deux ne puisse dépendre de l'autre.
    Sécurité : textContent partout, jamais innerHTML (anti-XSS).
    ============================================================ */
 
@@ -310,7 +313,8 @@ boutonValider.addEventListener("click", () => {
   if (primarqueSelectionne.expurgee) return;
   if (!primarqueSelectionne.legionId) return;
   let url =
-    "construction-liste.html?legion=" + encodeURIComponent(primarqueSelectionne.legionId);
+    "construction-liste.html?legion=" +
+    encodeURIComponent(primarqueSelectionne.legionId);
   if (cibleArrivee === "allie" && detArrivee !== null) {
     url +=
       "&cible=" +
@@ -324,24 +328,29 @@ boutonValider.addEventListener("click", () => {
 // --- EASTER EGG : taper un mot-clé précis -> 4 démons ---
 // Le mot-clé n'est jamais écrit en clair ici (bien essayé, jeune
 // acolyte) : seule son empreinte SHA-256 est comparée à ce qui est
-// tapé au clavier (voir empreinteSHA256Chaos ci-dessous).
-
-async function empreinteSHA256Chaos(texte) {
-  // Contexte non sécurisé (vieux navigateur, etc.) : SubtleCrypto
-  // indisponible, retourne une empreinte qui ne pourra jamais matcher.
-  if (!window.crypto || !window.crypto.subtle) return "";
-  const donnees = new TextEncoder().encode(texte);
-  const empreinte = await crypto.subtle.digest("SHA-256", donnees);
-  return Array.from(new Uint8Array(empreinte))
-    .map((octet) => octet.toString(16).padStart(2, "0"))
-    .join("");
-}
+// tapé au clavier.
+//
+// La mécanique de reconnaissance (file glissante des N dernières
+// touches + empreinte) vit désormais dans js/sequence-clavier.js,
+// partagée avec les deux clins d'œil de js/main.js. Ce fichier en
+// avait sa propre copie, à un détail près qui n'était pas voulu :
+// elle ne vérifiait pas si le focus était dans un champ de saisie,
+// contrairement aux deux autres. Sans conséquence sur cette page
+// (elle n'a aucun champ), mais c'est le genre d'écart qui devient un
+// bug le jour où on ajoute une barre de recherche — et personne ne
+// pense à aller relire les trois copies.
+//
+// Nuance de comportement assumée au passage : l'ancienne version ne
+// retenait que les lettres a-z et ignorait purement et simplement
+// chiffres et ponctuation ; la version partagée retient tout
+// caractère imprimable. Concrètement, taper le mot-clé d'une traite
+// donne exactement le même résultat — seul un mot-clé entrecoupé
+// d'un chiffre ne déclenche plus, ce qui est le comportement voulu.
 
 const EMPREINTE_CHAOS =
   "5d5bddb577102d0a960bcf6fea9050c10fe5e9feddcb5c2170ccab872db9ee87";
 const LONGUEUR_CHAOS = 5;
 
-let bufferSaisi = "";
 const CIBLES_CHAOS = [
   {
     selecteur: '.legion-carte[data-id="15"] img',
@@ -365,32 +374,21 @@ const CIBLES_CHAOS = [
   },
 ];
 
-document.addEventListener("keydown", async (e) => {
-  // Buffer pour le mot-clé (voir EMPREINTE_CHAOS ci-dessus)
-  if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-    bufferSaisi += e.key.toLowerCase();
-    if (bufferSaisi.length > LONGUEUR_CHAOS) {
-      bufferSaisi = bufferSaisi.slice(-LONGUEUR_CHAOS);
-    }
-
-    if (
-      bufferSaisi.length === LONGUEUR_CHAOS &&
-      (await empreinteSHA256Chaos(bufferSaisi)) === EMPREINTE_CHAOS
-    ) {
-      CIBLES_CHAOS.forEach((t) => {
-        const image = document.querySelector(t.selecteur);
-        if (image) {
-          // On met à jour l'alternative textuelle EN MÊME TEMPS que
-          // la source : une image qui change sans que son alt suive
-          // ment aux lecteurs d'écran (WCAG 1.1.1 / RGAA 1.1).
-          image.src = t.nouvelleSource;
-          image.alt = t.nouvelleAlt;
-        }
-      });
-    }
-  }
-
-  if (e.key === "Escape") {
-    bufferSaisi = "";
-  }
-});
+// Filet de sécurité : si js/sequence-clavier.js n'a pas pu être chargé,
+// on renonce au clin d'œil plutôt que de lever une ReferenceError qui
+// emporterait le reste de ce fichier — c'est-à-dire la grille des dix-huit
+// légions et sa modale, soit toute la raison d'être de la page.
+if (typeof surSequenceClavier === "function") {
+  surSequenceClavier(LONGUEUR_CHAOS, EMPREINTE_CHAOS, () => {
+    CIBLES_CHAOS.forEach((t) => {
+      const image = document.querySelector(t.selecteur);
+      if (image) {
+        // On met à jour l'alternative textuelle EN MÊME TEMPS que la
+        // source : une image qui change sans que son alt suive ment aux
+        // lecteurs d'écran (WCAG 1.1.1 / RGAA 1.1).
+        image.src = t.nouvelleSource;
+        image.alt = t.nouvelleAlt;
+      }
+    });
+  });
+}

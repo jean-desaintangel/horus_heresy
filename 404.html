@@ -28,6 +28,13 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/assets/pwa/apple-touch-icon.png" />
     <meta name="theme-color" content="#2c2a24" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins d'œil) :
+         chargé AVANT main.js, qui consomme surSequenceClavier. Les deux
+         sont en `defer`, donc exécutés dans l'ordre des balises.
+         Chemins ABSOLUS sur cette page, contrairement aux autres : une
+         404 peut être servie depuis n'importe quelle URL inexistante
+         (/truc/machin/), où un chemin relatif ne résoudrait rien. -->
+    <script src="/js/sequence-clavier.js" defer></script>
     <script src="/js/main.js" defer></script>
   </head>
   <body>
@@ -51,7 +58,10 @@
       </div>
     </header>
     <main id="contenu">
-      <h1>Cette page n'existe pas, comme la reconnaissance qu'auraient dû avoir les Iron Warriors.</h1>
+      <h1>
+        Cette page n'existe pas, comme la reconnaissance qu'auraient dû avoir
+        les Iron Warriors.
+      </h1>
       <p>
         <a href="/index.html">Retour à l’accueil</a>
       </p>

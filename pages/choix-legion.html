@@ -3,8 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Choix legion</title>
-    <link rel="canonical" href="https://lagrandecroisade.fr/pages/choix-legion.html" />
+    <!-- Titre de page (RGAA 8.6 / WCAG 2.4.2) : c'est la PREMIÈRE chose
+         qu'annonce un lecteur d'écran à l'arrivée sur la page, et c'est
+         ce que lit l'utilisateur dans l'onglet ou l'historique. Il doit
+         donc décrire le contenu, pas seulement l'étiqueter. « Choix
+         legion » était le seul titre du site à ne respecter ni le
+         gabarit commun « Sujet — Horus Heresy » (les dix-huit autres
+         pages le suivent), ni l'orthographe (« legion » sans accent).
+         Il contredisait en outre l'og:title juste en dessous, qui lui
+         était correct — signe qu'il n'avait jamais été repris depuis le
+         brouillon initial. -->
+    <title>Choix de la légion — Horus Heresy, guide d’initiation</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/choix-legion.html"
+    />
     <meta
       name="description"
       content="Choisissez votre légion loyaliste pour le guide d'initiation Horus Heresy 3e édition : les dix-huit primarques et leurs légions."
@@ -56,6 +69,11 @@
       type="font/woff2"
       crossorigin
     />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/choix-legion.js" defer></script>
   </head>
   <body>

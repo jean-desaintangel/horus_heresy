@@ -3381,8 +3381,7 @@ const ARMES_TIR = [
       {
         nom: "Projecteur à cascade de neutronium jumelé",
         stats: ["Souffle", "1", "7", "3", "2"],
-        regles:
-          "Souffle, Brèche (6+), Annihilation en Cascade (7), Phage (E)",
+        regles: "Souffle, Brèche (6+), Annihilation en Cascade (7), Phage (E)",
         traits: "Assaut",
       },
       {
@@ -5559,7 +5558,8 @@ const ARMES_MELEE = [
       {
         nom: "Lance d'Éternité (Mêlée)",
         stats: ["I", "A", "+1", "2", "1"],
-        regles: "En Feu (2), Touche Critique (6+), Impact (MA), Lacération (5+)",
+        regles:
+          "En Feu (2), Touche Critique (6+), Impact (MA), Lacération (5+)",
         traits: "-",
       },
     ],

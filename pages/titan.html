@@ -53,6 +53,11 @@
       content="https://lagrandecroisade.fr/pages/titan.html"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
     <script src="../js/main.js" defer></script>
   </head>
   <body>
@@ -155,10 +160,13 @@
               </p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Classes de titans et exemples de châssis
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Classe</th>
-                      <th class="gauche">Exemples</th>
+                      <th scope="col" class="gauche">Classe</th>
+                      <th scope="col" class="gauche">Exemples</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -262,11 +270,14 @@
               </p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Arcs de tir d’un titan selon la monture de l’arme
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Monture</th>
-                      <th class="gauche">Peut tirer…</th>
-                      <th class="gauche">Restriction</th>
+                      <th scope="col" class="gauche">Monture</th>
+                      <th scope="col" class="gauche">Peut tirer…</th>
+                      <th scope="col" class="gauche">Restriction</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -487,11 +498,14 @@
               <p>(1D6 par Touche Superficielle sur un profil sain)</p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Tableau de dégâts de titan : résultat du dé et effet
+                  </caption>
                   <thead>
                     <tr>
-                      <th>Dé</th>
-                      <th class="gauche">Résultat</th>
-                      <th class="gauche">Effet</th>
+                      <th scope="col">Dé</th>
+                      <th scope="col" class="gauche">Résultat</th>
+                      <th scope="col" class="gauche">Effet</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -610,11 +624,15 @@
               </p>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Nouveaux dégâts sur un profil déjà Désemparé : résultat du
+                    dé et effet
+                  </caption>
                   <thead>
                     <tr>
-                      <th>Dé</th>
-                      <th class="gauche">Résultat</th>
-                      <th class="gauche">Effet</th>
+                      <th scope="col">Dé</th>
+                      <th scope="col" class="gauche">Résultat</th>
+                      <th scope="col" class="gauche">Effet</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -740,10 +758,16 @@
               </div>
               <div class="table-scroll">
                 <table>
+                  <caption class="sr-only">
+                    Distance de placement du dé de déviation selon la classe de
+                    titan
+                  </caption>
                   <thead>
                     <tr>
-                      <th class="gauche">Classe</th>
-                      <th class="gauche">Distance de placement du dé</th>
+                      <th scope="col" class="gauche">Classe</th>
+                      <th scope="col" class="gauche">
+                        Distance de placement du dé
+                      </th>
                     </tr>
                   </thead>
                   <tbody>

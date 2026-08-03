@@ -15,5 +15,15 @@ js/vendor/
 # formatage automatique lui fait plus de mal que de bien.
 CLAUDE.md
 
+# --- Base de données de jeu ---
+# 41 000 lignes, 1,3 Mo : c'est de loin le fichier le plus modifié du
+# dépôt (chaque nouvelle Légion, chaque nouvelle Faction y passe). Le
+# reformater d'un coup réécrirait des milliers de lignes et rendrait
+# `git blame` inexploitable dessus — or c'est précisément ici qu'on a
+# besoin de savoir QUAND et POURQUOI une caractéristique d'unité a
+# changé. Le fichier reste écrit à la main, dans le style de Prettier
+# mais sans son verdict.
+js/unites-data.js
+
 # --- Binaires et documents ---
 assets/

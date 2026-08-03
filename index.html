@@ -51,10 +51,7 @@
       property="og:image"
       content="https://lagrandecroisade.fr/assets/img/hero.webp"
     />
-    <meta
-      property="og:url"
-      content="https://lagrandecroisade.fr/"
-    />
+    <meta property="og:url" content="https://lagrandecroisade.fr/" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
       {
@@ -69,6 +66,11 @@
     </script>
     <!-- defer : téléchargé en parallèle du parsing, exécuté après le DOM.
          L'ordre des balises est préservé entre scripts defer. -->
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="js/sequence-clavier.js" defer></script>
     <script src="js/main.js" defer></script>
   </head>
   <body>

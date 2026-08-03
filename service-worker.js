@@ -164,7 +164,18 @@
 // (legacie_wargear.pdf) sur les listes d'équipement génériques et les
 // unités déjà présentes — js/unites-data.js, js/armes-data.js,
 // js/regles-data.js, js/organigramme-data.js.
-const CACHE_VERSION = "v82";
+// v83 : audit d'accessibilité — <caption> sur les 18 tableaux écrits à
+// la main, retrait des rôles ARIA menu/menuitem non tenus, contraste des
+// étiquettes de règle au survol, titre de choix-legion.html, et
+// extraction du nouveau fichier js/sequence-clavier.js (partagé par les
+// trois clins d'œil au clavier). Ce dernier point est la raison pour
+// laquelle CETTE version DOIT être incrémentée : un visiteur ayant déjà
+// le site installé garderait sinon un précache v82 sans ce fichier, et
+// se retrouverait hors ligne avec un HTML qui le réclame — main.js
+// planterait au chargement, emportant la navigation et le pied de page
+// avec lui. Toute nouvelle dépendance JS/CSS impose donc deux gestes :
+// l'ajouter à la liste ci-dessous ET changer ce numéro.
+const CACHE_VERSION = "v83";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -216,6 +227,7 @@ const PRECACHE_URLS = [
   "js/organigramme.js",
   "js/regles-data.js",
   "js/regles.js",
+  "js/sequence-clavier.js",
   "js/tables.js",
   "js/unites-data.js",
   "js/unites.js",

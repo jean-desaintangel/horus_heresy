@@ -703,10 +703,26 @@ strong {
   transition: color var(--transition);
 }
 
+/* Accessibilité (WCAG 1.4.3 / RGAA 3.2) — cas de DEUX survols qui se
+   superposent. Une .regle-tag vit dans une cellule de tableau : la
+   survoler déclenche AUSSI `tbody tr:hover td`, qui repeint le fond de
+   toute la ligne en rgba(139, 0, 0, 0.25). Chaque règle était correcte
+   isolément, mais leur combinaison ne l'était pas :
+     - fond réellement obtenu (rouge 25 % sur blanc) : #e2bfbf ;
+     - --titre #8a6a2c posé dessus : 2,98:1, très loin des 4,5:1 exigés.
+   Autrement dit, le texte devenait MOINS lisible au moment précis où
+   l'utilisateur le désigne. Le piège est classique : on vérifie le
+   contraste d'une couleur sur le fond « au repos » en oubliant que le
+   fond, lui aussi, a un état de survol.
+   --accent-texte (#8b0000) atteint 4,7:1 à 5,9:1 sur ce fond rouge pâle
+   (selon que la ligne survolée repose sur --carte, --fond ou un <th>),
+   tout en restant dans la palette du site (c'est déjà la couleur des
+   liens). Il suit en outre le thème Nuit Éternelle, où il est
+   redéclaré en teinte claire — ce que --titre ne faisait qu'à moitié. */
 .regle-tag:hover,
 .regle-tag:focus-within {
-  color: var(--titre);
-  border-bottom-color: var(--titre);
+  color: var(--accent-texte);
+  border-bottom-color: var(--accent-texte);
 }
 
 .orga-fleche {
