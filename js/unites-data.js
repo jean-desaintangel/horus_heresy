@@ -9525,6 +9525,7 @@ const UNITES = [
         id: "sergent-bolter",
         libelle: "Sergent : remplacer son bolter",
         ajoute: true,
+        remplacePartiel: "Bolter",
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -9549,6 +9550,7 @@ const UNITES = [
         id: "sergent-pistolet",
         libelle: "Sergent : remplacer son pistolet bolter",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -10093,6 +10095,7 @@ const UNITES = [
         id: "sergent-bolter",
         libelle: "Sergent : remplacer son bolter",
         ajoute: true,
+        remplacePartiel: "Bolter",
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -10117,6 +10120,7 @@ const UNITES = [
         id: "sergent-pistolet",
         libelle: "Sergent : remplacer son pistolet bolter",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -11671,6 +11675,7 @@ const UNITES = [
         id: "sergent-bolter",
         libelle: "Sergent Traqueur : remplacer son bolter Kraken",
         ajoute: true,
+        remplacePartiel: "Bolter Kraken",
         prefixeFiche: "Sergent Traqueur : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -11693,6 +11698,7 @@ const UNITES = [
         libelle:
           "Sergent Traqueur : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent Traqueur : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -11714,6 +11720,7 @@ const UNITES = [
         id: "sergent-pistolet",
         libelle: "Sergent Traqueur : remplacer son pistolet bolter",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent Traqueur : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -12064,6 +12071,7 @@ const UNITES = [
         id: "sergent-bolter",
         libelle: "Sergent Vétéran : remplacer son bolter",
         ajoute: true,
+        remplacePartiel: "Bolter",
         prefixeFiche: "Sergent Vétéran : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -12086,6 +12094,7 @@ const UNITES = [
         libelle:
           "Sergent Vétéran : remplacer son pistolet bolter (Armes de Mêlée de Sergent de Légion)",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent Vétéran : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -12107,6 +12116,7 @@ const UNITES = [
         id: "sergent-pistolet",
         libelle: "Sergent Vétéran : remplacer son pistolet bolter",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Sergent Vétéran : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },

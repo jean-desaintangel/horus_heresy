@@ -393,15 +393,30 @@ function valeursParDefaut(unite) {
 
 /* Budget d'une option "quantite" (escouades) : nombre maximal
    d'échanges autorisés. `parTranche: 5` = 1 échange (ou
-   `parTrancheMax`) par tranche de 5 figurines dans l'unité. */
+   `parTrancheMax`) par tranche de 5 figurines dans l'unité.
+   `requiertEquip` (ex : baïonnette, « seulement si la Figurine a
+   encore un Bolter ») plafonne en plus ce budget théorique (basé sur
+   l'effectif) au nombre RÉEL de Figurines qui portent encore l'objet
+   visé, au cas où un rôle nommé (Sergent...) l'a entre-temps
+   partiellement retiré via `remplacePartiel` (calculerEquipementComptes
+   ci-dessous) — sans ce plafond, un Sergent qui a échangé son bolter
+   contre une arme de mêlée resterait quand même compté dans le budget
+   d'une option « seulement si Bolter ». Aucun effet quand rien n'a
+   jamais retiré l'objet visé (budget théorique déjà atteint). */
 function budgetQuantite(unite, instance, opt) {
-  if (opt.parTranche) {
-    return (
-      Math.floor((instance.effectif || 1) / opt.parTranche) *
+  let budget = opt.parTranche
+    ? Math.floor((instance.effectif || 1) / opt.parTranche) *
       (opt.parTrancheMax || 1)
-    );
+    : opt.max || 0;
+  if (opt.requiertEquip) {
+    const comptes = calculerEquipementComptes(unite, instance, opt.id);
+    let compteReel = 0;
+    for (const [nom, n] of comptes) {
+      if (nom.includes(opt.requiertEquip)) compteReel += n;
+    }
+    budget = Math.min(budget, compteReel);
   }
-  return opt.max || 0;
+  return budget;
 }
 
 /* Quantité déjà consommée sur ce budget. Les options partageant
@@ -574,6 +589,19 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
         ajouterCompte(nomAjoute, effectif);
       } else {
         ajouterCompte(nomAjoute, compteRole);
+        // `remplacePartiel` (à la différence de `remplace`/`cible`
+        // ci-dessus, qui retirent l'objet visé pour TOUTE l'Unité) ne
+        // retire que `compteRole` Figurines — sûr uniquement pour un
+        // rôle dont on connaît avec certitude l'effectif exact
+        // (typiquement 1, un Sergent/Champion nommé) : contrairement
+        // au reste du rang-et-fichier, `compteRole` ici n'est jamais
+        // une approximation. Voir CLAUDE.md, piège déjà documenté sur
+        // `ajoute: true` sans `remplace` (objet de base qui reste à
+        // tort affiché à son compte plein pour tout le monde).
+        if (opt.remplacePartiel) {
+          const trouve = resoudreCible(opt.remplacePartiel);
+          if (trouve) retirer(trouve, compteRole);
+        }
       }
     } else if (opt.type === "case") {
       // `ajoute` accepte aussi un tableau : une amélioration de
