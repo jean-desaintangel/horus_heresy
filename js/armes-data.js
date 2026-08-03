@@ -255,6 +255,20 @@ const ARMES_TIR = [
         regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
         traits: "Auto",
       },
+      // Même profil, réservé aux Imperial Fists (legacie_wargear.pdf,
+      // p. 6) — voir la note sur le montage Blood Angels ci-dessus.
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot (Imperial Fists) — Tir soutenu",
+        stats: ["24", "3", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+)",
+        traits: "Auto",
+      },
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot (Imperial Fists) — Tir maximal",
+        stats: ["24", "5", "6", "4", "1"],
+        regles: "Lourde (PF), Brèche (6+), Surcharge (1)",
+        traits: "Auto",
+      },
       {
         nom: "Autocanon Gravis",
         stats: ["48", "3", "8", "4", "2"],
@@ -651,7 +665,21 @@ const ARMES_TIR = [
       },
       /* --- Arsenal des Sons of Horus (XVIe Légion) : munitions
          Banestrike (page « Arsenal des Sons of Horus », voir
-         js/unites-data.js, unités réservées à cette Légion). --- */
+         js/unites-data.js, unités réservées à cette Légion). Câblage
+         fait via une douzaine de sites individuels (options ad hoc sur
+         chaque Unité) plutôt que LISTES_EQUIPEMENT, faute d'entrée
+         partagée pour ce montage précis à l'époque.
+         Alpha Legion Legacy Wargear (legacie_wargear.pdf, p. 19) : même
+         nom de munitions (« Banestrike bolter »/« Banestrike
+         combi-bolter », Liber Hereticus p.245/300), ajoutées à la liste
+         d'Armes Combinées de Légion pour toute Figurine Alpha Legion
+         (+5/+10 Points) — seul le Chasseur de Têtes (Alpha Legion) a
+         reçu ce câblage jusqu'ici (son propre équipement de base +
+         option "combi-legacy", voir js/unites-data.js), pas étendu au
+         reste du roster générique de Légion : même ampleur de chantier
+         que le câblage Sons of Horus ci-dessus (des dizaines de sites à
+         traiter un par un), non fait dans cette session — gap
+         documenté plutôt que traité partiellement. --- */
       {
         nom: "Bolter Banestrike",
         stats: ["18", "2", "4", "4", "1"],
@@ -919,9 +947,10 @@ const ARMES_TIR = [
         traits: "Gravitons",
       },
       {
-        // Iron Hands Legacy Wargear (iron_hands_wargear.pdf) : ajouté à
-        // la liste des Armes Spéciales de Légion pour toute Figurine
-        // ayant le Trait Iron Hands (+15 Points). Arme de l'Escouade
+        // Iron Hands Legacy Wargear (legacie_wargear.pdf, p. 9) : ajouté
+        // à la liste des Armes Spéciales de Légion (LISTES_EQUIPEMENT.
+        // speciales, requiertLegion "X", +15 Points) pour toute
+        // Figurine ayant le Trait Iron Hands. Arme de l'Escouade
         // Terminator Gorgone/Escouade d'Immortels de Medusa (voir
         // js/unites-data.js).
         nom: "Déchiqueteur à gravitons",
@@ -1932,10 +1961,9 @@ const ARMES_TIR = [
         traits: "Plasma",
       },
       /* --- Dark Angels Legacy Wargear (dark_angels_wargear.pdf) :
-         ajouté à la liste des Armes Spéciales de Légion pour toute
-         Figurine ayant le Trait Dark Angels (+15 Points). Non câblé sur
-         une Unité générique de Légion pour l'instant (voir
-         js/unites-data.js, unités Legacy réservées à la Ire Légion). --- */
+         ajouté à la liste des Armes Spéciales de Légion (LISTES_
+         EQUIPEMENT.speciales, requiertLegion "I") pour toute Figurine
+         ayant le Trait Dark Angels (+15 Points). --- */
       {
         nom: "Répéteur à plasma — Tir soutenu",
         stats: ["12", "3", "5", "4", "1"],
@@ -2369,6 +2397,20 @@ const ARMES_TIR = [
         traits: "Missile, Rad",
       },
       {
+        // Arme de la Cohorte Éoclaste (Blood Angels), profil Frag — voir
+        // aussi Krak ci-dessous.
+        nom: "Décharge-grenades — Frag",
+        stats: ["12", "1", "4", "6", "1"],
+        regles: 'Explosion (3")',
+        traits: "Assaut",
+      },
+      {
+        nom: "Décharge-grenades — Krak",
+        stats: ["12", "1", "6", "4", "1"],
+        regles: "-",
+        traits: "Assaut",
+      },
+      {
         nom: "Découpeur laser¹",
         stats: ["8", "1", "10", "2", "2"],
         regles: "Artillerie (D), Fléau des Blindages",
@@ -2663,14 +2705,22 @@ const ARMES_TIR = [
         regles: 'Explosion (3"), Brèche (6+)',
         traits: "Psychique, Assaut",
       },
-      /* --- Thousand Sons Legacy Wargear (thousand_sons_wargear.pdf) :
+      /* --- Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 14) :
          Pistolet/Bolter Asphyx ajoutés en échange du pistolet
          bolter/bolter pour toute Figurine ayant le Trait Thousand Sons
-         (+2/+3 Points par Figurine) ; Pistolet à étherfeu ajouté aux
-         listes d'Officier de Légion et de Pistolets de Légion ; Blaster
-         à étherfeu ajouté à la liste des Armes Spéciales de Légion (voir
-         js/unites-data.js, Cabale de Numérologistes, Cabale d'Intercession
-         Occulte Ammitara, Cabale du Khenetai Occulte). --- */
+         (+2/+3 Points par Figurine) — câblés pour l'instant seulement
+         sur les Unités Thousand Sons nommées qui ont l'équipement de
+         base correspondant (voir js/unites-data.js, Cabale de
+         Numérologistes, Cabale d'Intercession Occulte Ammitara, Cabale
+         du Khenetai Occulte), pas encore étendu à tout le rang-et-
+         fichier générique de Légion (même gap que le Pistolet/Bolter à
+         shrapnels Iron Warriors, voir plus haut). Pistolet à étherfeu
+         (Officier/Pistolets de Légion, +10), Blaster à étherfeu
+         (Armes Spéciales de Légion, +15) et Canon Magna à étherfeu
+         (Armes Lourdes de Légion, +20) désormais ajoutés génériquement
+         (LISTES_EQUIPEMENT.*, requiertLegion "XV", voir js/unites-
+         data.js) en plus de leur usage déjà existant sur ces mêmes
+         Unités nommées. --- */
       {
         nom: "Pistolet Asphyx",
         stats: ["8", "1", "4", "5", "1"],
@@ -2802,22 +2852,30 @@ const ARMES_TIR = [
         regles: "Lourde (D), Fléau des Blindages",
         traits: "Missile",
       },
-      /* --- Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+      /* --- Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3) :
          armement additionnel disponible à toute Figurine ayant le
-         Trait Iron Warriors (Pistolet/Bolter à shrapnels en échange
-         du pistolet bolter/bolter, Masse à gravitons sur les listes
-         d'Officier/Sergent de Légion, Canon à shrapnels ajouté aux
-         listes d'Armes Sponson/sur Pivot de Légion). Câblé sur les
-         Unités Iron Warriors des livres d'armée qui ont l'équipement
-         de base correspondant (voir js/unites-data.js : Forgeguerre en
-         Armure Artificer, Nârik Dreygur, Iron Havocs, Le Tourmenteur)
-         — pas encore proposé aux Unités génériques de Légion (Escouade
-         Tactique, Escouade de Soutien, etc.) même quand leur Trait de
-         Légion est Iron Warriors, faute d'un mécanisme de liste
-         d'équipement conditionnelle par Légion dans ce fichier ; ni au
-         Canon à shrapnels sur la liste générique des Armes Lourdes de
-         Légion (LISTES_EQUIPEMENT.lourdes), qu'aucune Unité IV Légion
-         de ce fichier n'utilise directement pour l'instant. --- */
+         Trait Iron Warriors. Canon à shrapnels désormais ajouté aux
+         listes génériques Armes Lourdes/sur Pivot de Légion
+         (LISTES_EQUIPEMENT.lourdes/.pivot, requiertLegion "IV", voir
+         js/unites-data.js) : disponible sur toute Unité générique de
+         Légion qui consomme déjà ces listes, dès lors que la Légion
+         choisie est Iron Warriors. Pistolet/Bolter à shrapnels (échange
+         du pistolet bolter/bolter, « toute Figurine d'une Unité
+         entièrement composée de Modèles Iron Warriors ») restent
+         câblés seulement sur les Unités Iron Warriors nommées qui ont
+         l'équipement de base correspondant (Forgeguerre en Armure
+         Artificer, Nârik Dreygur, Iron Havocs, Le Tourmenteur) : les
+         étendre à TOUTES les Unités génériques de Légion (rang-et-
+         fichier compris, sur le modèle de la Hache de Fenris/Sons of
+         Horus) demanderait un chantier à part (des dizaines de sites
+         Bolter/Pistolet bolter à travers ce fichier), non fait ici.
+         Two Sponson Mounted shrapnel cannon (+10 Points, Legion Sponson
+         Weapons list) reste un gap documenté : ce fichier n'a pas de
+         mécanisme de « liste de Sponson de Légion » partagé entre
+         Véhicules (contrairement à optionPivotLegion pour le Pivot),
+         chaque Véhicule à Sponsons ayant ses propres options bespoke ;
+         même gap déjà documenté pour Imperial Fists/Blood Angels
+         (Canon d'assaut Iliastus), voir js/unites-data.js. --- */
       {
         nom: "Pistolet à shrapnels",
         stats: ["10", "1", "4", "-", "1"],
@@ -4303,6 +4361,18 @@ const ARMES_MELEE = [
         traits: "Énergétique, Flammes",
       },
       {
+        // Arme de la Cohorte Éoclaste (Blood Angels, ex-« Dawnbreaker
+        // Cohort »). « Impact (ME) » sur la fiche source retranscrit en
+        // « Impact (MF) » : seule lecture cohérente avec la convention
+        // déjà établie dans ce fichier (Impact référence une colonne du
+        // propre profil de l'Arme — MI/MA/PA/D déjà vus ailleurs — et
+        // cette Arme a une colonne MF, pas de colonne « ME »).
+        nom: "Lance énergétique Étoile Filante",
+        stats: ["+1", "A", "F", "3", "1"],
+        regles: "Impact (MF), Brèche (5+)",
+        traits: "Énergétique",
+      },
+      {
         // Arme de personnage (Khârn le Sanglant, World Eaters).
         nom: "La Trancheuse",
         stats: ["I", "A", "+1", "2", "1"],
@@ -4741,13 +4811,10 @@ const ARMES_MELEE = [
         traits: "Gravitons",
       },
       {
-        // Iron Warriors Legacy Wargear (iron_warriors_wargear.pdf) :
+        // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3) :
         // ajoutée aux listes d'Équipement d'Officier de Légion et
-        // d'Armes de Mêlée de Sergent de Légion pour toute Figurine
-        // ayant le Trait Iron Warriors, +15 Points. Câblée pour
-        // l'instant sur le Forgeguerre en Armure Artificer ci-dessous
-        // uniquement (voir js/unites-data.js) — pas encore ajoutée aux
-        // listes génériques LISTES_EQUIPEMENT.officier/meleeSergent.
+        // d'Armes de Mêlée de Sergent de Légion (LISTES_EQUIPEMENT.
+        // officier/meleeSergent, requiertLegion "IV"), +15 Points.
         nom: "Masse à gravitons",
         stats: ["-1", "A", "+3", "3", "1"],
         regles: "Fléau des Blindages, Choc (Fixée)",
@@ -4763,7 +4830,10 @@ const ARMES_MELEE = [
       },
       {
         // Arme de l'Unité Terminator Contekar (Night Lords), option à
-        // la place de la lame tronçonneuse pour le Dissident.
+        // la place de la lame tronçonneuse pour le Dissident. Aussi
+        // ajoutée à la liste générique d'Équipement d'Officier de
+        // Légion (legacie_wargear.pdf, p. 7, requiertLegion "VIII",
+        // +25 Points — voir LISTES_EQUIPEMENT.officier).
         nom: "Griffe énergétique Escaton",
         stats: ["-2", "A", "+3", "2", "2"],
         regles: "Lacération (6+)",

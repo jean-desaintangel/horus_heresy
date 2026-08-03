@@ -443,7 +443,8 @@ function optionPermise(opt, instance) {
   return true;
 }
 
-/* Équipement final d'une instance : équipement de départ, puis
+/* Équipement final d'une instance, sous forme d'une Map nom → nombre
+   de Figurines qui le portent : équipement de départ, puis
    application de chaque option active. `sansOption` permet de
    calculer « l'équipement si cette option n'existait pas » (sert
    à savoir si une option est encore réalisable : on ne peut pas
@@ -454,32 +455,69 @@ function optionPermise(opt, instance) {
    Légion sur Scimitar…) dont l'arme de base diffère selon la monture
    choisie (`instance.variante`) — même convention que
    `opt.variantesExclues` (optionPermise, ci-dessus) plutôt qu'un
-   nouveau mécanisme séparé. */
-function equipementFinal(unite, instance, sansOption = null) {
-  const equip = unite.equipement
-    .filter(
-      (item) =>
-        typeof item === "string" ||
-        !item.variantesExclues ||
-        !item.variantesExclues.includes(instance.variante),
-    )
-    .map((item) => (typeof item === "string" ? item : item.nom));
-  const retirer = (nom) => {
-    const i = equip.indexOf(nom);
-    if (i !== -1) equip.splice(i, 1);
+   nouveau mécanisme séparé.
+
+   Modèle de comptage (sert à préfixer les caractéristiques d'Armes
+   de la fiche récap d'un nombre de porteurs, ex : « 9 Fusil bolter » —
+   voir construireTablesArmes) :
+   - Équipement de base (avant Options) : compte = effectif de
+     l'instance — `equipementLibelle` documente déjà cette convention
+     (« chaque figurine »).
+   - `choix` SANS `ajoute` avec une cible trouvée (échange partagé par
+     toute l'Unité, ex : type d'arme énergétique d'une Escouade
+     Terminator, où c'est un seul choix pour tout le rang-et-fichier) :
+     le nouvel objet reçoit tout l'effectif, l'ancien est intégralement
+     retiré — comme avant ce mécanisme de comptage.
+   - `choix`/`case`/`paire`/`multi` de type AJOUT (`ajoute: true`, la
+     grande majorité des options de rôle — Sergent, Champion...) :
+     compte = 1. Ce fichier utilise déjà volontairement `ajoute: true`
+     SANS `remplace` fiable pour ces options précisément pour ne pas
+     retirer l'objet de base de tout le reste de l'Unité (voir
+     CLAUDE.md, piège déjà documenté et corrigé plusieurs fois) : quel
+     objet de base précis ce rôle portait avant n'est donc pas modélisé
+     de façon fiable ici, l'objet de base reste affiché à son compte
+     plein. Simplification conservatrice assumée, cohérente avec le
+     reste de ce fichier (mieux vaut sur-compter l'équipement de base
+     que d'inventer une soustraction non fiable).
+   - `quantite` : l'échange porte déjà un compte EXACT (`val`, Figurine
+     par Figurine) — propagé tel quel, et proportionnellement soustrait
+     de la cible `remplaceIntegral` le cas échéant (pas seulement une
+     fois l'effectif entièrement consommé comme avant ce mécanisme).
+   Une entrée dont le compte retombe à 0 (toutes les Figurines qui la
+   portaient l'ont échangée) est retirée de la Map, pas seulement mise
+   à 0 : la caractéristique correspondante ne doit plus apparaître du
+   tout sur la fiche. */
+function calculerEquipementComptes(unite, instance, sansOption = null) {
+  const effectif = instance.effectif || 1;
+  const comptes = new Map();
+  const ajouterCompte = (nom, n) => {
+    if (n <= 0) return;
+    comptes.set(nom, (comptes.get(nom) || 0) + n);
   };
+  const retirer = (nom, n = Infinity) => {
+    if (!comptes.has(nom)) return;
+    const reste = comptes.get(nom) - n;
+    if (reste > 0) comptes.set(nom, reste);
+    else comptes.delete(nom);
+  };
+
+  for (const item of unite.equipement) {
+    if (
+      typeof item !== "string" &&
+      item.variantesExclues &&
+      item.variantesExclues.includes(instance.variante)
+    )
+      continue;
+    ajouterCompte(typeof item === "string" ? item : item.nom, effectif);
+  }
 
   // Options `quantite` posant `remplaceIntegral` (nom exact d'une
   // entrée d'`equipement`) : plusieurs options distinctes (parfois
   // hors `groupe` commun, ex : Les Larmes de l'Ange, IXe Légion)
-  // peuvent viser le même objet de base. Tant que la somme de leurs
-  // valeurs reste sous l'effectif de l'Unité, il reste au moins une
-  // Figurine avec l'objet de départ : on le laisse affiché (comme un
-  // `case`/`choix` sans `remplace`, purement descriptif). Une fois le
-  // total au moins égal à l'effectif, plus aucune Figurine ne l'a :
-  // on le retire une seule fois après la boucle. Clé : soit le nom
+  // peuvent viser le même objet de base — leurs `val` sont cumulés ici
+  // puis soustraits une seule fois après la boucle. Clé : soit le nom
   // exact (rétrocompatible), soit "alt1|alt2|..." quand la cible est
-  // elle-même un tableau d'alternatives (voir cibleUnDe ci-dessous).
+  // elle-même un tableau d'alternatives (voir resoudreCible ci-dessous).
   const totalRemplaceIntegral = new Map();
 
   // `cible` (remplace/remplaceListe/remplaceIntegral) est le plus
@@ -488,17 +526,31 @@ function equipementFinal(unite, instance, sansOption = null) {
   // effectivement présent » (ex : ARMES_ENERGETIQUES, js/unites-
   // data.js — une fois l'arme énergétique de base résolue en un
   // profil précis par optionTypeArmeEnergetique/le choix fusionné,
-  // seul UN des 4 noms est réellement dans `equip`, jamais le nom
-  // générique d'origine). Retourne le premier trouvé dans `equip`,
-  // ou `undefined` si aucun.
+  // seul UN des 4 noms est réellement présent, jamais le nom générique
+  // d'origine). Retourne le premier trouvé, ou `undefined` si aucun.
   const resoudreCible = (cible) => {
     const alternatives = Array.isArray(cible) ? cible : [cible];
-    return alternatives.find((n) => equip.includes(n));
+    return alternatives.find((n) => comptes.has(n));
   };
 
   for (const opt of unite.options) {
     if (opt.id === sansOption || !optionPermise(opt, instance)) continue;
     const val = instance.valeurs[opt.id];
+    // Une option (quel que soit son `type`) qui vise TOUTE l'Unité
+    // plutôt qu'un rôle unique (Sergent/Champion...) porte soit
+    // `parFigurine: true` (déjà utilisé par des `choix` ET des `case`
+    // dans unites-data.js), soit — faute de ce champ sur certaines
+    // options plus anciennes/générées par fabrique (ex :
+    // optionBombesFusionUnite) — un `libelle` commençant par « Toute »/
+    // « Toutes » (convention déjà systématique dans ce fichier : «
+    // Toute Figurine : ... », « Toute l'unité : ... », « Toutes les
+    // Figurines : ... »). Un rôle nommé compte pour 1 Figurine (la
+    // simplification déjà documentée plus haut).
+    const compteRole =
+      opt.parFigurine ||
+      (typeof opt.libelle === "string" && /^toute[s]?\b/i.test(opt.libelle))
+        ? effectif
+        : 1;
 
     if (opt.type === "choix") {
       // `horsEquipement: true` (ex : Techno-arcane Majeur Mechanicum,
@@ -512,13 +564,17 @@ function equipementFinal(unite, instance, sansOption = null) {
       if (!val && !opt.obligatoire) continue; // indice 0 = conserver
       const choix = opt.choix[val];
       const cible = choix.remplace || opt.remplace;
+      // prefixeFiche : précise qui porte l'objet dans une escouade
+      // (ex : "Sergent : Arme énergétique") — n'affecte que le texte
+      // affiché, pas le compte (voir le modèle de comptage ci-dessus).
+      const nomAjoute = (opt.prefixeFiche || "") + nomCourt(choix.nom);
       if (!opt.ajoute && cible) {
         const trouve = resoudreCible(cible);
         if (trouve) retirer(trouve);
+        ajouterCompte(nomAjoute, effectif);
+      } else {
+        ajouterCompte(nomAjoute, compteRole);
       }
-      // prefixeFiche : précise qui porte l'objet dans une escouade
-      // (ex : "Sergent : Arme énergétique").
-      equip.push((opt.prefixeFiche || "") + nomCourt(choix.nom));
     } else if (opt.type === "case") {
       // `ajoute` accepte aussi un tableau : une amélioration de
       // Décurion de Légion accorde souvent plusieurs objets/Règles
@@ -526,8 +582,8 @@ function equipementFinal(unite, instance, sansOption = null) {
       // pour le Décurion Locus, voir optionsDecurionLegion dans
       // js/unites-data.js).
       if (val && opt.ajoute) {
-        if (Array.isArray(opt.ajoute)) equip.push(...opt.ajoute);
-        else equip.push(opt.ajoute);
+        const items = Array.isArray(opt.ajoute) ? opt.ajoute : [opt.ajoute];
+        for (const nom of items) ajouterCompte(nom, compteRole);
       }
     } else if (opt.type === "paire") {
       if (val) {
@@ -535,13 +591,14 @@ function equipementFinal(unite, instance, sansOption = null) {
           const trouve = resoudreCible(cible);
           if (trouve) retirer(trouve);
         }
-        equip.push(opt.ajoute);
+        ajouterCompte(opt.ajoute, compteRole);
       }
     } else if (opt.type === "multi") {
-      for (const i of val) equip.push((opt.prefixe || "") + opt.choix[i].nom);
+      for (const i of val)
+        ajouterCompte((opt.prefixe || "") + opt.choix[i].nom, compteRole);
     } else if (opt.type === "quantite") {
       if (val > 0) {
-        equip.push(val + " × " + opt.ajoute);
+        ajouterCompte(val + " × " + opt.ajoute, val);
         // `remplaceIntegral` accepte aussi un tableau : une même
         // option peut faire disparaître PLUSIEURS objets de base à la
         // fois (ex : « Paire de griffes Lightning » remplaçant à la
@@ -569,13 +626,19 @@ function equipementFinal(unite, instance, sansOption = null) {
   }
 
   for (const { alternatives, total } of totalRemplaceIntegral.values()) {
-    if (total >= (instance.effectif || 1)) {
-      const trouve = alternatives.find((n) => equip.includes(n));
-      if (trouve) retirer(trouve);
-    }
+    const trouve = alternatives.find((n) => comptes.has(n));
+    if (trouve) retirer(trouve, total);
   }
 
-  return equip;
+  return comptes;
+}
+
+// Rétrocompatible : simple liste des noms d'équipement présents (compte
+// > 0), sans leur nombre de porteurs — consommé par optionRealisable
+// (comparaisons de présence/absence) et par la ligne "Équipement" de la
+// fiche récap (construireFiche), qui n'affiche pas de compte.
+function equipementFinal(unite, instance, sansOption = null) {
+  return [...calculerEquipementComptes(unite, instance, sansOption).keys()];
 }
 
 // Nom (sans le suffixe "(liste ...)") de l'Arme sur Pivot actuellement
@@ -1631,12 +1694,14 @@ function construireTableArmes(entetes, armes) {
   enTete.appendChild(ligneTitres);
   table.appendChild(enTete);
 
-  for (const arme of armes) {
+  for (const { arme, compte } of armes) {
     const tr = document.createElement("tr");
     const th = document.createElement("th");
     th.scope = "row";
     th.className = "gauche";
-    th.textContent = arme.nom;
+    // Préfixe le nom du nombre de Figurines qui portent cette Arme
+    // (ex : « 9 Fusil bolter ») — voir calculerEquipementComptes.
+    th.textContent = compte + " " + arme.nom;
     tr.appendChild(th);
     for (const valeur of arme.stats) tr.appendChild(el("td", null, valeur));
     tr.appendChild(construireCelluleReglesArme(arme.regles));
@@ -1659,19 +1724,22 @@ function construireTableArmes(entetes, armes) {
 
 // Repère, dans l'équipement final, les armes reconnues dans l'Arsenal
 // (sans doublon, dans l'ordre d'apparition) et construit une table de
-// caractéristiques par jeu d'en-têtes rencontré (Tir / Mêlée).
+// caractéristiques par jeu d'en-têtes rencontré (Tir / Mêlée), chaque
+// ligne préfixée du nombre de Figurines qui portent cette Arme (voir
+// calculerEquipementComptes/construireTableArmes ci-dessus).
+// `equipementComptes` : Map nom → compte (calculerEquipementComptes).
 // `factionUnite` (ex : "solar-auxilia", "legio-astartes" par défaut) :
 // écarte les profils réservés à une AUTRE Faction que celle de
 // l'Unité affichée (voir suffixeFactionArme) — sans elle, une Unité
 // Legio Astartes équipée d'un « Chargeur volkite » verrait aussi
 // apparaître « Chargeur volkite (Solar Auxilia) » et « (Mechanicum) »
 // dans sa table, qui ne la concernent pas.
-function construireTablesArmes(equipement, factionUnite) {
+function construireTablesArmes(equipementComptes, factionUnite) {
   const faction = factionUnite || "legio-astartes";
   const fragment = document.createDocumentFragment();
-  const armesTrouvees = [];
-  const noms = new Set();
-  for (const texte of equipement) {
+  const armesTrouvees = []; // { arme, compte }
+  const entrees = new Map(); // cle -> entrée déjà poussée dans armesTrouvees
+  for (const [texte, compteTexte] of equipementComptes) {
     const correspondance = trouverArmeDansTexte(texte);
     if (!correspondance) continue;
     // Un montage identifié entraîne tous ses profils (voir
@@ -1710,20 +1778,29 @@ function construireTablesArmes(equipement, factionUnite) {
       // conserver malgré le nom identique — dédoublonner sur `nom` seul
       // en ignorerait un des deux silencieusement.
       const cle = arme.nom + "|" + (arme.entetes === ENTETES_TIR ? "T" : "M");
-      if (noms.has(cle)) continue;
-      noms.add(cle);
-      armesTrouvees.push(arme);
+      const existante = entrees.get(cle);
+      if (existante) {
+        // Deux entrées d'équipement distinctes résolvent la même Arme
+        // (ex : un échange `quantite` de la même Arme que celle déjà
+        // présente en équipement de base) : leurs comptes s'additionnent
+        // plutôt que d'ignorer silencieusement la seconde occurrence.
+        existante.compte += compteTexte;
+        continue;
+      }
+      const entree = { arme, compte: compteTexte };
+      entrees.set(cle, entree);
+      armesTrouvees.push(entree);
     }
   }
 
   const groupes = [];
-  for (const arme of armesTrouvees) {
-    let groupe = groupes.find((g) => g.entetes === arme.entetes);
+  for (const entree of armesTrouvees) {
+    let groupe = groupes.find((g) => g.entetes === entree.arme.entetes);
     if (!groupe) {
-      groupe = { entetes: arme.entetes, armes: [] };
+      groupe = { entetes: entree.arme.entetes, armes: [] };
       groupes.push(groupe);
     }
-    groupe.armes.push(arme);
+    groupe.armes.push(entree);
   }
   for (const groupe of groupes) {
     fragment.appendChild(construireTableArmes(groupe.entetes, groupe.armes));
@@ -2010,15 +2087,15 @@ function construireFiche(unite, instance) {
       ]),
     );
   }
-  const equipement = equipementFinal(unite, instance);
+  const equipementComptes = calculerEquipementComptes(unite, instance);
   fiche.appendChild(
     construireLigneRegles(
       unite.equipementLibelle || "Équipement",
-      equipement,
+      [...equipementComptes.keys()],
       true,
     ),
   );
-  fiche.appendChild(construireTablesArmes(equipement, unite.faction));
+  fiche.appendChild(construireTablesArmes(equipementComptes, unite.faction));
   // [Allégeance], [Legiones Astartes], [Questoris Familia], [Legio
   // Custodes] et [Anathema Psykana] sont communs à toutes les unités de
   // la Légion/Faction : ne pas les afficher sur la fiche évite de les y

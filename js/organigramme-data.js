@@ -1342,9 +1342,6 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Les Cases de Troupes de ce Détachement ne peuvent accueillir que des Escouades d'Assaut. Les Cases d'Élite ne peuvent accueillir que des Cohortes Éoclastes ou des Escouades de Vétérans d'Assaut.",
-    // « Cohorte Éoclaste » n'est pas encore transcrite sur le site :
-    // seule l'Escouade de Vétérans d'Assaut peut occuper les Cases
-    // d'Élite pour l'instant.
     restrictions: {
       Troupes: ["escouade-assaut"],
       Elite: ["cohorte-eoclaste", "escouade-veterans-assaut"],

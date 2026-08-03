@@ -327,6 +327,12 @@ const REGLES_DIVERSES = [
       "Jet de mitigation de dégâts supplémentaire, en plus d'une sauvegarde, réussi sur X ou plus.",
   },
   {
+    // Cohorte Éoclaste (Blood Angels).
+    nom: "Embrasez le Ciel",
+    texte:
+      "On ne peut pas intercepter de loin une Unité ayant cette Règle Spéciale quand elle arrive sur le Champ de Bataille. Quand une Unité incluant au moins une Figurine ayant cette Règle Spéciale, déployée par Frappe en Profondeur, est prise pour cible par une Attaque de Tir faite dans le cadre de la Réaction Avancée Interception, aucune Figurine ennemie à plus de 12 pouces de toute Figurine de l'Unité ne peut faire d'Attaques de Tir dans le cadre de cette Réaction Avancée Interception.",
+  },
+  {
     nom: "Fauchage (X)",
     texte:
       "Si la figurine est en infériorité numérique en Combat, elle gagne un bonus de X Attaques.",

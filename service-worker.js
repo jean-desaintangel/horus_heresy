@@ -152,7 +152,19 @@
 // qualificatif entre parenthèses (js/main.js) et traduit « Aflame (2) »
 // resté en anglais (js/unites-data.js) — js/regles-data.js, js/main.js,
 // js/unites-data.js.
-const CACHE_VERSION = "v76";
+// v76 : corrige trois options de l'Escouade d'Assaut (Liber Astartes) —
+// js/unites-data.js.
+// v77 : préfixe chaque ligne de la table de caractéristiques d'Armes de
+// la fiche récap du nombre de Figurines qui la portent (ex : « 9 Fusil
+// bolter »), avec soustraction exacte pour les échanges `quantite`
+// (armes spéciales/lourdes) — js/unites.js.
+// v78 : ajoute le Dreadnought Contemptor-Osiron (Thousand Sons) et la
+// Cohorte Éoclaste (Blood Angels, résout le gap « Dawnbreaker Cohort »),
+// câble les options Legacy Wargear manquantes des 18 Légions
+// (legacie_wargear.pdf) sur les listes d'équipement génériques et les
+// unités déjà présentes — js/unites-data.js, js/armes-data.js,
+// js/regles-data.js, js/organigramme-data.js.
+const CACHE_VERSION = "v78";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

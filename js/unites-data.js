@@ -166,6 +166,12 @@ const LISTES_EQUIPEMENT = {
         cout: 0,
         requiertSerment: "armes-desespoir",
       },
+      // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3).
+      { nom: "Masse à gravitons", cout: 15, requiertLegion: "IV" },
+      // Night Lords Legacy Wargear (legacie_wargear.pdf, p. 7).
+      { nom: "Griffe énergétique Escaton", cout: 25, requiertLegion: "VIII" },
+      // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 14).
+      { nom: "Pistolet à étherfeu", cout: 10, requiertLegion: "XV" },
     ],
   },
   meleeTerminator: {
@@ -190,6 +196,8 @@ const LISTES_EQUIPEMENT = {
       { nom: "Marteau Thunder", cout: 15 },
       { nom: "Gantelet énergétique", cout: 15 },
       { nom: "Griffe Lightning", cout: 10 },
+      // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3).
+      { nom: "Masse à gravitons", cout: 15, requiertLegion: "IV" },
     ],
   },
   pistolets: {
@@ -198,6 +206,10 @@ const LISTES_EQUIPEMENT = {
       { nom: "Pistolet à plasma", cout: 5 },
       { nom: "Lance-flammes léger", cout: 5 },
       { nom: "Serpentine volkite", cout: 5 },
+      // Death Guard Legacy Wargear (legacie_wargear.pdf, p. 13).
+      { nom: "Projecteur alchim", cout: 5, requiertLegion: "XIV" },
+      // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 14).
+      { nom: "Pistolet à étherfeu", cout: 10, requiertLegion: "XV" },
     ],
   },
   combinees: {
@@ -211,6 +223,12 @@ const LISTES_EQUIPEMENT = {
       { nom: "Combi-lance-grenades", cout: 10 },
       { nom: "Combi-désintégrateur", cout: 10 },
       { nom: "Combi-grav", cout: 10 },
+      // Death Guard Legacy Wargear (legacie_wargear.pdf, p. 13).
+      {
+        nom: "Combi-lance-flammes alchim",
+        cout: 10,
+        requiertLegion: "XIV",
+      },
     ],
   },
   speciales: {
@@ -227,6 +245,15 @@ const LISTES_EQUIPEMENT = {
       // Weapons list »).
       { nom: "Deathlock", cout: 15, requiertSerment: "souillure-xenos" },
       { nom: "Doomlock", cout: 10, requiertSerment: "souillure-xenos" },
+      // Dark Angels Legacy Wargear (legacie_wargear.pdf, p. 5).
+      { nom: "Répéteur à plasma", cout: 15, requiertLegion: "I" },
+      // Iron Hands Legacy Wargear (legacie_wargear.pdf, p. 9).
+      { nom: "Fusil à gravitons", cout: 10, requiertLegion: "X" },
+      { nom: "Déchiqueteur à gravitons", cout: 15, requiertLegion: "X" },
+      // Death Guard Legacy Wargear (legacie_wargear.pdf, p. 13).
+      { nom: "Lance-flammes alchim", cout: 5, requiertLegion: "XIV" },
+      // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 14).
+      { nom: "Blaster à étherfeu", cout: 15, requiertLegion: "XV" },
     ],
   },
   lourdes: {
@@ -240,6 +267,12 @@ const LISTES_EQUIPEMENT = {
       { nom: "Canon à plasma", cout: 20 },
       { nom: "Couleuvrine volkite", cout: 15 },
       { nom: "Canon laser", cout: 25 },
+      // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3).
+      { nom: "Canon à shrapnels", cout: 15, requiertLegion: "IV" },
+      // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 14).
+      { nom: "Canon Magna à étherfeu", cout: 20, requiertLegion: "XV" },
+      // Death Guard Legacy Wargear (legacie_wargear.pdf, p. 13).
+      { nom: "Lance-flammes lourd alchim", cout: 10, requiertLegion: "XIV" },
     ],
   },
   pivot: {
@@ -254,6 +287,19 @@ const LISTES_EQUIPEMENT = {
       { nom: "Bolter lourd sur Pivot", cout: 10 },
       { nom: "Lance-flammes lourd sur Pivot", cout: 10 },
       { nom: "Multi-fuseur sur Pivot", cout: 25 },
+      // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3) : même
+      // profil que « Canon à shrapnels » ci-dessus (retrouvé par
+      // sous-chaîne, pas de profil « sur Pivot » dédié — comme les
+      // autres entrées de cette liste).
+      { nom: "Canon à shrapnels sur Pivot", cout: 15, requiertLegion: "IV" },
+      // Death Guard Legacy Wargear (legacie_wargear.pdf, p. 13) : même
+      // principe, retrouvé par sous-chaîne sur « Lance-flammes lourd
+      // alchim » ci-dessus.
+      {
+        nom: "Lance-flammes lourd alchim sur Pivot",
+        cout: 15,
+        requiertLegion: "XIV",
+      },
     ],
   },
   laterales: {
@@ -397,6 +443,23 @@ const LISTES_ARSENAL_IMPERIAL_FISTS = {
       {
         nom: "Bouclier Storm modèle Vigil (Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
         cout: 10,
+        requiertLegion: "VII",
+      },
+    ],
+  },
+  // Canon d'assaut Iliastus (legacie_wargear.pdf, p. 10, « Legion Heavy
+  // Weapons list ») : « Toute Figurine [d'une Escouade de Vétérans
+  // Tactiques ou d'une Escouade d'État-Major de Centurion, référencées
+  // "Iliastus Support Squads"] peut échanger son lance-flammes lourd
+  // contre un canon d'assaut Iliastus pour +20 Points. » Coût absolu =
+  // 20 (prix de la liste, comme pour Blood Angels ci-dessous — pas un
+  // delta sur le lance-flammes lourd).
+  lourdes: {
+    nom: "Armes Lourdes de Légion (Canon d'assaut Iliastus, Imperial Fists)",
+    items: [
+      {
+        nom: "Canon d'assaut Iliastus — Tir soutenu",
+        cout: 20,
         requiertLegion: "VII",
       },
     ],
@@ -1166,6 +1229,22 @@ const CHOIX_ARMES_ENERGETIQUES = ARMES_ENERGETIQUES.map((nom) => ({
     { nom: "Masse de Perdition", cout: 5, requiertLegion: "IX" },
     { nom: "Lance de Perdition", cout: 5, requiertLegion: "IX" },
   ],
+  // Arsenal des World Eaters (legacie_wargear.pdf, p. 11) : « Tout
+  // Modèle de Sous-type Commandement, Champion, Spécialiste ou Sergent »
+  // — inclut le Spécialiste comme Death Guard/Artifice de Nocturne
+  // Salamanders, à la différence de la plupart des autres Arsenals de
+  // Légion ci-dessus. +10 Points en échange d'une arme énergétique
+  // contre une Arme des Caedere au choix (les 4 mêmes profils déjà
+  // câblés en dur sur l'Escouade Saccageuse/les Escouades de
+  // Destructeurs Main Rouge, voir js/unites-data.js — gap comblé ici
+  // pour le reste du roster générique de Légion, déjà documenté comme
+  // non câblé dans CLAUDE.md avant ce chantier).
+  [
+    { nom: "Marteau météore", cout: 10, requiertLegion: "XII" },
+    { nom: "Hache tronçonneuse Excoriator", cout: 10, requiertLegion: "XII" },
+    { nom: "Paire de falax", cout: 10, requiertLegion: "XII" },
+    { nom: "Fouet barbelé", cout: 10, requiertLegion: "XII" },
+  ],
 );
 
 // Option "choix" obligatoire (coût nul) qui résout une « Arme
@@ -1516,6 +1595,16 @@ function optionPivotLegion(verrouillePar) {
         nom: "Canon d'assaut Iliastus sur Pivot (Blood Angels) — Tir soutenu",
         cout: 20,
         requiertLegion: "IX",
+      },
+      // Même Règle, Imperial Fists (legacie_wargear.pdf, p. 6, « Legion
+      // Pintle Weapons list »). Profil dupliqué sous un nom propre à
+      // cette Légion (même principe que « Missile traqueur
+      // (Mechanicum) »/« (Skitarii) », voir CLAUDE.md) : le nom affiché
+      // sur la fiche doit rester correct quelle que soit la Légion.
+      {
+        nom: "Canon d'assaut Iliastus sur Pivot (Imperial Fists) — Tir soutenu",
+        cout: 20,
+        requiertLegion: "VII",
       },
     ],
     ...(verrouillePar ? { desactiveSiOptionActive: verrouillePar } : {}),
@@ -7206,6 +7295,11 @@ const UNITES = [
           parTranche: 5,
           remplace: "du bolter",
         }),
+        ...quantiteDepuisListe(LISTES_ARSENAL_IMPERIAL_FISTS.lourdes, {
+          groupe: "lourde",
+          parTranche: 5,
+          remplace: "du bolter",
+        }),
         {
           type: "choix",
           id: "etendard-veteran",
@@ -11937,6 +12031,12 @@ const UNITES = [
         parTranche: 5,
         remplace: "du bolter",
       }),
+      ...quantiteDepuisListe(LISTES_ARSENAL_IMPERIAL_FISTS.lourdes, {
+        remplaceIntegral: "Bolter",
+        groupe: "lourde",
+        parTranche: 5,
+        remplace: "du bolter",
+      }),
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -13042,6 +13142,92 @@ const UNITES = [
         cout: 5,
         ajoute: "Harnais à grenades (Exemple Écarlate)",
       },
+    ],
+    legion: "IX",
+  },
+  {
+    // Anciennement « Dawnbreaker Cohort », gap documenté ailleurs dans
+    // ce fichier avant que le proprio ne fournisse cette fiche de base
+    // (2026-08-03) — nom retenu : « Cohorte Éoclaste ». Comble
+    // l'`id: "cohorte-eoclaste"` déjà anticipé par le Détachement
+    // Auxiliaire « Ost de la Révélation » (js/organigramme-data.js,
+    // restrictions.Elite), voir le commentaire mis à jour là-bas.
+    id: "cohorte-eoclaste",
+    nom: "Cohorte Éoclaste",
+    categorie: "Elite",
+    cout: 150,
+    composition: "1 Champion Éoclaste, 4 Éoclastes",
+    effectif: { base: 5, max: 10, cout: 25 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "Blood Angels"],
+    notes:
+      "Même au sein d'une Légion où les talents pour les frappes orbitales et les assauts de choc sont légendaires, les Éoclastes sont choisis parmi les guerriers les plus expérimentés et audacieux des escouades d'assaut. Entraînés et équipés pour être le fer de lance des autres Unités d'assaut, car ils n'ont qu'un seul rôle : percer les lignes de l'ennemi et lui arracher le cœur. Armés comme ils le sont de lances et de lames aux champs énergétiques crépitants, peu de guerriers peuvent résister à leur attaque.",
+    equipement: ["Lance énergétique Étoile Filante", "Décharge-grenades"],
+    variantes: [
+      {
+        nom: "Cohorte Éoclaste",
+        cout: 0,
+        profils: [
+          {
+            nom: "Éoclaste",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Champion Éoclaste",
+            profil: {
+              M: 12,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 8,
+              Sf: 8,
+              Vo: 7,
+              Int: 7,
+              Sv: "2+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Embrasez le Ciel", "Massif (2)", "Frappe en Profondeur"],
+        type: "Champion Éoclaste : Infanterie (Sergent, Antigrav) · Éoclaste : Infanterie (Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "champion-arme",
+        libelle:
+          "Le Champion Éoclaste : échanger sa lance énergétique Étoile Filante contre une arme de Perdition",
+        ajoute: true,
+        prefixeFiche: "Champion Éoclaste : ",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          { nom: "Lame de Perdition", cout: 5 },
+          { nom: "Hache de Perdition", cout: 5 },
+          { nom: "Masse de Perdition", cout: 5 },
+          { nom: "Lance de Perdition", cout: 5 },
+        ],
+      },
+      optionBombesFusionUnite(),
     ],
     legion: "IX",
   },
@@ -14892,6 +15078,126 @@ const UNITES = [
       },
     ],
   },
+
+  /* ----------------------------------------------------------
+     UNITÉ RÉSERVÉE À LA XVe LÉGION (THOUSAND SONS)
+     Voir la note sur Magnus le Rouge, catégorie Seigneur de Guerre.
+     Options Legacy Wargear (legacie_wargear.pdf, p. 18) désormais
+     câblées : Canon à bolts Gravis → Canon Magna à étherfeu (+10),
+     combi-bolter → Blaster à étherfeu (+10) — voir options `canon`/
+     `combi-bolter` ci-dessus.
+     « Lame de force Gravis » : aucun profil d'Arme donné sur la fiche
+     source (pas d'encart Arsenal séparé) — laissée en texte
+     d'équipement brut, conformément à la règle 6 (CLAUDE.md).
+     ---------------------------------------------------------- */
+  {
+    id: "dreadnought-contemptor-osiron",
+    nom: "Dreadnought Contemptor-Osiron",
+    categorie: "Engins de Guerre",
+    cout: 200,
+    composition: "1 Dreadnought Contemptor-Osiron",
+    traits: ["[Allégeance]", "Thousand Sons", "Écran de Fumée", "Psyker"],
+    notes:
+      "Des décennies durant, les techniques médicales par lesquelles les pouvoirs d'un psyker pouvaient être conservés durant la semi-vie de l'incarcération dans un sarcophage de Dreadnought échappèrent aux Legiones Astartes. Ce ne fut que lorsque Magnus lui-même se pencha sur la question, qu'il trouva une solution, bien qu'elle fût difficile. Il imagina ainsi l'emploi d'une barrière psychométrique disposée autour du cerveau organique du psyker mortellement blessé, qu'il baptisa « Osiron ». Les Thousand Sons adaptèrent immédiatement ces dispositifs délicats aux châssis des Dreadnoughts Contemptor en leur possession, avec d'excellents résultats.",
+    equipement: ["Canon à bolts Gravis", "Lame de force Gravis", "Combi-bolter"],
+    variantes: [
+      {
+        nom: "Dreadnought Contemptor-Osiron",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 4,
+          CT: 4,
+          F: 7,
+          E: 7,
+          PV: 6,
+          I: 4,
+          A: 4,
+          Cd: 10,
+          Sf: 8,
+          Vo: 5,
+          Int: 7,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Massif (6)", "Explose (5+)", "Avance Implacable"],
+        type: "Marcheur",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "canon",
+        libelle: "Remplacer le canon à bolts Gravis",
+        remplace: "Canon à bolts Gravis",
+        choix: [
+          { nom: "— Canon à bolts Gravis (gratuit) —", cout: 0 },
+          { nom: "Canon à fusion Gravis", cout: 15 },
+          { nom: "Autocanon Gravis", cout: 10 },
+          { nom: "Canon à plasma Gravis", cout: 10 },
+          { nom: "Canon à conversion", cout: 20 },
+          { nom: "Couleuvrine volkite jumelée", cout: 15 },
+          { nom: "Canon d'assaut Kheres", cout: 15 },
+          { nom: "Canon laser jumelé", cout: 20 },
+          // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 18) :
+          // « This Model may have its Gravis bolt cannon exchanged for
+          // one æther-fire magna-cannon for +10 Points. »
+          {
+            nom: "Canon Magna à étherfeu (à la place du canon à bolts Gravis)",
+            cout: 10,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "combi-bolter",
+        libelle: "Remplacer le combi-bolter",
+        remplace: "Combi-bolter",
+        choix: [
+          { nom: "— Aucun échange —", cout: 0 },
+          {
+            nom: "Lance-flammes lourd (à la place du combi-bolter)",
+            cout: 5,
+          },
+          { nom: "Éclateur à plasma (à la place du combi-bolter)", cout: 10 },
+          { nom: "Fusil à gravitons (à la place du combi-bolter)", cout: 15 },
+          { nom: "Fuseur (à la place du combi-bolter)", cout: 15 },
+          // Thousand Sons Legacy Wargear (legacie_wargear.pdf, p. 18) :
+          // « This Model may have its combi-bolter exchanged for one
+          // æther-fire blaster for +10 Points. »
+          {
+            nom: "Blaster à étherfeu (à la place du combi-bolter)",
+            cout: 10,
+          },
+        ],
+      },
+      {
+        type: "case",
+        id: "lanceur-havoc",
+        libelle: "Lanceur Havoc",
+        cout: 5,
+        ajoute: "Lanceur Havoc",
+      },
+      {
+        type: "choix",
+        id: "discipline-psychique",
+        libelle: "Discipline Psychique",
+        ajoute: true,
+        prefixeFiche: "Discipline : ",
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          { nom: "Biomancie", cout: 20 },
+          { nom: "Pyromancie", cout: 10 },
+          { nom: "Télékinésie", cout: 20 },
+          { nom: "Divination", cout: 20 },
+          { nom: "Thaumaturgie", cout: 0 },
+          { nom: "Télépathie", cout: 10 },
+        ],
+      },
+    ],
+    legion: "XV",
+  },
+
   {
     id: "dreadnought-castra-ferrum",
     nom: "Dreadnought Castra Ferrum",
@@ -19189,11 +19495,20 @@ const UNITES = [
      avec la mention « (Legacies) » dans le menu déroulant « Unité à
      ajouter ». Voir js/armes-data.js pour leurs armes propres — le
      Canon d'assaut Iliastus existe déjà dans l'Arsenal (option de
-     Décurion Sagittar, voir optionsDecurionLegion ci-dessus) : son
-     ajout Legacy aux listes d'Armes Lourdes/Sponson/sur Pivot de
-     Légion n'est pas câblé sur une Unité générique de Légion (Escouade
-     de Soutien, etc.) faute d'unité Imperial Fists de ce livre qui
-     l'utilise directement.
+     Décurion Sagittar, voir optionsDecurionLegion ci-dessus). Son ajout
+     Legacy (legacie_wargear.pdf, p. 6) aux listes d'Armes Lourdes/sur
+     Pivot de Légion est désormais câblé (LISTES_ARSENAL_IMPERIAL_
+     FISTS.lourdes, chaîné sur Escouade de Vétérans Tactiques/Escouade
+     d'État-Major de Centurion comme pour Blood Angels ; profil dédié
+     dans optionPivotLegion, voir js/armes-data.js). Reste un gap
+     documenté : « Two Sponson Mounted Iliastus assault cannon »
+     (+30 Points, Legion Sponson Weapons list) — ce fichier n'a pas de
+     mécanisme de « liste de Sponson de Légion » partagé entre Véhicules
+     (contrairement à optionPivotLegion pour le Pivot), chaque Véhicule à
+     Sponsons ayant ses propres options bespoke ; aucun Véhicule Legacy
+     Imperial Fists de ce lot n'en a besoin directement, non câblé sur
+     les Véhicules génériques faute d'un tel mécanisme (même gap pour
+     Blood Angels, voir plus bas).
      ---------------------------------------------------------- */
   {
     id: "escorte-terminators-huscarl",
@@ -21479,6 +21794,7 @@ const UNITES = [
       // Space Wolves Legacy Wargear (space_wolves_wargear.pdf), section
       // « Deathsworn Pack ».
       {
+        remplaceIntegral: "Hache énergétique",
         type: "quantite",
         id: "gantelet-energetique",
         libelle:
@@ -26253,12 +26569,19 @@ const UNITES = [
      avec la mention « (Legacies) » dans le menu déroulant « Unité à
      ajouter ». Voir js/armes-data.js pour ses armes propres — le
      Lance-flammes lourd alchim, la Faux énergétique et les Bombes à
-     phosphex/fusion existaient déjà (réutilisés tels quels). Le
-     Projecteur alchim déjà existant (Escouade Terminator du Linceul)
-     est réutilisé pour l'« Alchem caster » de l'armurerie générale
-     Death Guard (liste d'Officier/Pistolets de Légion), non câblé sur
-     une Unité générique faute de mécanisme de liste conditionnelle par
-     Légion (voir CLAUDE.md).
+     phosphex/fusion existaient déjà (réutilisés tels quels). L'armurerie
+     générale Death Guard (legacie_wargear.pdf, p. 13 : Projecteur alchim
+     sur les listes d'Officier/Pistolets de Légion, Combi-lance-flammes
+     alchim sur la liste d'Armes Combinées, Lance-flammes alchim sur la
+     liste d'Armes Spéciales, Lance-flammes lourd alchim sur les listes
+     d'Armes Lourdes/sur Pivot) est désormais câblée génériquement
+     (LISTES_EQUIPEMENT.*, requiertLegion "XIV" — voir plus haut dans ce
+     fichier) : disponible sur toute Unité générique de Légion qui
+     consomme déjà ces listes. Reste un gap documenté : Two Sponson
+     Mounted heavy alchem flamer (+10 Points, Legion Sponson Weapons
+     list) — même limite déjà documentée pour Imperial Fists/Blood
+     Angels/Iron Warriors (pas de mécanisme de « liste de Sponson de
+     Légion » partagé entre Véhicules dans ce fichier).
      ---------------------------------------------------------- */
   {
     id: "escouade-empoisonneurs-mortus",
@@ -26975,11 +27298,15 @@ const UNITES = [
      Marquées legacy: true (comme Garde Sanguinienne) pour s'afficher
      avec la mention « (Legacies) » dans le menu déroulant « Unité à
      ajouter ». Voir js/armes-data.js pour leurs armes propres — le
-     Canon à étherfeu existait déjà (réutilisé tel quel). Non transcrit
-     faute d'Unité hôte dans ce fichier : les options Legacy du «
-     Contemptor-Osiron Dreadnought » (Canon à bolts Gravis → Canon Magna
-     à étherfeu, combi-bolter → Blaster à étherfeu), ce Marcheur n'étant
-     pas autrement présent ici. Ces Unités n'ont pas d'accès normal à un
+     Canon à étherfeu existait déjà (réutilisé tel quel). Le Dreadnought
+     Contemptor-Osiron a depuis été ajouté (fiche du livre de base,
+     catégorie Engins de Guerre ci-dessus, hors de ce bloc Legacy) mais
+     ses options Legacy propres (Canon à bolts Gravis → Canon Magna à
+     étherfeu, combi-bolter → Blaster à étherfeu) restent non transcrites
+     faute du prix exact de ces deux échanges POUR CE MARCHEUR (seul le
+     prix pour la liste générique d'Armes Lourdes de Légion est connu,
+     voir js/armes-data.js) — gap à combler si le proprio fournit le
+     wargear PDF. Ces Unités n'ont pas d'accès normal à un
      Arcane de Prospero (`ARCANE_DE_PROSPERO`) : le Numérologiste a des
      Pouvoirs Psychiques fixes à la place (voir sa Règle Spéciale), et
      l'Ammitara n'en mentionne aucun sur sa fiche.
@@ -28242,7 +28569,7 @@ const UNITES = [
         ajoute: "Maître de Siège : harnais à grenades",
       },
       {
-        remplaceIntegral: "Combi-bolter",
+        remplaceIntegral: ["Combi-bolter", "Gantelet énergétique"],
         type: "quantite",
         id: "paires-griffes",
         libelle:

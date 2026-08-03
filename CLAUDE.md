@@ -399,14 +399,21 @@ Règles Spéciales :
   Unité porte donc son propre `maxParArmee: 1` indépendant — gap
   documenté, rien n'empêche encore de prendre les deux simultanément tant
   que cette restriction croisée n'est pas implémentée dans le moteur.
-- **Dawnbreaker Cohort (Blood Angels Legacy Wargear)** : unité mentionnée
-  dans le wargear PDF (échange lance énergétique en étoile filante contre
-  paire de lames équinoxes) mais **absente de `unites-data.js`** — ni le
-  livre de base ni aucune légion précédente ne l'a introduite sous ce nom
-  ni sous une traduction plausible (vérifié par recherche). Contrairement
-  aux autres unités visées par un wargear PDF (toujours déjà présentes),
-  celle-ci n'a pas de fiche à mettre à jour : gap documenté, à combler
-  seulement si le proprio fournit la fiche de base de cette unité.
+- **Dawnbreaker Cohort (Blood Angels Legacy Wargear) résolu (2026-08-03)** :
+  fiche de base fournie par le proprio sous son nom français « Cohorte
+  Éoclaste » (`cohorte-eoclaste`, catégorie Elite, Blood Angels
+  uniquement) — comble l'`id` déjà anticipé par le Détachement Auxiliaire
+  Ost de la Révélation (`restrictions.Elite`, js/organigramme-data.js).
+  Nouvelle Arme « Lance énergétique Étoile Filante » (js/armes-data.js) :
+  « Impact (ME) » sur la fiche source retranscrit en **« Impact (MF) »**
+  — seule lecture cohérente avec la convention déjà établie dans ce
+  fichier (Impact référence toujours une colonne du propre profil de
+  l'Arme, MI/MA/PA/D déjà vus ailleurs, jamais « ME » qui ne correspond à
+  aucune colonne). Nouvelle Arme « Décharge-grenades » (profils Frag/
+  Krak). Nouvelle Règle Spéciale « Embrasez le Ciel » (texte intégral).
+  Échange Lance Étoile Filante → Arme de Perdition au choix (+5,
+  réutilise LISTES_ARSENAL_BLOOD_ANGELS déjà établi) et bombes à fusion
+  pour toute l'Unité (+25, réutilise `optionBombesFusionUnite()`).
 - Red Hand (World Eaters, surnom informel de la marque) → **Main Rouge**
   (nom d'Unité) ; Blood Hand (nom formel de la même marque, dans le texte
   de la Règle Spéciale) → **Main Sanglante** — deux mots anglais distincts
@@ -3476,6 +3483,70 @@ Règles Spéciales :
      (js/main.js, utilisé par toutes les pages) : bénéficie
      immédiatement aux deux sites déjà présents dans le fichier sans
      toucher à leurs données, et à toute future entrée du même genre.
+
+- **Compte de porteurs sur les tables de caractéristiques d'Armes de la
+  fiche récap** (`calculerEquipementComptes`, js/unites.js — remplace
+  l'ancienne `equipementFinal` en interne, qui reste une simple
+  enveloppe rétrocompatible renvoyant la liste des noms) : chaque ligne
+  de la table d'Armes (`construireTableArmes`) est désormais préfixée
+  du nombre de Figurines qui portent cette Arme (ex : « 9 Fusil bolter »,
+  « 1 Épée énergétique ») ; une Arme dont le compte retombe à 0
+  disparaît entièrement de la table plutôt que d'afficher un compte nul
+  (demande explicite du proprio, 2026-08-03).
+  Modèle de comptage (pas de nouveau champ de données introduit, dérivé
+  entièrement de la structure déjà existante) :
+  - Équipement de base (`unite.equipement`) : compte = effectif de
+    l'instance (`equipementLibelle` documente déjà la convention
+    « chaque figurine »).
+  - Échange `quantite` (armes spéciales/lourdes, Figurine par
+    Figurine) : compte = `val`, EXACT — et surtout, `remplaceIntegral`
+    soustrait désormais proportionnellement de la cible dès la première
+    Figurine échangée (ex : 2 Figurines sur 5 prennent un Fusil à pompe
+    Astartes → 3 Bolter + 2 Fusil à pompe Astartes), alors que l'ancien
+    mécanisme ne retirait la cible qu'une fois l'effectif ENTIÈREMENT
+    consommé (sinon la cible restait affichée à son compte plein, sans
+    aucune indication du partage réel). C'est le seul cas de ce chantier
+    où une soustraction EXACTE est faite.
+  - Option `choix` SANS `ajoute` avec une cible trouvée (échange
+    partagé par toute l'Unité, ex : type d'arme énergétique d'une
+    Escouade Terminator) : le nouvel objet reçoit tout l'effectif,
+    l'ancien est intégralement retiré — comportement déjà existant,
+    inchangé.
+  - Option de type AJOUT (`choix`/`case`/`paire`/`multi` avec
+    `ajoute: true` ou équivalent — la grande majorité des options de
+    rôle, Sergent/Champion...) : compte = 1, SAUF si l'option vise
+    explicitement toute l'Unité, détecté par `opt.parFigurine === true`
+    (champ déjà existant, voir plus haut dans ce fichier) OU par un
+    `libelle` commençant par « Toute »/« Toutes » (convention textuelle
+    déjà systématique dans ce fichier — « Toute Figurine : ... »,
+    « Toute l'unité : ... », « Toutes les Figurines : ... » — utilisée
+    y compris par des options SANS `parFigurine`, ex :
+    `optionBombesFusionUnite()`), auquel cas compte = effectif.
+  - **Limite assumée, documentée en commentaire dans le code** : une
+    option de rôle (Sergent/Champion...) de type AJOUT ne soustrait
+    JAMAIS l'objet remplacé de l'équipement de base partagé (donc « 10
+    Bolter » reste affiché même si le Sergent a réellement échangé le
+    sien contre une Épée énergétique séparée, affichée en plus à
+    compte 1) — ce fichier utilise déjà délibérément `ajoute: true`
+    SANS `remplace` fiable sur ces options précisément pour ne PAS
+    retirer l'objet de tout le reste de l'Unité (piège déjà documenté
+    et corrigé plusieurs fois ailleurs dans ce fichier, ex. Escouade
+    d'Assaut ci-dessus) : quel objet de base précis un rôle portait
+    avant n'est donc pas modélisé de façon fiable pour l'ensemble du
+    roster, et inventer une soustraction ici recréerait exactement ce
+    type de bug. Simplification conservatrice acceptée par le proprio
+    (mieux vaut sur-compter l'équipement de base que soustraire au
+    hasard) plutôt que de migrer les milliers d'options existantes vers
+    un champ de soustraction explicite.
+  Vérifié par audit Node headless (jsdom, scratchpad) sur l'intégralité
+  du roster (515 Unité×variante en configuration par défaut + 7200
+  activations d'options individuelles, toutes Factions confondues) :
+  aucune exception, aucun compte négatif/non fini, chaque ligne de
+  table d'Armes rendue porte bien un compte numérique. La ligne
+  "Équipement" (texte, pas la table) et `optionRealisable` restent
+  inchangées (toujours une simple liste de présence/absence via
+  `equipementFinal`, sans compte) — seule la table de caractéristiques
+  affiche des comptes, conformément à la demande.
 
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
