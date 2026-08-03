@@ -947,9 +947,14 @@ function restaurer() {
    dupliquer cette logique.
    ---------------------------------------------------------- */
 // Réduit un libellé à des caractères sûrs pour un nom de fichier (garde
-// lettres/chiffres, y compris accentués, tout le reste devient "-").
+// lettres/chiffres, y compris accentués, tout le reste devient "-") — les
+// apostrophes (ex : Emperor's Children) sont retirées plutôt que
+// transformées en tiret, pour ne pas couper le mot en deux.
 function nomFichierSlug(texte) {
-  return texte.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "");
+  return texte
+    .replace(/['’]/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 // Segments identifiant la liste actuelle (Faction, puis sa subdivision
