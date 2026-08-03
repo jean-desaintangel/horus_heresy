@@ -501,7 +501,21 @@ function optionPermise(opt, instance) {
    Une entrée dont le compte retombe à 0 (toutes les Figurines qui la
    portaient l'ont échangée) est retirée de la Map, pas seulement mise
    à 0 : la caractéristique correspondante ne doit plus apparaître du
-   tout sur la fiche. */
+   tout sur la fiche.
+
+   `porteurs` (multiplicateur, défaut 1) : un item d'`equipement`, une
+   entrée de `choix`, ou un élément du tableau `ajoute` d'une option
+   `case`/`paire` peut être un objet `{ nom, porteurs }` plutôt qu'une
+   simple chaîne — multiplie le compte au-delà d'« une par Figurine/
+   effectif » quand le NOM porte déjà un nombre qui ne correspond pas
+   à un vrai profil d'Arme combiné (ex : « Deux lance-flammes lourds »
+   du Dreadnought Leviathan, deux Armes indépendantes, contre « Paire
+   de pinces de siège Leviathan », profil d'Arme À PART ENTIÈRE dans
+   l'Arsenal représentant les deux bras à la fois — compte 1, pas 2 :
+   vérifier si l'Arsenal a un profil "Paire de ..."/combiné distinct
+   avant de poser `porteurs` sur un tel item). Voir aussi
+   trouverToutesArmesDansTexte (plus bas) qui peut faire correspondre
+   PLUSIEURS profils d'Armes différents à une même entrée de texte. */
 function calculerEquipementComptes(unite, instance, sansOption = null) {
   const effectif = instance.effectif || 1;
   const comptes = new Map();
@@ -523,7 +537,15 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
       item.variantesExclues.includes(instance.variante)
     )
       continue;
-    ajouterCompte(typeof item === "string" ? item : item.nom, effectif);
+    // `porteurs` (sur l'item d'équipement, ou sur `choix`/l'option
+    // elle-même plus bas) : multiplie le compte au-delà d'« une par
+    // Figurine » — sert un objet dont le NOM porte déjà un nombre
+    // (« Deux lance-flammes lourds », « Paire de pinces de siège
+    // Leviathan et deux fuseurs ») pour que la table de caractéristiques
+    // affiche le bon compte de porteurs malgré l'effectif/compteRole
+    // habituel (voir Dreadnought Leviathan, js/unites-data.js).
+    const porteurs = (typeof item !== "string" && item.porteurs) || 1;
+    ajouterCompte(typeof item === "string" ? item : item.nom, effectif * porteurs);
   }
 
   // Options `quantite` posant `remplaceIntegral` (nom exact d'une
@@ -583,12 +605,13 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
       // (ex : "Sergent : Arme énergétique") — n'affecte que le texte
       // affiché, pas le compte (voir le modèle de comptage ci-dessus).
       const nomAjoute = (opt.prefixeFiche || "") + nomCourt(choix.nom);
+      const porteursChoix = choix.porteurs || 1;
       if (!opt.ajoute && cible) {
         const trouve = resoudreCible(cible);
         if (trouve) retirer(trouve);
-        ajouterCompte(nomAjoute, effectif);
+        ajouterCompte(nomAjoute, effectif * porteursChoix);
       } else {
-        ajouterCompte(nomAjoute, compteRole);
+        ajouterCompte(nomAjoute, compteRole * porteursChoix);
         // `remplacePartiel` (à la différence de `remplace`/`cible`
         // ci-dessus, qui retirent l'objet visé pour TOUTE l'Unité) ne
         // retire que `compteRole` Figurines — sûr uniquement pour un
@@ -608,10 +631,18 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
       // Décurion de Légion accorde souvent plusieurs objets/Règles
       // Spéciales à la fois (ex : scanner augure + Frappe Localisée
       // pour le Décurion Locus, voir optionsDecurionLegion dans
-      // js/unites-data.js).
+      // js/unites-data.js). Chaque élément peut aussi être un objet
+      // `{ nom, porteurs }` (même convention que `unite.equipement` plus
+      // haut) quand un même `ajoute` combine deux objets en nombre
+      // différent (ex : une Pince — porteurs implicite 1 — ET deux
+      // fuseurs — porteurs 2 — voir Dreadnought Leviathan).
       if (val && opt.ajoute) {
         const items = Array.isArray(opt.ajoute) ? opt.ajoute : [opt.ajoute];
-        for (const nom of items) ajouterCompte(nom, compteRole);
+        for (const item of items) {
+          const nom = typeof item === "string" ? item : item.nom;
+          const porteurs = (typeof item !== "string" && item.porteurs) || 1;
+          ajouterCompte(nom, compteRole * porteurs);
+        }
       }
     } else if (opt.type === "paire") {
       if (val) {
@@ -619,7 +650,12 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
           const trouve = resoudreCible(cible);
           if (trouve) retirer(trouve);
         }
-        ajouterCompte(opt.ajoute, compteRole);
+        const items = Array.isArray(opt.ajoute) ? opt.ajoute : [opt.ajoute];
+        for (const item of items) {
+          const nom = typeof item === "string" ? item : item.nom;
+          const porteurs = (typeof item !== "string" && item.porteurs) || 1;
+          ajouterCompte(nom, compteRole * porteurs);
+        }
       }
     } else if (opt.type === "multi") {
       for (const i of val)
@@ -1700,6 +1736,39 @@ function trouverArmeDansTexte(texte) {
   };
 }
 
+// Comme trouverArmeDansTexte, mais retourne TOUTES les Armes distinctes
+// reconnues dans le texte plutôt que la seule meilleure correspondance —
+// une entrée d'équipement combine parfois plusieurs Armes en une seule
+// chaîne (ex : « Pince de siège Leviathan et fuseur », « Paire de
+// pinces de siège Leviathan et deux fuseurs »), chacune méritant sa
+// propre ligne de caractéristiques (voir construireTablesArmes).
+// Ne cherche QUE dans la partie du texte AVANT la première parenthèse :
+// le suffixe parenthétique (« (à la place de X) », « (bras n°1) »,
+// « (liste Équipement d'Officier de Légion (X)) »...) est purement
+// descriptif dans ce fichier (voir CLAUDE.md) et mentionne très souvent
+// une Arme différente de celle réellement équipée (ex : « Fusil à pompe
+// Astartes (à la place du bolter) » ne doit PAS faire apparaître le
+// Bolter, déjà affiché séparément) — vérifié par audit sur l'ensemble
+// du fichier avant d'écrire cette restriction (sans elle, ~450 entrées
+// auraient fait apparaître une Arme non équipée).
+// Répète trouverArmeDansTexte sur ce qui reste après avoir retiré
+// chaque correspondance déjà trouvée (le texte restant se réduit à
+// chaque tour, la boucle termine donc toujours).
+function trouverToutesArmesDansTexte(texteComplet) {
+  const iParenthese = texteComplet.indexOf("(");
+  const texte =
+    iParenthese === -1 ? texteComplet : texteComplet.slice(0, iParenthese);
+  const trouvees = [];
+  let reste = texte;
+  let correspondance = trouverArmeDansTexte(reste);
+  while (correspondance) {
+    trouvees.push(correspondance.arme);
+    reste = correspondance.avant + " " + correspondance.apres;
+    correspondance = trouverArmeDansTexte(reste);
+  }
+  return trouvees;
+}
+
 // Résumé sur une seule ligne du profil d'une arme trouvée par
 // trouverArmeDansTexte (mêmes abréviations d'en-têtes que les tables
 // de l'Arsenal, ENTETES_TIR/ENTETES_MELEE) — sert d'info-bulle aux
@@ -1790,79 +1859,85 @@ function construireTablesArmes(equipementComptes, factionUnite) {
   const armesTrouvees = []; // { arme, compte }
   const entrees = new Map(); // cle -> entrée déjà poussée dans armesTrouvees
   for (const [texte, compteTexte] of equipementComptes) {
-    const correspondance = trouverArmeDansTexte(texte);
-    if (!correspondance) continue;
-    // Un montage identifié entraîne tous ses profils (voir
-    // construireIndexArmes), pas seulement celui retenu par
-    // trouverArmeDansTexte pour la correspondance.
-    const nomBaseMinuscule = correspondance.arme.nomBase.toLowerCase();
-    const candidats = indexArmes.filter(
-      (arme) => arme.nomBase.toLowerCase() === nomBaseMinuscule,
-    );
-    // Priorité : le profil propre à la Faction de l'Unité s'il existe
-    // (exclut alors le profil générique ET ceux des autres Factions,
-    // ex : Unité Solar Auxilia → seul « Chargeur volkite (Solar
-    // Auxilia) » compte, pas le « Chargeur volkite » générique) ;
-    // sinon le(s) profil(s) générique(s) sans suffixe de Faction (ex :
-    // Unité Legio Astartes → seul « Chargeur volkite » compte, pas
-    // « (Solar Auxilia) »/« (Mechanicum) ») ; sinon (filet de sécurité,
-    // ne devrait plus arriver depuis que « Batterie de bolters lourds
-    // Gravis » a un profil générique — voir CLAUDE.md), si l'Arsenal
-    // n'a QUE des profils réservés à d'autres Factions pour ce montage,
-    // les montrer quand même plutôt que de laisser la table vide.
-    const propresFaction = candidats.filter(
-      (arme) => suffixeFactionArme(arme) === faction,
-    );
-    const generiques = candidats.filter((arme) => !suffixeFactionArme(arme));
-    let retenus = propresFaction.length
-      ? propresFaction
-      : generiques.length
-        ? generiques
-        : candidats;
-    // Un composant Secondaire d'Arme Combinée (« Combi » dans `regles`)
-    // ne porte pas toujours son propre profil de Bolter (Principal)
-    // sous le même nomBase : la plupart des montages de base (Combi-
-    // fuseur, Combi-plasma...) partagent un seul profil générique
-    // « Combi-arme — Bolter (Principal) » (armes-data.js, catégorie
-    // « Armes Combinées ») plutôt que d'en dupliquer un par montage —
-    // contrairement à des montages comme Combi-lance-flammes alchim ou
-    // Éclateur à aiguilles, qui ont déjà le leur sous le même nomBase
-    // (`retenus` le contient alors déjà, ne pas l'ajouter en double).
-    // « Principal » (sans la parenthèse fermante, pour matcher aussi
-    // l'accord féminin « Principale » de l'Arquebuse à bolts Adrastus).
-    const estComposantCombi = retenus.some(
-      (arme) => arme.regles && arme.regles.includes("Combi"),
-    );
-    const aDejaSonPropresPrincipal = retenus.some((arme) =>
-      arme.nom.includes("Principal"),
-    );
-    if (estComposantCombi && !aDejaSonPropresPrincipal) {
-      const bolterPrincipalGenerique = indexArmes.find(
-        (arme) => arme.nom === "Combi-arme — Bolter (Principal)",
+    // trouverToutesArmesDansTexte (pas seulement la meilleure
+    // correspondance) : une entrée d'équipement combine parfois
+    // plusieurs Armes en une seule chaîne (ex : « Pince de siège
+    // Leviathan et fuseur ») — chacune doit recevoir sa propre ligne de
+    // caractéristiques, au même compte de porteurs (`compteTexte`).
+    for (const armeTrouvee of trouverToutesArmesDansTexte(texte)) {
+      // Un montage identifié entraîne tous ses profils (voir
+      // construireIndexArmes), pas seulement celui retenu par
+      // trouverToutesArmesDansTexte pour la correspondance.
+      const nomBaseMinuscule = armeTrouvee.nomBase.toLowerCase();
+      const candidats = indexArmes.filter(
+        (arme) => arme.nomBase.toLowerCase() === nomBaseMinuscule,
       );
-      if (bolterPrincipalGenerique) retenus = [...retenus, bolterPrincipalGenerique];
-    }
-    for (const arme of retenus) {
-      // Le dédoublonnage se fait sur `nom` + jeu d'en-têtes (Tir/Mêlée),
-      // pas sur `nom` seul : une Arme à la fois « Découpeur laser¹ »
-      // (Tir) ET « Découpeur laser¹ » (Mêlée), même intitulé des deux
-      // côtés par convention (voir la note « ¹ » sur chaque groupe
-      // d'ARMES_TIR/ARMES_MELEE concerné), a deux profils DISTINCTS à
-      // conserver malgré le nom identique — dédoublonner sur `nom` seul
-      // en ignorerait un des deux silencieusement.
-      const cle = arme.nom + "|" + (arme.entetes === ENTETES_TIR ? "T" : "M");
-      const existante = entrees.get(cle);
-      if (existante) {
-        // Deux entrées d'équipement distinctes résolvent la même Arme
-        // (ex : un échange `quantite` de la même Arme que celle déjà
-        // présente en équipement de base) : leurs comptes s'additionnent
-        // plutôt que d'ignorer silencieusement la seconde occurrence.
-        existante.compte += compteTexte;
-        continue;
+      // Priorité : le profil propre à la Faction de l'Unité s'il existe
+      // (exclut alors le profil générique ET ceux des autres Factions,
+      // ex : Unité Solar Auxilia → seul « Chargeur volkite (Solar
+      // Auxilia) » compte, pas le « Chargeur volkite » générique) ;
+      // sinon le(s) profil(s) générique(s) sans suffixe de Faction (ex :
+      // Unité Legio Astartes → seul « Chargeur volkite » compte, pas
+      // « (Solar Auxilia) »/« (Mechanicum) ») ; sinon (filet de sécurité,
+      // ne devrait plus arriver depuis que « Batterie de bolters lourds
+      // Gravis » a un profil générique — voir CLAUDE.md), si l'Arsenal
+      // n'a QUE des profils réservés à d'autres Factions pour ce montage,
+      // les montrer quand même plutôt que de laisser la table vide.
+      const propresFaction = candidats.filter(
+        (arme) => suffixeFactionArme(arme) === faction,
+      );
+      const generiques = candidats.filter((arme) => !suffixeFactionArme(arme));
+      let retenus = propresFaction.length
+        ? propresFaction
+        : generiques.length
+          ? generiques
+          : candidats;
+      // Un composant Secondaire d'Arme Combinée (« Combi » dans `regles`)
+      // ne porte pas toujours son propre profil de Bolter (Principal)
+      // sous le même nomBase : la plupart des montages de base (Combi-
+      // fuseur, Combi-plasma...) partagent un seul profil générique
+      // « Combi-arme — Bolter (Principal) » (armes-data.js, catégorie
+      // « Armes Combinées ») plutôt que d'en dupliquer un par montage —
+      // contrairement à des montages comme Combi-lance-flammes alchim ou
+      // Éclateur à aiguilles, qui ont déjà le leur sous le même nomBase
+      // (`retenus` le contient alors déjà, ne pas l'ajouter en double).
+      // « Principal » (sans la parenthèse fermante, pour matcher aussi
+      // l'accord féminin « Principale » de l'Arquebuse à bolts Adrastus).
+      const estComposantCombi = retenus.some(
+        (arme) => arme.regles && arme.regles.includes("Combi"),
+      );
+      const aDejaSonPropresPrincipal = retenus.some((arme) =>
+        arme.nom.includes("Principal"),
+      );
+      if (estComposantCombi && !aDejaSonPropresPrincipal) {
+        const bolterPrincipalGenerique = indexArmes.find(
+          (arme) => arme.nom === "Combi-arme — Bolter (Principal)",
+        );
+        if (bolterPrincipalGenerique)
+          retenus = [...retenus, bolterPrincipalGenerique];
       }
-      const entree = { arme, compte: compteTexte };
-      entrees.set(cle, entree);
-      armesTrouvees.push(entree);
+      for (const arme of retenus) {
+        // Le dédoublonnage se fait sur `nom` + jeu d'en-têtes (Tir/Mêlée),
+        // pas sur `nom` seul : une Arme à la fois « Découpeur laser¹ »
+        // (Tir) ET « Découpeur laser¹ » (Mêlée), même intitulé des deux
+        // côtés par convention (voir la note « ¹ » sur chaque groupe
+        // d'ARMES_TIR/ARMES_MELEE concerné), a deux profils DISTINCTS à
+        // conserver malgré le nom identique — dédoublonner sur `nom` seul
+        // en ignorerait un des deux silencieusement.
+        const cle = arme.nom + "|" + (arme.entetes === ENTETES_TIR ? "T" : "M");
+        const existante = entrees.get(cle);
+        if (existante) {
+          // Deux entrées d'équipement distinctes résolvent la même Arme
+          // (ex : un échange `quantite` de la même Arme que celle déjà
+          // présente en équipement de base) : leurs comptes s'additionnent
+          // plutôt que d'ignorer silencieusement la seconde occurrence.
+          existante.compte += compteTexte;
+          continue;
+        }
+        const entree = { arme, compte: compteTexte };
+        entrees.set(cle, entree);
+        armesTrouvees.push(entree);
+      }
     }
   }
 

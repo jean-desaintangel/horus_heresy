@@ -15431,7 +15431,7 @@ const UNITES = [
     equipement: [
       "Pince de siège Leviathan et fuseur (bras n°1)",
       "Pince de siège Leviathan et fuseur (bras n°2)",
-      "Deux lance-flammes lourds",
+      { nom: "Deux lance-flammes lourds", porteurs: 2 },
     ],
     variantes: [
       {
@@ -15490,7 +15490,15 @@ const UNITES = [
         libelle:
           "Paire de pinces de siège Leviathan et deux fuseurs (les deux bras)",
         cout: 5,
-        ajoute: "Paire de pinces de siège Leviathan et deux fuseurs",
+        // « Paire de pinces de siège Leviathan » est un profil d'Arme à
+        // part entière dans l'Arsenal (voir armes-data.js), qui remplace
+        // les deux profils individuels — compte 1 (une seule Figurine),
+        // pas 2 : seuls les deux fuseurs (armes distinctes, une par
+        // bras) doivent être comptés en double.
+        ajoute: [
+          "Paire de pinces de siège Leviathan",
+          { nom: "Deux fuseurs", porteurs: 2 },
+        ],
         remplaceListe: [
           "Pince de siège Leviathan et fuseur (bras n°1)",
           "Pince de siège Leviathan et fuseur (bras n°2)",
@@ -15502,7 +15510,10 @@ const UNITES = [
         libelle:
           "Paire de trépans de siège Leviathan et deux fuseurs (les deux bras)",
         cout: 5,
-        ajoute: "Paire de trépans de siège Leviathan et deux fuseurs",
+        ajoute: [
+          "Paire de trépans de siège Leviathan",
+          { nom: "Deux fuseurs", porteurs: 2 },
+        ],
         remplaceListe: [
           "Pince de siège Leviathan et fuseur (bras n°1)",
           "Pince de siège Leviathan et fuseur (bras n°2)",
@@ -15515,7 +15526,7 @@ const UNITES = [
         remplace: "Deux lance-flammes lourds",
         choix: [
           { nom: "— Conserver les deux lance-flammes lourds —", cout: 0 },
-          { nom: "Deux arquebuses volkites jumelées", cout: 15 },
+          { nom: "Deux arquebuses volkites jumelées", cout: 15, porteurs: 2 },
           // Arsenal des Blood Angels : « Tout Dreadnought Leviathan
           // ayant le Trait Blood Angels peut échanger ses deux
           // lance-flammes lourds contre deux canons d'assaut Iliastus
@@ -15524,6 +15535,7 @@ const UNITES = [
             nom: "Deux canons d'assaut Iliastus",
             cout: 30,
             requiertLegion: "IX",
+            porteurs: 2,
           },
         ],
       },
