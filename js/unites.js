@@ -4470,7 +4470,7 @@ function initialiserChoixUnite() {
 
   const libelle = (unite) =>
     unite.nom +
-    (unite.legacy ? " (Legacies)" : "") +
+    (unite.legacy ? ` (${unite.legacyLibelle || "Legacies"})` : "") +
     " — " +
     unite.cout +
     " pts";

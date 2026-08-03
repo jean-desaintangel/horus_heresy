@@ -3023,4 +3023,11 @@ const REGLES_DIVERSES = [
     texte:
       "Un Modèle ayant cette Règle Spéciale ne peut rejoindre aucune Unité, ni être rejoint par un autre Modèle. Tant qu'il est engagé dans un Combat où il est le seul Modèle sous le contrôle de son Joueur en Contrôle : ce dernier gagne un bonus de +1 à son Score de Résolution de Combat pour chaque Point de Vie perdu par ce Modèle lors du Round de Combat ; s'il lance ou accepte un Défi, il marque 1 Point de Victoire ; et aucun Joueur ne peut marquer de Points de Victoire si ce Modèle est Retiré comme Perte.",
   },
+  {
+    // PDF « Knight-Errant » (Nathaniel Garro, Tylos Rubio) — encart
+    // « The Knights-Errant Trait ».
+    nom: "Chevaliers Errants",
+    texte:
+      "Le Trait Chevaliers Errants est considéré comme un Trait de Faction, au même titre que le Trait [Legiones Astartes] et les autres Traits pouvant lui être substitués. Note du Concepteur : ceci ne déroge pas à la règle selon laquelle toutes les Unités d'un même Détachement doivent partager le même Trait de Faction — une Unité qui compte des Modèles ayant le Trait de Faction Chevaliers Errants ne peut donc être incluse que dans un Détachement dont les autres Unités ont ce même Trait.",
+  },
 ];

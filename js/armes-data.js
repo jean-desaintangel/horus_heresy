@@ -558,6 +558,14 @@ const ARMES_TIR = [
         traits: "Bolts",
       },
       {
+        // Arme des Knights-Errant (PDF « Knight-Errant » — Nathaniel
+        // Garro, Tylos Rubio) : « Paragon bolter ».
+        nom: "Bolter de parangon",
+        stats: ["24", "2", "5", "4", "1"],
+        regles: "Lacération (6+)",
+        traits: "Bolts",
+      },
+      {
         nom: "Bolter Némésis",
         stats: ["48", "1", "4", "5", "1"],
         regles: "Lourde (FT), Brèche (5+), Fixation (1), Précision (4+)",
@@ -5114,6 +5122,14 @@ const ARMES_MELEE = [
         stats: ["-2", "3", "+5", "2", "4"],
         regles: "Touche Critique (6+), Atout du Duelliste (1)",
         traits: "-",
+      },
+      {
+        // Arme de personnage (Nathaniel Garro, Knight-Errant — PDF
+        // « Knight-Errant »). Nom propre (Latin), gardé tel quel.
+        nom: "Libertas",
+        stats: ["1", "A", "+1", "2", "1"],
+        regles: "Touche Critique (6+), Atout du Duelliste (2)",
+        traits: "Énergétique",
       },
     ],
   },

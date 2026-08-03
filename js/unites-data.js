@@ -41346,4 +41346,135 @@ const UNITES = [
     ],
     options: [],
   },
+
+  /* ============================================================
+     CHEVALIERS ERRANTS (Knights-Errant)
+     PDF « Knight-Errant » (2025) — deux personnages nommés
+     (Nathaniel Garro, Tylos Rubio) fondant un ordre de Légionnaires
+     ayant renoncé aux serments envers leur Primarque pour servir le
+     Sigillite. Le Trait « Chevaliers Errants » (traduction de
+     « Knights-Errant ») est un Trait de Faction à part entière qui SE
+     SUBSTITUE au Trait [Legiones Astartes] plutôt que de s'y ajouter
+     (voir l'encart « THE KNIGHTS-ERRANT TRAIT » du PDF, texte intégral
+     dans js/regles-data.js) — non modélisé mécaniquement plus avant
+     (contrainte d'homogénéité de Trait de Faction par Détachement,
+     comme pour les autres Traits de Faction de ce fichier). `legacy:
+     true` posé sur demande explicite du proprio malgré l'absence du
+     mot « Legacies » dans le nom du PDF source. Aucun champ `legion` :
+     ces deux personnages ont explicitement renoncé à leur Légion
+     d'origine (Death Guard pour Garro, Ultramarines pour Rubio).
+     « Libertas »/« Polaris » (armes personnelles nommées) gardés tels
+     quels (noms propres) ; seule Libertas a un profil donné dans ce
+     PDF (js/armes-data.js, catégorie Armes de Parangon) — Polaris
+     (épée de force + capuche psychique de Rubio) n'a aucun profil
+     fourni sur cette fiche, laissé en texte d'équipement brut
+     conformément à la règle « ne jamais inventer un profil d'arme ».
+     « Echoes of Fate » (Règle Spéciale de Rubio, nom seul, aucun texte
+     fourni) traduit en « Échos du Destin », affiché en texte simple
+     (pas d'entrée de glossaire tant que le texte complet n'est pas
+     fourni). « Telepath »/« Diviner » (accès aux Disciplines
+     Télépathie/Divination, sans texte détaillé sur cette fiche)
+     traduits en « Télépathe »/« Devin » sur demande explicite du
+     proprio — accepté malgré la collision de nom avec « Devin de
+     l'Orage » (Stormseer, White Scars), un nom d'unité distinct.
+     ============================================================ */
+  {
+    id: "nathaniel-garro",
+    nom: "Nathaniel Garro",
+    legacy: true,
+    // Affiché "(Chevalier Errant)" plutôt que "(Legacies)" dans le
+    // menu "Unité à ajouter" (demande explicite du proprio) — voir
+    // `legacyLibelle`, js/unites.js (initialiserChoixUnite). Reste
+    // filtré par la case "Afficher les unités Legacies" comme toute
+    // autre unité `legacy: true`, seul le libellé affiché change.
+    legacyLibelle: "Chevalier Errant",
+    categorie: "Quartier Général",
+    cout: 160,
+    composition: "1 Nathaniel Garro",
+    notes:
+      "Chevalier Errant, ancien Capitaine de la 7e Compagnie de Bataille des Death Guard, Main du Sigillite. Bien que Nathaniel Garro ait servi Mortarion avec dévouement durant la Grande Croisade, sa loyauté indéfectible envers l'Empereur était bien connue, et c'est pourquoi, aux côtés de nombre de ses frères, il fut marqué pour être éliminé à Isstvan III. Échappant à ce piège à bord de la frégate Eisenstein, c'est l'avertissement de Garro à l'Imperium qui contraignit le Maître de Guerre à abandonner son invasion éclair du Trône du Monde pour entreprendre à la place une avancée acharnée. Ayant renoncé à ses serments envers son Primarque, Garro mit genou à terre devant le Sigillite, jurant d'entreprendre toute mission requise, aussi périlleuse soit-elle, pour la défense ultime de l'humanité.",
+    traits: ["Loyaliste", "Chevaliers Errants"],
+    equipement: [
+      "Libertas",
+      "Bolter de parangon",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Nathaniel Garro",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 4,
+          I: 5,
+          A: 5,
+          Cd: 10,
+          Sf: 9,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: ["Guerrier Éternel (1)"],
+        type: "Infanterie (Spécialiste, Unique)",
+      },
+    ],
+    options: [],
+  },
+  {
+    id: "tylos-rubio",
+    nom: "Tylos Rubio",
+    legacy: true,
+    legacyLibelle: "Chevalier Errant",
+    categorie: "État-major",
+    cout: 130,
+    composition: "1 Tylos Rubio",
+    notes:
+      "Chevalier Errant, ancien Codicier des Ultramarines. Tylos Rubio fut le premier à être recruté au sein des Chevaliers Errants par Nathaniel Garro, qui parvint à rallier Calth au moment même de la trahison des Word Bearers lors de la Conjonction de Calth. Contraint par les circonstances de ces combats à user de ses pouvoirs psychiques, qu'il avait pourtant abjurés conformément à l'Édit de Nikaea, Rubio vit ses frères d'armes lui tourner le dos, et il accepta de rejoindre Garro pour retourner avec lui vers Terra. En revêtant une nouvelle fois une capuche psychique et en reprenant son épée de force, sa capacité à contrer les pouvoirs du Warp allait se révéler aussi précieuse pour la cause du Sigillite qu'un millier de bolters.",
+    traits: [
+      "Loyaliste",
+      "Psyker",
+      "Chevaliers Errants",
+      "Télépathe",
+      "Devin",
+    ],
+    equipement: [
+      "Polaris",
+      "Bolter de parangon",
+      "Pistolet bolter",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Tylos Rubio",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 10,
+          Sf: 8,
+          Vo: 10,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Guerrier Éternel (1)", "Échos du Destin"],
+        type: "Infanterie (Spécialiste, Unique)",
+      },
+    ],
+    options: [],
+  },
 ];
