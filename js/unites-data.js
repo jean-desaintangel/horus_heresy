@@ -1458,19 +1458,7 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       remplaceIntegral: ["Bolter", "Pistolet bolter"],
       ajoute: "Paire de griffes Lightning",
     },
-    {
-      type: "choix",
-      id: "baionnettes",
-      libelle: "Toute l'unité : baïonnettes (figurines avec bolter)",
-      ajoute: true,
-      parFigurine: true,
-      prefixeFiche: "Toute l'unité : ",
-      choix: [
-        { nom: "— Aucune —", cout: 0 },
-        { nom: "Baïonnette", cout: 1 },
-        { nom: "Baïonnette tronçonneuse", cout: 2 },
-      ],
-    },
+    ...optionBaionnette(),
     ...dernieresOptions,
   ];
 }
@@ -1500,22 +1488,46 @@ function optionBombesFusionUnite() {
 
 // Option récurrente : baïonnette (uniquement si l'arme donnée est
 // conservée — "Bolter" par défaut, ex : "Bolter Kraken" pour les
-// unités qui en sont équipées à la place).
+// unités qui en sont équipées à la place). Le texte du livre (« Toute
+// Figurine de cette Unité qui a un bolter peut être dotée d'un des
+// choix suivants : Baïonnette +1 point par figurine, Baïonnette
+// tronçonneuse +2 points par figurine ») est un choix Figurine par
+// Figurine, pas tout-ou-rien pour l'Unité : deux options `quantite`
+// partageant un même budget (`groupe`), chacune jusqu'à une fois par
+// Figurine (`parTranche: 1`) — sur le modèle déjà établi ailleurs dans
+// ce fichier pour ce genre de choix individuel (voir CLAUDE.md).
+// Renvoie un TABLEAU de 2 options : à répandre au site d'appel
+// (`...optionBaionnette()`), pas à insérer tel quel.
 function optionBaionnette(arme = "Bolter") {
   const armeMinuscule = arme.charAt(0).toLowerCase() + arme.slice(1);
-  return {
-    type: "choix",
-    id: "baionnette",
-    libelle:
-      "Baïonnette (uniquement si la Figurine a un " + armeMinuscule + ")",
-    requiertEquip: arme,
-    ajoute: true,
-    choix: [
-      { nom: "Aucune", cout: 0 },
-      { nom: "Baïonnette", cout: 1 },
-      { nom: "Baïonnette tronçonneuse", cout: 2 },
-    ],
-  };
+  return [
+    {
+      type: "quantite",
+      id: "baionnette",
+      libelle:
+        "Baïonnette (+1 Point par Figurine, uniquement si elle a un " +
+        armeMinuscule +
+        ")",
+      cout: 1,
+      parTranche: 1,
+      groupe: "baionnette",
+      requiertEquip: arme,
+      ajoute: "Baïonnette",
+    },
+    {
+      type: "quantite",
+      id: "baionnette-tronconneuse",
+      libelle:
+        "Baïonnette tronçonneuse (+2 Points par Figurine, uniquement si elle a un " +
+        armeMinuscule +
+        ")",
+      cout: 2,
+      parTranche: 1,
+      groupe: "baionnette",
+      requiertEquip: arme,
+      ajoute: "Baïonnette tronçonneuse",
+    },
+  ];
 }
 
 // « Legion Equipment list » (Nuncio-vox / Scanner augure) : jusqu'à
@@ -2078,7 +2090,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         type: "case",
         id: "cyber-familier",
@@ -2655,7 +2667,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         type: "case",
         id: "vexillum",
@@ -2994,7 +3006,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
 
@@ -4965,7 +4977,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette("Bolter"),
+      ...optionBaionnette("Bolter"),
     ],
   },
   {
@@ -5479,7 +5491,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette("Bolter"),
+      ...optionBaionnette("Bolter"),
     ],
   },
   {
@@ -5709,7 +5721,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette("Bolter"),
+      ...optionBaionnette("Bolter"),
     ],
   },
   {
@@ -9596,19 +9608,7 @@ const UNITES = [
           { nom: "Scanner augure", cout: 10 },
         ],
       },
-      {
-        type: "choix",
-        id: "baionnettes",
-        libelle: "Toute l'unité : baïonnettes (figurines avec bolter)",
-        ajoute: true,
-        parFigurine: true,
-        prefixeFiche: "Toute l'unité : ",
-        choix: [
-          { nom: "— Aucune —", cout: 0 },
-          { nom: "Baïonnettes", cout: 1 },
-          { nom: "Baïonnettes tronçonneuses", cout: 2 },
-        ],
-      },
+      ...optionBaionnette(),
     ],
   },
 
@@ -11722,7 +11722,7 @@ const UNITES = [
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
         ],
       },
-      optionBaionnette("Bolter Kraken"),
+      ...optionBaionnette("Bolter Kraken"),
       {
         type: "case",
         id: "sergent-bombes",
@@ -12146,7 +12146,7 @@ const UNITES = [
           { nom: "Scanner augure", cout: 10 },
         ],
       },
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
 
@@ -14414,7 +14414,7 @@ const UNITES = [
         groupe: "arme-principale",
         ajoute: "Fusil à pompe Astartes (à la place du bolter)",
       },
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
 
@@ -20739,7 +20739,7 @@ const UNITES = [
       optionBombesFusionUnite(),
       // Dark Angels Legacy Wargear (dark_angels_wargear.pdf), section
       // « Deathwing Companion Detachment ».
-      optionBaionnette(),
+      ...optionBaionnette(),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         remplaceIntegral: "Bolter",
         groupe: "bolter-combi-legacy",
@@ -21571,20 +21571,7 @@ const UNITES = [
         parTranche: 1,
         ajoute: "Bolter (à la place du bouclier de combat)",
       },
-      {
-        type: "choix",
-        id: "baionnettes",
-        libelle: "Toute l'unité : baïonnettes (figurines avec bolter)",
-        ajoute: true,
-        parFigurine: true,
-        requiertEquip: "Bolter",
-        prefixeFiche: "Toute l'unité : ",
-        choix: [
-          { nom: "— Aucune —", cout: 0 },
-          { nom: "Baïonnette", cout: 1 },
-          { nom: "Baïonnette tronçonneuse", cout: 2 },
-        ],
-      },
+      ...optionBaionnette(),
       {
         type: "choix",
         id: "huscarl-arme",
@@ -23723,7 +23710,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         type: "case",
         id: "cyber-familier",
@@ -24407,56 +24394,111 @@ const UNITES = [
       },
     ],
     options: [
+      // Le texte de la fiche (« Toute Figurine de cette Unité peut
+      // échanger son combi-bolter Banestrike... »/« ...son arme
+      // énergétique... ») est un choix Figurine par Figurine, pas
+      // tout-ou-rien pour l'Unité (à la différence des 4 armes lourdes
+      // ci-dessous, explicitement « par tranche de cinq ») : options
+      // `quantite` partageant un budget par groupe (jusqu'à l'effectif
+      // entier), sur le modèle déjà établi ailleurs dans ce fichier
+      // (voir CLAUDE.md).
       {
-        type: "choix",
-        id: "arme-tir",
-        libelle: "Toute Figurine : remplacer le combi-bolter Banestrike",
-        remplace: "Combi-bolter Banestrike",
-        choix: [
-          { nom: "— Conserver le combi-bolter Banestrike —", cout: 0 },
-          {
-            nom: "Chargeur volkite (à la place du combi-bolter Banestrike)",
-            cout: 0,
-          },
-          ...depuisListes(LISTES_EQUIPEMENT.combinees),
-        ],
+        type: "quantite",
+        id: "chargeur-volkite",
+        libelle:
+          "Figurines : chargeur volkite (à la place du combi-bolter Banestrike)",
+        cout: 0,
+        parTranche: 1,
+        groupe: "tir",
+        remplaceIntegral: "Combi-bolter Banestrike",
+        ajoute: "Chargeur volkite (à la place du combi-bolter Banestrike)",
       },
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
+        groupe: "tir",
+        parTranche: 1,
+        remplaceIntegral: "Combi-bolter Banestrike",
+        remplace: "du combi-bolter Banestrike",
+      }),
       {
         type: "choix",
         id: "arme-cac",
-        libelle: "Toute Figurine : type d'arme énergétique (ou remplacement)",
+        libelle: "Type d'arme énergétique (chaque Figurine non autrement équipée)",
         obligatoire: true,
         remplace: "Arme énergétique",
-        choix: [
-          // Toute Figurine (Sergent ET rang-et-fichier) : filtre les
-          // variantes forgées Artifice de Nocturne (Salamanders), hors
-          // sujet ici (Unité Sons of Horus, jamais Salamanders).
-          ...CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion),
-          {
-            nom: "Griffe Lightning (à la place de l'arme énergétique)",
-            cout: 5,
-          },
-          {
-            nom: "Hache énergétique carsoraine (à la place de l'arme énergétique)",
-            cout: 5,
-          },
-          {
-            nom: "Tabar énergétique carsorain (à la place de l'arme énergétique)",
-            cout: 10,
-          },
-          {
-            nom: "Gantelet énergétique (à la place de l'arme énergétique)",
-            cout: 10,
-          },
-          {
-            nom: "Poing tronçonneur (à la place de l'arme énergétique)",
-            cout: 10,
-          },
-          {
-            nom: "Marteau Thunder (à la place de l'arme énergétique)",
-            cout: 10,
-          },
-        ],
+        // Filtre les variantes forgées Artifice de Nocturne (Salamanders,
+        // hors sujet, Unité Sons of Horus) ET les Haches/Tabars carsoraines
+        // (Sons of Horus, `toutesFigurines: true`) : ces deux dernières
+        // sont déjà offertes ci-dessous en options `quantite` Figurine par
+        // Figurine, pas via ce choix unique pour toute l'Unité.
+        choix: [...CHOIX_ARMES_ENERGETIQUES.filter((c) => !c.requiertLegion)],
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "griffe-lightning",
+        libelle:
+          "Figurines : griffe Lightning (à la place de l'arme énergétique)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Griffe Lightning (à la place de l'arme énergétique)",
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "hache-carsoraine",
+        libelle:
+          "Figurines : hache énergétique carsoraine (à la place de l'arme énergétique)",
+        cout: 5,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute:
+          "Hache énergétique carsoraine (à la place de l'arme énergétique)",
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "tabar-carsorain",
+        libelle:
+          "Figurines : tabar énergétique carsorain (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute:
+          "Tabar énergétique carsorain (à la place de l'arme énergétique)",
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "gantelet-energetique",
+        libelle:
+          "Figurines : gantelet énergétique (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Gantelet énergétique (à la place de l'arme énergétique)",
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "poing-tronconneur",
+        libelle:
+          "Figurines : poing tronçonneur (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Poing tronçonneur (à la place de l'arme énergétique)",
+      },
+      {
+        remplaceIntegral: ARMES_ENERGETIQUES,
+        type: "quantite",
+        id: "marteau-thunder",
+        libelle:
+          "Figurines : Marteau Thunder (à la place de l'arme énergétique)",
+        cout: 10,
+        parTranche: 1,
+        groupe: "melee",
+        ajoute: "Marteau Thunder (à la place de l'arme énergétique)",
       },
       {
         type: "quantite",
@@ -26660,7 +26702,7 @@ const UNITES = [
         parTranche: 1,
         ajoute: "Épée tronçonneuse",
       },
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         remplaceIntegral: "Bolter",
         type: "quantite",
@@ -28781,7 +28823,7 @@ const UNITES = [
         remplaceListe: ["Bolter", "Pistolet bolter"],
       },
       optionBombesFusion(),
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         type: "case",
         id: "cyber-familier",
@@ -29516,7 +29558,7 @@ const UNITES = [
         cout: 10,
         ajoute: "Vexillum (un Exécuteur)",
       },
-      optionBaionnette(),
+      ...optionBaionnette(),
       // Night Lords Legacy Wargear (night_lords_wargear.pdf), section
       // « Terror Squad ».
       {
@@ -38467,7 +38509,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -38753,7 +38795,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -38980,7 +39022,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -39187,7 +39229,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
       {
         type: "case",
         id: "evocatus-intendant",
@@ -39355,7 +39397,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -39416,7 +39458,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -39882,7 +39924,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
   {
@@ -39938,7 +39980,7 @@ const UNITES = [
         ajoute: "Vexillum (un Inductii)",
       },
       ...optionsEquipementLegion("Inductii : "),
-      optionBaionnette(),
+      ...optionBaionnette(),
     ],
   },
 

@@ -1773,11 +1773,34 @@ function construireTablesArmes(equipementComptes, factionUnite) {
       (arme) => suffixeFactionArme(arme) === faction,
     );
     const generiques = candidats.filter((arme) => !suffixeFactionArme(arme));
-    const retenus = propresFaction.length
+    let retenus = propresFaction.length
       ? propresFaction
       : generiques.length
         ? generiques
         : candidats;
+    // Un composant Secondaire d'Arme Combinée (« Combi » dans `regles`)
+    // ne porte pas toujours son propre profil de Bolter (Principal)
+    // sous le même nomBase : la plupart des montages de base (Combi-
+    // fuseur, Combi-plasma...) partagent un seul profil générique
+    // « Combi-arme — Bolter (Principal) » (armes-data.js, catégorie
+    // « Armes Combinées ») plutôt que d'en dupliquer un par montage —
+    // contrairement à des montages comme Combi-lance-flammes alchim ou
+    // Éclateur à aiguilles, qui ont déjà le leur sous le même nomBase
+    // (`retenus` le contient alors déjà, ne pas l'ajouter en double).
+    // « Principal » (sans la parenthèse fermante, pour matcher aussi
+    // l'accord féminin « Principale » de l'Arquebuse à bolts Adrastus).
+    const estComposantCombi = retenus.some(
+      (arme) => arme.regles && arme.regles.includes("Combi"),
+    );
+    const aDejaSonPropresPrincipal = retenus.some((arme) =>
+      arme.nom.includes("Principal"),
+    );
+    if (estComposantCombi && !aDejaSonPropresPrincipal) {
+      const bolterPrincipalGenerique = indexArmes.find(
+        (arme) => arme.nom === "Combi-arme — Bolter (Principal)",
+      );
+      if (bolterPrincipalGenerique) retenus = [...retenus, bolterPrincipalGenerique];
+    }
     for (const arme of retenus) {
       // Le dédoublonnage se fait sur `nom` + jeu d'en-têtes (Tir/Mêlée),
       // pas sur `nom` seul : une Arme à la fois « Découpeur laser¹ »
