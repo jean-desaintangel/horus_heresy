@@ -957,38 +957,46 @@ function nomFichierSlug(texte) {
 // Auxilia selon la Faction -, puis Allégeance) : consommés par
 // exporterListe() pour nommer le fichier exporté de façon reconnaissable
 // sans avoir à l'ouvrir.
+// Pour une Armée Legio Astartes avec une Légion choisie, le nom de la
+// Légion remplace entièrement "Legio Astartes" (ex : "Sons of Horus",
+// pas "Legio Astartes XVI Sons of Horus") — demande explicite du
+// propriétaire (2026-08-03).
 function segmentsIdentiteActuelle() {
-  const segments = [Organigramme.libelleFactionActuelle()];
   const faction = Organigramme.factionActuelle();
+  const segments = [];
   if (faction === "legio-astartes" && Organigramme.legionActuelle()) {
-    segments.push(Organigramme.libelleLegionActuelle());
-  } else if (
-    faction === "chevaliers-questoris" &&
-    Organigramme.maisonneeActuelle()
-  ) {
-    segments.push(Organigramme.libelleMaisonneeActuelle());
-  } else if (faction === "solar-auxilia") {
-    const doctrine = nomDoctrineCohorteActuelle();
-    if (doctrine) segments.push(doctrine);
-    const idDesignation = Organigramme.designationAuxiliaActuelle
-      ? Organigramme.designationAuxiliaActuelle()
-      : "";
-    const designation = DESIGNATIONS_LEGIONES_AUXILIA.find(
-      (d) => d.id === idDesignation,
-    );
-    if (designation) segments.push(designation.nom);
+    const libelle = Organigramme.libelleLegionActuelle();
+    segments.push(libelle ? libelle.replace(/^[^–]+–\s*/, "") : libelle);
+  } else {
+    segments.push(Organigramme.libelleFactionActuelle());
+    if (
+      faction === "chevaliers-questoris" &&
+      Organigramme.maisonneeActuelle()
+    ) {
+      segments.push(Organigramme.libelleMaisonneeActuelle());
+    } else if (faction === "solar-auxilia") {
+      const doctrine = nomDoctrineCohorteActuelle();
+      if (doctrine) segments.push(doctrine);
+      const idDesignation = Organigramme.designationAuxiliaActuelle
+        ? Organigramme.designationAuxiliaActuelle()
+        : "";
+      const designation = DESIGNATIONS_LEGIONES_AUXILIA.find(
+        (d) => d.id === idDesignation,
+      );
+      if (designation) segments.push(designation.nom);
+    }
   }
   segments.push(
-    Organigramme.allegeanceActuelle() === "renegat" ? "Renégat" : "Loyaliste",
+    Organigramme.allegeanceActuelle() === "renegat" ? "renégat" : "loyaliste",
   );
   return segments.filter(Boolean);
 }
 
-// Nom de fichier "Faction-Légion-Allégeance-XXXXPoints.extension", partagé
+// Nom de fichier "Faction-Légion-allégeance-XXXX-points.extension", partagé
 // par l'Export JSON et les Téléchargements PDF/Word : reconnaissable
 // sans avoir à l'ouvrir, voir segmentsIdentiteActuelle() ci-dessus.
 function nomFichierArmee(extension) {
-  const points = coutArmee() + "Points";
+  const points = coutArmee() + "-points";
   return (
     segmentsIdentiteActuelle().map(nomFichierSlug).concat(points).join("-") +
     "." +
