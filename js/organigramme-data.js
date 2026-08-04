@@ -1363,8 +1363,8 @@ const TYPES_DETACHEMENTS = [
     nom: "Délégation de l'Apothecarion",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Apothicaire occupe une Case d'Appui. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Apothicaires.",
-    deblocage: { caseRole: "Appui", uniteIds: ["apothicaire"] },
+      "Débloqué quand un Quartier Général ou un État-major est occupé. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Apothicaires.",
+    deblocage: { caseRole: ["Quartier Général", "État-major"] },
     restrictions: { Appui: ["apothicaire"] },
     cases: [
       _caseOrga("Appui", true),
