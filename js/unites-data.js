@@ -33534,12 +33534,7 @@ const UNITES = [
     categorie: "Appui",
     cout: 120,
     composition: "1 Basilisk",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio d'Artillerie",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: ["Canon Earthshaker d'Axe Central"],
     variantes: [
       {
@@ -33560,6 +33555,23 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
         type: "case",
         id: "projecteurs",
         libelle: "Projecteurs",
@@ -33568,10 +33580,10 @@ const UNITES = [
       },
       {
         type: "case",
-        id: "bouclier",
-        libelle: "Bouclier répulsif",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
         cout: 5,
-        ajoute: "Bouclier répulsif",
+        ajoute: "Lame de bulldozer",
       },
     ],
   },
@@ -33582,12 +33594,7 @@ const UNITES = [
     categorie: "Appui",
     cout: 140,
     composition: "1 Medusa",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio d'Artillerie",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: ["Mortier Medusa d'Axe Central"],
     variantes: [
       {
@@ -33608,6 +33615,23 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
         type: "case",
         id: "projecteurs",
         libelle: "Projecteurs",
@@ -33616,10 +33640,10 @@ const UNITES = [
       },
       {
         type: "case",
-        id: "bouclier",
-        libelle: "Bouclier répulsif",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
         cout: 5,
-        ajoute: "Bouclier répulsif",
+        ajoute: "Lame de bulldozer",
       },
     ],
   },
@@ -33629,13 +33653,23 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "Appui",
     cout: 30,
-    composition: "1 Pointeur de Rapier, 1 Chassis Rapier",
-    effectif: { base: 2, max: 8, cout: 30 },
+    composition: "1 Équipage de Rapier (1 Pointeur de Rapier, 1 Châssis Rapier)",
+    // Le livre facture +30 Points par ÉQUIPAGE supplémentaire, soit par
+    // paire de Figurines (1 Pointeur + 1 Châssis). `effectif` compte des
+    // Figurines et n'a pas de notion d'équipage : 15 Points par Figurine
+    // donne donc le bon total pour tout nombre entier d'équipages, seul
+    // cas atteignable en pratique puisque l'Unité se complète par paires.
+    effectif: { base: 2, max: 8, cout: 15 },
     equipementLibelle: "Équipement",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Artillerie"],
+    traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
       "Le Rapier associe un artilleur et son affût automoteur : les deux Figurines ne forment qu'une seule Unité de Rôle Tactique Appui.",
-    equipement: ["Batterie de multi-laser Gravis"],
+    equipement: [
+      "Ryfle laser — Salve (Pointeur de Rapier seulement)",
+      "Grenades Frag (Pointeur de Rapier seulement)",
+      "Grenades Krak (Pointeur de Rapier seulement)",
+      "Batterie de multi-laser Gravis (Châssis Rapier seulement)",
+    ],
     variantes: [
       {
         nom: "Section de Rapier",
@@ -33652,25 +33686,6 @@ const UNITES = [
               PV: 1,
               I: 3,
               A: 1,
-              Cd: 7,
-              Sf: 7,
-              Vo: 6,
-              Int: 6,
-              Sv: "4+",
-              Inv: "—",
-            },
-          },
-          {
-            nom: "Chassis Rapier",
-            profil: {
-              M: 6,
-              CC: 3,
-              CT: 4,
-              F: 6,
-              E: 4,
-              PV: 1,
-              I: 1,
-              A: 1,
               Cd: 6,
               Sf: 7,
               Vo: 6,
@@ -33679,20 +33694,53 @@ const UNITES = [
               Inv: "—",
             },
           },
+          {
+            nom: "Châssis Rapier",
+            profil: {
+              M: 6,
+              CC: 1,
+              CT: 3,
+              F: 4,
+              E: 6,
+              PV: 3,
+              I: 1,
+              A: "—",
+              Cd: 6,
+              Sf: 7,
+              Vo: 6,
+              Int: 1,
+              Sv: "3+",
+              Inv: "—",
+            },
+          },
         ],
-        regles: ["Massif (4)", "Lent et Méthodique"],
-        type: "Pointeur de Rapier : Infanterie (Léger) · Chassis Rapier : Infanterie",
+        regles: [
+          "Massif (4) (Châssis Rapier seulement)",
+          "Lent et Méthodique",
+          "Unité d'Appui (1)",
+          "Section de Rapier",
+        ],
+        type: "Pointeur de Rapier : Infanterie (Sergent) · Châssis Rapier : Infanterie",
       },
     ],
     options: [
+      // Le « Laser lourd Sollex » de la transcription précédente ne
+      // figure pas sur cette fiche : remplacé par les trois échanges
+      // réellement imprimés, facturés par Figurine de Châssis Rapier.
       {
         type: "choix",
         id: "arme",
-        libelle: "Remplacer la batterie de multi-laser Gravis",
-        remplace: "Batterie de multi-laser Gravis",
+        libelle: "Chaque Châssis Rapier : remplacer la batterie de multi-laser Gravis",
+        remplace: "Batterie de multi-laser Gravis (Châssis Rapier seulement)",
+        parFigurine: true,
         choix: [
-          { nom: "— Conserver la batterie de multi-laser Gravis —", cout: 0 },
-          { nom: "Laser lourd Sollex", cout: 10 },
+          {
+            nom: "Batterie de multi-laser Gravis (Châssis Rapier seulement)",
+            cout: 0,
+          },
+          { nom: "Batterie de bolters lourds Gravis", cout: 5 },
+          { nom: "Destructeur laser", cout: 25 },
+          { nom: "Lanceur quadruple (obus Frag et brisants)", cout: 20 },
         ],
       },
     ],
@@ -33704,7 +33752,7 @@ const UNITES = [
     categorie: "Appui",
     cout: 40,
     composition: "2 Sentinelles Hermes Veletaris",
-    effectif: { base: 2, max: 4, cout: 20 },
+    effectif: { base: 2, max: 6, cout: 20 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     equipement: ["Arquebuse volkite", "Grenades Frag", "Grenades Krak"],
@@ -33716,7 +33764,7 @@ const UNITES = [
           M: 8,
           CC: 4,
           CT: 4,
-          F: 4,
+          F: 5,
           E: 5,
           PV: 2,
           I: 3,
@@ -33737,7 +33785,19 @@ const UNITES = [
         type: "Cavalerie",
       },
     ],
-    options: [],
+    options: [
+      {
+        type: "choix",
+        id: "arme",
+        libelle: "Toute Figurine : remplacer l'arquebuse volkite",
+        remplace: "Arquebuse volkite",
+        parFigurine: true,
+        choix: [
+          { nom: "Arquebuse volkite", cout: 0 },
+          { nom: "Lance-flammes lourd", cout: 3 },
+        ],
+      },
+    ],
   },
   {
     // Legacies (Liber Auxilia) : voir CLAUDE.md.
@@ -33821,9 +33881,9 @@ const UNITES = [
     categorie: "Engins de Guerre",
     cout: 60,
     composition: "1 Sentinelle Lourde Aethon",
-    effectif: { base: 1, max: 4, cout: 60 },
+    effectif: { base: 1, max: 3, cout: 60 },
     equipementLibelle: "Équipement",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Éclaireurs"],
+    traits: ["[Allégeance]", "Solar Auxilia"],
     equipement: ["Multi-laser", "Batterie de missiles Aethon"],
     variantes: [
       {
@@ -33834,9 +33894,9 @@ const UNITES = [
           CC: 3,
           CT: 3,
           F: 6,
-          E: 5,
-          PV: 2,
-          I: 1,
+          E: 6,
+          PV: 5,
+          I: 3,
           A: 2,
           Cd: 9,
           Sf: 10,
@@ -33849,7 +33909,34 @@ const UNITES = [
         type: "Marcheur (Tirailleurs)",
       },
     ],
-    options: [],
+    options: [
+      {
+        type: "choix",
+        id: "arme",
+        libelle: "Toute Figurine : remplacer le multi-laser",
+        remplace: "Multi-laser",
+        parFigurine: true,
+        choix: [
+          { nom: "Multi-laser", cout: 0 },
+          { nom: "Autocanon", cout: 10 },
+          { nom: "Couleuvrine volkite", cout: 7 },
+          { nom: "Canon laser", cout: 15 },
+          { nom: "Incinérateur lourd", cout: 10 },
+          { nom: "Lance à fusion", cout: 20 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "missiles",
+        libelle: "Toute Figurine : remplacer la batterie de missiles Aethon",
+        remplace: "Batterie de missiles Aethon",
+        parFigurine: true,
+        choix: [
+          { nom: "Batterie de missiles Aethon", cout: 0 },
+          { nom: "Batterie de missiles traqueurs", cout: 15 },
+        ],
+      },
+    ],
   },
 
   /* ---------- Transports / Transports Lourds ---------- */
@@ -33862,14 +33949,18 @@ const UNITES = [
     composition: "1 Allège Arvus",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
-      "Type de Liste d'Armée « Véhicule (Transport Léger) » : catégorisée ici en Rôle Tactique Transports (et non Transports Lourds) en cohérence avec ce Type — à corriger si le livre l'indique autrement.",
-    equipement: ["Bolter lourd sur Pivot"],
+      "Points d'Accès : si cette Figurine n'a pas de socle, on considère qu'elle a des Points d'Accès sur toutes ses Faces.",
+    // Le « Bolter lourd sur Pivot » de la transcription précédente ne
+    // figure pas sur cette fiche (p. 38) : l'équipement de base se
+    // réduit aux Projecteurs, le multi-laser de Coque (Arrière) étant
+    // une Option.
+    equipement: ["Projecteurs"],
     variantes: [
       {
         nom: "Allège Arvus",
         cout: 0,
         profilVehicule: {
-          M: 30,
+          M: 18,
           CT: 3,
           avant: 11,
           flanc: 11,
@@ -33878,10 +33969,25 @@ const UNITES = [
           transport: 12,
         },
         regles: ["Transport Léger"],
-        type: "Véhicule (Transport Léger, Aéronef)",
+        type: "Véhicule (Transport, Aéronef)",
       },
     ],
-    options: [],
+    options: [
+      {
+        type: "case",
+        id: "multi-laser",
+        libelle: "Multi-laser de Coque (Arrière)",
+        cout: 10,
+        ajoute: "Multi-laser de Coque (Arrière)",
+      },
+      {
+        type: "case",
+        id: "lance-leurres",
+        libelle: "Lance-leurres",
+        cout: 5,
+        ajoute: "Lance-leurres",
+      },
+    ],
   },
   {
     id: "sa-dracosan",
@@ -33891,6 +33997,7 @@ const UNITES = [
     cout: 140,
     composition: "1 Dracosan",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    notes: "Points d'Accès : cette Figurine a un Point d'Accès sur chaque Flanc.",
     equipement: ["Canon laser jumelé de Coque (Avant)"],
     variantes: [
       {
@@ -33911,6 +34018,34 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le canon laser jumelé",
+        remplace: "Canon laser jumelé de Coque (Avant)",
+        choix: [
+          { nom: "Canon laser jumelé de Coque (Avant)", cout: 0 },
+          { nom: "Canon Demolisher de Coque (Avant)", cout: 35 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
+        type: "quantite",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
         type: "case",
         id: "projecteurs",
         libelle: "Projecteurs",
@@ -33919,9 +34054,16 @@ const UNITES = [
       },
       {
         type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+      {
+        type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
@@ -33976,8 +34118,8 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "Reco",
     cout: 32,
-    composition: "1 Sentinelle Légère Hermes",
-    effectif: { base: 1, max: 4, cout: 32 },
+    composition: "2 Sentinelles Légères Hermes",
+    effectif: { base: 2, max: 6, cout: 16 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
     equipement: ["Multi-laser", "Grenades Frag", "Grenades Krak"],
@@ -34016,9 +34158,10 @@ const UNITES = [
         id: "arme",
         libelle: "Remplacer le multi-laser",
         remplace: "Multi-laser",
+        parFigurine: true,
         choix: [
-          { nom: "— Conserver le multi-laser —", cout: 0 },
-          { nom: "Lance-grenade Hermes — Krak", cout: 5 },
+          { nom: "Multi-laser", cout: 0 },
+          { nom: "Lance-grenade Hermes — Frag", cout: 5 },
         ],
       },
     ],

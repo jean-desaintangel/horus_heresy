@@ -3922,5 +3922,49 @@ Règles Spéciales :
   25 Mo) : dépôt public avec GitHub Pages, pages scannées d'un livre GW.
   Ne pas les ajouter sans demande explicite du proprio.
 
+- **Solar Auxilia, lot 3 : Appui, Reco, Transports (2026-08-04)** —
+  8 fiches (Rapier, Hermes Veletaris, Sentinelles Lourdes Aethon,
+  Sentinelles Légères Hermes, Basilisk, Medusa, Dracosan, Arvus). Les
+  profils de VÉHICULE se sont révélés exacts partout (Basilisk, Medusa,
+  Dracosan : 10/3/12/12/10 et 12/3/13/13/11 conformes) — contrairement
+  aux profils de Figurine, faux presque partout dans les lots 1 et 2.
+  Ce sont les Options et les Traits qui manquaient.
+  1. **`Tercio d'Artillerie`/`Tercio d'Éclaireurs` ajoutés à tort** sur
+     Rapier, Basilisk, Medusa et Sentinelles Lourdes Aethon : aucune de
+     ces quatre fiches ne porte de Trait de Tercio. Ce n'est pas
+     anodin — ces Traits conditionnent Bombardement de Précision,
+     Frappe Préventive et le déblocage des Détachements de Tercio.
+  2. **Section de Rapier** était la fiche la plus fausse du lot : le
+     Châssis Rapier avait un profil quasi entièrement inventé (CC 3→**1**,
+     F 6→**4**, E 4→**6**, PV 1→**3**, Int 6→**1**, A → **« — »**), le
+     Pointeur son propre `Sv` faux (4+→**3+**), le Type du Pointeur
+     « Infanterie (Léger) » au lieu de **(Sergent)**, deux Règles
+     Spéciales manquantes (**Unité d'Appui (1)**, **Section de Rapier**)
+     et une arme inventée en option (« Laser lourd Sollex », remplacée
+     par les trois échanges réels). Texte intégral de la Règle Spéciale
+     **Section de Rapier** ajouté à `regles-data.js`.
+     **Piège de coût propre à cette Unité** : le livre facture +30 Points
+     par ÉQUIPAGE (= 1 Pointeur + 1 Châssis, donc 2 Figurines), alors
+     qu'`effectif.cout` est par Figurine — posé à **15** pour que le
+     total soit juste sur tout nombre entier d'équipages, seul cas
+     atteignable puisque l'Unité se complète par paires. Documenté en
+     commentaire sur la fiche.
+  3. **Allège Arvus** : `M` **30→18** (valeur inventée), Type
+     « Véhicule (Transport Léger, Aéronef) » → **« (Transport, Aéronef) »**,
+     et l'équipement de base « Bolter lourd sur Pivot » n'existe pas sur
+     la fiche — c'est **Projecteurs**, le multi-laser de Coque (Arrière)
+     étant une Option à +10.
+  4. **Effectifs `max` encore faux sur 4 fiches** : Hermes Veletaris
+     4→**6**, Aethon 4→**3**, Sentinelles Légères 4→**6** (et base
+     1→**2**, coût 32→**16** : la composition de départ est de DEUX
+     Sentinelles, pas une).
+  5. **Bouclier répulsif** : absent des fiches Basilisk et Medusa (retiré),
+     et à **+20** et non +5 sur le Dracosan — même erreur que sur la
+     Section d'État-major Blindé du lot 1.
+  `LISTES_AUXILIA.pivot` consommée pour la première fois (Basilisk,
+  Medusa, Dracosan) : l'option « objet de la liste des Armes sur Pivot
+  des Auxilia » revient sur presque toutes les fiches de Véhicule, la
+  constante du lot 1 était donc bien le bon investissement.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

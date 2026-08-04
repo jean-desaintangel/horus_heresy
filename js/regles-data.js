@@ -1639,6 +1639,11 @@ const REGLES_DIVERSES = [
       "Permet de retirer des Statuts à la Phase de Début. Si une Figurine amie sur le Champ de Bataille est dotée d'un vox d'état-major, le Joueur en Contrôle peut activer un vox internodal une fois par Tour de Joueur pour retirer un seul Statut à toutes les Figurines de l'Unité dotée de ce vox internodal.",
   },
   {
+    nom: "Section de Rapier",
+    texte:
+      "Chez les Figurines ayant cette Règle Spéciale, on résout les Attaques de Tir ou de Mêlée contre différentes Caractéristiques d'Endurance au sein de leur Unité. Pour un Groupe de Tirs ciblant une Unité incluant au moins une Figurine de Châssis Rapier, on utilise la Caractéristique d'Endurance de Châssis Rapier si elle est majoritaire, et les Figurines Cibles choisies doivent autant que possible être des Figurines de Châssis Rapier. Pour un Groupe de Coups ciblant une Unité incluant au moins une Figurine de Pointeur de Rapier, on utilise la Caractéristique d'Endurance de la Figurine majoritaire, et les Figurines Cibles choisies doivent autant que possible être des Figurines de Pointeur de Rapier.",
+  },
+  {
     nom: "Bombardement de Précision",
     texte:
       "Réduit la distance de Déviation des Attaques de Tir faites par les Figurines voisines ayant le Trait Tercio d'Artillerie, en soustrayant la Capacité de Tir de la Figurine attaquante au résultat total des Dés jetés pour connaître la distance de Déviation.",
