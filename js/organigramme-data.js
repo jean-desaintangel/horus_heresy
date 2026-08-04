@@ -725,6 +725,9 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Une colonne de Transports et de Transports Lourds pour motoriser l'armée.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [
       _caseOrga("Transports"),
       _caseOrga("Transports"),
@@ -742,6 +745,9 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Des Troupes et des unités d'Appui supplémentaires pour tenir le terrain.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [
       _caseOrga("Troupes"),
       _caseOrga("Troupes"),
@@ -754,6 +760,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Appui Blindé",
     famille: "auxiliaire",
     texte: "Des véhicules Blindés lourdement armés pour l'appui-feu.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [
       _caseOrga("Blindés"),
       _caseOrga("Blindés"),
@@ -771,6 +780,9 @@ const TYPES_DETACHEMENTS = [
     // elle-même reste réservée à la sienne (champ `faction`, voir
     // uniteAccessible dans js/unites.js).
     factionLibre: true,
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     texte: "Un Engin de Guerre (Dreadnought, Armigère ou machine similaire).",
     cases: [_caseOrga("Engins de Guerre")],
   },
@@ -779,6 +791,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Pionniers de Combat",
     famille: "auxiliaire",
     texte: "Des unités de Reconnaissance pour harceler et pister l'ennemi.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [_caseOrga("Reco"), _caseOrga("Reco")],
   },
   {
@@ -786,6 +801,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Assaut de Choc",
     famille: "auxiliaire",
     texte: "Des unités d'Assaut Lourd chargées de briser les lignes ennemies.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [_caseOrga("Assaut Lourd"), _caseOrga("Assaut Lourd")],
   },
   {
@@ -794,6 +812,9 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Des unités d'Attaque Rapide qui frappent vite et se replient aussitôt.",
+    deblocage: {
+      caseRole: ["Quartier Général", "État-major"],
+    },
     cases: [_caseOrga("Attaque Rapide"), _caseOrga("Attaque Rapide")],
   },
   {
@@ -1325,8 +1346,8 @@ const TYPES_DETACHEMENTS = [
     nom: "Cénacle de Techmarines",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Techmarine occupe une Case d'Appui. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Techmarines.",
-    deblocage: { caseRole: "Appui", uniteIds: ["techmarine"] },
+      "Débloqué quand un Quartier Général ou un État-major est occupé. Les Cases d'Appui de ce détachement ne peuvent accueillir que des Techmarines.",
+    deblocage: { caseRole: ["Quartier Général", "État-major"] },
     restrictions: { Appui: ["techmarine"] },
     cases: [
       _caseOrga("Appui", true),

@@ -1929,7 +1929,9 @@ const Organigramme = (() => {
 
   /* Unités « débloqueuses » disponibles pour un détachement
      spécifique (ex : Vigilator en Case d'État-major pour la
-     Demi-compagnie Reco). Chaque unité ne débloque qu'UN détachement. */
+     Demi-compagnie Reco). Chaque unité ne débloque qu'UN détachement.
+     Si deblocage.uniteIds est absent/vide, compte simplement les Cases
+     du rôle occupées. */
   function debloqueursDisponibles(type) {
     if (!type.deblocage) return Infinity;
     if (
@@ -1938,12 +1940,19 @@ const Organigramme = (() => {
     )
       return 0;
     let presentes = 0;
+    const rolesAcceptes = Array.isArray(type.deblocage.caseRole)
+      ? type.deblocage.caseRole
+      : [type.deblocage.caseRole];
     for (const det of etat.detachements) {
       for (const caseOrga of det.cases) {
-        if (caseOrga.role !== type.deblocage.caseRole) continue;
+        if (!rolesAcceptes.includes(caseOrga.role)) continue;
         const occ = occupant(caseOrga);
-        if (occ && type.deblocage.uniteIds.includes(occ.unite.id))
+        // Si uniteIds est absent/vide, débloque simplement si Case occupée
+        if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
+          if (occ) presentes += 1;
+        } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
           presentes += 1;
+        }
       }
     }
     const dejaPris = etat.detachements.filter(
