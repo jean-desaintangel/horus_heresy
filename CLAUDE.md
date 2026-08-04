@@ -3966,5 +3966,60 @@ Règles Spéciales :
   des Auxilia » revient sur presque toutes les fiches de Véhicule, la
   constante du lot 1 était donc bien le bon investissement.
 
+- **Solar Auxilia, lot 4 : Blindés et Aéronefs (2026-08-04)** — 8 fiches,
+  qui achèvent les 27 photos fournies dans `05_solar_auxilia/unités/`.
+  Comme au lot 3, **tous les profils de Véhicule étaient exacts** ; deux
+  fiches (Chasseur d'Attaque Primaris-Lightning, Chasseur Lourd
+  Thunderbolt) se sont même révélées **entièrement conformes**, les deux
+  seules de tout le chantier Solar Auxilia dans ce cas.
+  1. **`Tercio Blindé` ajouté à tort sur les 5 chars** (les deux Leman
+     Russ, les deux Malcador, le Valdor) — même erreur que les Traits de
+     Tercio du lot 3, et de nouveau lourde de conséquences (Combat
+     Blindé, déblocage du Détachement de Tercio Blindé). Le Stormhammer,
+     lui, ne l'avait pas : incohérence interne qui aurait dû alerter.
+  2. **Deux Règles Spéciales fausses ou manquantes** : le Malcador
+     Infernus portait « Tir Indépendant » (recopié du Char Lourd
+     Malcador voisin) au lieu d'**Explose (3+)** ; le Valdor n'avait
+     aucune Règle au lieu d'**Explose (5+)**. Même motif de contamination
+     entre fiches voisines que le lance-flammes lourd du lot 2.
+  3. **Équipement de base incomplet** : le Char Lourd Malcador n'avait
+     que son obusier (il manquait le Bolter lourd de Coque (Avant) ET
+     les Deux multi-lasers Latéraux) ; le Stormhammer n'avait pas son
+     **Multi-laser de Coque (Avant)** — ce dernier détecté par le
+     contrôle automatique des `remplace` ajouté au lot 2, qui a signalé
+     une Option pointant vers un objet inexistant. **Ce contrôle vaut
+     donc aussi dans l'autre sens** : un `remplace` non résolu révèle
+     parfois un équipement manquant, pas seulement un libellé fautif.
+  4. **Missile traqueur à +20 au lieu de +5** sur les 6 chars, et
+     **bouclier répulsif à +5 au lieu de +20** (ou présent alors que la
+     fiche ne le propose pas, cas des deux Leman Russ) — mêmes deux
+     erreurs de coût qu'aux lots 1 et 3, manifestement systématiques
+     dans toute la transcription d'origine.
+  `LISTES_AUXILIA.coque` et `.laterales` consommées pour la première
+  fois (Malcador, Malcador Infernus, Leman Russ) : les cinq listes de la
+  p. 17 sont désormais toutes utilisées, ce qui clôt le gap documenté
+  au-dessus d'`optionSponsonsLascanonSA`. **Ce commentaire reste à
+  nettoyer** quand les Super-lourds Legacies (Baneblade, Hellhammer,
+  Stormlord…) seront traités : ils utilisent encore « (Sponsons) » et
+  devront basculer sur `LISTES_AUXILIA.laterales` et le terme du livre
+  « Latéraux ».
+  **Piège d'édition rencontré** (à éviter en réécrivant un bloc entier
+  d'Unité par script) : découper le fichier sur `id: "sa-xxx"` plutôt
+  que sur l'accolade ouvrante fait perdre le `{` de l'Unité SUIVANTE si
+  l'on remplace jusqu'à la fin du bloc — `node --check` l'attrape, mais
+  mieux vaut ancrer sur une chaîne interne au bloc que sur ses bornes.
+
+**Bilan du chantier Solar Auxilia (lots 1 à 4, 27 fiches)** : sur les 27
+Unités photographiées, **25 étaient fausses**. Les Caractéristiques de
+Figurine étaient erronées presque partout (lots 1 et 2), alors que les
+profils de Véhicule étaient exacts partout (lots 3 et 4) — signe que la
+transcription d'origine avait été reconstruite de mémoire pour
+l'Infanterie et recopiée d'une source fiable pour les Véhicules. Les 20
+Unités Solar Auxilia restantes du fichier (Super-lourds Legacies,
+Compagnons, Aevos Jovan, Navigateur, Cyclops, Tarantula, Carnodon,
+Avenger, Destroyer, Thunderer, Minotaur, Macharius, Praetor, Crassus,
+Baneblade et suivants) **n'ont pas été vérifiées faute de photos** : les
+considérer comme non fiables tant que leur page n'a pas été fournie.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.

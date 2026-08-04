@@ -34379,12 +34379,7 @@ const UNITES = [
     categorie: "Blindés",
     cout: 140,
     composition: "1 Leman Russ",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio Blindé",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: ["Obusier de Tourelle", "Bolter lourd de Coque (Avant)"],
     variantes: [
       {
@@ -34405,11 +34400,46 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "tourelle",
+        libelle: "Remplacer l'obusier de Tourelle",
+        remplace: "Obusier de Tourelle",
+        choix: [
+          { nom: "Obusier de Tourelle", cout: 0 },
+          { nom: "Autocanon Gravis de Tourelle", cout: 0 },
+          { nom: "Canon laser jumelé de Tourelle", cout: 0 },
+          {
+            nom: "Canon Vanquisher de Tourelle et mitrailleuse coaxiale (canon Vanquisher)",
+            cout: 10,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le bolter lourd de Coque",
+        remplace: "Bolter lourd de Coque (Avant)",
+        choix: [
+          { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.coque),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
-        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+        libelle: "Missile traqueur de Tourelle",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Tourelle",
       },
       {
         type: "case",
@@ -34420,10 +34450,10 @@ const UNITES = [
       },
       {
         type: "case",
-        id: "bouclier",
-        libelle: "Bouclier répulsif",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
         cout: 5,
-        ajoute: "Bouclier répulsif",
+        ajoute: "Lame de bulldozer",
       },
     ],
   },
@@ -34434,12 +34464,7 @@ const UNITES = [
     categorie: "Blindés",
     cout: 140,
     composition: "1 Leman Russ",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio Blindé",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Macro-sacre volkite (Solar Auxilia) de Tourelle",
       "Bolter lourd de Coque (Avant)",
@@ -34463,11 +34488,42 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "tourelle",
+        libelle: "Remplacer le macro-sacre volkite de Tourelle",
+        remplace: "Macro-sacre volkite (Solar Auxilia) de Tourelle",
+        choix: [
+          { nom: "Macro-sacre volkite (Solar Auxilia) de Tourelle", cout: 0 },
+          { nom: "Destructeur à plasma Executioner de Tourelle", cout: 25 },
+          { nom: "Canon Demolisher de Tourelle", cout: 30 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le bolter lourd de Coque",
+        remplace: "Bolter lourd de Coque (Avant)",
+        choix: [
+          { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.coque),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
-        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+        libelle: "Missile traqueur de Tourelle",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Tourelle",
       },
       {
         type: "case",
@@ -34478,10 +34534,10 @@ const UNITES = [
       },
       {
         type: "case",
-        id: "bouclier",
-        libelle: "Bouclier répulsif",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
         cout: 5,
-        ajoute: "Bouclier répulsif",
+        ajoute: "Lame de bulldozer",
       },
     ],
   },
@@ -34492,13 +34548,12 @@ const UNITES = [
     categorie: "Blindés",
     cout: 215,
     composition: "1 Malcador",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio Blindé",
-      "Écran de Fumée",
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
+    equipement: [
+      "Obusier de Coque (Avant)",
+      "Bolter lourd de Coque (Avant)",
+      "Deux multi-lasers (Solar Auxilia) Latéraux",
     ],
-    equipement: ["Obusier de Coque (Avant)"],
     variantes: [
       {
         nom: "Malcador",
@@ -34518,10 +34573,52 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "obusier",
+        libelle: "Remplacer l'obusier de Coque",
+        remplace: "Obusier de Coque (Avant)",
+        choix: [
+          { nom: "Obusier de Coque (Avant)", cout: 0 },
+          { nom: "Canon laser de Coque (Avant) jumelé", cout: 0 },
+          { nom: "Canon Vanquisher de Coque (Avant)", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le bolter lourd de Coque",
+        remplace: "Bolter lourd de Coque (Avant)",
+        choix: [
+          { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
+          { nom: "Canon Demolisher de Coque (Avant)", cout: 40 },
+          ...depuisListes(LISTES_AUXILIA.coque),
+        ],
+      },
+      {
+        type: "choix",
+        id: "laterales",
+        libelle: "Remplacer les deux multi-lasers Latéraux",
+        remplace: "Deux multi-lasers (Solar Auxilia) Latéraux",
+        choix: [
+          { nom: "Deux multi-lasers (Solar Auxilia) Latéraux", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.laterales),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
         ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
       },
       {
@@ -34533,9 +34630,16 @@ const UNITES = [
       },
       {
         type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+      {
+        type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
@@ -34547,12 +34651,7 @@ const UNITES = [
     categorie: "Blindés",
     cout: 240,
     composition: "1 Malcador Infernus",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio Blindé",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Canon Infernus d'Axe Central",
       "Deux multi-lasers (Solar Auxilia) Latéraux",
@@ -34570,11 +34669,38 @@ const UNITES = [
           PC: 7,
           transport: "—",
         },
-        regles: ["Tir Indépendant"],
+        regles: ["Explose (3+)"],
         type: "Véhicule",
       },
     ],
     options: [
+      {
+        type: "choix",
+        id: "laterales",
+        libelle: "Remplacer les deux multi-lasers Latéraux",
+        remplace: "Deux multi-lasers (Solar Auxilia) Latéraux",
+        choix: [
+          { nom: "Deux multi-lasers (Solar Auxilia) Latéraux", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.laterales),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
+        type: "case",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
       {
         type: "case",
         id: "projecteurs",
@@ -34584,9 +34710,16 @@ const UNITES = [
       },
       {
         type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+      {
+        type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
@@ -34598,15 +34731,10 @@ const UNITES = [
     categorie: "Blindés",
     cout: 225,
     composition: "1 Valdor",
-    traits: [
-      "[Allégeance]",
-      "Solar Auxilia",
-      "Tercio Blindé",
-      "Écran de Fumée",
-    ],
+    traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
       "Laser à neutrons d'Axe Central",
-      "Multi-laser Latéral (Droite)",
+      "Multi-laser Latéral (Droit)",
     ],
     variantes: [
       {
@@ -34621,7 +34749,7 @@ const UNITES = [
           PC: 7,
           transport: "—",
         },
-        regles: [],
+        regles: ["Explose (5+)"],
         type: "Véhicule",
       },
     ],
@@ -34629,26 +34757,31 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-laterale",
-        libelle: "Remplacer le multi-laser Latéral (Droite)",
-        remplace: "Multi-laser Latéral (Droite)",
+        libelle: "Remplacer le multi-laser Latéral (Droit)",
+        remplace: "Multi-laser Latéral (Droit)",
         choix: [
-          { nom: "— Conserver le multi-laser Latéral —", cout: 0 },
-          {
-            nom: "Autocanon Gravis Latéral (Droite)",
-            cout: 10,
-          },
-          {
-            nom: "Lance-flammes lourd Latéral (Droite)",
-            cout: 0,
-          },
-          { nom: "Canon laser Latéral (Droite)", cout: 5 },
+          { nom: "Multi-laser Latéral (Droit)", cout: 0 },
+          { nom: "Bolter lourd Latéral (Droit)", cout: 0 },
+          { nom: "Lance-flammes lourd Latéral (Droit)", cout: 0 },
+          { nom: "Autocanon Latéral (Droit)", cout: 5 },
+          { nom: "Canon laser Latéral (Droit)", cout: 10 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
         ],
       },
       {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
         ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
       },
       {
@@ -34660,9 +34793,16 @@ const UNITES = [
       },
       {
         type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+      {
+        type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
@@ -34679,6 +34819,7 @@ const UNITES = [
       "Canon Stormhammer de Tourelle",
       "Multi-laser coaxial (Canon Stormhammer)",
       "Obusier jumelé de Coque (Avant)",
+      "Multi-laser de Coque (Avant)",
       "Trois multi-lasers de Coque (Gauche)",
       "Trois multi-lasers de Coque (Droite)",
     ],
@@ -34701,11 +34842,56 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "coque-avant",
+        libelle: "Remplacer le multi-laser de Coque (Avant)",
+        remplace: "Multi-laser de Coque (Avant)",
+        choix: [
+          { nom: "Multi-laser de Coque (Avant)", cout: 0 },
+          { nom: "Canon laser de Coque (Avant)", cout: 10 },
+        ],
+      },
+      // Les six multi-lasers latéraux s'échangent d'un bloc (les trois
+      // de Gauche ET les trois de Droite ensemble) : une seule option
+      // `paire`-like modélisée en `choix` à deux entrées retirées, la
+      // structure `paire` ne gérant qu'un seul objet ajouté.
+      {
+        type: "choix",
+        id: "coque-laterale",
+        libelle: "Remplacer les six multi-lasers de Coque (Gauche et Droite)",
+        remplace: "Trois multi-lasers de Coque (Gauche)",
+        choix: [
+          { nom: "Trois multi-lasers de Coque (Gauche)", cout: 0 },
+          {
+            nom: "Trois bolters lourds de Coque (Gauche) et trois bolters lourds de Coque (Droite)",
+            cout: 0,
+          },
+          {
+            nom: "Trois lance-flammes lourds de Coque (Gauche) et trois lance-flammes lourds de Coque (Droite)",
+            cout: 0,
+          },
+          {
+            nom: "Trois canons laser de Coque (Gauche) et trois canons laser de Coque (Droite)",
+            cout: 50,
+          },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
-        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+        libelle: "Missile traqueur de Tourelle",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Tourelle",
       },
       {
         type: "case",
@@ -34718,7 +34904,7 @@ const UNITES = [
         type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
