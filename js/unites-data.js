@@ -32930,8 +32930,8 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "Elite",
     cout: 90,
-    composition: "1 Primat-chef Veletaris, 4 Veletarii",
-    effectif: { base: 5, max: 15, cout: 8 },
+    composition: "1 Primat Veletarii, 9 Veletarii",
+    effectif: { base: 10, max: 20, cout: 8 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
@@ -32943,26 +32943,7 @@ const UNITES = [
         cout: 0,
         profils: [
           {
-            nom: "Primat-chef Veletaris",
-            profil: {
-              M: 6,
-              CC: 4,
-              CT: 3,
-              F: 3,
-              E: 3,
-              PV: 2,
-              I: 3,
-              A: 2,
-              Cd: 8,
-              Sf: 6,
-              Vo: 8,
-              Int: 6,
-              Sv: "4+",
-              Inv: "—",
-            },
-          },
-          {
-            nom: "Veletarius",
+            nom: "Primat Veletarii",
             profil: {
               M: 6,
               CC: 4,
@@ -32973,7 +32954,26 @@ const UNITES = [
               I: 3,
               A: 2,
               Cd: 8,
-              Sf: 6,
+              Sf: 8,
+              Vo: 6,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Veletarii",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 7,
+              Sf: 8,
               Vo: 6,
               Int: 6,
               Sv: "4+",
@@ -32982,20 +32982,67 @@ const UNITES = [
           },
         ],
         regles: ["Avant-garde (3)"],
-        type: "Primat-chef Veletaris : Infanterie (Champion, Sergent) · Veletarius : Infanterie",
+        type: "Primat Veletarii : Infanterie (Sergent) · Veletarii : Infanterie",
       },
     ],
     options: [
+      // L'option « lance-flammes lourd par tranche de cinq » de la
+      // transcription précédente ne figure PAS sur cette fiche (p. 28) :
+      // retirée. C'est la Section d'AVANT-GARDE Veletaris (p. 29) qui
+      // porte le lance-flammes lourd, en équipement de base.
+      {
+        type: "case",
+        id: "primat-cac",
+        libelle: "Primat Veletarii : pistolet laser et tabar charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et tabar charnabal (Primat Veletarii)",
+      },
       {
         type: "choix",
-        id: "arme-lourde",
+        id: "melee-primat",
         libelle:
-          "Par tranche de cinq Figurines : chargeur volkite d'une Figurine → arme lourde",
-        parTranche: 5,
+          "Primat Veletarii ayant échangé son chargeur volkite : remplacer le tabar charnabal",
+        prefixeFiche: "Primat Veletarii : ",
+        ajoute: true,
         choix: [
-          { nom: "— Conserver le chargeur volkite —", cout: 0 },
-          { nom: "Lance-flammes lourd", cout: 10 },
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.melee),
         ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-primat",
+        libelle:
+          "Primat Veletarii ayant échangé son chargeur volkite : remplacer le pistolet laser",
+        prefixeFiche: "Primat Veletarii : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      {
+        type: "quantite",
+        id: "hache-assaut",
+        libelle: "Figurines : hache d'assaut (à la place du chargeur volkite)",
+        cout: 3,
+        parTranche: 1,
+        ajoute: "Hache d'assaut",
+        remplaceIntegral: "Chargeur volkite",
+      },
+      {
+        type: "case",
+        id: "vox",
+        libelle: "Un Veletarii : vox internodal",
+        cout: 5,
+        ajoute: "Vox internodal (un Veletarii)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Veletarii : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Veletarii)",
       },
     ],
   },
@@ -33005,39 +33052,23 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "Elite",
     cout: 100,
-    composition: "1 Primat Veletaris, 9 Veletarii",
-    effectif: { base: 10, max: 19, cout: 9 },
+    composition: "1 Primat Veletarii, 9 Veletarii",
+    effectif: { base: 10, max: 20, cout: 9 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
       "Déployée en tête de Cohorte pour sonder les lignes ennemies avant que le gros de la force ne s'engage.",
-    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    // L'arme de base est le LANCE-FLAMMES LOURD (p. 29), pas le ryfle
+    // laser : c'est l'arme qui définit cette Unité (« l'arme la plus
+    // lourde en service chez les Solar Auxilia »).
+    equipement: ["Lance-flammes lourd", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'Avant-garde Veletaris",
         cout: 0,
         profils: [
           {
-            nom: "Primat Veletaris",
-            profil: {
-              M: 6,
-              CC: 4,
-              CT: 3,
-              F: 3,
-              E: 3,
-              PV: 2,
-              I: 3,
-              A: 2,
-              Cd: 8,
-              Sf: 9,
-              Vo: 9,
-              Int: 9,
-              Sv: "4+",
-              Inv: "—",
-            },
-          },
-          {
-            nom: "Veletarius",
+            nom: "Primat Veletarii",
             profil: {
               M: 6,
               CC: 4,
@@ -33046,27 +33077,85 @@ const UNITES = [
               E: 3,
               PV: 1,
               I: 3,
-              A: 1,
+              A: 2,
+              Cd: 8,
+              Sf: 8,
+              Vo: 6,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Veletarii",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
               Cd: 7,
               Sf: 8,
-              Vo: 9,
-              Int: 9,
+              Vo: 6,
+              Int: 6,
               Sv: "4+",
               Inv: "—",
             },
           },
         ],
-        regles: ["Avant-garde (3)"],
-        type: "Primat Veletaris : Infanterie (Sergent) · Veletarius : Infanterie",
+        regles: ["Avant-garde (3)", "Avance Implacable"],
+        type: "Primat Veletarii : Infanterie (Sergent) · Veletarii : Infanterie",
       },
     ],
     options: [
       {
         type: "case",
-        id: "lance-flammes",
-        libelle: "Le Primat Veletaris : lance-flammes lourd (Solar Auxilia)",
-        cout: 10,
-        ajoute: "Lance-flammes lourd (Primat Veletaris)",
+        id: "primat-cac",
+        libelle: "Primat Veletarii : pistolet laser et tabar charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et tabar charnabal (Primat Veletarii)",
+        remplace: "Lance-flammes lourd",
+      },
+      {
+        type: "choix",
+        id: "melee-primat",
+        libelle:
+          "Primat Veletarii ayant échangé son lance-flammes lourd : remplacer le tabar charnabal",
+        prefixeFiche: "Primat Veletarii : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-primat",
+        libelle:
+          "Primat Veletarii ayant échangé son lance-flammes lourd : remplacer le pistolet laser",
+        prefixeFiche: "Primat Veletarii : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "vox",
+        libelle: "Un Veletarii : vox internodal",
+        cout: 5,
+        ajoute: "Vox internodal (un Veletarii)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Veletarii : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Veletarii)",
       },
     ],
   },
@@ -33175,12 +33264,12 @@ const UNITES = [
   /* ---------- Assaut Lourd ---------- */
   {
     id: "sa-ogryn-charonites",
-    nom: "Section d'Ogryn Charonites",
+    nom: "Section d'Ogryns Charonites",
     faction: "solar-auxilia",
     categorie: "Assaut Lourd",
     cout: 120,
     composition: "3 Ogryns Charonites",
-    effectif: { base: 3, max: 6, cout: 40 },
+    effectif: { base: 3, max: 9, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
@@ -33188,7 +33277,7 @@ const UNITES = [
     equipement: ["Pinces de Charonite"],
     variantes: [
       {
-        nom: "Section d'Ogryn Charonites",
+        nom: "Section d'Ogryns Charonites",
         cout: 0,
         profils: [
           {
@@ -33198,11 +33287,11 @@ const UNITES = [
               CC: 4,
               CT: 2,
               F: 5,
-              E: 4,
+              E: 5,
               PV: 4,
               I: 2,
               A: 4,
-              Cd: 10,
+              Cd: 12,
               Sf: 10,
               Vo: 6,
               Int: 2,
@@ -33212,6 +33301,7 @@ const UNITES = [
           },
         ],
         regles: [
+          "Négligence",
           "Âpre Devoir",
           "Massif (4)",
           "Sacrifiable (2)",
@@ -33227,7 +33317,7 @@ const UNITES = [
   /* ---------- Troupes ---------- */
   {
     id: "sa-ryeliers",
-    nom: "Section de Ryeliers",
+    nom: "Section de Ryfliers",
     faction: "solar-auxilia",
     categorie: "Troupes",
     cout: 50,
@@ -33240,7 +33330,7 @@ const UNITES = [
     equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
-        nom: "Section de Ryeliers",
+        nom: "Section de Ryfliers",
         cout: 0,
         profils: [
           {
@@ -33253,11 +33343,11 @@ const UNITES = [
               E: 3,
               PV: 1,
               I: 3,
-              A: 2,
+              A: 1,
               Cd: 7,
               Sf: 7,
-              Vo: 6,
-              Int: 6,
+              Vo: 7,
+              Int: 7,
               Sv: "4+",
               Inv: "—",
             },
@@ -33287,20 +33377,63 @@ const UNITES = [
       },
     ],
     options: [
+      // L'option « mitrailleuse par tranche de dix Figurines » de la
+      // transcription précédente ne figure PAS sur cette fiche (p. 31) :
+      // retirée. Le vox est ici INTERNODAL à +5 Points (et non le vox
+      // d'état-major à +10 des Sections d'État-major) — les deux objets
+      // sont distincts, voir js/regles-data.js.
       {
         type: "case",
-        id: "arme-lourde",
-        libelle: "Par tranche de dix Figurines : mitrailleuse (une Figurine)",
-        parTranche: 10,
-        cout: 10,
-        ajoute: "Mitrailleuse (à la place du rifle laser, une Figurine)",
+        id: "sergent-cac",
+        libelle: "Sergent Auxiliaire : pistolet laser et sabre charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et sabre charnabal (Sergent Auxiliaire)",
       },
+      {
+        type: "choix",
+        id: "melee-sergent",
+        libelle:
+          "Sergent Auxiliaire ayant échangé son ryfle laser : remplacer le sabre charnabal",
+        prefixeFiche: "Sergent Auxiliaire : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-sergent",
+        libelle:
+          "Sergent Auxiliaire ayant échangé son ryfle laser : remplacer le pistolet laser",
+        prefixeFiche: "Sergent Auxiliaire : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      optionBaionnetteSurchargeurAuxilia(),
       {
         type: "case",
         id: "vox",
-        libelle: "Le Sergent Auxiliaire : vox internodal",
+        libelle: "Un Auxiliaire : vox internodal",
+        cout: 5,
+        ajoute: "Vox internodal (un Auxiliaire)",
+      },
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Auxiliaire : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Auxiliaire)",
+      },
+      {
+        type: "case",
+        id: "bombes",
+        libelle: "Sergent Auxiliaire : bombes à fusion",
         cout: 10,
-        ajoute: "Vox internodal (Sergent Auxiliaire)",
+        ajoute: "Bombes à fusion (Sergent Auxiliaire)",
       },
     ],
   },

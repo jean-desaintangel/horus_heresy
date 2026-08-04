@@ -3880,5 +3880,47 @@ Règles Spéciales :
   pas de test fonctionnel en DOM headless pour ce lot, contrairement aux
   chantiers précédents — à refaire si l'occasion se présente.
 
+- **Solar Auxilia, lot 2 : Infanterie et Élite (2026-08-04)** — 4 fiches
+  (Ryfliers, Assaut Veletaris, Avant-garde Veletaris, Ogryns Charonites),
+  mêmes conclusions que le lot 1, plus trois pièges nouveaux :
+  1. **Le nom de l'Unité lui-même était faux** : « Section de
+     **Ryeliers** » → « Section de **Ryfliers** » (p. 31, de « ryfle
+     laser »). Vérifier le titre de la fiche, pas seulement son contenu.
+  2. **Deux Options inventées, retirées** : la « mitrailleuse par tranche
+     de dix Figurines » des Ryfliers et le « lance-flammes lourd par
+     tranche de cinq » de la Section d'Assaut n'existent sur aucune des
+     deux fiches. Le lance-flammes lourd est en réalité l'ÉQUIPEMENT DE
+     BASE de la Section d'Avant-garde (p. 29) — que la transcription
+     précédente dotait à tort d'un ryfle laser, avec en prime une option
+     « le Primat peut recevoir un lance-flammes lourd +10 » qui doublonnait
+     l'arme qu'il portait déjà. Confusion entre deux Unités voisines : à
+     surveiller partout où deux fiches se suivent avec un armement proche.
+  3. **Vox internodal (+5) vs vox d'état-major (+10)** : les Unités de
+     ligne prennent l'INTERNODAL, les Sections d'État-major le vox
+     D'ÉTAT-MAJOR. Le fichier mettait « vox internodal » partout, à +10.
+  Noms de rôles alignés sur le livre : « Primat Veletarii » et
+  « Veletarii » (et non « Primat-chef Veletaris »/« Veletarius ») ;
+  « Section d'Ogryns Charonites » au pluriel. Corrections de profil
+  notables : Ogryn Charonite E 4→**5** et Cd 10→**12**, Règle Spéciale
+  **Négligence** manquante ; Avant-garde Veletaris Vo/Int 9→**6** sur les
+  deux rôles et **Avance Implacable** manquante ; effectifs `max`
+  faux sur 3 fiches sur 4 (dont Ogryns 6→**9**).
+  **Second bug pré-existant repéré, non corrigé faute de source** :
+  `sa-section-compagnons` a une Option `arme-melee` avec
+  `remplace: "Sabre charnabal"` alors que son `equipement` n'en contient
+  pas — l'Option est donc **définitivement irréalisable** (grisée en
+  permanence), exactement le piège du `remplace` tronqué déjà documenté
+  plus haut pour les Unités montées. Aucune fiche « Section de
+  Compagnons » n'a été fournie dans `05_solar_auxilia/`, donc pas de
+  correction possible sans inventer : à traiter quand le proprio
+  fournira la page. Un contrôle automatique de ce piège a été ajouté à
+  l'audit de session (chaque `remplace`/`remplaceIntegral` doit
+  correspondre mot pour mot à une entrée d'`equipement`) — **à
+  reproduire pour toute future passe de vérification**, il ne coûte
+  rien et attrape une classe entière de bugs silencieux.
+  **Les photos source ne sont PAS commitées** (`05_solar_auxilia/`,
+  25 Mo) : dépôt public avec GitHub Pages, pages scannées d'un livre GW.
+  Ne pas les ajouter sans demande explicite du proprio.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
