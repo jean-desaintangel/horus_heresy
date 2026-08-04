@@ -854,6 +854,33 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Reco"),
     ],
   },
+  {
+    // Legacies of the Age of Darkness (fiche Mortificator, p. 62,
+    // encart « Dreadnought Talon [Auxiliary Detachment] ») — traduction
+    // « Griffe de Dreadnoughts » déjà établie dans js/regles-data.js
+    // (Règle Spéciale du même nom, transcrite lors d'une session
+    // antérieure mais jamais câblée ici jusqu'à présent). Débloqué par
+    // un Mortificator OU un Mortificator en Armure Terminator occupant
+    // une Case d'État-major (les deux Unités sont catégorie État-major
+    // dans ce fichier).
+    id: "griffe-de-dreadnoughts",
+    nom: "Griffe de Dreadnoughts",
+    famille: "auxiliaire",
+    texte:
+      "Débloqué quand un Mortificator ou un Mortificator en Armure Terminator occupe une Case d'État-major. Les Cases d'Engins de Guerre de ce Détachement ne peuvent servir qu'à sélectionner des Unités de Dreadnought Contemptor.",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["mortificator", "mortificator-terminator"],
+    },
+    restrictions: {
+      "Engins de Guerre": ["dreadnought-contemptor"],
+    },
+    cases: [
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+    ],
+  },
 
   /* ---------- Détachements Auxiliaires des Solar Auxilia (Liber
      Auxilia, p. 18-19) : chacun débloqué par une Section d'État-major
