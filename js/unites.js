@@ -589,12 +589,19 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
         ? effectif
         : 1;
 
+    // `horsEquipement: true` (ex : Techno-arcane Majeur Mechanicum,
+    // Theurgika Maximus, Rites Cybertheurgiques — js/unites-data.js) :
+    // cette option accorde un Trait ou une Règle Spéciale, pas un objet
+    // d'Équipement — construireFiche et reglesFinales (ci-dessous) s'en
+    // chargent séparément, rien à faire ici. Vérifié avant la répartition
+    // par `type` : ce champ ne concernait à l'origine que les `choix`
+    // (Techno-arcane), mais vaut désormais aussi pour un `case`
+    // (Theurgika Maximus) et un `multi` (Rites) — sans quoi leur `ajoute`
+    // atterrirait dans l'Équipement, où construireTablesArmes chercherait
+    // en vain un profil d'Arme du même nom.
+    if (opt.horsEquipement) continue;
+
     if (opt.type === "choix") {
-      // `horsEquipement: true` (ex : Techno-arcane Majeur Mechanicum,
-      // js/unites-data.js) : cette option remplace un Trait, pas un
-      // objet d'Équipement — construireFiche (ci-dessous) s'en charge
-      // séparément, rien à faire ici.
-      if (opt.horsEquipement) continue;
       // `obligatoire: true` : l'indice 0 est un vrai choix (ex :
       // « toutes les figurines DOIVENT prendre une Arme Spéciale »),
       // il apparaît donc aussi sur la fiche.
@@ -821,6 +828,57 @@ function optionAllegeanceOk(opt) {
   return Organigramme.allegeanceActuelle() === opt.requiertAllegeance;
 }
 
+// La Figurine a-t-elle acquis la Règle Spéciale Theurgika Maximus ?
+// Soit elle la porte en dur dans les Règles de sa variante (Archimagos
+// Scoria), soit elle a coché l'Option d'Arcane Archimandrite du même nom
+// (voir optionTheurgikaMaximus, js/unites-data.js). Sert de dérogation à
+// technoArcaneOk ci-dessous : Liber Mechanicum p. 45, « on ignore les
+// restrictions basées sur les Traits de Faction quand on sélectionne des
+// Rites Cybertheurgiques pour une Figurine ayant cette Règle Spéciale ».
+function theurgikaMaximusAcquis(unite, instance) {
+  if (!instance) return false;
+  if (instance.valeurs && instance.valeurs["theurgika-maximus"]) return true;
+  const variante = unite.variantes && unite.variantes[instance.variante];
+  return Boolean(
+    variante && (variante.regles || []).includes("Theurgika Maximus"),
+  );
+}
+
+// Même principe qu'optionLegionOk ci-dessus, mais pour
+// `requiertTechnoArcane` — le Techno-arcane Majeur effectif de la
+// Figurine elle-même (fixe dans `traits`, ex. « Cybernetica », ou choisi
+// via l'option "techno-arcane" ; voir traitFactionMechanicumDe plus bas),
+// et non un état global de l'Armée comme la Légion/l'Allégeance : deux
+// Unités du même Détachement peuvent parfaitement avoir des
+// Techno-arcanes différents (Liber Mechanicum p. 13). Accepte un nom
+// unique ou un tableau de noms. S'applique indifféremment à une option
+// entière (`opt.requiertTechnoArcane`) ou à une entrée de `choix`/`multi`
+// (`choix.requiertTechnoArcane`), d'où le paramètre générique `cible`.
+// Une entrée marquée `theurgikaDeroge: true` (les Rites Cybertheurgiques
+// réservés à un Techno-arcane) passe outre dès que la Figurine a
+// Theurgika Maximus, conformément au texte de cette Règle Spéciale.
+// Une entrée d'option `multi` (case à cocher) est-elle accessible ?
+// Pendant, pour les cases à cocher, du filtrage que peuplerChoixSelect
+// fait déjà sur les <option> d'un `choix`. Utilisé par les Rites
+// Cybertheurgiques : certains réservés à un Techno-arcane, les deux
+// Hétérodoxes à l'Allégeance Renégat (js/unites-data.js,
+// RITES_CYBERTHEURGIQUES).
+function entreeMultiAccessible(choix, unite, instance) {
+  return technoArcaneOk(choix, unite, instance) && optionAllegeanceOk(choix);
+}
+
+function technoArcaneOk(cible, unite, instance) {
+  if (!cible.requiertTechnoArcane) return true;
+  if (cible.theurgikaDeroge && theurgikaMaximusAcquis(unite, instance))
+    return true;
+  const trait = traitFactionMechanicumDe(unite, instance);
+  if (!trait) return false;
+  const requis = Array.isArray(cible.requiertTechnoArcane)
+    ? cible.requiertTechnoArcane
+    : [cible.requiertTechnoArcane];
+  return requis.includes(trait);
+}
+
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
   if (
@@ -831,6 +889,18 @@ function optionRealisable(unite, instance, opt) {
   if (!optionLegionOk(opt, instance)) return false;
   if (!optionAllegeanceOk(opt)) return false;
   if (!optionSermentOk(opt, instance)) return false;
+  if (!technoArcaneOk(opt, unite, instance)) return false;
+  // `interditSiOption: "<id>"` : option indisponible tant qu'une AUTRE
+  // option de la même Unité est renseignée (Liber Mechanicum p. 19/22 :
+  // Faisceau de conversion/Fusil à plasma phasé/Irradieur ne sont
+  // accessibles que « si on ne dote pas cette Figurine d'un objet de la
+  // liste des Armes de Tir du Mechanicum »). Grisée et non masquée : le
+  // joueur peut lever la condition depuis la carte elle-même, en
+  // reposant l'autre menu sur « — Aucun — ».
+  if (opt.interditSiOption) {
+    const autre = instance.valeurs[opt.interditSiOption];
+    if (Array.isArray(autre) ? autre.length > 0 : Boolean(autre)) return false;
+  }
   if (opt.requiertPivotArme) {
     const pivot = armeSurPivotChoisie(unite, instance);
     if (!pivot || pivot.startsWith("Lanceur Havoc sur Pivot")) return false;
@@ -887,7 +957,13 @@ function coutInstance(unite, instance) {
     else if ((opt.type === "case" || opt.type === "paire") && val)
       total += opt.cout * (opt.parFigurine ? nbFigurines : 1);
     else if (opt.type === "multi")
-      for (const i of val) total += opt.choix[i].cout;
+      // `parFigurine` était jusqu'ici honoré par "choix", "case" et
+      // "paire" mais pas par "multi", faute d'occurrence : les options
+      // Baïonnette/Surchargeur des Solar Auxilia (Liber Auxilia, +1
+      // Point PAR FIGURINE chacune, plusieurs cumulables) sont les
+      // premières à en avoir besoin.
+      for (const i of val)
+        total += opt.choix[i].cout * (opt.parFigurine ? nbFigurines : 1);
     else if (opt.type === "quantite") total += val * opt.cout;
   }
   return total;
@@ -2104,8 +2180,44 @@ function sermentApplicableA(serment, variante) {
 // Chair est Faible). Retourne la liste FINALE de Règles Spéciales à
 // afficher (regles de base + Avantage Principal + Serments), prête à
 // passer à construireLigneRegles.
+// Règles Spéciales accordées par une OPTION cochée plutôt que par un
+// objet d'Équipement : ces options portent `horsEquipement: true` (donc
+// ignorées par calculerEquipementComptes) et déclarent la Règle gagnée
+// dans `ajoute`. Concerne aujourd'hui Theurgika Maximus (Option d'Arcane
+// Archimandrite) et, à terme, les Rites Cybertheurgiques — deux
+// mécaniques du Liber Mechanicum où la Figurine « connaît » une Règle
+// sans rien porter de matériel. Les entrées réservées à un Techno-arcane
+// sont revérifiées ici (technoArcaneOk) : synchroniserConfig les décoche
+// déjà, mais reglesFinales sert aussi aux exports PDF/Word, qui peuvent
+// être générés sans passer par une resynchronisation de carte.
+function reglesOptionsDe(unite, instance) {
+  const ajoutees = [];
+  for (const opt of unite.options || []) {
+    // Un `multi` tire les noms de ses ENTRÉES cochées (Rites
+    // Cybertheurgiques), pas d'un `ajoute` posé sur l'option : ne pas
+    // exiger ce champ dans son cas.
+    if (!opt.horsEquipement) continue;
+    if (opt.type !== "multi" && !opt.ajoute) continue;
+    if (!technoArcaneOk(opt, unite, instance)) continue;
+    const val = instance.valeurs[opt.id];
+    if (opt.type === "multi") {
+      for (const indice of Array.isArray(val) ? val : []) {
+        const choix = opt.choix[indice];
+        if (choix && entreeMultiAccessible(choix, unite, instance))
+          ajoutees.push(choix.nom);
+      }
+    } else if (val) {
+      for (const item of Array.isArray(opt.ajoute) ? opt.ajoute : [opt.ajoute])
+        ajoutees.push(typeof item === "string" ? item : item.nom);
+    }
+  }
+  return ajoutees;
+}
+
 function reglesFinales(unite, variante, instance) {
-  let regles = variante.regles.concat(reglesAvantagePrincipalDe(instance));
+  let regles = variante.regles
+    .concat(reglesAvantagePrincipalDe(instance))
+    .concat(reglesOptionsDe(unite, instance));
   if (!orgaPret || !window.Organigramme) return regles;
   // Tactica Blackshields de base (« Fils Bâtards du Destin ») : accordée
   // à TOUTE Figurine ayant le Trait Blackshields (sauf Type Véhicule),
@@ -2460,6 +2572,48 @@ function synchroniserConfig(carte, unite, instance) {
     ) {
       instance.valeurs[opt.id] = 0;
       modifie = true;
+    } else if (
+      choixActuel &&
+      choixActuel.requiertTechnoArcane &&
+      !technoArcaneOk(choixActuel, unite, instance)
+    ) {
+      // Même repli que ci-dessus, mais quand c'est le Techno-arcane
+      // Majeur de la Figurine elle-même qui change (menu déroulant
+      // "techno-arcane" de la même carte) et invalide l'entrée
+      // enregistrée — cas nettement plus fréquent que le changement de
+      // Légion/d'Allégeance, ce choix étant à portée de clic sur la carte.
+      instance.valeurs[opt.id] = 0;
+      modifie = true;
+    }
+  }
+
+  // 1 sexies. Options et entrées réservées à un Techno-arcane
+  // (Theurgika Maximus, Rites Cybertheurgiques) : on les décoche dès que
+  // le Techno-arcane change sur la même carte et ne les autorise plus,
+  // sinon elles resteraient FACTURÉES tout en étant masquées plus bas.
+  // Différence notable avec requiertLegion/requiertAllegeance, qui se
+  // contentent d'un repli sur l'indice 0 des `choix` : ici la
+  // restriction se lève et se repose à volonté depuis un menu déroulant
+  // de la carte elle-même, donc le cas se produit en usage normal et pas
+  // seulement après un changement de paramètre d'Armée.
+  for (const opt of unite.options) {
+    const val = instance.valeurs[opt.id];
+    if (opt.type === "multi" && Array.isArray(val)) {
+      const gardees = val.filter((indice) => {
+        const choix = opt.choix[indice];
+        return !choix || entreeMultiAccessible(choix, unite, instance);
+      });
+      if (gardees.length !== val.length) {
+        instance.valeurs[opt.id] = gardees;
+        modifie = true;
+      }
+    } else if (
+      opt.requiertTechnoArcane &&
+      val &&
+      !technoArcaneOk(opt, unite, instance)
+    ) {
+      instance.valeurs[opt.id] = opt.type === "choix" ? 0 : false;
+      modifie = true;
     }
   }
 
@@ -2474,7 +2628,12 @@ function synchroniserConfig(carte, unite, instance) {
     // Blackshields) est entièrement masquée si l'une de ces conditions
     // ne correspond pas — contrairement au reste d'optionRealisable, qui
     // ne fait que griser le champ.
-    if (opt.requiertLegion || opt.requiertAllegeance || opt.requiertSerment) {
+    if (
+      opt.requiertLegion ||
+      opt.requiertAllegeance ||
+      opt.requiertSerment ||
+      opt.requiertTechnoArcane
+    ) {
       const controle = carte.querySelector(
         "#opt-" + instance.uid + "-" + opt.id,
       );
@@ -2483,16 +2642,21 @@ function synchroniserConfig(carte, unite, instance) {
         ligne.hidden =
           !optionLegionOk(opt, instance) ||
           !optionAllegeanceOk(opt) ||
-          !optionSermentOk(opt, instance);
+          !optionSermentOk(opt, instance) ||
+          !technoArcaneOk(opt, unite, instance);
     }
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
       if (
         opt.choix.some(
-          (c) => c.requiertAllegeance || c.requiertLegion || c.requiertSerment,
+          (c) =>
+            c.requiertAllegeance ||
+            c.requiertLegion ||
+            c.requiertSerment ||
+            c.requiertTechnoArcane,
         )
       )
-        peuplerChoixSelect(select, opt, instance);
+        peuplerChoixSelect(select, opt, instance, unite);
       select.value = String(instance.valeurs[opt.id]);
       select.disabled =
         !realisable ||
@@ -2507,6 +2671,16 @@ function synchroniserConfig(carte, unite, instance) {
         // Limite « jusqu'à max » : on grise les cases non cochées
         // quand le quota est atteint.
         c.disabled = !realisable || (!c.checked && cochees.length >= opt.max);
+        // Entrée réservée à un Techno-arcane que la Figurine n'a pas
+        // (Rites Cybertheurgiques, Liber Mechanicum p. 56-65) : masquée
+        // plutôt que grisée, comme partout ailleurs dans ce fichier pour
+        // une restriction que le joueur ne peut pas lever depuis cette
+        // ligne-là. Le décochage a déjà été fait plus haut (étape 1
+        // sexies), donc rien n'est facturé pour une entrée masquée.
+        const choix = opt.choix[indice];
+        const label = c.closest(".option-multi-case");
+        if (label && choix)
+          label.hidden = !entreeMultiAccessible(choix, unite, instance);
       });
     } else if (opt.type === "quantite") {
       const champ = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
@@ -2582,7 +2756,7 @@ function actualiserCarte(carte, unite, instance) {
    menu se remette à jour si l'Allégeance change après coup — sinon les
    <option> resteraient figées sur celles visibles au moment de la
    construction initiale de la carte. */
-function peuplerChoixSelect(select, opt, instance) {
+function peuplerChoixSelect(select, opt, instance, unite) {
   select.replaceChildren();
   const entrees = [];
   opt.choix.forEach((choix, indice) => {
@@ -2614,6 +2788,13 @@ function peuplerChoixSelect(select, opt, instance) {
     // js/unites-data.js) : même principe, sur les Serments actifs du
     // Détachement de cette instance plutôt que sur la Légion/l'Allégeance.
     if (choix.requiertSerment && !optionSermentOk(choix, instance)) return;
+    // requiertTechnoArcane sur une entrée de `choix` (Armes/Équipement
+    // de Magos réservés à un Techno-arcane précis, Liber Mechanicum
+    // p. 45-51) : même principe, mais évalué sur le Techno-arcane de la
+    // Figurine elle-même, d'où le besoin d'`unite` en plus d'`instance`
+    // (les appelants qui n'ont pas d'entrée concernée peuvent l'omettre).
+    if (unite && choix.requiertTechnoArcane && !technoArcaneOk(choix, unite, instance))
+      return;
     const texteOption =
       indice === 0 && !opt.obligatoire
         ? nomCourt(choix.nom)
@@ -2719,7 +2900,7 @@ function construireConfig(carte, unite, instance) {
         const select = document.createElement("select");
         select.id = "opt-" + instance.uid + "-" + opt.id;
         label.htmlFor = select.id;
-        peuplerChoixSelect(select, opt, instance);
+        peuplerChoixSelect(select, opt, instance, unite);
         select.addEventListener("change", () => {
           instance.valeurs[opt.id] = Number(select.value);
           actualiserCarte(carte, unite, instance);
@@ -2745,6 +2926,10 @@ function construireConfig(carte, unite, instance) {
           caseACocher.type = "checkbox";
           caseACocher.value = String(indice);
           caseACocher.dataset.multi = opt.id;
+          // Permet à synchroniserConfig de masquer CETTE entrée seule
+          // (et pas toute l'option) quand elle est réservée à un
+          // Techno-arcane que la Figurine n'a pas — voir technoArcaneOk.
+          caseACocher.dataset.multiIndice = String(indice);
           caseACocher.addEventListener("change", () => {
             const liste = instance.valeurs[opt.id];
             if (caseACocher.checked) liste.push(indice);

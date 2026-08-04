@@ -1297,13 +1297,13 @@ const ARMES_TIR = [
         traits: "Assaut, Laser",
       },
       {
-        nom: "Rifle laser — Salve",
+        nom: "Ryfle laser — Salve",
         stats: ["30", "1", "3", "6", "1"],
         regles: "Lourde (PF)",
         traits: "Laser",
       },
       {
-        nom: "Rifle laser — Surchargeur",
+        nom: "Ryfle laser — Surchargeur",
         stats: ["18", "1", "4", "4", "1"],
         regles: "Vulnérante (6+), Lacération (6+)",
         traits: "Laser",
@@ -5340,7 +5340,7 @@ const ARMES_MELEE = [
       },
       {
         // Arme de l'Engin Démon Kytan.
-        nom: "Fondoir de massacre",
+        nom: "Fendoir de massacre",
         stats: ["-2", "4", "+4", "2", "3"],
         regles: "Fléau des Blindages, Lacération (5+)",
         traits: "-",

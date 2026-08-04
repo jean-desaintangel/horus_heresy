@@ -1853,6 +1853,430 @@ const optionTechnoArcane = () => ({
   choix: TRAITS_FACTION_MECHANICUM.map((nom) => ({ nom, cout: 0 })),
 });
 
+/* Armement de l'Armigère Moirax (Liber Mechanicum, p. 57). La fiche dit
+   « Cette Figurine doit être dotée de deux options de la liste
+   suivante », avec des coûts libellés « +X Points CHACUN » : d'où deux
+   menus déroulants distincts (« Arme 1 »/« Arme 2 ») tirant tous deux de
+   cette même liste, plutôt que des cases à cocher indépendantes — c'est
+   la seule structure de ce fichier qui permette de prendre DEUX FOIS la
+   même arme, ce que « chacun » autorise explicitement. `obligatoire`
+   sur les deux menus : la fiche impose bien un choix (« doit »).
+   La dernière entrée est la seule dont le coût n'est PAS suivi de
+   « chacun » sur la page — transcrite ici au même titre que les autres
+   faute d'indication contraire, à revérifier au livre. */
+const ARMES_MOIRAX = [
+  { nom: "Pince de siège Gyges et un irradieur", cout: 0 },
+  { nom: "Vouglaire volkite", cout: 0 },
+  { nom: "Mousquet à foudre (Mechanicum)", cout: 5 },
+  { nom: "Pulsar à gravitons", cout: 15 },
+  { nom: "Faisceau de conversion Moirax (< 15 pas)", cout: 20 },
+  { nom: "Paire de pinces de siège Gyges et deux irradieurs", cout: 10 },
+];
+
+/* Listes d'Équipement des Taghmata du Mechanicum (Liber Mechanicum,
+   p. 17). Même forme que LISTES_EQUIPEMENT (Legiones Astartes) : un
+   `nom` affichable et des `items` { nom, cout }. Tous les profils
+   d'Armes correspondants existaient déjà dans js/armes-data.js —
+   aucun nouveau profil créé pour ce chantier, chaque nom a été vérifié
+   contre le fichier avant d'être écrit ici.
+
+   Seule interprétation faite : la ligne « Arme énergétique +10 Points »
+   de la liste des Armes de Mêlée est un PLACEHOLDER (aucune Arme de ce
+   nom n'a de profil dans ce fichier, pas plus côté Mechanicum que côté
+   Legiones Astartes), éclaté ici en ses quatre résolutions concrètes
+   via ARMES_ENERGETIQUES — exactement ce que fait déjà
+   CHOIX_ARMES_ENERGETIQUES partout ailleurs sur ce site. Volontairement
+   PAS un spread de CHOIX_ARMES_ENERGETIQUES lui-même : celui-ci
+   transporte aussi les armes d'Arsenal de Légion (Faux énergétique
+   Death Guard, Dague Alpha Legion…), qui n'ont rien à faire dans une
+   liste du Mechanicum. */
+const LISTES_MECHANICUM = {
+  equipement: {
+    nom: "Équipement du Mechanicum",
+    items: [
+      { nom: "Contrôleur de cortex", cout: 10 },
+      { nom: "Scanner augure", cout: 10 },
+      { nom: "Cognis-signum", cout: 15 },
+      { nom: "Cyber-familier", cout: 20 },
+      { nom: "Servobras", cout: 15 },
+      { nom: "Bombes à fusion", cout: 10 },
+      { nom: "Grenades Rad", cout: 20 },
+      { nom: "Nuncio-vox", cout: 10 },
+    ],
+  },
+  equipementMagos: {
+    nom: "Équipement de Magos du Mechanicum",
+    items: [
+      { nom: "Fourneau Rad", cout: 20 },
+      { nom: "Panoplie machinator", cout: 20 },
+    ],
+  },
+  armesMagos: {
+    nom: "Armes de Magos du Mechanicum",
+    items: [
+      { nom: "Lame de parangon", cout: 15 },
+      { nom: "Bâton foudroyant", cout: 10 },
+      { nom: "Pistolet archéotech", cout: 15 },
+      { nom: "Pistolet désintégrateur", cout: 15 },
+    ],
+  },
+  melee: {
+    nom: "Armes de Mêlée du Mechanicum",
+    items: [
+      // « Arme énergétique +10 Points » éclatée en ses quatre
+      // résolutions concrètes (voir la note en tête de constante).
+      ...ARMES_ENERGETIQUES.map((nom) => ({ nom, cout: 10 })),
+      { nom: "Marteau Thunder", cout: 15 },
+      { nom: "Gantelet énergétique", cout: 15 },
+      { nom: "Poing tronçonneur", cout: 10 },
+      { nom: "Épée tronçonneuse", cout: 0 },
+      { nom: "Hache tronçonneuse", cout: 0 },
+      { nom: "Épée tronçonneuse lourde", cout: 5 },
+      { nom: "Hache tronçonneuse lourde", cout: 5 },
+    ],
+  },
+  pistolets: {
+    nom: "Pistolets du Mechanicum",
+    items: [
+      { nom: "Pistolet bolter", cout: 0 },
+      { nom: "Serpentine volkite", cout: 5 },
+      { nom: "Pistolet à plasma", cout: 10 },
+    ],
+  },
+  tir: {
+    nom: "Armes de Tir du Mechanicum",
+    items: [
+      { nom: "Chargeur volkite", cout: 5 },
+      { nom: "Bolter Maxima", cout: 5 },
+      { nom: "Fuseur", cout: 15 },
+      { nom: "Fusil à gravitons", cout: 10 },
+      { nom: "Lance-flammes", cout: 5 },
+    ],
+  },
+};
+
+/* Listes d'Équipement des Solar Auxilia (Liber Auxilia, p. 17). Comble
+   le gap documenté plus bas dans ce fichier (« Auxilia Melee/Pistols/
+   Sponson Weapons list », options des Super-lourds Legacies) : le
+   contenu de ces cinq listes n'était pas disponible tant que seul le
+   PDF Legacies avait été fourni, la page du livre l'a désormais donné.
+
+   Même forme que LISTES_EQUIPEMENT/LISTES_MECHANICUM : chaque entrée
+   est consommée soit par `depuisListes()` (option `choix`), soit par
+   `quantiteDepuisListe()`. Les coûts sont ABSOLUS, tels qu'imprimés
+   p. 17 — contrairement aux LISTES_ARSENAL_* de Légion, il n'y a ici
+   aucun surcoût à ajouter au prix d'une arme remplacée : la page donne
+   directement le prix de l'objet choisi.
+
+   Nommage : le livre écrit « Latéraux » là où le reste de ce fichier
+   écrit « (Sponsons) » pour les Legiones Astartes (voir CLAUDE.md,
+   « Two Sponson Mounted X »). Le Liber Auxilia faisant foi pour cette
+   Faction, les Armes Latérales gardent le terme du livre — divergence
+   volontaire, à ne pas « corriger » vers (Sponsons). */
+const LISTES_AUXILIA = {
+  melee: {
+    nom: "Armes de Mêlée des Auxilia",
+    items: [
+      { nom: "Sabre charnabal", cout: 3 },
+      { nom: "Épée énergétique", cout: 5 },
+      { nom: "Gantelet énergétique", cout: 10 },
+    ],
+  },
+  pistolets: {
+    nom: "Pistolets des Auxilia",
+    items: [
+      { nom: "Pistolet laser éclateur", cout: 3 },
+      { nom: "Pistolet à aiguilles", cout: 5 },
+      { nom: "Serpentine volkite", cout: 5 },
+      { nom: "Lance-flammes léger", cout: 5 },
+      { nom: "Pistolet à plasma", cout: 5 },
+    ],
+  },
+  coque: {
+    nom: "Armes de Coque des Auxilia",
+    items: [
+      { nom: "Bolter lourd de Coque", cout: 0 },
+      { nom: "Lance-flammes lourd de Coque", cout: 0 },
+      { nom: "Multi-laser de Coque", cout: 0 },
+      { nom: "Autocanon de Coque", cout: 5 },
+      { nom: "Canon laser de Coque", cout: 10 },
+    ],
+  },
+  laterales: {
+    nom: "Armes Latérales des Auxilia",
+    items: [
+      { nom: "Deux bolters lourds Latéraux", cout: 0 },
+      { nom: "Deux lance-flammes lourds Latéraux", cout: 0 },
+      { nom: "Deux multi-lasers Latéraux", cout: 0 },
+      { nom: "Deux autocanons Latéraux", cout: 10 },
+      { nom: "Deux canons laser Latéraux", cout: 20 },
+    ],
+  },
+  pivot: {
+    nom: "Armes sur Pivot des Auxilia",
+    items: [
+      { nom: "Mitrailleuse sur Pivot", cout: 5 },
+      { nom: "Lance-flammes lourd sur Pivot", cout: 10 },
+      { nom: "Multi-laser sur Pivot", cout: 10 },
+    ],
+  },
+};
+
+/* Options récurrentes des Sections d'État-major des Solar Auxilia
+   (Liber Auxilia, p. 21 à 26) : les mêmes puces reviennent presque mot
+   pour mot d'une fiche à l'autre, seul le nom du rôle change (Salvateur,
+   Compagnon, Vétéran, Veletarii). Factorisées ici pour la même raison
+   qu'`optionsEquipementLegion` côté Legiones Astartes : une dizaine
+   d'occurrences strictement identiques introduites d'un coup.
+
+   `role` = nom du rang-et-fichier tel qu'il doit apparaître sur la
+   fiche récap. Chaque fiche ne reprend pas forcément TOUTES ces
+   options : elles sont passées à la carte, jamais en bloc. */
+const optionBaionnetteSurchargeurAuxilia = () => ({
+  type: "multi",
+  id: "ryfle-options",
+  libelle: "Toute Figurine dotée d'un ryfle laser",
+  // « +1 Point par Figurine » pour chacune des deux, cumulables : d'où
+  // un `multi` avec `parFigurine` au niveau de l'OPTION (voir
+  // coutInstance, js/unites.js — le cas n'existait pas avant celui-ci).
+  parFigurine: true,
+  choix: [
+    { nom: "Baïonnette", cout: 1 },
+    { nom: "Surchargeur", cout: 1 },
+  ],
+});
+const optionVoxEtatMajorAuxilia = (role) => ({
+  type: "case",
+  id: "vox",
+  libelle: "Un " + role + " : vox d'état-major",
+  cout: 10,
+  ajoute: "Vox d'état-major (un " + role + ")",
+});
+const optionScannerAuxilia = (role) => ({
+  type: "case",
+  id: "scanner",
+  libelle: "Un " + role + " : scanner augure",
+  cout: 10,
+  ajoute: "Scanner augure (un " + role + ")",
+});
+const optionBombesFusionAuxilia = (role) => ({
+  type: "case",
+  id: "bombes",
+  libelle: "Un " + role + " : bombes à fusion",
+  cout: 10,
+  ajoute: "Bombes à fusion (un " + role + ")",
+});
+
+/* Rites Cybertheurgiques (Liber Mechanicum, p. 17 pour les coûts, p. 56
+   à 65 pour les textes — déjà intégralement transcrits dans
+   js/regles-data.js). « Cette Figurine peut être dotée de n'importe quel
+   nombre de choix de la liste des Rites Cybertheurgiques » : d'où un
+   `multi` plutôt qu'un `choix`.
+
+   Trois paliers d'accès, tous portés par les entrées elles-mêmes :
+   - sans condition (toute Figurine à Trait Cybertheurge) ;
+   - `requiertTechnoArcane` pour les Rites propres à un Techno-arcane
+     (voir technoArcaneOk, js/unites.js — l'entrée est masquée et
+     décochée si la Figurine change de Techno-arcane) ;
+   - Interruption de Programme, réservé aux deux Archimagos : pas une
+     condition de Techno-arcane mais d'Unité, donc simplement absent de
+     la liste passée aux deux Magos (paramètre `archimagos`).
+
+   `theurgikaDeroge: true` sur les Rites à Techno-arcane : la Règle
+   Spéciale Theurgika Maximus (p. 45) précise qu'« on ignore les
+   restrictions basées sur les Traits de Faction quand on sélectionne
+   des Rites Cybertheurgiques » pour la Figurine qui l'a — ces entrées
+   redeviennent donc accessibles dès que l'option du même nom est cochée.
+
+   Les deux Rites HÉTÉRODOXES (Amplification Éthérique et Infection
+   d'Anticode, +10 Points chacun, p. 64-65) exigent le Trait Hétérodoxe,
+   que le livre (p. 63) accorde librement à un Cybertheurge d'Allégeance
+   Renégat — SAUF s'il a le Trait Malagra, qui l'interdit explicitement.
+   Modélisé par `requiertAllegeance: "renegat"` plus la liste des six
+   Techno-arcanes autres que Malagra : prendre le Rite vaut opter pour le
+   Trait, celui-ci n'étant pas lui-même un choix séparé sur ce site.
+   Volontairement SANS `theurgikaDeroge` : Theurgika Maximus lève les
+   restrictions de Trait de Faction, pas la condition d'Allégeance. */
+const RITES_CYBERTHEURGIQUES = ({ archimagos = false } = {}) => [
+  { nom: "Réacteurs Suralimentés", cout: 5 },
+  { nom: "Purge de Cogitateur", cout: 10 },
+  { nom: "Châtier l'Esprit de la Machine", cout: 25 },
+  ...(archimagos
+    ? [{ nom: "Interruption de Programme", cout: 20 }]
+    : []),
+  {
+    nom: "Protocoles de la Chair",
+    cout: 5,
+    requiertTechnoArcane: "Lacrymaerta",
+    theurgikaDeroge: true,
+  },
+  {
+    nom: "Protocoles Oméga",
+    cout: 15,
+    requiertTechnoArcane: "Lacrymaerta",
+    theurgikaDeroge: true,
+  },
+  {
+    nom: "Coupure d'Antalgique",
+    cout: 5,
+    requiertTechnoArcane: "Reductor",
+    theurgikaDeroge: true,
+  },
+  {
+    nom: "Portail Déverrouillé",
+    cout: 20,
+    requiertTechnoArcane: "Reductor",
+    theurgikaDeroge: true,
+  },
+  {
+    nom: "Fureur des Âges",
+    cout: 5,
+    requiertTechnoArcane: "Myrmidax",
+    theurgikaDeroge: true,
+  },
+  {
+    nom: "Amplification Éthérique",
+    cout: 10,
+    requiertAllegeance: "renegat",
+    requiertTechnoArcane: TRAITS_FACTION_MECHANICUM.filter(
+      (t) => t !== "Malagra",
+    ),
+  },
+  {
+    nom: "Infection d'Anticode",
+    cout: 10,
+    requiertAllegeance: "renegat",
+    requiertTechnoArcane: TRAITS_FACTION_MECHANICUM.filter(
+      (t) => t !== "Malagra",
+    ),
+  },
+];
+
+/* Options complètes d'un Magos/Archimagos (Liber Mechanicum, p. 19 et
+   22). Reprend, dans l'ordre des puces de la fiche :
+   1. n'importe quel nombre d'objets des listes d'Équipement du
+      Mechanicum ET d'Équipement de Magos (une seule puce sur la fiche,
+      donc un seul `multi` réunissant les deux listes) ;
+   2. n'importe quel nombre de Rites Cybertheurgiques ;
+   3. un objet de la liste des Armes de Magos (Archimagos SEULEMENT —
+      cette puce est absente de la fiche du Magos) ;
+   4. un objet de la liste des Armes de Mêlée ;
+   5. un objet de la liste des Pistolets ;
+   6. un objet de la liste des Armes de Tir ;
+   7. les trois armes lourdes (Faisceau de conversion/Fusil à plasma
+      phasé/Irradieur), accessibles SEULEMENT si on n'a pris aucune Arme
+      de Tir du Mechanicum — d'où `interditSiOption` sur chacune (voir
+      optionRealisable, js/unites.js : grisée plutôt que masquée, le
+      joueur pouvant lever la condition depuis la carte elle-même).
+
+   Toutes ces puces sont des AJOUTS, pas des échanges : l'Équipement de
+   base de ces quatre Unités se réduit aux Grenades Frag, il n'y a donc
+   rien à retirer (`ajoute: true` sur les `choix`, aucun `remplace`). */
+const optionsMagos = ({
+  archimagos = false,
+  armesLourdes = true,
+  // Le Technoprêtre (p. 32) n'a droit qu'à la liste d'Équipement du
+  // Mechanicum, pas à celle d'Équipement de Magos.
+  equipementMagos = true,
+} = {}) => {
+  const listeVers = (liste, extra = {}) =>
+    liste.items.map((item) => ({ nom: item.nom, cout: item.cout, ...extra }));
+  const optionListe = (id, liste) => ({
+    type: "choix",
+    id,
+    libelle: "Un objet de la liste des " + liste.nom.replace(/^Armes/, "Armes"),
+    ajoute: true,
+    choix: [{ nom: "— Aucun —", cout: 0 }, ...listeVers(liste)],
+  });
+  return [
+    {
+      type: "multi",
+      id: "equipement-mechanicum",
+      libelle:
+        "Équipement du Mechanicum" +
+        (equipementMagos ? " et de Magos" : "") +
+        " (n'importe quel nombre)",
+      max:
+        LISTES_MECHANICUM.equipement.items.length +
+        (equipementMagos ? LISTES_MECHANICUM.equipementMagos.items.length : 0),
+      choix: [
+        ...listeVers(LISTES_MECHANICUM.equipement),
+        ...(equipementMagos
+          ? listeVers(LISTES_MECHANICUM.equipementMagos)
+          : []),
+      ],
+    },
+    {
+      type: "multi",
+      id: "rites-cybertheurgiques",
+      libelle: "Rites Cybertheurgiques (n'importe quel nombre)",
+      horsEquipement: true,
+      max: RITES_CYBERTHEURGIQUES({ archimagos }).length,
+      choix: RITES_CYBERTHEURGIQUES({ archimagos }),
+    },
+    ...(archimagos
+      ? [optionListe("arme-magos", LISTES_MECHANICUM.armesMagos)]
+      : []),
+    optionListe("arme-melee-mechanicum", LISTES_MECHANICUM.melee),
+    optionListe("pistolet-mechanicum", LISTES_MECHANICUM.pistolets),
+    optionListe("arme-tir-mechanicum", LISTES_MECHANICUM.tir),
+    // Dernière puce absente de la fiche de l'Arcuitor Magisterium
+    // (p. 24), qui a bien les cinq listes mais pas ces trois armes :
+    // d'où `armesLourdes: false` pour lui.
+    ...(armesLourdes
+      ? [
+          {
+            type: "case",
+            id: "faisceau",
+            libelle: "Faisceau de conversion",
+            cout: 30,
+            ajoute: "Faisceau de conversion (< 15 pas)",
+            interditSiOption: "arme-tir-mechanicum",
+          },
+          {
+            type: "case",
+            id: "plasma-phase",
+            libelle: "Fusil à plasma phasé",
+            cout: 15,
+            ajoute: "Fusil à plasma phasé",
+            interditSiOption: "arme-tir-mechanicum",
+          },
+          {
+            type: "case",
+            id: "irradieur",
+            libelle: "Irradieur",
+            cout: 20,
+            ajoute: "Irradieur (Mechanicum)",
+            interditSiOption: "arme-tir-mechanicum",
+          },
+        ]
+      : []),
+  ];
+};
+
+// Option d'Arcane du Techno-arcane Archimandrite (Liber Mechanicum,
+// p. 45) : « Un Archimagos ou Archimagos sur Abéant qui a le Trait
+// Archimandrite, sélectionné comme Choix de Quartier Général, peut
+// recevoir la Règle Spéciale Theurgika Maximus pour un coût de +10
+// Points. » Les deux Unités concernées étant déjà de Catégorie Quartier
+// Général, la condition de Choix est satisfaite par construction : seul
+// `requiertTechnoArcane` reste à vérifier (voir technoArcaneOk,
+// js/unites.js — la ligne entière est masquée tant que le Techno-arcane
+// choisi sur la même carte n'est pas Archimandrite, et l'option est
+// décochée automatiquement si on en change après coup).
+// `horsEquipement: true` : c'est une Règle Spéciale, pas un objet
+// d'Équipement — elle est reprise dans les Règles Spéciales de la fiche
+// (voir reglesFinales, js/unites.js) et non dans la ligne Équipement.
+const optionTheurgikaMaximus = () => ({
+  type: "case",
+  id: "theurgika-maximus",
+  libelle: "Theurgika Maximus",
+  cout: 10,
+  requiertTechnoArcane: "Archimandrite",
+  horsEquipement: true,
+  ajoute: "Theurgika Maximus",
+});
+
 // Traits de Faction remplaçant « [Skitarii] » (Conclaves Skitarii,
 // p. 2 : « Toutes les Unités sélectionnées dans un Détachement donné
 // doivent avoir le même Trait de Faction, sauf si une autre Règle ou
@@ -31390,24 +31814,26 @@ const UNITES = [
   /* ---------- Quartier Général ---------- */
   {
     id: "sa-etat-major-legatine",
-    nom: "Section d'État-major Tactique Légatine",
+    nom: "Section d'État-major Légatine",
     faction: "solar-auxilia",
     categorie: "Quartier Général",
     cout: 125,
     composition: "1 Maréchal Légat, 4 Salvateurs",
-    effectif: { base: 5, max: 8, cout: 14 },
+    effectif: { base: 5, max: 10, cout: 14 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "État-major Suprême de Cohorte"],
     notes:
       "Le Maréchal Légat commande une Cohorte entière de Solar Auxilia : sa présence dans un Détachement Principal accorde un Point de Réaction bonus à l'Armée.",
     equipement: [
-      "Rifle laser — Salve (Salvateur seulement)",
+      "Ryfle laser — Salve (Salvateur seulement)",
       "Pistolet laser (Maréchal Légat seulement)",
       "Sabre charnabal (Maréchal Légat seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
     ],
     variantes: [
       {
-        nom: "Section d'État-major Tactique Légatine",
+        nom: "Section d'État-major Légatine",
         cout: 0,
         profils: [
           {
@@ -31416,16 +31842,16 @@ const UNITES = [
               M: 6,
               CC: 5,
               CT: 5,
-              F: 4,
-              E: 4,
-              PV: 2,
+              F: 3,
+              E: 3,
+              PV: 4,
               I: 4,
               A: 4,
               Cd: 10,
               Sf: 8,
-              Vo: 8,
+              Vo: 7,
               Int: 7,
-              Sv: "3+",
+              Sv: "2+",
               Inv: "5+",
             },
           },
@@ -31437,15 +31863,15 @@ const UNITES = [
               CT: 4,
               F: 3,
               E: 3,
-              PV: 1,
-              I: 3,
+              PV: 2,
+              I: 4,
               A: 2,
               Cd: 8,
-              Sf: 7,
+              Sf: 8,
               Vo: 6,
               Int: 6,
-              Sv: "4+",
-              Inv: "—",
+              Sv: "3+",
+              Inv: "5+",
             },
           },
         ],
@@ -31455,36 +31881,76 @@ const UNITES = [
     ],
     options: [
       {
-        type: "case",
-        id: "pistolet-archeotech",
-        libelle: "Un Salvateur : pistolet archéotech (Solar Auxilia)",
-        cout: 10,
-        ajoute: "Pistolet archéotech (un Salvateur)",
+        type: "choix",
+        id: "melee-marechal",
+        libelle: "Maréchal Légat : remplacer le sabre charnabal",
+        prefixeFiche: "Maréchal Légat : ",
+        remplace: "Sabre charnabal (Maréchal Légat seulement)",
+        choix: [
+          { nom: "Sabre charnabal (Maréchal Légat seulement)", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+          { nom: "Lame de parangon", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
       },
       {
-        type: "case",
-        id: "vox",
-        libelle: "Un Salvateur : vox internodal",
-        cout: 10,
-        ajoute: "Vox internodal (un Salvateur)",
+        type: "choix",
+        id: "pistolet-marechal",
+        libelle: "Maréchal Légat : remplacer le pistolet laser",
+        prefixeFiche: "Maréchal Légat : ",
+        remplace: "Pistolet laser (Maréchal Légat seulement)",
+        choix: [
+          { nom: "Pistolet laser (Maréchal Légat seulement)", cout: 0 },
+          { nom: "Pistolet archéotech", cout: 10 },
+          { nom: "Pistolet Inferno", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
       },
+      // « Tout Salvateur peut échanger GRATUITEMENT son ryfle laser
+      // contre un pistolet laser et un sabre charnabal » : échange
+      // Figurine par Figurine, d'où un `quantite` (`parTranche: 1`).
       {
-        type: "case",
-        id: "scanner",
-        libelle: "Un Salvateur : scanner augure",
-        cout: 10,
-        ajoute: "Scanner augure (un Salvateur)",
+        type: "quantite",
+        id: "salvateur-cac",
+        libelle: "Salvateur : pistolet laser et sabre charnabal (gratuit)",
+        cout: 0,
+        parTranche: 1,
+        ajoute: "Pistolet laser et sabre charnabal (Salvateur)",
+        remplaceIntegral: "Ryfle laser — Salve (Salvateur seulement)",
       },
+      // Les deux échanges suivants ne sont ouverts qu'aux Salvateurs
+      // ayant déjà fait l'échange ci-dessus. Cette dépendance entre
+      // options n'est pas modélisable en l'état (`interditSiOption`
+      // existe, son inverse non) : les options restent donc toujours
+      // proposées, le libellé portant seul la condition — même parti
+      // pris que les « (à la place de X) » purement descriptifs déjà
+      // établis dans ce fichier. Chaque Figurine choisit librement dans
+      // la liste, d'où `quantiteDepuisListe` plutôt qu'un objet figé.
+      ...quantiteDepuisListe(LISTES_AUXILIA.melee, {
+        groupe: "salvateur-melee",
+        parTranche: 1,
+        remplace: "du sabre charnabal (Salvateur ayant échangé son ryfle laser)",
+      }),
+      ...quantiteDepuisListe(LISTES_AUXILIA.pistolets, {
+        groupe: "salvateur-pistolet",
+        parTranche: 1,
+        remplace: "du pistolet laser (Salvateur ayant échangé son ryfle laser)",
+      }),
+      optionBaionnetteSurchargeurAuxilia(),
+      optionVoxEtatMajorAuxilia("Salvateur"),
+      optionScannerAuxilia("Salvateur"),
       {
         type: "choix",
         id: "vexillum",
         libelle: "Un Salvateur : vexillum",
+        ajoute: true,
         choix: [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Vexillum auxilia (un Salvateur)", cout: 5 },
           { nom: "Vexillum des cohortes (un Salvateur)", cout: 15 },
         ],
       },
+      optionBombesFusionAuxilia("Salvateur"),
     ],
   },
 
@@ -31496,15 +31962,17 @@ const UNITES = [
     categorie: "État-major",
     cout: 100,
     composition: "1 Capitaine Auxilia, 4 Compagnons",
-    effectif: { base: 5, max: 8, cout: 12 },
+    effectif: { base: 5, max: 10, cout: 12 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
       "Le socle de l'encadrement des Cohortes : chaque Tercio d'Infanterie est mené par une Section d'État-major Tactique, ou par un officier plus spécialisé selon l'affectation.",
     equipement: [
-      "Rifle laser — Salve (Compagnon seulement)",
+      "Ryfle laser — Salve (Compagnon seulement)",
       "Pistolet laser (Capitaine Auxilia seulement)",
       "Sabre charnabal (Capitaine Auxilia seulement)",
+      "Grenades Frag",
+      "Grenades Krak",
     ],
     variantes: [
       {
@@ -31519,14 +31987,14 @@ const UNITES = [
               CT: 4,
               F: 3,
               E: 3,
-              PV: 2,
+              PV: 3,
               I: 4,
               A: 3,
               Cd: 9,
               Sf: 8,
               Vo: 7,
-              Int: 6,
-              Sv: "4+",
+              Int: 7,
+              Sv: "3+",
               Inv: "5+",
             },
           },
@@ -31538,44 +32006,85 @@ const UNITES = [
               CT: 4,
               F: 3,
               E: 3,
-              PV: 1,
-              I: 3,
+              PV: 2,
+              I: 4,
               A: 2,
               Cd: 8,
-              Sf: 7,
+              Sf: 8,
               Vo: 6,
               Int: 6,
-              Sv: "3+",
-              Inv: "—",
+              Sv: "4+",
+              Inv: "5+",
             },
           },
         ],
-        regles: ["Ligne (1)"],
+        regles: ["Ligne (1)", "Officier de Ligne (2) (Capitaine Auxilia seulement)"],
         type: "Capitaine Auxilia : Infanterie (État-major) · Compagnon : Infanterie",
       },
     ],
     options: [
+      // À la différence de la Section Légatine (p. 21), la fiche du
+      // Capitaine Auxilia (p. 22) ne nomme ni la lame de parangon ni le
+      // pistolet archéotech/Inferno : seuls le marteau Thunder et les
+      // deux listes des Auxilia y figurent. Transcrit tel quel, ne pas
+      // aligner sur la Légatine par symétrie.
       {
-        type: "case",
-        id: "pistolet-archeotech",
-        libelle: "Un Compagnon : pistolet archéotech (Solar Auxilia)",
-        cout: 10,
-        ajoute: "Pistolet archéotech (un Compagnon)",
+        type: "choix",
+        id: "melee-capitaine",
+        libelle: "Capitaine Auxilia : remplacer le sabre charnabal",
+        prefixeFiche: "Capitaine Auxilia : ",
+        remplace: "Sabre charnabal (Capitaine Auxilia seulement)",
+        choix: [
+          { nom: "Sabre charnabal (Capitaine Auxilia seulement)", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
       },
       {
-        type: "case",
-        id: "vox",
-        libelle: "Un Compagnon : vox internodal",
-        cout: 10,
-        ajoute: "Vox internodal (un Compagnon)",
+        type: "choix",
+        id: "pistolet-capitaine",
+        libelle: "Capitaine Auxilia : remplacer le pistolet laser",
+        prefixeFiche: "Capitaine Auxilia : ",
+        remplace: "Pistolet laser (Capitaine Auxilia seulement)",
+        choix: [
+          { nom: "Pistolet laser (Capitaine Auxilia seulement)", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
       },
       {
-        type: "case",
-        id: "scanner",
-        libelle: "Un Compagnon : scanner augure",
-        cout: 10,
-        ajoute: "Scanner augure (un Compagnon)",
+        type: "quantite",
+        id: "compagnon-cac",
+        libelle: "Compagnon : pistolet laser et sabre charnabal (gratuit)",
+        cout: 0,
+        parTranche: 1,
+        ajoute: "Pistolet laser et sabre charnabal (Compagnon)",
+        remplaceIntegral: "Ryfle laser — Salve (Compagnon seulement)",
       },
+      ...quantiteDepuisListe(LISTES_AUXILIA.pistolets, {
+        groupe: "compagnon-pistolet",
+        parTranche: 1,
+        remplace: "du pistolet laser (Compagnon ayant échangé son ryfle laser)",
+      }),
+      ...quantiteDepuisListe(LISTES_AUXILIA.melee, {
+        groupe: "compagnon-melee",
+        parTranche: 1,
+        remplace: "du sabre charnabal (Compagnon ayant échangé son ryfle laser)",
+      }),
+      optionBaionnetteSurchargeurAuxilia(),
+      optionVoxEtatMajorAuxilia("Compagnon"),
+      optionScannerAuxilia("Compagnon"),
+      {
+        type: "choix",
+        id: "vexillum",
+        libelle: "Un Compagnon : vexillum",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Vexillum auxilia (un Compagnon)", cout: 5 },
+          { nom: "Vexillum des cohortes (un Compagnon)", cout: 15 },
+        ],
+      },
+      optionBombesFusionAuxilia("Compagnon"),
     ],
   },
   {
@@ -31585,16 +32094,12 @@ const UNITES = [
     categorie: "État-major",
     cout: 65,
     composition: "1 Maître de Troupe, 4 Vétérans",
-    effectif: { base: 5, max: 9, cout: 10 },
+    effectif: { base: 5, max: 10, cout: 7 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Infanterie"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Infanterie quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: [
-      "Rifle laser — Salve (Maître de Troupe seulement)",
-      "Grenades Frag",
-      "Grenades Krak",
-    ],
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'État-major de Ligne",
@@ -31610,11 +32115,11 @@ const UNITES = [
               E: 3,
               PV: 2,
               I: 3,
-              A: 3,
+              A: 2,
               Cd: 8,
               Sf: 8,
               Vo: 7,
-              Int: 6,
+              Int: 7,
               Sv: "4+",
               Inv: "—",
             },
@@ -31629,7 +32134,7 @@ const UNITES = [
               E: 3,
               PV: 1,
               I: 3,
-              A: 2,
+              A: 1,
               Cd: 7,
               Sf: 7,
               Vo: 6,
@@ -31639,25 +32144,55 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Ordre Serré"],
+        regles: ["Ordre Serré (Maître de Troupe seulement)"],
         type: "Maître de Troupe : Infanterie (Sergent) · Vétéran : Infanterie",
       },
     ],
     options: [
       {
         type: "case",
-        id: "vox",
-        libelle: "Un Vétéran : vox internodal",
-        cout: 10,
-        ajoute: "Vox internodal (un Vétéran)",
+        id: "maitre-cac",
+        libelle:
+          "Maître de Troupe : pistolet laser et sabre charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et sabre charnabal (Maître de Troupe)",
       },
       {
-        type: "case",
-        id: "scanner",
-        libelle: "Un Vétéran : scanner augure",
-        cout: 10,
-        ajoute: "Scanner augure (un Vétéran)",
+        type: "choix",
+        id: "melee-maitre",
+        libelle:
+          "Maître de Troupe ayant échangé son ryfle laser : remplacer le sabre charnabal",
+        prefixeFiche: "Maître de Troupe : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
       },
+      {
+        type: "choix",
+        id: "pistolet-maitre",
+        libelle:
+          "Maître de Troupe ayant échangé son ryfle laser : remplacer le pistolet laser",
+        prefixeFiche: "Maître de Troupe : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      optionBaionnetteSurchargeurAuxilia(),
+      optionVoxEtatMajorAuxilia("Vétéran"),
+      optionScannerAuxilia("Vétéran"),
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Vétéran : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Vétéran)",
+      },
+      optionBombesFusionAuxilia("Vétéran"),
     ],
   },
   {
@@ -31667,16 +32202,12 @@ const UNITES = [
     categorie: "État-major",
     cout: 75,
     composition: "1 Primat-chef, 4 Veletarii",
-    effectif: { base: 5, max: 8, cout: 12 },
+    effectif: { base: 5, max: 10, cout: 8 },
     equipementLibelle: "Équipement",
-    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Véletaris"],
+    traits: ["[Allégeance]", "Solar Auxilia", "Tercio Veletaris"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio Veletaris quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: [
-      "Chargeur volkite (Primat-chef seulement)",
-      "Grenades Frag",
-      "Grenades Krak",
-    ],
+    equipement: ["Chargeur volkite", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'État-major Veletaris",
@@ -31694,15 +32225,15 @@ const UNITES = [
               I: 3,
               A: 3,
               Cd: 8,
-              Sf: 8,
+              Sf: 9,
               Vo: 7,
-              Int: 6,
+              Int: 7,
               Sv: "4+",
               Inv: "—",
             },
           },
           {
-            nom: "Veletarius",
+            nom: "Veletarii",
             profil: {
               M: 6,
               CC: 4,
@@ -31712,8 +32243,8 @@ const UNITES = [
               PV: 1,
               I: 3,
               A: 2,
-              Cd: 8,
-              Sf: 6,
+              Cd: 7,
+              Sf: 8,
               Vo: 6,
               Int: 6,
               Sv: "4+",
@@ -31721,17 +32252,64 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Tenir la Ligne"],
-        type: "Primat-chef : Infanterie (Sergent) · Veletarius : Infanterie",
+        regles: ["Avant-garde (3)", "Tenir la Ligne (Primat-chef seulement)"],
+        type: "Primat-chef : Infanterie (Champion, Sergent) · Veletarii : Infanterie",
       },
     ],
     options: [
       {
         type: "case",
-        id: "vox",
-        libelle: "Un Veletarius : vox internodal",
-        cout: 10,
-        ajoute: "Vox internodal (un Veletarius)",
+        id: "primat-cac",
+        libelle: "Primat-chef : pistolet laser et tabar charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et tabar charnabal (Primat-chef)",
+        remplace: "Chargeur volkite",
+      },
+      {
+        type: "choix",
+        id: "melee-primat",
+        libelle:
+          "Primat-chef ayant échangé son chargeur volkite : remplacer le tabar charnabal",
+        prefixeFiche: "Primat-chef : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-primat",
+        libelle:
+          "Primat-chef ayant échangé son chargeur volkite : remplacer le pistolet laser",
+        prefixeFiche: "Primat-chef : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      // « Toute Figurine peut échanger son chargeur volkite contre une
+      // hache d'assaut pour +3 Points CHACUNE » : échange Figurine par
+      // Figurine, d'où `quantite` plutôt qu'une case à cocher.
+      {
+        type: "quantite",
+        id: "hache-assaut",
+        libelle: "Figurines : hache d'assaut (à la place du chargeur volkite)",
+        cout: 3,
+        parTranche: 1,
+        ajoute: "Hache d'assaut",
+        remplaceIntegral: "Chargeur volkite",
+      },
+      optionVoxEtatMajorAuxilia("Veletarii"),
+      optionScannerAuxilia("Veletarii"),
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Veletarii : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Veletarii)",
       },
     ],
   },
@@ -31742,17 +32320,15 @@ const UNITES = [
     categorie: "État-major",
     cout: 75,
     composition: "1 Leader Hermes, 1 Patrouilleur Hermes",
-    effectif: { base: 2, max: 4, cout: 30 },
+    effectif: { base: 2, max: 6, cout: 18 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Éclaireurs"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Éclaireurs quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: [
-      "Arquebuse volkite",
-      "Grenades Frag",
-      "Grenades Krak",
-      "Lance-grenade Hermes — Frag",
-    ],
+    // L'arquebuse volkite et le lance-grenade Hermes ne font PAS partie
+    // de l'équipement de base (erreur de la transcription précédente) :
+    // ce sont deux des trois échanges du multi-laser, voir `options`.
+    equipement: ["Multi-laser", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'État-major Hermes",
@@ -31763,15 +32339,15 @@ const UNITES = [
             profil: {
               M: 10,
               CC: 4,
-              CT: 5,
+              CT: 4,
               F: 5,
-              E: 3,
-              PV: 2,
-              I: 8,
+              E: 5,
+              PV: 3,
+              I: 3,
               A: 2,
-              Cd: 9,
-              Sf: 7,
-              Vo: 6,
+              Cd: 8,
+              Sf: 9,
+              Vo: 7,
               Int: 7,
               Sv: "4+",
               Inv: "—",
@@ -31781,15 +32357,15 @@ const UNITES = [
             nom: "Patrouilleur Hermes",
             profil: {
               M: 10,
-              CC: 4,
-              CT: 5,
+              CC: 3,
+              CT: 4,
               F: 5,
-              E: 2,
-              PV: 1,
-              I: 7,
-              A: 2,
-              Cd: 8,
-              Sf: 6,
+              E: 5,
+              PV: 2,
+              I: 3,
+              A: 1,
+              Cd: 7,
+              Sf: 8,
               Vo: 6,
               Int: 6,
               Sv: "4+",
@@ -31802,18 +32378,27 @@ const UNITES = [
           "Avance Implacable",
           "Mouvement à Couvert",
           "Attaque de Flanc",
-          "Frappe Préventive",
+          "Frappe Préventive (Leader Hermes seulement)",
         ],
         type: "Leader Hermes : Cavalerie (Sergent, Léger) · Patrouilleur Hermes : Cavalerie (Léger)",
       },
     ],
     options: [
+      // « Toute Figurine peut échanger son multi-laser contre un des
+      // choix suivants » : un seul et même choix pour toute l'Unité,
+      // d'où `parFigurine` (coût multiplié par l'effectif).
       {
-        type: "case",
-        id: "vox",
-        libelle: "Le Leader Hermes : vox internodal",
-        cout: 10,
-        ajoute: "Vox internodal (Leader Hermes)",
+        type: "choix",
+        id: "arme-hermes",
+        libelle: "Toute Figurine : remplacer le multi-laser",
+        remplace: "Multi-laser",
+        parFigurine: true,
+        choix: [
+          { nom: "Multi-laser", cout: 0 },
+          { nom: "Arquebuse volkite", cout: 0 },
+          { nom: "Lance-flammes lourd", cout: 3 },
+          { nom: "Lance-grenade Hermes — Frag", cout: 5 },
+        ],
       },
     ],
   },
@@ -31824,16 +32409,12 @@ const UNITES = [
     categorie: "État-major",
     cout: 65,
     composition: "1 Maître d'Artillerie, 4 Vétérans",
-    effectif: { base: 5, max: 9, cout: 10 },
+    effectif: { base: 5, max: 10, cout: 7 },
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Artillerie"],
     notes:
       "Débloque le Détachement Auxiliaire de Tercio d'Artillerie quand cette Unité occupe une Case d'État-major (voir js/organigramme-data.js).",
-    equipement: [
-      "Rifle laser — Salve (Maître d'Artillerie seulement)",
-      "Grenades Frag",
-      "Grenades Krak",
-    ],
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'État-major Artillerie",
@@ -31851,8 +32432,8 @@ const UNITES = [
               I: 3,
               A: 2,
               Cd: 8,
-              Sf: 7,
-              Vo: 8,
+              Sf: 8,
+              Vo: 7,
               Int: 7,
               Sv: "4+",
               Inv: "—",
@@ -31868,7 +32449,7 @@ const UNITES = [
               E: 3,
               PV: 1,
               I: 3,
-              A: 2,
+              A: 1,
               Cd: 7,
               Sf: 7,
               Vo: 6,
@@ -31878,18 +32459,55 @@ const UNITES = [
             },
           },
         ],
-        regles: ["Bombardement de Précision"],
+        regles: ["Bombardement de Précision (Maître d'Artillerie seulement)"],
         type: "Maître d'Artillerie : Infanterie (Sergent) · Vétéran : Infanterie",
       },
     ],
     options: [
       {
         type: "case",
-        id: "scanner",
-        libelle: "Un Vétéran : scanner augure",
-        cout: 10,
-        ajoute: "Scanner augure (un Vétéran)",
+        id: "maitre-cac",
+        libelle:
+          "Maître d'Artillerie : pistolet laser et sabre charnabal (gratuit)",
+        cout: 0,
+        ajoute: "Pistolet laser et sabre charnabal (Maître d'Artillerie)",
       },
+      {
+        type: "choix",
+        id: "melee-maitre",
+        libelle:
+          "Maître d'Artillerie ayant échangé son ryfle laser : remplacer le sabre charnabal",
+        prefixeFiche: "Maître d'Artillerie : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Marteau Thunder", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-maitre",
+        libelle:
+          "Maître d'Artillerie ayant échangé son ryfle laser : remplacer le pistolet laser",
+        prefixeFiche: "Maître d'Artillerie : ",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      optionBaionnetteSurchargeurAuxilia(),
+      optionVoxEtatMajorAuxilia("Vétéran"),
+      optionScannerAuxilia("Vétéran"),
+      {
+        type: "case",
+        id: "vexillum",
+        libelle: "Un Vétéran : vexillum auxilia",
+        cout: 5,
+        ajoute: "Vexillum auxilia (un Vétéran)",
+      },
+      optionBombesFusionAuxilia("Vétéran"),
     ],
   },
   {
@@ -31898,7 +32516,7 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "État-major",
     cout: 150,
-    composition: "1 Char d'État-major Blindé",
+    composition: "1 Char d'État-major",
     traits: [
       "[Allégeance]",
       "Solar Auxilia",
@@ -31927,11 +32545,49 @@ const UNITES = [
     ],
     options: [
       {
+        type: "choix",
+        id: "tourelle",
+        libelle: "Remplacer l'obusier de Tourelle",
+        remplace: "Obusier de Tourelle",
+        choix: [
+          { nom: "Obusier de Tourelle", cout: 0 },
+          { nom: "Autocanon Gravis de Tourelle", cout: 0 },
+          { nom: "Canon laser jumelé de Tourelle", cout: 0 },
+          {
+            nom: "Canon Vanquisher de Tourelle et mitrailleuse coaxiale (canon Vanquisher)",
+            cout: 10,
+          },
+          { nom: "Canon Demolisher de Tourelle", cout: 30 },
+          { nom: "Destructeur à plasma Executioner de Tourelle", cout: 25 },
+          { nom: "Macro-sacre volkite de Tourelle", cout: 0 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le bolter lourd de Coque",
+        remplace: "Bolter lourd de Coque (Avant)",
+        choix: [
+          { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.coque),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
         type: "case",
         id: "missile",
-        libelle: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
-        cout: 20,
-        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+        libelle: "Missile traqueur de Tourelle",
+        cout: 5,
+        ajoute: "Missile traqueur (Solar Auxilia) de Tourelle",
       },
       {
         type: "case",
@@ -31942,9 +32598,16 @@ const UNITES = [
       },
       {
         type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
+      },
+      {
+        type: "case",
         id: "bouclier",
         libelle: "Bouclier répulsif",
-        cout: 5,
+        cout: 20,
         ajoute: "Bouclier répulsif",
       },
     ],
@@ -32132,7 +32795,7 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 12 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
-    equipement: ["Rifle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section de Compagnons",
@@ -32186,7 +32849,7 @@ const UNITES = [
         type: "choix",
         id: "arme-principale",
         libelle: "Toute Figurine : remplacer le rifle laser",
-        remplace: "Rifle laser — Salve",
+        remplace: "Ryfle laser — Salve",
         choix: [
           { nom: "— Conserver le rifle laser —", cout: 0 },
           {
@@ -32218,16 +32881,16 @@ const UNITES = [
         id: "baionnette",
         libelle: "Figurine dotée d'un rifle laser : baïonnette",
         cout: 1,
-        requiertEquip: "Rifle laser",
-        ajoute: "Baïonnette (Rifle laser)",
+        requiertEquip: "Ryfle laser",
+        ajoute: "Baïonnette (Ryfle laser)",
       },
       {
         type: "case",
         id: "blast-charger",
         libelle: "Figurine dotée d'un rifle laser : chargeur d'impulsion",
         cout: 1,
-        requiertEquip: "Rifle laser",
-        ajoute: "Chargeur d'impulsion (Rifle laser)",
+        requiertEquip: "Ryfle laser",
+        ajoute: "Chargeur d'impulsion (Ryfle laser)",
       },
       {
         type: "case",
@@ -32348,7 +33011,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
       "Déployée en tête de Cohorte pour sonder les lignes ennemies avant que le gros de la force ne s'engage.",
-    equipement: ["Rifle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section d'Avant-garde Veletaris",
@@ -32574,7 +33237,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Solar Auxilia", "Tercio d'Infanterie"],
     notes:
       "Le fer de lance de toute Cohorte de Solar Auxilia : les Sections de Ryeliers tiennent le terrain conquis et forment la masse des Armées d'Auxilia.",
-    equipement: ["Rifle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
     variantes: [
       {
         nom: "Section de Ryeliers",
@@ -34463,27 +35126,8 @@ const UNITES = [
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "faisceau",
-        libelle: "Faisceau de conversion",
-        cout: 30,
-        ajoute: "Faisceau de conversion (< 15 pas)",
-      },
-      {
-        type: "case",
-        id: "plasma-phase",
-        libelle: "Fusil à plasma phasé",
-        cout: 15,
-        ajoute: "Fusil à plasma phasé",
-      },
-      {
-        type: "case",
-        id: "irradieur",
-        libelle: "Irradieur",
-        cout: 20,
-        ajoute: "Irradieur (Mechanicum)",
-      },
+      optionTheurgikaMaximus(),
+      ...optionsMagos({ archimagos: true }),
     ],
   },
   {
@@ -34516,39 +35160,23 @@ const UNITES = [
           Inv: "4+",
         },
         regles: [
-          "Massif (3)",
           "Insensible à la Douleur (5+)",
+          "Avance Implacable",
+          "Explose (6+)",
+          "Massif (7)",
           "Contrôleur (2)",
           "Guerrier-artisan (4)",
+          "Maître des Machines",
           "Protocoles de Tir (2)",
           "Trône de Commandement",
         ],
-        type: "Infanterie (État-major, Antigrav)",
+        type: "Infanterie (État-major, Antigrav, Lourd)",
       },
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "faisceau",
-        libelle: "Faisceau de conversion",
-        cout: 30,
-        ajoute: "Faisceau de conversion (< 15 pas)",
-      },
-      {
-        type: "case",
-        id: "plasma-phase",
-        libelle: "Fusil à plasma phasé",
-        cout: 15,
-        ajoute: "Fusil à plasma phasé",
-      },
-      {
-        type: "case",
-        id: "irradieur",
-        libelle: "Irradieur",
-        cout: 20,
-        ajoute: "Irradieur (Mechanicum)",
-      },
+      optionTheurgikaMaximus(),
+      ...optionsMagos({ archimagos: true }),
     ],
   },
   {
@@ -34593,7 +35221,7 @@ const UNITES = [
           "Guerrier-artisan (4)",
           "Peur (2)",
           "Impact (A)",
-          "Theurgika Maxima (voir page 45)",
+          "Theurgika Maximus",
           "Archimagos du Domaine Xanain",
         ],
         type: "Marcheur (Champion, Unique)",
@@ -34622,46 +35250,22 @@ const UNITES = [
       {
         nom: "Draykavac",
         cout: 0,
-        profils: [
-          {
-            nom: "Draykavac",
-            profil: {
-              M: 6,
-              CC: 5,
-              CT: 6,
-              F: 6,
-              E: 6,
-              PV: 4,
-              I: 4,
-              A: 4,
-              Cd: 10,
-              Sf: 9,
-              Vo: 9,
-              Int: 12,
-              Sv: "2+",
-              Inv: "4+",
-            },
-          },
-          {
-            nom: "Draykavac sur Abéant",
-            profil: {
-              M: 6,
-              CC: 5,
-              CT: 6,
-              F: 6,
-              E: 7,
-              PV: 6,
-              I: 3,
-              A: 4,
-              Cd: 10,
-              Sf: 9,
-              Vo: 9,
-              Int: 12,
-              Sv: "2+",
-              Inv: "4+",
-            },
-          },
-        ],
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 6,
+          F: 6,
+          E: 6,
+          PV: 4,
+          I: 4,
+          A: 4,
+          Cd: 10,
+          Sf: 9,
+          Vo: 9,
+          Int: 12,
+          Sv: "2+",
+          Inv: "4+",
+        },
         regles: [
           "Insensible à la Douleur (5+)",
           "Contrôleur (2)",
@@ -34670,14 +35274,52 @@ const UNITES = [
           "Protocoles de Tir (2)",
           "Assaut au Liquifractor",
           "Héritage de Ruse",
+          "Theurgika Maximus",
+          "Rites Cybertheurgiques connus : Réacteurs Suralimentés, Interruption de Programme, Infection d'Anticode",
         ],
-        type: "Draykavac : Infanterie (État-major, Unique) · Draykavac sur Abéant : Infanterie (État-major, Unique, Antigrav)",
+        type: "Infanterie (État-major, Unique)",
+      },
+      {
+        nom: "Draykavac sur Abéant",
+        cout: 20,
+        profil: {
+          M: 6,
+          CC: 5,
+          CT: 6,
+          F: 6,
+          E: 7,
+          PV: 6,
+          I: 3,
+          A: 4,
+          Cd: 10,
+          Sf: 10,
+          Vo: 9,
+          Int: 12,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (7)",
+          "Insensible à la Douleur (5+)",
+          "Contrôleur (2)",
+          "Trône de Commandement",
+          "Guerrier-artisan (4)",
+          "Maître des Machines",
+          "Protocoles de Tir (2)",
+          "Assaut au Liquifractor",
+          "Héritage de Ruse",
+          "Explose (6+)",
+          "Theurgika Maximus",
+          "Rites Cybertheurgiques connus : Réacteurs Suralimentés, Interruption de Programme, Infection d'Anticode",
+        ],
+        type: "Infanterie (État-major, Unique, Antigrav)",
       },
     ],
     options: [
       {
         type: "choix",
         id: "arme-surcout",
+        variantesExclues: [0],
         libelle:
           "Doit être doté d'une des options suivantes sans surcoût en Points",
         remplace: "Fusil à gravitons",
@@ -34732,27 +35374,7 @@ const UNITES = [
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "faisceau",
-        libelle: "Faisceau de conversion",
-        cout: 30,
-        ajoute: "Faisceau de conversion (< 15 pas)",
-      },
-      {
-        type: "case",
-        id: "plasma-phase",
-        libelle: "Fusil à plasma phasé",
-        cout: 15,
-        ajoute: "Fusil à plasma phasé",
-      },
-      {
-        type: "case",
-        id: "irradieur",
-        libelle: "Irradieur",
-        cout: 20,
-        ajoute: "Irradieur (Mechanicum)",
-      },
+      ...optionsMagos(),
     ],
   },
   {
@@ -34785,12 +35407,14 @@ const UNITES = [
           Inv: "5+",
         },
         regles: [
-          "Massif (7)",
           "Insensible à la Douleur (5+)",
-          "Avance Implacable",
           "Contrôleur (2)",
           "Guerrier-artisan (4)",
+          "Massif (7)",
+          "Explose (6+)",
+          "Avance Implacable",
           "Maître des Machines",
+          "Officier de Ligne (2)",
           "Protocoles de Tir (2)",
           "Trône de Commandement",
         ],
@@ -34799,27 +35423,7 @@ const UNITES = [
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "faisceau",
-        libelle: "Faisceau de conversion",
-        cout: 30,
-        ajoute: "Faisceau de conversion (< 15 pas)",
-      },
-      {
-        type: "case",
-        id: "plasma-phase",
-        libelle: "Fusil à plasma phasé",
-        cout: 15,
-        ajoute: "Fusil à plasma phasé",
-      },
-      {
-        type: "case",
-        id: "irradieur",
-        libelle: "Irradieur",
-        cout: 20,
-        ajoute: "Irradieur (Mechanicum)",
-      },
+      ...optionsMagos(),
     ],
   },
   {
@@ -34843,7 +35447,7 @@ const UNITES = [
           E: 5,
           PV: 4,
           I: 4,
-          A: 4,
+          A: 5,
           Cd: 9,
           Sf: 9,
           Vo: 8,
@@ -34853,30 +35457,24 @@ const UNITES = [
         },
         regles: [
           "Insensible à la Douleur (5+)",
-          "Maître des Machines",
           "Guerrier-artisan (2)",
-          "Protocoles de Tir (2)",
+          "Maître des Machines",
           "Infiltration (9)",
+          "Protocoles de Tir (2)",
+          // Listé tel quel sur la fiche (p. 24), en plus du Trait
+          // Malagra qui l'accorde déjà : transcrit fidèlement.
+          "Bénéfice d'Arcane : Même les Immortels Peuvent Avoir Peur",
         ],
         type: "Infanterie (État-major)",
       },
     ],
-    options: [
-      {
-        type: "case",
-        id: "pistolet",
-        libelle: "Objet de la liste des Pistolets du Mechanicum",
-        cout: 10,
-        ajoute: "Pistolet à plasma — Tir soutenu",
-      },
-      {
-        type: "case",
-        id: "arme-melee",
-        libelle: "Objet de la liste des Armes de Mêlée du Mechanicum",
-        cout: 10,
-        ajoute: "Épée énergétique",
-      },
-    ],
+    // Pas d'optionTechnoArcane() : l'Arcuitor a le Trait Malagra FIXE
+    // (p. 24), non remplaçable. Les deux Rites Hétérodoxes se masquent
+    // donc d'eux-mêmes, le livre (p. 63) interdisant ce Trait au
+    // Malagra — c'est exactement ce qu'encode leur `requiertTechnoArcane`.
+    // `armesLourdes: false` : sa fiche a bien les cinq listes, mais pas
+    // la puce Faisceau de conversion/Fusil à plasma phasé/Irradieur.
+    options: optionsMagos({ armesLourdes: false }),
   },
 
   /* ---------- Suites ---------- */
@@ -34887,7 +35485,7 @@ const UNITES = [
     categorie: "Suites",
     cout: 100,
     composition: "4 Scyllax",
-    effectif: { base: 4, max: 12, cout: 25 },
+    effectif: { base: 4, max: 16, cout: 25 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Mechanicum]"],
     equipement: ["Panoplie de combat Scyllax", "Fourneau Rad"],
@@ -34905,11 +35503,11 @@ const UNITES = [
           I: 3,
           A: 3,
           Cd: 8,
-          Sf: 8,
-          Vo: 8,
-          Int: 8,
-          Sv: "2+",
-          Inv: "5+",
+          Sf: 12,
+          Vo: 4,
+          Int: 4,
+          Sv: "3+",
+          Inv: "6+",
         },
         regles: [
           "Impact (A)",
@@ -34923,13 +35521,12 @@ const UNITES = [
     options: [
       optionTechnoArcane(),
       {
-        remplaceIntegral: "Fourneau Rad",
-        type: "quantite",
+        type: "case",
         id: "bolter",
-        libelle: "Figurines : bolter à la place du Fourneau Rad",
-        parTranche: 1,
+        libelle: "Toute Figurine : bolter",
         cout: 2,
-        ajoute: "Bolter (à la place du Fourneau Rad, une Figurine)",
+        parFigurine: true,
+        ajoute: "Bolter",
       },
     ],
   },
@@ -34955,8 +35552,8 @@ const UNITES = [
           F: 5,
           E: 5,
           PV: 2,
-          I: 1,
-          A: 2,
+          I: 2,
+          A: 1,
           Cd: 7,
           Sf: 12,
           Vo: 4,
@@ -34968,7 +35565,17 @@ const UNITES = [
         type: "Automate",
       },
     ],
-    options: [optionTechnoArcane()],
+    options: [
+      optionTechnoArcane(),
+      {
+        type: "case",
+        id: "bolter",
+        libelle: "Toute Figurine : bolter",
+        cout: 2,
+        parFigurine: true,
+        ajoute: "Bolter",
+      },
+    ],
   },
 
   /* ---------- Elite ---------- */
@@ -34994,7 +35601,7 @@ const UNITES = [
         profil: {
           M: 7,
           CC: 4,
-          CT: 7,
+          CT: 4,
           F: 7,
           E: 7,
           PV: 4,
@@ -35046,13 +35653,13 @@ const UNITES = [
               CT: 4,
               F: 5,
               E: 5,
-              PV: 4,
-              I: 4,
+              PV: 2,
+              I: 2,
               A: 2,
-              Cd: 7,
+              Cd: 9,
               Sf: 9,
-              Vo: 9,
-              Int: 9,
+              Vo: 8,
+              Int: 8,
               Sv: "3+",
               Inv: "5+",
             },
@@ -35065,13 +35672,13 @@ const UNITES = [
               CT: 5,
               F: 5,
               E: 5,
-              PV: 4,
-              I: 4,
-              A: 2,
+              PV: 3,
+              I: 2,
+              A: 3,
               Cd: 9,
               Sf: 9,
-              Vo: 9,
-              Int: 9,
+              Vo: 8,
+              Int: 8,
               Sv: "3+",
               Inv: "5+",
             },
@@ -35080,10 +35687,10 @@ const UNITES = [
         regles: [
           "Massif (3)",
           "Avance Implacable",
-          "Avant-garde (2)",
-          "Méditation Martiale",
+          "Avant-garde (3)",
+          "Méditation Martiale (Seigneur Secutor seulement)",
         ],
-        type: "Secutor : Infanterie · Seigneur Secutor : Infanterie (Champion, Lourd)",
+        type: "Secutor : Infanterie (Lourd) · Seigneur Secutor : Infanterie (Champion, Lourd)",
       },
     ],
     options: [
@@ -35094,8 +35701,8 @@ const UNITES = [
         remplace: "Bolter Maxima jumelé",
         choix: [
           { nom: "— Conserver le bolter Maxima jumelé —", cout: 0 },
-          { nom: "Fusil à plasma phasé", cout: 5 },
-          { nom: "Fusil à gravitons jumelé", cout: 10 },
+          { nom: "Fusil à plasma phasé jumelé", cout: 20 },
+          { nom: "Fusil à gravitons jumelé", cout: 20 },
         ],
       },
     ],
@@ -35135,7 +35742,7 @@ const UNITES = [
               CT: 4,
               F: 5,
               E: 5,
-              PV: 4,
+              PV: 2,
               I: 2,
               A: 2,
               Cd: 9,
@@ -35154,7 +35761,7 @@ const UNITES = [
               CT: 5,
               F: 5,
               E: 5,
-              PV: 4,
+              PV: 3,
               I: 2,
               A: 3,
               Cd: 9,
@@ -35328,18 +35935,18 @@ const UNITES = [
         profil: {
           M: 6,
           CC: 3,
-          CT: 6,
+          CT: 3,
           F: 6,
           E: 6,
           PV: 4,
           I: 3,
-          A: 3,
+          A: 2,
           Cd: 7,
           Sf: 12,
           Vo: 4,
           Int: 4,
-          Sv: "2+",
-          Inv: "4+",
+          Sv: "3+",
+          Inv: "6+",
         },
         regles: [
           "Massif (4)",
@@ -35353,6 +35960,26 @@ const UNITES = [
       },
     ],
     options: [
+      {
+        type: "case",
+        id: "lames-energetiques",
+        libelle:
+          "Toute Figurine : échanger ses chargeurs-choc contre une paire de lames énergétiques",
+        cout: 10,
+        parFigurine: true,
+        remplace: "Chargeurs-choc",
+        ajoute: "Épée énergétique (paire, à la place des chargeurs-choc)",
+      },
+      {
+        type: "quantite",
+        id: "lance-flammes",
+        libelle:
+          "Figurines : bolter par un lance-flammes (jusqu'à deux par Figurine)",
+        cout: 5,
+        parTranche: 1,
+        parTrancheMax: 2,
+        ajoute: "Lance-flammes (à la place d'un bolter)",
+      },
       {
         type: "case",
         id: "canon-darkfire",
@@ -35404,7 +36031,7 @@ const UNITES = [
               A: 2,
               Cd: 7,
               Sf: 12,
-              Vo: 6,
+              Vo: 4,
               Int: 4,
               Sv: "3+",
               Inv: "6+",
@@ -35431,10 +36058,20 @@ const UNITES = [
           },
         ],
         regles: ["Massif (3)", "Avant-garde (3)", "Frappe en Profondeur"],
-        type: "Ursarax : Infanterie · Ursarax Alpha : Infanterie (Sergent, Antigrav)",
+        type: "Ursarax : Infanterie (Antigrav) · Ursarax Alpha : Infanterie (Sergent, Antigrav)",
       },
     ],
     options: [
+      {
+        type: "case",
+        id: "poings-ursarax",
+        libelle:
+          "Toute Figurine : paire de poings d'Ursarax (à la place de la paire de griffes)",
+        cout: 0,
+        parFigurine: true,
+        remplace: "Paire de griffes d'Ursarax",
+        ajoute: "Paire de poings d'Ursarax",
+      },
       {
         type: "case",
         id: "promotion",
@@ -35467,7 +36104,7 @@ const UNITES = [
           E: 6,
           PV: 4,
           I: 4,
-          A: 4,
+          A: 5,
           Cd: 8,
           Sf: 12,
           Vo: 4,
@@ -35517,20 +36154,21 @@ const UNITES = [
           CC: 4,
           CT: 4,
           F: 4,
-          E: 4,
-          PV: 1,
+          E: 5,
+          PV: 2,
           I: 3,
           A: 2,
-          Cd: 7,
+          Cd: 8,
           Sf: 8,
           Vo: 8,
-          Int: 7,
+          Int: 8,
           Sv: "3+",
           Inv: "—",
         },
         regles: [
           "Insensible à la Douleur (6+)",
           "Contrôleur (1)",
+          "Guerrier-artisan (2)",
           "Maître des Machines",
           "Protocoles de Tir (2)",
         ],
@@ -35539,20 +36177,7 @@ const UNITES = [
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "pistolet",
-        libelle: "Objet de la liste des Pistolets du Mechanicum",
-        cout: 10,
-        ajoute: "Pistolet à plasma — Tir soutenu",
-      },
-      {
-        type: "case",
-        id: "arme-tir",
-        libelle: "Objet de la liste des Armes de Tir du Mechanicum",
-        cout: 15,
-        ajoute: "Fusil à plasma phasé",
-      },
+      ...optionsMagos({ armesLourdes: false, equipementMagos: false }),
     ],
   },
 
@@ -35564,7 +36189,7 @@ const UNITES = [
     categorie: "Appui",
     cout: 100,
     composition: "10 Technoserfs",
-    effectif: { base: 10, max: 30, cout: 10 },
+    effectif: { base: 10, max: 40, cout: 10 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Lacrymaerta"],
     equipement: ["Mousquet laser"],
@@ -35575,7 +36200,7 @@ const UNITES = [
         profil: {
           M: 5,
           CC: 2,
-          CT: 3,
+          CT: 2,
           F: 3,
           E: 3,
           PV: 1,
@@ -35604,8 +36229,8 @@ const UNITES = [
     faction: "mechanicum",
     categorie: "Appui",
     cout: 120,
-    composition: "3 Thallax, 1 Prétorien Thallax",
-    effectif: { base: 4, max: 10, cout: 20 },
+    composition: "6 Thallax",
+    effectif: { base: 6, max: 9, cout: 20 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Reductor"],
     equipement: ["Fusil à foudre", "Grenades Frag"],
@@ -35665,16 +36290,24 @@ const UNITES = [
         remplace: "Fusil à foudre",
         choix: [
           { nom: "— Conserver le fusil à foudre —", cout: 0 },
-          { nom: "Pistolet à plasma — Tir soutenu", cout: 0 },
+          { nom: "Pulseur à photons", cout: 15 },
           { nom: "Multi-fuseur", cout: 15 },
-          { nom: "Fusil à plasma phasé", cout: 15 },
+          { nom: "Fusil à plasma phasé", cout: 10 },
         ],
+      },
+      {
+        type: "case",
+        id: "bombes-fusion",
+        libelle: "Toutes les Figurines : bombes à fusion",
+        cout: 5,
+        parFigurine: true,
+        ajoute: "Bombes à fusion",
       },
       {
         type: "case",
         id: "promotion",
         libelle: "Un Thallax peut être promu Prétorien Thallax",
-        cout: 5,
+        cout: 10,
         ajoute: "Promotion Prétorien Thallax",
       },
     ],
@@ -35697,25 +36330,25 @@ const UNITES = [
         profil: {
           M: 6,
           CC: 3,
-          CT: 6,
+          CT: 3,
           F: 6,
           E: 6,
           PV: 4,
           I: 3,
-          A: 3,
+          A: 2,
           Cd: 7,
           Sf: 12,
           Vo: 4,
           Int: 4,
-          Sv: "2+",
-          Inv: "4+",
+          Sv: "3+",
+          Inv: "6+",
         },
         regles: [
           "Massif (4)",
           "Avance Implacable",
           "Explose (6+)",
           "Protocoles de Tir (3)",
-          "Brise-blindage (4+)",
+          "Orage de Feu",
           "Boucliers Réfracteurs Phasés",
         ],
         type: "Automate",
@@ -35727,7 +36360,7 @@ const UNITES = [
         id: "lames",
         libelle:
           "Toute Figurine : échanger ses chargeurs-choc contre une paire de lames énergétiques",
-        cout: 0,
+        cout: 10,
         ajoute: "Épée énergétique (paire, à la place des chargeurs-choc)",
       },
       {
@@ -35843,7 +36476,7 @@ const UNITES = [
     nom: "Manipule de Siège Thanatar",
     faction: "mechanicum",
     categorie: "Engins de Guerre",
-    cout: 225,
+    cout: 235,
     composition: "1 Thanatar",
     equipementLibelle: "Équipement",
     traits: ["[Allégeance]", "Cybernetica"],
@@ -35869,7 +36502,7 @@ const UNITES = [
           Vo: 4,
           Int: 4,
           Sv: "2+",
-          Inv: "—",
+          Inv: "5+",
         },
         regles: [
           "Massif (9)",
@@ -35937,43 +36570,15 @@ const UNITES = [
     ],
     options: [
       optionTechnoArcane(),
-      {
-        type: "case",
-        id: "pinces-gyges",
-        libelle: "Deux pinces de siège Gyges et un irradieur",
-        cout: 0,
-        ajoute: "Deux pinces de siège Gyges et un irradieur",
-      },
-      {
-        type: "case",
-        id: "vouglaire",
-        libelle: "Vouglaire volkite",
-        cout: 5,
-        ajoute: "Vouglaire volkite",
-      },
-      {
-        type: "case",
-        id: "mousquet-foudre",
-        libelle: "Mousquet à foudre (Mechanicum)",
-        cout: 15,
-        ajoute: "Mousquet à foudre (Mechanicum)",
-      },
-      {
-        type: "case",
-        id: "pulsar-gravitons",
-        libelle: "Pulsar à gravitons",
-        cout: 20,
-        ajoute: "Pulsar à gravitons",
-      },
-      {
-        type: "case",
-        id: "faisceau-moirax",
-        libelle:
-          "Faisceau de conversion Moirax et une paire de pinces de siège Gyges et deux irradieurs",
-        cout: 10,
-        ajoute:
-          "Faisceau de conversion Moirax (< 15 pas), paire de pinces de siège Gyges et deux irradieurs",
-      },
+      ...[1, 2].map((i) => ({
+        type: "choix",
+        id: "arme-moirax-" + i,
+        libelle: "Arme " + i + " (deux options de la même liste)",
+        obligatoire: true,
+        ajoute: true,
+        prefixeFiche: "Arme " + i + " : ",
+        choix: ARMES_MOIRAX,
+      })),
     ],
   },
 
@@ -36013,12 +36618,12 @@ const UNITES = [
     options: [
       optionTechnoArcane(),
       {
-        type: "case",
+        type: "quantite",
         id: "missile",
-        libelle: "Deux missiles traqueurs de Coque (Avant)",
-        cout: 10,
-        ajoute:
-          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        libelle: "Missiles traqueurs de Coque (Avant), jusqu'à deux",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant)",
       },
     ],
   },
@@ -36157,7 +36762,7 @@ const UNITES = [
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
     equipement: [
-      "Épée énergétique (deux exemplaires)",
+      "Paire de lames énergétiques",
       "Canon rotor jumelé",
       "Fusil à foudre",
     ],
@@ -36171,7 +36776,7 @@ const UNITES = [
           CT: 3,
           F: 5,
           E: 5,
-          PV: 1,
+          PV: 4,
           I: 4,
           A: 4,
           Cd: 8,
@@ -36333,14 +36938,14 @@ const UNITES = [
           CT: 3,
           F: 5,
           E: 6,
-          PV: 1,
-          I: 6,
+          PV: 6,
+          I: 4,
           A: 3,
           Cd: 7,
           Sf: 12,
           Vo: 4,
           Int: 4,
-          Sv: "2+",
+          Sv: "3+",
           Inv: "5+",
         },
         regles: [
@@ -36390,12 +36995,12 @@ const UNITES = [
     ],
     options: [
       {
-        type: "case",
+        type: "quantite",
         id: "missile",
-        libelle: "Deux missiles traqueurs de Coque (Avant)",
-        cout: 10,
-        ajoute:
-          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        libelle: "Missiles traqueurs de Coque (Avant), jusqu'à deux",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant)",
       },
     ],
   },
@@ -36427,12 +37032,12 @@ const UNITES = [
     ],
     options: [
       {
-        type: "case",
+        type: "quantite",
         id: "missile",
-        libelle: "Deux missiles traqueurs de Coque (Avant)",
-        cout: 10,
-        ajoute:
-          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        libelle: "Missiles traqueurs de Coque (Avant), jusqu'à deux",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant)",
       },
       {
         type: "case",
@@ -36440,6 +37045,15 @@ const UNITES = [
         libelle: "Arquebuse volkite Latérale (deux exemplaires)",
         cout: 15,
         ajoute: "Arquebuse volkite Latérale (deux exemplaires)",
+      },
+      {
+        type: "case",
+        id: "eclateur-irradiation",
+        libelle:
+          "Éclateur à irradiation d'Axe Central (à la place du canon à foudre)",
+        cout: 0,
+        remplace: "Canon à foudre d'Axe Central",
+        ajoute: "Éclateur à irradiation d'Axe Central",
       },
     ],
   },
@@ -36471,12 +37085,12 @@ const UNITES = [
     ],
     options: [
       {
-        type: "case",
+        type: "quantite",
         id: "missile",
-        libelle: "Deux missiles traqueurs de Coque (Avant)",
-        cout: 10,
-        ajoute:
-          "Missile traqueur (Mechanicum) de Coque (Avant) (deux exemplaires)",
+        libelle: "Missiles traqueurs de Coque (Avant), jusqu'à deux",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Mechanicum) de Coque (Avant)",
       },
       {
         type: "case",
@@ -36544,7 +37158,7 @@ const UNITES = [
     cout: 450,
     composition: "1 Kytan",
     traits: ["Renégat", "Archimandrite"],
-    equipement: ["Canon gatling Kytan", "Fondoir de massacre"],
+    equipement: ["Canon gatling Kytan", "Fendoir de massacre"],
     variantes: [
       {
         nom: "Kytan",
@@ -36553,8 +37167,8 @@ const UNITES = [
           M: 12,
           CC: 4,
           CT: 4,
-          F: 14,
-          E: 4,
+          F: 12,
+          E: 8,
           PV: 14,
           I: 4,
           A: 4,

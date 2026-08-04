@@ -1629,6 +1629,11 @@ const REGLES_DIVERSES = [
       "Un vexillum des cohortes fait passer de 25 % à 50 % le seuil de Pertes qui déclenche un Test de Panique pour l'Unité à la Phase de Tir, et il retire le Statut Tactique En Déroute aux Unités Solar Auxilia quand elles achèvent un Mouvement de Retraite dans les 12 pouces.",
   },
   {
+    nom: "Vox d'État-major",
+    texte:
+      "Permet de retirer des Statuts à la Phase de Début. Un vox d'état-major sert de relais aux vox internodaux amis : chaque Figurine amie sur le Champ de Bataille dotée d'un vox d'état-major ne peut servir dans le cadre de cette Règle Spéciale qu'une fois par Phase de Début.",
+  },
+  {
     nom: "Vox Internodal",
     texte:
       "Permet de retirer des Statuts à la Phase de Début. Si une Figurine amie sur le Champ de Bataille est dotée d'un vox d'état-major, le Joueur en Contrôle peut activer un vox internodal une fois par Tour de Joueur pour retirer un seul Statut à toutes les Figurines de l'Unité dotée de ce vox internodal.",
@@ -1656,17 +1661,17 @@ const REGLES_DIVERSES = [
   {
     nom: "Ordre Serré",
     texte:
-      "Une Figurine ayant cette Règle Spéciale et le Trait Tercio d'Infanterie augmente de +1 la valeur de X de la variante Ligne (X) que possèdent les autres Figurines amies de la même Unité.",
+      "Les Figurines ayant cette Règle Spéciale augmentent la valeur de la Règle Spéciale Ligne (X) des Figurines amies voisines qui ont le Trait Tercio d'Infanterie. Si une Figurine de Type Infanterie qui a le Trait Tercio d'Infanterie peut tracer une Ligne de Vue vers au moins une Figurine amie ayant cette Règle Spéciale située à 18 pouces, on ajoute un modificateur de +1 à la valeur de X de la variante de la Règle Spéciale Ligne (X) que possèdent la première Figurine et toutes les autres Figurines de la même Unité.",
   },
   {
     nom: "Tenir la Ligne",
     texte:
-      "Une Figurine ayant cette Règle Spéciale et le Trait Tercio Véletaris confère la Règle Spéciale Ligne (X) aux autres Figurines amies de la même Unité, X étant égal au nombre de Figurines de l'Unité.",
+      "Les Figurines ayant cette Règle Spéciale confèrent un Jet de Mitigation de Dégâts d'Insensible à la Douleur aux Figurines voisines qui ont le Trait Tercio Veletaris, contre les Attaques de Volée et de Réaction. Toute Figurine de Type Infanterie qui a le Trait Tercio Veletaris et la Règle Spéciale Avant-garde (X) gagne la Règle Spéciale Insensible à la Douleur (5+) contre les Blessures infligées par des Attaques de Tir au cours d'une Réaction ou d'une Attaque de Volée, tant qu'au moins une Figurine de la même Unité se trouve à 18 pouces d'une Figurine amie ayant cette Règle Spéciale.",
   },
   {
     nom: "Frappe Préventive",
     texte:
-      "Avant que les unités de manœuvre ennemies n'aient le temps de se déployer, les Sections d'Éclaireurs Hermes qui ont le Trait Tercio d'Éclaireurs gagnent la Règle Spéciale Orage de Feu tant qu'aucune Figurine amie ayant cette Règle Spéciale ne se trouve à moins de 18\" d'une Figurine ennemie.",
+      "Les Figurines ayant cette Règle Spéciale confèrent la Règle Spéciale Orage de Feu aux Figurines voisines qui ont le Trait Tercio d'Éclaireurs. Toute Figurine qui a le Trait Tercio d'Éclaireurs gagne la Règle Spéciale Orage de Feu tant qu'au moins une Figurine de la même Unité se trouve à 18 pouces d'une Figurine amie ayant cette Règle Spéciale.",
   },
   {
     nom: "Lance-grenade Hermes",
@@ -1897,6 +1902,17 @@ const REGLES_DIVERSES = [
     nom: "Contrôleur (X)",
     texte:
       "Une Figurine ayant le Trait Cybertheurge et cette Règle Spéciale peut Invoquer jusqu'à X Rites Cybertheurgiques par Tour de Bataille, au lieu d'un seul.",
+  },
+  {
+    // Option d'Arcane du Techno-arcane Archimandrite (Liber Mechanicum,
+    // p. 45) : +10 Points, réservée à un Archimagos ou Archimagos sur
+    // Abéant qui a le Trait Archimandrite ET occupe un Choix de Quartier
+    // Général. Le nom exact du livre est « Theurgika Maximus » (et non
+    // « Maxima », orthographe fautive d'une transcription antérieure sur
+    // l'Archimagos Scoria, corrigée depuis).
+    nom: "Theurgika Maximus",
+    texte:
+      "Une Figurine ayant cette Règle Spéciale peut utiliser deux Rites Cybertheurgiques par Tour. On peut Invoquer deux Rites Cybertheurgiques par Tour pour une Unité qui inclut une Figurine ayant cette Règle Spéciale, mais on doit Invoquer chaque Rite à une Phase différente, et la Figurine ayant cette Règle Spéciale doit être le Focus des deux Rites. En outre, on ignore les restrictions basées sur les Traits de Faction quand on sélectionne des Rites Cybertheurgiques pour une Figurine ayant cette Règle Spéciale.",
   },
 
   /* --- Cybertheurgie (Liber Mechanicum, p. 53-65) : condensée au

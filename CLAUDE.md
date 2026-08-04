@@ -3548,5 +3548,337 @@ Règles Spéciales :
   `equipementFinal`, sans compte) — seule la table de caractéristiques
   affiche des comptes, conformément à la demande.
 
+- **Nouveau mécanisme `requiertTechnoArcane` (2026-08-03)**, posé en
+  prévision du câblage complet des Options de Magos/Archimagos
+  (Mechanicum) mais déjà utilisé par sa première option concrète.
+  Troisième dimension de restriction d'option du fichier, après le
+  Sous-type (Arsenals de Légion), le Type (Armatus Necrotechnika, Iron
+  Hands) et la Catégorie (Tradition Ardente, Word Bearers) : ici la
+  condition porte sur le **Techno-arcane Majeur de la Figurine
+  elle-même** (fixe dans `traits` ou choisi via l'option
+  "techno-arcane"), et non sur un état global de l'Armée comme
+  `requiertLegion`/`requiertAllegeance` — deux Unités du même
+  Détachement peuvent parfaitement avoir des Techno-arcanes différents
+  (Liber Mechanicum p. 13). Utilisable sur une option entière OU sur une
+  entrée de `choix`/`multi`, d'où le helper générique
+  `technoArcaneOk(cible, unite, instance)` (js/unites.js) qui accepte
+  aussi bien un nom unique qu'un tableau de noms. Câblé aux cinq points
+  de contrôle habituels : `optionRealisable`, masquage de ligne et
+  filtrage d'entrées dans `synchroniserConfig`, `peuplerChoixSelect`
+  (qui reçoit désormais un 4ᵉ paramètre `unite`, ses deux appelants mis
+  à jour), et masquage par entrée pour les cases à cocher `multi`
+  (nouveau `dataset.multiIndice`).
+  **Différence de comportement assumée avec `requiertLegion`** : ce
+  dernier se contente d'un repli sur l'indice 0 quand la valeur devient
+  invalide, parce qu'un changement de Légion est rare et passe par les
+  paramètres de la partie. Ici la restriction se lève et se repose
+  depuis un menu déroulant de la carte elle-même, donc le cas se produit
+  en usage normal — d'où l'étape « 1 sexies » de `synchroniserConfig`,
+  qui **décoche** activement les entrées `multi` et les options `case`
+  devenues inaccessibles, sinon elles resteraient FACTURÉES tout en
+  étant masquées.
+  Deux corrections de fond faites au passage, toutes deux nécessaires
+  au mécanisme mais de portée plus large :
+  1. `horsEquipement: true` n'était vérifié que dans la branche
+     `opt.type === "choix"` de `calculerEquipementComptes` (son unique
+     consommateur d'alors étant le Techno-arcane Majeur, un `choix`) :
+     remonté avant la répartition par `type`, il vaut désormais aussi
+     pour un `case` et un `multi`. Sans cela, l'`ajoute` d'une option
+     accordant une Règle Spéciale atterrissait dans l'Équipement, où
+     `construireTablesArmes` lui cherchait en vain un profil d'Arme.
+  2. Nouvelle fonction `reglesOptionsDe(unite, instance)` (js/unites.js),
+     branchée en tête de `reglesFinales` : les Règles Spéciales
+     accordées par une option `horsEquipement` cochée sont désormais
+     ajoutées à la ligne « Règles spéciales » de la fiche. C'est le
+     pendant nécessaire du point 1 (sans quoi la Règle gagnée
+     n'apparaîtrait plus nulle part), et il servira tel quel aux Rites
+     Cybertheurgiques, qui sont eux aussi des Règles que la Figurine
+     « connaît » sans rien porter de matériel.
+  **Première option câblée : Theurgika Maximus** (Option d'Arcane
+  Archimandrite, Liber Mechanicum p. 45 — +10 Points, `case`,
+  `requiertTechnoArcane: "Archimandrite"`, `horsEquipement: true`),
+  posée sur Archimagos et Archimagos sur Abéant via la fabrique
+  `optionTheurgikaMaximus()`. La condition « sélectionné comme Choix de
+  Quartier Général » du livre est satisfaite par construction (les deux
+  Unités sont déjà de Catégorie Quartier Général), donc non revérifiée.
+  Son texte accorde une **dérogation** explicite — « on ignore les
+  restrictions basées sur les Traits de Faction quand on sélectionne des
+  Rites Cybertheurgiques » — modélisée par le marqueur
+  `theurgikaDeroge: true` à poser sur les entrées de Rites réservées à
+  un Techno-arcane (`theurgikaMaximusAcquis`, js/unites.js, reconnaît
+  aussi bien l'option cochée que la Règle en dur sur une variante, cas
+  de l'Archimagos Scoria).
+  **Bug de transcription corrigé au passage** : la Règle s'appelle
+  « Theurgika Maxim**us** » et non « Theurgika Maxima », orthographe
+  fautive portée jusqu'ici par l'Archimagos Scoria (avec un suffixe
+  « (voir page 45) » qui empêchait de toute façon
+  `trouverDefinitionRegle` de résoudre quoi que ce soit) ; elle n'avait
+  en outre aucune entrée de glossaire, désormais ajoutée avec son texte
+  intégral.
+  **Suite du même chantier, page « Listes d'Équipement » (p. 17) enfin
+  fournie** : les Options de Magos/Archimagos sont désormais câblées.
+  Nouvelle constante `LISTES_MECHANICUM` (js/unites-data.js, même forme
+  que `LISTES_EQUIPEMENT`) : `equipement` (8 objets), `equipementMagos`
+  (2), `armesMagos` (4), `melee` (11 après éclatement), `pistolets` (3),
+  `tir` (5). **Aucun nouveau profil d'Arme créé** — les 30 noms de la
+  page existaient déjà tels quels dans `armes-data.js`/`regles-data.js`,
+  chacun vérifié avant écriture. Seule interprétation faite : la ligne
+  « Arme énergétique +10 Points » est un placeholder sans profil,
+  éclatée en ses quatre résolutions concrètes via `ARMES_ENERGETIQUES`
+  (ce que fait déjà `CHOIX_ARMES_ENERGETIQUES` partout ailleurs) —
+  volontairement PAS un spread de `CHOIX_ARMES_ENERGETIQUES` lui-même,
+  qui transporte aussi les armes d'Arsenal de Légion (Faux énergétique
+  Death Guard, Dague Alpha Legion…) n'ayant rien à faire ici.
+  Fabrique `optionsMagos({ archimagos })` posée sur les 4 Unités, dans
+  l'ordre des puces de la fiche. **Asymétrie Magos/Archimagos
+  transcrite telle quelle** : la fiche de l'Archimagos (p. 19) a une
+  puce « un objet de la liste des Armes de Magos » absente de celle du
+  Magos (p. 22) — donc `archimagos: true` ne conditionne pas seulement
+  Theurgika Maximus mais aussi cette liste ET le Rite Interruption de
+  Programme (réservé « à un Archimagos ou un Archimagos sur Abéant » par
+  la p. 17 — restriction d'UNITÉ, pas de Techno-arcane, d'où un simple
+  paramètre plutôt qu'un `requiertTechnoArcane`). Signalé au proprio :
+  la photo du Magos était pivotée et dense, à revérifier au livre.
+  Toutes ces puces sont des AJOUTS, pas des échanges (`ajoute: true`,
+  aucun `remplace`) : l'Équipement de base de ces 4 Unités se réduit aux
+  Grenades Frag, il n'y a rien à retirer.
+  **Rites Cybertheurgiques** (`RITES_CYBERTHEURGIQUES(...)`) : un
+  `multi` (« n'importe quel nombre de choix »), `horsEquipement: true`,
+  coûts de la p. 17 et textes déjà transcrits (p. 56-65). Les deux Rites
+  **Hétérodoxes** (p. 64-65, +10 chacun) portent
+  `requiertAllegeance: "renegat"` ET la liste des six Techno-arcanes
+  autres que **Malagra** — le livre (p. 63) accorde librement le Trait
+  Hétérodoxe à un Cybertheurge Renégat mais l'interdit explicitement au
+  Malagra ; prendre le Rite vaut opter pour le Trait, celui-ci n'étant
+  pas un choix séparé sur ce site. Volontairement SANS
+  `theurgikaDeroge` : Theurgika Maximus lève les restrictions de Trait
+  de Faction, pas la condition d'Allégeance. A nécessité un nouveau
+  helper `entreeMultiAccessible` (js/unites.js), pendant pour les cases
+  à cocher du filtrage que `peuplerChoixSelect` faisait déjà sur les
+  `<select>` — `requiertAllegeance` n'était jusqu'ici jamais évalué sur
+  une entrée de `multi`.
+  **Nouveau champ générique `interditSiOption: "<id>"`** (optionRealisable,
+  js/unites.js) : rend une option indisponible tant qu'une AUTRE option
+  de la même Unité est renseignée. Posé sur Faisceau de conversion/Fusil
+  à plasma phasé/Irradieur, que la fiche n'autorise que « si on ne dote
+  pas cette Figurine d'un objet de la liste des Armes de Tir du
+  Mechanicum » — restriction jamais modélisée jusqu'ici. Grisée et non
+  masquée, à la différence de `requiertTechnoArcane` : le joueur peut la
+  lever depuis la carte elle-même en reposant l'autre menu sur
+  « — Aucun — », et le fichier réserve déjà le masquage aux conditions
+  qu'on ne peut pas lever sur place.
+  Bug corrigé pendant le test : `reglesOptionsDe` exigeait `opt.ajoute`,
+  or un `multi` tire ses noms de ses ENTRÉES cochées — les Rites
+  n'apparaissaient donc pas dans les Règles Spéciales.
+  Vérification : suite jsdom dédiée sur la vraie page (39 assertions —
+  présence des 6 listes, coûts, filtrage des Rites par Techno-arcane et
+  par Allégeance, exclusion Malagra, dérogation Theurgika Maximus,
+  grisage des 3 armes lourdes et retour en arrière, absence des Armes de
+  Magos/Interruption/Theurgika sur le Magos, Rites en Règles Spéciales
+  et non en Équipement, table d'Armes correcte) plus audit global des
+  519 Unité×variante (0 erreur, 0 fuite `horsEquipement`).
+  **Gap restant** : le **Technoprêtre** et l'**Arcuitor Magisterium**
+  gardent leurs placeholders approximatifs (« Objet de la liste des
+  Pistolets du Mechanicum » figeant un seul objet en dur, à un coût
+  deviné lors d'une session antérieure) — hors périmètre choisi par le
+  proprio pour cette session (« Magos + Archimagos seulement »), mais
+  désormais triviaux à corriger : il suffit de réutiliser
+  `LISTES_MECHANICUM.pistolets`/`.tir`/`.melee` et
+  `RITES_CYBERTHEURGIQUES()` selon ce que dit leur propre fiche.
+
+- **Passe de vérification des Unités Mechanicum contre les photos du
+  livre (2026-08-04)**, 18 fiches relues. Corrigé avec certitude (texte
+  des encarts, pas des cellules de tableau) : Archimagos sur Abéant
+  (Massif (3)→(7), + Avance Implacable/Explose (6+)/Maître des Machines,
+  Sous-type « Lourd » manquant) ; Magos sur Abéant (+ Explose (6+),
+  Officier de Ligne (2)) ; Arcuitor Magisterium (les 5 listes de la
+  p. 17 remplacent ses deux placeholders devinés, + Bénéfice d'Arcane
+  listé sur la fiche — nouveau paramètre `armesLourdes: false`
+  d'`optionsMagos`, sa fiche n'ayant pas la puce Faisceau/plasma phasé/
+  Irradieur) ; Cénacle de Technoserfs (`effectif.max` 30→40, piège
+  « supplémentaires » déjà documenté) ; Cohorte d'Ursarax (Sous-type
+  Antigrav oublié sur l'Ursarax de base, + échange gratuit griffes →
+  poings) ; Cohorte de Thallax (Pulseur à photons +15 au lieu d'un
+  Pistolet à plasma gratuit, Fusil à plasma phasé +10 et non +15,
+  promotion Prétorien +10 et non +5, + bombes à fusion +5/fig) ; Char de
+  Combat Krios (+ échange gratuit canon à foudre → éclateur à
+  irradiation) ; « Fondoir de massacre » → « **Fendoir** de massacre »
+  (Kytan, dans `armes-data.js` ET `unites-data.js`).
+  **Deuxième passe, sur réponse du propriétaire (2026-08-04)** :
+  Cohorte de Thallax portée à 6 Thallax de base (max 9, composition
+  corrigée — le fichier disait 4 dont 1 Prétorien) ; **Armigère Moirax**
+  restructuré en DEUX menus déroulants (`arme-moirax-1`/`-2`) tirant de
+  la même nouvelle constante `ARMES_MOIRAX`, la fiche disant « deux
+  options de la liste suivante » avec des coûts « +X Points CHACUN » —
+  seule structure de ce fichier permettant de prendre DEUX FOIS la même
+  arme, ce qu'aucune case à cocher ni `multi` ne sait faire ; coûts
+  corrigés au passage (Mousquet +5 et non +15, Pulsar +15 et non +20,
+  Faisceau +20 et non +10) ; **Archimagos Draykavac** passé de un bloc
+  `profils` à DEUX `variantes` (« remplacée par X pour +Y Points » sur
+  une même fiche — motif déjà documenté plus haut), ce qui rend enfin
+  le +20 Points facturable et permet à la variante sur Abéant d'avoir
+  ses trois Règles propres (Massif (7), Trône de Commandement, Explose
+  (6+)) ; son échange d'arme gratuit reçoit `variantesExclues: [0]`
+  (la fiche le réserve au sur Abéant), et ses Rites connus + Theurgika
+  Maximus (p. 73) sont ajoutés à ses Règles. Enfin, les missiles
+  traqueurs de Karacnos/Krios/Krios Venator/Triaros passent d'un
+  forfait `case` « deux pour +10 » à un `quantite` `max: 2` à +5 —
+  la fiche dit « jusqu'à deux pour +5 Points PAR ARME », donc un seul
+  missile était jusqu'ici impossible.
+  Vérification : suite jsdom dédiée de 38 assertions au niveau du
+  moteur (`coutInstance`/`equipementFinal`/`reglesFinales`/
+  `optionRealisable`) plutôt que par l'interface — atteindre ces Unités
+  dans l'Organigramme demanderait de remplir QG + État-major puis de
+  débloquer un Détachement par Rôle Tactique, alors que ce qui a changé
+  ici est entièrement dans les données et les coûts.
+  **Troisième passe : profils confirmés oralement par le propriétaire
+  (2026-08-04)**, les photos étant trop ambiguës pour trancher seul.
+  Manipule Castellax Destructor ET Manipule de Combat Castellax :
+  CT 3 (au lieu de 6), A 2 (au lieu de 3), Sv 3+ (au lieu de 2+),
+  Inv 6+ (au lieu de 4+) — les trois Manipules Castellax du fichier
+  ont donc désormais le même profil, le Castellax Infernus (Zone
+  Mortalis) portant déjà ces valeurs, ce qui était l'indice de départ.
+  Manipule de Combat Domitar : CT 4 (au lieu de 7). Cohorte d'Ursarax :
+  Vo 4 pour l'Ursarax de base, 6 restant correct pour l'Ursarax Alpha.
+  Engin Démon Kytan : F 12 / E 8 (au lieu de 14 / 4 — une Endurance de
+  4 sur un Seigneur des Batailles à 450 Points).
+  **Quatrième et dernière passe, mêmes conditions** : Manipule
+  d'Attaque Vorax PV 4 (au lieu de 1) ; Cénacle de Technoserfs CT 2 (au
+  lieu de 3) ; Escadron de Stratos Vultarax PV 6 / I 4 / Sv 3+ (au lieu
+  de 1 / 6 / 2+, Inv 5+ déjà correct) ; Arcuitor Magisterium A 5 (au
+  lieu de 4). Archimagos Draykavac **vérifié conforme sans
+  modification** (I 4 pour la variante de base, I 3 pour la variante sur
+  Abéant) — seul son Sang-froid sur Abéant (9 dans le fichier, peut-être
+  10 sur la photo) reste non tranché, écart d'un point sans incidence
+  connue, à revoir si le propriétaire le confirme un jour.
+  **Cinquième passe (2026-08-04), 8 fiches supplémentaires** : Gardiens
+  Scyllax (Sf/Vo/Int/Sv/Inv 12/4/4/3+/6+ au lieu de 8/8/8/2+/5+,
+  `effectif.max` 12→16, bolter = AJOUT à +2/fig et non échange contre le
+  Fourneau Rad) ; Servo Echidnax (I et A inversés — 2/1 et non 1/2, +
+  option bolter absente) ; Massacreur de Sang (A 5) ; Siège Thanatar
+  (235 Points et non 225, Inv 5+ et non « — ») ; Technoprêtre (E 5,
+  PV 2, Cd 8, Int 8, + Guerrier-artisan (2), et ses 5 listes réelles
+  remplacent ses 2 placeholders devinés — `equipementMagos: false`,
+  sa fiche n'ayant pas la liste d'Équipement de Magos) ; Ost de
+  Myrmidons Secutors (PV 2/3, I 2, Cd 9, Vo 8, Int 8, A 3 pour le
+  Seigneur, Avant-garde (3), Méditation Martiale « Seigneur seulement »,
+  Sous-type Lourd manquant, échanges d'arme à +20 chacun et non +5/+10) ;
+  Ost de Myrmidons Destructors (PV 2/3) ; Manipule de Combat Castellax
+  (**Orage de Feu** et non Brise-blindage (4+) — ce dernier est propre au
+  Destructor, les deux fiches diffèrent bien sur ce point ; lames
+  énergétiques +10/fig et non gratuites) ; Manipule Castellax Destructor
+  (les deux options lames énergétiques et bolter→lance-flammes étaient
+  absentes) ; Vorax (« Paire de lames énergétiques »). Draykavac sur
+  Abéant : Sang-froid 10, confirmé par le propriétaire. Scorpion
+  d'Airain et Domitar vérifiés conformes sans modification.
+  **Piège reconfirmé** : le Servo Echidnax avait `options:
+  [optionTechnoArcane()]` sur UNE SEULE LIGNE, sans virgule finale — le
+  script d'insertion l'a raté tout en le signalant à tort comme fait
+  (son `journal.append` était inconditionnel). Détecté seulement en
+  relisant le dump après coup. Toujours recompter sur les données
+  parsées, jamais se fier au compte-rendu du script d'insertion.
+  Bilan des cinq passes : les 26 fiches Mechanicum photographiées sont
+  désormais alignées sur le livre, à cette seule réserve près. Leçon
+  générale reconfirmée : sur une photo prise de biais, ne jamais
+  trancher une cellule de tableau de Caractéristiques au jugé — mieux
+  vaut lister les cellules douteuses et les faire confirmer, ce qui a
+  ici révélé 15 valeurs fausses sur 6 Unités, dont plusieurs (Kytan
+  E 4, Vultarax PV 1) auraient été invisibles sans cette relecture.
+
+- **Passe de vérification des Solar Auxilia contre le livre (Liber
+  Auxilia), lot 1 : les 7 Sections d'État-major (2026-08-04)** — dossier
+  de photos fourni par le proprio sous `05_solar_auxilia/` (non commité,
+  voir plus bas). Constat de départ : **toute la Faction Solar Auxilia
+  était une reconstruction approximative**, pas une transcription — les
+  7 fiches du lot étaient fausses sans exception (26 Caractéristiques,
+  6 effectifs sur 7, l'équipement de base, les Règles Spéciales et la
+  quasi-totalité des Options). À garder en tête pour les 20 fiches
+  restantes : ne RIEN considérer comme acquis dans ce bloc du fichier,
+  contrairement au Mechanicum où la majorité des fiches étaient déjà
+  exactes.
+  Erreurs les plus instructives, à surveiller sur les lots suivants :
+  1. **Une arme de base attribuée au seul chef alors que le livre la
+     donne à toute l'Unité** (Ryfle laser des Sections de Ligne et
+     d'Artillerie, Chargeur volkite de la Section Veletaris) — le
+     « (X seulement) » avait été ajouté par supposition.
+  2. **Un équipement d'Option pris pour de l'équipement de base**
+     (Section Hermes : Arquebuse volkite et Lance-grenade Hermes sont
+     deux des trois échanges du Multi-laser, qui est la vraie arme de
+     base) — la fiche Hermes était la plus fausse du lot, 15
+     Caractéristiques erronées sur 2 profils.
+  3. **`effectif.max` systématiquement faux** : le piège « X Figurines
+     supplémentaires » déjà documenté plus haut, appliqué ici à 6 fiches
+     d'affilée (base 5 + « jusqu'à 5 supplémentaires » = `max: 10`).
+  4. **Vox internodal ≠ Vox d'état-major** : deux objets DISTINCTS
+     (Liber Auxilia p. 105, un seul encart pour les deux) que la
+     transcription précédente confondait — toutes les Options d'État-major
+     du livre donnent le **vox d'état-major**, jamais l'internodal.
+     Entrée « Vox d'État-major » ajoutée à `regles-data.js`, qui n'avait
+     que « Vox Internodal ».
+  **Trois Règles Spéciales de `regles-data.js` étaient FAUSSES** (pas
+  incomplètes — un mécanisme différent), toutes trois portant sur le même
+  motif « confère X aux Figurines amies VOISINES (18" + Ligne de Vue) qui
+  ont le Trait Tercio Y », rendu à tort par « aux autres Figurines de la
+  même Unité » : **Ordre Serré** (+1 à Ligne (X)), **Tenir la Ligne**
+  (confère Insensible à la Douleur (5+) contre Attaques de Volée et de
+  Réaction — le fichier disait « confère Ligne (X) », sans rapport) et
+  **Frappe Préventive** (confère Orage de Feu — le fichier en faisait un
+  bonus conditionnel à l'absence d'ennemi à 18", mécanique inventée). Le
+  bloc de commentaire de ces règles se signalait lui-même comme
+  « transcrit depuis des scans à l'impression dense, à revérifier contre
+  le livre » : cet avertissement était justifié, **traiter tout bloc
+  portant une telle mention comme non fiable** plutôt que comme acquis.
+  **Nouvelle constante `LISTES_AUXILIA`** (`js/unites-data.js`, Liber
+  Auxilia p. 17) : `melee`/`pistolets`/`coque`/`laterales`/`pivot`.
+  Comble le gap explicitement documenté dans ce même fichier (« les
+  Auxilia Melee/Pistols/Sponson Weapons list citées par la Companion
+  Section et le Carnodon Strike Tank : gap documenté, à compléter si le
+  proprio fournit le contenu de ces listes ») — le commentaire en
+  question, au-dessus d'`optionSponsonsLascanonSA`, reste à nettoyer
+  quand les Super-lourds seront traités. Coûts **ABSOLUS** tels
+  qu'imprimés p. 17, contrairement aux `LISTES_ARSENAL_*` de Légion où
+  il faut ajouter le coût de base de l'arme remplacée.
+  **Nommage : « Latéraux » et non « (Sponsons) »** — demande explicite du
+  proprio (2026-08-04) d'aligner sur le Liber Auxilia, qui fait foi pour
+  cette Faction, malgré le « (Sponsons) » déjà établi partout pour les
+  Legiones Astartes (voir le glossaire plus haut). Divergence volontaire,
+  à ne pas « corriger » par symétrie ; les Super-lourds Legacies déjà
+  présents utilisent encore « (Sponsons) » et devront être alignés
+  quand leur lot sera traité.
+  **`Rifle laser` renommé `Ryfle laser`** partout (2 profils
+  d'`armes-data.js` + 12 références) : graphie du livre, sur demande
+  explicite du proprio.
+  **Modification du moteur (`js/unites.js`, `coutInstance`)** :
+  `parFigurine` était honoré par `choix`, `case` et `paire` mais **pas
+  par `multi`**, faute d'occurrence jusqu'ici. Les options Baïonnette/
+  Surchargeur des Auxilia (+1 Point PAR FIGURINE chacune, cumulables,
+  d'où un `multi`) sont les premières à en avoir besoin — vérifié que
+  ce champ n'est posé sur aucune des 23 autres options `multi` du
+  fichier, donc aucun coût existant n'est affecté.
+  **Gap assumé, non modélisé** : plusieurs Options du livre ne sont
+  ouvertes qu'à une Figurine ayant DÉJÀ pris une autre Option (« Tout
+  Salvateur qui a échangé son ryfle laser contre un pistolet laser et un
+  sabre charnabal peut… »). Ce fichier a `interditSiOption` mais pas son
+  inverse : ces Options restent donc toujours proposées, la condition
+  n'étant portée que par le `libelle` — même parti pris que les « (à la
+  place de X) » purement descriptifs déjà établis. Ajouter un vrai
+  `requiertOption` au moteur si le proprio le demande.
+  **Bug pré-existant repéré par l'audit, SANS rapport avec les Solar
+  Auxilia et volontairement non corrigé** : `escouade-etat-major-centurion`
+  et `escouade-veterans-tactiques` ont chacune deux Options portant le
+  même `id` (`lourde-canon-d-assaut-iliastus-tir-soutenu`, chantier
+  Blood Angels) — vérifié présent dans `HEAD` avant cette session. Deux
+  Options de même `id` partagent la même entrée d'`instance.valeurs` :
+  l'une écrase l'autre. À corriger séparément.
+  Vérification : `node --check` sur les 4 fichiers touchés ; audit Node
+  des 480 Unités (aucun `options` manquant, aucun coût NaN, aucun `id`
+  dupliqué introduit) ; contrôle que chaque `remplace`/`remplaceIntegral`
+  du lot correspond mot pour mot à une entrée d'`equipement` (le piège
+  du `remplace` tronqué, déjà rencontré sur les Unités montées, qui rend
+  une Option définitivement irréalisable). **jsdom n'a pas pu être
+  installé cette fois** (montage trop lent, `npm install` en timeout) :
+  pas de test fonctionnel en DOM headless pour ce lot, contrairement aux
+  chantiers précédents — à refaire si l'occasion se présente.
+
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
