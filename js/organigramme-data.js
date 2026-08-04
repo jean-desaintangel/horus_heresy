@@ -1255,7 +1255,7 @@ const TYPES_DETACHEMENTS = [
       caseRole: "État-major",
       uniteIds: ["champion", "champion-monte", "champion-armure-terminator"],
     },
-    cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports")],
+    cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports Lourds")],
   },
   {
     id: "demi-compagnie-reco",
