@@ -1870,11 +1870,21 @@ function resumeArme(arme) {
 // construireCelluleReglesArme (cellule "Règles spéciales" d'une ligne
 // d'arme) est partagée avec l'Arsenal — voir js/main.js.
 
-// Pluralise un nom français : ajoute 's' si compte > 1 et le nom ne finit
-// pas déjà par 's' (cas rare : noms invariables ou pluriels irréguliers).
+// Pluralise un nom français : pluralise le premier mot (nom principal) et
+// le dernier mot s'il se termine par -e (adjectif féminin).
 const pluraliser = (nom, compte) => {
   if (compte <= 1 || !nom || nom.endsWith("s")) return nom;
-  return nom + "s";
+  const words = nom.split(' ');
+  // Pluralise le premier mot (nom principal)
+  words[0] = words[0] + 's';
+  // Pluralise le dernier mot s'il commence par minuscule et finit par -e
+  if (words.length > 1) {
+    const lastWord = words[words.length - 1];
+    if (lastWord[0] === lastWord[0].toLowerCase() && lastWord.endsWith('e')) {
+      words[words.length - 1] = lastWord + 's';
+    }
+  }
+  return words.join(' ');
 };
 
 // Table des caractéristiques d'un groupe d'armes partageant le même
