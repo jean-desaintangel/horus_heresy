@@ -629,8 +629,14 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
         // `ajoute: true` sans `remplace` (objet de base qui reste à
         // tort affiché à son compte plein pour tout le monde).
         if (opt.remplacePartiel) {
-          const trouve = resoudreCible(opt.remplacePartiel);
-          if (trouve) retirer(trouve, compteRole);
+          // Accepte soit une chaîne, soit un tableau de cibles à retirer
+          const cibles = Array.isArray(opt.remplacePartiel)
+            ? opt.remplacePartiel
+            : [opt.remplacePartiel];
+          for (const cible of cibles) {
+            const trouve = resoudreCible(cible);
+            if (trouve) retirer(trouve, compteRole);
+          }
         }
       }
     } else if (opt.type === "case") {
@@ -1864,6 +1870,13 @@ function resumeArme(arme) {
 // construireCelluleReglesArme (cellule "Règles spéciales" d'une ligne
 // d'arme) est partagée avec l'Arsenal — voir js/main.js.
 
+// Pluralise un nom français : ajoute 's' si compte > 1 et le nom ne finit
+// pas déjà par 's' (cas rare : noms invariables ou pluriels irréguliers).
+const pluraliser = (nom, compte) => {
+  if (compte <= 1 || !nom || nom.endsWith("s")) return nom;
+  return nom + "s";
+};
+
 // Table des caractéristiques d'un groupe d'armes partageant le même
 // jeu d'en-têtes (Tir ou Mêlée), sur le modèle de construireTableProfil.
 function construireTableArmes(entetes, armes) {
@@ -1895,8 +1908,9 @@ function construireTableArmes(entetes, armes) {
     th.scope = "row";
     th.className = "gauche";
     // Préfixe le nom du nombre de Figurines qui portent cette Arme
-    // (ex : « 9 Fusil bolter ») — voir calculerEquipementComptes.
-    th.textContent = compte + " " + arme.nom;
+    // (ex : « 9 Fusils bolter ») — voir calculerEquipementComptes.
+    // Pluralise le nom de l'arme si compte > 1.
+    th.textContent = compte + " " + pluraliser(arme.nom, compte);
     tr.appendChild(th);
     for (const valeur of arme.stats) tr.appendChild(el("td", null, valeur));
     tr.appendChild(construireCelluleReglesArme(arme.regles));

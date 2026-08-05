@@ -8276,6 +8276,7 @@ const UNITES = [
         id: "lame-parangon",
         libelle:
           "Par tranche de cinq Figurines : lame de parangon à la place de l'arme de Perdition (une Figurine)",
+        remplaceIntegral: "Arme de Perdition",
         cout: 15,
         parTranche: 5,
         ajoute:
@@ -10156,6 +10157,7 @@ const UNITES = [
           "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse)",
         cout: 10,
         ajoute: "Sergent : paire de griffes Lightning",
+        remplacePartiel: ["Pistolet bolter", "Épée tronçonneuse"],
       },
       {
         type: "case",
@@ -10176,6 +10178,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "epee",
+        remplaceIntegral: "Épée tronçonneuse",
         ajoute: "Épée tronçonneuse lourde",
       },
       ...eclaterQuantiteArmeEnergetique({
@@ -10186,6 +10189,7 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "epee",
+        remplaceIntegral: "Épée tronçonneuse",
         ajoute: "Arme énergétique",
       }),
       {
@@ -10196,6 +10200,7 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "epee",
+        remplaceIntegral: "Épée tronçonneuse",
         ajoute: "Sabre charnabal",
       },
       {
@@ -12938,6 +12943,7 @@ const UNITES = [
         id: "arme-lourde-lance-flammes",
         libelle:
           "Par tranche de cinq Figurines : lance-flammes lourd à la place du combi-bolter (une Figurine)",
+        remplaceIntegral: "Combi-bolter",
         cout: 10,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -12950,6 +12956,7 @@ const UNITES = [
         id: "arme-lourde-multi-fuseur",
         libelle:
           "Par tranche de cinq Figurines : multi-fuseur à la place du combi-bolter (une Figurine)",
+        remplaceIntegral: "Combi-bolter",
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -12961,6 +12968,7 @@ const UNITES = [
         id: "arme-lourde-autocanon-reaper",
         libelle:
           "Par tranche de cinq Figurines : autocanon Reaper à la place du combi-bolter (une Figurine)",
+        remplaceIntegral: "Combi-bolter",
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde",
@@ -13503,6 +13511,10 @@ const UNITES = [
           "Exemple Écarlate : échanger son épée énergétique et son bouclier énergétique modèle Coriolis (perd le Trait Bouclier)",
         ajoute: true,
         prefixeFiche: "Exemple Écarlate : ",
+        remplacePartiel: [
+          "Épée énergétique",
+          "Bouclier énergétique modèle Coriolis",
+        ],
         choix: [
           { nom: "— Conserver l'équipement —", cout: 0 },
           { nom: "Lame de Perdition", cout: 0 },
@@ -13517,6 +13529,7 @@ const UNITES = [
         id: "lance-flammes-lourd-paladin",
         libelle:
           "Par tranche de cinq Figurines : lance-flammes lourd à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         cout: 5,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
@@ -13529,6 +13542,7 @@ const UNITES = [
         id: "iliastus",
         libelle:
           "Par tranche de cinq Figurines : canon d'assaut Iliastus à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         cout: 15,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
@@ -13541,6 +13555,7 @@ const UNITES = [
         id: "blaster-a-plasma-paladin",
         libelle:
           "Par tranche de cinq Figurines : blaster à plasma à la place du bouclier énergétique modèle Coriolis (un Paladin Écarlate, perd le Trait Bouclier)",
+        remplaceIntegral: "Bouclier énergétique modèle Coriolis",
         cout: 10,
         parTranche: 5,
         groupe: "arme-lourde-paladin",
@@ -16447,7 +16462,7 @@ const UNITES = [
     composition: "1 Spartan",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
     equipement: [
-      "Deux affûts de canons laser Latéraux",
+      { nom: "Deux affûts de canons laser Latéraux", porteurs: 2 },
       "Bolter lourd jumelé de Coque (Avant)",
     ],
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
