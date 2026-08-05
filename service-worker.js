@@ -175,7 +175,7 @@
 // planterait au chargement, emportant la navigation et le pied de page
 // avec lui. Toute nouvelle dépendance JS/CSS impose donc deux gestes :
 // l'ajouter à la liste ci-dessous ET changer ce numéro.
-const CACHE_VERSION = "v87";
+const CACHE_VERSION = "v88";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
