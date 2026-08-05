@@ -1875,12 +1875,15 @@ function resumeArme(arme) {
 const pluraliser = (nom, compte) => {
   if (compte <= 1 || !nom || nom.endsWith("s")) return nom;
   const words = nom.split(' ');
-  // Pluralise le premier mot (nom principal)
-  words[0] = words[0] + 's';
-  // Pluralise le dernier mot s'il commence par minuscule et finit par -e
+  // Pluralise le premier mot (nom principal) s'il ne finit pas par 's'
+  if (!words[0].endsWith('s')) {
+    words[0] = words[0] + 's';
+  }
+  // Pluralise le dernier mot s'il commence par minuscule, finit par -e et pas -es
   if (words.length > 1) {
     const lastWord = words[words.length - 1];
-    if (lastWord[0] === lastWord[0].toLowerCase() && lastWord.endsWith('e')) {
+    if (lastWord[0] === lastWord[0].toLowerCase() &&
+        lastWord.endsWith('e') && !lastWord.endsWith('es')) {
       words[words.length - 1] = lastWord + 's';
     }
   }
