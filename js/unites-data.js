@@ -19579,6 +19579,7 @@ const UNITES = [
       "Capitaine de la 405e Compagnie des Imperial Fists, Le Poing Écarlate.",
     traits: ["Loyaliste", "Imperial Fists", "Bouclier"],
     equipement: [
+      "Gantelet énergétique Solarite",
       "Bouclier Storm modèle Vigil",
       "Combi-fuseur",
       "Grenades Frag",
