@@ -3884,7 +3884,7 @@ const ARMES_MELEE = [
       },
       {
         nom: "Baïonnette tronçonneuse",
-        stats: ["1", "A", "F", "5", "1"],
+        stats: ["I", "A", "F", "5", "1"],
         regles: "Lacération (6+)",
         traits: "Baïonnette, Tronçonneuse",
       },
