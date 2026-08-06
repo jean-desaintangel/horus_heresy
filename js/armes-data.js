@@ -5603,12 +5603,6 @@ const ARMES_MELEE = [
     titre: "Armes Solarites",
     armes: [
       {
-        nom: "Gantelet énergétique solarite",
-        stats: ["-3", "A", "+4", "2", "2"],
-        regles: "Touche Critique (6+)",
-        traits: "Énergétique",
-      },
-      {
         nom: "Serre énergétique solarite",
         stats: ["1", "A", "F", "2", "1"],
         regles: "Touche Critique (6+), Fauchage (2)",
