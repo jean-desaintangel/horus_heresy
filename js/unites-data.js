@@ -19579,6 +19579,7 @@ const UNITES = [
       "Capitaine de la 405e Compagnie des Imperial Fists, Le Poing Écarlate.",
     traits: ["Loyaliste", "Imperial Fists", "Bouclier"],
     equipement: [
+      "Gantelet énergétique Solarite",
       "Bouclier Storm modèle Vigil",
       "Combi-fuseur",
       "Grenades Frag",
@@ -19613,15 +19614,7 @@ const UNITES = [
         type: "Infanterie (Unique, État-major, Lourd)",
       },
     ],
-    options: [
-      {
-        type: "case",
-        id: "gantelet-solarite-alexis",
-        libelle: "Gantelet énergétique Solarite",
-        cout: 0,
-        ajoute: "Gantelet énergétique Solarite",
-      },
-    ],
+    options: [],
     legion: "VII",
   },
   {
