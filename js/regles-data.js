@@ -214,7 +214,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Avant-garde (X)",
     texte:
-      "L'unité ne marque que 1 point de victoire sur un objectif, + X si elle est retirée comme perte ou fait battre en retraite une unité ennemie.",
+      "Une Unité qui comprend une majorité de Figurines ayant cette Règle Spéciale ne peut jamais marquer plus de 1 Point de Victoire pour Contrôler un Objectif. Le Joueur en Contrôle gagne X Points de Victoire supplémentaires si : (1) une Attaque retire comme Perte la dernière Figurine d'une Unité ennemie qui Contrôle ou Conteste un Objectif, ou (2) une Attaque en Combat fait battre en Retraite une Unité ennemie qui comptait au moins une Figurine à 3\" d'un Objectif au début de cette Phase d'Assaut. Cette Règle ne peut servir qu'une fois par Objectif et par Tour de Joueur.",
   },
   {
     nom: "Réacteurs",
