@@ -4512,7 +4512,7 @@ async function genererPDF() {
     y += 4;
     titreSection("Bénéfice d'Arcane : " + contenuArcane.benefice.nom, 12);
     paragraphe(contenuArcane.benefice.regle.texte, 9);
-    y += 8;
+    y += 16;
     titreSection("Option d'Arcane : " + contenuArcane.option.nom, 12);
     paragraphe(contenuArcane.option.regle.texte, 9);
   }
@@ -4980,6 +4980,7 @@ async function genererWordHTML() {
       "</h2>";
     corps +=
       "<p>" + echapperHTML(contenuArcaneWord.benefice.regle.texte) + "</p>";
+    corps += "<p>&nbsp;</p>";
     corps +=
       "<h2>Option d'Arcane : " +
       echapperHTML(contenuArcaneWord.option.nom) +
