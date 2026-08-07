@@ -3073,6 +3073,12 @@ const ARMES_TIR = [
     titre: "Armes à Foudre",
     armes: [
       {
+        nom: "Fusil à foudre",
+        stats: ["18", "3", "5", "5", "1"],
+        regles: "Lacération (6+), Neutralisation (0)",
+        traits: "Assaut, Électro",
+      },
+      {
         nom: "Mousquet à foudre",
         stats: ["36", "1", "7", "3", "2"],
         regles:
