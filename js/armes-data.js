@@ -3017,13 +3017,6 @@ const ARMES_TIR = [
         regles: "Déflagration (6)",
         traits: "Volkite",
       },
-      {
-        nom: "Fusil à foudre",
-        stats: ["24", "1", "7", "3", "2"],
-        regles:
-          'Explosion (3"), Lacération (5+), Brèche (5+), Neutralisation (0)',
-        traits: "Électro",
-      },
     ],
     note: "¹ Notez que cette Arme possède à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
