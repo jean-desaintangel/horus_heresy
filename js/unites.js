@@ -2737,7 +2737,9 @@ function synchroniserConfig(carte, unite, instance) {
       // max dynamique : sa propre valeur + ce qui reste du budget
       // (partagé avec les autres options du même groupe).
       champ.max = String(instance.valeurs[opt.id] + dispo);
-      champ.disabled = !realisable || dispo === 0;
+      // Ne jamais gris complètement : l'utilisateur doit pouvoir réduire
+      // pour libérer du budget pour les autres options du groupe.
+      champ.disabled = !realisable;
     } else {
       const caseACocher = carte.querySelector(
         "#opt-" + instance.uid + "-" + opt.id,
