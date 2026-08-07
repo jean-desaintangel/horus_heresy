@@ -37043,8 +37043,7 @@ const UNITES = [
       {
         type: "choix",
         id: "configuration",
-        libelle: "Remplacer le Canon à bolts Mauler jumelé par",
-        remplace: "Canon à bolts Mauler jumelé",
+        libelle: "Ajouter à l'équipement",
         obligatoire: true,
         choix: [
           { nom: "Mortier à plasma", cout: 0 },
