@@ -36768,7 +36768,7 @@ const UNITES = [
         remplaceIntegral: "Fusil à foudre",
         groupe: "armes-tir",
         parTranche: 1,
-        parTrancheMax: 9,
+        parTrancheMax: 1,
         cout: 15,
       },
       {
@@ -36779,7 +36779,7 @@ const UNITES = [
         remplaceIntegral: "Fusil à foudre",
         groupe: "armes-tir",
         parTranche: 1,
-        parTrancheMax: 9,
+        parTrancheMax: 1,
         cout: 15,
       },
       {
@@ -36790,7 +36790,7 @@ const UNITES = [
         remplaceIntegral: "Fusil à foudre",
         groupe: "armes-tir",
         parTranche: 1,
-        parTrancheMax: 9,
+        parTrancheMax: 1,
         cout: 10,
       },
       {
@@ -36800,7 +36800,7 @@ const UNITES = [
         ajoute: "Baïonnette tronçonneuse",
         requiertEquip: "Fusil à foudre",
         parTranche: 1,
-        parTrancheMax: 9,
+        parTrancheMax: 1,
         cout: 2,
       },
       {
