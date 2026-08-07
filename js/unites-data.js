@@ -37043,10 +37043,10 @@ const UNITES = [
       {
         type: "choix",
         id: "configuration",
-        libelle: "Doit être dotée d'une des deux options suivantes",
+        libelle: "Remplacer le Canon à bolts Mauler jumelé par",
         remplace: "Canon à bolts Mauler jumelé",
-        obligatoire: true,
         choix: [
+          { nom: "— Aucun —", cout: 0 },
           { nom: "Mortier à plasma", cout: 0 },
           {
             nom: "Laser lourd Sollex et bélier à gravitons",
