@@ -5701,7 +5701,9 @@ function initialiser() {
           (Organigramme.factionActuelle() === "chevaliers-questoris" &&
             Organigramme.maisonneeActuelle() === "") ||
           (Organigramme.factionActuelle() === "solar-auxilia" &&
-            Organigramme.doctrineCohorteActuelle() === ""))) ||
+            Organigramme.doctrineCohorteActuelle() === "") ||
+          (Organigramme.factionActuelle() === "mechanicum" &&
+            Organigramme.technoArcaneActuel() === ""))) ||
       !UNITES.some((u) => uniteAccessible(u))
     )
       return;
