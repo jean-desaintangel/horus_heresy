@@ -37046,10 +37046,11 @@ const UNITES = [
         libelle: "Doit être dotée d'une des deux options suivantes",
         remplace: "Canon à bolts Mauler jumelé",
         choix: [
-          { nom: "Mortier à plasma", cout: 0 },
+          { nom: "Mortier à plasma", cout: 0, ajoute: "Mortier à plasma" },
           {
             nom: "Laser lourd Sollex et bélier à gravitons",
             cout: 20,
+            ajoute: "Laser lourd Sollex et bélier à gravitons",
           },
         ],
       },
