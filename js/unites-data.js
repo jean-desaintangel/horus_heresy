@@ -36798,6 +36798,7 @@ const UNITES = [
         id: "baionnette-fusil-foudre",
         libelle: "Figurines avec Fusil à foudre : ajouter une Baïonnette tronçonneuse",
         ajoute: "Baïonnette tronçonneuse",
+        requiertEquip: "Fusil à foudre",
         parTranche: 1,
         parTrancheMax: 9,
         cout: 2,
