@@ -32179,6 +32179,7 @@ const UNITES = [
           "Maître de Troupe ayant échangé son ryfle laser : remplacer le sabre charnabal",
         prefixeFiche: "Maître de Troupe : ",
         ajoute: true,
+        remplacePartiel: "Sabre charnabal",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Marteau Thunder", cout: 10 },
@@ -32192,6 +32193,7 @@ const UNITES = [
           "Maître de Troupe ayant échangé son ryfle laser : remplacer le pistolet laser",
         prefixeFiche: "Maître de Troupe : ",
         ajoute: true,
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
@@ -32287,6 +32289,7 @@ const UNITES = [
           "Primat-chef ayant échangé son chargeur volkite : remplacer le tabar charnabal",
         prefixeFiche: "Primat-chef : ",
         ajoute: true,
+        remplacePartiel: "Tabar charnabal",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Marteau Thunder", cout: 10 },
@@ -32300,6 +32303,7 @@ const UNITES = [
           "Primat-chef ayant échangé son chargeur volkite : remplacer le pistolet laser",
         prefixeFiche: "Primat-chef : ",
         ajoute: true,
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
@@ -32494,6 +32498,7 @@ const UNITES = [
           "Maître d'Artillerie ayant échangé son ryfle laser : remplacer le sabre charnabal",
         prefixeFiche: "Maître d'Artillerie : ",
         ajoute: true,
+        remplacePartiel: "Sabre charnabal",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Marteau Thunder", cout: 10 },
@@ -32507,6 +32512,7 @@ const UNITES = [
           "Maître d'Artillerie ayant échangé son ryfle laser : remplacer le pistolet laser",
         prefixeFiche: "Maître d'Artillerie : ",
         ajoute: true,
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
@@ -33019,6 +33025,7 @@ const UNITES = [
           "Primat Veletarii ayant échangé son chargeur volkite : remplacer le tabar charnabal",
         prefixeFiche: "Primat Veletarii : ",
         ajoute: true,
+        remplacePartiel: "Tabar charnabal",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.melee),
@@ -33031,6 +33038,7 @@ const UNITES = [
           "Primat Veletarii ayant échangé son chargeur volkite : remplacer le pistolet laser",
         prefixeFiche: "Primat Veletarii : ",
         ajoute: true,
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
@@ -33141,6 +33149,7 @@ const UNITES = [
           "Primat Veletarii ayant échangé son lance-flammes lourd : remplacer le tabar charnabal",
         prefixeFiche: "Primat Veletarii : ",
         ajoute: true,
+        remplacePartiel: "Tabar charnabal",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.melee),
@@ -33153,6 +33162,7 @@ const UNITES = [
           "Primat Veletarii ayant échangé son lance-flammes lourd : remplacer le pistolet laser",
         prefixeFiche: "Primat Veletarii : ",
         ajoute: true,
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "— Aucun —", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
