@@ -1259,6 +1259,110 @@ const TYPES_DETACHEMENTS = [
     legion: "XVII",
   },
 
+  /* ---------- Détachements d'Apex de Mechanicum (Liber Mechanicum,
+     p. 42-49) : un par Techno-arcane, accessibles au Détachement
+     Principal/Allié/Seigneur des Batailles de Mechanicum. Toutes les
+     Cases sont Principales sauf indication contraire. ---------- */
+  {
+    id: "le-coeur-du-pouvoir",
+    nom: "Le Cœur du Pouvoir",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "archimandrite",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Archimandrite. L'Engrangue d'Autorité accorde un bonus de Commandement et Sang-froid à toute Figurine nantie de ce Bénéfice d'Arcane.",
+    cases: [
+      _caseOrga("Quartier Général", true),
+      _caseOrga("Quartier Général"),
+      _caseOrga("Quartier Général"),
+    ],
+  },
+  {
+    id: "manipule-de-commandement",
+    nom: "Manipule de Commandement",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "cybernetica",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Cybernetica. Le Deus Machina accorde des bonus à toute Figurine d'Automate contrôlée.",
+    cases: [
+      _caseOrga("Quartier Général", true),
+      _caseOrga("Quartier Général"),
+      _caseOrga("Appui"),
+    ],
+  },
+  {
+    id: "la-panoplie-de-cruaute",
+    nom: "La Panoplie de Cruauté",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "lacrymaerta",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Lacrymaerta. Une Servitude Sans Fin accorde un accès à la Règle Spéciale Guerrier-artisan (X).",
+    cases: [
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+    ],
+  },
+  {
+    id: "l-ost-de-destruction",
+    nom: "L'Ost de Destruction",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "myrmidax",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Myrmidax. La Force des Âges accorde +1 PV et des Règles Spéciales à toute Figurine nantie de ce Bénéfice d'Arcane. Seule la Case d'Élite marquée est Case Principale.",
+    cases: [
+      _caseOrga("Elite", true),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+  },
+  {
+    id: "cohorte-de-commandement-thallax",
+    nom: "Cohorte de Commandement Thallax",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "reductor",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Reductor. Brise-muralles accorde un modifieur aux attaques de Tir et Combat des Unités comportant une Figurine nantie de ce Bénéfice d'Arcane.",
+    cases: [
+      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+  },
+  {
+    id: "supplice-du-jugement",
+    nom: "Supplice du Jugement",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "malagra",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Malagra. Armée Implacablement Soustraite accorde une Fortification supplémentaire aux Unités. Aucune Case n'est marquée Principale : ce Détachement ne débloque pas d'Avantage Principal.",
+    cases: [
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+  },
+  {
+    id: "phalange-de-fer",
+    nom: "Phalange de Fer",
+    famille: "apex",
+    faction: "mechanicum",
+    requiertTechnoArcane: "macrotek",
+    texte:
+      "Détachement d'Apex réservé au Techno-arcane Macrotek. Protecteur de Fer accorde un modifieur de Sauvegarde à toute Figurine de Type Véhicule accompagnée d'une Figurine nantie de ce Bénéfice d'Arcane.",
+    cases: [
+      _caseOrga("Appui", true),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+  },
+
   /* ---------- Détachements Auxiliaires des Legiones Astartes
      (livre d'armée) : débloqués par une unité PRÉCISE occupant une
      case donnée, « à la place des options disponibles dans

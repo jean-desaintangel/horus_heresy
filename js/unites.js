@@ -288,6 +288,37 @@ function uniteAccessible(unite) {
       !factionsDebloqueesAvantage.includes(factionUnite)
     )
       return false;
+    // Techno-arcane Majeur Mechanicum : une Unité générique Mechanicum
+    // (trait « [Mechanicum] », pas de Techno-arcane fixe) n'est accessible
+    // que si un Techno-arcane a été choisi dans les paramètres ; une Unité
+    // propre à un Techno-arcane fixe (ex : « Cybernetica ») n'est
+    // accessible que si ce Techno-arcane est sélectionné. Les Unités
+    // d'autres Factions ne sont jamais concernées.
+    if (factionUnite === "mechanicum" || factionActuelle === "mechanicum") {
+      if (!orgaPret || typeof Organigramme === "undefined") return false;
+      const technoActuel = Organigramme.technoArcaneActuel();
+      const TRAITS_FACTION_MECHANICUM_ARRAY = [
+        "Archimandrite",
+        "Cybernetica",
+        "Lacrymaerta",
+        "Myrmidax",
+        "Reductor",
+        "Malagra",
+        "Macrotek",
+      ];
+      const technoFixe =
+        unite.traits &&
+        unite.traits.find((t) => TRAITS_FACTION_MECHANICUM_ARRAY.includes(t));
+      if (technoFixe) {
+        // Unité propre à un Techno-arcane fixe : accessible seulement si ce
+        // Techno-arcane est sélectionné.
+        if (technoActuel !== technoFixe.toLowerCase()) return false;
+      } else if (unite.traits && unite.traits.includes("[Mechanicum]")) {
+        // Unité générique Mechanicum : accessible seulement si un Techno-arcane
+        // est choisi.
+        if (!technoActuel) return false;
+      }
+    }
     if (unite.legion) {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
       const legionOk =
@@ -1107,6 +1138,23 @@ function segmentsIdentiteActuelle() {
         (d) => d.id === idDesignation,
       );
       if (designation) segments.push(designation.nom);
+    } else if (faction === "mechanicum") {
+      const technoArcane = Organigramme.technoArcaneActuel();
+      if (technoArcane) {
+        // Chercher le libellé du Techno-arcane dans la constante TECHNO_ARCANES
+        // (voir js/organigramme.js) pour le nommer proprement dans le fichier
+        const TECHNO_ARCANES = [
+          ["archimandrite", "Archimandrite"],
+          ["cybernetica", "Cybernetica"],
+          ["lacrymaerta", "Lacrymaerta"],
+          ["myrmidax", "Myrmidax"],
+          ["reductor", "Reductor"],
+          ["malagra", "Malagra"],
+          ["macrotek", "Macrotek"],
+        ];
+        const ta = TECHNO_ARCANES.find(([code]) => code === technoArcane);
+        if (ta) segments.push(ta[1]);
+      }
     }
   }
   segments.push(
@@ -2102,18 +2150,37 @@ function construireDefinitions(fiche) {
 // Trait de Faction Mechanicum effectif d'une Unité/instance (un des
 // sept TRAITS_FACTION_MECHANICUM, js/unites-data.js) : soit fixe (déjà
 // écrit en dur dans `traits`, ex. "Cybernetica" — Unité/Figurine nommée
-// propre à ce Techno-arcane), soit choisi via l'option "techno-arcane"
-// (`traits` contient alors le placeholder « [Mechanicum] », voir
-// optionTechnoArcane, js/unites-data.js). Retourne null hors Faction
-// Mechanicum ou si rien ne correspond (ne devrait pas arriver, toute
-// Unité Mechanicum ayant l'un ou l'autre — voir CLAUDE.md).
+// propre à ce Techno-arcane), soit choisi globalement via le menu
+// Techno-arcane Majeur des paramètres (`traits` contient alors le
+// placeholder « [Mechanicum] », remplacé par le choix global à
+// l'affichage). Retourne null hors Faction Mechanicum ou si rien ne
+// correspond (ne devrait pas arriver, toute Unité Mechanicum ayant l'un
+// ou l'autre — voir CLAUDE.md).
 function traitFactionMechanicumDe(unite, instance) {
   if (unite.faction !== "mechanicum" || !unite.traits) return null;
   if (unite.traits.includes("[Mechanicum]")) {
-    const opt = unite.options.find((o) => o.id === "techno-arcane");
-    if (!opt) return null;
-    return opt.choix[instance.valeurs["techno-arcane"]].nom;
+    // Unité générique Mechanicum : récupère le choix global du Techno-arcane
+    // depuis les paramètres de la partie.
+    if (!orgaPret || typeof Organigramme === "undefined") return null;
+    const technoChoisi = Organigramme.technoArcaneActuel();
+    if (!technoChoisi) return null;
+    // Mappe le code du Techno-arcane vers son libellé français : la constante
+    // TECHNO_ARCANES n'est pas accessible ici (définie en organigramme.js),
+    // donc on mappe manuellement les codes vers les noms (même mappage que
+    // TECHNO_ARCANES en organigramme.js).
+    const TECHNO_MAPPING = {
+      archimandrite: "Archimandrite",
+      cybernetica: "Cybernetica",
+      lacrymaerta: "Lacrymaerta",
+      myrmidax: "Myrmidax",
+      reductor: "Reductor",
+      malagra: "Malagra",
+      macrotek: "Macrotek",
+    };
+    return TECHNO_MAPPING[technoChoisi] || null;
   }
+  // Unité propre à un Techno-arcane fixe : retourne le Trait trouvé dans
+  // `traits`.
   return (
     unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null
   );
@@ -2246,6 +2313,31 @@ function reglesFinales(unite, variante, instance) {
     .concat(reglesAvantagePrincipalDe(instance))
     .concat(reglesOptionsDe(unite, instance));
   if (!orgaPret || !window.Organigramme) return regles;
+
+  // Bénéfice d'Arcane de Mechanicum : accordé automatiquement à toute
+  // Figurine Mechanicum quand ce Techno-arcane est choisi.
+  const beneficeArcane = Organigramme.beneficeArcaneActuel();
+  if (
+    beneficeArcane &&
+    (unite.traits.includes("[Mechanicum]") ||
+      TRAITS_FACTION_MECHANICUM_ARRAY.some((t) => unite.traits.includes(t))) &&
+    !regles.includes(beneficeArcane)
+  ) {
+    regles = [...regles, beneficeArcane];
+  }
+
+  // Option d'Arcane de Mechanicum : accordée automatiquement à toute
+  // Figurine Mechanicum quand ce Techno-arcane est choisi.
+  const optionArcane = Organigramme.optionArcaneActuel();
+  if (
+    optionArcane &&
+    (unite.traits.includes("[Mechanicum]") ||
+      TRAITS_FACTION_MECHANICUM_ARRAY.some((t) => unite.traits.includes(t))) &&
+    !regles.includes(optionArcane)
+  ) {
+    regles = [...regles, optionArcane];
+  }
+
   // Tactica Blackshields de base (« Fils Bâtards du Destin ») : accordée
   // à TOUTE Figurine ayant le Trait Blackshields (sauf Type Véhicule),
   // pas seulement listée au Glossaire — toute Armée de Faction
@@ -3340,6 +3432,15 @@ function actualiserVerrouLegion() {
     !narratifDisponible &&
     factionActuelle === "solar-auxilia" &&
     Organigramme.doctrineCohorteActuelle() === "";
+  // Même verrou, pour le Techno-arcane Majeur (Faction Mechanicum,
+  // menu « Techno-arcane » des paramètres de la partie) : les Unités
+  // Mechanicum n'ont pas de Trait propre à un Techno-arcane — le verrou
+  // en amont est donc la seule façon d'imposer ce choix avant d'ajouter
+  // une Unité.
+  const technoArcaneManquant =
+    !narratifDisponible &&
+    factionActuelle === "mechanicum" &&
+    Organigramme.technoArcaneActuel() === "";
   // Faction sans aucune unité transcrite pour l'instant (ex : Chevaliers
   // Questoris, en attendant son livre d'armée) : le verrou se déclenche
   // aussi dans ce cas, plutôt que de laisser un champ vide/trompeur et
@@ -3349,6 +3450,7 @@ function actualiserVerrouLegion() {
     !legionManquante &&
     !maisonneeManquante &&
     !doctrineManquante &&
+    !technoArcaneManquant &&
     !aucuneUniteAccessible;
   champUnite.disabled = !peutAjouter;
   boutonUnite.disabled = !peutAjouter;
@@ -3363,6 +3465,8 @@ function actualiserVerrouLegion() {
     "Choisissez d'abord une Maisonnée dans les paramètres de la partie pour pouvoir ajouter des unités.";
   const MESSAGE_DOCTRINE_MANQUANTE =
     "Choisissez d'abord une Doctrine de Cohorte dans les paramètres de la partie pour pouvoir ajouter des unités.";
+  const MESSAGE_TECHNO_ARCANE_MANQUANT =
+    "Choisissez d'abord un Techno-arcane Majeur dans les paramètres de la partie pour pouvoir ajouter des unités.";
   const MESSAGE_AUCUNE_UNITE =
     "Aucune unité n'est encore disponible pour cette Faction.";
   const messageAjout = document.getElementById("ajout-message");
@@ -3373,12 +3477,15 @@ function actualiserVerrouLegion() {
         ? MESSAGE_MAISONNEE_MANQUANTE
         : doctrineManquante
           ? MESSAGE_DOCTRINE_MANQUANTE
-          : MESSAGE_AUCUNE_UNITE;
+          : technoArcaneManquant
+            ? MESSAGE_TECHNO_ARCANE_MANQUANT
+            : MESSAGE_AUCUNE_UNITE;
     messageAjout.hidden = false;
   } else if (
     messageAjout.textContent === MESSAGE_LEGION_MANQUANTE ||
     messageAjout.textContent === MESSAGE_MAISONNEE_MANQUANTE ||
     messageAjout.textContent === MESSAGE_DOCTRINE_MANQUANTE ||
+    messageAjout.textContent === MESSAGE_TECHNO_ARCANE_MANQUANT ||
     messageAjout.textContent === MESSAGE_AUCUNE_UNITE
   ) {
     messageAjout.hidden = true;
@@ -3800,6 +3907,26 @@ function contenuDesignationAuxiliaActuelle() {
   if (!designation) return null;
   const regle = REGLES_DIVERSES.find((r) => r.nom === designation.reaction);
   return regle ? { designation, regle } : null;
+}
+
+// Bénéfice et Option d'Arcane de Mechanicum, affichés sur la page de
+// garde du PDF/Word si Mechanicum est la Faction actuelle et qu'un
+// Techno-arcane a été choisi. Retourne null sinon.
+function contenuBeneficeOptionArcaneActuels() {
+  if (!Organigramme.factionActuelle) return null;
+  const faction = Organigramme.factionActuelle();
+  if (faction !== "mechanicum") return null;
+
+  const benefice = Organigramme.beneficeArcaneActuel();
+  const option = Organigramme.optionArcaneActuel();
+  if (!benefice || !option) return null;
+
+  const regleBenefice = REGLES_DIVERSES.find((r) => r.nom === benefice);
+  const regleOption = REGLES_DIVERSES.find((r) => r.nom === option);
+
+  return regleBenefice && regleOption
+    ? { benefice: { nom: benefice, regle: regleBenefice }, option: { nom: option, regle: regleOption } }
+    : null;
 }
 
 async function genererPDF() {
@@ -4230,6 +4357,39 @@ async function genererPDF() {
             paragrapheCentre(skinSansBlason.devise, 9.5);
             y += 6;
           }
+        } else if (Organigramme.factionActuelle() === "mechanicum") {
+          // Identité de Mechanicum : « Mechanicum – [Techno-arcane] » centré
+          // en gras, Allégeance centré en dessous, sur le modèle de Legio
+          // Astartes. Le Techno-arcane est obligatoire (chaîne non vide),
+          // contrairement aux Désignations Solar Auxilia.
+          const TECHNO_ARCANES = [
+            ["archimandrite", "Archimandrite"],
+            ["cybernetica", "Cybernetica"],
+            ["lacrymaerta", "Lacrymaerta"],
+            ["myrmidax", "Myrmidax"],
+            ["reductor", "Reductor"],
+            ["malagra", "Malagra"],
+            ["macrotek", "Macrotek"],
+          ];
+          const technoArcaneCode = Organigramme.technoArcaneActuel();
+          const ta = technoArcaneCode
+            ? TECHNO_ARCANES.find(([code]) => code === technoArcaneCode)
+            : null;
+          if (ta) {
+            const nomMechanicum = assainirPDF(
+              "Mechanicum – " + ta[1],
+            );
+            paragrapheCentre(nomMechanicum, 16, "bold", accentRGB);
+            y += 8;
+            paragrapheCentre(
+              "Allégeance : " +
+                (Organigramme.allegeanceActuelle() === "renegat"
+                  ? "Renégat"
+                  : "Loyaliste"),
+              9.5,
+            );
+            y += 6;
+          }
         } else {
           // Identité de Désignation de Legiones Auxilia / Doctrine de
           // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
@@ -4346,6 +4506,17 @@ async function genererPDF() {
     titreSection("Trait de Faction : " + contenuTrait.nom, 12);
     paragraphe(contenuTrait.regle.texte, 9);
   }
+
+  const contenuArcane = contenuBeneficeOptionArcaneActuels();
+  if (contenuArcane) {
+    y += 4;
+    titreSection("Bénéfice d'Arcane : " + contenuArcane.benefice.nom, 12);
+    paragraphe(contenuArcane.benefice.regle.texte, 9);
+    y += 8;
+    titreSection("Option d'Arcane : " + contenuArcane.option.nom, 12);
+    paragraphe(contenuArcane.option.regle.texte, 9);
+  }
+
   for (const contenuTrait of contenuTraitsFactionSkitariiActuels()) {
     y += 4;
     titreSection("Trait de Faction : " + contenuTrait.nom, 12);
@@ -4668,6 +4839,38 @@ async function genererWordHTML() {
               echapperHTML(skinSansBlason.devise) +
               "</p>";
           }
+        } else if (Organigramme.factionActuelle() === "mechanicum") {
+          // Identité de Mechanicum : « Mechanicum – [Techno-arcane] » centré
+          // en gras, Allégeance centré en dessous, sur le modèle de Legio
+          // Astartes (voir même bloc dans genererPDF ci-dessus).
+          const TECHNO_ARCANES = [
+            ["archimandrite", "Archimandrite"],
+            ["cybernetica", "Cybernetica"],
+            ["lacrymaerta", "Lacrymaerta"],
+            ["myrmidax", "Myrmidax"],
+            ["reductor", "Reductor"],
+            ["malagra", "Malagra"],
+            ["macrotek", "Macrotek"],
+          ];
+          const technoArcaneCode = Organigramme.technoArcaneActuel();
+          const ta = technoArcaneCode
+            ? TECHNO_ARCANES.find(([code]) => code === technoArcaneCode)
+            : null;
+          if (ta) {
+            corps +=
+              '<p class="cohorte-titre">' +
+              echapperHTML("Mechanicum – " + ta[1]) +
+              "</p>";
+            corps +=
+              '<p class="legion-identite">' +
+              echapperHTML(
+                "Allégeance : " +
+                  (Organigramme.allegeanceActuelle() === "renegat"
+                    ? "Renégat"
+                    : "Loyaliste"),
+              ) +
+              "</p>";
+          }
         } else {
           // Identité de Désignation de Legiones Auxilia / Doctrine de
           // Cohorte (Faction Solar Auxilia) : même principe qu'une Légion
@@ -4768,6 +4971,23 @@ async function genererWordHTML() {
       "<h2>Trait de Faction : " + echapperHTML(contenuTrait.nom) + "</h2>";
     corps += "<p>" + echapperHTML(contenuTrait.regle.texte) + "</p>";
   }
+
+  const contenuArcaneWord = contenuBeneficeOptionArcaneActuels();
+  if (contenuArcaneWord) {
+    corps +=
+      "<h2>Bénéfice d'Arcane : " +
+      echapperHTML(contenuArcaneWord.benefice.nom) +
+      "</h2>";
+    corps +=
+      "<p>" + echapperHTML(contenuArcaneWord.benefice.regle.texte) + "</p>";
+    corps +=
+      "<h2>Option d'Arcane : " +
+      echapperHTML(contenuArcaneWord.option.nom) +
+      "</h2>";
+    corps +=
+      "<p>" + echapperHTML(contenuArcaneWord.option.regle.texte) + "</p>";
+  }
+
   for (const contenuTrait of contenuTraitsFactionSkitariiActuels()) {
     corps +=
       "<h2>Trait de Faction : " + echapperHTML(contenuTrait.nom) + "</h2>";

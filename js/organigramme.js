@@ -45,6 +45,7 @@ const Organigramme = (() => {
     designationAuxilia: "", // id DESIGNATIONS_LEGIONES_AUXILIA ou "" (Solar Auxilia seulement, facultatif)
     chartPrincipal: "", // id d'un Détachement Principal alternatif (famille "principal", Journal Tactica : Zone Mortalis) ou "" (Détachement Principal de Croisade standard) — toute Faction sauf Legio Titanicus, facultatif
     dominion: "", // id DOMINIONS_ETHERIQUES ou "" (Choisir un Dominion Éthérique, Démons de la Tempête de la Ruine seulement)
+    technoArcane: "", // id TECHNO_ARCANES ou "" (Choisir un Techno-arcane Majeur, Mechanicum seulement)
     legionsBrisees: [], // codes LEGIONS choisis (2 ou 3) — Faction Légions Brisées seulement, remplace etat.legion pour cette Faction
     detachements: [],
   };
@@ -114,6 +115,48 @@ const Organigramme = (() => {
     "Dissolution Vorace",
     "Artifice Malveillant",
   ];
+
+  // Techno-arcanes Majeurs (Liber Mechanicum, p. 13/45-51) : Trait de
+  // Faction choisi UNE FOIS pour toute l'Armée Mechanicum (pas par
+  // Détachement ni par Unité) — les Unités génériques portent le
+  // placeholder « [Mechanicum] » qui est remplacé par le choix d'Armée ;
+  // les Unités propres à un Techno-arcane portent le Trait fixe en dur
+  // et restent accessibles seulement si ce Techno-arcane est sélectionné.
+  const TECHNO_ARCANES = [
+    ["archimandrite", "Archimandrite"],
+    ["cybernetica", "Cybernetica"],
+    ["lacrymaerta", "Lacrymaerta"],
+    ["myrmidax", "Myrmidax"],
+    ["reductor", "Reductor"],
+    ["malagra", "Malagra"],
+    ["macrotek", "Macrotek"],
+  ];
+
+  // Options d'Arcane de Mechanicum, une par Techno-arcane, choisies
+  // une seule fois pour toute l'Armée (après sélection du Techno-arcane)
+  const OPTIONS_ARCANES = {
+    archimandrite: [
+      ["theurgika-maximus", "Theurgika Maximus"],
+    ],
+    cybernetica: [
+      ["paragon-de-metal", "Paragon de Métal"],
+    ],
+    lacrymaerta: [
+      ["specimens-de-choix", "Spécimens de Choix"],
+    ],
+    myrmidax: [
+      ["la-voie-du-myrmidion", "La Voie du Myrmidion"],
+    ],
+    reductor: [
+      ["principe-thallakii", "Principe Thallakii"],
+    ],
+    malagra: [
+      ["principe-thallakii", "Principe Thallakii"],
+    ],
+    macrotek: [
+      ["convoyeur-principal", "Convoyeur Principal"],
+    ],
+  };
 
   // Types de Maisonnée du livre d'armée Chevaliers Questoris, choisis
   // à la place d'une Légion pour cette Faction (menu « Maisonnée »,
@@ -869,6 +912,10 @@ const Organigramme = (() => {
   // d'Automates/Maisnie Roturière pour une Armée d'une autre Faction.
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
+    // Détachements d'Apex de Mechanicum réservés à un Techno-arcane
+    if (type.requiertTechnoArcane && type.requiertTechnoArcane !== etat.technoArcane)
+      return false;
+
     if (type.faction)
       return (
         type.faction === etat.faction ||
@@ -2924,6 +2971,7 @@ const Organigramme = (() => {
           designationAuxilia: etat.designationAuxilia,
           chartPrincipal: etat.chartPrincipal,
           dominion: etat.dominion,
+          technoArcane: etat.technoArcane,
           legionsBrisees: etat.legionsBrisees,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
@@ -3032,6 +3080,13 @@ const Organigramme = (() => {
           DOMINIONS_ETHERIQUES.includes(donnees.dominion))
       ) {
         etat.dominion = donnees.dominion;
+      }
+      if (
+        typeof donnees.technoArcane === "string" &&
+        (donnees.technoArcane === "" ||
+          TECHNO_ARCANES.some(([v]) => v === donnees.technoArcane))
+      ) {
+        etat.technoArcane = donnees.technoArcane;
       }
       if (
         Array.isArray(donnees.legionsBrisees) &&
@@ -3861,6 +3916,48 @@ const Organigramme = (() => {
         actualiser();
       });
       ligne.appendChild(groupeParametre(labelDesignation, selectDesignation));
+    } else if (etat.faction === "mechanicum") {
+      // Techno-arcane Majeur (Liber Mechanicum p. 13/45-51) : un unique
+      // choix par Armée, obligatoire avant de pouvoir ajouter des Unités
+      // génériques Mechanicum (voir le verrou dans uniteAccessible,
+      // js/unites.js) — même principe que legionActuelle() pour Legio
+      // Astartes. Les Unités propres à un Techno-arcane fixe restent
+      // accessibles seulement si ce Techno-arcane est sélectionné (voir
+      // uniteAccessible, js/unites.js). Un changement réinitialise
+      // l'Armée (comme Légion/Maisonnée/Rite de Guerre ci-dessus).
+      const labelTechnoArcane = el("label", null, "Techno-arcane Majeur");
+      const selectTechnoArcane = document.createElement("select");
+      selectTechnoArcane.id = "techno-arcane-armee";
+      labelTechnoArcane.htmlFor = selectTechnoArcane.id;
+      ajouterOption(selectTechnoArcane, "", "Choisir Techno-arcane Majeur");
+      for (const [valeur, texte] of TECHNO_ARCANES) {
+        ajouterOption(selectTechnoArcane, valeur, texte);
+      }
+      selectTechnoArcane.value = etat.technoArcane;
+      selectTechnoArcane.addEventListener("change", () => {
+        const nouveauTechnoArcane = selectTechnoArcane.value;
+        if (nouveauTechnoArcane !== etat.technoArcane) {
+          if (
+            !reinitialiserArmeeAvecConfirmation(
+              "Changer de Techno-arcane Majeur réinitialise la liste " +
+                "d'armée et les détachements sélectionnés. Continuer ?",
+            )
+          ) {
+            selectTechnoArcane.value = etat.technoArcane;
+            return;
+          }
+        }
+        etat.technoArcane = nouveauTechnoArcane;
+        actualiser();
+      });
+      ligne.appendChild(groupeParametre(labelTechnoArcane, selectTechnoArcane));
+
+      // Note : Option d'Arcane et Bénéfice d'Arcane sont appliqués
+      // automatiquement selon le Techno-arcane choisi (voir
+      // optionArcaneActuel() et beneficeArcaneActuel() ci-dessous,
+      // consommés par reglesFinales dans js/unites.js). Aucun menu de
+      // sélection d'Option d'Arcane ici — le joueur ne choisit que le
+      // Techno-arcane, tout le reste suit automatiquement.
     }
 
     // Choix de Détachement Principal (Journal Tactica : Zone Mortalis,
@@ -5406,6 +5503,31 @@ const Organigramme = (() => {
     // choisie, même principe que maisonneeActuelle() ci-dessus pour
     // Chevaliers Questoris.
     doctrineCohorteActuelle: () => etat.doctrineCohorte,
+    // Techno-arcane Majeur choisi dans les paramètres de la partie ("" =
+    // aucun, Faction Mechanicum uniquement) : consommé par
+    // traitFactionMechanicumDe (js/unites.js) pour résoudre le
+    // placeholder « [Mechanicum] » des Unités génériques et par
+    // uniteAccessible pour filtrer les Unités réservées à un Techno-arcane.
+    technoArcaneActuel: () => etat.technoArcane,
+    optionArcaneActuel: () => {
+      // Option d'Arcane automatiquement retournée selon le Techno-arcane choisi
+      if (!etat.technoArcane) return null;
+      const options = OPTIONS_ARCANES[etat.technoArcane];
+      return (options && options[0] && options[0][0]) || null; // retourne le premier (et unique) id
+    },
+    beneficeArcaneActuel: () => {
+      // Mapping Techno-arcane → Bénéfice d'Arcane
+      const mapping = {
+        archimandrite: "L'Engrangue d'Autorité",
+        cybernetica: "Le Deus Machina",
+        lacrymaerta: "Une Servitude Sans Fin",
+        myrmidax: "La Force des Âges",
+        reductor: "Brise-muralles",
+        malagra: "Armée Implacablement Soustraite",
+        macrotek: "Protecteur de Fer",
+      };
+      return (etat.technoArcane && mapping[etat.technoArcane]) || null;
+    },
     chartPrincipalActuel: () => etat.chartPrincipal,
     // Désignation de Legiones Auxilia choisie ("" = aucune, Faction
     // Solar Auxilia uniquement, choix facultatif — voir

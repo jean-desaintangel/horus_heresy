@@ -3051,4 +3051,76 @@ const REGLES_DIVERSES = [
     texte:
       "Le Trait Chevaliers Errants est considéré comme un Trait de Faction, au même titre que le Trait [Legiones Astartes] et les autres Traits pouvant lui être substitués. Note du Concepteur : ceci ne déroge pas à la règle selon laquelle toutes les Unités d'un même Détachement doivent partager le même Trait de Faction — une Unité qui compte des Modèles ayant le Trait de Faction Chevaliers Errants ne peut donc être incluse que dans un Détachement dont les autres Unités ont ce même Trait.",
   },
+
+  /* ---------- Bénéfices d'Arcane de Mechanicum (Liber Mechanicum,
+     p. 45-49) : appliqués automatiquement quand le Détachement d'Apex
+     correspondant est sélectionné. ---------- */
+  {
+    nom: "L'Engrangue d'Autorité",
+    texte:
+      "Bénéfice d'Arcane (Archimandrite). On augmente la Valeur de Base des Caractéristiques de Commandement et Sang-froid d'une Figurine nantie de ce Bénéfice d'Arcane de +1. En outre, si cette Figurine est capable de requérir les Unités, elle peut réappliquer une Unité qui a reçu l'Engrangue d'Autorité sans aucun effet sur les Unités composées de Figurines ayant une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
+  },
+  {
+    nom: "Le Deus Machina",
+    texte:
+      "Bénéfice d'Arcane (Cybernetica). Une Unité qui reçoit un choix d'une Figurine nantie du Trait Cybernetica, et toute Figurine de Type Automate peut Contrôler une Unité ayant reçu l'Avantage Principal choisi pour que la Figurine de ladite Unité. On modifie l'Unité des Caractéristiques de Commandement, d'Intelligence et de Volonté, et elle gagne le Sous-type Sergent : la Figurine qui gagne ce bonus connaître comme un Technoprætre qu'à le Trait Cybernetica au regard de l'Influence d'Arcane Le Deus Machina seule fondement.",
+  },
+  {
+    nom: "Une Servitude Sans Fin",
+    texte:
+      "Bénéfice d'Arcane (Lacrymaerta). Une Figurine nantie de ce Bénéfice d'Arcane et de la Règle Spéciale Guerrier-artisan (X) peut utiliser cette dernière pour retirer des Points de Vie perdus aux Figurines de type Infrastructure. À la place, une Figurine Agissante vient remporter un accès à l'ARRIÈRE Cible pour utiliser cette option. Unité qu'on qualifie ici d'Unité Câble à laquelle la Figurine peut appliqué à l'ARRIÈRE Cible la variante de la Règle Spéciale Guerrier-artisan (X) qu'elle possède en contact seul à seul avec la Figurine Agissante.",
+  },
+  {
+    nom: "La Force des Âges",
+    texte:
+      "Bénéfice d'Arcane (Myrmidax). On augmente la Valeur de Base de la Caractéristique de Points de Vie d'une Figurine nantie de ce Bénéfice d'Arcane de +1, et elle gagne les Règles-Spéciales Méditation Martiale, Avance Implacable et Massif (3) ainsi que les Sous-types marchant d'une variante précédente des Modificateurs qui sont par Sous-type État-major (2) sur les Figurines sélectionnées qui en disposent.",
+  },
+  {
+    nom: "Brise-muralles",
+    texte:
+      "Bénéfice d'Arcane (Reductor). Tant qu'une partie de ce Bénéfice d'Arcane fait partie d'une Unité, à l'importque Phase, toute attaque partie d'une Unité qui a été tentée contre cette Unité se voit posséder une Unité qui n'a reçu une Unité à l'ARRIÈRE gagne un modifieur de +1 à la Force de le Tir Bles incitées devant lui être attribuées d'où pour une figure supérieure de ce Bénéfice d'Arcane et aucun effet sur les unités composées uniquement de Figurines qui en ont une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
+  },
+  {
+    nom: "Armée Implacablement Soustraite",
+    texte:
+      "Bénéfice d'Arcane (Malagra). Le modifié de la Règle Spéciale de Capacité de Combat, de Force ou de Tir de cette Unité, à l'importque Phase, toute attaque contre cette Unité qui n'a été tentée contre cette Unité se voit posséder une Unité à l'importque Fortification supplémentaire contre une Attaque de l'ARRIÈRE gagne un modifieur de +1 à la Force de le Tir Bles incitées devant lui être attribuées d'où pour une figure supérieure de ce Bénéfice d'Arcane et aucun effet sur les unités composées uniquement de Figurines qui en ont une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
+  },
+  {
+    nom: "Protecteur de Fer",
+    texte:
+      "Bénéfice d'Arcane (Macrotek). Tant qu'une Figurine soutient de ce Bénéfice d'Arcane se tient à portée 3\" d'une Figure de Type Véhicule qui n'est pas entièrement Hors Combat, une Unité composée d'une quelconque variante de Figurines qui une seule bénéficie de ce Bénéfice d'Arcane n'a aucun effet sur les Unités composées de Figurines ayant une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
+  },
+
+  /* ---------- Options d'Arcane de Mechanicum (Liber Mechanicum,
+     p. 45-49) : choix global d'Armée, une par Techno-arcane. ---------- */
+  {
+    nom: "Theurgika Maximus",
+    texte:
+      "Option d'Arcane (Archimandrite). Un Archimagos ou Archimagos sur Abéant qui sélectionne cette Option d'Arcane comme Choix de Quartier Général peut recevoir la Règle Spéciale Theurgika Maximus présentée ci-dessous par un coût de +10 Points. Une Figurine ayant cette Règle Spéciale peut utiliser des Rites Cybertheurgiques par tour.",
+  },
+  {
+    nom: "Paragon de Métal",
+    texte:
+      "Option d'Arcane (Cybernetica). Une Unité de Type Automate qui sélectionne cette Option d'Arcane gagne l'Avantage Principal que pour une Unité composée uniquement de Figurines de Type Automate. On ne peut sélectionner cet Avantage Principal que pour une Unité comportant une Figurine d'Intelligence et de Volonté, et elle gagne le Sous-type Sergent : la Figurine qui gagne ce bonus connaître comme un Technoprætre qu'à le Trait Cybernetica au regard de l'Influence d'Arcane Le Paragon de Métal seule fondement.",
+  },
+  {
+    nom: "Spécimens de Choix",
+    texte:
+      "Option d'Arcane (Lacrymaerta). On ne peut sélectionner ce choix de Posture que pour une Unité composée uniquement de Figurines de Type Infrastructure qui en ont un seule variante de Sous-type. Chez toutes les Figurines d'une telle Unité : +2 à la Valeur de Base de leur Caractéristique de Force au modifié de +1 à la Valeur de Base de Points de Vie.",
+  },
+  {
+    nom: "La Voie du Myrmidion",
+    texte:
+      "Option d'Arcane (Myrmidax). Quand il choisit une Posture, le Joueur en Contrôle d'une Unité qui a sélectionné cette Option d'Arcane peut choisir entre la Posture disponible et la Posture La Force des Âges listée ci-dessous. Une Figurine qui est sous la forme de la Posture La Force des Âges gagne l'une des Règles Spéciales suivantes, au choix du Joueur en Contrôle : Méditation Martiale, Avance Implacable ou Massif (3).",
+  },
+  {
+    nom: "Principe Thallakii",
+    texte:
+      "Option d'Arcane (Reductor et Malagra). On ne peut sélectionner cet Avantage Principal que pour une Unité de Cohorte de Thallax. Chez toutes les Figurines d'une telle Unité : à l'importque Phase, toute attaque contre cette Unité qui a été tentée reçoit un Sauvegarde Invulnérable 5+ si elle ne possédait pas de Jet de Mitigation de Dégâts. Si l'Unité reçoit déjà un Jet de Mitigation de Dégâts, augmentez sa valeur de +1.",
+  },
+  {
+    nom: "Convoyeur Principal",
+    texte:
+      "Option d'Arcane (Macrotek). Un Véhicule qui sélectionne cette Option d'Arcane gagne une Capacité de Transport augmentée de +2, mais ne peut transporter que des Figurines de Sous-type Transport. Si l'Unité reçoit un Choix de Pied l'Ascencion est modifiée au lieu de désigner la Posture : elle peut ajouter +2 à la place d'une Figurine nommée de ce Bénéfice d'Arcane et aucun effet sur les unités composées uniquement de Figurines qui en ont une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
+  },
 ];

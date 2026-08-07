@@ -35625,7 +35625,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       optionTheurgikaMaximus(),
       ...optionsMagos({ archimagos: true }),
     ],
@@ -35674,7 +35673,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       optionTheurgikaMaximus(),
       ...optionsMagos({ archimagos: true }),
     ],
@@ -35873,7 +35871,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       ...optionsMagos(),
     ],
   },
@@ -35922,7 +35919,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       ...optionsMagos(),
     ],
   },
@@ -36019,7 +36015,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       {
         type: "case",
         id: "bolter",
@@ -36066,7 +36061,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       {
         type: "case",
         id: "bolter",
@@ -36676,7 +36670,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       ...optionsMagos({ armesLourdes: false, equipementMagos: false }),
     ],
   },
@@ -37100,7 +37093,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       ...[1, 2].map((i) => ({
         type: "choix",
         id: "arme-moirax-" + i,
@@ -37147,7 +37139,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       {
         type: "quantite",
         id: "missile",
@@ -37193,7 +37184,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       {
         type: "choix",
         id: "combi-bolters",
@@ -37380,7 +37370,6 @@ const UNITES = [
       },
     ],
     options: [
-      optionTechnoArcane(),
       {
         remplaceIntegral: "Bolter lourd jumelé de Tourelle",
         type: "quantite",
