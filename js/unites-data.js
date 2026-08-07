@@ -14380,6 +14380,7 @@ const UNITES = [
         id: "sergent-epee",
         libelle: "Sergent Motard : remplacer son épée tronçonneuse",
         ajoute: true,
+        remplacePartiel: "Épée tronçonneuse",
         prefixeFiche: "Sergent Motard : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -19688,6 +19689,7 @@ const UNITES = [
         id: "champion-arme",
         libelle: "Champion Templier : échanger son épée énergétique",
         remplace: "Épée énergétique",
+        remplacePartiel: "Épée énergétique",
         prefixeFiche: "Champion Templier : ",
         choix: [
           { nom: "— Conserver l'épée énergétique —", cout: 0 },
@@ -19700,6 +19702,7 @@ const UNITES = [
         id: "champion-pistolet",
         libelle: "Champion Templier : échanger son pistolet bolter",
         remplace: "Pistolet bolter",
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Champion Templier : ",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
@@ -19713,6 +19716,7 @@ const UNITES = [
           "Toute Figurine : échanger son pistolet bolter contre un bouclier de combat",
         ajoute: true,
         parFigurine: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Toute l'unité : ",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
@@ -19729,6 +19733,7 @@ const UNITES = [
           "Toute Figurine : échanger son pistolet bolter contre un pistolet à plasma",
         ajoute: true,
         parFigurine: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Toute l'unité : ",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
@@ -19858,6 +19863,7 @@ const UNITES = [
         id: "sergent-arme",
         libelle: "Sergent Gardien : échanger sa hache énergétique",
         remplace: "Hache énergétique",
+        remplacePartiel: "Hache énergétique",
         prefixeFiche: "Sergent Gardien : ",
         choix: [
           { nom: "— Conserver la hache énergétique —", cout: 0 },
@@ -20353,6 +20359,7 @@ const UNITES = [
         id: "primus-arme",
         libelle: "Prétorien Primus : échanger son épée énergétique",
         remplace: "Épée énergétique",
+        remplacePartiel: "Épée énergétique",
         prefixeFiche: "Prétorien Primus : ",
         choix: [
           { nom: "— Conserver l'épée énergétique —", cout: 0 },
@@ -27886,6 +27893,7 @@ const UNITES = [
         id: "numerologiste-cac",
         libelle: "Le Numérologiste : remplacer son épée tronçonneuse",
         remplace: "Épée tronçonneuse",
+        remplacePartiel: "Épée tronçonneuse",
         prefixeFiche: "Numérologiste : ",
         choix: [
           { nom: "— Conserver l'épée tronçonneuse —", cout: 0 },
@@ -27899,6 +27907,7 @@ const UNITES = [
         id: "numerologiste-pistolet",
         libelle: "Le Numérologiste : remplacer son pistolet bolter",
         remplace: "Pistolet bolter",
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Numérologiste : ",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
@@ -31901,6 +31910,7 @@ const UNITES = [
         libelle: "Maréchal Légat : remplacer le sabre charnabal",
         prefixeFiche: "Maréchal Légat : ",
         remplace: "Sabre charnabal (Maréchal Légat seulement)",
+        remplacePartiel: "Sabre charnabal",
         choix: [
           { nom: "Sabre charnabal (Maréchal Légat seulement)", cout: 0 },
           { nom: "Marteau Thunder", cout: 10 },
@@ -31914,6 +31924,7 @@ const UNITES = [
         libelle: "Maréchal Légat : remplacer le pistolet laser",
         prefixeFiche: "Maréchal Légat : ",
         remplace: "Pistolet laser (Maréchal Légat seulement)",
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "Pistolet laser (Maréchal Légat seulement)", cout: 0 },
           { nom: "Pistolet archéotech", cout: 10 },
@@ -32049,6 +32060,7 @@ const UNITES = [
         libelle: "Capitaine Auxilia : remplacer le sabre charnabal",
         prefixeFiche: "Capitaine Auxilia : ",
         remplace: "Sabre charnabal (Capitaine Auxilia seulement)",
+        remplacePartiel: "Sabre charnabal",
         choix: [
           { nom: "Sabre charnabal (Capitaine Auxilia seulement)", cout: 0 },
           { nom: "Marteau Thunder", cout: 10 },
@@ -32061,6 +32073,7 @@ const UNITES = [
         libelle: "Capitaine Auxilia : remplacer le pistolet laser",
         prefixeFiche: "Capitaine Auxilia : ",
         remplace: "Pistolet laser (Capitaine Auxilia seulement)",
+        remplacePartiel: "Pistolet laser",
         choix: [
           { nom: "Pistolet laser (Capitaine Auxilia seulement)", cout: 0 },
           ...depuisListes(LISTES_AUXILIA.pistolets),
@@ -40396,6 +40409,7 @@ const UNITES = [
         id: "evocatus-melee-bolter",
         libelle: "Evocatus Intendant : remplacer son bolter",
         ajoute: true,
+        remplacePartiel: "Bolter",
         prefixeFiche: "Evocatus Intendant : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -40418,6 +40432,7 @@ const UNITES = [
         libelle:
           "Evocatus Intendant : remplacer son pistolet bolter (Arme de Mêlée)",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Evocatus Intendant : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
@@ -40439,6 +40454,7 @@ const UNITES = [
         id: "evocatus-pistolet",
         libelle: "Evocatus Intendant : remplacer son pistolet bolter",
         ajoute: true,
+        remplacePartiel: "Pistolet bolter",
         prefixeFiche: "Evocatus Intendant : ",
         choix: [
           { nom: "— Aucun échange —", cout: 0 },
