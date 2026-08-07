@@ -36791,6 +36791,15 @@ const UNITES = [
         cout: 10,
       },
       {
+        type: "quantite",
+        id: "baionnette-fusil-foudre",
+        libelle: "Figurines avec Fusil à foudre : ajouter une Baïonnette tronçonneuse",
+        ajoute: "Baïonnette tronçonneuse",
+        parTranche: 1,
+        parTrancheMax: 9,
+        cout: 2,
+      },
+      {
         type: "case",
         id: "bombes-fusion",
         libelle: "Toutes les Figurines : bombes à fusion",
