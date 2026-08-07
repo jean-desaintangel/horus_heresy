@@ -68,6 +68,19 @@ const DETACHEMENTS_CROISES = [
   "maisnie-roturiere",
 ];
 
+// Les sept Techno-arcanes Majeurs du Mechanicum, en tant que noms de Traits.
+// À utiliser aussi bien pour la vérification d'accessibilité que pour les
+// autres contextes où on doit vérifier si un Trait est un Techno-arcane.
+const TRAITS_FACTION_MECHANICUM = [
+  "Archimandrite",
+  "Cybernetica",
+  "Lacrymaerta",
+  "Myrmidax",
+  "Reductor",
+  "Malagra",
+  "Macrotek",
+];
+
 // Cette Unité devient-elle accessible via l'un des DETACHEMENTS_CROISES
 // ci-dessus, présent dans l'Armée et dont les `restrictions` incluent
 // son id ? Ne suffit pas qu'un AUTRE Détachement croisé accepte cet id
@@ -297,18 +310,9 @@ function uniteAccessible(unite) {
     if (factionUnite === "mechanicum" || factionActuelle === "mechanicum") {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
       const technoActuel = Organigramme.technoArcaneActuel();
-      const TRAITS_FACTION_MECHANICUM_ARRAY = [
-        "Archimandrite",
-        "Cybernetica",
-        "Lacrymaerta",
-        "Myrmidax",
-        "Reductor",
-        "Malagra",
-        "Macrotek",
-      ];
       const technoFixe =
         unite.traits &&
-        unite.traits.find((t) => TRAITS_FACTION_MECHANICUM_ARRAY.includes(t));
+        unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t));
       if (technoFixe) {
         // Unité propre à un Techno-arcane fixe : accessible seulement si ce
         // Techno-arcane est sélectionné.
@@ -2320,7 +2324,7 @@ function reglesFinales(unite, variante, instance) {
   if (
     beneficeArcane &&
     (unite.traits.includes("[Mechanicum]") ||
-      TRAITS_FACTION_MECHANICUM_ARRAY.some((t) => unite.traits.includes(t))) &&
+      TRAITS_FACTION_MECHANICUM.some((t) => unite.traits.includes(t))) &&
     !regles.includes(beneficeArcane)
   ) {
     regles = [...regles, beneficeArcane];
@@ -2332,7 +2336,7 @@ function reglesFinales(unite, variante, instance) {
   if (
     optionArcane &&
     (unite.traits.includes("[Mechanicum]") ||
-      TRAITS_FACTION_MECHANICUM_ARRAY.some((t) => unite.traits.includes(t))) &&
+      TRAITS_FACTION_MECHANICUM.some((t) => unite.traits.includes(t))) &&
     !regles.includes(optionArcane)
   ) {
     regles = [...regles, optionArcane];
