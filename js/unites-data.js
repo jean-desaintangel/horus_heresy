@@ -37044,10 +37044,11 @@ const UNITES = [
         type: "choix",
         id: "configuration",
         libelle: "Doit être dotée d'une des deux options suivantes",
+        remplace: "Canon à bolts Mauler jumelé",
         choix: [
-          { nom: "Configuration Cavas : mortier à plasma", cout: 0 },
+          { nom: "Mortier à plasma", cout: 0 },
           {
-            nom: "Configuration Calix : laser lourd Sollex et bélier à gravitons",
+            nom: "Laser lourd Sollex et bélier à gravitons",
             cout: 20,
           },
         ],
