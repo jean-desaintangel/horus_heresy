@@ -68,19 +68,6 @@ const DETACHEMENTS_CROISES = [
   "maisnie-roturiere",
 ];
 
-// Les sept Techno-arcanes Majeurs du Mechanicum, en tant que noms de Traits.
-// À utiliser aussi bien pour la vérification d'accessibilité que pour les
-// autres contextes où on doit vérifier si un Trait est un Techno-arcane.
-const TRAITS_FACTION_MECHANICUM = [
-  "Archimandrite",
-  "Cybernetica",
-  "Lacrymaerta",
-  "Myrmidax",
-  "Reductor",
-  "Malagra",
-  "Macrotek",
-];
-
 // Cette Unité devient-elle accessible via l'un des DETACHEMENTS_CROISES
 // ci-dessus, présent dans l'Armée et dont les `restrictions` incluent
 // son id ? Ne suffit pas qu'un AUTRE Détachement croisé accepte cet id
