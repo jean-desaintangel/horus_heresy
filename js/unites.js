@@ -416,14 +416,6 @@ function budgetQuantite(unite, instance, opt) {
     }
     budget = Math.min(budget, compteReel);
   }
-  // Les options dans un même `groupe` partagent un budget : soustraire
-  // ce que les autres options du groupe ont déjà consommé.
-  if (opt.groupe) {
-    const totalGroupe = quantiteUtilisee(unite, instance, opt);
-    const valeurActuelle = instance.valeurs[opt.id] || 0;
-    const quantiteAutres = totalGroupe - valeurActuelle;
-    budget = Math.max(0, budget - quantiteAutres);
-  }
   return budget;
 }
 
