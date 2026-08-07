@@ -3388,6 +3388,29 @@ let reinitialiserChoixUniteParDefaut = () => {};
 // uniteAccessible) : on bloque donc la sélection d'unité en amont
 // plutôt que de laisser un menu incomplet ou trompeur. Les autres
 // Factions transcrites (Legio Titanicus) n'ont pas de notion de
+// Placeholder du champ de recherche d'unité adapté à la Faction courante.
+function actualiserPlaceholderUnite() {
+  const champUnite = document.getElementById("choix-unite");
+  if (!champUnite) return;
+  const factionActuelle = Organigramme.factionActuelle();
+  const placeholders = {
+    "legio-astartes": "Rechercher une unité… (ex : praetor, tactique, rhino)",
+    "mechanicum": "Rechercher une unité… (ex : Magos, Technoprêtre, Convoyeur Blindé Triaros)",
+    "chevaliers-questoris": "Rechercher une unité… (ex : chevalier, monocanon)",
+    "solar-auxilia": "Rechercher une unité… (ex : Ryfliers, Basilisk)",
+    "legio-titanicus": "Rechercher une unité… (ex : Warbringer, Reaver)",
+    "legio-custodes": "Rechercher une unité… (ex : Sodalité, Valdor)",
+    "anathema-psykana": "Rechercher une unité… (ex : Jenetia, Chevalière)",
+    "skitarii": "Rechercher une unité… (ex : Ordinator, Corpus)",
+    "divisio-assassinorum": "Rechercher une unité… (ex : Assassin, Culexus)",
+    "daemons-ruinstorm": "Rechercher une unité… (ex : Brute, Démon)",
+    "legions-brisees": "Rechercher une unité… (ex : unité, légion brisée)",
+    "blackshields": "Rechercher une unité… (ex : Endryd Haar, unité)",
+  };
+  champUnite.placeholder =
+    placeholders[factionActuelle] || "Rechercher une unité…";
+}
+
 // Légion : leur sélection d'unité se débloque dès la Faction choisie.
 // Rappelé à chaque actualiserSelectsCases (callback surChangement de
 // l'organigramme), donc à chaque changement de Légion ou de Faction.
@@ -3490,6 +3513,7 @@ function actualiserVerrouLegion() {
   ) {
     messageAjout.hidden = true;
   }
+  actualiserPlaceholderUnite();
 }
 
 function actualiserSelectsCases() {
@@ -5592,6 +5616,7 @@ function initialiserChoixUnite() {
     orgaPret && typeof Organigramme !== "undefined"
       ? Organigramme.factionActuelle()
       : "legio-astartes";
+  actualiserPlaceholderUnite();
 
   return () => trouverUnite(uniteId);
 }
