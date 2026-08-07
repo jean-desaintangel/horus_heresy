@@ -416,6 +416,14 @@ function budgetQuantite(unite, instance, opt) {
     }
     budget = Math.min(budget, compteReel);
   }
+  // Les options dans un même `groupe` partagent un budget : soustraire
+  // ce que les autres options du groupe ont déjà consommé.
+  if (opt.groupe) {
+    const totalGroupe = quantiteUtilisee(unite, instance, opt);
+    const valeurActuelle = instance.valeurs[opt.id] || 0;
+    const quantiteAutres = totalGroupe - valeurActuelle;
+    budget = Math.max(0, budget - quantiteAutres);
+  }
   return budget;
 }
 
@@ -2711,13 +2719,25 @@ function synchroniserConfig(carte, unite, instance) {
       });
     } else if (opt.type === "quantite") {
       const champ = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
-      const budget = budgetQuantite(unite, instance, opt);
-      const dispo = budget - quantiteUtilisee(unite, instance, opt);
+      let budget = opt.parTranche
+        ? Math.floor((instance.effectif || 1) / opt.parTranche) *
+          (opt.parTrancheMax || 1)
+        : opt.max || 0;
+      if (opt.requiertEquip) {
+        const comptes = calculerEquipementComptes(unite, instance, opt.id);
+        let compteReel = 0;
+        for (const [nom, n] of comptes) {
+          if (nom.includes(opt.requiertEquip)) compteReel += n;
+        }
+        budget = Math.min(budget, compteReel);
+      }
+      const totalUtilise = quantiteUtilisee(unite, instance, opt);
+      const dispo = Math.max(0, budget - totalUtilise);
       champ.value = String(instance.valeurs[opt.id]);
       // max dynamique : sa propre valeur + ce qui reste du budget
       // (partagé avec les autres options du même groupe).
-      champ.max = String(instance.valeurs[opt.id] + Math.max(0, dispo));
-      champ.disabled = !realisable || budget === 0;
+      champ.max = String(instance.valeurs[opt.id] + dispo);
+      champ.disabled = !realisable || dispo === 0;
     } else {
       const caseACocher = carte.querySelector(
         "#opt-" + instance.uid + "-" + opt.id,
@@ -2997,6 +3017,21 @@ function construireConfig(carte, unite, instance) {
         champ.addEventListener("change", () => {
           let v = Number(champ.value);
           if (!Number.isInteger(v) || v < 0) v = 0;
+          // Les options dans un même groupe partagent un budget :
+          // limiter v au budget disponible pour cette option.
+          if (opt.groupe) {
+            const budgetTheorique = opt.parTranche
+              ? Math.floor((instance.effectif || 1) / opt.parTranche) *
+                (opt.parTrancheMax || 1)
+              : opt.max || 0;
+            const totalGroupeUtilise = quantiteUtilisee(unite, instance, opt);
+            const valeurActuelle = instance.valeurs[opt.id] || 0;
+            const budgetDisponible = Math.max(
+              0,
+              budgetTheorique - (totalGroupeUtilise - valeurActuelle)
+            );
+            v = Math.min(v, valeurActuelle + budgetDisponible);
+          }
           instance.valeurs[opt.id] = v;
           actualiserCarte(carte, unite, instance);
         });
