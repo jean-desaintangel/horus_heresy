@@ -288,28 +288,20 @@ function uniteAccessible(unite) {
       !factionsDebloqueesAvantage.includes(factionUnite)
     )
       return false;
-    // Techno-arcane Majeur Mechanicum : une Unité générique Mechanicum
-    // (trait « [Mechanicum] », pas de Techno-arcane fixe) n'est accessible
-    // que si un Techno-arcane a été choisi dans les paramètres ; une Unité
-    // propre à un Techno-arcane fixe (ex : « Cybernetica ») n'est
-    // accessible que si ce Techno-arcane est sélectionné. Les Unités
-    // d'autres Factions ne sont jamais concernées.
-    if (factionUnite === "mechanicum" || factionActuelle === "mechanicum") {
-      if (!orgaPret || typeof Organigramme === "undefined") return false;
-      const technoActuel = Organigramme.technoArcaneActuel();
-      const technoFixe =
-        unite.traits &&
-        unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t));
-      if (technoFixe) {
-        // Unité propre à un Techno-arcane fixe : accessible seulement si ce
-        // Techno-arcane est sélectionné.
-        if (technoActuel !== technoFixe.toLowerCase()) return false;
-      } else if (unite.traits && unite.traits.includes("[Mechanicum]")) {
-        // Unité générique Mechanicum : accessible seulement si un Techno-arcane
-        // est choisi.
-        if (!technoActuel) return false;
-      }
-    }
+    // Techno-arcane Majeur Mechanicum (Liber Mechanicum p. 13) : toutes les
+    // Unités Mechanicum (fixe ET génériques) sont toujours accessibles dans
+    // le sélecteur « Unité à ajouter ». Le vrai filtrage d'uniformité
+    // intervient au placement : une Unité générique [Mechanicum] peut
+    // choisir librement son Techno-arcane via l'option dédiée, et une Unité
+    // à Techno-arcane FIXE s'impose directement. La restriction d'uniformité
+    // s'applique seulement aux Détachements Auxiliaires/d'Apex (contrôle dans
+    // caseAccepte, js/organigramme.js), pas aux Détachements Principaux/
+    // Alliés/de Seigneur des Batailles où les Techno-arcanes peuvent différer
+    // (Liber Mechanicum p. 13). Le menu « Techno-arcane Majeur » reste utile
+    // pour : affichage sur la page de garde (contenuTraitsFactionMechanicumActuels),
+    // pré-sélection de l'option sur les Unités génériques, et documentation
+    // du Techno-arcane actif pour cette Armée.
+    // Aucun filtrage du sélecteur n'est donc appliqué ici.
     if (unite.legion) {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
       const legionOk =

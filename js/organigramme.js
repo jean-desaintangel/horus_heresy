@@ -1342,10 +1342,17 @@ const Organigramme = (() => {
      aucune autre Unité du Détachement n'a encore de Trait résolu.
      hooks.traitFactionMechanicumDe est fourni par js/unites.js
      (Organigramme.initialiser). */
-  function traitFactionMechanicumEtabliDe(det, excluUid) {
+  function traitFactionMechanicumEtabliDe(det, excluUid, excluBeneficeLogistique = false) {
     if (!hooks.traitFactionMechanicumDe) return null;
     for (const c of det.cases) {
       if (c.uniteUid === null || c.uniteUid === excluUid) continue;
+      // Exclure les Cases créées par Bénéfice Logistique si demandé
+      // (Liber Mechanicum p. 13 : l'Unité sélectionnée via Bénéfice Logistique
+      // peut avoir un Techno-arcane différent du reste du Détachement).
+      if (excluBeneficeLogistique && c.extra &&
+          (c.origineAvantage || "benefice-logistique") === "benefice-logistique") {
+        continue;
+      }
       const occ = occupant(c);
       if (!occ) continue;
       const trait = hooks.traitFactionMechanicumDe(occ.unite, occ.instance);
@@ -1556,13 +1563,15 @@ const Organigramme = (() => {
     // Trait de Faction Mechanicum (Techno-arcane Majeur, Liber
     // Mechanicum p. 13) : uniformité exigée au sein d'un même
     // Détachement Auxiliaire/d'Apex (voir traitFactionMechanicumEtabliDe
-    // ci-dessus). Ne bloque qu'une Unité déjà rattachée à un Techno-
-    // arcane FIXE différent (nom en dur dans `traits`, ex.
-    // "Cybernetica") ; une Unité générique (« [Mechanicum] » dans
-    // `traits`, Techno-arcane choisi par Unité via l'option "techno-
-    // arcane") reste toujours acceptée ici — elle s'aligne automatique-
-    // ment sur le Trait déjà établi, voir traitFactionMechanicumRequisPour
-    // et son utilisation dans synchroniserConfig (js/unites.js).
+    // ci-dessus). Exception : une Unité sélectionnée via Bénéfice
+    // Logistique peut avoir un Techno-arcane différent (p. 13). Ne bloque
+    // qu'une Unité déjà rattachée à un Techno-arcane FIXE différent (nom
+    // en dur dans `traits`, ex. "Cybernetica") ; une Unité générique
+    // (« [Mechanicum] » dans `traits`, Techno-arcane choisi par Unité via
+    // l'option "techno-arcane") reste toujours acceptée ici — elle
+    // s'aligne automatiquement sur le Trait déjà établi, voir
+    // traitFactionMechanicumRequisPour et son utilisation dans
+    // synchroniserConfig (js/unites.js).
     if (
       (type.famille === "auxiliaire" || type.famille === "apex") &&
       unite.faction === "mechanicum" &&
@@ -1572,8 +1581,14 @@ const Organigramme = (() => {
       const traitFixe = unite.traits.find((t) =>
         TRAITS_FACTION_MECHANICUM.includes(t),
       );
-      const traitEtabli = traitFixe && traitFactionMechanicumEtabliDe(det);
-      if (traitEtabli && traitFixe !== traitEtabli) return false;
+      // Si la Case courante est créée par Bénéfice Logistique, pas de restriction
+      const estBeneficeLogistique = caseOrga.extra &&
+        (caseOrga.origineAvantage || "benefice-logistique") === "benefice-logistique";
+      if (!estBeneficeLogistique) {
+        // Exclure les Cases Bénéfice Logistique du calcul du Trait établi
+        const traitEtabli = traitFixe && traitFactionMechanicumEtabliDe(det, null, true);
+        if (traitEtabli && traitFixe !== traitEtabli) return false;
+      }
     }
     // Trait de Faction [Skitarii] (Conclaves Skitarii) : « Toutes les
     // Unités sélectionnées dans un Détachement donné doivent avoir le
@@ -1833,17 +1848,19 @@ const Organigramme = (() => {
      traitFactionMechanicumEtabliDe/caseAccepte ci-dessus), null si
      l'Unité n'occupe aucune Case, si son Détachement n'est pas
      Auxiliaire/d'Apex, ou si aucune autre Unité du Détachement n'a
-     encore de Trait résolu. Consommé par js/unites.js
-     (synchroniserConfig) pour aligner et griser le choix de
-     Techno-arcane Majeur d'une Unité générique une fois placée aux
-     côtés d'une autre déjà rattachée à un Trait. */
+     encore de Trait résolu. Exception : une Unité sur une Case créée
+     par Bénéfice Logistique n'impose aucune contrainte (Liber Mechanicum
+     p. 13). Consommé par js/unites.js (synchroniserConfig) pour aligner
+     et griser le choix de Techno-arcane Majeur d'une Unité générique une
+     fois placée aux côtés d'une autre déjà rattachée à un Trait. */
   function traitFactionMechanicumRequisPour(uniteUid) {
     for (const det of etat.detachements) {
       const caseOrga = det.cases.find((c) => c.uniteUid === uniteUid);
       if (!caseOrga) continue;
       const type = typeDe(det);
       if (type.famille !== "auxiliaire" && type.famille !== "apex") return null;
-      return traitFactionMechanicumEtabliDe(det, uniteUid);
+      // Exclure les Cases Bénéfice Logistique du trait imposé
+      return traitFactionMechanicumEtabliDe(det, uniteUid, true);
     }
     return null;
   }

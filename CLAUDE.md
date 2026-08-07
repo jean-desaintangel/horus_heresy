@@ -664,6 +664,37 @@ Règles Spéciales :
   d'une Unité déclenche un rafraîchissement global
   (`actualiserSelectsCases`), pas seulement local, pour propager
   immédiatement l'alignement aux autres cartes du même Détachement.
+  **Exception Bénéfice Logistique** (Liber Mechanicum p. 13, confirmée
+  2026-08-07) : « l'Unité sélectionnée grâce à cet Avantage Principal
+  peut avoir une variante du Trait Mechanicum différente de celle des
+  autres Unités du Détachement ». Implémentée en marquant les Cases
+  créées par Bénéfice Logistique (`extra: true` et
+  `origineAvantage: "benefice-logistique"`) et en les excluant du calcul
+  du Trait établi du Détachement : `traitFactionMechanicumEtabliDe(det,
+  excluUid, excluBeneficeLogistique = false)` reçoit un 3e paramètre
+  qui exclut les Cases Bénéfice Logistique ; `caseAccepte()` teste
+  `estBeneficeLogistique` et saute la vérification de Trait si la Case
+  courante en est une ; `traitFactionMechanicumRequisPour()` passe
+  `true` pour ne pas forcer l'alignement d'une Unité générique sur un
+  Trait imposé par une autre Unité sur Bénéfice Logistique.
+  **Flexibilité Détachement Principal** (Liber Mechanicum p. 13, révisée
+  2026-08-07) : « dans un Détachement Principal, Allié ou de Seigneur des
+  Batailles, les Unités sélectionnées doivent avoir une variante du Trait
+  de Faction Mechanicum, mais il n'est pas nécessaire qu'elles aient la
+  même variante que les autres Unités du même Détachement » — cette
+  flexibilité était bloquée par un filtrage global du sélecteur basé sur
+  `etat.technoArcane`. Corrigé : le sélecteur « Unité à ajouter »
+  affiche maintenant TOUTES les Unités Mechanicum quelle que soit le
+  Techno-arcane global choisi. Le menu « Techno-arcane Majeur » reste
+  utile pour : affichage sur la page de garde
+  (`contenuTraitsFactionMechanicumActuels`, js/unites.js), pré-sélection
+  de l'option sur les Unités génériques, et documentation du Techno-arcane
+  actif pour cette Armée. Le vrai filtrage d'uniformité s'applique au
+  placement (caseAccepte, Auxiliaire/d'Apex seulement), pas au sélecteur
+  (js/unites.js, uniteAccessible) — une Unité générique [Mechanicum]
+  peut choisir librement son Techno-arcane via l'option dédiée, et une
+  Unité à Techno-arcane FIXE s'impose directement, tous les cas combinés
+  pouvant coexister dans un Détachement Principal.
 
 - **Nouvelle Faction « Conclaves Skitarii » (`faction: "skitarii"`,
   PDF officiel GW « Conclaves Skitarii » 2025, déjà en français —
