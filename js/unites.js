@@ -562,6 +562,33 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
     ajouterCompte(typeof item === "string" ? item : item.nom, effectif * porteurs);
   }
 
+  // Remplacements forcés par les Serments du Moment (Blackshields) :
+  // Le Serment « Les Armes du Désespoir » impose le remplacement OBLIGATOIRE
+  // et EXCLUSIF du Bolter et du Pistolet Bolter par des armes de récupération.
+  // Appliqué AVANT les Options pour que le Bolter/Pistolet bolter soient
+  // déjà remplacés quand les Options les évaluent.
+  if (instance && instance.uid) {
+    try {
+      if (typeof window !== "undefined" && window.Organigramme && typeof window.Organigramme.sermentsDe === "function") {
+        const serments = window.Organigramme.sermentsDe(instance.uid);
+        if (Array.isArray(serments) && serments.includes("armes-desespoir")) {
+          if (comptes.has("Bolter")) {
+            const compteBolter = comptes.get("Bolter");
+            retirer("Bolter", compteBolter);
+            ajouterCompte("Autofusil récupéré", compteBolter);
+          }
+          if (comptes.has("Pistolet bolter")) {
+            const comptePistolet = comptes.get("Pistolet bolter");
+            retirer("Pistolet bolter", comptePistolet);
+            ajouterCompte("Autopistolet récupéré", comptePistolet);
+          }
+        }
+      }
+    } catch (e) {
+      // Silencieusement ignoré si Organigramme n'est pas disponible
+    }
+  }
+
   // Options `quantite` posant `remplaceIntegral` (nom exact d'une
   // entrée d'`equipement`) : plusieurs options distinctes (parfois
   // hors `groupe` commun, ex : Les Larmes de l'Ange, IXe Légion)
@@ -910,6 +937,36 @@ function optionRealisable(unite, instance, opt) {
   if (!optionAllegeanceOk(opt)) return false;
   if (!optionSermentOk(opt, instance)) return false;
   if (!technoArcaneOk(opt, unite, instance)) return false;
+  // Serment du Moment « Les Armes du Désespoir » (Blackshields) : empêche
+  // toute option qui tenterait de remplacer le Bolter ou le Pistolet Bolter,
+  // car ces deux armes DOIVENT être remplacées par une arme de récupération
+  // (exclusivement) quand le Serment est actif.
+  if (
+    orgaPret &&
+    window.Organigramme &&
+    instance &&
+    instance.uid &&
+    Organigramme.sermentsDe(instance.uid).includes("armes-desespoir")
+  ) {
+    // L'option ne peut pas être une case/paire/choix/multi qui tenterait de remplacer
+    // le Bolter ou le Pistolet Bolter (ou les deux pour une paire).
+    if (opt.type === "choix" && (opt.remplace || opt.remplacePartiel)) {
+      const cibles = Array.isArray(opt.remplace || opt.remplacePartiel)
+        ? (opt.remplace || opt.remplacePartiel)
+        : [opt.remplace || opt.remplacePartiel];
+      if (cibles.some((n) => n === "Bolter" || n === "Pistolet bolter")) {
+        return false;
+      }
+    } else if (opt.type === "paire" && opt.remplaceListe) {
+      if (
+        opt.remplaceListe.some((cible) => {
+          const cibles = Array.isArray(cible) ? cible : [cible];
+          return cibles.some((n) => n === "Bolter" || n === "Pistolet bolter");
+        })
+      )
+        return false;
+    }
+  }
   // `interditSiOption: "<id>"` : option indisponible tant qu'une AUTRE
   // option de la même Unité est renseignée (Liber Mechanicum p. 19/22 :
   // Faisceau de conversion/Fusil à plasma phasé/Irradieur ne sont

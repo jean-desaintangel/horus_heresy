@@ -101,6 +101,41 @@
    ============================================================ */
 
 /* ----------------------------------------------------------
+   MÉCANISMES DE REMPLACEMENT FORCÉ PAR SERMENT
+   (Blackshields)
+   ---------------------------------------------------------- */
+
+// Serment du Moment « Les Armes du Désespoir » (Blackshields) :
+// remplace AUTOMATIQUEMENT et EXCLUSIVEMENT le Bolter et le Pistolet
+// Bolter par une arme de récupération. Le joueur CHOISIT laquelle,
+// mais ce n'est pas une option ordinaire : c'est imposé par le Serment.
+// Structure : { sermentId, remplaceListe: [...], choix: [] }
+const REMPLACEMENTS_FORCES_PAR_SERMENT = {
+  "armes-desespoir": {
+    sermentId: "armes-desespoir",
+    // Ces deux armes doivent OBLIGATOIREMENT être remplacées
+    remplaceListe: ["Bolter", "Pistolet bolter"],
+    // Choix disponibles pour chaque remplacement :
+    // Le Bolter peut être remplacé par n'importe quelle arme de tir
+    // Le Pistolet bolter peut être remplacé par n'importe quelle arme de pistolet
+    // (voir plus bas pour les noms exacts)
+    choixTir: [
+      "Autofusil récupéré",
+      "Fusil laser récupéré",
+      "Fusil à pompe récupéré",
+      "Stubber lourd récupéré",
+    ],
+    choixPistolet: [
+      "Autopistolet récupéré",
+      "Pistolet laser récupéré",
+    ],
+    choixMelee: [
+      "Arme de mêlée récupérée",
+    ],
+  },
+};
+
+/* ----------------------------------------------------------
    LISTES D'ÉQUIPEMENT (p. 21)
    Réutilisées par plusieurs unités via leurs options.
    ---------------------------------------------------------- */
@@ -131,41 +166,6 @@ const LISTES_EQUIPEMENT = {
       // Wargear list ») et Les Armes du Désespoir (p. 10, remplacement
       // gratuit du bolter/pistolet bolter — voir CLAUDE.md).
       { nom: "Lame de Halo", cout: 15, requiertSerment: "souillure-xenos" },
-      {
-        nom: "Autofusil récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Autopistolet récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Fusil laser récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Pistolet laser récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Fusil à pompe récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Stubber lourd récupéré",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
-      {
-        nom: "Arme de mêlée récupérée",
-        cout: 0,
-        requiertSerment: "armes-desespoir",
-      },
       // Iron Warriors Legacy Wargear (legacie_wargear.pdf, p. 3).
       { nom: "Masse à gravitons", cout: 15, requiertLegion: "IV" },
       // Night Lords Legacy Wargear (legacie_wargear.pdf, p. 7).
