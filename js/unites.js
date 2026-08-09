@@ -5181,13 +5181,23 @@ function initialiserChoixUnite() {
   // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
   function peuplerSelectLegionAlliee() {
     const select = document.getElementById("choix-legion-unite");
-    if (!select) return;
-    if (!orgaPret || typeof Organigramme === "undefined") {
-      // Organigramme pas prêt, on ne peut pas peupler pour l'instant
+    console.log("peuplerSelectLegionAlliee appelée, select:", select);
+    if (!select) {
+      console.log("Select introuvable");
+      return;
+    }
+    if (!orgaPret) {
+      console.log("orgaPret est false");
+      return;
+    }
+    if (typeof Organigramme === "undefined") {
+      console.log("Organigramme n'existe pas");
       return;
     }
 
     const legionsAlliees = Organigramme.legionsAlliees();
+    console.log("legionsAlliees:", legionsAlliees);
+
     // Supprimer toutes les options sauf la première (défaut)
     while (select.options.length > 1) {
       select.remove(1);
@@ -5195,12 +5205,14 @@ function initialiserChoixUnite() {
 
     // Ajouter une option pour chaque Légion Alliée
     for (const legionCode of legionsAlliees) {
+      console.log("Ajout de la Légion:", legionCode);
       const legionLabel = LEGIONS.find(([code]) => code === legionCode)?.[1] || legionCode;
       const opt = document.createElement("option");
       opt.value = legionCode;
       opt.textContent = legionLabel;
       select.appendChild(opt);
     }
+    console.log("Sélecteur peuplé, options count:", select.options.length);
   }
 
   // Assignera la fonction à la variable globale pour qu'elle puisse être appelée depuis actualiserVerrouLegion
