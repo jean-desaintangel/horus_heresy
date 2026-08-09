@@ -1297,23 +1297,7 @@ function eclaterQuantiteArmeEnergetique(base, groupe) {
     libelle: base.libelle.replace(/arme énergétique/gi, nom),
     groupe: base.groupe || groupe,
     ajoute: base.ajoute.replace(/arme énergétique/gi, nom),
-    remplaceIntegral: base.remplaceIntegral || "Épée tronçonneuse",
   }));
-}
-
-// Zone Mortalis — Charges de sape : Figurines de Sous-type
-// Sergent/État-major/Quartier Général ayant un bouclier d'abordage peuvent
-// ajouter des Charges de sape pour +10 Points.
-function optionChargesDeSape() {
-  return {
-    type: "case",
-    id: "charges-de-sape",
-    libelle: "Charges de sape (+10 pts)",
-    cout: 10,
-    ajoute: "Charges de sape",
-    requiertZoneMortalis: true,
-    requiertBouclierAbordage: true,
-  };
 }
 
 // Copie les items d'une ou plusieurs listes d'équipement en un
@@ -10379,10 +10363,9 @@ const UNITES = [
         type: "case",
         id: "sergent-griffes",
         libelle:
-          "Sergent : paire de griffes Lightning (remplace son épée tronçonneuse, et son pistolet bolter ou son bouclier de combat)",
+          "Sergent : paire de griffes Lightning (remplace son pistolet bolter et son épée tronçonneuse, ou son bouclier de combat et son épée tronçonneuse)",
         cout: 10,
         ajoute: "Sergent : paire de griffes Lightning",
-        remplaceIntegral: "Épée tronçonneuse",
       },
       {
         type: "case",
@@ -10635,7 +10618,6 @@ const UNITES = [
           { nom: "Scanner augure", cout: 10 },
         ],
       },
-      optionChargesDeSape(),
     ],
   },
 
@@ -11754,7 +11736,6 @@ const UNITES = [
           { nom: "Scanner augure", cout: 15 },
         ],
       },
-      optionChargesDeSape(),
     ],
   },
   {
@@ -17471,28 +17452,18 @@ const UNITES = [
     ],
     options: [
       {
-        type: "case",
-        id: "arme-caedere-excoriator",
-        libelle: "Figurine : Hache tronçonneuse Excoriator",
-        cout: 0,
-        ajoute: "Hache tronçonneuse Excoriator",
-        remplace: "Hache tronçonneuse",
-      },
-      {
-        type: "case",
-        id: "arme-caedere-falax",
-        libelle: "Figurine : Paire de falax",
-        cout: 0,
-        ajoute: "Paire de falax",
-        remplace: "Hache tronçonneuse",
-      },
-      {
-        type: "case",
-        id: "arme-caedere-fouet",
-        libelle: "Figurine : Fouet barbelé",
-        cout: 0,
-        ajoute: "Fouet barbelé",
-        remplace: "Hache tronçonneuse",
+        type: "choix",
+        id: "arme-caedere",
+        libelle:
+          "Toute l'unité : arme des Caedere (même profil pour toutes les Figurines)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Marteau météore", cout: 0 },
+          { nom: "Hache tronçonneuse Excoriator", cout: 0 },
+          { nom: "Paire de falax", cout: 0 },
+          { nom: "Fouet barbelé", cout: 0 },
+        ],
       },
       {
         type: "quantite",
