@@ -304,9 +304,13 @@ function uniteAccessible(unite) {
     // Aucun filtrage du sélecteur n'est donc appliqué ici.
     if (unite.legion) {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
+      // Vérifier la Légion choisie dans le sélecteur "Légion pour la sélection d'unité"
+      const selectLegionAliee = document.getElementById("choix-legion-unite");
+      const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
       const legionOk =
         Organigramme.legionActuelle() === unite.legion ||
         Organigramme.legionsAlliees().includes(unite.legion) ||
+        (legionChoisie && legionChoisie === unite.legion) ||
         (legionsBriseesActives &&
           Organigramme.legionsBriseesActuelles().includes(unite.legion));
       if (!legionOk) return false;
@@ -5181,22 +5185,10 @@ function initialiserChoixUnite() {
   // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
   function peuplerSelectLegionAlliee() {
     const select = document.getElementById("choix-legion-unite");
-    console.log("peuplerSelectLegionAlliee appelée, select:", select);
-    if (!select) {
-      console.log("Select introuvable");
-      return;
-    }
-    if (!orgaPret) {
-      console.log("orgaPret est false");
-      return;
-    }
-    if (typeof Organigramme === "undefined") {
-      console.log("Organigramme n'existe pas");
-      return;
-    }
+    if (!select) return;
+    if (!orgaPret || typeof Organigramme === "undefined") return;
 
     const legionsAlliees = Organigramme.legionsAlliees();
-    console.log("legionsAlliees:", legionsAlliees);
 
     // Supprimer toutes les options sauf la première (défaut)
     while (select.options.length > 1) {
@@ -5205,7 +5197,6 @@ function initialiserChoixUnite() {
 
     // Ajouter une option pour chaque Légion Alliée
     for (const legionCode of legionsAlliees) {
-      console.log("Ajout de la Légion:", legionCode);
       const legions = Organigramme.legions();
       const legionLabel = legions.find(([code]) => code === legionCode)?.[1] || legionCode;
       const opt = document.createElement("option");
@@ -5213,7 +5204,6 @@ function initialiserChoixUnite() {
       opt.textContent = legionLabel;
       select.appendChild(opt);
     }
-    console.log("Sélecteur peuplé, options count:", select.options.length);
   }
 
   // Assignera la fonction à la variable globale pour qu'elle puisse être appelée depuis actualiserVerrouLegion
