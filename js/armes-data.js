@@ -5844,4 +5844,19 @@ const ARMES_MELEE = [
       },
     ],
   },
+  {
+    titre: "Armes de Zone Mortalis",
+    armes: [
+      {
+        // Charges de sape (Zone Mortalis) : ajoutées aux Figurines de
+        // Sous-type Sergent/État-major/Quartier Général ayant un bouclier
+        // d'abordage, pour +10 Points. Profil spécial : Initiative de combat 0,
+        // Attaque de Mêlée 1, Force 10, Pénétration d'Armure « - », Dégâts D3+3.
+        nom: "Charges de sape",
+        stats: ["0", "1", "10", "-", "D3+3"],
+        regles: "-",
+        traits: "-",
+      },
+    ],
+  },
 ];
