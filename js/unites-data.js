@@ -10633,7 +10633,6 @@ const UNITES = [
           { nom: "Scanner augure", cout: 10 },
         ],
       },
-    ,
       optionChargesDeSape(),
     ],
   },
