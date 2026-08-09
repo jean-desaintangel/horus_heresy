@@ -5206,7 +5206,8 @@ function initialiserChoixUnite() {
     // Ajouter une option pour chaque Légion Alliée
     for (const legionCode of legionsAlliees) {
       console.log("Ajout de la Légion:", legionCode);
-      const legionLabel = LEGIONS.find(([code]) => code === legionCode)?.[1] || legionCode;
+      const legions = Organigramme.legions();
+      const legionLabel = legions.find(([code]) => code === legionCode)?.[1] || legionCode;
       const opt = document.createElement("option");
       opt.value = legionCode;
       opt.textContent = legionLabel;

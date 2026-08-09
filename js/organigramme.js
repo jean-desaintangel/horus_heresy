@@ -5812,6 +5812,8 @@ const Organigramme = (() => {
           : "")
       );
     },
+    // Tableau des Légions pour accès depuis js/unites.js
+    legions: () => LEGIONS,
   };
 })();
 
