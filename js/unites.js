@@ -5830,6 +5830,7 @@ function initialiser() {
   initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
   boutonAjouter.addEventListener("click", () => {
+    console.log("Bouton Ajouter cliqué");
     // Filet de sécurité : le bouton est normalement désactivé tant que le
     // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
     // une Armée Legio Astartes, Maisonnée manquante pour une Armée
@@ -5847,24 +5848,37 @@ function initialiser() {
           (Organigramme.factionActuelle() === "mechanicum" &&
             Organigramme.technoArcaneActuel() === ""))) ||
       !UNITES.some((u) => uniteAccessible(u))
-    )
+    ) {
+      console.log("Verrous actifs, retour");
       return;
+    }
     const unite = uniteChoisie();
-    if (!unite) return;
+    console.log("Unité choisie:", unite);
+    if (!unite) {
+      console.log("Pas d'unité choisie, retour");
+      return;
+    }
     // Filet de sécurité : la sélection du champ peut dater d'avant un
     // changement de Légion (le champ n'est pas ré-ouvert à chaque
     // changement). Le sélecteur filtre déjà normalement ce cas.
-    if (!uniteAccessible(unite)) return;
+    console.log("Vérification uniteAccessible:", uniteAccessible(unite));
+    if (!uniteAccessible(unite)) {
+      console.log("Unité non accessible, retour");
+      return;
+    }
     // Règle p. 282 : une unité doit occuper une Case de l'Organigramme
     // de Force dont le Rôle Tactique correspond au sien. Sans case
     // libre compatible, l'ajout est refusé et on explique comment
     // débloquer un détachement adapté (exigence UX).
     const libres = Organigramme.casesLibresPour(unite);
+    console.log("Cases libres:", libres.length, libres);
     if (libres.length === 0) {
+      console.log("Aucune case libre, affichage du message");
       messageAjout.textContent = Organigramme.suggestionPourRole(unite);
       messageAjout.hidden = false;
       return;
     }
+    console.log("Cases libres trouvées, ajout de l'unité");
     messageAjout.hidden = true;
     const instance = {
       uid: ++compteurUid,
