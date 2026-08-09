@@ -5877,7 +5877,19 @@ function initialiser() {
     listeCartes.appendChild(construireCarte(instance));
     // Placement automatique dans la première case libre compatible ;
     // modifiable ensuite via le menu « Case occupée » de la carte.
-    Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
+    // Si une Légion est choisie dans le sélecteur "Légion pour la sélection d'unité",
+    // on préfère assigner l'unité au Détachement Allié avec cette Légion.
+    let caseDestination = libres[0];
+    const selectLegionAliee = document.getElementById("choix-legion-unite");
+    const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
+    if (legionChoisie && unite.legion === legionChoisie) {
+      const caseAlliee = libres.find((c) => {
+        const det = Organigramme.detachements().find((d) => d.uid === c.detUid);
+        return det && det.legionAlliee === legionChoisie;
+      });
+      if (caseAlliee) caseDestination = caseAlliee;
+    }
+    Organigramme.assigner(instance.uid, caseDestination.detUid, caseDestination.indice);
   });
 
   boutonTelechargerPDF.addEventListener("click", () => telechargerPDF());
