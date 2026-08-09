@@ -2163,7 +2163,7 @@ const Organigramme = (() => {
             "Aucun crédit de Détachement Auxiliaire : remplissez une Case d'État-major (ou une Case QG non utilisée pour un Apex) dans le Détachement Principal (p. 283).",
         };
       }
-      if (type.deblocage && debloqueursDisponibles(type) <= 0) {
+      if (type.deblocage && type.deblocage.uniteIds && debloqueursDisponibles(type) <= 0) {
         const noms = nomsUnitesParIds(type.deblocage.uniteIds);
         return {
           possible: false,
