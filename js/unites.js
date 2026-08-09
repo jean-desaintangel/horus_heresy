@@ -5171,7 +5171,6 @@ function initialiserChoixUnite() {
   const champ = document.getElementById("choix-unite");
   const bouton = document.getElementById("choix-unite-bouton");
   const liste = document.getElementById("choix-unite-liste");
-  const selectLegion = document.getElementById("choix-legion-unite");
   // Décochée par défaut (voir pages/construction-liste.html) : tant qu'elle ne l'est
   // pas, les unités `legacy: true` (js/unites-data.js) restent hors de
   // la liste déroulante ci-dessous, aussi bien à l'ouverture qu'à la
@@ -5181,7 +5180,8 @@ function initialiserChoixUnite() {
 
   // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
   function peuplerSelectLegionAlliee() {
-    if (!selectLegion) return;
+    const select = document.getElementById("choix-legion-unite");
+    if (!select) return;
     if (!orgaPret || typeof Organigramme === "undefined") {
       // Organigramme pas prêt, on ne peut pas peupler pour l'instant
       return;
@@ -5189,8 +5189,8 @@ function initialiserChoixUnite() {
 
     const legionsAlliees = Organigramme.legionsAlliees();
     // Supprimer toutes les options sauf la première (défaut)
-    while (selectLegion.options.length > 1) {
-      selectLegion.remove(1);
+    while (select.options.length > 1) {
+      select.remove(1);
     }
 
     // Ajouter une option pour chaque Légion Alliée
@@ -5199,7 +5199,7 @@ function initialiserChoixUnite() {
       const opt = document.createElement("option");
       opt.value = legionCode;
       opt.textContent = legionLabel;
-      selectLegion.appendChild(opt);
+      select.appendChild(opt);
     }
   }
 
@@ -5208,7 +5208,8 @@ function initialiserChoixUnite() {
 
   // Retourne true si l'unité est accessible pour la Légion choisie
   function uniteAccessiblePourLegionChoisie(unite) {
-    const legionChoisie = selectLegion ? selectLegion.value : "";
+    const select = document.getElementById("choix-legion-unite");
+    const legionChoisie = select ? select.value : "";
 
     if (!legionChoisie) {
       // Pas de Légion choisie : utiliser le filtre normal
@@ -5735,8 +5736,9 @@ function initialiserChoixUnite() {
   });
 
   // Sélecteur de Légion Alliée : ajouter un listener
-  if (selectLegion) {
-    selectLegion.addEventListener("change", () => {
+  const selectLegionAliee = document.getElementById("choix-legion-unite");
+  if (selectLegionAliee) {
+    selectLegionAliee.addEventListener("change", () => {
       // Mettre à jour la liste des unités filtrées
       const rechercheActive = derniereRecherche !== "";
       if (!liste.hidden || rechercheActive) {
