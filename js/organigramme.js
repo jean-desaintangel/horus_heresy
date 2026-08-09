@@ -4507,6 +4507,10 @@ const Organigramme = (() => {
       }
       c.avantage = "aucun";
     }
+    // Rafraîchir le sélecteur "Légion pour la sélection d'unité"
+    if (typeof peuplerSelectLegionUniteAlliee === "function") {
+      peuplerSelectLegionUniteAlliee();
+    }
     return true;
   }
 
@@ -5395,6 +5399,10 @@ const Organigramme = (() => {
     }
     sauvegarderOrga();
     if (hooks && hooks.surChangement) hooks.surChangement();
+    // Rafraîchir le sélecteur "Légion pour la sélection d'unité" après chaque actualisation
+    if (typeof peuplerSelectLegionUniteAlliee === "function") {
+      peuplerSelectLegionUniteAlliee();
+    }
   }
 
   /* ----------------------------------------------------------
