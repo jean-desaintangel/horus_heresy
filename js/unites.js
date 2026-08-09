@@ -307,12 +307,14 @@ function uniteAccessible(unite) {
       // Vérifier la Légion choisie dans le sélecteur "Légion pour la sélection d'unité"
       const selectLegionAliee = document.getElementById("choix-legion-unite");
       const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
+      console.log("Check légion pour", unite.nom, "- legion:", unite.legion, "legionChoisie:", legionChoisie, "legionsAlliees:", Organigramme.legionsAlliees());
       const legionOk =
         Organigramme.legionActuelle() === unite.legion ||
         Organigramme.legionsAlliees().includes(unite.legion) ||
         (legionChoisie && legionChoisie === unite.legion) ||
         (legionsBriseesActives &&
           Organigramme.legionsBriseesActuelles().includes(unite.legion));
+      console.log("legionOk:", legionOk);
       if (!legionOk) return false;
     }
     // Blackshields (voir CLAUDE.md) : « no Legion specific Units… may
