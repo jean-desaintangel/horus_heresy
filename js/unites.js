@@ -3462,6 +3462,7 @@ function idUniteParDefautPourFaction() {
 // recherche en cours à chaque rafraîchissement non lié à la Faction.
 let derniereFactionCombobox = null;
 let reinitialiserChoixUniteParDefaut = () => {};
+let peuplerSelectLegionUniteAlliee = () => {}; // Set by initialiserChoixUnite
 
 // Tant qu'aucune Légion n'est choisie dans les paramètres de la partie
 // (js/organigramme.js) POUR UNE ARMÉE LEGIO ASTARTES, les unités qui
@@ -3504,6 +3505,8 @@ function actualiserVerrouLegion() {
     derniereFactionCombobox = factionActuelle;
     reinitialiserChoixUniteParDefaut();
   }
+  // Rafraîchir aussi le sélecteur de Légion Alliée chaque fois que l'organigramme change
+  peuplerSelectLegionUniteAlliee();
   // Un Détachement Narratif présent dispense ces verrous (comme
   // uniteAccessible) : toutes les Unités du site y sont sélectionnables
   // sans avoir à choisir de Légion/Maisonnée/Doctrine (voir demande de
@@ -5168,12 +5171,50 @@ function initialiserChoixUnite() {
   const champ = document.getElementById("choix-unite");
   const bouton = document.getElementById("choix-unite-bouton");
   const liste = document.getElementById("choix-unite-liste");
+  const selectLegion = document.getElementById("choix-legion-unite");
   // Décochée par défaut (voir pages/construction-liste.html) : tant qu'elle ne l'est
   // pas, les unités `legacy: true` (js/unites-data.js) restent hors de
   // la liste déroulante ci-dessous, aussi bien à l'ouverture qu'à la
   // frappe.
   const caseLegacies = document.getElementById("afficher-legacies");
   const legaciesAffichees = () => Boolean(caseLegacies && caseLegacies.checked);
+
+  // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
+  function peuplerSelectLegionAlliee() {
+    if (!selectLegion || !orgaPret || typeof Organigramme === "undefined") return;
+
+    const legionsAlliees = Organigramme.legionsAlliees();
+    // Supprimer toutes les options sauf la première
+    while (selectLegion.options.length > 1) {
+      selectLegion.remove(1);
+    }
+
+    // Ajouter une option pour chaque Légion Alliée
+    for (const legionCode of legionsAlliees) {
+      const legionLabel = LEGIONS.find(([code]) => code === legionCode)?.[1] || legionCode;
+      const opt = document.createElement("option");
+      opt.value = legionCode;
+      opt.textContent = legionLabel;
+      selectLegion.appendChild(opt);
+    }
+  }
+
+  // Assignera la fonction à la variable globale pour qu'elle puisse être appelée depuis actualiserVerrouLegion
+  peuplerSelectLegionUniteAlliee = peuplerSelectLegionAlliee;
+
+  // Retourne true si l'unité est accessible pour la Légion choisie
+  function uniteAccessiblePourLegionChoisie(unite) {
+    const legionChoisie = selectLegion ? selectLegion.value : "";
+
+    if (!legionChoisie) {
+      // Pas de Légion choisie : utiliser le filtre normal
+      return uniteAccessible(unite);
+    }
+
+    // Légion choisie : vérifier si l'unité est accessible pour cette Légion
+    if (!unite.legion) return unite.faction === "legio-astartes" || !unite.faction;
+    return unite.legion === legionChoisie;
+  }
 
   // Catégories triées selon ORDRE_CATEGORIES (même ordre que l'ancien
   // menu à <optgroup>).
@@ -5240,7 +5281,7 @@ function initialiserChoixUnite() {
     const accessibles = entrees.filter(
       (e) =>
         e.unite &&
-        uniteAccessible(e.unite) &&
+        uniteAccessiblePourLegionChoisie(e.unite) &&
         (!e.unite.legacy || legaciesAffichees()),
     );
     const defaut =
@@ -5299,7 +5340,7 @@ function initialiserChoixUnite() {
         groupeCourant = entree;
         continue;
       }
-      if (!uniteAccessible(entree.unite)) continue;
+      if (!uniteAccessiblePourLegionChoisie(entree.unite)) continue;
       if (entree.unite.legacy && !legaciesAffichees()) continue;
       if (q && !normaliserTexte(entree.unite.nom).includes(q)) continue;
       uniteesCourantes.push(entree);
@@ -5688,6 +5729,20 @@ function initialiserChoixUnite() {
     const unite = trouverUnite(uniteId);
     if (unite) champ.value = libelle(unite);
   });
+
+  // Sélecteur de Légion Alliée : peupler et ajouter un listener
+  peuplerSelectLegionAlliee();
+  if (selectLegion) {
+    selectLegion.addEventListener("change", () => {
+      // Mettre à jour la liste des unités filtrées
+      const rechercheActive = derniereRecherche !== "";
+      if (!liste.hidden || rechercheActive) {
+        ouvrir(champ.value);
+      }
+      // Réinitialiser la sélection par défaut si le filtre change
+      reinitialiserSelectionParDefaut();
+    });
+  }
 
   reinitialiserSelectionParDefaut();
   // Évite qu'actualiserVerrouLegion() ne rappelle inutilement

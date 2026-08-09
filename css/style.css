@@ -1752,6 +1752,25 @@ footer p {
   font-weight: 700;
 }
 
+.orga-legion-unite-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.orga-legion-unite-selector label {
+  font-weight: 700;
+  margin: 0;
+}
+
+.orga-legion-unite-selector select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--couleur-bordure, #999);
+  border-radius: 0.25rem;
+  background-color: var(--fond, white);
+  color: var(--texte, black);
+}
+
 /* Case « Afficher les unités Legacies » (voir initialiserChoixUnite,
    js/unites.js) : même motif que .armes-filtre-selection
    (pages/armes.html), y compris la cible tactile agrandie de la case
