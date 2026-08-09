@@ -324,8 +324,15 @@ function uniteAccessible(unite) {
       }
     }
 
-    console.log("Check requiertFactionArmee:", unite.requiertFactionArmee, "factionActuelle:", factionActuelle);
+    // Si une Légion est choisie dans le sélecteur "Légion pour la sélection d'unité",
+    // on ignore le check requiertFactionArmee car l'unité sera ajoutée au Détachement Allié
+    const selectLegionAliee2 = document.getElementById("choix-legion-unite");
+    const legionChoisie2 = selectLegionAliee2 ? selectLegionAliee2.value : "";
+    const ignoreRequiertFactionArmee = legionChoisie2 && unite.legion === legionChoisie2;
+
+    console.log("Check requiertFactionArmee:", unite.requiertFactionArmee, "factionActuelle:", factionActuelle, "ignoreRequiertFactionArmee:", ignoreRequiertFactionArmee);
     if (
+      !ignoreRequiertFactionArmee &&
       unite.requiertFactionArmee &&
       unite.requiertFactionArmee !== factionActuelle
     ) {
