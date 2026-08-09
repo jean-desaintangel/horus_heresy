@@ -303,58 +303,48 @@ function uniteAccessible(unite) {
     // du Techno-arcane actif pour cette Armée.
     // Aucun filtrage du sélecteur n'est donc appliqué ici.
     if (unite.legion) {
-      if (!orgaPret || typeof Organigramme === "undefined") {
-        console.log("orgaPret ou Organigramme pas prêt");
-        return false;
-      }
+      if (!orgaPret || typeof Organigramme === "undefined") return false;
       // Vérifier la Légion choisie dans le sélecteur "Légion pour la sélection d'unité"
       const selectLegionAliee = document.getElementById("choix-legion-unite");
       const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
-      console.log("Check légion pour", unite.nom, "- legion:", unite.legion, "legionChoisie:", legionChoisie, "legionsAlliees:", Organigramme.legionsAlliees());
       const legionOk =
         Organigramme.legionActuelle() === unite.legion ||
         Organigramme.legionsAlliees().includes(unite.legion) ||
         (legionChoisie && legionChoisie === unite.legion) ||
         (legionsBriseesActives &&
           Organigramme.legionsBriseesActuelles().includes(unite.legion));
-      console.log("legionOk:", legionOk);
-      if (!legionOk) {
-        console.log("Légion non OK, retour");
-        return false;
-      }
+      if (!legionOk) return false;
     }
 
     // Si une Légion est choisie dans le sélecteur "Légion pour la sélection d'unité",
-    // on ignore le check requiertFactionArmee car l'unité sera ajoutée au Détachement Allié
+    // on ignore les checks requiertFactionArmee et Allégeance car l'unité sera ajoutée
+    // au Détachement Allié avec sa propre configuration
     const selectLegionAliee2 = document.getElementById("choix-legion-unite");
     const legionChoisie2 = selectLegionAliee2 ? selectLegionAliee2.value : "";
     const ignoreRequiertFactionArmee = legionChoisie2 && unite.legion === legionChoisie2;
 
-    console.log("Check requiertFactionArmee:", unite.requiertFactionArmee, "factionActuelle:", factionActuelle, "ignoreRequiertFactionArmee:", ignoreRequiertFactionArmee);
     if (
       !ignoreRequiertFactionArmee &&
       unite.requiertFactionArmee &&
       unite.requiertFactionArmee !== factionActuelle
-    ) {
-      console.log("requiertFactionArmee refuse l'unité");
+    )
       return false;
-    }
 
-    console.log("Check Traits:", unite.traits);
+    // Si une Légion est choisie dans le sélecteur "Légion pour la sélection d'unité",
+    // on ignore le check d'Allégeance car l'unité sera ajoutée au Détachement Allié
     if (
       unite.traits &&
       (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
     ) {
       if (!orgaPret || typeof Organigramme === "undefined") return false;
-      const allegeance = Organigramme.allegeanceActuelle();
-      console.log("Allégeance check - unite traits:", unite.traits, "allegeance actuelle:", allegeance);
-      if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste") {
-        console.log("Loyaliste refuse");
-        return false;
-      }
-      if (unite.traits.includes("Renégat") && allegeance !== "renegat") {
-        console.log("Renégat refuse");
-        return false;
+
+      if (!ignoreRequiertFactionArmee) {
+        // Seulement si on n'ajoute pas à un Détachement Allié
+        const allegeance = Organigramme.allegeanceActuelle();
+        if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste")
+          return false;
+        if (unite.traits.includes("Renégat") && allegeance !== "renegat")
+          return false;
       }
     }
     // Blackshields (voir CLAUDE.md) : « no Legion specific Units… may
@@ -5872,7 +5862,6 @@ function initialiser() {
   initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
   boutonAjouter.addEventListener("click", () => {
-    console.log("Bouton Ajouter cliqué");
     // Filet de sécurité : le bouton est normalement désactivé tant que le
     // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
     // une Armée Legio Astartes, Maisonnée manquante pour une Armée
@@ -5890,37 +5879,24 @@ function initialiser() {
           (Organigramme.factionActuelle() === "mechanicum" &&
             Organigramme.technoArcaneActuel() === ""))) ||
       !UNITES.some((u) => uniteAccessible(u))
-    ) {
-      console.log("Verrous actifs, retour");
+    )
       return;
-    }
     const unite = uniteChoisie();
-    console.log("Unité choisie:", unite);
-    if (!unite) {
-      console.log("Pas d'unité choisie, retour");
-      return;
-    }
+    if (!unite) return;
     // Filet de sécurité : la sélection du champ peut dater d'avant un
     // changement de Légion (le champ n'est pas ré-ouvert à chaque
     // changement). Le sélecteur filtre déjà normalement ce cas.
-    console.log("Vérification uniteAccessible:", uniteAccessible(unite));
-    if (!uniteAccessible(unite)) {
-      console.log("Unité non accessible, retour");
-      return;
-    }
+    if (!uniteAccessible(unite)) return;
     // Règle p. 282 : une unité doit occuper une Case de l'Organigramme
     // de Force dont le Rôle Tactique correspond au sien. Sans case
     // libre compatible, l'ajout est refusé et on explique comment
     // débloquer un détachement adapté (exigence UX).
     const libres = Organigramme.casesLibresPour(unite);
-    console.log("Cases libres:", libres.length, libres);
     if (libres.length === 0) {
-      console.log("Aucune case libre, affichage du message");
       messageAjout.textContent = Organigramme.suggestionPourRole(unite);
       messageAjout.hidden = false;
       return;
     }
-    console.log("Cases libres trouvées, ajout de l'unité");
     messageAjout.hidden = true;
     const instance = {
       uid: ++compteurUid,
