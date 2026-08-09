@@ -5844,4 +5844,15 @@ const ARMES_MELEE = [
       },
     ],
   },
+  {
+    titre: "Armes de Zone Mortalis",
+    armes: [
+      {
+        nom: "Charges de sape",
+        stats: ["0", "1", "10", "-", "D3+3"],
+        regles: "-",
+        traits: "-",
+      },
+    ],
+  },
 ];

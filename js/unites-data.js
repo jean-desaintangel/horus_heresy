@@ -1300,6 +1300,21 @@ function eclaterQuantiteArmeEnergetique(base, groupe) {
   }));
 }
 
+// Zone Mortalis — Charges de sape : Figurines de Sous-type
+// Sergent/État-major/Quartier Général ayant un bouclier d'abordage peuvent
+// ajouter des Charges de sape pour +10 Points.
+function optionChargesDeSape() {
+  return {
+    type: "case",
+    id: "charges-de-sape",
+    libelle: "Charges de sape (+10 pts)",
+    cout: 10,
+    ajoute: "Charges de sape",
+    requiertZoneMortalis: true,
+    requiertBouclierAbordage: true,
+  };
+}
+
 // Copie les items d'une ou plusieurs listes d'équipement en un
 // tableau de choix pour une option "choix". `requiertLegion` (voir
 // LISTES_ARTIFICE_NOCTURNE) est propagé tel quel sur l'entrée générée
@@ -10618,6 +10633,8 @@ const UNITES = [
           { nom: "Scanner augure", cout: 10 },
         ],
       },
+    ,
+      optionChargesDeSape(),
     ],
   },
 
@@ -11721,8 +11738,10 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Nuncio-vox", cout: 15 },
           { nom: "Scanner augure", cout: 15 },
-        ],
-      },
+        ,
+      optionChargesDeSape(),
+    ],
+  },
       {
         type: "choix",
         id: "equipement-legion-2-zm",
@@ -17452,18 +17471,28 @@ const UNITES = [
     ],
     options: [
       {
-        type: "choix",
-        id: "arme-caedere",
-        libelle:
-          "Toute l'unité : arme des Caedere (même profil pour toutes les Figurines)",
-        ajoute: true,
-        obligatoire: true,
-        choix: [
-          { nom: "Marteau météore", cout: 0 },
-          { nom: "Hache tronçonneuse Excoriator", cout: 0 },
-          { nom: "Paire de falax", cout: 0 },
-          { nom: "Fouet barbelé", cout: 0 },
-        ],
+        type: "case",
+        id: "arme-caedere-excoriator",
+        libelle: "Un Saccageur : Hache tronçonneuse Excoriator",
+        cout: 0,
+        ajoute: "Hache tronçonneuse Excoriator",
+        remplace: "Hache énergétique",
+      },
+      {
+        type: "case",
+        id: "arme-caedere-falax",
+        libelle: "Un Saccageur : Paire de falax",
+        cout: 0,
+        ajoute: "Paire de falax",
+        remplace: "Hache énergétique",
+      },
+      {
+        type: "case",
+        id: "arme-caedere-fouet",
+        libelle: "Un Saccageur : Fouet barbelé",
+        cout: 0,
+        ajoute: "Fouet barbelé",
+        remplace: "Hache énergétique",
       },
       {
         type: "quantite",

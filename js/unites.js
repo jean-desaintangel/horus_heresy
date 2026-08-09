@@ -698,6 +698,22 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
           ajouterCompte(nom, compteRole * porteurs);
         }
       }
+      // Support de remplaceIntegral sur les case (ex : paire de griffes qui retire l'épée)
+      if (val && opt.remplaceIntegral) {
+        const cibles = Array.isArray(opt.remplaceIntegral)
+          ? opt.remplaceIntegral
+          : [opt.remplaceIntegral];
+        for (const cible of cibles) {
+          const alternatives = Array.isArray(cible) ? cible : [cible];
+          const cle = alternatives.join("|");
+          const existant = totalRemplaceIntegral.get(cle) || {
+            alternatives,
+            total: 0,
+          };
+          existant.total += compteRole;
+          totalRemplaceIntegral.set(cle, existant);
+        }
+      }
     } else if (opt.type === "paire") {
       if (val) {
         for (const cible of opt.remplaceListe) {
@@ -926,6 +942,25 @@ function technoArcaneOk(cible, unite, instance) {
   return requis.includes(trait);
 }
 
+// Zone Mortalis : l'option n'est accessible que si le Choix de Détachement
+// Principal est l'un des trois Charts Zone Mortalis (Bulwark, Strike Force,
+// LineBreaker). Réservé aux options de Legio Astartes en Zone Mortalis.
+function optionZoneMortalisOk(opt) {
+  if (!opt.requiertZoneMortalis) return true;
+  if (!orgaPret || typeof Organigramme === "undefined") return false;
+  const chart = Organigramme.chartPrincipalActuel();
+  return chart && chart.includes("zone-mortalis");
+}
+
+// Bouclier d'abordage : l'option n'est accessible que si la Figurine
+// a déjà "Bouclier d'abordage" dans son équipement (via une autre option
+// ou équipement fixe). Vérifié sur l'équipement final.
+function optionBouclierAbordageOk(unite, instance) {
+  if (!instance) return false;
+  const finalEquip = equipementFinal(unite, instance);
+  return finalEquip.includes("Bouclier d'abordage");
+}
+
 function optionRealisable(unite, instance, opt) {
   if (!optionPermise(opt, instance)) return false;
   if (
@@ -937,6 +972,8 @@ function optionRealisable(unite, instance, opt) {
   if (!optionAllegeanceOk(opt)) return false;
   if (!optionSermentOk(opt, instance)) return false;
   if (!technoArcaneOk(opt, unite, instance)) return false;
+  if (!optionZoneMortalisOk(opt)) return false;
+  if (opt.requiertBouclierAbordage && !optionBouclierAbordageOk(unite, instance)) return false;
   // Serment du Moment « Les Armes du Désespoir » (Blackshields) : empêche
   // toute option qui tenterait de remplacer le Bolter ou le Pistolet Bolter,
   // car ces deux armes DOIVENT être remplacées par une arme de récupération
@@ -2791,7 +2828,9 @@ function synchroniserConfig(carte, unite, instance) {
       opt.requiertLegion ||
       opt.requiertAllegeance ||
       opt.requiertSerment ||
-      opt.requiertTechnoArcane
+      opt.requiertTechnoArcane ||
+      opt.requiertZoneMortalis ||
+      opt.requiertBouclierAbordage
     ) {
       const controle = carte.querySelector(
         "#opt-" + instance.uid + "-" + opt.id,
@@ -2802,7 +2841,9 @@ function synchroniserConfig(carte, unite, instance) {
           !optionLegionOk(opt, instance) ||
           !optionAllegeanceOk(opt) ||
           !optionSermentOk(opt, instance) ||
-          !technoArcaneOk(opt, unite, instance);
+          !technoArcaneOk(opt, unite, instance) ||
+          !optionZoneMortalisOk(opt) ||
+          !optionBouclierAbordageOk(unite, instance);
     }
     if (opt.type === "choix") {
       const select = carte.querySelector("#opt-" + instance.uid + "-" + opt.id);
