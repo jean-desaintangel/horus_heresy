@@ -303,7 +303,10 @@ function uniteAccessible(unite) {
     // du Techno-arcane actif pour cette Armée.
     // Aucun filtrage du sélecteur n'est donc appliqué ici.
     if (unite.legion) {
-      if (!orgaPret || typeof Organigramme === "undefined") return false;
+      if (!orgaPret || typeof Organigramme === "undefined") {
+        console.log("orgaPret ou Organigramme pas prêt");
+        return false;
+      }
       // Vérifier la Légion choisie dans le sélecteur "Légion pour la sélection d'unité"
       const selectLegionAliee = document.getElementById("choix-legion-unite");
       const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
@@ -315,7 +318,37 @@ function uniteAccessible(unite) {
         (legionsBriseesActives &&
           Organigramme.legionsBriseesActuelles().includes(unite.legion));
       console.log("legionOk:", legionOk);
-      if (!legionOk) return false;
+      if (!legionOk) {
+        console.log("Légion non OK, retour");
+        return false;
+      }
+    }
+
+    console.log("Check requiertFactionArmee:", unite.requiertFactionArmee, "factionActuelle:", factionActuelle);
+    if (
+      unite.requiertFactionArmee &&
+      unite.requiertFactionArmee !== factionActuelle
+    ) {
+      console.log("requiertFactionArmee refuse l'unité");
+      return false;
+    }
+
+    console.log("Check Traits:", unite.traits);
+    if (
+      unite.traits &&
+      (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
+    ) {
+      if (!orgaPret || typeof Organigramme === "undefined") return false;
+      const allegeance = Organigramme.allegeanceActuelle();
+      console.log("Allégeance check - unite traits:", unite.traits, "allegeance actuelle:", allegeance);
+      if (unite.traits.includes("Loyaliste") && allegeance !== "loyaliste") {
+        console.log("Loyaliste refuse");
+        return false;
+      }
+      if (unite.traits.includes("Renégat") && allegeance !== "renegat") {
+        console.log("Renégat refuse");
+        return false;
+      }
     }
     // Blackshields (voir CLAUDE.md) : « no Legion specific Units… may
     // be selected in a Blackshields army » — même sans `unite.legion`
