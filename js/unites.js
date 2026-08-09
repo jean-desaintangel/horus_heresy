@@ -362,11 +362,13 @@ function uniteAccessible(unite) {
     // AvecConfirmation), donc ce contrôle au seul niveau du sélecteur
     // suffit, sans contrepartie nécessaire dans caseAccepte().
     if (
+      !ignoreRequiertFactionArmee &&
       unite.requiertFactionArmee &&
       unite.requiertFactionArmee !== factionActuelle
     )
       return false;
     if (
+      !ignoreRequiertFactionArmee &&
       unite.traits &&
       (unite.traits.includes("Loyaliste") || unite.traits.includes("Renégat"))
     ) {
