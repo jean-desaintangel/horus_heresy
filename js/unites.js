@@ -5181,10 +5181,14 @@ function initialiserChoixUnite() {
 
   // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
   function peuplerSelectLegionAlliee() {
-    if (!selectLegion || !orgaPret || typeof Organigramme === "undefined") return;
+    if (!selectLegion) return;
+    if (!orgaPret || typeof Organigramme === "undefined") {
+      // Organigramme pas prêt, on ne peut pas peupler pour l'instant
+      return;
+    }
 
     const legionsAlliees = Organigramme.legionsAlliees();
-    // Supprimer toutes les options sauf la première
+    // Supprimer toutes les options sauf la première (défaut)
     while (selectLegion.options.length > 1) {
       selectLegion.remove(1);
     }
@@ -5730,8 +5734,7 @@ function initialiserChoixUnite() {
     if (unite) champ.value = libelle(unite);
   });
 
-  // Sélecteur de Légion Alliée : peupler et ajouter un listener
-  peuplerSelectLegionAlliee();
+  // Sélecteur de Légion Alliée : ajouter un listener
   if (selectLegion) {
     selectLegion.addEventListener("change", () => {
       // Mettre à jour la liste des unités filtrées
@@ -5745,6 +5748,8 @@ function initialiserChoixUnite() {
   }
 
   reinitialiserSelectionParDefaut();
+  // Peupler le sélecteur de Légion Alliée une fois que l'organigramme est prêt
+  peuplerSelectLegionAlliee();
   // Évite qu'actualiserVerrouLegion() ne rappelle inutilement
   // reinitialiserSelectionParDefaut() dès son premier passage : on
   // vient de faire l'équivalent ci-dessus, pour la Faction actuelle.
