@@ -3459,16 +3459,20 @@ function construireCarte(instance) {
   carte.draggable = true;
   carte.style.cursor = "move";
   let draggedElement = null;
+  let draggedOverElement = null;
 
   carte.addEventListener("dragstart", (e) => {
     draggedElement = carte;
+    draggedOverElement = null;
     carte.style.opacity = "0.5";
     e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", carte.innerHTML);
   });
 
   carte.addEventListener("dragover", (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
+    draggedOverElement = carte;
     if (carte !== draggedElement && draggedElement) {
       const listeCartes = carte.parentElement;
       const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
@@ -3480,6 +3484,11 @@ function construireCarte(instance) {
         carte.parentElement.insertBefore(draggedElement, carte.nextSibling);
       }
     }
+  });
+
+  carte.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   });
 
   carte.addEventListener("dragend", (e) => {
@@ -3496,6 +3505,13 @@ function construireCarte(instance) {
       armee.splice(0, armee.length, ...nouvelOrdre);
       sauvegarder();
       draggedElement = null;
+      draggedOverElement = null;
+    }
+  });
+
+  carte.addEventListener("dragleave", (e) => {
+    if (draggedOverElement === carte) {
+      draggedOverElement = null;
     }
   });
 
