@@ -179,7 +179,7 @@
 // signalé par le proprio) (js/armes-data.js).
 // v96 : corrige la Cohorte de Thallax (profils, option d'armement individuelle)
 // (js/unites-data.js).
-const CACHE_VERSION = "v109";
+const CACHE_VERSION = "v110";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
