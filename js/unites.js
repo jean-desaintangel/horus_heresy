@@ -3454,6 +3454,96 @@ function construireCarte(instance) {
   // Synchronise les champs restaurés depuis localStorage
   // (valeurs + grisés), sans double sauvegarde inutile.
   actualiserCarte(carte, unite, instance);
+
+  // --- Drag-and-drop : réorganiser les unités à la souris ou au toucher ---
+  carte.draggable = true;
+  carte.style.cursor = "move";
+  let draggedElement = null;
+
+  carte.addEventListener("dragstart", (e) => {
+    draggedElement = carte;
+    carte.style.opacity = "0.5";
+    e.dataTransfer.effectAllowed = "move";
+  });
+
+  carte.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (carte !== draggedElement && draggedElement) {
+      const listeCartes = carte.parentElement;
+      const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
+      const carteCourante = cartes.indexOf(carte);
+      const carteDragee = cartes.indexOf(draggedElement);
+      if (carteCourante < carteDragee) {
+        carte.parentElement.insertBefore(draggedElement, carte);
+      } else {
+        carte.parentElement.insertBefore(draggedElement, carte.nextSibling);
+      }
+    }
+  });
+
+  carte.addEventListener("dragend", (e) => {
+    carte.style.opacity = "1";
+    if (draggedElement) {
+      // Resynchronise l'ordre du tableau `armee` avec l'ordre du DOM
+      const listeCartes = document.getElementById("liste-unites");
+      const nouvelOrdre = Array.from(
+        listeCartes.querySelectorAll(".unite-carte")
+      )
+        .map((c) => c.id.replace("unite-", ""))
+        .map((uid) => armee.find((i) => i.uid === Number(uid)))
+        .filter(Boolean);
+      armee.splice(0, armee.length, ...nouvelOrdre);
+      sauvegarder();
+      draggedElement = null;
+    }
+  });
+
+  // Support du toucher (mobile) : convertir les événements tactiles en drag-and-drop
+  let touchStartY = 0;
+  let touchItem = null;
+  carte.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchItem = carte;
+    carte.style.opacity = "0.5";
+  });
+
+  carte.addEventListener("touchmove", (e) => {
+    if (!touchItem) return;
+    e.preventDefault();
+    const touchY = e.touches[0].clientY;
+    const listeCartes = carte.parentElement;
+    const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
+    for (const autreCartes of cartes) {
+      if (autreCartes === touchItem) continue;
+      const rect = autreCartes.getBoundingClientRect();
+      const milieu = rect.top + rect.height / 2;
+      if (touchY < milieu && touchStartY >= milieu) {
+        listeCartes.insertBefore(touchItem, autreCartes);
+        touchStartY = touchY;
+      } else if (touchY > milieu && touchStartY <= milieu) {
+        listeCartes.insertBefore(touchItem, autreCartes.nextSibling);
+        touchStartY = touchY;
+      }
+    }
+  });
+
+  carte.addEventListener("touchend", (e) => {
+    if (touchItem) {
+      carte.style.opacity = "1";
+      const listeCartes = document.getElementById("liste-unites");
+      const nouvelOrdre = Array.from(
+        listeCartes.querySelectorAll(".unite-carte")
+      )
+        .map((c) => c.id.replace("unite-", ""))
+        .map((uid) => armee.find((i) => i.uid === Number(uid)))
+        .filter(Boolean);
+      armee.splice(0, armee.length, ...nouvelOrdre);
+      sauvegarder();
+      touchItem = null;
+    }
+  });
+
   return carte;
 }
 
