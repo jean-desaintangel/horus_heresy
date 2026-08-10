@@ -25107,7 +25107,7 @@ const UNITES = [
       {
         type: "choix",
         id: "arme-cac",
-        libelle: "Bloc 1 • Chaque Figurine : remplacer la hache tronçonneuse",
+        libelle: "Bloc 1 • Remplacer la hache tronçonneuse",
         remplace: "Hache tronçonneuse",
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
@@ -25122,7 +25122,7 @@ const UNITES = [
       {
         type: "choix",
         id: "pistolet",
-        libelle: "Bloc 2 • Chaque Figurine : remplacer le pistolet bolter",
+        libelle: "Bloc 2 • Remplacer le pistolet bolter",
         remplace: "Pistolet bolter",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
@@ -25135,7 +25135,7 @@ const UNITES = [
         groupe: "arme-speciale",
         parTranche: 5,
         remplace: "de la hache tronçonneuse",
-      }).map(opt => ({ ...opt, libelle: "Bloc 3 • " + opt.libelle })),
+      }).map(opt => ({ ...opt, libelle: "Bloc 3 • Remplacer une fig sur 5" })),
       // Bloc 4 : Un Ravageur peut être doté d'un vexillum
       {
         type: "case",
