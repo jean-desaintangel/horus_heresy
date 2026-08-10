@@ -771,14 +771,28 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
     } else if (opt.type === "quantite") {
       if (val > 0) {
         ajouterCompte(val + " × " + opt.ajoute, val);
-        // `remplaceIntegral` accepte aussi un tableau : une même
-        // option peut faire disparaître PLUSIEURS objets de base à la
-        // fois (ex : « Paire de griffes Lightning » remplaçant à la
-        // fois le bolter ET le pistolet bolter — voir
-        // optionsEscouadeEtatMajorVeteran, js/unites-data.js). Chaque
-        // élément de ce tableau peut lui-même être un tableau
-        // d'alternatives (voir resoudreCible ci-dessus).
-        if (opt.remplaceIntegral) {
+        // `remplace` et `remplaceIntegral` visent tous deux à retirer une
+        // (ou plusieurs) armes de base. `remplace` en retire une seule ;
+        // `remplaceIntegral` en peut retirer plusieurs. Les deux doivent
+        // être cumulés dans totalRemplaceIntegral pour que le count
+        // final tienne compte des deux retraits simultanés (ex : 4
+        // combi-bolter par `remplace` + 4 paires-griffes par
+        // `remplaceIntegral` visent TOUTES DEUX le chargeur volkite).
+        if (opt.remplace) {
+          const cibles = Array.isArray(opt.remplace)
+            ? opt.remplace
+            : [opt.remplace];
+          for (const cible of cibles) {
+            const alternatives = Array.isArray(cible) ? cible : [cible];
+            const cle = alternatives.join("|");
+            const existant = totalRemplaceIntegral.get(cle) || {
+              alternatives,
+              total: 0,
+            };
+            existant.total += val;
+            totalRemplaceIntegral.set(cle, existant);
+          }
+        } else if (opt.remplaceIntegral) {
           const cibles = Array.isArray(opt.remplaceIntegral)
             ? opt.remplaceIntegral
             : [opt.remplaceIntegral];
@@ -1130,12 +1144,13 @@ function optionRealisable(unite, instance, opt) {
   // Pour quantite : vérifier que les armes cibles ne sont pas complètement
   // remplacées (on ne vérifie pas equipSansElle ici car quantite n'échange
   // l'arme que si elle existe à la base, pas de cas "remplace rien").
-  if (opt.type === "quantite" && opt.remplaceIntegral) {
-    const cibles = Array.isArray(opt.remplaceIntegral)
-      ? opt.remplaceIntegral
-      : [opt.remplaceIntegral];
-    if (cibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
-      return false;
+  if (opt.type === "quantite") {
+    const cibles = opt.remplace || opt.remplaceIntegral;
+    if (cibles) {
+      const arraysCibles = Array.isArray(cibles) ? cibles : [cibles];
+      if (arraysCibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
+        return false;
+    }
   }
 
   return true;
