@@ -1333,6 +1333,9 @@ function depuisListes(...listes) {
         ...(item.requiertSerment
           ? { requiertSerment: item.requiertSerment }
           : {}),
+        ...(item.porteurs
+          ? { porteurs: item.porteurs }
+          : {}),
       });
     }
   }
