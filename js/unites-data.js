@@ -1504,6 +1504,20 @@ function optionBombesFusionUnite() {
   };
 }
 
+// Armes spéciales (LISTES_EQUIPEMENT.speciales) filtrées pour exclure
+// les armes Blackshields (`requiertSerment`) qui ne doivent jamais
+// s'afficher dans les unités Legio Astartes génériques. Remplace tous les
+// appels directs à `quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, ...)`.
+// Accepte les mêmes paramètres qu'optionsBombesFusionUnite(), retourne un
+// TABLEAU d'options à répandre au site d'appel (`...optionsArmeSpecialesLegio(...)`).
+function optionsArmeSpecialesLegio(config) {
+  return LISTES_EQUIPEMENT.speciales.items
+    .filter((item) => !item.requiertSerment)
+    .map((item) =>
+      quantiteDepuisListe({ items: [item] }, config)[0]
+    );
+}
+
 // Option récurrente : baïonnette (uniquement si l'arme donnée est
 // conservée — "Bolter" par défaut, ex : "Bolter Kraken" pour les
 // unités qui en sont équipées à la place). Le texte du livre (« Toute
@@ -7726,7 +7740,7 @@ const UNITES = [
     options: [
       ...optionsEscouadeEtatMajorVeteran(
         "Champion Vétéran",
-        ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+        ...optionsArmeSpecialesLegio({
           groupe: "lourde",
           parTranche: 5,
           remplace: "du bolter",
@@ -11791,7 +11805,7 @@ const UNITES = [
         groupe: "arme-principale-appui",
         parTranche: 1,
       }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+      ...optionsArmeSpecialesLegio({
         groupe: "arme-principale-appui",
         parTranche: 1,
       }),
@@ -12436,7 +12450,7 @@ const UNITES = [
         groupe: "tir",
         remplace: "du bolter",
       }),
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+      ...optionsArmeSpecialesLegio({
         remplaceIntegral: "Bolter",
         groupe: "lourde",
         parTranche: 5,
@@ -25089,14 +25103,12 @@ const UNITES = [
       },
     ],
     options: [
+      // Bloc 1 : Remplacer arme tronçonneuse (chaque figurine individuellement)
       {
         type: "choix",
         id: "arme-cac",
-        libelle: "Toute Figurine : remplacer la hache tronçonneuse",
+        libelle: "Bloc 1 • Chaque Figurine : remplacer la hache tronçonneuse",
         remplace: "Hache tronçonneuse",
-        // Toute Figurine (Sergent ET rang-et-fichier) : pas d'ajout
-        // Artifice de Nocturne ici, réservé aux Sous-types État-major/
-        // Champion/Spécialiste/Sergent (LISTES_ARTIFICE_NOCTURNE).
         choix: [
           { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
           {
@@ -25106,28 +25118,52 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
         ],
       },
+      // Bloc 2 : Remplacer pistolet bolter (chaque figurine individuellement)
       {
         type: "choix",
         id: "pistolet",
-        libelle: "Toute Figurine : remplacer le pistolet bolter",
+        libelle: "Bloc 2 • Chaque Figurine : remplacer le pistolet bolter",
         remplace: "Pistolet bolter",
         choix: [
           { nom: "— Conserver le pistolet bolter —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
         ],
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+      // Bloc 3 : Par tranche de cinq figurines, armes spéciales de Légion
+      ...optionsArmeSpecialesLegio({
         remplaceIntegral: "Hache tronçonneuse",
         groupe: "arme-speciale",
         parTranche: 5,
         remplace: "de la hache tronçonneuse",
       }),
+      // Bloc 4 : Un Ravageur peut être doté d'un vexillum
       {
         type: "case",
         id: "vexillum",
-        libelle: "Un Ravageur de cette Unité peut être doté d'un vexillum",
+        libelle: "Bloc 4 • Un Ravageur de cette Unité peut être doté d'un vexillum",
         cout: 10,
         ajoute: "Vexillum",
+      },
+      // Bloc 5 : Jusqu'à deux Ravageur peuvent chacun recevoir un objet de la liste d'équipement de Légion
+      {
+        type: "quantite",
+        id: "equipement-legion-nuncio-vox",
+        libelle: "Bloc 5 • Ravageur : Nuncio-vox — +10 pts par figurine (jusqu'à deux max)",
+        cout: 10,
+        parTranche: 1,
+        parTrancheMax: 2,
+        groupe: "equipement-legion",
+        ajoute: "Nuncio-vox",
+      },
+      {
+        type: "quantite",
+        id: "equipement-legion-scanner-augure",
+        libelle: "Bloc 5 • Ravageur : Scanner augure — +10 pts par figurine (jusqu'à deux max)",
+        cout: 10,
+        parTranche: 1,
+        parTrancheMax: 2,
+        groupe: "equipement-legion",
+        ajoute: "Scanner augure",
       },
       // Sons of Horus Legacy Wargear (sons_of_horus_wargear.pdf),
       // section « Reaver Attack Squad ».
@@ -25434,7 +25470,7 @@ const UNITES = [
           ...depuisListes(LISTES_EQUIPEMENT.pistolets),
         ],
       },
-      ...quantiteDepuisListe(LISTES_EQUIPEMENT.speciales, {
+      ...optionsArmeSpecialesLegio({
         remplaceIntegral: "Hache tronçonneuse",
         groupe: "arme-speciale",
         parTranche: 5,
