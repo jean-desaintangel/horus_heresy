@@ -1273,7 +1273,7 @@ function optionTypeArmeEnergetique(libelle, id = "arme-energetique-type") {
     id,
     libelle,
     obligatoire: true,
-    ajoute: true,
+    remplace: "Arme énergétique",
     choix: CHOIX_ARMES_ENERGETIQUES.filter(
       (c) => !c.requiertLegion || c.toutesFigurines,
     ),
@@ -7406,7 +7406,7 @@ const UNITES = [
     effectif: { base: 3, max: 12, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Chargeur volkite"],
+    equipement: ["Chargeur volkite", "Arme énergétique"],
     variantes: [
       {
         nom: "Escouade d'État-Major Terminator Cataphractii",
@@ -7541,7 +7541,7 @@ const UNITES = [
     effectif: { base: 3, max: 10, cout: 40 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Combi-bolter"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
     variantes: [
       {
         nom: "Escouade d'État-Major Terminator Tartaros",
@@ -8410,7 +8410,7 @@ const UNITES = [
     effectif: { base: 5, max: 12, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Chargeur volkite"],
+    equipement: ["Chargeur volkite", "Arme énergétique"],
     variantes: [
       {
         nom: "Escouade Terminator Cataphractii",
@@ -8597,7 +8597,7 @@ const UNITES = [
     effectif: { base: 5, max: 10, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
-    equipement: ["Combi-bolter"],
+    equipement: ["Combi-bolter", "Arme énergétique"],
     variantes: [
       {
         nom: "Escouade Terminator Tartaros",
