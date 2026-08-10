@@ -8542,6 +8542,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
+        groupe: "melee",
         remplaceIntegral: ["Chargeur volkite", ...ARMES_ENERGETIQUES],
         ajoute: "Paire de griffes Lightning",
       },
@@ -8720,6 +8721,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
         cout: 10,
         parTranche: 1,
+        groupe: "melee",
         ajoute: "Paire de griffes Lightning",
       },
       {
