@@ -7515,6 +7515,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
+        remplaceIntegral: ["Chargeur volkite", "Arme énergétique"],
         ajoute: "Paire de griffes Lightning",
       },
       {
@@ -7649,6 +7650,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
         cout: 10,
         parTranche: 1,
+        remplaceIntegral: ["Combi-bolter", "Arme énergétique"],
         ajoute: "Paire de griffes Lightning",
       },
       {
@@ -8524,6 +8526,7 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "melee",
+        remplaceIntegral: "Arme énergétique",
         ajoute: "Griffe Lightning",
       },
       {
@@ -8534,6 +8537,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
+        remplaceIntegral: "Arme énergétique",
         ajoute: "Gantelet énergétique",
       },
       {
@@ -8544,6 +8548,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
+        remplaceIntegral: "Arme énergétique",
         ajoute: "Poing tronçonneur",
       },
       {
@@ -8554,6 +8559,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
+        remplaceIntegral: "Arme énergétique",
         ajoute: "Marteau Thunder",
       },
       {
@@ -8563,6 +8569,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
+        remplaceIntegral: ["Chargeur volkite", "Arme énergétique"],
         ajoute: "Paire de griffes Lightning",
       },
       {
