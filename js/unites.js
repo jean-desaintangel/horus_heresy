@@ -1074,21 +1074,70 @@ function optionRealisable(unite, instance, opt) {
     )
   )
     return false;
+  // Une option qui remplace une arme (choix/paire/quantite) ne peut pas
+  // être réalisée si une AUTRE option quantite a COMPLÈTEMENT remplacé
+  // cette arme (a atteint son max : val === effectif/parTranche).
+  // Détecte le cas : 5 Paires de griffes Lightning remplacent TOUTES les
+  // Armes énergétiques + Chargeurs volkite → plus rien à remplacer.
+  const verifierArmeRemplaceeCompletement = (cible) => {
+    for (const autreOpt of unite.options) {
+      if (autreOpt.id === opt.id) continue;
+      if (autreOpt.type !== "quantite" || !autreOpt.remplaceIntegral) continue;
+      const val = instance.valeurs[autreOpt.id];
+      const effectif = instance.effectif || 1;
+      const maxPossible = Math.ceil(effectif / autreOpt.parTranche);
+      // Cette option quantite a atteint son max et remplace la cible
+      if (val >= maxPossible) {
+        const cibles = Array.isArray(autreOpt.remplaceIntegral)
+          ? autreOpt.remplaceIntegral
+          : [autreOpt.remplaceIntegral];
+        if (cibles.includes(cible)) return true;
+      }
+    }
+    return false;
+  };
+
   // `opt.remplace`/entrées de `opt.remplaceListe` peuvent être un
   // tableau d'alternatives (« n'importe lequel de ces objets » — voir
   // resoudreCible, equipementFinal ci-dessus) plutôt qu'un nom exact.
   if (opt.type === "choix" && opt.remplace) {
     const cibles = Array.isArray(opt.remplace) ? opt.remplace : [opt.remplace];
-    if (!cibles.some((n) => equipSansElle.includes(n))) return false;
+    // Vérifier que au moins une cible existe ET n'est pas complètement remplacée
+    if (
+      !cibles.some(
+        (n) =>
+          equipSansElle.includes(n) &&
+          !verifierArmeRemplaceeCompletement(n),
+      )
+    )
+      return false;
   }
-  if (
-    opt.type === "paire" &&
-    !opt.remplaceListe.every((cible) => {
-      const cibles = Array.isArray(cible) ? cible : [cible];
-      return cibles.some((n) => equipSansElle.includes(n));
-    })
-  )
-    return false;
+  if (opt.type === "paire") {
+    // Toutes les cibles doivent exister ET ne pas être complètement remplacées
+    if (
+      !opt.remplaceListe.every((cible) => {
+        const cibles = Array.isArray(cible) ? cible : [cible];
+        return cibles.some(
+          (n) =>
+            equipSansElle.includes(n) &&
+            !verifierArmeRemplaceeCompletement(n),
+        );
+      })
+    )
+      return false;
+  }
+
+  // Pour quantite : vérifier que les armes cibles ne sont pas complètement
+  // remplacées (on ne vérifie pas equipSansElle ici car quantite n'échange
+  // l'arme que si elle existe à la base, pas de cas "remplace rien").
+  if (opt.type === "quantite" && opt.remplaceIntegral) {
+    const cibles = Array.isArray(opt.remplaceIntegral)
+      ? opt.remplaceIntegral
+      : [opt.remplaceIntegral];
+    if (cibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
+      return false;
+  }
+
   return true;
 }
 
