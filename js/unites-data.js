@@ -25108,13 +25108,13 @@ const UNITES = [
         remplace: "Hache tronçonneuse",
         parTranche: 1,
         groupe: "bloc-1",
-      }).map(opt => ({ ...opt, libelle: "Bloc 1 • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
+      }).map(opt => ({ ...opt, libelle: "Hache tronçonneuse • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
       // Bloc 2 : Remplacer pistolet bolter (nombre de figurines)
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
         remplace: "Pistolet bolter",
         parTranche: 1,
         groupe: "bloc-2",
-      }).map(opt => ({ ...opt, libelle: "Bloc 2 • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
+      }).map(opt => ({ ...opt, libelle: "Pistolet bolter • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
       // Bloc 3 : Par tranche de cinq figurines, armes spéciales de Légion
       ...optionsArmeSpecialesLegio({
         remplaceIntegral: "Hache tronçonneuse",
