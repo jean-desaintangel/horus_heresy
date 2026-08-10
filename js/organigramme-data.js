@@ -4358,9 +4358,9 @@ const AVANTAGES_PRINCIPAUX = [
     id: "custodes-garde-hetaeron",
     nom: "Garde Hetaeron",
     traitRequis: "[Legio Custodes]",
-    unParArmee: true,
+    unParArmee: 2,
     texte:
-      "Chez l'Unité sélectionnée pour occuper une Case Principale octroyant cet Avantage Principal, on porte à 2 la valeur de X de la Règle Spéciale Guerrier Éternel (X) possédée par les Figurines de Type Infanterie ou Cavalerie qui ont le Trait Legio Custodes. On ne peut sélectionner cet Avantage Principal qu'une fois par Armée, à moins que ladite Armée comprenne au moins une Figurine qui a le Trait Exemple d'Or, auquel cas on peut sélectionner cet Avantage Principal une fois supplémentaire pour chaque Figurine de l'Armée qui a ce Trait (restriction du nombre de Figurines à Exemple d'Or non recomptée automatiquement par ce site — voir CLAUDE.md).",
+      "Chez l'Unité sélectionnée pour occuper une Case Principale octroyant cet Avantage Principal, on porte à 2 la valeur de X de la Règle Spéciale Guerrier Éternel (X) possédée par les Figurines de Type Infanterie ou Cavalerie qui ont le Trait Legio Custodes.",
   },
   /* --- Divisio Assassinorum (livre d'armée officiel). --- */
   {

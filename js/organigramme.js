@@ -2517,9 +2517,10 @@ const Organigramme = (() => {
       }
     }
     for (const avantage of AVANTAGES_PRINCIPAUX) {
+      const maxParArmee = typeof avantage.unParArmee === 'number' ? avantage.unParArmee : (avantage.unParArmee ? 1 : Infinity);
       if (
         avantage.unParArmee &&
-        parIdArmee[avantage.id] > 1 &&
+        parIdArmee[avantage.id] > maxParArmee &&
         // Paradigme de Maisonnée (livre d'armée Chevaliers Questoris) :
         // la restriction 0-1 par Armée saute pour Précepteur/Seigneur
         // Preux si un Détachement de l'Armée a la Maisonnée assortie —
@@ -2535,7 +2536,7 @@ const Organigramme = (() => {
         )
       ) {
         erreurs.push(
-          "« " + avantage.nom + " » ne peut être choisi qu'une fois par Armée.",
+          "« " + avantage.nom + " » ne peut être choisi que " + maxParArmee + " fois par Armée.",
         );
       }
     }
@@ -2735,22 +2736,32 @@ const Organigramme = (() => {
           " » déjà choisi ailleurs dans ce détachement (une seule fois par détachement).";
       } else if (
         avantage.unParArmee &&
-        caseOrga.avantage !== avantage.id &&
-        etat.detachements.some((d) =>
-          d.cases.some((c) => c !== caseOrga && c.avantage === avantage.id),
-        ) &&
-        // Paradigme de Maisonnée : voir le bloc analogue de
-        // validerArmee() ci-dessus.
-        !(
-          avantage.exempteUnParArmeeSiMaisonnee &&
-          maisonneePertinentePourDetachement(det) ===
-            avantage.exempteUnParArmeeSiMaisonnee
-        )
+        caseOrga.avantage !== avantage.id
       ) {
-        raison =
-          "« " +
-          avantage.nom +
-          " » déjà choisi ailleurs dans l'Armée (une seule fois par Armée).";
+        const maxParArmee = typeof avantage.unParArmee === 'number' ? avantage.unParArmee : 1;
+        let countArmee = 0;
+        for (const d of etat.detachements) {
+          for (const c of d.cases) {
+            if (c !== caseOrga && c.avantage === avantage.id) {
+              countArmee++;
+            }
+          }
+        }
+        if (
+          countArmee >= maxParArmee &&
+          // Paradigme de Maisonnée : voir le bloc analogue de
+          // validerArmee() ci-dessus.
+          !(
+            avantage.exempteUnParArmeeSiMaisonnee &&
+            maisonneePertinentePourDetachement(det) ===
+              avantage.exempteUnParArmeeSiMaisonnee
+          )
+        ) {
+          raison =
+            "« " +
+            avantage.nom +
+            " » ne peut être choisi que " + maxParArmee + " fois par Armée.";
+        }
       }
       // Note : une unité QG en Case d'État-major n'est légale QUE via
       // l'Avantage Affectation Spéciale — il est alors verrouillé (non

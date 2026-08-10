@@ -2565,6 +2565,24 @@ function reglesFinales(unite, variante, instance) {
       regles.push(serment.transportGagneRegle);
     }
   }
+
+  // Garde Hetaeron (Legio Custodes) : porte à 2 la valeur de X de
+  // Guerrier Éternel (X) pour les Figurines Infanterie/Cavalerie avec
+  // le Trait Legio Custodes.
+  const avantageDe = Organigramme.avantageDe(instance.uid);
+  if (
+    avantageDe === "custodes-garde-hetaeron" &&
+    (variante.type.includes("Infanterie") ||
+      variante.type.includes("Cavalerie")) &&
+    unite.traits.includes("[Legio Custodes]")
+  ) {
+    regles = regles.map((r) =>
+      r.match(/^Guerrier Éternel \(\d+\)$/)
+        ? "Guerrier Éternel (2)"
+        : r
+    );
+  }
+
   return regles;
 }
 
