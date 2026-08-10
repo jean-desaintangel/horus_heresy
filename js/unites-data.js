@@ -215,7 +215,7 @@ const LISTES_EQUIPEMENT = {
   combinees: {
     nom: "Armes Combinées de Légion",
     items: [
-      { nom: "Combi-bolter", cout: 5 },
+      { nom: "Combi-bolter", cout: 0 },
       { nom: "Combi-lance-flammes", cout: 10 },
       { nom: "Combi-fuseur", cout: 10 },
       { nom: "Combi-plasma", cout: 10 },
