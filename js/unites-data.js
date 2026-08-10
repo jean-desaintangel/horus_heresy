@@ -11199,7 +11199,7 @@ const UNITES = [
     notes:
       "Plate-forme d'armes lourdes rapide adaptée de la plate-forme Javelin, conservant une puissance de feu similaire aux Predator ou aux Sicaran.",
     traits: ["[Allégeance]", "White Scars"],
-    equipement: ["Canon d'assaut Kheres", "Deux autocanons Reaper"],
+    equipement: ["Canon d'assaut Kheres", { nom: "Deux autocanons Reaper", porteurs: 2 }],
     variantes: [
       {
         nom: "Kyzagan",
@@ -14226,7 +14226,7 @@ const UNITES = [
     cout: 220,
     composition: "1 Land Raider Explorator",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Deux canons laser jumelés Latéraux", "Lame de bulldozer"],
+    equipement: [{ nom: "Deux canons laser jumelés Latéraux", porteurs: 2 }, "Lame de bulldozer"],
     notes: "Cette Figurine a un Point d'Accès sur chaque Flanc.",
     variantes: [
       {
@@ -15244,7 +15244,7 @@ const UNITES = [
     cout: 100,
     composition: "1 Predator",
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
-    equipement: ["Canon Predator de Tourelle", "Deux bolters lourds Latéraux"],
+    equipement: ["Canon Predator de Tourelle", { nom: "Deux bolters lourds Latéraux", porteurs: 2 }],
     variantes: [
       {
         nom: "Predator",
@@ -16062,7 +16062,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Blood Angels"],
     notes:
       "Châssis de Dreadnought Contemptor fabriqué exclusivement pour la IXe Légion : un accélérateur externe dorsal ralentit sa chute depuis l'orbite basse ou lui permet un grand bond.",
-    equipement: ["Paire de Serres de Perdition", "Deux lance-flammes lourds"],
+    equipement: ["Paire de Serres de Perdition", { nom: "Deux lance-flammes lourds", porteurs: 2 }],
     variantes: [
       {
         nom: "Contemptor-Incaendius",
@@ -21826,7 +21826,7 @@ const UNITES = [
     traits: ["[Allégeance]"],
     notes:
       "Peu de gens en dehors des forge-artisans les plus anciens de l'Ironwing savent quoi que ce soit des automates de classe Excindio, de colossaux monstres de métal coulés dans un moule inhumain et lâchés sur les ennemis les plus intransigeants seulement. Un maelström de griffes tourbillonnantes et de jets de flamme et de radiations, peu de formations peuvent tenir face à l'une de ces monstruosités une fois lancée sur le champ de bataille, car un Excindio ne connaît ni la pitié ni la retenue, et contrairement aux automates froidement logiques du Mechanicum, il prend un plaisir vicieux au carnage qu'il inflige à l'ennemi. Cette Unité ne peut être incluse que dans des Détachements de la Liste d'Armée Legiones Astartes dont le Détachement Principal a la Faction Dark Angels ; elle ne peut pas être sélectionnée dans un Détachement Allié.",
-    equipement: ["Deux combi-bolters", "Griffes Excindio"],
+    equipement: [{ nom: "Deux combi-bolters", porteurs: 2 }, "Griffes Excindio"],
     variantes: [
       {
         nom: "Excindio",
@@ -31768,7 +31768,7 @@ const UNITES = [
     cout: 150,
     composition: "1 Armigère Helvérien",
     traits: ["[Allégeance]", "[Questoris Familia]"],
-    equipement: ["Deux autocanons Phaëton", "Mitrailleuse"],
+    equipement: [{ nom: "Deux autocanons Phaëton", porteurs: 2 }, "Mitrailleuse"],
     faction: "chevaliers-questoris",
     notes:
       "L'Armigère Helvérien est une plateforme de feu à mouvement rapide emportant une paire d'autocanons Phaëton, et conçue pour lâcher des grêles de tirs lourds en cavalant autour des forces ennemies. Les pilotes chargés de ce devoir protecteur sont rarement issus des lignées principales d'une Maisonnée, et peuvent en être de lointains cousins ayant prouvé leur valeur, lors de tournois ou sur le champ de bataille. Certaines Maisonnées s'abaisseront même à recruter de talentueux prisonniers de guerre, ou les descendants capturés de Maisons rivales, espérant tous atteindre un jour le rang d'Aspirant et rallier la Maisonnée à proprement parler.",
@@ -36415,7 +36415,7 @@ const UNITES = [
     effectif: { base: 2, max: 6, cout: 50 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Deux bolters", "Canon à bolts Mauler", "Chargeurs-choc"],
+    equipement: [{ nom: "Deux bolters", porteurs: 2 }, "Canon à bolts Mauler", "Chargeurs-choc"],
     variantes: [
       {
         nom: "Castellax",
@@ -36840,7 +36840,7 @@ const UNITES = [
     effectif: { base: 2, max: 10, cout: 50 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Cybernetica"],
-    equipement: ["Deux bolters", "Canon à bolts Mauler", "Chargeurs-choc"],
+    equipement: [{ nom: "Deux bolters", porteurs: 2 }, "Canon à bolts Mauler", "Chargeurs-choc"],
     variantes: [
       {
         nom: "Castellax",
@@ -36910,7 +36910,7 @@ const UNITES = [
     traits: ["[Allégeance]", "Cybernetica"],
     notes:
       "Mars Taghmata incorpore un petit nombre d'automates en configuration Infernus, réservés aux actions rapprochées telles que le combat en tunnels ou l'abordage de vaisseaux ennemis. Montant une double rampe d'incinérateurs de purge aux embouchures jumelées, ainsi qu'un appui feu de tunnel, ces Manipules Castellax Infernus sont capables de submerger des ennemis en surnombre par des embrasements meurtriers. Une fois toute résistance vaincue, ils avancent dans les décombres pour achever, à l'aide de leurs lames motorisées, tout ennemi n'ayant pas fait match pour les puissants bâtiments blindés et postures défensives.",
-    equipement: ["Purge incinérateur", "Deux lance-flammes", "Épée énergétique (paire)"],
+    equipement: ["Purge incinérateur", { nom: "Deux lance-flammes", porteurs: 2 }, "Épée énergétique (paire)"],
     variantes: [
       {
         nom: "Castellax",
@@ -41596,7 +41596,7 @@ const UNITES = [
     // trop incohérent après OCR pour une transcription fidèle — même
     // choix déjà fait pour les autres Assassins).
     traits: ["Loyaliste", "Divisio Assassinorum", "Serres de l'Empereur"],
-    equipement: ["Deux pistolets laser", "Datapics syntones"],
+    equipement: [{ nom: "Deux pistolets laser", porteurs: 2 }, "Datapics syntones"],
     variantes: [
       {
         nom: "Assassin Infocyte Vanus",
