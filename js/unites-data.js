@@ -7515,7 +7515,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
-        remplaceIntegral: ["Chargeur volkite", "Arme énergétique"],
+        remplaceIntegral: ["Chargeur volkite", ...ARMES_ENERGETIQUES],
         ajoute: "Paire de griffes Lightning",
       },
       {
@@ -7650,7 +7650,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace combi-bolter ET arme énergétique)",
         cout: 10,
         parTranche: 1,
-        remplaceIntegral: ["Combi-bolter", "Arme énergétique"],
+        remplaceIntegral: ["Combi-bolter", ...ARMES_ENERGETIQUES],
         ajoute: "Paire de griffes Lightning",
       },
       {
@@ -8526,7 +8526,7 @@ const UNITES = [
         cout: 5,
         parTranche: 1,
         groupe: "melee",
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         ajoute: "Griffe Lightning",
       },
       {
@@ -8537,7 +8537,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         ajoute: "Gantelet énergétique",
       },
       {
@@ -8548,7 +8548,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         ajoute: "Poing tronçonneur",
       },
       {
@@ -8559,7 +8559,7 @@ const UNITES = [
         cout: 10,
         parTranche: 1,
         groupe: "melee",
-        remplaceIntegral: "Arme énergétique",
+        remplaceIntegral: ARMES_ENERGETIQUES,
         ajoute: "Marteau Thunder",
       },
       {
@@ -8569,7 +8569,7 @@ const UNITES = [
           "Figurines : paire de griffes Lightning (remplace chargeur volkite ET arme énergétique)",
         cout: 10,
         parTranche: 1,
-        remplaceIntegral: ["Chargeur volkite", "Arme énergétique"],
+        remplaceIntegral: ["Chargeur volkite", ...ARMES_ENERGETIQUES],
         ajoute: "Paire de griffes Lightning",
       },
       {
