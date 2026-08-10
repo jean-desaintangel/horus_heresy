@@ -8469,17 +8469,6 @@ const UNITES = [
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
-      {
-        remplaceIntegral: "Chargeur volkite",
-        type: "quantite",
-        id: "combi-bolters",
-        libelle:
-          "Figurines échangeant leur chargeur volkite contre un combi-bolter",
-        cout: 0,
-        parTranche: 1,
-        groupe: "tir",
-        ajoute: "Combi-bolter (à la place du chargeur volkite)",
-      },
       // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
       // Terminator Cataphractii ayant le Trait Imperial Fists peut
       // échanger GRATUITEMENT son combi-bolter contre un bouclier
@@ -8662,17 +8651,6 @@ const UNITES = [
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
-      {
-        remplaceIntegral: "Combi-bolter",
-        type: "quantite",
-        id: "chargeurs-volkites",
-        libelle:
-          "Figurines échangeant leur combi-bolter contre un chargeur volkite",
-        cout: 0,
-        parTranche: 1,
-        groupe: "tir",
-        ajoute: "Chargeur volkite (à la place du combi-bolter)",
-      },
       // Arsenal des Imperial Fists : « Toute Figurine d'une Escouade
       // Terminator Tartaros ayant le Trait Imperial Fists peut échanger
       // son combi-bolter contre un bouclier Storm modèle Vigil pour
