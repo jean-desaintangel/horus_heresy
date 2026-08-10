@@ -3458,107 +3458,6 @@ function construireCarte(instance) {
   // --- Drag-and-drop : réorganiser les unités à la souris ou au toucher ---
   carte.draggable = true;
   carte.style.cursor = "move";
-  let draggedElement = null;
-  let draggedOverElement = null;
-
-  carte.addEventListener("dragstart", (e) => {
-    draggedElement = carte;
-    draggedOverElement = null;
-    carte.style.opacity = "0.5";
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/html", carte.innerHTML);
-  });
-
-  carte.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-    draggedOverElement = carte;
-    if (carte !== draggedElement && draggedElement) {
-      const listeCartes = carte.parentElement;
-      const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
-      const carteCourante = cartes.indexOf(carte);
-      const carteDragee = cartes.indexOf(draggedElement);
-      if (carteCourante < carteDragee) {
-        carte.parentElement.insertBefore(draggedElement, carte);
-      } else {
-        carte.parentElement.insertBefore(draggedElement, carte.nextSibling);
-      }
-    }
-  });
-
-  carte.addEventListener("drop", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  });
-
-  carte.addEventListener("dragend", (e) => {
-    carte.style.opacity = "1";
-    if (draggedElement) {
-      // Resynchronise l'ordre du tableau `armee` avec l'ordre du DOM
-      const listeCartes = document.getElementById("liste-unites");
-      const nouvelOrdre = Array.from(
-        listeCartes.querySelectorAll(".unite-carte")
-      )
-        .map((c) => c.id.replace("unite-", ""))
-        .map((uid) => armee.find((i) => i.uid === Number(uid)))
-        .filter(Boolean);
-      armee.splice(0, armee.length, ...nouvelOrdre);
-      sauvegarder();
-      draggedElement = null;
-      draggedOverElement = null;
-    }
-  });
-
-  carte.addEventListener("dragleave", (e) => {
-    if (draggedOverElement === carte) {
-      draggedOverElement = null;
-    }
-  });
-
-  // Support du toucher (mobile) : convertir les événements tactiles en drag-and-drop
-  let touchStartY = 0;
-  let touchItem = null;
-  carte.addEventListener("touchstart", (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchItem = carte;
-    carte.style.opacity = "0.5";
-  });
-
-  carte.addEventListener("touchmove", (e) => {
-    if (!touchItem) return;
-    e.preventDefault();
-    const touchY = e.touches[0].clientY;
-    const listeCartes = carte.parentElement;
-    const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
-    for (const autreCartes of cartes) {
-      if (autreCartes === touchItem) continue;
-      const rect = autreCartes.getBoundingClientRect();
-      const milieu = rect.top + rect.height / 2;
-      if (touchY < milieu && touchStartY >= milieu) {
-        listeCartes.insertBefore(touchItem, autreCartes);
-        touchStartY = touchY;
-      } else if (touchY > milieu && touchStartY <= milieu) {
-        listeCartes.insertBefore(touchItem, autreCartes.nextSibling);
-        touchStartY = touchY;
-      }
-    }
-  });
-
-  carte.addEventListener("touchend", (e) => {
-    if (touchItem) {
-      carte.style.opacity = "1";
-      const listeCartes = document.getElementById("liste-unites");
-      const nouvelOrdre = Array.from(
-        listeCartes.querySelectorAll(".unite-carte")
-      )
-        .map((c) => c.id.replace("unite-", ""))
-        .map((uid) => armee.find((i) => i.uid === Number(uid)))
-        .filter(Boolean);
-      armee.splice(0, armee.length, ...nouvelOrdre);
-      sauvegarder();
-      touchItem = null;
-    }
-  });
 
   return carte;
 }
@@ -5393,6 +5292,63 @@ async function telechargerWord() {
    filtrable). Retourne un accesseur donnant l'unité actuellement
    retenue (dernière choisie via clic/Entrée), utilisé par le bouton
    « Ajouter à la liste ». */
+// Initialise le drag-and-drop sur le conteneur des unités
+function initialiserDragAndDrop() {
+  const listeCartes = document.getElementById("liste-unites");
+  if (!listeCartes) return;
+
+  let draggedElement = null;
+
+  listeCartes.addEventListener("dragstart", (e) => {
+    const carte = e.target.closest(".unite-carte");
+    if (!carte) return;
+    draggedElement = carte;
+    carte.style.opacity = "0.5";
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", carte.innerHTML);
+  }, true);
+
+  listeCartes.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+
+    if (!draggedElement) return;
+    const carte = e.target.closest(".unite-carte");
+    if (!carte || carte === draggedElement) return;
+
+    const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
+    const draggedIndex = cartes.indexOf(draggedElement);
+    const targetIndex = cartes.indexOf(carte);
+
+    if (draggedIndex < targetIndex) {
+      carte.parentNode.insertBefore(draggedElement, carte.nextSibling);
+    } else {
+      carte.parentNode.insertBefore(draggedElement, carte);
+    }
+  }, true);
+
+  listeCartes.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+
+  listeCartes.addEventListener("dragend", (e) => {
+    if (draggedElement) {
+      draggedElement.style.opacity = "1";
+      // Resynchronise l'ordre du tableau `armee` avec l'ordre du DOM
+      const nouvelOrdre = Array.from(
+        listeCartes.querySelectorAll(".unite-carte")
+      )
+        .map((c) => c.id.replace("unite-", ""))
+        .map((uid) => armee.find((i) => i.uid === Number(uid)))
+        .filter(Boolean);
+      armee.splice(0, armee.length, ...nouvelOrdre);
+      sauvegarder();
+      draggedElement = null;
+    }
+  }, true);
+}
+
 function initialiserChoixUnite() {
   const champ = document.getElementById("choix-unite");
   const bouton = document.getElementById("choix-unite-bouton");
@@ -6196,6 +6152,7 @@ function initialiser() {
     traitFactionSkitariiDe,
     surChangement: actualiserSelectsCases,
   });
+  initialiserDragAndDrop();
   actualiserTotal();
 }
 
