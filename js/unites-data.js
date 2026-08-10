@@ -25104,16 +25104,6 @@ const UNITES = [
     ],
     options: [
       // Bloc 1 : Remplacer arme tronçonneuse (nombre de figurines)
-      {
-        type: "quantite",
-        id: "bloc-1-epee-tronconneuse",
-        libelle: "Bloc 1 • Remplacer par : Épée tronçonneuse",
-        cout: 0,
-        parTranche: 1,
-        remplace: "Hache tronçonneuse",
-        groupe: "bloc-1",
-        ajoute: "Épée tronçonneuse",
-      },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
         remplace: "Hache tronçonneuse",
         parTranche: 1,
