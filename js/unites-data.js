@@ -25129,7 +25129,7 @@ const UNITES = [
       {
         type: "case",
         id: "vexillum",
-        libelle: "Bloc 4 • Un Ravageur de cette Unité peut être doté d'un vexillum",
+        libelle: "Un Ravageur de cette Unité peut être doté d'un vexillum",
         cout: 10,
         ajoute: "Vexillum",
       },
@@ -25137,7 +25137,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "equipement-legion-nuncio-vox",
-        libelle: "Bloc 5 • Ravageur : Nuncio-vox — +10 pts par figurine (jusqu'à deux max)",
+        libelle: "Ravageur : Nuncio-vox — +10 pts par figurine (jusqu'à deux max)",
         cout: 10,
         parTranche: 1,
         parTrancheMax: 2,
@@ -25147,7 +25147,7 @@ const UNITES = [
       {
         type: "quantite",
         id: "equipement-legion-scanner-augure",
-        libelle: "Bloc 5 • Ravageur : Scanner augure — +10 pts par figurine (jusqu'à deux max)",
+        libelle: "Ravageur : Scanner augure — +10 pts par figurine (jusqu'à deux max)",
         cout: 10,
         parTranche: 1,
         parTrancheMax: 2,
