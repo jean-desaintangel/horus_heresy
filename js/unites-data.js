@@ -25135,7 +25135,7 @@ const UNITES = [
         groupe: "arme-speciale",
         parTranche: 5,
         remplace: "de la hache tronçonneuse",
-      }),
+      }).map(opt => ({ ...opt, libelle: "Bloc 3 • " + opt.libelle })),
       // Bloc 4 : Un Ravageur peut être doté d'un vexillum
       {
         type: "case",
