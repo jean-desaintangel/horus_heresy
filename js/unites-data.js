@@ -7490,16 +7490,11 @@ const UNITES = [
         ajoute:
           "Bouclier Storm modèle Vigil (à la place du chargeur volkite, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
-      {
-        remplaceIntegral: "Chargeur volkite",
-        type: "quantite",
-        id: "armes-combinees",
-        libelle: "Figurines prenant une Arme Combinée de Légion au choix",
-        cout: 10,
-        parTranche: 1,
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         groupe: "tir",
-        ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
-      },
+        remplaceIntegral: "Chargeur volkite",
+        remplace: "du chargeur volkite",
+      }),
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
@@ -7625,16 +7620,11 @@ const UNITES = [
         ajoute:
           "Bouclier Storm modèle Vigil (à la place du combi-bolter, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
-      {
-        remplaceIntegral: "Combi-bolter",
-        type: "quantite",
-        id: "armes-combinees",
-        libelle: "Figurines prenant une Arme Combinée de Légion au choix",
-        cout: 10,
-        parTranche: 1,
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         groupe: "tir",
-        ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
-      },
+        remplaceIntegral: "Combi-bolter",
+        remplace: "du combi-bolter",
+      }),
       optionTypeArmeEnergetique(
         "Type d'arme énergétique (chaque Figurine non autrement équipée)",
       ),
@@ -8507,17 +8497,11 @@ const UNITES = [
         ajoute:
           "Bouclier Storm modèle Vigil (à la place du chargeur volkite, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
-      {
-        remplaceIntegral: "Chargeur volkite",
-        type: "quantite",
-        id: "armes-combinees",
-        libelle:
-          "Figurines prenant une Arme Combinée de Légion au choix (combi-lance-flammes, combi-fuseur, combi-plasma…)",
-        cout: 10,
-        parTranche: 1,
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         groupe: "tir",
-        ajoute: "Arme Combinée de Légion (à la place du chargeur volkite)",
-      },
+        remplaceIntegral: "Chargeur volkite",
+        remplace: "du chargeur volkite",
+      }),
       {
         type: "quantite",
         id: "griffes-l",
@@ -8706,17 +8690,11 @@ const UNITES = [
         ajoute:
           "Bouclier Storm modèle Vigil (à la place du combi-bolter, Sauvegarde Invulnérable 4+, Trait Bouclier, Sous-type Lourd)",
       },
-      {
-        remplaceIntegral: "Combi-bolter",
-        type: "quantite",
-        id: "armes-combinees",
-        libelle:
-          "Figurines prenant une Arme Combinée de Légion au choix (combi-lance-flammes, combi-fuseur, combi-plasma…)",
-        cout: 10,
-        parTranche: 1,
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
         groupe: "tir",
-        ajoute: "Arme Combinée de Légion (à la place du combi-bolter)",
-      },
+        remplaceIntegral: "Combi-bolter",
+        remplace: "du combi-bolter",
+      }),
       {
         type: "quantite",
         id: "griffes-l",
