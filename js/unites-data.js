@@ -305,10 +305,10 @@ const LISTES_EQUIPEMENT = {
   laterales: {
     nom: "Armes Latérales de Légion",
     items: [
-      { nom: "Deux bolters lourds Latéraux", cout: 0 },
-      { nom: "Deux lance-flammes lourds Latéraux", cout: 0 },
-      { nom: "Deux canons laser Latéraux", cout: 20 },
-      { nom: "Deux couleuvrines volkites Latérales", cout: 10 },
+      { nom: "Deux bolters lourds Latéraux", cout: 0, porteurs: 2 },
+      { nom: "Deux lance-flammes lourds Latéraux", cout: 0, porteurs: 2 },
+      { nom: "Deux canons laser Latéraux", cout: 20, porteurs: 2 },
+      { nom: "Deux couleuvrines volkites Latérales", cout: 10, porteurs: 2 },
     ],
   },
 };
@@ -1745,7 +1745,7 @@ function optionLaterauxLegion(...extra) {
     type: "choix",
     id: "bolters-lateraux",
     libelle: "Remplacer les deux bolters lourds Latéraux",
-    remplace: "Deux bolters lourds Latéraux",
+    remplace: { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     choix: [
       { nom: "— Conserver les bolters lourds Latéraux —", cout: 0 },
       ...extra,
@@ -2020,11 +2020,11 @@ const LISTES_AUXILIA = {
   laterales: {
     nom: "Armes Latérales des Auxilia",
     items: [
-      { nom: "Deux bolters lourds Latéraux", cout: 0 },
-      { nom: "Deux lance-flammes lourds Latéraux", cout: 0 },
-      { nom: "Deux multi-lasers Latéraux", cout: 0 },
-      { nom: "Deux autocanons Latéraux", cout: 10 },
-      { nom: "Deux canons laser Latéraux", cout: 20 },
+      { nom: "Deux bolters lourds Latéraux", cout: 0, porteurs: 2 },
+      { nom: "Deux lance-flammes lourds Latéraux", cout: 0, porteurs: 2 },
+      { nom: "Deux multi-lasers Latéraux", cout: 0, porteurs: 2 },
+      { nom: "Deux autocanons Latéraux", cout: 10, porteurs: 2 },
+      { nom: "Deux canons laser Latéraux", cout: 20, porteurs: 2 },
     ],
   },
   pivot: {
@@ -14934,7 +14934,7 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
     equipement: [
       "Bombarde Morbus d'Axe Central",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
@@ -15081,7 +15081,7 @@ const UNITES = [
       "Obusier Kratos de Tourelle",
       "Autocanon coaxial (obusier Kratos)",
       "Deux bolters lourds de Coque (Avant)",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
@@ -15154,7 +15154,7 @@ const UNITES = [
     equipement: [
       "Laser à neutrons d'Axe Central",
       "Bolter lourd de Tourelle",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
@@ -15191,7 +15191,7 @@ const UNITES = [
     equipement: [
       "Autocanon accélérateur jumelé de Tourelle",
       "Bolter lourd de Coque (Avant)",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
@@ -16944,7 +16944,7 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
     equipement: [
       "Canon de siège Dreadhammer d'Axe Central",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
@@ -16979,7 +16979,7 @@ const UNITES = [
     traits: ["[Allégeance]", "[Legiones Astartes]", "Écran de Fumée"],
     equipement: [
       "Batterie laser à neutrons d'Axe Central",
-      "Deux bolters lourds Latéraux",
+      { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
     ],
     variantes: [
       {
