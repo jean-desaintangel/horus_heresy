@@ -1745,7 +1745,7 @@ function optionLaterauxLegion(...extra) {
     type: "choix",
     id: "bolters-lateraux",
     libelle: "Remplacer les deux bolters lourds Latéraux",
-    remplace: { nom: "Deux bolters lourds Latéraux", porteurs: 2 },
+    remplace: "Deux bolters lourds Latéraux",
     choix: [
       { nom: "— Conserver les bolters lourds Latéraux —", cout: 0 },
       ...extra,
