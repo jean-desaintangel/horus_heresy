@@ -25103,32 +25103,28 @@ const UNITES = [
       },
     ],
     options: [
-      // Bloc 1 : Remplacer arme tronçonneuse (chaque figurine individuellement)
+      // Bloc 1 : Remplacer arme tronçonneuse (nombre de figurines)
       {
-        type: "choix",
-        id: "arme-cac",
-        libelle: "Bloc 1 • Remplacer la hache tronçonneuse",
+        type: "quantite",
+        id: "bloc-1-epee-tronconneuse",
+        libelle: "Bloc 1 • Remplacer par : Épée tronçonneuse",
+        cout: 0,
+        parTranche: 1,
         remplace: "Hache tronçonneuse",
-        choix: [
-          { nom: "— Conserver la hache tronçonneuse —", cout: 0 },
-          {
-            nom: "Épée tronçonneuse (à la place de la hache tronçonneuse)",
-            cout: 0,
-          },
-          ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
-        ],
+        groupe: "bloc-1",
+        ajoute: "Épée tronçonneuse",
       },
-      // Bloc 2 : Remplacer pistolet bolter (chaque figurine individuellement)
-      {
-        type: "choix",
-        id: "pistolet",
-        libelle: "Bloc 2 • Remplacer le pistolet bolter",
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
+        remplace: "Hache tronçonneuse",
+        parTranche: 1,
+        groupe: "bloc-1",
+      }).map(opt => ({ ...opt, libelle: "Bloc 1 • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
+      // Bloc 2 : Remplacer pistolet bolter (nombre de figurines)
+      ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
         remplace: "Pistolet bolter",
-        choix: [
-          { nom: "— Conserver le pistolet bolter —", cout: 0 },
-          ...depuisListes(LISTES_EQUIPEMENT.pistolets),
-        ],
-      },
+        parTranche: 1,
+        groupe: "bloc-2",
+      }).map(opt => ({ ...opt, libelle: "Bloc 2 • Remplacer par : " + opt.ajoute.replace(/\s*\(.*?\)\s*/g, '').trim() })),
       // Bloc 3 : Par tranche de cinq figurines, armes spéciales de Légion
       ...optionsArmeSpecialesLegio({
         remplaceIntegral: "Hache tronçonneuse",
