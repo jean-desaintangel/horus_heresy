@@ -10905,8 +10905,8 @@ const UNITES = [
         cout: 25,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute:
-          "Destructeur laser (à la place de la batterie de bolters lourds Gravis)",
+        remplace: "Châssis Rapier : Batterie de bolters lourds Gravis",
+        ajoute: "Destructeur laser",
       },
       {
         type: "quantite",
@@ -10916,8 +10916,8 @@ const UNITES = [
         cout: 20,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute:
-          "Canon à gravitons (à la place de la batterie de bolters lourds Gravis)",
+        remplace: "Châssis Rapier : Batterie de bolters lourds Gravis",
+        ajoute: "Canon à gravitons",
       },
       {
         type: "quantite",
@@ -10927,8 +10927,8 @@ const UNITES = [
         cout: 20,
         parTranche: 1,
         groupe: "arme-rapier",
-        ajoute:
-          "Lanceur quadruple (à la place de la batterie de bolters lourds Gravis)",
+        remplace: "Châssis Rapier : Batterie de bolters lourds Gravis",
+        ajoute: "Lanceur quadruple",
       },
       {
         type: "quantite",
