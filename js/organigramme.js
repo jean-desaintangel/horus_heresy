@@ -25,13 +25,16 @@
 
 /* ----------------------------------------------------------
    ÉTAT
-   Un détachement = { uid, typeId, cases: [...] }
+   Un détachement = { uid, typeId, cases: [...], parent: uid, ... }
    Une case = { role, principale, uniteUid, avantage, extra }
    - uniteUid : uid de l'instance d'unité (gérée par js/unites.js)
      qui occupe la case, ou null si la case est libre ;
    - avantage : id d'AVANTAGES_PRINCIPAUX (cases principales) ;
    - extra    : true si la case a été ajoutée par l'avantage
      « Bénéfice Logistique » (role choisi par le joueur).
+   - parent   : uid du Détachement Principal ou Allié auquel ce
+     Détachement Auxiliaire/d'Apex est lié (pour les crédits de
+     déblocage). Principal/Allié n'ont pas de parent (null).
    ---------------------------------------------------------- */
 const Organigramme = (() => {
   let etat = {
@@ -1249,7 +1252,7 @@ const Organigramme = (() => {
     );
   }
 
-  function creerDetachement(typeId) {
+  function creerDetachement(typeId, parentUid = null) {
     const type = typeParId(typeId);
     // Faction propre à ce Détachement Allié (menu « Faction Alliée » sur
     // sa carte, uniquement affiché pour une Armée Legio Titanicus — voir
@@ -1260,9 +1263,14 @@ const Organigramme = (() => {
     // pour tout autre type de détachement.
     const factionAllieeDefaut =
       etat.faction === "legio-titanicus" ? "" : "legio-astartes";
+    const uid = ++compteurDet;
     return {
-      uid: ++compteurDet,
+      uid,
       typeId,
+      // Détachement Principal/Allié dont ce Détachement Auxiliaire/d'Apex
+      // hérite les crédits de déblocage. Null pour Principal/Allié/Apex
+      // indépendant (par défaut).
+      parent: parentUid || null,
       factionAlliee: type.id === "allie" ? factionAllieeDefaut : null,
       // Légion (Faction, p. 283) propre à ce Détachement Allié, choisie
       // sur sa carte — voir construireDetachementDOM et caseAccepte().
@@ -1947,35 +1955,67 @@ const Organigramme = (() => {
      disponibles » ; ceux débloqués par une Case d'Appui (Cénacle,
      Apothecarion) s'ajoutent sans consommer de crédit.
      ---------------------------------------------------------- */
-  function calculerCredits() {
+  /* Calcule les crédits de déblocage pour un Détachement spécifique
+     (optionnel) ou globalement (par défaut). `parentUid` = uid du
+     Détachement Principal/Allié dont on veut compter les crédits ;
+     null = compte globalement (comportement antérieur, réservé à la
+     validation d'Armée et au calcul de disponibilité au niveau
+     Principal). */
+  function calculerCredits(parentUid = null) {
     let creditsEM = 0;
     let qgRemplis = 0;
-    for (const det of etat.detachements) {
-      if (typeDe(det).pasDeCredit) continue;
-      for (const caseOrga of det.cases) {
-        const occ = occupant(caseOrga);
-        if (!occ) continue;
-        if (caseOrga.role === "Quartier Général") qgRemplis += 1;
-        if (
-          caseOrga.role === "État-major" &&
-          caseOrga.avantage !== "affectation-speciale"
-        ) {
-          // Une unité QG placée via Affectation Spéciale ne compte pas.
-          creditsEM +=
-            occ.unite.categorie === "État-major"
-              ? valeurOfficierDeLigne(occ, caseOrga)
-              : 0;
+
+    if (parentUid === null) {
+      // Calcul global : compte tous les crédits de tous les Détachements
+      // Principal/Allié, puis les Auxiliaires/Apex attachés.
+      for (const det of etat.detachements) {
+        if (typeDe(det).pasDeCredit) continue;
+        for (const caseOrga of det.cases) {
+          const occ = occupant(caseOrga);
+          if (!occ) continue;
+          if (caseOrga.role === "Quartier Général") qgRemplis += 1;
+          if (
+            caseOrga.role === "État-major" &&
+            caseOrga.avantage !== "affectation-speciale"
+          ) {
+            creditsEM +=
+              occ.unite.categorie === "État-major"
+                ? valeurOfficierDeLigne(occ, caseOrga)
+                : 0;
+          }
+        }
+      }
+    } else {
+      // Calcul par Parent : compte seulement les crédits DU Détachement
+      // spécifié (Principal/Allié).
+      const parent = etat.detachements.find((d) => d.uid === parentUid);
+      if (parent && !typeDe(parent).pasDeCredit) {
+        for (const caseOrga of parent.cases) {
+          const occ = occupant(caseOrga);
+          if (!occ) continue;
+          if (caseOrga.role === "Quartier Général") qgRemplis += 1;
+          if (
+            caseOrga.role === "État-major" &&
+            caseOrga.avantage !== "affectation-speciale"
+          ) {
+            creditsEM +=
+              occ.unite.categorie === "État-major"
+                ? valeurOfficierDeLigne(occ, caseOrga)
+                : 0;
+          }
         }
       }
     }
+
     const nbApex = etat.detachements.filter(
-      (d) => typeDe(d).famille === "apex",
+      (d) => typeDe(d).famille === "apex" && (parentUid === null || d.parent === parentUid),
     ).length;
     // Auxiliaires consommant un crédit : standard + débloqués via État-major.
     const nbAuxComptables = etat.detachements.filter((d) => {
       const type = typeDe(d);
       return (
         type.famille === "auxiliaire" &&
+        (parentUid === null || d.parent === parentUid) &&
         !(type.deblocage && type.deblocage.caseRole === "Appui")
       );
     }).length;
@@ -1991,12 +2031,14 @@ const Organigramme = (() => {
     };
   }
 
-  /* Unités « débloqueuses » disponibles pour un détachement
-     spécifique (ex : Vigilator en Case d'État-major pour la
-     Demi-compagnie Reco). Chaque unité ne débloque qu'UN détachement.
-     Si deblocage.uniteIds est absent/vide, compte simplement les Cases
-     du rôle occupées. */
-  function debloqueursDisponibles(type) {
+  /* Unités « débloqueuses » disponibles pour un détachement spécifique
+     (ex : Vigilator en Case d'État-major pour la Demi-compagnie Reco).
+     Chaque unité ne débloque qu'UN détachement. Si deblocage.uniteIds
+     est absent/vide, compte simplement les Cases du rôle occupées.
+     `parentUid` (optionnel) : ne compte que les déblocages du Détachement
+     spécifié (Principal/Allié). null = compte globalement (comportement
+     antérieur). */
+  function debloqueursDisponibles(type, parentUid = null) {
     if (!type.deblocage) return Infinity;
     if (
       type.deblocage.allegeance &&
@@ -2007,20 +2049,38 @@ const Organigramme = (() => {
     const rolesAcceptes = Array.isArray(type.deblocage.caseRole)
       ? type.deblocage.caseRole
       : [type.deblocage.caseRole];
-    for (const det of etat.detachements) {
-      for (const caseOrga of det.cases) {
-        if (!rolesAcceptes.includes(caseOrga.role)) continue;
-        const occ = occupant(caseOrga);
-        // Si uniteIds est absent/vide, débloque simplement si Case occupée
-        if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
-          if (occ) presentes += 1;
-        } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
-          presentes += 1;
+
+    if (parentUid === null) {
+      // Compte globalement (tous les Détachements).
+      for (const det of etat.detachements) {
+        for (const caseOrga of det.cases) {
+          if (!rolesAcceptes.includes(caseOrga.role)) continue;
+          const occ = occupant(caseOrga);
+          if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
+            if (occ) presentes += 1;
+          } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
+            presentes += 1;
+          }
+        }
+      }
+    } else {
+      // Compte pour le Parent spécifié uniquement.
+      const parent = etat.detachements.find((d) => d.uid === parentUid);
+      if (parent) {
+        for (const caseOrga of parent.cases) {
+          if (!rolesAcceptes.includes(caseOrga.role)) continue;
+          const occ = occupant(caseOrga);
+          if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
+            if (occ) presentes += 1;
+          } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
+            presentes += 1;
+          }
         }
       }
     }
+
     const dejaPris = etat.detachements.filter(
-      (d) => d.typeId === type.id,
+      (d) => d.typeId === type.id && (parentUid === null || d.parent === parentUid),
     ).length;
     return presentes - dejaPris;
   }
@@ -3003,6 +3063,16 @@ const Organigramme = (() => {
           legionsBrisees: etat.legionsBrisees,
           detachements: etat.detachements.map((d) => ({
             typeId: d.typeId,
+            // `parent` pointe vers l'uid d'un AUTRE Détachement (Principal/Allié),
+            // jamais stable d'une session à l'autre (compteurDet repart à zéro) :
+            // sauvegardé comme un INDICE dans le tableau `detachements`, résolu
+            // en uid réel après coup (voir restaurerOrga, deuxième passe).
+            parentIndex:
+              d.parent == null
+                ? null
+                : etat.detachements.findIndex(
+                    (autre) => autre.uid === d.parent,
+                  ),
             factionAlliee: d.factionAlliee || null,
             legionAlliee: d.legionAlliee || null,
             maisonneeAlliee: d.maisonneeAlliee || null,
@@ -3248,6 +3318,13 @@ const Organigramme = (() => {
         ) {
           det.choixCloneAberrant = brute.choixCloneAberrant;
         }
+        // Parent : uid d'un Détachement Principal/Allié, jamais stable d'une
+        // session à l'autre → sauvegardé comme un indice, résolu en uid réel
+        // dans la deuxième passe.
+        if (Number.isInteger(brute.parentIndex)) {
+          det.parentIndexBrut = brute.parentIndex;
+        }
+        // Serments du Moment : même mécanique que parent.
         if (Number.isInteger(brute.serimentsRattachesIndex)) {
           det.serimentsRattachesIndexBrut = brute.serimentsRattachesIndex;
         }
@@ -3307,10 +3384,17 @@ const Organigramme = (() => {
         });
         etat.detachements.push(det);
       }
-      // Deuxième passe : résout serimentsRattachesIndexBrut (indice dans
-      // le tableau sauvegardé) en un uid réel, maintenant que tous les
-      // Détachements existent avec leurs uids définitifs.
+      // Deuxième passe : résout parentIndexBrut et serimentsRattachesIndexBrut
+      // (indices dans le tableau sauvegardé) en uids réels, maintenant que tous
+      // les Détachements existent avec leurs uids définitifs.
       for (const det of etat.detachements) {
+        // Parent : indice → uid du Détachement Principal/Allié.
+        if (Number.isInteger(det.parentIndexBrut)) {
+          const parent = etat.detachements[det.parentIndexBrut];
+          det.parent = parent ? parent.uid : null;
+          delete det.parentIndexBrut;
+        }
+        // Serments du Moment : indice → uid du Détachement.
         if (!Number.isInteger(det.serimentsRattachesIndexBrut)) continue;
         const cible = etat.detachements[det.serimentsRattachesIndexBrut];
         det.serimentsRattaches = cible ? cible.uid : null;
@@ -5126,6 +5210,101 @@ const Organigramme = (() => {
     return carte;
   }
 
+  // Affiche un sélecteur de Parent (Détachement Principal ou Allié)
+  // pour ajouter un Auxiliaire/Apex. Affiche le nombre de crédits
+  // disponibles pour chaque Parent.
+  function afficherSelecteurParent(type) {
+    const detPrincipal = etat.detachements.find(
+      (d) => typeDe(d).famille === "principal",
+    );
+    const parents = [];
+
+    if (detPrincipal) {
+      const credits = calculerCredits(detPrincipal.uid);
+      const creditsDisponibles =
+        type.famille === "apex" ? credits.apexRestants : credits.auxRestants;
+      parents.push({
+        uid: detPrincipal.uid,
+        nom: "Détachement Principal",
+        creditsDisponibles,
+        credits,
+      });
+    }
+
+    for (const det of etat.detachements) {
+      if (typeDe(det).famille !== "allie") continue;
+      const credits = calculerCredits(det.uid);
+      const creditsDisponibles =
+        type.famille === "apex" ? credits.apexRestants : credits.auxRestants;
+      parents.push({
+        uid: det.uid,
+        nom: "Allié : " + (typeDe(det).nom || det.uid),
+        creditsDisponibles,
+        credits,
+      });
+    }
+
+    const modal = document.createElement("div");
+    modal.className = "modal-selecteur-parent";
+    modal.style.cssText =
+      "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); " +
+      "background: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; " +
+      "z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); " +
+      "max-width: 400px; width: 90%;";
+
+    const titre = document.createElement("h3");
+    titre.textContent = "Lier à quel détachement ?";
+    titre.style.marginTop = "0";
+    modal.appendChild(titre);
+
+    const listeParents = document.createElement("div");
+    listeParents.style.margin = "15px 0";
+    for (const parent of parents) {
+      const bouton = document.createElement("button");
+      bouton.className = "bouton-secondaire";
+      bouton.style.display = "block";
+      bouton.style.width = "100%";
+      bouton.style.padding = "10px";
+      bouton.style.marginBottom = "10px";
+      bouton.style.textAlign = "left";
+      const creditsTexte =
+        parent.creditsDisponibles > 0
+          ? ` (${parent.creditsDisponibles} crédit${parent.creditsDisponibles > 1 ? "s" : ""})`
+          : " (aucun crédit)";
+      bouton.textContent = parent.nom + creditsTexte;
+      bouton.disabled = parent.creditsDisponibles <= 0;
+      if (bouton.disabled) bouton.setAttribute("aria-disabled", "true");
+      bouton.addEventListener("click", () => {
+        etat.detachements.push(creerDetachement(type.id, parent.uid));
+        fond.remove();
+        actualiser();
+      });
+      listeParents.appendChild(bouton);
+    }
+    modal.appendChild(listeParents);
+
+    const annuler = document.createElement("button");
+    annuler.className = "bouton-secondaire";
+    annuler.textContent = "Annuler";
+    annuler.style.display = "block";
+    annuler.style.width = "100%";
+    annuler.addEventListener("click", () => {
+      fond.remove();
+    });
+    modal.appendChild(annuler);
+
+    // Fond semi-transparent cliquable.
+    const fond = document.createElement("div");
+    fond.style.cssText =
+      "position: fixed; top: 0; left: 0; right: 0; bottom: 0; " +
+      "background: rgba(0,0,0,0.3); z-index: 9999;";
+    fond.addEventListener("click", (e) => {
+      if (e.target === fond) fond.remove();
+    });
+    fond.appendChild(modal);
+    document.body.appendChild(fond);
+  }
+
   // Panneau « Ajouter un détachement » : boutons groupés par famille,
   // grisés avec explication quand la règle l'interdit (exigence UX).
   // Chaque groupe est repliable (<details>) pour alléger la vue quand
@@ -5210,10 +5389,18 @@ const Organigramme = (() => {
             for (const instance of [...hooks.getArmee()])
               hooks.retirerInstance(instance.uid);
             etat.detachements = [creerDetachement(type.id)];
+            actualiser();
+          } else if (
+            type.famille === "auxiliaire" ||
+            type.famille === "apex"
+          ) {
+            // Auxiliaire/Apex : montrer un sélecteur de Parent avant de
+            // créer le Détachement.
+            afficherSelecteurParent(type);
           } else {
             etat.detachements.push(creerDetachement(type.id));
+            actualiser();
           }
-          actualiser();
         });
         ligne.appendChild(bouton);
         if (!possible) {
