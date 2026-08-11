@@ -1115,41 +1115,47 @@ function optionRealisable(unite, instance, opt) {
   // tableau d'alternatives (« n'importe lequel de ces objets » — voir
   // resoudreCible, equipementFinal ci-dessus) plutôt qu'un nom exact.
   if (opt.type === "choix" && opt.remplace) {
-    const cibles = Array.isArray(opt.remplace) ? opt.remplace : [opt.remplace];
-    // Vérifier que au moins une cible existe ET n'est pas complètement remplacée
-    if (
-      !cibles.some(
-        (n) =>
-          equipSansElle.includes(n) &&
-          !verifierArmeRemplaceeCompletement(n),
-      )
-    )
-      return false;
-  }
-  if (opt.type === "paire") {
-    // Toutes les cibles doivent exister ET ne pas être complètement remplacées
-    if (
-      !opt.remplaceListe.every((cible) => {
-        const cibles = Array.isArray(cible) ? cible : [cible];
-        return cibles.some(
+    if (!opt.toujours) {
+      const cibles = Array.isArray(opt.remplace) ? opt.remplace : [opt.remplace];
+      // Vérifier que au moins une cible existe ET n'est pas complètement remplacée
+      if (
+        !cibles.some(
           (n) =>
             equipSansElle.includes(n) &&
             !verifierArmeRemplaceeCompletement(n),
-        );
-      })
-    )
-      return false;
+        )
+      )
+        return false;
+    }
+  }
+  if (opt.type === "paire") {
+    // Toutes les cibles doivent exister ET ne pas être complètement remplacées
+    if (!opt.toujours) {
+      if (
+        !opt.remplaceListe.every((cible) => {
+          const cibles = Array.isArray(cible) ? cible : [cible];
+          return cibles.some(
+            (n) =>
+              equipSansElle.includes(n) &&
+              !verifierArmeRemplaceeCompletement(n),
+          );
+        })
+      )
+        return false;
+    }
   }
 
   // Pour quantite : vérifier que les armes cibles ne sont pas complètement
   // remplacées (on ne vérifie pas equipSansElle ici car quantite n'échange
   // l'arme que si elle existe à la base, pas de cas "remplace rien").
   if (opt.type === "quantite") {
-    const cibles = opt.remplace || opt.remplaceIntegral;
-    if (cibles) {
-      const arraysCibles = Array.isArray(cibles) ? cibles : [cibles];
-      if (arraysCibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
-        return false;
+    if (!opt.toujours) {
+      const cibles = opt.remplace || opt.remplaceIntegral;
+      if (cibles) {
+        const arraysCibles = Array.isArray(cibles) ? cibles : [cibles];
+        if (arraysCibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
+          return false;
+      }
     }
   }
 
