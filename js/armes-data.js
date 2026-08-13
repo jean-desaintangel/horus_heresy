@@ -4218,13 +4218,13 @@ const ARMES_MELEE = [
       },
       {
         nom: "Griffe Lightning",
-        stats: ["1", "A", "F", "3", "1"],
+        stats: ["I", "A", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+)",
         traits: "Énergétique",
       },
       {
         nom: "Paire de griffes Lightning",
-        stats: ["1", "+2", "F", "3", "1"],
+        stats: ["I", "+2", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+)",
         traits: "Énergétique",
       },

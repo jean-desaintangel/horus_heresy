@@ -12598,6 +12598,7 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "lourde",
+        remplaceIntegral: "Bolter",
         ajoute: "Désintégrateur lourd (à la place du bolter)",
       },
       {
