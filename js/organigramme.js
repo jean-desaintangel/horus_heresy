@@ -2412,7 +2412,7 @@ const Organigramme = (() => {
 
     // 5. Déblocages spécifiques (livre d'armée Legiones Astartes).
     for (const type of TYPES_DETACHEMENTS) {
-      if (type.deblocage && debloqueursDisponibles(type) < 0) {
+      if (type.deblocage && type.deblocage.uniteIds && debloqueursDisponibles(type) < 0) {
         erreurs.push(
           "« " +
             type.nom +
