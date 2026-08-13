@@ -8425,7 +8425,7 @@ const UNITES = [
     cout: 150,
     composition:
       "1 Sergent Terminator Cataphractii, 4 Terminators Cataphractii",
-    effectif: { base: 5, max: 12, cout: 30 },
+    effectif: { base: 5, max: 10, cout: 30 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "[Legiones Astartes]"],
     equipement: ["Chargeur volkite", "Arme énergétique"],
