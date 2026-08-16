@@ -4103,9 +4103,53 @@ plutôt que de la laisser devenir obsolète.
   légendaire (*Spearhead Sector*, *Second Wave*, *Journal Tactic*) qui
   n'ont pas de traduction officielle connue — ne pas les traduire au
   jugé.
-  **Vérification incomplète, à refaire** : le bac à sable Linux de la
-  session était indisponible (« VM service not running ») et les outils
-  navigateur refusent les URL `file://` — cette page n'a donc PAS été
-  ouverte en vrai ni testée en DOM headless, contrairement à tous les
-  chantiers précédents. Seuls l'équilibrage des balises et la cohérence
-  des ids `aria-controls`/`.section-corps` ont été vérifiés par relecture.
+  **Vérification** : d'abord incomplète (bac à sable Linux indisponible),
+  puis faite pour de bon lors de l'ajout des missions Onslaught ci-dessous.
+
+- **Trois missions Onslaught ajoutées à la même page (2026-08-16)** :
+  quatrième fiche HTML autonome fournie par le proprio (`Fiches Onslaught
+  Missions v4`), contenant une page de **règles générales** du format plus
+  trois missions — *Line Advance*, *Breakthrough*, *Dawn Raid*. Format
+  volontairement traité comme un bloc à part dans la page : les règles
+  communes (objectifs, score asymétrique Attaquant/Défenseur, préparation
+  du champ de bataille) vivent dans leur PROPRE section repliable
+  (`#onslaught`), et chaque mission y renvoie par un lien d'ancre plutôt
+  que de les répéter trois fois. Le sommaire est passé à deux grilles
+  (`h3.sous-titre` « Mission légendaire et missions narratives » puis
+  « Missions Onslaught »).
+  **Cartes de déploiement redessinées en SVG.** La source les construisait
+  en CSS positionnel (`position:absolute`, `%`, `clip-path`, `::after`
+  porteurs de texte, dégradés `calc()` pour la grille) : rien de tout cela
+  n'a été repris — même viewBox 900×520 et mêmes classes que la carte
+  Ignis, plus quatre nouvelles (`.secteur-ligne`, `.zone-deploiement`,
+  `.fleche-reserve`, `.etiquette-carte`, `.objectif-etiquette`). Repères
+  de la grille, pour toute carte Onslaught future : table
+  `x=90 y=70 w=720 h=360`, 4 secteurs de large (centres x = 180/360/540/720,
+  séparateurs 270/450/630), 3 de profondeur (centres y = 130/250/370,
+  séparateurs 190/310) ; la bande de déploiement de 12 pouces vaut 90 px
+  (`y=340`, un quart de la profondeur) et la diagonale de Dawn Raid est le
+  polygone `90,286 810,430 90,430`. Un marqueur d'objectif « actif » = le
+  cercle `.marqueur-objectif` PLUS la croix `.marqueur-croix` ; les
+  emplacements de secteur simplement disponibles n'ont que le cercle.
+  Vocabulaire aligné sur le site plutôt que sur la fiche source :
+  « Étourdie, Clouée, Supprimée » → **Sonnée, Fixée, Neutralisée** (les
+  statuts de `statuts-reactions.html`), « Snap Shots » → **Tirs au Jugé**,
+  et les objectifs secondaires reprennent les noms déjà employés dans la
+  mission Ignis (**Géant tueur**, **Le dernier carré**, **Premier sang**)
+  avec les valeurs propres à Onslaught (1/1/2/1) — le nom vient du site,
+  le chiffre de la fiche.
+  **Vérification, cette fois complète** (le bac à sable Linux était
+  toujours en panne, mais Desktop Commander donnait un vrai shell
+  Windows) : script Node dédié (balises équilibrées, `aria-controls` tous
+  appariés à un `.section-corps`, ancres internes non cassées,
+  `.section-corps` enfant direct de sa `<section>`, classes CSS toutes
+  déclarées, hiérarchie de titres sans saut) ; puis `python -m http.server`
+  sur le dépôt et ouverture réelle dans Chrome — **les outils navigateur
+  refusent les URL `file://`, servir le dossier en HTTP local est le seul
+  moyen de voir une page de ce site pour de vrai**, à refaire ainsi la
+  prochaine fois. Contrôlés à l'écran : sommaire, dépliage des trois
+  sections, les trois cartes SVG, et le rendu sous Nuit Éternelle (classe
+  posée à la main via la console) — zéro erreur console. Piège rencontré :
+  le service worker sert la version en cache, donc une page fraîchement
+  modifiée s'affiche inchangée tant qu'on ne lui ajoute pas un paramètre
+  d'URL bidon (`?v=2`).

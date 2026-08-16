@@ -183,7 +183,11 @@
 // + cinq missions narratives) et son entrée de menu — pages/missions.html
 // (NOUVEAU fichier, d'où l'incrément obligatoire de ce numéro),
 // js/main.js, css/style.css, sitemap.xml.
-const CACHE_VERSION = "v123";
+// v123 : ajoute à cette même page les trois missions Onslaught (Line
+// Advance, Breakthrough, Dawn Raid) et leur panneau de règles générales,
+// avec leurs cartes de déploiement redessinées en SVG —
+// pages/missions.html, css/style.css.
+const CACHE_VERSION = "v124";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

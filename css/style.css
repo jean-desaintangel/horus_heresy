@@ -1925,6 +1925,39 @@ button:focus-visible,
   font-size: 26px;
 }
 
+/* Cartes des missions Onslaught : grille de secteurs, bande (ou
+   triangle) de déploiement de l'Attaquant, flèches d'entrée de
+   Réserves. Mêmes principes que ci-dessus — aucune couleur dans le
+   SVG lui-même. */
+.carte-deploiement .secteur-ligne {
+  stroke: var(--acier);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.carte-deploiement .zone-deploiement {
+  fill: var(--carte-hover);
+  stroke: var(--acier-clair);
+  stroke-width: 1.5;
+}
+
+.carte-deploiement .fleche-reserve {
+  stroke: var(--accent-texte);
+  stroke-width: 2;
+  fill: var(--accent-texte);
+}
+
+.carte-deploiement .etiquette-carte {
+  font-size: 16px;
+  fill: var(--texte-doux);
+}
+
+.carte-deploiement .objectif-etiquette {
+  font-size: 16px;
+  font-weight: 700;
+  fill: var(--titre-contraste);
+}
+
 .carte-deploiement figcaption {
   margin-top: 0.7rem;
   font-size: 0.9rem;

@@ -104,12 +104,12 @@
 
       <div class="encadre">
         <p>
-          Six scénarios prêts à jouer, tous centrés sur l’<strong
-            >armure Terminator saturnine</strong
-          >
-          et ses grandes heures : une <strong>mission légendaire</strong>
-          officielle et cinq <strong>missions narratives</strong> librement
-          adaptables.
+          Neuf scénarios prêts à jouer : une
+          <strong>mission légendaire</strong> officielle, cinq
+          <strong>missions narratives</strong> centrées sur l’armure Terminator
+          saturnine, et trois <strong>missions Onslaught</strong> — un format
+          d’assaut asymétrique à part, dont les règles communes sont regroupées
+          dans leur propre panneau.
         </p>
         <p>
           La mission légendaire remplace la mission de base du
@@ -124,6 +124,8 @@
       <!-- ===================== SOMMAIRE ===================== -->
       <section id="sommaire">
         <h2 class="section-titre">Choisir une mission</h2>
+
+        <h3 class="sous-titre">Mission légendaire et missions narratives</h3>
         <div class="grille-missions">
           <a class="carte-mission" href="#ignis">
             <h3>Ignis Sector Assault</h3>
@@ -171,6 +173,42 @@
             <p>
               Les Indurés chargent la garde d’honneur ultramarine pendant que
               deux Primarques s’affrontent en arrière-plan.
+            </p>
+          </a>
+        </div>
+
+        <h3 class="sous-titre">Missions Onslaught</h3>
+        <div class="grille-missions">
+          <a class="carte-mission" href="#onslaught">
+            <h3>Règles générales</h3>
+            <p class="mission-lieu">Onslaught · Format</p>
+            <p>
+              À lire avant les trois missions : objectifs, scores asymétriques
+              de l’Attaquant et du Défenseur, préparation du champ de bataille.
+            </p>
+          </a>
+          <a class="carte-mission" href="#line-advance">
+            <h3>Line Advance</h3>
+            <p class="mission-lieu">Onslaught · Mission 1</p>
+            <p>
+              Pousser quatre objectifs vers le bord ennemi en choisissant, à
+              chaque tour, entre marquer et progresser.
+            </p>
+          </a>
+          <a class="carte-mission" href="#breakthrough">
+            <h3>Breakthrough</h3>
+            <p class="mission-lieu">Onslaught · Mission 2</p>
+            <p>
+              Tenir le centre sans étirer sa ligne, pendant que les réserves
+              adverses entrent par les bords courts.
+            </p>
+          </a>
+          <a class="carte-mission" href="#dawn-raid">
+            <h3>Dawn Raid</h3>
+            <p class="mission-lieu">Onslaught · Mission 3</p>
+            <p>
+              Un assaut à l’aube, zone de déploiement en diagonale et premier
+              tour intégralement tiré au jugé.
             </p>
           </a>
         </div>
@@ -1362,6 +1400,624 @@
               et scène de carnage.
             </p>
           </div>
+        </div>
+      </section>
+
+      <!-- ============ ONSLAUGHT — RÈGLES GÉNÉRALES ============ -->
+      <section id="onslaught">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="onslaught-corps"
+          >
+            <span>Missions Onslaught — règles générales</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="onslaught-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Format Onslaught</span></li>
+            <li><span class="etiquette-mission">Attaquant / Défenseur</span></li>
+            <li><span class="etiquette-mission">Score asymétrique</span></li>
+          </ul>
+
+          <p class="mission-accroche">
+            Des assauts massifs et asymétriques où l’Attaquant fait progresser
+            la ligne tandis que le Défenseur tente de briser son élan.
+          </p>
+
+          <p>
+            Les missions d’Onslaught représentent des attaques à grande échelle
+            contre des positions déjà tenues par la force défensive. Elles sont
+            volontairement asymétriques : l’Attaquant et le Défenseur ne
+            marquent pas leurs points de victoire de la même manière. Elles se
+            jouent isolément, au sein d’une campagne, ou en alternant les rôles
+            pour comparer les scores cumulés.
+          </p>
+
+          <div class="encadre-attention">
+            <p>
+              Ces trois règles générales s’appliquent aux
+              <strong>trois missions Onslaught</strong> ci-dessous : lisez-les
+              une fois, elles ne sont pas répétées sur chaque fiche.
+            </p>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Objectifs principaux</h3>
+              <p>
+                Les missions d’Onslaught utilisent des objectifs de mission
+                principaux et secondaires. L’objectif principal demande
+                généralement de contrôler des marqueurs d’objectif pour marquer
+                des points de victoire. Ils représentent des points critiques ou
+                des ressources à tenir, et suivent les règles des missions de
+                base, à quelques exceptions propres au format.
+              </p>
+              <h4>Une unité ne peut pas contrôler un objectif si :</h4>
+              <ul>
+                <li>
+                  une de ses figurines est <strong>Sonnée</strong>,
+                  <strong>Fixée</strong>, <strong>Neutralisée</strong> ou
+                  <strong>En déroute</strong> ;
+                </li>
+                <li>l’unité est engagée dans un combat ;</li>
+                <li>l’unité est embarquée dans un autre modèle ;</li>
+                <li>l’unité contient des figurines de type Véhicule.</li>
+              </ul>
+
+              <h3>Score de l’Attaquant</h3>
+              <p>
+                Chaque marqueur d’objectif vaut un nombre de points égal à sa
+                <strong>valeur actuelle</strong> quand l’Attaquant le contrôle
+                pendant sa sous-phase de victoire. Le chiffre affiché sur le
+                marqueur correspond à cette valeur. Les Règles Spéciales
+                <strong>Ligne (X)</strong> et
+                <strong>Avant-garde (X)</strong> peuvent la modifier selon la
+                mission.
+              </p>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Score du Défenseur</h3>
+              <p>
+                Les unités du Défenseur ne marquent pas simplement en
+                contrôlant des objectifs : elles perdent
+                <strong>Ligne (X)</strong>, gagnent
+                <strong>Avant-garde (2)</strong> si nécessaire, puis deviennent
+                éligibles à marquer sous certaines conditions.
+              </p>
+              <div class="mission-regle">
+                <h4>Le Défenseur marque si :</h4>
+                <ul>
+                  <li>
+                    une attaque élimine la dernière figurine d’une unité ennemie
+                    qui contrôlait ou contestait un objectif ;
+                  </li>
+                  <li>
+                    un combat force une unité ennemie située à 3 pouces ou moins
+                    d’un objectif à <strong>Battre en retraite</strong>.
+                  </li>
+                </ul>
+              </div>
+              <p>
+                Le Défenseur marque en outre <strong>1 point de victoire</strong>
+                lors de chacune de ses sous-phases de victoire, pour chaque
+                objectif que l’Attaquant ne contrôle pas.
+              </p>
+
+              <h3>Préparer le champ de bataille</h3>
+              <p>
+                La quantité de terrain recommandée reste celle des missions de
+                base. Les joueurs ne lancent pas de dé pour le premier décor :
+                le <strong>Défenseur place toujours la première pièce</strong>.
+                Une fois tout le terrain posé en alternance, le Défenseur peut
+                retirer une pièce située entièrement dans la moitié de table de
+                l’Attaquant.
+              </p>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              <strong>À retenir :</strong> l’Attaquant gagne en poussant les
+              objectifs vers le bord du Défenseur et en augmentant leur valeur.
+              Le Défenseur gagne en empêchant ce contrôle, en brisant les unités
+              au bon moment et en tirant parti d’un terrain qu’il façonne à son
+              avantage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== LINE ADVANCE ===================== -->
+      <section id="line-advance">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="line-advance-corps"
+          >
+            <span>Line Advance — Onslaught 1</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="line-advance-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Onslaught</span></li>
+            <li><span class="etiquette-mission">4 objectifs mobiles</span></li>
+            <li><span class="etiquette-mission">Table 72" × 48"</span></li>
+          </ul>
+
+          <p class="mission-accroche">
+            La vie de beaucoup devra être sacrifiée pour payer le prix de la
+            victoire.
+          </p>
+
+          <p>
+            L’Attaquant doit pousser plusieurs marqueurs d’objectif vers le bord
+            de table ennemi pour accumuler des points, tandis que le Défenseur
+            cherche à bloquer cette progression et à le priver du contrôle des
+            objectifs. Les
+            <a href="#onslaught">règles générales du format Onslaught</a>
+            s’appliquent.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>Contrôler les marqueurs d’objectif d’assaut.</li>
+                <li>
+                  La mission utilise <strong>4 marqueurs</strong> d’une valeur
+                  initiale de <strong>1</strong>.
+                </li>
+                <li>
+                  À chaque sous-phase de victoire de l’Attaquant, celui-ci
+                  marque la valeur d’un objectif contrôlé.
+                </li>
+                <li>
+                  Chaque <em>autre</em> objectif contrôlé avance d’un secteur
+                  vers le bord du Défenseur.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>Tuer le Seigneur de Guerre (1)</li>
+                <li>Géant tueur (1)</li>
+                <li>Le dernier carré (2)</li>
+                <li>Premier sang (1)</li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <p>
+                Cette mission utilise
+                <strong>Objectifs en progression</strong>, les Atouts de champ
+                de bataille, les Réserves et Saisir l’initiative.
+              </p>
+              <div class="mission-regle">
+                <h4>Objectifs en progression</h4>
+                <p>
+                  Au début de la bataille, les 4 objectifs sont placés dans les
+                  secteurs indiqués par la carte.
+                </p>
+                <p>
+                  Quand un objectif progresse, sa valeur augmente de 1, jusqu’à
+                  un maximum de <strong>3</strong>, puis il se déplace d’un
+                  secteur vers le bord du Défenseur. Il ne peut jamais se
+                  déplacer en diagonale. Si aucun mouvement n’est possible, il
+                  reste en place mais peut quand même gagner +1 en valeur,
+                  toujours jusqu’à 3.
+                </p>
+              </div>
+
+              <h3>Résumé de jeu</h3>
+              <p>
+                L’Attaquant doit choisir, à chaque tour, entre marquer
+                immédiatement un objectif ou faire progresser les autres qu’il
+                contrôle : la pression se construit tour après tour. Le
+                Défenseur doit casser ce contrôle, occuper les couloirs d’avance
+                et forcer l’Attaquant à disperser ses unités de ligne.
+              </p>
+            </div>
+          </div>
+
+          <figure class="carte-deploiement">
+            <h3>Carte de déploiement</h3>
+            <svg
+              viewBox="0 0 900 520"
+              role="img"
+              aria-label="Table de 72 pouces sur 48 pouces découpée en une grille de 4 secteurs de large sur 3 de profondeur. Le bord du Défenseur est en haut, celui de l’Attaquant en bas avec une bande de déploiement de 12 pouces. Douze emplacements de secteur sont marqués ; les quatre objectifs O1 à O4 occupent la rangée haute."
+            >
+              <rect
+                class="zone-deploiement"
+                x="90"
+                y="340"
+                width="720"
+                height="90"
+              />
+              <rect class="trait-table" x="90" y="70" width="720" height="360" />
+              <line class="secteur-ligne" x1="270" y1="70" x2="270" y2="430" />
+              <line class="secteur-ligne" x1="450" y1="70" x2="450" y2="430" />
+              <line class="secteur-ligne" x1="630" y1="70" x2="630" y2="430" />
+              <line class="secteur-ligne" x1="90" y1="190" x2="810" y2="190" />
+              <line class="secteur-ligne" x1="90" y1="310" x2="810" y2="310" />
+
+              <circle class="marqueur-objectif" cx="180" cy="130" r="10" />
+              <path class="marqueur-croix" d="M180 120 l0 20 M170 130 l20 0" />
+              <text class="objectif-etiquette" x="180" y="108" text-anchor="middle">O1</text>
+              <circle class="marqueur-objectif" cx="360" cy="130" r="10" />
+              <path class="marqueur-croix" d="M360 120 l0 20 M350 130 l20 0" />
+              <text class="objectif-etiquette" x="360" y="108" text-anchor="middle">O2</text>
+              <circle class="marqueur-objectif" cx="540" cy="130" r="10" />
+              <path class="marqueur-croix" d="M540 120 l0 20 M530 130 l20 0" />
+              <text class="objectif-etiquette" x="540" y="108" text-anchor="middle">O3</text>
+              <circle class="marqueur-objectif" cx="720" cy="130" r="10" />
+              <path class="marqueur-croix" d="M720 120 l0 20 M710 130 l20 0" />
+              <text class="objectif-etiquette" x="720" y="108" text-anchor="middle">O4</text>
+
+              <circle class="marqueur-objectif" cx="180" cy="250" r="10" />
+              <circle class="marqueur-objectif" cx="360" cy="250" r="10" />
+              <circle class="marqueur-objectif" cx="540" cy="250" r="10" />
+              <circle class="marqueur-objectif" cx="720" cy="250" r="10" />
+              <circle class="marqueur-objectif" cx="180" cy="370" r="10" />
+              <circle class="marqueur-objectif" cx="360" cy="370" r="10" />
+              <circle class="marqueur-objectif" cx="540" cy="370" r="10" />
+              <circle class="marqueur-objectif" cx="720" cy="370" r="10" />
+
+              <text x="450" y="48" text-anchor="middle">
+                Bord de table du Défenseur
+              </text>
+              <text class="etiquette-carte" x="100" y="422">
+                Zone de déploiement de l’Attaquant — 12"
+              </text>
+              <text class="etiquette-carte" x="450" y="458" text-anchor="middle">
+                72"
+              </text>
+              <text class="etiquette-carte" x="822" y="255">48"</text>
+              <text x="450" y="492" text-anchor="middle">
+                Bord de table de l’Attaquant
+              </text>
+            </svg>
+            <figcaption>
+              Les objectifs avancent secteur par secteur vers le bord du
+              Défenseur ; les autres emplacements marqués sont les centres de
+              secteur qu’ils peuvent occuper.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ===================== BREAKTHROUGH ===================== -->
+      <section id="breakthrough">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="breakthrough-corps"
+          >
+            <span>Breakthrough — Onslaught 2</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="breakthrough-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Onslaught</span></li>
+            <li><span class="etiquette-mission">4 objectifs mobiles</span></li>
+            <li>
+              <span class="etiquette-mission">Réserves par les bords courts</span>
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Soutenir l’élan de l’assaut sans trop étirer sa ligne est la clef de
+            la percée.
+          </p>
+
+          <p>
+            L’Attaquant doit faire progresser les objectifs centraux tout en se
+            méfiant des renforts du Défenseur, capables d’entrer par les flancs
+            pour tenter d’encercler sa force. Les
+            <a href="#onslaught">règles générales du format Onslaught</a>
+            s’appliquent.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>Contrôler les marqueurs d’objectif d’assaut.</li>
+                <li>
+                  <strong>4 objectifs</strong>, valeur initiale de
+                  <strong>1</strong>.
+                </li>
+                <li>
+                  À chaque sous-phase de victoire de l’Attaquant, un objectif
+                  contrôlé rapporte ses points.
+                </li>
+                <li>
+                  Chaque <em>autre</em> objectif contrôlé avance d’un secteur
+                  vers le bord du Défenseur.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>Tuer le Seigneur de Guerre (1)</li>
+                <li>Géant tueur (1)</li>
+                <li>Le dernier carré (2)</li>
+                <li>Premier sang (1)</li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <p>
+                Cette mission utilise
+                <strong>Objectifs en progression</strong>, les Atouts de champ
+                de bataille, les Réserves et Saisir l’initiative.
+              </p>
+              <div class="mission-regle">
+                <h4>Objectifs en progression</h4>
+                <p>
+                  Les objectifs démarrent au centre des secteurs indiqués sur la
+                  carte. Quand un objectif progresse, sa valeur augmente de 1
+                  (maximum <strong>3</strong>), puis il avance d’un secteur, sans
+                  mouvement diagonal. Si aucun déplacement n’est possible, il
+                  reste sur place mais peut quand même augmenter jusqu’à 3.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Renforts encerclants</h4>
+                <p>
+                  Quand une unité du Défenseur arrive des Réserves, celui-ci peut
+                  choisir de la faire entrer par l’un des
+                  <strong>bords courts</strong> de la table, au lieu de son bord
+                  habituel.
+                </p>
+              </div>
+
+              <h3>Résumé de jeu</h3>
+              <p>
+                L’Attaquant doit sécuriser le centre, puis transformer son
+                contrôle de table en progression des objectifs. Le Défenseur
+                profite des réserves arrivant par les bords courts pour menacer
+                les flancs, couper les lignes et contester les objectifs
+                avancés.
+              </p>
+            </div>
+          </div>
+
+          <figure class="carte-deploiement">
+            <h3>Carte de déploiement</h3>
+            <svg
+              viewBox="0 0 900 520"
+              role="img"
+              aria-label="Même table de 72 pouces sur 48 pouces en grille de 4 secteurs sur 3, bande de déploiement de l’Attaquant de 12 pouces en bas. Dix emplacements de secteur sont marqués : la rangée basse n’en porte qu’aux deux extrémités. Deux flèches, à gauche et à droite, indiquent l’arrivée des Réserves du Défenseur par les bords courts, à mi-hauteur."
+            >
+              <rect
+                class="zone-deploiement"
+                x="90"
+                y="340"
+                width="720"
+                height="90"
+              />
+              <rect class="trait-table" x="90" y="70" width="720" height="360" />
+              <line class="secteur-ligne" x1="270" y1="70" x2="270" y2="430" />
+              <line class="secteur-ligne" x1="450" y1="70" x2="450" y2="430" />
+              <line class="secteur-ligne" x1="630" y1="70" x2="630" y2="430" />
+              <line class="secteur-ligne" x1="90" y1="190" x2="810" y2="190" />
+              <line class="secteur-ligne" x1="90" y1="310" x2="810" y2="310" />
+
+              <circle class="marqueur-objectif" cx="180" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="360" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="540" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="720" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="180" cy="250" r="10" />
+              <path class="marqueur-croix" d="M180 240 l0 20 M170 250 l20 0" />
+              <circle class="marqueur-objectif" cx="360" cy="250" r="10" />
+              <path class="marqueur-croix" d="M360 240 l0 20 M350 250 l20 0" />
+              <circle class="marqueur-objectif" cx="540" cy="250" r="10" />
+              <path class="marqueur-croix" d="M540 240 l0 20 M530 250 l20 0" />
+              <circle class="marqueur-objectif" cx="720" cy="250" r="10" />
+              <path class="marqueur-croix" d="M720 240 l0 20 M710 250 l20 0" />
+              <circle class="marqueur-objectif" cx="180" cy="370" r="10" />
+              <circle class="marqueur-objectif" cx="720" cy="370" r="10" />
+
+              <line class="fleche-reserve" x1="26" y1="250" x2="72" y2="250" />
+              <polygon class="fleche-reserve" points="72,242 88,250 72,258" />
+              <text class="etiquette-carte" x="24" y="232">Réserves</text>
+              <line class="fleche-reserve" x1="874" y1="250" x2="828" y2="250" />
+              <polygon class="fleche-reserve" points="828,242 812,250 828,258" />
+              <text class="etiquette-carte" x="876" y="232" text-anchor="end">
+                Réserves
+              </text>
+
+              <text x="450" y="48" text-anchor="middle">
+                Bord de table du Défenseur
+              </text>
+              <text class="etiquette-carte" x="100" y="422">
+                Zone de déploiement de l’Attaquant — 12"
+              </text>
+              <text class="etiquette-carte" x="450" y="458" text-anchor="middle">
+                72" × 48"
+              </text>
+              <text x="450" y="492" text-anchor="middle">
+                Bord de table de l’Attaquant
+              </text>
+            </svg>
+            <figcaption>
+              Les Réserves du Défenseur peuvent entrer par l’un ou l’autre bord
+              court, et non seulement par son propre bord de table.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ===================== DAWN RAID ===================== -->
+      <section id="dawn-raid">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="dawn-raid-corps"
+          >
+            <span>Dawn Raid — Onslaught 3</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="dawn-raid-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Onslaught</span></li>
+            <li><span class="etiquette-mission">Déploiement en diagonale</span></li>
+            <li><span class="etiquette-mission">Premier tour au jugé</span></li>
+          </ul>
+
+          <p class="mission-accroche">
+            La surprise du petit matin favorise l’assaillant, mais nul ne tire
+            avec précision dans la confusion des premières minutes.
+          </p>
+
+          <p>
+            L’Attaquant doit exploiter l’effet de surprise pour s’emparer des
+            objectifs et les pousser vers le camp ennemi, tandis que le
+            Défenseur consolide ses positions sous la pression d’une offensive
+            soudaine. Les
+            <a href="#onslaught">règles générales du format Onslaught</a>
+            s’appliquent.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>Contrôler les marqueurs d’objectif d’assaut.</li>
+                <li>
+                  <strong>4 objectifs</strong>, valeur initiale de
+                  <strong>1</strong>.
+                </li>
+                <li>
+                  À chaque sous-phase de victoire de l’Attaquant, un objectif
+                  contrôlé rapporte ses points.
+                </li>
+                <li>
+                  Chaque <em>autre</em> objectif contrôlé avance d’un secteur
+                  vers le bord du Défenseur.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>Tuer le Seigneur de Guerre (1)</li>
+                <li>Géant tueur (1)</li>
+                <li>Le dernier carré (2)</li>
+                <li>Premier sang (1)</li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <p>
+                Cette mission utilise
+                <strong>Objectifs en progression</strong>, les Atouts de champ
+                de bataille, les Réserves et <strong>Attaque surprise</strong>.
+              </p>
+              <div class="mission-regle">
+                <h4>Objectifs en progression</h4>
+                <p>
+                  Les objectifs sont placés au centre des secteurs indiqués et
+                  avancent comme dans les autres missions Onslaught : +1 en
+                  valeur (maximum <strong>3</strong>), puis déplacement d’un
+                  secteur vers le bord du Défenseur, sans diagonale.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Attaque surprise</h4>
+                <p>
+                  À l’étape de déploiement, le
+                  <strong>Défenseur déploie toujours en premier</strong>. Avant
+                  le premier tour, l’Attaquant lance un dé : sur
+                  <strong>4+</strong>, il prend le premier tour.
+                </p>
+                <p>
+                  Pendant tout le premier tour de bataille, toutes les attaques
+                  de tir sont résolues comme des
+                  <strong>Tirs au Jugé</strong>.
+                </p>
+              </div>
+
+              <h3>Résumé de jeu</h3>
+              <p>
+                L’Attaquant tente de profiter d’un départ brutal pour prendre le
+                tempo, mais la puissance de feu des deux camps est bridée au
+                premier tour. Le Défenseur déploie toujours en premier et cherche
+                à absorber l’impact initial avant de reprendre la maîtrise des
+                objectifs.
+              </p>
+            </div>
+          </div>
+
+          <figure class="carte-deploiement">
+            <h3>Carte de déploiement</h3>
+            <svg
+              viewBox="0 0 900 520"
+              role="img"
+              aria-label="Table de 72 pouces sur 48 pouces en grille de 4 secteurs sur 3. La zone de déploiement de l’Attaquant est un triangle qui part du bord gauche à mi-profondeur et rejoint l’angle inférieur droit. Huit emplacements de secteur sont marqués sur les deux rangées supérieures."
+            >
+              <polygon
+                class="zone-deploiement"
+                points="90,286 810,430 90,430"
+              />
+              <rect class="trait-table" x="90" y="70" width="720" height="360" />
+              <line class="secteur-ligne" x1="270" y1="70" x2="270" y2="430" />
+              <line class="secteur-ligne" x1="450" y1="70" x2="450" y2="430" />
+              <line class="secteur-ligne" x1="630" y1="70" x2="630" y2="430" />
+              <line class="secteur-ligne" x1="90" y1="190" x2="810" y2="190" />
+              <line class="secteur-ligne" x1="90" y1="310" x2="810" y2="310" />
+
+              <circle class="marqueur-objectif" cx="180" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="360" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="540" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="720" cy="130" r="10" />
+              <circle class="marqueur-objectif" cx="180" cy="250" r="10" />
+              <path class="marqueur-croix" d="M180 240 l0 20 M170 250 l20 0" />
+              <circle class="marqueur-objectif" cx="360" cy="250" r="10" />
+              <path class="marqueur-croix" d="M360 240 l0 20 M350 250 l20 0" />
+              <circle class="marqueur-objectif" cx="540" cy="250" r="10" />
+              <path class="marqueur-croix" d="M540 240 l0 20 M530 250 l20 0" />
+              <circle class="marqueur-objectif" cx="720" cy="250" r="10" />
+              <path class="marqueur-croix" d="M720 240 l0 20 M710 250 l20 0" />
+
+              <text x="450" y="48" text-anchor="middle">
+                Bord de table du Défenseur
+              </text>
+              <text class="etiquette-carte" x="120" y="415">
+                Zone de déploiement de l’Attaquant
+              </text>
+              <text class="etiquette-carte" x="450" y="458" text-anchor="middle">
+                72" × 48"
+              </text>
+              <text x="450" y="492" text-anchor="middle">
+                Bord de table de l’Attaquant
+              </text>
+            </svg>
+            <figcaption>
+              Déploiement en diagonale : l’Attaquant part de son angle et
+              remonte en oblique vers les objectifs.
+            </figcaption>
+          </figure>
         </div>
       </section>
     </main>
