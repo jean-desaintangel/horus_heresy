@@ -1718,6 +1718,221 @@ button:focus-visible,
 }
 
 /* ============================================================
+   MISSIONS (page missions.html)
+   Même famille visuelle que les cartes de statuts/téléchargements
+   (fond --carte, bordure --acier, liseré supérieur coloré) : une
+   mission est présentée comme une fiche, avec un sommaire en cartes
+   cliquables puis une section repliable par mission.
+   Aucune couleur n'est écrite en dur ici : tout passe par les
+   variables de :root, donc le thème « Nuit Éternelle » et les skins
+   de Légion s'appliquent sans règle supplémentaire.
+   ============================================================ */
+.grille-missions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+/* La carte entière est un lien : on garde la mise en forme de
+   .carte-telechargement mais sans soulignement ni couleur de lien,
+   le titre servant d'intitulé accessible. */
+.carte-mission {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--acier);
+  background: var(--carte);
+  border-top: 5px solid var(--titre);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.carte-mission:hover,
+.carte-mission:focus {
+  background: var(--carte-hover);
+  transform: translateY(-2px);
+}
+
+.carte-mission h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.carte-mission .mission-lieu {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--titre-contraste);
+  margin-bottom: 0.5rem;
+}
+
+.carte-mission p {
+  font-size: 0.93rem;
+  color: var(--texte-doux);
+  margin-bottom: 0;
+}
+
+/* Bandeau d'étiquettes en tête de mission (camps, type de partie) */
+.mission-etiquettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.mission-etiquettes li {
+  margin: 0;
+}
+
+.etiquette-mission {
+  display: inline-block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid var(--acier);
+  border-radius: 20px;
+  padding: 0.1rem 0.7rem;
+  color: var(--texte-doux);
+}
+
+/* Accroche narrative en tête de fiche */
+.mission-accroche {
+  font-style: italic;
+  color: var(--texte-doux);
+  border-left: 4px solid var(--titre);
+  padding-left: 0.9rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Blocs de la fiche : deux colonnes sur grand écran, empilés sinon */
+.mission-blocs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  align-items: start;
+}
+
+.mission-bloc {
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--acier);
+  background: var(--carte);
+}
+
+.mission-bloc h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: var(--titre-contraste);
+}
+
+.mission-bloc h4 {
+  font-size: 0.95rem;
+  margin: 0.9rem 0 0.35rem;
+}
+
+.mission-bloc > :last-child {
+  margin-bottom: 0;
+}
+
+.mission-bloc ul {
+  font-size: 0.95rem;
+}
+
+/* Règle spéciale de mission : même traitement que .regle (page règles) */
+.mission-regle {
+  border-left: 3px solid var(--accent-clair);
+  padding-left: 0.9rem;
+  margin: 0.9rem 0;
+}
+
+.mission-regle h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.98rem;
+  color: var(--accent-texte);
+}
+
+.mission-regle p:last-child {
+  margin-bottom: 0;
+}
+
+/* Carte de déploiement (SVG dessiné à la main, mission Ignis).
+   Les couleurs sont posées ici plutôt qu'en attributs de présentation
+   dans le SVG : elles suivent ainsi le thème sombre. */
+.carte-deploiement {
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.carte-deploiement svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.carte-deploiement .trait-table {
+  fill: none;
+  stroke: var(--texte);
+  stroke-width: 2.2;
+}
+
+.carte-deploiement .trait-mesure {
+  stroke: var(--acier);
+  stroke-width: 1.2;
+}
+
+.carte-deploiement .trait-pointille {
+  stroke: var(--acier);
+  stroke-dasharray: 5 5;
+}
+
+.carte-deploiement .zone-spearhead {
+  fill: var(--carte-hover);
+  stroke: var(--accent-texte);
+  stroke-width: 2.5;
+}
+
+.carte-deploiement .marqueur-objectif {
+  fill: var(--carte);
+  stroke: var(--titre-contraste);
+  stroke-width: 2;
+}
+
+.carte-deploiement .marqueur-croix {
+  stroke: var(--titre-contraste);
+  stroke-width: 2;
+}
+
+.carte-deploiement text {
+  fill: var(--texte);
+  font-family: "Lato", sans-serif;
+  font-size: 20px;
+}
+
+.carte-deploiement .etiquette-zone {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 26px;
+}
+
+.carte-deploiement figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+  text-align: center;
+}
+
+/* ============================================================
    PIED DE PAGE
    ============================================================ */
 footer {

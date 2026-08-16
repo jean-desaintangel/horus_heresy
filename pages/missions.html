@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Missions — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/pages/missions.html"
+    />
+    <meta
+      name="description"
+      content="Missions Horus Heresy 3e édition : mission légendaire Ignis Sector Assault (massacre du site d'atterrissage d'Isstvan V) et cinq missions narratives — Armatura, Baal, Inwit, Terros IV, Nuceria."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta
+      property="og:title"
+      content="Missions — Horus Heresy, guide d’initiation"
+    />
+    <meta
+      property="og:description"
+      content="Une mission légendaire et cinq missions narratives prêtes à jouer, avec conditions de victoire, déploiement et règles spéciales."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/missions.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer).
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Guide d’initiation</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Ouvrir le menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Navigation principale">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <!-- .titre-page : accroche sur laquelle js/main.js pose le blason de
+           la Légion choisie (voir appliquerSkinLegionGlobal). Le libellé
+           reprend celui du menu de navigation (RGAA 8.6 / WCAG 2.4.2). -->
+      <h1 class="section-titre section-titre--centre titre-page">Missions</h1>
+
+      <div class="encadre">
+        <p>
+          Six scénarios prêts à jouer, tous centrés sur l’<strong
+            >armure Terminator saturnine</strong
+          >
+          et ses grandes heures : une <strong>mission légendaire</strong>
+          officielle et cinq <strong>missions narratives</strong> librement
+          adaptables.
+        </p>
+        <p>
+          La mission légendaire remplace la mission de base du
+          <em>Age of Darkness Rulebook</em> et se joue telle quelle. Les
+          missions narratives, elles, décrivent une situation, des conditions
+          de victoire et quelques règles maison : adaptez librement les
+          effectifs, les décors et les seuils de points à votre format de
+          partie.
+        </p>
+      </div>
+
+      <!-- ===================== SOMMAIRE ===================== -->
+      <section id="sommaire">
+        <h2 class="section-titre">Choisir une mission</h2>
+        <div class="grille-missions">
+          <a class="carte-mission" href="#ignis">
+            <h3>Ignis Sector Assault</h3>
+            <p class="mission-lieu">Isstvan V · Mission légendaire</p>
+            <p>
+              Les Salamanders de Vulkan enfoncent le flanc gauche de la ligne
+              de la Death Guard, dans la dépression d’Urgall.
+            </p>
+          </a>
+          <a class="carte-mission" href="#armatura">
+            <h3>The Solemn March</h3>
+            <p class="mission-lieu">Armatura · Mission narrative</p>
+            <p>
+              L’escouade Alepho progresse dans les ruines du district Décalien
+              vers une balise de détresse qui ne répond plus.
+            </p>
+          </a>
+          <a class="carte-mission" href="#baal">
+            <h3>Last of the Colossi</h3>
+            <p class="mission-lieu">Baal · Mission narrative</p>
+            <p>
+              Les derniers Colosses des Blood Angels tiennent le dernier
+              rempart d’un monde natal isolé du reste de la galaxie.
+            </p>
+          </a>
+          <a class="carte-mission" href="#inwit">
+            <h3>The March of the Tekathikos</h3>
+            <p class="mission-lieu">Inwit · Mission narrative</p>
+            <p>
+              Les Brise-Montagnes de Perturabo réduisent les remparts en
+              gravats ; les Imperial Fists chassent les géants.
+            </p>
+          </a>
+          <a class="carte-mission" href="#terros">
+            <h3>The Salvation of Terros IV</h3>
+            <p class="mission-lieu">Terros IV · Mission narrative</p>
+            <p>
+              Raids des Emperor’s Children sur les raffineries de prométhium,
+              jusqu’à l’intervention de la VII<sup>e</sup> Légion.
+            </p>
+          </a>
+          <a class="carte-mission" href="#nuceria">
+            <h3>Indurate Glory</h3>
+            <p class="mission-lieu">Nuceria · Mission narrative</p>
+            <p>
+              Les Indurés chargent la garde d’honneur ultramarine pendant que
+              deux Primarques s’affrontent en arrière-plan.
+            </p>
+          </a>
+        </div>
+      </section>
+
+      <!-- ===================== IGNIS SECTOR ASSAULT ===================== -->
+      <section id="ignis">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="ignis-corps"
+          >
+            <span>Ignis Sector Assault — mission légendaire</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="ignis-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Isstvan V</span></li>
+            <li><span class="etiquette-mission">Mission légendaire</span></li>
+            <li>
+              <span class="etiquette-mission"
+                >Attaquant : Salamanders (Loyaliste)</span
+              >
+            </li>
+            <li>
+              <span class="etiquette-mission"
+                >Défenseur : Death Guard (Traître)</span
+              >
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Les Salamanders doivent suivre les ordres de Vulkan et pousser leur
+            assaut à travers les défenses du secteur Ignis tenues par la Death
+            Guard. Chaque étape de leur avancée inexorable se fait dans les
+            traces sanglantes de leurs frères en armure saturnine. Ils doivent
+            frapper la ligne du traître avant que le moment de la trahison
+            n’arrive.
+          </p>
+
+          <p>
+            Pour revendiquer la victoire lors d’<strong
+              >Ignis Sector Assault</strong
+            >, les Salamanders, menés par leurs Terminators en armure
+            saturnine, doivent attaquer la ligne défensive de la Death Guard et
+            tenter de submerger les positions ennemies.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Jouer cette mission légendaire</h3>
+              <p>
+                <em>Ignis Sector Assault</em> représente les actions des
+                Salamanders, menés par Vulkan en personne, contre le flanc
+                gauche de la ligne défensive de l’Urgall Stronghold, tenue par
+                la Death Guard de Mortarion. Elle peut toutefois servir à
+                représenter d’autres assauts de position : les joueurs peuvent
+                adapter les forces engagées, à condition que l’un prenne le rôle
+                de l’<strong>Attaquant</strong> et l’autre celui du
+                <strong>Défenseur</strong>.
+              </p>
+              <p>
+                On utilise la séquence de mission de base du
+                <em>Age of Darkness Rulebook</em>, avec les modifications
+                suivantes :
+              </p>
+              <ul>
+                <li>
+                  <strong>Étape 1 :</strong> cette mission est sélectionnée à la
+                  place des missions de base listées. Les joueurs déterminent
+                  ensuite qui joue l’Attaquant et qui joue le Défenseur.
+                  L’armée de l’Attaquant doit avoir l’allégeance
+                  <strong>Loyaliste</strong>, celle du Défenseur l’allégeance
+                  <strong>Traître</strong>.
+                </li>
+                <li>
+                  <strong>Étape 5 :</strong> ne sélectionnez pas de carte de
+                  déploiement — utilisez celle donnée plus bas, avec les zones
+                  qui y sont indiquées.
+                </li>
+                <li>
+                  <strong>Étape 6 :</strong> l’Attaquant place certaines unités
+                  en Réserves, comme détaillé dans
+                  <em>Spearhead Sector</em> ; aucune autre unité de l’Attaquant
+                  ne peut être placée en Réserves.
+                </li>
+                <li>
+                  <strong>Étape 6 :</strong> tous les détachements alliés de
+                  l’armée du Défenseur sont placés en Réserves en tant que
+                  <em>Second Wave</em>.
+                </li>
+                <li>
+                  <strong>Étape 7 :</strong> le Défenseur déploie en premier
+                  toutes les unités de son armée, mais l’Attaquant joue le
+                  premier tour.
+                </li>
+                <li>
+                  À la fin du tour 4 du joueur, le Défenseur lance un dé : sur
+                  <strong>4+</strong>, un cinquième tour de jeu est joué avant
+                  la fin de la bataille.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Le champ de bataille : secteur Ignis</h3>
+              <p>
+                La moitié de table du Défenseur doit comporter davantage de
+                terrain représentant des barrières défensives, des lignes de
+                tranchées et des bunkers. La moitié de table de l’Attaquant doit
+                être relativement plate, avec un terrain plus dégagé et peu
+                encombré d’épaves de chars ou de drop pods.
+              </p>
+
+              <h3>Conditions de victoire : gagner du terrain</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>Capturer les marqueurs d’objectif de mission principale.</li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>Tuer le Seigneur de Guerre (3)</li>
+                <li>Géant tueur (2)</li>
+                <li>Le dernier carré (3)</li>
+                <li>Premier sang (2)</li>
+              </ul>
+              <p>
+                Cette mission utilise un marqueur d’objectif de valeur
+                <strong>3</strong> placé au centre du champ de bataille, ainsi
+                que deux marqueurs de valeur <strong>2</strong> aux emplacements
+                marqués d’un symbole d’objectif sur la carte de déploiement.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales de mission</h3>
+              <p>
+                L’Attaquant utilise <strong>Spearhead Sector</strong>. Le
+                Défenseur utilise <strong>Bombardement préliminaire</strong>,
+                <strong>Second Wave</strong> et l’actif tactique de champ de
+                bataille <strong>Journal Tactic</strong> (page 40 de
+                <em>The Isstvan V Dropsite Massacre – Part One</em>).
+              </p>
+
+              <div class="mission-regle">
+                <h4>Spearhead Sector</h4>
+                <p>
+                  À l’étape 6, Déclarer les Réserves de mission, l’Attaquant
+                  place en Réserves toutes les unités suivantes de son armée :
+                </p>
+                <ul>
+                  <li>Praetor en armure Terminator saturnine</li>
+                  <li>Centurion en armure Terminator saturnine</li>
+                  <li>Escouade de commandement Terminator saturnine</li>
+                  <li>Escouade Terminator saturnine</li>
+                </ul>
+                <p>
+                  Durant la sous-phase des Réserves de son premier tour de
+                  joueur, l’Attaquant déploie toutes ces unités dans la portion
+                  <em>Spearhead Sector</em> de sa zone de déploiement. Toutes
+                  les autres unités de son armée se déploient normalement dans
+                  sa zone de déploiement et ne peuvent pas être volontairement
+                  placées en Réserves.
+                </p>
+              </div>
+
+              <div class="mission-regle">
+                <h4>Bombardement préliminaire</h4>
+                <p>
+                  Au début de l’étape 8, Jouer la mission principale, avant le
+                  premier tour de joueur, le Défenseur peut effectuer une
+                  attaque de tir avec chaque unité de batterie Tarantula ou de
+                  plateforme accélératrice quadruple Araknae de son armée
+                  déployée sur le champ de bataille. Ces attaques sont résolues
+                  comme des <em>Snap Shots</em> (tirs au jugé).
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <div class="mission-regle">
+                <h4>Second Wave</h4>
+                <p>
+                  Le Défenseur n’effectue pas de tests de Réserves pour les
+                  unités placées en Réserves au titre de
+                  <em>Second Wave</em> : leur test est automatiquement réussi
+                  lors de la sous-phase de Réserves du Défenseur des
+                  <strong>tours 3 et 4</strong>. Au déploiement, il suit les
+                  règles d’entrée des Réserves mais peut choisir n’importe quel
+                  point du bord de table situé dans la zone de déploiement de
+                  l’<strong>Attaquant</strong>, au lieu de la sienne.
+                </p>
+                <p>
+                  De plus, le Joueur Réactif ne peut pas déclarer la réaction
+                  <em>Interception</em> si l’unité déclencheuse fait partie de
+                  la <em>Second Wave</em>.
+                </p>
+              </div>
+
+              <div class="mission-regle">
+                <h4>Note du concepteur : armées de légende</h4>
+                <p>
+                  Le massacre du site d’atterrissage fut l’un des tout premiers
+                  engagements où les forces du Maître de Guerre ne déployèrent
+                  que des troupes impériales. Les archives ne contiennent aucun
+                  récit de guerriers traîtres portant une armure de motif
+                  saturnine dans la dépression d’Urgall : pour représenter
+                  fidèlement Isstvan V, seul l’Attaquant devrait sélectionner
+                  ces unités.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <figure class="carte-deploiement">
+            <h3>Carte de déploiement</h3>
+            <svg
+              viewBox="0 0 900 520"
+              role="img"
+              aria-label="Carte de déploiement : table de 72 pouces sur 48 pouces. Le bord du Défenseur est en haut avec une bande de 12 pouces, le bord de l’Attaquant en bas. Deux zones Spearhead Sector triangulaires sont placées dans la moitié de l’Attaquant, de part et d’autre du centre. Trois marqueurs d’objectif : un central de valeur 3, deux avancés de valeur 2."
+            >
+              <rect class="trait-table" x="90" y="70" width="720" height="360" />
+              <line class="trait-mesure" x1="90" y1="130" x2="810" y2="130" />
+              <line class="trait-mesure" x1="450" y1="70" x2="450" y2="430" />
+              <line class="trait-pointille" x1="450" y1="250" x2="450" y2="70" />
+              <line class="trait-pointille" x1="270" y1="190" x2="270" y2="130" />
+              <line class="trait-pointille" x1="630" y1="190" x2="630" y2="130" />
+              <line class="trait-pointille" x1="270" y1="250" x2="450" y2="250" />
+              <line class="trait-pointille" x1="450" y1="250" x2="630" y2="250" />
+              <polygon class="zone-spearhead" points="120,300 270,190 450,300" />
+              <polygon class="zone-spearhead" points="450,300 630,190 780,300" />
+              <circle class="marqueur-objectif" cx="270" cy="190" r="10" />
+              <circle class="marqueur-objectif" cx="450" cy="250" r="10" />
+              <circle class="marqueur-objectif" cx="630" cy="190" r="10" />
+              <path class="marqueur-croix" d="M270 180 l0 20 M260 190 l20 0" />
+              <path class="marqueur-croix" d="M450 240 l0 20 M440 250 l20 0" />
+              <path class="marqueur-croix" d="M630 180 l0 20 M620 190 l20 0" />
+              <text x="450" y="48" text-anchor="middle">
+                Bord de bataille du Défenseur
+              </text>
+              <text x="450" y="486" text-anchor="middle">
+                Bord de bataille de l’Attaquant
+              </text>
+              <text class="etiquette-zone" x="270" y="285" text-anchor="middle">
+                SPEARHEAD
+              </text>
+              <text class="etiquette-zone" x="270" y="315" text-anchor="middle">
+                SECTOR
+              </text>
+              <text class="etiquette-zone" x="630" y="285" text-anchor="middle">
+                SPEARHEAD
+              </text>
+              <text class="etiquette-zone" x="630" y="315" text-anchor="middle">
+                SECTOR
+              </text>
+              <text x="128" y="114">12"</text>
+              <text x="302" y="160">18"</text>
+              <text x="468" y="162">24"</text>
+              <text x="662" y="160">18"</text>
+              <text x="72" y="325">18"</text>
+              <text x="436" y="338">24"</text>
+              <text x="122" y="360">12"</text>
+              <text x="818" y="258">48"</text>
+              <text x="433" y="448">72"</text>
+            </svg>
+            <figcaption>
+              Trois marqueurs d’objectif : un objectif central de valeur 3 et
+              deux objectifs avancés de valeur 2.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ===================== ARMATURA ===================== -->
+      <section id="armatura">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="armatura-corps"
+          >
+            <span>The Solemn March — Armatura</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="armatura-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Armatura</span></li>
+            <li><span class="etiquette-mission">Mission narrative</span></li>
+            <li>
+              <span class="etiquette-mission">Loyalistes : Ultramarines</span>
+            </li>
+            <li>
+              <span class="etiquette-mission"
+                >Traîtres : Word Bearers / World Eaters</span
+              >
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Une marche lente, obstinée et meurtrière à travers des ruines déjà
+            condamnées, où l’espoir ne survit qu’assez longtemps pour attirer un
+            dernier secours.
+          </p>
+
+          <p>
+            Les académies d’entraînement d’Armatura ont été ravagées par les
+            World Eaters et les Word Bearers. L’escouade de Terminators
+            saturnines <strong>Alepho</strong>, fraîchement constituée, reçoit un
+            signal de détresse venu du district Décalien et progresse à travers
+            un paysage de gravats, d’embuscades et de frappes de harcèlement
+            menées depuis les airs par les Night Lords. Après une journée entière
+            et une nuit de marche sous le feu ennemi, les guerriers atteignent
+            enfin la balise, pour n’y découvrir qu’un champ de destruction et
+            les restes mutilés des défenseurs.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>
+                  <strong>Balise de détresse</strong> placée au centre exact du
+                  champ de bataille.
+                </li>
+                <li>
+                  5 points de victoire pour les loyalistes si une unité contrôle
+                  la Balise à la fin de la partie.
+                </li>
+                <li>
+                  5 points de victoire pour les traîtres s’ils la contrôlent au
+                  même moment, au titre d’<strong>Étouffer l’appel</strong>.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>
+                  <strong>Marche solennelle</strong> : 2 points si l’escouade
+                  Alepho termine à 6 pouces ou moins de la Balise.
+                </li>
+                <li>
+                  <strong>Ruines purifiées</strong> : 1 point par unité ennemie
+                  détruite dans la zone centrale de 12 pouces autour de la
+                  Balise.
+                </li>
+                <li>
+                  <strong>Pas un pas en arrière</strong> : 2 points si le
+                  seigneur de guerre loyaliste survit.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Déploiement et forces</h3>
+              <p>
+                Le défenseur loyaliste déploie dans un quart de table. Le joueur
+                traître déploie sur les deux longs bords restants, à plus de 18
+                pouces de toute unité loyaliste. La Balise est placée au centre
+                exact de la table ; 3 à 5 éléments majeurs de ruines sont
+                disposés autour d’elle pour créer des couloirs de progression et
+                un centre encombré.
+              </p>
+              <h4>Loyalistes</h4>
+              <p>
+                <strong>Ultramarines</strong>. Une unité de Terminators
+                saturnines (ou une unité équivalente de Terminators d’élite)
+                représente l’escouade Alepho. Un appui d’unités tactiques, de
+                vétérans, de Contemptors ou de reconnaissance renforce le
+                caractère méthodique de cette marche de secours.
+              </p>
+              <h4>Traîtres</h4>
+              <p>
+                <strong>Word Bearers</strong>, <strong>World Eaters</strong> ou
+                force composite. Un soutien optionnel des
+                <strong>Night Lords</strong> incarne les frappes de harcèlement
+                aérien.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <div class="mission-regle">
+                <h4>Marche forcée</h4>
+                <p>
+                  Une fois par partie, l’unité représentant Alepho peut relancer
+                  un jet de charge, ajouter 2 pouces à son mouvement lors de sa
+                  phase de mouvement, ou relancer un test de Moral ou de
+                  Pilonnage.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Ciel infesté</h4>
+                <p>
+                  Au début de chaque tour traître, lancez un D6 : sur 1 à 3,
+                  aucun effet ; sur 4 ou 5, une petite frappe de barrage touche
+                  un point visible à plus de 6 pouces d’un bord ; sur 6, résolvez
+                  deux petites frappes de barrage sur deux points distincts.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Champ de ruines</h4>
+                <p>
+                  Toutes les zones de débris, de gravats et de carcasses comptent
+                  comme terrain difficile. La première course d’une unité
+                  d’infanterie non Terminator dans un terrain difficile subit un
+                  malus de 2 pouces.
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Résumé de jeu</h3>
+              <p>
+                L’escouade Alepho doit avancer dans un environnement contraint,
+                briser les écrans ennemis et atteindre un point central dont la
+                possession donne son sens à toute la mission. Le joueur loyaliste
+                cherche moins à détruire l’ennemi qu’à conserver un noyau de
+                force capable d’atteindre la balise et d’y survivre. En face, les
+                traîtres exploitent les ruines, les angles morts et la pression
+                d’attrition pour user la progression loyaliste avant le choc
+                final.
+              </p>
+              <h3>Victoire finale</h3>
+              <ul>
+                <li>
+                  <strong>Victoire majeure loyaliste</strong> : contrôle de la
+                  Balise et survie d’Alepho.
+                </li>
+                <li>
+                  <strong>Victoire mineure loyaliste</strong> : contrôle de la
+                  Balise sans survie d’Alepho.
+                </li>
+                <li>
+                  <strong>Victoire majeure traîtresse</strong> : destruction
+                  d’Alepho et contrôle de la Balise.
+                </li>
+                <li>
+                  <strong>Victoire mineure traîtresse</strong> : aucun loyaliste
+                  ne contrôle la Balise à la fin de la partie.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              Une mission d’attrition et de progression sous pression, idéale
+              pour une table urbaine dense, sombre et saturée de ruines au cœur
+              du district Décalien.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== BAAL ===================== -->
+      <section id="baal">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="baal-corps"
+          >
+            <span>Last of the Colossi — Baal</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="baal-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Baal</span></li>
+            <li><span class="etiquette-mission">Mission narrative</span></li>
+            <li>
+              <span class="etiquette-mission">Défenseurs : Blood Angels</span>
+            </li>
+            <li>
+              <span class="etiquette-mission"
+                >Assaillants : force traîtresse composite</span
+              >
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Quand un monde meurt à petit feu, la valeur d’une position se mesure
+            moins à ce qu’elle protège qu’à ceux qui refusent encore de
+            l’abandonner.
+          </p>
+
+          <p>
+            Alors que Baal est isolé du reste de la galaxie, une poignée de
+            Sanguinary Terminators, les <strong>Colosses</strong>, et plusieurs
+            milliers de légionnaires tiennent seuls le monde natal des Blood
+            Angels. Depuis des années, ils combattent aux côtés des éléments des
+            Légions Brisées réfugiés sur Baal, repoussant les assauts répétés des
+            armées du Maître de Guerre. Chaque Colosse tombé devient une relique,
+            un symbole et un serment de vengeance.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>
+                  Trois objectifs sont placés dans la zone défensive :
+                  <strong>Porte Sanglante</strong>, <strong>Reliquaire</strong>
+                  et <strong>Mur intérieur</strong>.
+                </li>
+                <li>
+                  Le défenseur marque 3 points pour chaque objectif qu’il
+                  contrôle à la fin de la partie.
+                </li>
+                <li>
+                  L’attaquant marque 3 points pour chaque objectif conquis au
+                  même moment.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>
+                  <strong>Derniers des Colosses</strong> : 2 points pour le
+                  défenseur si au moins la moitié de l’unité Colosse survit.
+                </li>
+                <li>
+                  <strong>Briser les géants</strong> : 2 points pour l’attaquant
+                  si l’unité Colosse est détruite.
+                </li>
+                <li>
+                  <strong>Le prix du siège</strong> : 1 point pour chaque unité
+                  entièrement détruite dans la zone défensive adverse.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Déploiement et forces</h3>
+              <p>
+                Le défenseur déploie dans un tiers de table, autour d’une ligne
+                de fortifications, d’une porte ou d’une citadelle en ruines.
+                L’attaquant se déploie à plus de 18 pouces de toute unité
+                ennemie. Une table riche en remparts, statues brisées,
+                sanctuaires et décombres renforce le caractère sacrificiel de
+                cette bataille.
+              </p>
+              <h4>Défenseurs</h4>
+              <p>
+                <strong>Blood Angels</strong>, avec possibilité d’ajouter des
+                éléments des <strong>Légions Brisées</strong>. Une unité de
+                Terminators d’élite représente les Colosses.
+              </p>
+              <h4>Assaillants</h4>
+              <p>
+                <strong>Sons of Horus</strong>, <strong>World Eaters</strong>,
+                <strong>Death Guard</strong> ou toute force traîtresse composite
+                adaptée à un siège brutal.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <div class="mission-regle">
+                <h4>Esprit de sacrifice</h4>
+                <p>
+                  Chaque fois qu’une unité loyaliste non véhicule est détruite à
+                  6 pouces ou moins d’un objectif, le défenseur place un marqueur
+                  <strong>Tombe honorée</strong>. Chaque marqueur rapporte 1
+                  point de victoire supplémentaire, jusqu’à un maximum de 3.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Reliques vivantes</h4>
+                <p>
+                  Une fois par partie, l’unité des Colosses peut soit ignorer un
+                  test de Moral raté, soit récupérer immédiatement 1 point de vie
+                  perdu sur une figurine multi-PV encore en jeu.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Assauts incessants</h4>
+                <p>
+                  À partir du troisième tour, une unité d’infanterie traîtresse
+                  détruite peut revenir en réserve sur un résultat de 5+, en
+                  entrant ensuite par un bord de table selon les conventions du
+                  groupe.
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Résumé de jeu</h3>
+              <p>
+                Le défenseur doit gérer une ligne étendue, absorber les assauts
+                successifs et accepter que certaines positions servent d’abord à
+                ralentir l’ennemi plutôt qu’à l’arrêter. L’attaquant cherche à
+                submerger la zone défensive en multipliant les brèches, en usant
+                les Colosses et en transformant chaque conquête locale en
+                effondrement général.
+              </p>
+              <h3>Victoire finale</h3>
+              <ul>
+                <li>
+                  <strong>Victoire majeure Blood Angels</strong> : au moins 2
+                  objectifs défendus et Colosses encore présents.
+                </li>
+                <li>
+                  <strong>Victoire mineure Blood Angels</strong> : au moins 2
+                  objectifs défendus.
+                </li>
+                <li>
+                  <strong>Victoire majeure traîtresse</strong> : 2 objectifs ou
+                  plus conquis et Colosses détruits.
+                </li>
+                <li>
+                  <strong>Victoire mineure traîtresse</strong> : plus d’objectifs
+                  contrôlés que le défenseur en fin de partie.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              Un siège défensif tendu, héroïque et brutal, où les points
+              d’ancrage de Baal valent autant pour leur poids symbolique que pour
+              leur importance tactique.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== INWIT ===================== -->
+      <section id="inwit">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="inwit-corps"
+          >
+            <span>The March of the Tekathikos — Inwit</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="inwit-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Inwit</span></li>
+            <li><span class="etiquette-mission">Mission narrative</span></li>
+            <li>
+              <span class="etiquette-mission">Attaquants : Iron Warriors</span>
+            </li>
+            <li>
+              <span class="etiquette-mission">Défenseurs : Imperial Fists</span>
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Lorsque les remparts tiennent encore, la victoire appartient souvent
+            au camp capable d’y envoyer des guerriers assez lourds pour en faire
+            tomber les pierres elles-mêmes.
+          </p>
+
+          <p>
+            Impressionné par l’efficacité des armures saturnines observées sur
+            Isstvan V, Perturabo ordonne leur production de masse pour la
+            IV<sup>e</sup> Légion. Lors du siège d’Inwit, les
+            <strong>Tekathikos</strong>, les Brise-Montagnes, mènent l’assaut
+            contre les forteresses loyalistes et réduisent bastions et remparts à
+            l’état de gravats. Face à eux, les Imperial Fists déploient des
+            groupes de chasse spécialisés, entraînés à abattre ces géants avant
+            qu’ils n’ouvrent la muraille.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>
+                  Trois objectifs fortifiés sont placés sur la table :
+                  <strong>Bastion Nord</strong>,
+                  <strong>Générateur de Bouclier</strong> et
+                  <strong>Porte d’Inwit</strong>.
+                </li>
+                <li>
+                  L’attaquant marque 4 points pour chaque objectif fortifié
+                  détruit ou contrôlé à la fin de la partie.
+                </li>
+                <li>
+                  Le défenseur marque 4 points pour chaque objectif fortifié
+                  intact et contrôlé au même moment.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>
+                  <strong>Brise-Montagnes</strong> : 2 points si au moins une
+                  unité Tekathikos termine dans la zone de déploiement ennemie.
+                </li>
+                <li>
+                  <strong>Tueurs de géants</strong> : 2 points si toutes les
+                  unités Tekathikos sont détruites.
+                </li>
+                <li>
+                  <strong>Sous le feu des remparts</strong> : 1 point par unité
+                  détruite dans les 12 pouces d’un objectif fortifié.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Déploiement et forces</h3>
+              <p>
+                Le défenseur déploie l’ensemble de ses forces dans la moitié de
+                table contenant une forteresse, des bunkers ou des lignes Aegis.
+                L’attaquant déploie dans la moitié opposée, jusqu’à 12 pouces de
+                son bord de table. Le décor doit mettre en avant une vraie ligne
+                fortifiée, avec des angles de tir, des obstacles de siège, des
+                portes blindées et des goulots d’étranglement.
+              </p>
+              <h4>Attaquants</h4>
+              <p>
+                <strong>Iron Warriors</strong>. Une ou plusieurs unités de
+                Terminators lourds représentent les Tekathikos, soutenues de
+                préférence par des dreadnoughts, des escouades de brèche et des
+                armes lourdes.
+              </p>
+              <h4>Défenseurs</h4>
+              <p>
+                <strong>Imperial Fists</strong>, avec un appui recommandé
+                d’unités tactiques, de support lourd, d’éléments d’interception
+                et d’unités d’assaut spécialisées.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <div class="mission-regle">
+                <h4>Tekathikos</h4>
+                <p>
+                  Les unités désignées comme Tekathikos gagnent un avantage
+                  maison contre les bâtiments et fortifications : par exemple +1
+                  pour endommager les bâtiments au corps à corps, ou une relance
+                  des jets ratés contre les portes et remparts.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Chasseurs de Brise-Montagnes</h4>
+                <p>
+                  Le défenseur peut désigner jusqu’à 2 unités comme escouades de
+                  chasse. Elles gagnent une relance pour blesser contre les
+                  Tekathikos et bénéficient d’un bonus de +1 à la distance de
+                  charge lorsqu’elles les prennent pour cible.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Bombardement méthodique</h4>
+                <p>
+                  Une fois par partie, l’attaquant peut choisir un bâtiment ou
+                  une fortification visible. Jusqu’à la fin du tour, toutes les
+                  armes de tir lourdes de l’armée attaquante gagnent un léger
+                  bonus contre cette cible.
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Résumé de jeu</h3>
+              <p>
+                L’attaquant doit concentrer sa puissance sur des points fortifiés
+                clairement identifiés, ouvrir une brèche puis exploiter cette
+                rupture avant que l’ennemi ne reconstitue sa ligne. Le défenseur
+                cherche à ralentir les unités de rupture, à préserver ses
+                positions clés et à employer ses groupes de chasse au moment où
+                les Tekathikos s’exposent.
+              </p>
+              <h3>Victoire finale</h3>
+              <ul>
+                <li>
+                  <strong>Victoire majeure Iron Warriors</strong> : au moins 2
+                  objectifs fortifiés détruits ou capturés, avec présence des
+                  Tekathikos dans les lignes ennemies.
+                </li>
+                <li>
+                  <strong>Victoire mineure Iron Warriors</strong> : plus
+                  d’objectifs fortifiés neutralisés que défendus.
+                </li>
+                <li>
+                  <strong>Victoire majeure Imperial Fists</strong> : majorité des
+                  fortifications tenues et Tekathikos détruits.
+                </li>
+                <li>
+                  <strong>Victoire mineure Imperial Fists</strong> : majorité des
+                  fortifications intactes à la fin de la partie.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              Une mission de siège frontal, idéale pour mettre en scène des
+              remparts massifs, des couloirs de tir meurtriers et la collision de
+              deux doctrines de guerre parfaitement antagonistes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== TERROS IV ===================== -->
+      <section id="terros">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="terros-corps"
+          >
+            <span>The Salvation of Terros IV</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="terros-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Terros IV</span></li>
+            <li><span class="etiquette-mission">Mission narrative</span></li>
+            <li>
+              <span class="etiquette-mission">Défenseurs : Imperial Fists</span>
+            </li>
+            <li>
+              <span class="etiquette-mission"
+                >Assaillants : Emperor’s Children</span
+              >
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            Les raids ne cherchent pas toujours à conquérir un monde ; parfois,
+            il leur suffit de le vider de tout ce qui lui permettait encore de
+            survivre.
+          </p>
+
+          <p>
+            Sur Terros IV, une flotte éclatée des Emperor’s Children harcèle les
+            installations de raffinage de prométhium, frappant puis disparaissant
+            dans la nuit glaciale. <strong>Bilat Svenor</strong> rallie ouvriers
+            et colons pour organiser une résistance désespérée, mais après des
+            mois de raids les défenseurs sont proches de la rupture. La situation
+            bascule lorsqu’un croiseur d’attaque de la VII<sup>e</sup> Légion
+            brise le blocus et téléporte des Terminators saturnines au cœur de la
+            zone de combat.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>
+                  Quatre objectifs représentant des
+                  <strong>plateformes de raffinage</strong> sont placés sur la
+                  table.
+                </li>
+                <li>
+                  Chaque plateforme intacte et contrôlée par les loyalistes à la
+                  fin de la partie vaut 3 points de victoire.
+                </li>
+                <li>
+                  Chaque plateforme sabotée ou contrôlée par les traîtres vaut 3
+                  points de victoire pour eux.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>
+                  <strong>La résistance de Svenor</strong> : 2 points si une
+                  unité loyaliste non Terminator survit à 3 pouces d’une
+                  plateforme à la fin de la partie.
+                </li>
+                <li>
+                  <strong>Le goût du raid</strong> : 2 points si les Emperor’s
+                  Children détruisent au moins deux unités autour de plateformes
+                  différentes.
+                </li>
+                <li>
+                  <strong>Intervention brutale</strong> : 2 points si l’unité de
+                  Terminators arrivée en renfort détruit une unité ennemie après
+                  son arrivée.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Déploiement et forces</h3>
+              <p>
+                Placez 4 objectifs représentant les plateformes de raffinage. Le
+                défenseur déploie ses forces initiales autour de ces
+                installations ; l’attaquant ne peut placer qu’une partie de son
+                armée sur table, jusqu’à la moitié de ses effectifs, le reste
+                commençant en réserve. Une table de pipelines, cuves, grues,
+                passerelles, neige, plaques de glace et flammes industrielles
+                renforce fortement l’identité de la mission.
+              </p>
+              <h4>Défenseurs loyalistes</h4>
+              <p>
+                <strong>Imperial Fists</strong>. Des auxiliaires issus de la
+                <strong>Solar Auxilia</strong> ou de la
+                <strong>Milice</strong> peuvent incarner les ouvriers et colons
+                armés. Une unité de Terminators saturnines intervient ensuite
+                comme renfort décisif.
+              </p>
+              <h4>Assaillants traîtres</h4>
+              <p>
+                <strong>Emperor’s Children</strong>. Des unités rapides,
+                d’assaut ou de harcèlement mobile conviennent particulièrement
+                bien à la logique de raids successifs.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <div class="mission-regle">
+                <h4>Raid éclair</h4>
+                <p>
+                  Au tour 1, seules les unités traîtresses déployées au départ
+                  peuvent agir normalement. Les réserves traîtresses commencent à
+                  arriver dès le tour 2 sur un résultat de 3+.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Renforts de la VII<sup>e</sup> Légion</h4>
+                <p>
+                  À partir du tour 2, le joueur loyaliste peut faire entrer une
+                  unité de Terminators saturnines soit en frappe en profondeur,
+                  soit depuis un bord de table prédéfini. Pour accentuer la
+                  dimension narrative, cette arrivée peut être rendue automatique
+                  au tour 2.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Surface glacée</h4>
+                <p>
+                  Désignez 2 à 4 zones comme terrain glissant. Les unités qui
+                  courent, chargent ou se déplacent rapidement à travers ces
+                  zones subissent un risque narratif léger : par exemple un malus
+                  de charge ou un test de terrain dangereux.
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Résumé de jeu</h3>
+              <p>
+                Le camp loyaliste doit répartir ses forces autour de plusieurs
+                points sensibles, accepter une posture initialement défensive,
+                puis exploiter l’arrivée de ses renforts pour reprendre
+                localement l’avantage. L’attaquant traître cherche à frapper
+                vite, à choisir ses cibles et à désorganiser les réactions
+                ennemies avant que les Terminators de la VII<sup>e</sup> Légion
+                ne stabilisent le front.
+              </p>
+              <h3>Victoire finale</h3>
+              <ul>
+                <li>
+                  <strong>Victoire majeure loyaliste</strong> : au moins 3
+                  plateformes sauvées.
+                </li>
+                <li>
+                  <strong>Victoire mineure loyaliste</strong> : plus de
+                  plateformes sauvées que sabotées.
+                </li>
+                <li>
+                  <strong>Victoire majeure traîtresse</strong> : 3 plateformes ou
+                  plus neutralisées.
+                </li>
+                <li>
+                  <strong>Victoire mineure traîtresse</strong> : autant ou plus
+                  de plateformes sabotées que sauvées.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              Une mission de raid industriel et de contre-intervention, idéale
+              pour une table technique, froide et fragmentée, où chaque
+              plateforme devient un point de bascule tactique.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NUCERIA ===================== -->
+      <section id="nuceria">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="nuceria-corps"
+          >
+            <span>Indurate Glory — Nuceria</span>
+            <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="nuceria-corps">
+          <ul class="mission-etiquettes">
+            <li><span class="etiquette-mission">Nuceria</span></li>
+            <li><span class="etiquette-mission">Mission narrative</span></li>
+            <li>
+              <span class="etiquette-mission">Attaquants : World Eaters</span>
+            </li>
+            <li>
+              <span class="etiquette-mission">Défenseurs : Ultramarines</span>
+            </li>
+          </ul>
+
+          <p class="mission-accroche">
+            La gloire d’un choc frontal peut suffire à emporter une ligne
+            ennemie, mais elle peut aussi consumer ceux qui la portent jusqu’à ne
+            laisser derrière elle qu’une rage sans objet.
+          </p>
+
+          <p>
+            Sur Nuceria, monde natal d’Angron, les World Eaters réintroduisent
+            l’armure Terminator saturnine, arrachée aux morts d’Isstvan V et
+            d’Ultramar. Les <strong>Indurés</strong> affrontent les
+            <strong>Invictus Suzerains</strong> de Guilliman tandis que les
+            Primarques se livrent un duel titanesque en arrière-plan. Mais à
+            mesure que les Clous du Boucher se déchaînent sous les plaques de ces
+            armures massives, la gloire tourne à la rage et la XII<sup>e</sup>
+            Légion menace de se dévorer elle-même.
+          </p>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Conditions de victoire</h3>
+              <h4>Objectif principal</h4>
+              <ul>
+                <li>
+                  Un grand objectif central, le
+                  <strong>Cercle d’Honneur</strong>, est placé au milieu du champ
+                  de bataille.
+                </li>
+                <li>
+                  Les World Eaters marquent 5 points de victoire s’ils le
+                  contrôlent à la fin de la partie.
+                </li>
+                <li>
+                  Les Ultramarines marquent 5 points de victoire s’ils le
+                  tiennent encore à ce moment.
+                </li>
+              </ul>
+              <h4>Objectifs secondaires</h4>
+              <ul>
+                <li>
+                  <strong>Gloire indurée</strong> : 2 points si les Indurés
+                  détruisent l’unité représentant les Invictus Suzerains.
+                </li>
+                <li>
+                  <strong>Tenir la ligne d’honneur</strong> : 2 points si au
+                  moins la moitié des Suzerains survit.
+                </li>
+                <li>
+                  <strong>Sous les Clous</strong> : 1 point pour chaque unité
+                  détruite au corps à corps dans les 12 pouces du centre.
+                </li>
+              </ul>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Déploiement et forces</h3>
+              <p>
+                Le Cercle d’Honneur est placé au centre. Les Ultramarines se
+                déploient dans un rayon de 12 pouces autour de cet objectif, les
+                World Eaters à plus de 18 pouces du centre, depuis un bord long
+                ou selon une ligne d’assaut convenue. Une table de ruines, de
+                fosses, de statues brisées et d’axes de charge ouverts convient
+                particulièrement à cette mission centrée sur le choc frontal.
+              </p>
+              <h4>Attaquants</h4>
+              <p>
+                <strong>World Eaters</strong>. Une unité de Terminators lourds
+                représente les Indurés, soutenue de préférence par des troupes
+                d’assaut, des dreadnoughts et d’autres unités de mêlée rapides.
+              </p>
+              <h4>Défenseurs</h4>
+              <p>
+                <strong>Ultramarines</strong>. Une unité d’élite représente les
+                Invictus Suzerains, épaulés par des troupes tactiques
+                disciplinées, un appui-feu structuré et des unités de
+                contre-charge aptes à défendre un périmètre d’honneur.
+              </p>
+            </div>
+          </div>
+
+          <div class="mission-blocs">
+            <div class="mission-bloc">
+              <h3>Règles spéciales</h3>
+              <div class="mission-regle">
+                <h4>Fureur des Indurés</h4>
+                <p>
+                  Lors d’une charge réussie, l’unité Indurée gagne un bonus
+                  offensif narratif : par exemple +1 attaque sur le tour de
+                  charge, ou une relance des blessures ratées au premier round de
+                  corps à corps.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Surcharge des Clous du Boucher</h4>
+                <p>
+                  À partir du tour 3, au début de chaque tour World Eater, lancez
+                  un D6 pour chaque unité Indurée ou pour toute autre unité clé :
+                  sur 1 ou 2, aucun effet ; sur 3 ou 4, l’unité doit charger
+                  l’ennemi le plus proche ; sur 5 ou 6, si aucun ennemi n’est à
+                  portée réaliste, elle se déplace vers l’unité alliée la plus
+                  proche et ne peut pas effectuer d’action défensive complexe.
+                </p>
+              </div>
+              <div class="mission-regle">
+                <h4>Frères devenus proies</h4>
+                <p>
+                  Si, à la fin d’un tour, il ne reste plus d’unité Ultramarine
+                  dans la zone centrale, les unités World Eaters situées à moins
+                  de 12 pouces les unes des autres doivent réussir un test de
+                  Commandement. En cas d’échec, elles ne peuvent plus être
+                  ciblées par des ordres coordonnés et doivent privilégier
+                  l’agression la plus proche au tour suivant.
+                </p>
+              </div>
+            </div>
+
+            <div class="mission-bloc">
+              <h3>Résumé de jeu</h3>
+              <p>
+                Le joueur World Eaters doit forcer la décision au centre avant
+                que la montée de sa propre fureur ne rende ses unités plus
+                difficiles à coordonner. Le défenseur ultramarine cherche à tenir
+                la zone d’honneur, à user les Indurés et à laisser le temps
+                travailler en sa faveur jusqu’à ce que l’assaut adverse commence
+                à se dérégler.
+              </p>
+              <h3>Victoire finale</h3>
+              <ul>
+                <li>
+                  <strong>Victoire majeure World Eaters</strong> : Cercle
+                  d’Honneur pris et Invictus détruits.
+                </li>
+                <li>
+                  <strong>Victoire mineure World Eaters</strong> : Cercle
+                  d’Honneur pris.
+                </li>
+                <li>
+                  <strong>Victoire majeure Ultramarines</strong> : Cercle
+                  d’Honneur tenu et Indurés neutralisés.
+                </li>
+                <li>
+                  <strong>Victoire mineure Ultramarines</strong> : Cercle
+                  d’Honneur tenu à la fin de la partie.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="encadre">
+            <p>
+              Une mission de duel d’élite et de désintégration morale
+              progressive, où le centre de table devient à la fois trophée, piège
+              et scène de carnage.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

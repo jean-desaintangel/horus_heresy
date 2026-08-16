@@ -1052,6 +1052,7 @@ const LIENS_NAV = [
   { href: "psy.html", texte: "Psychique" },
   { href: "vehicule.html", texte: "Véhicules" },
   { href: "titan.html", texte: "Titans" },
+  { href: "missions.html", texte: "Missions" },
   { href: "telechargement.html", texte: "Téléchargements" },
 ];
 

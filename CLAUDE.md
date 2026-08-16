@@ -4054,3 +4054,58 @@ considérer comme non fiables tant que leur page n'a pas été fournie.
 
 Cette liste s'allonge à chaque légion : la compléter au fil de l'eau
 plutôt que de la laisser devenir obsolète.
+
+- **Nouvelle page « Missions » (`pages/missions.html`, 2026-08-16)** :
+  première page du site consacrée aux scénarios, à partir de six fiches
+  HTML autonomes fournies par le proprio (mises en page « fiche de
+  mission » indépendantes, avec leur propre `<style>` : le contenu a été
+  extrait et réécrit dans les conventions du site, aucune de ces feuilles
+  de style n'a été reprise). Une **mission légendaire** officielle
+  (*Ignis Sector Assault*, Isstvan V / Journal Tactica Dropsite Massacre,
+  seule à avoir une séquence de mission chiffrée et une carte de
+  déploiement) et **cinq missions narratives** maison (Armatura, Baal,
+  Inwit, Terros IV, Nuceria), toutes centrées sur l'armure Terminator
+  saturnine. Structure : sommaire en cartes cliquables (`.grille-missions`/
+  `.carte-mission`, calqué sur `.grille-telechargements`) puis une
+  `<section>` repliable par mission au motif déjà établi
+  (`h2.section-titre` > `button.section-toggle` + `div.section-corps`
+  enfant DIRECT de la section — `activerPanneauxDepliables`/le bloc
+  `.section-toggle` de `js/main.js` le cherchent en `:scope >`, un niveau
+  d'imbrication de plus casserait l'ouverture).
+  Nouveau bloc CSS « MISSIONS » dans `css/style.css` (avant PIED DE PAGE) :
+  `.grille-missions`, `.carte-mission`, `.mission-etiquettes`/
+  `.etiquette-mission` (mêmes pastilles que `.badge-phase`),
+  `.mission-accroche`, `.mission-blocs`/`.mission-bloc`, `.mission-regle`
+  (liseré gauche façon `.regle`) et `.carte-deploiement`. **La carte de
+  déploiement SVG ne porte AUCUN attribut de présentation de couleur** :
+  le SVG d'origine codait ses `stroke`/`fill` en dur (parchemin clair),
+  invisibles sous Nuit Éternelle — les couleurs sont donc posées par des
+  classes CSS (`.trait-table`, `.trait-mesure`, `.trait-pointille`,
+  `.zone-spearhead`, `.marqueur-objectif`, `.marqueur-croix`,
+  `.etiquette-zone`) qui lisent les variables de `:root`, donc suivent le
+  thème sombre et les skins de Faction sans règle supplémentaire. À
+  reproduire pour toute future carte de mission.
+  Quatre points d'enregistrement à ne pas oublier pour toute NOUVELLE page
+  (tous faits ici) : entrée dans `LIENS_NAV` (`js/main.js`, insérée entre
+  Titans et Téléchargements), ajout à `PRECACHE_URLS` **et** incrément de
+  `CACHE_VERSION` (`service-worker.js`, v121 → v122 : sans l'incrément un
+  visiteur ayant déjà installé la PWA garde un précache sans la page), et
+  `sitemap.xml`. `index.html` n'a pas eu à changer (l'accueil ne liste
+  aucune page en dur, tout passe par la nav générée). Le tableau de
+  blessure flottant s'affiche sur cette page comme sur les autres pages de
+  règles (elle n'est pas dans `PAGES_SANS_TABLEAU_FLOTTANT`).
+  Vocabulaire aligné sur le site plutôt que sur les fiches source :
+  « Shattered Legions » → **Légions Brisées**, « Butcher's Nails » →
+  **Clous du Boucher**, « Intercept » → **Interception**, « Militia » →
+  **Milice**. Les noms de missions eux-mêmes restent en anglais (titres
+  d'origine, comme les titres de Journaux Tactica déjà cités dans
+  `SOURCES_SITE`), de même que les termes de règles propres à la mission
+  légendaire (*Spearhead Sector*, *Second Wave*, *Journal Tactic*) qui
+  n'ont pas de traduction officielle connue — ne pas les traduire au
+  jugé.
+  **Vérification incomplète, à refaire** : le bac à sable Linux de la
+  session était indisponible (« VM service not running ») et les outils
+  navigateur refusent les URL `file://` — cette page n'a donc PAS été
+  ouverte en vrai ni testée en DOM headless, contrairement à tous les
+  chantiers précédents. Seuls l'équilibrage des balises et la cohérence
+  des ids `aria-controls`/`.section-corps` ont été vérifiés par relecture.

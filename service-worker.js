@@ -179,7 +179,11 @@
 // signalé par le proprio) (js/armes-data.js).
 // v96 : corrige la Cohorte de Thallax (profils, option d'armement individuelle)
 // (js/unites-data.js).
-const CACHE_VERSION = "v121";
+// v122 : ajoute la page Missions (mission légendaire Ignis Sector Assault
+// + cinq missions narratives) et son entrée de menu — pages/missions.html
+// (NOUVEAU fichier, d'où l'incrément obligatoire de ce numéro),
+// js/main.js, css/style.css, sitemap.xml.
+const CACHE_VERSION = "v122";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -206,6 +210,7 @@ const PRECACHE_URLS = [
   "pages/contact.html",
   "pages/defi.html",
   "pages/mentions-legales.html",
+  "pages/missions.html",
   "pages/mouvement.html",
   "pages/psy.html",
   "pages/regles.html",
