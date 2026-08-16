@@ -183,7 +183,7 @@
 // + cinq missions narratives) et son entrée de menu — pages/missions.html
 // (NOUVEAU fichier, d'où l'incrément obligatoire de ce numéro),
 // js/main.js, css/style.css, sitemap.xml.
-const CACHE_VERSION = "v122";
+const CACHE_VERSION = "v123";
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
