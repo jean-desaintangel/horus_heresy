@@ -33318,7 +33318,7 @@ const UNITES = [
     categorie: "Elite",
     cout: 85,
     composition: "1 Veletarii Prime, 9 Veletarii",
-    effectif: { base: 10, max: 11, cout: 7 },
+    effectif: { base: 10, max: 20, cout: 7 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
@@ -33599,8 +33599,8 @@ const UNITES = [
     faction: "solar-auxilia",
     categorie: "Appui",
     cout: 35,
-    composition: "1 Chef Technicien Auxilia, 4 Techniciens Auxilia",
-    effectif: { base: 5, max: 13, cout: 7 },
+    composition: "1 Chef Technicien Auxilia, 3 Techniciens Auxilia",
+    effectif: { base: 4, max: 12, cout: 7 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Solar Auxilia"],
     notes:
