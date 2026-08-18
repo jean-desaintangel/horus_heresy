@@ -321,7 +321,8 @@ function uniteAccessible(unite) {
     // au Détachement Allié avec sa propre configuration
     const selectLegionAliee2 = document.getElementById("choix-legion-unite");
     const legionChoisie2 = selectLegionAliee2 ? selectLegionAliee2.value : "";
-    const ignoreRequiertFactionArmee = legionChoisie2 && unite.legion === legionChoisie2;
+    const ignoreRequiertFactionArmee =
+      legionChoisie2 && unite.legion === legionChoisie2;
 
     if (
       !ignoreRequiertFactionArmee &&
@@ -597,7 +598,10 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
     // affiche le bon compte de porteurs malgré l'effectif/compteRole
     // habituel (voir Dreadnought Leviathan, js/unites-data.js).
     const porteurs = (typeof item !== "string" && item.porteurs) || 1;
-    ajouterCompte(typeof item === "string" ? item : item.nom, effectif * porteurs);
+    ajouterCompte(
+      typeof item === "string" ? item : item.nom,
+      effectif * porteurs,
+    );
   }
 
   // Remplacements forcés par les Serments du Moment (Blackshields) :
@@ -607,7 +611,11 @@ function calculerEquipementComptes(unite, instance, sansOption = null) {
   // déjà remplacés quand les Options les évaluent.
   if (instance && instance.uid) {
     try {
-      if (typeof window !== "undefined" && window.Organigramme && typeof window.Organigramme.sermentsDe === "function") {
+      if (
+        typeof window !== "undefined" &&
+        window.Organigramme &&
+        typeof window.Organigramme.sermentsDe === "function"
+      ) {
         const serments = window.Organigramme.sermentsDe(instance.uid);
         if (Array.isArray(serments) && serments.includes("armes-desespoir")) {
           if (comptes.has("Bolter")) {
@@ -1025,7 +1033,11 @@ function optionRealisable(unite, instance, opt) {
   if (!optionSermentOk(opt, instance)) return false;
   if (!technoArcaneOk(opt, unite, instance)) return false;
   if (!optionZoneMortalisOk(opt)) return false;
-  if (opt.requiertBouclierAbordage && !optionBouclierAbordageOk(unite, instance)) return false;
+  if (
+    opt.requiertBouclierAbordage &&
+    !optionBouclierAbordageOk(unite, instance)
+  )
+    return false;
   // Serment du Moment « Les Armes du Désespoir » (Blackshields) : empêche
   // toute option qui tenterait de remplacer le Bolter ou le Pistolet Bolter,
   // car ces deux armes DOIVENT être remplacées par une arme de récupération
@@ -1041,7 +1053,7 @@ function optionRealisable(unite, instance, opt) {
     // le Bolter ou le Pistolet Bolter (ou les deux pour une paire).
     if (opt.type === "choix" && (opt.remplace || opt.remplacePartiel)) {
       const cibles = Array.isArray(opt.remplace || opt.remplacePartiel)
-        ? (opt.remplace || opt.remplacePartiel)
+        ? opt.remplace || opt.remplacePartiel
         : [opt.remplace || opt.remplacePartiel];
       if (cibles.some((n) => n === "Bolter" || n === "Pistolet bolter")) {
         return false;
@@ -1116,13 +1128,14 @@ function optionRealisable(unite, instance, opt) {
   // resoudreCible, equipementFinal ci-dessus) plutôt qu'un nom exact.
   if (opt.type === "choix" && opt.remplace) {
     if (!opt.toujours) {
-      const cibles = Array.isArray(opt.remplace) ? opt.remplace : [opt.remplace];
+      const cibles = Array.isArray(opt.remplace)
+        ? opt.remplace
+        : [opt.remplace];
       // Vérifier que au moins une cible existe ET n'est pas complètement remplacée
       if (
         !cibles.some(
           (n) =>
-            equipSansElle.includes(n) &&
-            !verifierArmeRemplaceeCompletement(n),
+            equipSansElle.includes(n) && !verifierArmeRemplaceeCompletement(n),
         )
       )
         return false;
@@ -1153,7 +1166,9 @@ function optionRealisable(unite, instance, opt) {
       const cibles = opt.remplace || opt.remplaceIntegral;
       if (cibles) {
         const arraysCibles = Array.isArray(cibles) ? cibles : [cibles];
-        if (arraysCibles.some((cible) => verifierArmeRemplaceeCompletement(cible)))
+        if (
+          arraysCibles.some((cible) => verifierArmeRemplaceeCompletement(cible))
+        )
           return false;
       }
     }
@@ -2107,20 +2122,23 @@ function resumeArme(arme) {
 // le dernier mot s'il se termine par -e (adjectif féminin).
 const pluraliser = (nom, compte) => {
   if (compte <= 1 || !nom || nom.endsWith("s")) return nom;
-  const words = nom.split(' ');
+  const words = nom.split(" ");
   // Pluralise le premier mot (nom principal) s'il ne finit pas par 's'
-  if (!words[0].endsWith('s')) {
-    words[0] = words[0] + 's';
+  if (!words[0].endsWith("s")) {
+    words[0] = words[0] + "s";
   }
   // Pluralise le dernier mot s'il commence par minuscule, finit par -e et pas -es
   if (words.length > 1) {
     const lastWord = words[words.length - 1];
-    if (lastWord[0] === lastWord[0].toLowerCase() &&
-        lastWord.endsWith('e') && !lastWord.endsWith('es')) {
-      words[words.length - 1] = lastWord + 's';
+    if (
+      lastWord[0] === lastWord[0].toLowerCase() &&
+      lastWord.endsWith("e") &&
+      !lastWord.endsWith("es")
+    ) {
+      words[words.length - 1] = lastWord + "s";
     }
   }
-  return words.join(' ');
+  return words.join(" ");
 };
 
 // Table des caractéristiques d'un groupe d'armes partageant le même
@@ -2583,9 +2601,7 @@ function reglesFinales(unite, variante, instance) {
     unite.traits.includes("[Legio Custodes]")
   ) {
     regles = regles.map((r) =>
-      r.match(/^Guerrier Éternel \(\d+\)$/)
-        ? "Guerrier Éternel (2)"
-        : r
+      r.match(/^Guerrier Éternel \(\d+\)$/) ? "Guerrier Éternel (2)" : r,
     );
   }
 
@@ -3133,7 +3149,11 @@ function peuplerChoixSelect(select, opt, instance, unite) {
     // p. 45-51) : même principe, mais évalué sur le Techno-arcane de la
     // Figurine elle-même, d'où le besoin d'`unite` en plus d'`instance`
     // (les appelants qui n'ont pas d'entrée concernée peuvent l'omettre).
-    if (unite && choix.requiertTechnoArcane && !technoArcaneOk(choix, unite, instance))
+    if (
+      unite &&
+      choix.requiertTechnoArcane &&
+      !technoArcaneOk(choix, unite, instance)
+    )
       return;
     const texteOption =
       indice === 0 && !opt.obligatoire
@@ -3321,7 +3341,7 @@ function construireConfig(carte, unite, instance) {
             const valeurActuelle = instance.valeurs[opt.id] || 0;
             const budgetDisponible = Math.max(
               0,
-              budgetTheorique - (totalGroupeUtilise - valeurActuelle)
+              budgetTheorique - (totalGroupeUtilise - valeurActuelle),
             );
             v = Math.min(v, valeurActuelle + budgetDisponible);
           }
@@ -3608,17 +3628,18 @@ function actualiserPlaceholderUnite() {
   const factionActuelle = Organigramme.factionActuelle();
   const placeholders = {
     "legio-astartes": "Rechercher une unité… (ex : praetor, tactique, rhino)",
-    "mechanicum": "Rechercher une unité… (ex : Magos, Technoprêtre, Convoyeur Blindé Triaros)",
+    mechanicum:
+      "Rechercher une unité… (ex : Magos, Technoprêtre, Convoyeur Blindé Triaros)",
     "chevaliers-questoris": "Rechercher une unité… (ex : chevalier, monocanon)",
     "solar-auxilia": "Rechercher une unité… (ex : Ryfliers, Basilisk)",
     "legio-titanicus": "Rechercher une unité… (ex : Warbringer, Reaver)",
     "legio-custodes": "Rechercher une unité… (ex : Sodalité, Valdor)",
     "anathema-psykana": "Rechercher une unité… (ex : Jenetia, Chevalière)",
-    "skitarii": "Rechercher une unité… (ex : Ordinator, Corpus)",
+    skitarii: "Rechercher une unité… (ex : Ordinator, Corpus)",
     "divisio-assassinorum": "Rechercher une unité… (ex : Assassin, Culexus)",
     "daemons-ruinstorm": "Rechercher une unité… (ex : Brute, Démon)",
     "legions-brisees": "Rechercher une unité… (ex : unité, légion brisée)",
-    "blackshields": "Rechercher une unité… (ex : Endryd Haar, unité)",
+    blackshields: "Rechercher une unité… (ex : Endryd Haar, unité)",
   };
   champUnite.placeholder =
     placeholders[factionActuelle] || "Rechercher une unité…";
@@ -4164,7 +4185,10 @@ function contenuBeneficeOptionArcaneActuels() {
   const regleOption = REGLES_DIVERSES.find((r) => r.nom === option);
 
   return regleBenefice && regleOption
-    ? { benefice: { nom: benefice, regle: regleBenefice }, option: { nom: option, regle: regleOption } }
+    ? {
+        benefice: { nom: benefice, regle: regleBenefice },
+        option: { nom: option, regle: regleOption },
+      }
     : null;
 }
 
@@ -4615,9 +4639,7 @@ async function genererPDF() {
             ? TECHNO_ARCANES.find(([code]) => code === technoArcaneCode)
             : null;
           if (ta) {
-            const nomMechanicum = assainirPDF(
-              "Mechanicum – " + ta[1],
-            );
+            const nomMechanicum = assainirPDF("Mechanicum – " + ta[1]);
             paragrapheCentre(nomMechanicum, 16, "bold", accentRGB);
             y += 8;
             paragrapheCentre(
@@ -5305,54 +5327,70 @@ function initialiserDragAndDrop() {
 
   let draggedElement = null;
 
-  listeCartes.addEventListener("dragstart", (e) => {
-    const carte = e.target.closest(".unite-carte");
-    if (!carte) return;
-    draggedElement = carte;
-    carte.style.opacity = "0.5";
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/html", carte.innerHTML);
-  }, true);
+  listeCartes.addEventListener(
+    "dragstart",
+    (e) => {
+      const carte = e.target.closest(".unite-carte");
+      if (!carte) return;
+      draggedElement = carte;
+      carte.style.opacity = "0.5";
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/html", carte.innerHTML);
+    },
+    true,
+  );
 
-  listeCartes.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
+  listeCartes.addEventListener(
+    "dragover",
+    (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
 
-    if (!draggedElement) return;
-    const carte = e.target.closest(".unite-carte");
-    if (!carte || carte === draggedElement) return;
+      if (!draggedElement) return;
+      const carte = e.target.closest(".unite-carte");
+      if (!carte || carte === draggedElement) return;
 
-    const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
-    const draggedIndex = cartes.indexOf(draggedElement);
-    const targetIndex = cartes.indexOf(carte);
+      const cartes = Array.from(listeCartes.querySelectorAll(".unite-carte"));
+      const draggedIndex = cartes.indexOf(draggedElement);
+      const targetIndex = cartes.indexOf(carte);
 
-    if (draggedIndex < targetIndex) {
-      carte.parentNode.insertBefore(draggedElement, carte.nextSibling);
-    } else {
-      carte.parentNode.insertBefore(draggedElement, carte);
-    }
-  }, true);
+      if (draggedIndex < targetIndex) {
+        carte.parentNode.insertBefore(draggedElement, carte.nextSibling);
+      } else {
+        carte.parentNode.insertBefore(draggedElement, carte);
+      }
+    },
+    true,
+  );
 
-  listeCartes.addEventListener("drop", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, true);
+  listeCartes.addEventListener(
+    "drop",
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    true,
+  );
 
-  listeCartes.addEventListener("dragend", (e) => {
-    if (draggedElement) {
-      draggedElement.style.opacity = "1";
-      // Resynchronise l'ordre du tableau `armee` avec l'ordre du DOM
-      const nouvelOrdre = Array.from(
-        listeCartes.querySelectorAll(".unite-carte")
-      )
-        .map((c) => c.id.replace("unite-", ""))
-        .map((uid) => armee.find((i) => i.uid === Number(uid)))
-        .filter(Boolean);
-      armee.splice(0, armee.length, ...nouvelOrdre);
-      sauvegarder();
-      draggedElement = null;
-    }
-  }, true);
+  listeCartes.addEventListener(
+    "dragend",
+    (e) => {
+      if (draggedElement) {
+        draggedElement.style.opacity = "1";
+        // Resynchronise l'ordre du tableau `armee` avec l'ordre du DOM
+        const nouvelOrdre = Array.from(
+          listeCartes.querySelectorAll(".unite-carte"),
+        )
+          .map((c) => c.id.replace("unite-", ""))
+          .map((uid) => armee.find((i) => i.uid === Number(uid)))
+          .filter(Boolean);
+        armee.splice(0, armee.length, ...nouvelOrdre);
+        sauvegarder();
+        draggedElement = null;
+      }
+    },
+    true,
+  );
 }
 
 function initialiserChoixUnite() {
@@ -5382,7 +5420,8 @@ function initialiserChoixUnite() {
     // Ajouter une option pour chaque Légion Alliée
     for (const legionCode of legionsAlliees) {
       const legions = Organigramme.legions();
-      const legionLabel = legions.find(([code]) => code === legionCode)?.[1] || legionCode;
+      const legionLabel =
+        legions.find(([code]) => code === legionCode)?.[1] || legionCode;
       const opt = document.createElement("option");
       opt.value = legionCode;
       opt.textContent = legionLabel;
@@ -5404,7 +5443,8 @@ function initialiserChoixUnite() {
     }
 
     // Légion choisie : vérifier si l'unité est accessible pour cette Légion
-    if (!unite.legion) return unite.faction === "legio-astartes" || !unite.faction;
+    if (!unite.legion)
+      return unite.faction === "legio-astartes" || !unite.faction;
     return unite.legion === legionChoisie;
   }
 
@@ -6073,7 +6113,11 @@ function initialiser() {
       });
       if (caseAlliee) caseDestination = caseAlliee;
     }
-    Organigramme.assigner(instance.uid, caseDestination.detUid, caseDestination.indice);
+    Organigramme.assigner(
+      instance.uid,
+      caseDestination.detUid,
+      caseDestination.indice,
+    );
   });
 
   boutonTelechargerPDF.addEventListener("click", () => telechargerPDF());

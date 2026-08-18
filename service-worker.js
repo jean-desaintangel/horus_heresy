@@ -417,10 +417,10 @@ self.addEventListener("activate", (evenement) => {
 
 /* ----------------------------------------------------------
    FETCH
-   - Requêtes vers un autre domaine (Statcounter...) : laissées
-     passer telles quelles, jamais mises en cache ni interceptées —
-     en boutique sans réseau elles échoueront simplement, comme un
-     <script async> normal, sans bloquer le reste de la page.
+   - Requêtes vers un autre domaine : laissées passer telles quelles,
+     jamais mises en cache ni interceptées — sans réseau elles
+     échoueront simplement, comme un <script async> normal, sans
+     bloquer le reste de la page.
    - Navigation entre pages (HTML) : réseau d'abord, cache en repli.
      Le proprio profite du contenu à jour dès qu'il y a du réseau, et
      de la dernière version connue sinon (ex : nouvelle unité Legacy

@@ -1328,11 +1328,7 @@ const TYPES_DETACHEMENTS = [
     requiertTechnoArcane: "reductor",
     texte:
       "Détachement d'Apex réservé au Techno-arcane Reductor. Brise-muralles accorde un modifieur aux attaques de Tir et Combat des Unités comportant une Figurine nantie de ce Bénéfice d'Arcane.",
-    cases: [
-      _caseOrga("Appui", true),
-      _caseOrga("Appui"),
-      _caseOrga("Appui"),
-    ],
+    cases: [_caseOrga("Appui", true), _caseOrga("Appui"), _caseOrga("Appui")],
   },
   {
     id: "supplice-du-jugement",
@@ -1342,11 +1338,7 @@ const TYPES_DETACHEMENTS = [
     requiertTechnoArcane: "malagra",
     texte:
       "Détachement d'Apex réservé au Techno-arcane Malagra. Armée Implacablement Soustraite accorde une Fortification supplémentaire aux Unités. Aucune Case n'est marquée Principale : ce Détachement ne débloque pas d'Avantage Principal.",
-    cases: [
-      _caseOrga("Appui"),
-      _caseOrga("Appui"),
-      _caseOrga("Appui"),
-    ],
+    cases: [_caseOrga("Appui"), _caseOrga("Appui"), _caseOrga("Appui")],
   },
   {
     id: "phalange-de-fer",
@@ -1356,11 +1348,7 @@ const TYPES_DETACHEMENTS = [
     requiertTechnoArcane: "macrotek",
     texte:
       "Détachement d'Apex réservé au Techno-arcane Macrotek. Protecteur de Fer accorde un modifieur de Sauvegarde à toute Figurine de Type Véhicule accompagnée d'une Figurine nantie de ce Bénéfice d'Arcane.",
-    cases: [
-      _caseOrga("Appui", true),
-      _caseOrga("Appui"),
-      _caseOrga("Appui"),
-    ],
+    cases: [_caseOrga("Appui", true), _caseOrga("Appui"), _caseOrga("Appui")],
   },
 
   /* ---------- Détachements Auxiliaires des Legiones Astartes
@@ -1380,7 +1368,11 @@ const TYPES_DETACHEMENTS = [
       caseRole: "État-major",
       uniteIds: ["champion", "champion-monte", "champion-armure-terminator"],
     },
-    cases: [_caseOrga("Suites"), _caseOrga("Elite"), _caseOrga("Transports Lourds")],
+    cases: [
+      _caseOrga("Suites"),
+      _caseOrga("Elite"),
+      _caseOrga("Transports Lourds"),
+    ],
   },
   {
     id: "demi-compagnie-reco",

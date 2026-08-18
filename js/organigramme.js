@@ -138,27 +138,13 @@ const Organigramme = (() => {
   // Options d'Arcane de Mechanicum, une par Techno-arcane, choisies
   // une seule fois pour toute l'Armée (après sélection du Techno-arcane)
   const OPTIONS_ARCANES = {
-    archimandrite: [
-      ["theurgika-maximus", "Theurgika Maximus"],
-    ],
-    cybernetica: [
-      ["paragon-de-metal", "Paragon de Métal"],
-    ],
-    lacrymaerta: [
-      ["specimens-de-choix", "Spécimens de Choix"],
-    ],
-    myrmidax: [
-      ["la-voie-du-myrmidion", "La Voie du Myrmidion"],
-    ],
-    reductor: [
-      ["principe-thallakii", "Principe Thallakii"],
-    ],
-    malagra: [
-      ["principe-thallakii", "Principe Thallakii"],
-    ],
-    macrotek: [
-      ["convoyeur-principal", "Convoyeur Principal"],
-    ],
+    archimandrite: [["theurgika-maximus", "Theurgika Maximus"]],
+    cybernetica: [["paragon-de-metal", "Paragon de Métal"]],
+    lacrymaerta: [["specimens-de-choix", "Spécimens de Choix"]],
+    myrmidax: [["la-voie-du-myrmidion", "La Voie du Myrmidion"]],
+    reductor: [["principe-thallakii", "Principe Thallakii"]],
+    malagra: [["principe-thallakii", "Principe Thallakii"]],
+    macrotek: [["convoyeur-principal", "Convoyeur Principal"]],
   };
 
   // Types de Maisonnée du livre d'armée Chevaliers Questoris, choisis
@@ -916,7 +902,10 @@ const Organigramme = (() => {
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
     // Détachements d'Apex de Mechanicum réservés à un Techno-arcane
-    if (type.requiertTechnoArcane && type.requiertTechnoArcane !== etat.technoArcane)
+    if (
+      type.requiertTechnoArcane &&
+      type.requiertTechnoArcane !== etat.technoArcane
+    )
       return false;
 
     if (type.faction)
@@ -1350,15 +1339,22 @@ const Organigramme = (() => {
      aucune autre Unité du Détachement n'a encore de Trait résolu.
      hooks.traitFactionMechanicumDe est fourni par js/unites.js
      (Organigramme.initialiser). */
-  function traitFactionMechanicumEtabliDe(det, excluUid, excluBeneficeLogistique = false) {
+  function traitFactionMechanicumEtabliDe(
+    det,
+    excluUid,
+    excluBeneficeLogistique = false,
+  ) {
     if (!hooks.traitFactionMechanicumDe) return null;
     for (const c of det.cases) {
       if (c.uniteUid === null || c.uniteUid === excluUid) continue;
       // Exclure les Cases créées par Bénéfice Logistique si demandé
       // (Liber Mechanicum p. 13 : l'Unité sélectionnée via Bénéfice Logistique
       // peut avoir un Techno-arcane différent du reste du Détachement).
-      if (excluBeneficeLogistique && c.extra &&
-          (c.origineAvantage || "benefice-logistique") === "benefice-logistique") {
+      if (
+        excluBeneficeLogistique &&
+        c.extra &&
+        (c.origineAvantage || "benefice-logistique") === "benefice-logistique"
+      ) {
         continue;
       }
       const occ = occupant(c);
@@ -1590,11 +1586,14 @@ const Organigramme = (() => {
         TRAITS_FACTION_MECHANICUM.includes(t),
       );
       // Si la Case courante est créée par Bénéfice Logistique, pas de restriction
-      const estBeneficeLogistique = caseOrga.extra &&
-        (caseOrga.origineAvantage || "benefice-logistique") === "benefice-logistique";
+      const estBeneficeLogistique =
+        caseOrga.extra &&
+        (caseOrga.origineAvantage || "benefice-logistique") ===
+          "benefice-logistique";
       if (!estBeneficeLogistique) {
         // Exclure les Cases Bénéfice Logistique du calcul du Trait établi
-        const traitEtabli = traitFixe && traitFactionMechanicumEtabliDe(det, null, true);
+        const traitEtabli =
+          traitFixe && traitFactionMechanicumEtabliDe(det, null, true);
         if (traitEtabli && traitFixe !== traitEtabli) return false;
       }
     }
@@ -2008,7 +2007,9 @@ const Organigramme = (() => {
     }
 
     const nbApex = etat.detachements.filter(
-      (d) => typeDe(d).famille === "apex" && (parentUid === null || d.parent === parentUid),
+      (d) =>
+        typeDe(d).famille === "apex" &&
+        (parentUid === null || d.parent === parentUid),
     ).length;
     // Auxiliaires consommant un crédit : standard + débloqués via État-major.
     const nbAuxComptables = etat.detachements.filter((d) => {
@@ -2056,7 +2057,10 @@ const Organigramme = (() => {
         for (const caseOrga of det.cases) {
           if (!rolesAcceptes.includes(caseOrga.role)) continue;
           const occ = occupant(caseOrga);
-          if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
+          if (
+            !type.deblocage.uniteIds ||
+            type.deblocage.uniteIds.length === 0
+          ) {
             if (occ) presentes += 1;
           } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
             presentes += 1;
@@ -2070,7 +2074,10 @@ const Organigramme = (() => {
         for (const caseOrga of parent.cases) {
           if (!rolesAcceptes.includes(caseOrga.role)) continue;
           const occ = occupant(caseOrga);
-          if (!type.deblocage.uniteIds || type.deblocage.uniteIds.length === 0) {
+          if (
+            !type.deblocage.uniteIds ||
+            type.deblocage.uniteIds.length === 0
+          ) {
             if (occ) presentes += 1;
           } else if (occ && type.deblocage.uniteIds.includes(occ.unite.id)) {
             presentes += 1;
@@ -2080,7 +2087,8 @@ const Organigramme = (() => {
     }
 
     const dejaPris = etat.detachements.filter(
-      (d) => d.typeId === type.id && (parentUid === null || d.parent === parentUid),
+      (d) =>
+        d.typeId === type.id && (parentUid === null || d.parent === parentUid),
     ).length;
     return presentes - dejaPris;
   }
@@ -2223,7 +2231,11 @@ const Organigramme = (() => {
             "Aucun crédit de Détachement Auxiliaire : remplissez une Case d'État-major (ou une Case QG non utilisée pour un Apex) dans le Détachement Principal (p. 283).",
         };
       }
-      if (type.deblocage && type.deblocage.uniteIds && debloqueursDisponibles(type) <= 0) {
+      if (
+        type.deblocage &&
+        type.deblocage.uniteIds &&
+        debloqueursDisponibles(type) <= 0
+      ) {
         const noms = nomsUnitesParIds(type.deblocage.uniteIds);
         return {
           possible: false,
@@ -2412,7 +2424,11 @@ const Organigramme = (() => {
 
     // 5. Déblocages spécifiques (livre d'armée Legiones Astartes).
     for (const type of TYPES_DETACHEMENTS) {
-      if (type.deblocage && type.deblocage.uniteIds && debloqueursDisponibles(type) < 0) {
+      if (
+        type.deblocage &&
+        type.deblocage.uniteIds &&
+        debloqueursDisponibles(type) < 0
+      ) {
         erreurs.push(
           "« " +
             type.nom +
@@ -2577,7 +2593,12 @@ const Organigramme = (() => {
       }
     }
     for (const avantage of AVANTAGES_PRINCIPAUX) {
-      const maxParArmee = typeof avantage.unParArmee === 'number' ? avantage.unParArmee : (avantage.unParArmee ? 1 : Infinity);
+      const maxParArmee =
+        typeof avantage.unParArmee === "number"
+          ? avantage.unParArmee
+          : avantage.unParArmee
+            ? 1
+            : Infinity;
       if (
         avantage.unParArmee &&
         parIdArmee[avantage.id] > maxParArmee &&
@@ -2596,7 +2617,11 @@ const Organigramme = (() => {
         )
       ) {
         erreurs.push(
-          "« " + avantage.nom + " » ne peut être choisi que " + maxParArmee + " fois par Armée.",
+          "« " +
+            avantage.nom +
+            " » ne peut être choisi que " +
+            maxParArmee +
+            " fois par Armée.",
         );
       }
     }
@@ -2794,11 +2819,9 @@ const Organigramme = (() => {
           "« " +
           avantage.nom +
           " » déjà choisi ailleurs dans ce détachement (une seule fois par détachement).";
-      } else if (
-        avantage.unParArmee &&
-        caseOrga.avantage !== avantage.id
-      ) {
-        const maxParArmee = typeof avantage.unParArmee === 'number' ? avantage.unParArmee : 1;
+      } else if (avantage.unParArmee && caseOrga.avantage !== avantage.id) {
+        const maxParArmee =
+          typeof avantage.unParArmee === "number" ? avantage.unParArmee : 1;
         let countArmee = 0;
         for (const d of etat.detachements) {
           for (const c of d.cases) {
@@ -2820,7 +2843,9 @@ const Organigramme = (() => {
           raison =
             "« " +
             avantage.nom +
-            " » ne peut être choisi que " + maxParArmee + " fois par Armée.";
+            " » ne peut être choisi que " +
+            maxParArmee +
+            " fois par Armée.";
         }
       }
       // Note : une unité QG en Case d'État-major n'est légale QUE via
@@ -5390,10 +5415,7 @@ const Organigramme = (() => {
               hooks.retirerInstance(instance.uid);
             etat.detachements = [creerDetachement(type.id)];
             actualiser();
-          } else if (
-            type.famille === "auxiliaire" ||
-            type.famille === "apex"
-          ) {
+          } else if (type.famille === "auxiliaire" || type.famille === "apex") {
             // Auxiliaire/Apex : montrer un sélecteur de Parent avant de
             // créer le Détachement.
             afficherSelecteurParent(type);
