@@ -404,6 +404,53 @@ const LISTES_ARTIFICE_NOCTURNE = {
 };
 
 /* ----------------------------------------------------------
+   ARSENAL DES SALAMANDERS (Liber Astartes/Hereticus, livre de base,
+   PAS un PDF Legacies) : Artifice de Nocturne — armes énergétiques
+   forgées, gantelet énergétique forgé et marteau Thunder forgé,
+   lance-flammes forgés, réservés aux Figurines ayant le Trait
+   Salamanders. Contraintes de Sous-type : État-major/Champion/
+   Spécialiste/Sergent pour les armes énergétiques forgées et le
+   gantelet forgé ; État-major/Champion/Spécialiste SEULEMENT pour le
+   Marteau Thunder forgé (PAS Sergent) ; Sergent SEULEMENT pour les
+   lance-flammes forgés. Coûts absolus : +5 pour armes énergétiques
+   (= 10 de base + 5), +10 pour gantelet/Marteau Thunder (= 15/15 de
+   base + 10).
+   ---------------------------------------------------------- */
+const LISTES_ARSENAL_SALAMANDERS = {
+  officier: {
+    nom: "Équipement d'Officier de Légion (Salamanders, Artifice de Nocturne)",
+    items: [
+      { nom: "Épée énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Hache énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Masse énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Lance énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Gantelet énergétique forgé", cout: 25, requiertLegion: "XVIII" },
+      { nom: "Marteau Thunder forgé", cout: 25, requiertLegion: "XVIII" },
+    ],
+  },
+  // Marteau Thunder forgé volontairement absent ici : réservé
+  // État-major/Champion/Spécialiste, exclut le Sergent.
+  meleeSergent: {
+    nom: "Armes de Mêlée de Sergent de Légion (Salamanders, Artifice de Nocturne)",
+    items: [
+      { nom: "Épée énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Hache énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Masse énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Lance énergétique forgée", cout: 15, requiertLegion: "XVIII" },
+      { nom: "Gantelet énergétique forgé", cout: 25, requiertLegion: "XVIII" },
+    ],
+  },
+  // Lance-flammes forgés : Sergent SEULEMENT (contrairement aux armes
+  // énergétiques qui incluent État-major/Champion/Spécialiste aussi).
+  pistolets: {
+    nom: "Pistolets de Légion (Salamanders, Artifice de Nocturne)",
+    items: [
+      { nom: "Lance-flammes léger forgé", cout: 10, requiertLegion: "XVIII" },
+    ],
+  },
+};
+
+/* ----------------------------------------------------------
    ARSENAL DES IMPERIAL FISTS (Liber Astartes/Hereticus, livre de base,
    PAS un PDF Legacies) : gantelet énergétique Solarite et bouclier
    Storm modèle Vigil, réservés aux Figurines ayant le Trait Imperial
@@ -1402,7 +1449,6 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 2,
       parTranche: 1,
       groupe: "tir",
-      remplaceIntegral: "Bolter",
       ajoute: "Fusil à pompe Astartes (à la place du bolter)",
     },
     {
@@ -1412,7 +1458,6 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 5,
       parTranche: 1,
       groupe: "tir",
-      remplaceIntegral: "Bolter",
       ajoute: "Fusil désintégrateur (à la place du bolter)",
     },
     {
@@ -1422,18 +1467,15 @@ function optionsEscouadeEtatMajorVeteran(libelleChampion, ...dernieresOptions) {
       cout: 2,
       parTranche: 1,
       groupe: "tir",
-      remplaceIntegral: "Bolter",
       ajoute: "Chargeur volkite (à la place du bolter)",
     },
     ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
       groupe: "tir",
       remplace: "du bolter",
-      remplaceIntegral: "Bolter",
     }),
     ...quantiteDepuisListe(LISTES_EQUIPEMENT.meleeSergent, {
       groupe: "tir",
       remplace: "du bolter, liste Sergent",
-      remplaceIntegral: "Bolter",
     }),
     {
       type: "quantite",
@@ -8015,7 +8057,19 @@ const UNITES = [
         parTranche: 1,
         remplace: "de l'épée tronçonneuse",
       }),
+      ...quantiteDepuisListe(LISTES_ARSENAL_SALAMANDERS.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
+        groupe: "melee-scimitar",
+        parTranche: 1,
+        remplace: "de l'épée tronçonneuse",
+      }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
+        groupe: "pistolet-scimitar",
+        parTranche: 1,
+        remplace: "du pistolet bolter",
+      }),
+      ...quantiteDepuisListe(LISTES_ARSENAL_SALAMANDERS.pistolets, {
         remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet-scimitar",
         parTranche: 1,
@@ -8159,7 +8213,19 @@ const UNITES = [
         parTranche: 1,
         remplace: "de l'épée tronçonneuse",
       }),
+      ...quantiteDepuisListe(LISTES_ARSENAL_SALAMANDERS.meleeSergent, {
+        remplaceIntegral: "Épée tronçonneuse",
+        groupe: "melee-outrider-cmd",
+        parTranche: 1,
+        remplace: "de l'épée tronçonneuse",
+      }),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.pistolets, {
+        remplaceIntegral: "Pistolet bolter",
+        groupe: "pistolet-outrider-cmd",
+        parTranche: 1,
+        remplace: "du pistolet bolter",
+      }),
+      ...quantiteDepuisListe(LISTES_ARSENAL_SALAMANDERS.pistolets, {
         remplaceIntegral: "Pistolet bolter",
         groupe: "pistolet-outrider-cmd",
         parTranche: 1,
@@ -10112,6 +10178,7 @@ const UNITES = [
           { nom: "— Aucun échange —", cout: 0 },
           ...depuisListes(LISTES_EQUIPEMENT.meleeSergent),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_SALAMANDERS.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
@@ -10136,6 +10203,9 @@ const UNITES = [
             LISTES_EQUIPEMENT.pistolets,
           ),
           ...depuisListes(LISTES_ARTIFICE_NOCTURNE.meleeSergent),
+          ...depuisListes(LISTES_ARTIFICE_NOCTURNE.pistolets),
+          ...depuisListes(LISTES_ARSENAL_SALAMANDERS.meleeSergent),
+          ...depuisListes(LISTES_ARSENAL_SALAMANDERS.pistolets),
           ...depuisListes(LISTES_ARSENAL_NIGHT_LORDS.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_DEATH_GUARD.meleeSergent),
           ...depuisListes(LISTES_ARSENAL_EMPERORS_CHILDREN.meleeSergent),
@@ -11364,7 +11434,6 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place du bolter)",
       },
       ...eclaterQuantiteArmeEnergetique({
-        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "arme-energetique-pl",
         libelle: "Figurines : arme énergétique (à la place du bolter)",
@@ -11556,7 +11625,6 @@ const UNITES = [
       },
     ],
     options: [
-      ARCANE_DE_PROSPERO,
       {
         type: "quantite",
         id: "chainsword-zm",
@@ -11594,7 +11662,6 @@ const UNITES = [
         ajoute: "Sabre charnabal (à la place du bolter)",
       },
       ...eclaterQuantiteArmeEnergetique({
-        remplaceIntegral: "Bolter",
         type: "quantite",
         id: "arme-energetique-zm",
         libelle: "Figurines : arme énergétique (à la place du bolter)",
@@ -11700,10 +11767,9 @@ const UNITES = [
           { nom: "— Aucun —", cout: 0 },
           { nom: "Nuncio-vox", cout: 15 },
           { nom: "Scanner augure", cout: 15 },
-        ,
+        ],
+      },
       optionChargesDeSape(),
-    ],
-  },
       {
         type: "choix",
         id: "equipement-legion-2-zm",
@@ -12423,19 +12489,16 @@ const UNITES = [
         ajoute: "Chargeur volkite (à la place du bolter)",
       },
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
-        remplaceIntegral: "Bolter",
         groupe: "tir",
         remplace: "du bolter",
         toujours: true,
       }),
       ...quantiteDepuisListe(LISTES_ARSENAL_BLOOD_ANGELS.lourdes, {
-        remplaceIntegral: "Bolter",
         groupe: "lourde",
         parTranche: 5,
         remplace: "du bolter",
       }),
       ...quantiteDepuisListe(LISTES_ARSENAL_IMPERIAL_FISTS.lourdes, {
-        remplaceIntegral: "Bolter",
         groupe: "lourde",
         parTranche: 5,
         remplace: "du bolter",
@@ -12447,7 +12510,6 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Lance-flammes (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12457,7 +12519,6 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Fusil à plasma (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12467,7 +12528,6 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Fuseur (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12477,7 +12537,6 @@ const UNITES = [
         cout: 5,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Chargeur volkite (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12487,7 +12546,6 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Arquebuse volkite (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12497,7 +12555,6 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Canon rotor (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12507,7 +12564,6 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Bolter lourd (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12517,7 +12573,6 @@ const UNITES = [
         cout: 10,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Lance-flammes lourd (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12527,7 +12582,6 @@ const UNITES = [
         cout: 20,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Autocanon (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12537,7 +12591,6 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Lance-missiles (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12547,7 +12600,6 @@ const UNITES = [
         cout: 25,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Multi-fuseur (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12557,7 +12609,6 @@ const UNITES = [
         cout: 20,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Canon à plasma (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12567,7 +12618,6 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Couleuvrine volkite (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12577,7 +12627,6 @@ const UNITES = [
         cout: 25,
         parTranche: 5,
         groupe: "lourde-veterans",
-        remplaceIntegral: "Bolter",
         ajoute: "Canon laser (à la place du bolter, 1 par tranche de 5 figurines)",
       },
       {
@@ -12598,7 +12647,6 @@ const UNITES = [
         cout: 15,
         parTranche: 5,
         groupe: "lourde",
-        remplaceIntegral: "Bolter",
         ajoute: "Désintégrateur lourd (à la place du bolter)",
       },
       {
@@ -21316,7 +21364,6 @@ const UNITES = [
       // « Deathwing Companion Detachment ».
       ...optionBaionnette(),
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
-        remplaceIntegral: "Bolter",
         groupe: "bolter-combi-legacy",
         remplace: "du bolter",
       }),
@@ -41227,7 +41274,6 @@ const UNITES = [
     ],
     options: [
       ...quantiteDepuisListe(LISTES_EQUIPEMENT.combinees, {
-        remplaceIntegral: "Bolter",
         groupe: "combi5",
         parTranche: 5,
         remplace: "du bolter, une pour cinq Figurines",
