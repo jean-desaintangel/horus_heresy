@@ -12058,6 +12058,16 @@ const UNITES = [
         groupe: "equipement-legion",
         ajoute: "Scanner augure (un Vétéran Despoiler)",
       },
+      {
+        type: "quantite",
+        id: "griffes-lightning",
+        libelle:
+          "Figurines : paire de griffes Lightning (remplace pistolet bolter ET épée tronçonneuse)",
+        cout: 10,
+        parTranche: 1,
+        remplaceIntegral: ["Pistolet bolter", "Épée tronçonneuse"],
+        ajoute: "Paire de griffes Lightning",
+      },
     ],
   },
   {
