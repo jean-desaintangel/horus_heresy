@@ -5294,7 +5294,7 @@ const ARMES_MELEE = [
         // Paire de trépans de siège Leviathan juste au-dessus, sans
         // rapport avec une simple baïonnette.
         nom: "Baïonnette",
-        stats: ["1", "A", "F", "5", "1"],
+        stats: ["I", "A", "F", "5", "1"],
         regles: "-",
         traits: "Baïonnette",
       },
@@ -5317,7 +5317,7 @@ const ARMES_MELEE = [
       },
       {
         nom: "Baïonnette (Solar Auxilia)",
-        stats: ["1", "A", "F", "5", "1"],
+        stats: ["I", "A", "F", "5", "1"],
         regles: "-",
         traits: "-",
       },
