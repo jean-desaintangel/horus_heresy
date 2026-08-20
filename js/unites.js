@@ -3441,9 +3441,26 @@ function construireCarte(instance) {
     dupliquerUnite(instance, carte);
   });
 
+  // Boutons de réorganisation : monter/descendre dans la liste
+  const monterBtn = el("button", "unite-monter", "▲");
+  monterBtn.type = "button";
+  monterBtn.setAttribute("aria-label", "Monter " + unite.nom);
+  monterBtn.addEventListener("click", () => {
+    deplacerUnite(instance, -1);
+  });
+
+  const descendreBtn = el("button", "unite-descendre", "▼");
+  descendreBtn.type = "button";
+  descendreBtn.setAttribute("aria-label", "Descendre " + unite.nom);
+  descendreBtn.addEventListener("click", () => {
+    deplacerUnite(instance, 1);
+  });
+
   entete.appendChild(titre);
   entete.appendChild(points);
   entete.appendChild(bascule);
+  entete.appendChild(monterBtn);
+  entete.appendChild(descendreBtn);
   entete.appendChild(dupliquer);
   entete.appendChild(retirer);
   carte.appendChild(entete);
@@ -3480,10 +3497,6 @@ function construireCarte(instance) {
   // Synchronise les champs restaurés depuis localStorage
   // (valeurs + grisés), sans double sauvegarde inutile.
   actualiserCarte(carte, unite, instance);
-
-  // --- Drag-and-drop : réorganiser les unités à la souris ou au toucher ---
-  carte.draggable = true;
-  carte.style.cursor = "move";
 
   return carte;
 }
@@ -3826,6 +3839,38 @@ function retirerInstance(uid) {
   const carte = document.getElementById("unite-" + uid);
   if (carte) carte.remove();
   majTexteTotal();
+  sauvegarder();
+}
+
+// Déplace une unité vers le haut (direction = -1) ou vers le bas
+// (direction = 1) dans la liste.
+function deplacerUnite(instance, direction) {
+  const index = armee.indexOf(instance);
+  const nouvelIndex = index + direction;
+
+  // Vérifier que le nouvel index est valide
+  if (nouvelIndex < 0 || nouvelIndex >= armee.length) return;
+
+  // Inverser les unités dans l'array
+  [armee[index], armee[nouvelIndex]] = [armee[nouvelIndex], armee[index]];
+
+  const conteneurUnites = document.getElementById("liste-unites");
+  if (!conteneurUnites) return;
+
+  const carte1 = document.getElementById("unite-" + armee[index].uid);
+  const carte2 = document.getElementById("unite-" + armee[nouvelIndex].uid);
+
+  if (!carte1 || !carte2) return;
+
+  // Réinsérer dans l'ordre correct
+  if (direction === -1) {
+    // Monter : mettre la carte au-dessus de la carte2
+    carte2.parentNode.insertBefore(carte1, carte2);
+  } else {
+    // Descendre : mettre la carte2 avant la carte1
+    carte1.parentNode.insertBefore(carte2, carte1);
+  }
+
   sauvegarder();
 }
 

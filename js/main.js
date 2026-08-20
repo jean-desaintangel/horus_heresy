@@ -1452,7 +1452,6 @@ function activerTableauFlottant() {
   const PAGES_SANS_TABLEAU_FLOTTANT = [
     "",
     "index.html",
-    "construction-liste.html",
   ];
   const pageActuelle = location.pathname.split("/").pop();
   if (PAGES_SANS_TABLEAU_FLOTTANT.includes(pageActuelle)) return;
