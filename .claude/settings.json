@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node c:\\\\Users\\\\jean\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-jean-Documents-git-horus_heresy\\\\6da427e4-e29f-4d21-a8b6-7aae221301eb\\\\scratchpad\\\\check_quantite.js)",
+      "Bash(node /tmp/check_quantite.js)",
+      "Bash(node check_quantite.js)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\jean\\AppData\\Local\\Temp\\claude\\c--Users-jean-Documents-git-horus_heresy\\6da427e4-e29f-4d21-a8b6-7aae221301eb\\scratchpad"
+    ]
+  }
+}
