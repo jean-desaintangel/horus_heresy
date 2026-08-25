@@ -6271,7 +6271,9 @@ function initialiser() {
     listeCartes.appendChild(construireCarte(instance));
 
     // Si plusieurs cases libres : afficher un modal pour choisir le détachement
+    console.log("Nombre de cases libres:", libres.length, "Cases:", libres);
     if (libres.length > 1) {
+      console.log("Affichage du modal...");
       afficherModalChoixDetachementUnite(instance, libres);
       return;
     }
