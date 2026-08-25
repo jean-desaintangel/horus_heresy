@@ -5469,7 +5469,13 @@ function initialiserChoixUnite() {
       factionsAjoutees.add(factionPrincipale);
       const opt = document.createElement("option");
       opt.value = factionPrincipale;
-      opt.textContent = factionPrincipale;
+      // Si c'est Legio Astartes, afficher le libellé de la Légion actuelle
+      // Sinon, afficher le libellé de la Faction
+      if (factionPrincipale === "legio-astartes") {
+        opt.textContent = Organigramme.libelleLegionActuelle() || factionPrincipale;
+      } else {
+        opt.textContent = LIBELLES_FACTION[factionPrincipale] || factionPrincipale;
+      }
       select.appendChild(opt);
     }
 
@@ -5480,7 +5486,7 @@ function initialiserChoixUnite() {
       factionsAjoutees.add(factionCode);
       const opt = document.createElement("option");
       opt.value = factionCode;
-      opt.textContent = factionCode;
+      opt.textContent = LIBELLES_FACTION[factionCode] || factionCode;
       select.appendChild(opt);
     }
 
