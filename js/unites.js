@@ -6162,14 +6162,18 @@ function initialiser() {
       const det = detachements.find((d) => d.uid === caseLibre.detUid);
       if (!det) continue;
 
-      const typeInfo = Organigramme.typeDe(det);
-      const nomDetachement = typeInfo.nom || det.uid;
-
-      // Chercher le libellé de la Légion alliée si présente
-      let legionAlliee = "";
-      if (det.legionAlliee && legions) {
-        const found = legions.find(([code]) => code === det.legionAlliee);
-        if (found) legionAlliee = ` (${found[1]})`;
+      // Construire le nom du Détachement
+      let nomDetachement = "";
+      if (det.legionAlliee) {
+        // Détachement Allié avec Légion
+        const found = legions ? legions.find(([code]) => code === det.legionAlliee) : null;
+        nomDetachement = found ? `Allié : ${found[1]}` : `Allié : ${det.legionAlliee}`;
+      } else if (det.factionAlliee) {
+        // Détachement Allié avec Faction
+        nomDetachement = `Allié : ${det.factionAlliee}`;
+      } else {
+        // Détachement Principal
+        nomDetachement = "Détachement Principal de Croisade";
       }
 
       const bouton = document.createElement("button");
@@ -6179,7 +6183,7 @@ function initialiser() {
       bouton.style.padding = "10px";
       bouton.style.marginBottom = "10px";
       bouton.style.textAlign = "left";
-      bouton.textContent = nomDetachement + legionAlliee;
+      bouton.textContent = nomDetachement;
       bouton.addEventListener("click", () => {
         Organigramme.assigner(
           instance.uid,
