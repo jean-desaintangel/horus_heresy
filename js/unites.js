@@ -6137,6 +6137,92 @@ function initialiser() {
   );
   initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
+  // Affiche un modal pour choisir le détachement si plusieurs cases libres
+  function afficherModalChoixDetachementUnite(instance, casesLibres) {
+    const modal = document.createElement("div");
+    modal.className = "modal-choix-detachement";
+    modal.style.cssText =
+      "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); " +
+      "background: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; " +
+      "z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); " +
+      "max-width: 450px; width: 90%;";
+
+    const titre = document.createElement("h3");
+    titre.textContent = "Quel détachement ?";
+    titre.style.marginTop = "0";
+    modal.appendChild(titre);
+
+    const listeDetachements = document.createElement("div");
+    listeDetachements.style.margin = "15px 0";
+
+    const detachements = Organigramme.detachements();
+    const legions = Organigramme.legions();
+
+    for (const caseLibre of casesLibres) {
+      const det = detachements.find((d) => d.uid === caseLibre.detUid);
+      if (!det) continue;
+
+      const typeInfo = Organigramme.typeDe(det);
+      const nomDetachement = typeInfo.nom || det.uid;
+
+      // Chercher le libellé de la Légion alliée si présente
+      let legionAlliee = "";
+      if (det.legionAlliee && legions) {
+        const found = legions.find(([code]) => code === det.legionAlliee);
+        if (found) legionAlliee = ` (${found[1]})`;
+      }
+
+      const bouton = document.createElement("button");
+      bouton.className = "bouton-secondaire";
+      bouton.style.display = "block";
+      bouton.style.width = "100%";
+      bouton.style.padding = "10px";
+      bouton.style.marginBottom = "10px";
+      bouton.style.textAlign = "left";
+      bouton.textContent = nomDetachement + legionAlliee;
+      bouton.addEventListener("click", () => {
+        Organigramme.assigner(
+          instance.uid,
+          caseLibre.detUid,
+          caseLibre.indice,
+        );
+        fond.remove();
+      });
+      listeDetachements.appendChild(bouton);
+    }
+    modal.appendChild(listeDetachements);
+
+    const annuler = document.createElement("button");
+    annuler.className = "bouton-secondaire";
+    annuler.textContent = "Annuler";
+    annuler.style.display = "block";
+    annuler.style.width = "100%";
+    annuler.addEventListener("click", () => {
+      // Retirer l'unité si l'utilisateur annule
+      armee.splice(armee.indexOf(instance), 1);
+      const carte = document.querySelector(`[data-uid="${instance.uid}"]`);
+      if (carte) carte.remove();
+      fond.remove();
+    });
+    modal.appendChild(annuler);
+
+    const fond = document.createElement("div");
+    fond.style.cssText =
+      "position: fixed; top: 0; left: 0; right: 0; bottom: 0; " +
+      "background: rgba(0,0,0,0.3); z-index: 9999;";
+    fond.addEventListener("click", (e) => {
+      if (e.target === fond) {
+        // Retirer l'unité si l'utilisateur clique en dehors
+        armee.splice(armee.indexOf(instance), 1);
+        const carte = document.querySelector(`[data-uid="${instance.uid}"]`);
+        if (carte) carte.remove();
+        fond.remove();
+      }
+    });
+    fond.appendChild(modal);
+    document.body.appendChild(fond);
+  }
+
   boutonAjouter.addEventListener("click", () => {
     // Filet de sécurité : le bouton est normalement désactivé tant que le
     // verrou d'actualiserVerrouLegion() est actif (Légion manquante pour
@@ -6183,10 +6269,14 @@ function initialiser() {
     };
     armee.push(instance);
     listeCartes.appendChild(construireCarte(instance));
-    // Placement automatique dans la première case libre compatible ;
-    // modifiable ensuite via le menu « Case occupée » de la carte.
-    // Si une Légion est choisie dans le sélecteur "Légion pour la sélection d'unité",
-    // on préfère assigner l'unité au Détachement Allié avec cette Légion.
+
+    // Si plusieurs cases libres : afficher un modal pour choisir le détachement
+    if (libres.length > 1) {
+      afficherModalChoixDetachementUnite(instance, libres);
+      return;
+    }
+
+    // Sinon : placement automatique
     let caseDestination = libres[0];
     const selectLegionAliee = document.getElementById("choix-legion-unite");
     const legionChoisie = selectLegionAliee ? selectLegionAliee.value : "";
