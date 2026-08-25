@@ -4383,6 +4383,16 @@ const AVANTAGES_PRINCIPAUX = [
     texte:
       "Avantage Principal réservé aux Cases d'Organigramme de Force Suprême du Serment du Moment Dans la Disgrâce, Tous sont Égaux. Un Modèle de Sous-type Sergent de l'Unité qui occupe la Case gagne +1 à ses Caractéristiques d'Attaques, de Capacité de Combat et de Commandement, ainsi que le Sous-type Champion (s'il l'a déjà, il gagne +1 de Commandement supplémentaire à la place). Si cet Avantage est choisi pour une Unité d'un Détachement Principal ou Allié, un Détachement Auxiliaire peut lui être rattaché comme si cette Unité occupait un Choix de Quartier Général ; toutes les Cases de ce Détachement Auxiliaire deviennent alors elles-mêmes des Cases d'Organigramme de Force Suprême, réservées au même Avantage Principal Petit Seigneur de Guerre.",
   },
+  /* --- Légions Brisées (« Legacies of the Age of Darkness : The Shattered
+     Legions »). Prime Advantage non implémenté mécaniquement sur ce site
+     (voir CLAUDE.md, note Parangons de la Légion). --- */
+  {
+    id: "exemplars-of-the-legion",
+    nom: "Exemplars of the Legion",
+    factionRequise: "legions-brisees",
+    texte:
+      "Prime Advantage réservé aux Unités de Rôle Tactique de Commandement (Command Battlefield Role) avec le Trait Légions Brisées, occupant une Prime Force Organisation Slot. Ajoute une Case supplémentaire au Détachement, de n'importe quel Rôle Tactique sauf Quartier Général, État-major, Seigneur de Guerre et Seigneur des Batailles. La Case ajoutée doit être remplie par une Unité Legio Astartes générique (sans Sous-type Unique) avec un Trait de Légion correspondant à celui de l'Unité qui occupe la Prime Slot. Les Modèles de cette Unité ajoutée perdent leur Trait de Légion d'origine et gagnent Légions Brisées, ainsi que la Règle Spéciale Legion Specialists (restriction de bénéfices sur Mutable Tactics). Plusieurs Unités de la même Unité can sélectionner cet Avantage pour un même Détachement, ajoutant plusieurs Cases supplémentaires. Non simulé sur ce site : le placement de ces Cases ajoutées reste manuel.",
+  },
 ];
 
 /* Rôles interdits à la case supplémentaire du Bénéfice Logistique

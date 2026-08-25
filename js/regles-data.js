@@ -3123,4 +3123,9 @@ const REGLES_DIVERSES = [
     texte:
       "Option d'Arcane (Macrotek). Un Véhicule qui sélectionne cette Option d'Arcane gagne une Capacité de Transport augmentée de +2, mais ne peut transporter que des Figurines de Sous-type Transport. Si l'Unité reçoit un Choix de Pied l'Ascencion est modifiée au lieu de désigner la Posture : elle peut ajouter +2 à la place d'une Figurine nommée de ce Bénéfice d'Arcane et aucun effet sur les unités composées uniquement de Figurines qui en ont une seule variante du Trait de Faction Mechanicum différente de celle d'autres Unités du Détachement.",
   },
+  {
+    nom: "Legion Specialists",
+    texte:
+      "Règle Spéciale accordée aux Modèles des Unités ajoutées via l'Avantage Principal Exemplars of the Legion (Légions Brisées). Si les Modèles de cette Unité auraient pu bénéficier de la Tactica Mutable Tactics Legion, ils ne bénéficient que du bonus correspondant à la Légion dont le Trait a été remplacé par Légions Brisées, et non des bonus des autres Légions du Détachement.",
+  },
 ];
