@@ -6158,8 +6158,16 @@ function initialiser() {
     const detachements = Organigramme.detachements();
     const legions = Organigramme.legions();
 
+    // Grouper les cases libres par détachement pour éviter les doublons
+    const detachementsPar = new Map();
     for (const caseLibre of casesLibres) {
-      const det = detachements.find((d) => d.uid === caseLibre.detUid);
+      if (!detachementsPar.has(caseLibre.detUid)) {
+        detachementsPar.set(caseLibre.detUid, caseLibre);
+      }
+    }
+
+    for (const [detUid, caseLibre] of detachementsPar) {
+      const det = detachements.find((d) => d.uid === detUid);
       if (!det) continue;
 
       // Construire le nom du Détachement
