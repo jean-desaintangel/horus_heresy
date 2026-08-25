@@ -5257,7 +5257,7 @@ const Organigramme = (() => {
     }
 
     for (const det of etat.detachements) {
-      if (typeDe(det).famille !== "allie") continue;
+      if (typeDe(det).id !== "allie") continue;
       const credits = calculerCredits(det.uid);
       const creditsDisponibles =
         type.famille === "apex" ? credits.apexRestants : credits.auxRestants;

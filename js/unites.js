@@ -5449,24 +5449,47 @@ function initialiserChoixUnite() {
   const caseLegacies = document.getElementById("afficher-legacies");
   const legaciesAffichees = () => Boolean(caseLegacies && caseLegacies.checked);
 
-  // Peupler le sélecteur de Légion Alliée avec les Légions ayant des unités
-  function peuplerSelectLegionAlliee() {
+  // Peupler le sélecteur de Faction avec les Factions accessibles (Principal + Alliés)
+  function peuplerSelectFactionUnite() {
     const select = document.getElementById("choix-legion-unite");
     if (!select) return;
     if (!orgaPret || typeof Organigramme === "undefined") return;
-
-    const legionsAlliees = Organigramme.legionsAlliees();
 
     // Supprimer toutes les options sauf la première (défaut)
     while (select.options.length > 1) {
       select.remove(1);
     }
 
-    // Ajouter une option pour chaque Légion Alliée
+    const factionsAjoutees = new Set();
+    const legions = Organigramme.legions();
+
+    // Ajouter la Faction du Principal
+    const factionPrincipale = Organigramme.factionActuelle();
+    if (factionPrincipale && !factionsAjoutees.has(factionPrincipale)) {
+      factionsAjoutees.add(factionPrincipale);
+      const opt = document.createElement("option");
+      opt.value = factionPrincipale;
+      opt.textContent = factionPrincipale;
+      select.appendChild(opt);
+    }
+
+    // Ajouter les Factions des Détachements Alliés
+    const factionsAlliees = Organigramme.factionsAlliees();
+    for (const factionCode of factionsAlliees) {
+      if (factionsAjoutees.has(factionCode)) continue;
+      factionsAjoutees.add(factionCode);
+      const opt = document.createElement("option");
+      opt.value = factionCode;
+      opt.textContent = factionCode;
+      select.appendChild(opt);
+    }
+
+    // Ajouter aussi les Légions alliées pour compatibilité (utilisateur peut chercher par Légion Alliée)
+    const legionsAlliees = Organigramme.legionsAlliees();
     for (const legionCode of legionsAlliees) {
-      const legions = Organigramme.legions();
-      const legionLabel =
-        legions.find(([code]) => code === legionCode)?.[1] || legionCode;
+      if (factionsAjoutees.has(legionCode)) continue;
+      factionsAjoutees.add(legionCode);
+      const legionLabel = legions.find(([code]) => code === legionCode)?.[1] || legionCode;
       const opt = document.createElement("option");
       opt.value = legionCode;
       opt.textContent = legionLabel;
@@ -5475,22 +5498,32 @@ function initialiserChoixUnite() {
   }
 
   // Assignera la fonction à la variable globale pour qu'elle puisse être appelée depuis actualiserVerrouLegion
-  peuplerSelectLegionUniteAlliee = peuplerSelectLegionAlliee;
+  peuplerSelectLegionUniteAlliee = peuplerSelectFactionUnite;
 
-  // Retourne true si l'unité est accessible pour la Légion choisie
+  // Retourne true si l'unité est accessible pour la Faction/Légion choisie
   function uniteAccessiblePourLegionChoisie(unite) {
     const select = document.getElementById("choix-legion-unite");
-    const legionChoisie = select ? select.value : "";
+    const choixFait = select ? select.value : "";
 
-    if (!legionChoisie) {
-      // Pas de Légion choisie : utiliser le filtre normal
+    if (!choixFait) {
+      // Aucun choix : utiliser le filtre normal
       return uniteAccessible(unite);
     }
 
-    // Légion choisie : vérifier si l'unité est accessible pour cette Légion
-    if (!unite.legion)
-      return unite.faction === "legio-astartes" || !unite.faction;
-    return unite.legion === legionChoisie;
+    // Vérifier si c'est une Légion ou une Faction
+    const legions = Organigramme.legions();
+    const estUneLegion = legions.some(([code]) => code === choixFait);
+
+    if (estUneLegion) {
+      // Filtre par Légion
+      if (!unite.legion)
+        return unite.faction === "legio-astartes" || !unite.faction;
+      return unite.legion === choixFait;
+    } else {
+      // Filtre par Faction
+      const factionUnite = unite.faction || "legio-astartes";
+      return factionUnite === choixFait;
+    }
   }
 
   // Catégories triées selon ORDRE_CATEGORIES (même ordre que l'ancien
@@ -6022,8 +6055,8 @@ function initialiserChoixUnite() {
   }
 
   reinitialiserSelectionParDefaut();
-  // Peupler le sélecteur de Légion Alliée une fois que l'organigramme est prêt
-  peuplerSelectLegionAlliee();
+  // Peupler le sélecteur de Faction une fois que l'organigramme est prêt
+  peuplerSelectLegionUniteAlliee();
   // Évite qu'actualiserVerrouLegion() ne rappelle inutilement
   // reinitialiserSelectionParDefaut() dès son premier passage : on
   // vient de faire l'équivalent ci-dessus, pour la Faction actuelle.
