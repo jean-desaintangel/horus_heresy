@@ -172,16 +172,32 @@ body {
   min-height: 100vh;
   background-attachment: fixed;
 }
+/* RESET CIBLE SUR LES IMAGES
+   `display: block` supprime l'espace fantôme sous une image : une
+   <img> est par défaut `inline`, donc alignée sur la ligne de base du
+   texte, ce qui réserve quelques pixels pour les jambages (le « p »
+   de « portrait »). En bloc, ce résidu disparaît.
+   `max-width: 100%` + `height: auto` = image fluide : elle ne déborde
+   jamais de son conteneur et garde ses proportions. */
 img,
 svg {
   display: block;
   max-width: 100%;
   height: auto;
 }
+/* Couleur du texte sélectionné à la souris : détail de finition, mais
+   sans lui la sélection reprend le bleu du navigateur, hors palette. */
 ::selection {
   background: var(--legion-or);
   color: #000;
 }
+/* :focus-visible (et non :focus) — accessibilité (WCAG 2.4.7) :
+   le contour n'apparaît que lorsque le navigateur estime que
+   l'utilisateur navigue au clavier (Tab), pas au clic souris. On garde
+   donc un repère indispensable au clavier sans « cerner » les cartes
+   à chaque clic. Ne JAMAIS écrire `outline: none` sans remplacement.
+   `outline-offset` décale le trait pour qu'il reste lisible sur les
+   bords arrondis. */
 :focus-visible {
   outline: 2px solid var(--legion-or-clair);
   outline-offset: 3px;
@@ -196,6 +212,13 @@ header {
   border-bottom: 1px solid var(--legion-bordure);
   background: linear-gradient(180deg, oklch(0.1 0.02 40 / 0.6), transparent);
 }
+/* clamp(min, idéal, max) — TYPOGRAPHIE FLUIDE
+   Une seule déclaration remplace trois media queries : la taille
+   grandit avec la largeur de la fenêtre (`vw`), mais reste bornée
+   entre un plancher et un plafond. La part en `rem` (0.6rem ici)
+   garantit que le texte réagit encore au réglage de taille de police
+   du navigateur — un `clamp()` en `vw` pur casserait le zoom texte
+   (WCAG 1.4.4). */
 .legion-surtitre {
   font-family: var(--legion-police-titre);
   font-size: clamp(0.7rem, 0.6rem + 0.3vw, 0.85rem);
@@ -233,6 +256,25 @@ main {
   padding: 0 var(--legion-espace-6) var(--legion-espace-24);
 }
 
+/* ----------------------------------------------------------
+   GRILLE DES DIX-HUIT PRIMARQUES — CSS Grid responsive SANS media query
+
+   repeat(auto-fill, minmax(min(220px, 100%), 1fr))
+   se lit de l'intérieur vers l'extérieur :
+   · min(220px, 100%) : largeur plancher d'une colonne — 220 px, sauf
+     si l'écran fait moins de 220 px (téléphone très étroit), auquel
+     cas la colonne prend 100 % et ne déborde pas.
+   · minmax(<ce plancher>, 1fr) : chaque colonne fait au moins ce
+     plancher, et se partage à parts égales (1fr) la place restante.
+   · repeat(auto-fill, …) : le navigateur crée AUTANT de colonnes
+     qu'il en tient. 1 colonne sur téléphone, 6 sur un grand écran,
+     sans qu'on ait écrit un seul point de rupture.
+
+   auto-fill vs auto-fit : auto-fill garde les colonnes vides
+   (les cartes conservent leur largeur), auto-fit les réduit à zéro
+   (les cartes s'étirent pour remplir la ligne). Ici on veut des
+   portraits de taille constante, donc auto-fill.
+   ---------------------------------------------------------- */
 .legion-grille {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
@@ -240,6 +282,16 @@ main {
   margin-top: var(--legion-espace-8);
 }
 
+/* CARTE PORTRAIT
+   `aspect-ratio: 2/3` impose le format d'un portrait peint : la
+   hauteur se déduit de la largeur, quelle que soit l'image réelle.
+   Combiné à `object-fit: cover` sur l'<img> plus bas, l'image est
+   recadrée (jamais déformée) pour remplir ce cadre.
+   `overflow: hidden` est indispensable ici : sans lui, le zoom au
+   survol (scale 1.05) ferait dépasser l'image des coins arrondis.
+   `transition` ne liste que les propriétés animées — animer `all`
+   coûte cher et surprend (une propriété ajoutée plus tard s'animerait
+   sans qu'on l'ait voulu). */
 .legion-carte {
   position: relative;
   border-radius: var(--legion-radius-l);
@@ -259,6 +311,10 @@ main {
   object-fit: cover;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* Effet de survol DOUBLÉ par :focus-visible : un utilisateur au
+   clavier obtient exactement le même retour visuel qu'à la souris.
+   Régle générale : tout `:hover` porteur d'information doit avoir son
+   équivalent `:focus-visible` (WCAG 2.1.1). */
 .legion-carte:hover,
 .legion-carte:focus-visible {
   transform: translateY(-6px);
@@ -305,6 +361,13 @@ footer {
   letter-spacing: 0.08em;
 }
 
+/* ----------------------------------------------------------
+   POINT DE RUPTURE TÉLÉPHONE
+   Exception assumée au mobile-first du reste du projet : cette page
+   est conçue « grand écran d'abord » (une galerie de portraits), on
+   redescend donc en `max-width`. Seuls les portraits rétrécissent —
+   la grille, elle, s'adapte déjà toute seule (voir .legion-grille).
+   ---------------------------------------------------------- */
 @media (max-width: 600px) {
   header {
     padding: var(--legion-espace-10) var(--legion-espace-4)
@@ -316,6 +379,16 @@ footer {
   }
 }
 
+/* ----------------------------------------------------------
+   ACCESSIBILITÉ — MOUVEMENT RÉDUIT (WCAG 2.3.3 / RGAA 13.8)
+   `prefers-reduced-motion` reflète un réglage du système
+   d'exploitation : certains utilisateurs (troubles vestibulaires,
+   migraines, épilepsie photosensible) demandent moins d'animation.
+   On ne SUPPRIME pas les transitions (cela casserait les scripts qui
+   attendent un événement `transitionend`) : on les ramène à une durée
+   quasi nulle. C'est le seul cas où `!important` est légitime — cette
+   règle doit gagner contre toutes les autres.
+   ---------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -323,8 +396,27 @@ footer {
   }
 }
 
-/* MODALE IMAGE + BOUTON DORÉ */
+/* ============================================================
+   MODALE D'AGRANDISSEMENT + BOUTON DE VALIDATION
 
+   Une « modale » est une fenêtre qui se superpose à la page et
+   capte l'attention. Ici elle affiche le portrait du Primarque en
+   grand quand on clique une carte (ouverture/fermeture pilotées par
+   js/choix-legion.js, qui pose ou retire la classe
+   .legion-modale--ouverte).
+
+   Le CSS ne fait QUE l'apparence : c'est le JS qui gère le clavier
+   (Échap pour fermer, piège de focus) et les attributs ARIA. Séparer
+   ainsi présentation et comportement est la règle du projet.
+   ============================================================ */
+
+/* `position: fixed` + `inset: 0` = raccourci pour top/right/bottom/left
+   à 0 : la modale couvre exactement la fenêtre (le viewport), et ne
+   défile pas avec la page.
+   `z-index: 999` la place au-dessus de tout le reste. Attention : le
+   z-index n'agit qu'entre éléments positionnés (position ≠ static),
+   d'où le `position: relative; z-index: 1` posé sur header/main/footer
+   plus haut — sans lui, l'image de fond passerait devant. */
 .legion-modale {
   position: fixed;
   inset: 0;
@@ -332,10 +424,19 @@ footer {
   z-index: 999;
 }
 
+/* Convention BEM-ish : `bloc--modificateur`. La classe est ajoutée
+   ou retirée en JS, ce qui garde TOUTE la mise en forme dans le CSS
+   (jamais de `element.style.display = "block"` dispersé dans le
+   script). Un seul endroit à relire pour comprendre l'apparence. */
 .legion-modale.legion-modale--ouverte {
   display: block;
 }
 
+/* Voile sombre derrière la modale. `backdrop-filter: blur()` floute
+   ce qui est DERRIÈRE l'élément (≠ `filter`, qui flouterait l'élément
+   lui-même). Effet purement décoratif : s'il n'est pas supporté, la
+   couleur semi-transparente suffit — c'est de l'amélioration
+   progressive. */
 .legion-modale-fond {
   position: absolute;
   inset: 0;
@@ -343,6 +444,13 @@ footer {
   backdrop-filter: blur(6px);
 }
 
+/* `max-width: min(900px, 92vw)` : au plus 900 px, mais jamais plus de
+   92 % de la largeur de fenêtre — la boîte reste lisible du téléphone
+   au grand écran sans media query.
+   `margin: 4vh auto` centre horizontalement (auto à gauche et à
+   droite) et réserve 4 % de hauteur en haut.
+   Flexbox en colonne empile image / titre / bouton avec un `gap`
+   régulier, plutôt que des marges à recalculer sur chaque enfant. */
 .legion-modale-contenu {
   position: relative;
   z-index: 1;
@@ -360,6 +468,10 @@ footer {
   gap: 1rem;
 }
 
+/* `object-fit: contain` (et non `cover` comme sur les cartes) : ici
+   on veut voir le portrait ENTIER, quitte à laisser des bandes vides.
+   cover recadre, contain rentre en entier — c'est le seul choix à
+   faire pour placer une image dans un cadre imposé. */
 .legion-modale-contenu img {
   width: 100%;
   max-height: 72vh;
@@ -374,6 +486,10 @@ footer {
   font-size: 1.3rem;
 }
 
+/* Croix de fermeture : un vrai <button>, pas une <div> cliquable.
+   Un bouton est focusable au clavier, annoncé comme bouton par les
+   lecteurs d'écran et déclenché par Entrée/Espace gratuitement. On
+   neutralise seulement son habillage natif (border/background). */
 .legion-modale-fermer {
   position: absolute;
   top: 0.6rem;
@@ -385,6 +501,11 @@ footer {
   cursor: pointer;
 }
 
+/* Bouton principal « Valider la Légion ». Le dégradé doré va du clair
+   vers le foncé (180deg = de haut en bas) : c'est ce qui donne
+   l'impression d'un relief éclairé par le dessus.
+   La couleur de texte #1a1204 (presque noir) sur ce doré assure un
+   contraste supérieur à 4,5:1, seuil WCAG AA pour le texte. */
 .legion-bouton-valider {
   border: none;
   padding: 0.9rem 1.4rem;
@@ -402,6 +523,10 @@ footer {
     opacity 0.2s ease;
 }
 
+/* `:not([disabled])` : pas d'effet de survol sur un bouton désactivé —
+   sinon l'interface promet une action impossible. Le pseudo-élément
+   `:not()` prend ici un sélecteur d'attribut, pas une classe : on lit
+   l'état réel du DOM plutôt qu'une classe à maintenir en parallèle. */
 .legion-bouton-valider:hover:not([disabled]) {
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);

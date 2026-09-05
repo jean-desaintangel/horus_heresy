@@ -2453,6 +2453,7 @@ const optionProjecteursSA = () => ({
    UNITÉS — QUARTIER GÉNÉRAL
    ---------------------------------------------------------- */
 const UNITES = [
+  /* --- Praetor · Quartier Général · 120 pts de base --- */
   {
     id: "praetor",
     nom: "Praetor",
@@ -2601,6 +2602,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Praetor en Armure Terminator · Quartier Général · 145 pts de base --- */
   {
     id: "praetor-terminator",
     nom: "Praetor en Armure Terminator",
@@ -2708,6 +2710,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Praetor en Armure Terminator Saturnine · Quartier Général · 200 pts de base --- */
   {
     id: "praetor-saturnine",
     nom: "Praetor en Armure Terminator Saturnine",
@@ -2783,6 +2786,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Praetor sur moto · Quartier Général · 160 pts de base --- */
   {
     id: "praetor-monte",
     nom: "Praetor sur moto",
@@ -2949,6 +2953,7 @@ const UNITES = [
      (js/unites.js, initialiserChoixUnite) que si cette Légion est
      choisie dans les paramètres de la partie (js/organigramme.js).
      ---------------------------------------------------------- */
+  /* --- Qin Xa · Quartier Général · 210 pts de base --- */
   {
     id: "qin-xa",
     nom: "Qin Xa",
@@ -2992,6 +2997,7 @@ const UNITES = [
      (js/unites.js, initialiserChoixUnite) que si cette Légion est
      choisie dans les paramètres de la partie (js/organigramme.js).
      ---------------------------------------------------------- */
+  /* --- Maître de Chapitre Raldoron · Quartier Général · 180 pts de base --- */
   {
     id: "raldoron",
     nom: "Maître de Chapitre Raldoron",
@@ -3039,6 +3045,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — ÉTAT-MAJOR
      ---------------------------------------------------------- */
+  /* --- Centurion · État-major · 80 pts de base --- */
   {
     id: "centurion",
     nom: "Centurion",
@@ -3186,6 +3193,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Centurion en Armure Terminator · État-major · 100 pts de base --- */
   {
     id: "centurion-terminator",
     nom: "Centurion en Armure Terminator",
@@ -3379,6 +3387,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Optae · État-major · 50 pts de base --- */
   {
     id: "optae",
     nom: "Optae",
@@ -3509,6 +3518,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Rhino d'État-major Damocles · État-major · 120 pts de base --- */
   {
     id: "rhino-damocles",
     nom: "Rhino d'État-major Damocles",
@@ -3588,6 +3598,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Archiviste · État-major · 85 pts de base --- */
   {
     id: "archiviste",
     nom: "Archiviste",
@@ -3655,6 +3666,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Champion de Légion · État-major · 105 pts de base --- */
   {
     id: "champion",
     nom: "Champion de Légion",
@@ -3708,6 +3720,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Champion sur moto · État-major · 145 pts de base --- */
   {
     id: "champion-monte",
     nom: "Champion sur moto",
@@ -3896,6 +3909,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Centurion sur moto · État-major · 110 pts de base --- */
   {
     id: "centurion-monte",
     nom: "Centurion sur moto",
@@ -4052,6 +4066,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Vigilator · État-major · 95 pts de base --- */
   {
     id: "vigilator",
     nom: "Vigilator",
@@ -4092,6 +4107,7 @@ const UNITES = [
     options: [ARCANE_DE_PROSPERO],
   },
 
+  /* --- Ésotériste · État-major · 95 pts de base --- */
   {
     id: "esoteriste",
     nom: "Ésotériste",
@@ -4136,6 +4152,7 @@ const UNITES = [
     options: [ARCANE_DE_PROSPERO],
   },
 
+  /* --- Ésotériste sur moto · État-major · 135 pts de base --- */
   {
     id: "esoteriste-monte",
     nom: "Ésotériste sur moto",
@@ -4217,6 +4234,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Maître des Signaux · État-major · 115 pts de base --- */
   {
     id: "maitre-signaux",
     nom: "Maître des Signaux",
@@ -4269,6 +4287,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Praevius · État-major · 95 pts de base --- */
   {
     id: "praevius",
     nom: "Praevius",
@@ -4327,6 +4346,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Moritat · État-major · 95 pts de base --- */
   {
     id: "moritat",
     nom: "Moritat",
@@ -4381,6 +4401,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Briseur de Siège · État-major · 115 pts de base --- */
   {
     id: "briseur-siege",
     nom: "Briseur de Siège",
@@ -4448,6 +4469,7 @@ const UNITES = [
      et Warmonger comme génériques absents de ce fichier). Pas de champ
      `legion` (accessibles à toutes les Légions), marquées legacy: true.
      ---------------------------------------------------------- */
+  /* --- Maître des Signaux à moto · État-major · 145 pts de base --- */
   {
     id: "maitre-signaux-monte",
     nom: "Maître des Signaux à moto",
@@ -4557,6 +4579,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Moritat Mortalis · État-major · 85 pts de base --- */
   {
     id: "moritat-mortalis",
     nom: "Moritat Mortalis",
@@ -4612,6 +4635,7 @@ const UNITES = [
       optionBombesFusion(),
     ],
   },
+  /* --- Seigneur de Forge · État-major · 110 pts de base --- */
   {
     id: "seigneur-forge",
     nom: "Seigneur de Forge",
@@ -4736,6 +4760,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Seigneur de Forge à moto · État-major · 140 pts de base --- */
   {
     id: "seigneur-forge-monte",
     nom: "Seigneur de Forge à moto",
@@ -4895,6 +4920,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Seigneur de Forge en Armure Terminator · État-major · 130 pts de base --- */
   {
     id: "seigneur-forge-terminator",
     nom: "Seigneur de Forge en Armure Terminator",
@@ -5011,6 +5037,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Primus Medicae · État-major · 100 pts de base --- */
   {
     id: "primus-medicae",
     nom: "Primus Medicae",
@@ -5111,6 +5138,7 @@ const UNITES = [
       optionBombesFusion(),
     ],
   },
+  /* --- Primus Medicae à moto · État-major · 130 pts de base --- */
   {
     id: "primus-medicae-monte",
     nom: "Primus Medicae à moto",
@@ -5241,6 +5269,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Primus Medicae en Armure Terminator · État-major · 120 pts de base --- */
   {
     id: "primus-medicae-terminator",
     nom: "Primus Medicae en Armure Terminator",
@@ -5348,6 +5377,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Delegatus · État-major · 100 pts de base --- */
   {
     id: "delegatus",
     nom: "Delegatus",
@@ -5479,6 +5509,7 @@ const UNITES = [
       ...optionBaionnette("Bolter"),
     ],
   },
+  /* --- Delegatus à moto · État-major · 130 pts de base --- */
   {
     id: "delegatus-monte",
     nom: "Delegatus à moto",
@@ -5634,6 +5665,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Delegatus en Armure Terminator · État-major · 120 pts de base --- */
   {
     id: "delegatus-terminator",
     nom: "Delegatus en Armure Terminator",
@@ -5746,6 +5778,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Mortificator · État-major · 100 pts de base --- */
   {
     id: "mortificator",
     nom: "Mortificator",
@@ -5801,6 +5834,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Mortificator en Armure Terminator · État-major · 120 pts de base --- */
   {
     id: "mortificator-terminator",
     nom: "Mortificator en Armure Terminator",
@@ -5878,6 +5912,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Fauteur de Guerre · État-major · 130 pts de base --- */
   {
     id: "fauteur-guerre",
     nom: "Fauteur de Guerre",
@@ -5993,6 +6028,7 @@ const UNITES = [
       ...optionBaionnette("Bolter"),
     ],
   },
+  /* --- Fauteur de Guerre en Armure Terminator · État-major · 150 pts de base --- */
   {
     id: "fauteur-guerre-terminator",
     nom: "Fauteur de Guerre en Armure Terminator",
@@ -6113,6 +6149,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Pisteur · État-major · 60 pts de base --- */
   {
     id: "pisteur",
     nom: "Pisteur",
@@ -6223,6 +6260,7 @@ const UNITES = [
       ...optionBaionnette("Bolter"),
     ],
   },
+  /* --- Armistos · État-major · 70 pts de base --- */
   {
     id: "armistos",
     nom: "Armistos",
@@ -6303,6 +6341,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Superviseur · État-major · 85 pts de base --- */
   {
     id: "superviseur",
     nom: "Superviseur",
@@ -6373,6 +6412,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Héraut · État-major · 100 pts de base --- */
   {
     id: "heraut",
     nom: "Héraut",
@@ -6428,6 +6468,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Héraut sur moto · État-major · 140 pts de base --- */
   {
     id: "heraut-monte",
     nom: "Héraut sur moto",
@@ -6541,6 +6582,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Chapelain · État-major · 80 pts de base --- */
   {
     id: "chapelain",
     nom: "Chapelain",
@@ -6594,6 +6636,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Chapelain sur moto · État-major · 110 pts de base --- */
   {
     id: "chapelain-monte",
     nom: "Chapelain sur moto",
@@ -6711,6 +6754,7 @@ const UNITES = [
      (js/unites.js, initialiserChoixUnite) que si cette Légion est
      choisie dans les paramètres de la partie (js/organigramme.js).
      ---------------------------------------------------------- */
+  /* --- Kaedes Nex · État-major · 165 pts de base --- */
   {
     id: "kaedes-nex",
     nom: "Kaedes Nex",
@@ -6764,6 +6808,7 @@ const UNITES = [
      UNITÉS RÉSERVÉES À LA Ve LÉGION (WHITE SCARS)
      Voir la note sur Qin Xa, catégorie Quartier Général ci-dessus.
      ---------------------------------------------------------- */
+  /* --- Hibou Khan · État-major · 165 pts de base --- */
   {
     id: "hibou-khan",
     nom: "Hibou Khan",
@@ -6810,6 +6855,7 @@ const UNITES = [
     legion: "V",
   },
 
+  /* --- Devin de l'Orage · État-major · 95 pts de base --- */
   {
     id: "devin-de-lorage",
     nom: "Devin de l'Orage",
@@ -6874,6 +6920,7 @@ const UNITES = [
     ],
     legion: "V",
   },
+  /* --- Devin de l'Orage avec Jump Pack · État-major · 115 pts de base --- */
   {
     id: "devin-de-lorage-sac-de-saut",
     nom: "Devin de l'Orage avec Jump Pack",
@@ -6941,6 +6988,7 @@ const UNITES = [
     ],
     legion: "V",
   },
+  /* --- Devin de l'Orage à moto · État-major · 125 pts de base --- */
   {
     id: "devin-de-lorage-monte",
     nom: "Devin de l'Orage à moto",
@@ -7064,6 +7112,7 @@ const UNITES = [
     ],
     legion: "V",
   },
+  /* --- Devin de l'Orage en Armure Terminator · État-major · 115 pts de base --- */
   {
     id: "devin-de-lorage-armure-terminator",
     nom: "Devin de l'Orage en Armure Terminator",
@@ -7159,6 +7208,7 @@ const UNITES = [
      UNITÉS RÉSERVÉES À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général ci-dessus.
      ---------------------------------------------------------- */
+  /* --- Aster Crohne · État-major · 155 pts de base --- */
   {
     id: "aster-crohne",
     nom: "Aster Crohne",
@@ -7202,6 +7252,7 @@ const UNITES = [
     legion: "IX",
   },
 
+  /* --- Dominion Zephon · État-major · 185 pts de base --- */
   {
     id: "dominion-zephon",
     nom: "Dominion Zephon",
@@ -7457,6 +7508,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade d'État-Major Terminator Cataphractii · Suites · 140 pts de base --- */
   {
     id: "escouade-etat-major-cataphractii",
     nom: "Escouade d'État-Major Terminator Cataphractii",
@@ -7592,6 +7644,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'État-Major Terminator Tartaros · Suites · 140 pts de base --- */
   {
     id: "escouade-etat-major-tartaros",
     nom: "Escouade d'État-Major Terminator Tartaros",
@@ -7722,6 +7775,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'État-Major de Centurion · Suites · 85 pts de base --- */
   {
     id: "escouade-etat-major-centurion",
     nom: "Escouade d'État-Major de Centurion",
@@ -7844,6 +7898,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'État-Major Prétorienne à Réacteurs · Suites · 160 pts de base --- */
   {
     id: "escouade-etat-major-pretorienne-reacteurs",
     nom: "Escouade d'État-Major Prétorienne à Réacteurs",
@@ -7914,6 +7969,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'État-Major Prétorienne · Suites · 130 pts de base --- */
   {
     id: "escouade-etat-major-pretorienne",
     nom: "Escouade d'État-Major Prétorienne",
@@ -7983,6 +8039,7 @@ const UNITES = [
       ARCANE_DE_PROSPERO,
     ],
   },
+  /* --- Escouade de Commandement Prétorienne sur Motojets Scimitar · Suites · 170 pts de base --- */
   {
     id: "escouade-commandement-pretorienne-scimitar",
     nom: "Escouade de Commandement Prétorienne sur Motojets Scimitar",
@@ -8134,6 +8191,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade de Commandement Prétorienne Outrider · Suites · 150 pts de base --- */
   {
     id: "escouade-commandement-pretorienne-outrider",
     nom: "Escouade de Commandement Prétorienne Outrider",
@@ -8275,6 +8333,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général ci-dessus.
      ---------------------------------------------------------- */
+  /* --- Garde Sanguinienne · Suites · 205 pts de base --- */
   {
     id: "garde-sanguinienne",
     nom: "Garde Sanguinienne",
@@ -8385,6 +8444,7 @@ const UNITES = [
     ],
     legion: "IX",
   },
+  /* --- Cour des Ofanim · Suites · 130 pts de base --- */
   {
     id: "cour-des-ofanim",
     nom: "Cour des Ofanim",
@@ -8431,6 +8491,7 @@ const UNITES = [
     options: [],
     legion: "IX",
   },
+  /* --- Cour des Ofanim avec Jump Packs · Suites · 160 pts de base --- */
   {
     id: "cour-des-ofanim-sacs-de-saut",
     nom: "Cour des Ofanim avec Jump Packs",
@@ -8484,6 +8545,7 @@ const UNITES = [
      quantité : le budget (groupe "tir" / "melee") est la taille
      de l'unité (parTranche: 1).
      ---------------------------------------------------------- */
+  /* --- Escouade Terminator Cataphractii · Assaut Lourd · 150 pts de base --- */
   {
     id: "terminators-cataphractii",
     nom: "Escouade Terminator Cataphractii",
@@ -8673,6 +8735,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade Terminator Tartaros · Assaut Lourd · 150 pts de base --- */
   {
     id: "terminators-tartaros",
     nom: "Escouade Terminator Tartaros",
@@ -8851,6 +8914,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade Terminator Saturnine · Assaut Lourd · 200 pts de base --- */
   {
     id: "terminators-saturnine",
     nom: "Escouade Terminator Saturnine",
@@ -8963,6 +9027,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade Terminator de Siège Tartaros · Assaut Lourd · 150 pts de base --- */
   {
     id: "escouade-terminator-siege-tartaros",
     nom: "Escouade Terminator de Siège Tartaros",
@@ -9120,6 +9185,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade Terminator Indomitus · Assaut Lourd · 180 pts de base --- */
   {
     id: "escouade-terminator-indomitus",
     nom: "Escouade Terminator Indomitus",
@@ -9298,6 +9364,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade de Destructeurs Mortalis · Assaut Lourd · 85 pts de base --- */
   {
     id: "escouade-destructeurs-mortalis",
     nom: "Escouade de Destructeurs Mortalis",
@@ -9502,6 +9569,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade de Destructeurs d'Assaut · Assaut Lourd · 100 pts de base --- */
   {
     id: "escouade-destructeurs-assaut",
     nom: "Escouade de Destructeurs d'Assaut",
@@ -9692,6 +9760,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
      Voir la note sur Qin Xa, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Keshig d'Ébène · Assaut Lourd · 200 pts de base --- */
   {
     id: "keshig-ebene",
     nom: "Keshig d'Ébène",
@@ -9779,6 +9848,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Les Larmes de l'Ange · Assaut Lourd · 150 pts de base --- */
   {
     id: "larmes-de-lange",
     nom: "Les Larmes de l'Ange",
@@ -9949,6 +10019,7 @@ const UNITES = [
      de base listé est celui de CHAQUE figurine, la fiche précise
      donc « Sergent : ... » pour ses échanges personnels.
      ---------------------------------------------------------- */
+  /* --- Escouade Tactique · Troupes · 100 pts de base --- */
   {
     id: "escouade-tactique",
     nom: "Escouade Tactique",
@@ -10103,6 +10174,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade Nettoyeuse · Troupes · 100 pts de base --- */
   {
     id: "escouade-nettoyeuse",
     nom: "Escouade Nettoyeuse",
@@ -10315,6 +10387,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'Assaut · Troupes · 140 pts de base --- */
   {
     id: "escouade-assaut",
     nom: "Escouade d'Assaut",
@@ -10521,6 +10594,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade Brécheuse · Troupes · 140 pts de base --- */
   {
     id: "escouade-brecheuse",
     nom: "Escouade Brécheuse",
@@ -10693,6 +10767,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — APPUI
      ---------------------------------------------------------- */
+  /* --- Plate-forme d'Accélérateur Quadritube Araknae · Appui · 125 pts de base --- */
   {
     id: "araknae",
     nom: "Plate-forme d'Accélérateur Quadritube Araknae",
@@ -10724,6 +10799,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Module de Largage Deathstorm · Appui · 90 pts de base --- */
   {
     id: "module-largage-deathstorm",
     nom: "Module de Largage Deathstorm",
@@ -10756,6 +10832,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Techmarine · Appui · 50 pts de base --- */
   {
     id: "techmarine",
     nom: "Techmarine",
@@ -10817,6 +10894,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Apothicaire · Appui · 30 pts de base --- */
   {
     id: "apothicaire",
     nom: "Apothicaire",
@@ -10889,6 +10967,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Batterie de Rapier · Appui · 40 pts de base --- */
   {
     id: "batterie-rapier",
     nom: "Batterie de Rapier",
@@ -11013,6 +11092,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade de Soutien · Appui · 50 pts de base --- */
   {
     id: "escouade-soutien",
     nom: "Escouade de Soutien",
@@ -11140,6 +11220,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade d'Appui Tactique · Appui · 40 pts de base --- */
   {
     id: "escouade-appui-tactique",
     nom: "Escouade d'Appui Tactique",
@@ -11278,6 +11359,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
      Voir la note sur Qin Xa, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Speeder d'Assaut Kyzagan · Appui · 105 pts de base --- */
   {
     id: "speeder-kyzagan",
     nom: "Speeder d'Assaut Kyzagan",
@@ -11328,6 +11410,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — ELITE
      ---------------------------------------------------------- */
+  /* --- Escouade de Vétérans Breacher · Elite · 115 pts de base --- */
   {
     id: "escouade-veterans-perce-lignes",
     nom: "Escouade de Vétérans Breacher",
@@ -11785,6 +11868,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade de Vétérans d'Appui Lourd · Elite · 115 pts de base --- */
   {
     id: "escouade-veterans-appui-lourd",
     nom: "Escouade de Vétérans d'Appui Lourd",
@@ -12070,6 +12154,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade Traqueuse · Elite · 105 pts de base --- */
   {
     id: "escouade-traqueuse",
     nom: "Escouade Traqueuse",
@@ -12250,6 +12335,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade de Vétérans d'Assaut · Elite · 120 pts de base --- */
   {
     id: "escouade-veterans-assaut",
     nom: "Escouade de Vétérans d'Assaut",
@@ -12397,6 +12483,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade de Vétérans Tactiques · Elite · 85 pts de base --- */
   {
     id: "escouade-veterans-tactiques",
     nom: "Escouade de Vétérans Tactiques",
@@ -12758,6 +12845,7 @@ const UNITES = [
      `legion: "XIX"` : voir la note sur Kaedes Nex, catégorie
      État-major ci-dessus.
      ---------------------------------------------------------- */
+  /* --- Escouade de Mor Deythan · Elite · 175 pts de base --- */
   {
     id: "escouade-mor-deythan",
     nom: "Escouade de Mor Deythan",
@@ -12937,6 +13025,7 @@ const UNITES = [
     legion: "XIX",
   },
 
+  /* --- Escouade de Furies Noires · Elite · 175 pts de base --- */
   {
     id: "escouade-furies-noires",
     nom: "Escouade de Furies Noires",
@@ -13022,6 +13111,7 @@ const UNITES = [
     legion: "XIX",
   },
 
+  /* --- Escouade de Terminator Deliverers · Elite · 215 pts de base --- */
   {
     id: "escouade-deliverers",
     nom: "Escouade de Terminator Deliverers",
@@ -13184,6 +13274,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
      Voir la note sur Qin Xa, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Keshig d'Or · Elite · 140 pts de base --- */
   {
     id: "keshig-or",
     nom: "Keshig d'Or",
@@ -13315,6 +13406,7 @@ const UNITES = [
     ],
     legion: "V",
   },
+  /* --- Griffes du Faucon · Reco · 110 pts de base --- */
   {
     id: "griffes-du-faucon",
     nom: "Griffes du Faucon",
@@ -13428,6 +13520,7 @@ const UNITES = [
     ],
     legion: "V",
   },
+  /* --- Fils Sombres de la Mort · Assaut Lourd · 125 pts de base --- */
   {
     id: "fils-sombres-de-la-mort",
     nom: "Fils Sombres de la Mort",
@@ -13625,6 +13718,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Paladins Écarlates · Elite · 225 pts de base --- */
   {
     id: "paladins-ecarlates",
     nom: "Paladins Écarlates",
@@ -13879,6 +13973,7 @@ const UNITES = [
      Xiphon sont en revanche de vrais véhicules (profilVehicule),
      comme dans la section Transports.
      ---------------------------------------------------------- */
+  /* --- Escadron de Land Speeders · Attaque Rapide · 50 pts de base --- */
   {
     id: "escadron-land-speeders",
     nom: "Escadron de Land Speeders",
@@ -14058,6 +14153,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escadron de Javelin · Attaque Rapide · 75 pts de base --- */
   {
     id: "escadron-javelin",
     nom: "Escadron de Javelin",
@@ -14142,6 +14238,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escadron de Motojets Scimitar · Attaque Rapide · 95 pts de base --- */
   {
     id: "escadron-scimitar",
     nom: "Escadron de Motojets Scimitar",
@@ -14278,6 +14375,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Fire Raptor · Attaque Rapide · 220 pts de base --- */
   {
     id: "fire-raptor",
     nom: "Fire Raptor",
@@ -14333,6 +14431,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Storm Eagle · Attaque Rapide · 200 pts de base --- */
   {
     id: "storm-eagle",
     nom: "Storm Eagle",
@@ -14390,6 +14489,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Intercepteur Xiphon · Attaque Rapide · 120 pts de base --- */
   {
     id: "intercepteur-xiphon",
     nom: "Intercepteur Xiphon",
@@ -14424,6 +14524,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — RECO
      ---------------------------------------------------------- */
+  /* --- Land Raider Explorator · Reco · 220 pts de base --- */
   {
     id: "land-raider-explorator",
     nom: "Land Raider Explorator",
@@ -14469,6 +14570,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escadron de Motards · Reco · 85 pts de base --- */
   {
     id: "escadron-motards",
     nom: "Escadron de Motards",
@@ -14619,6 +14721,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Sabre · Reco · 80 pts de base --- */
   {
     id: "sabre",
     nom: "Sabre",
@@ -14691,6 +14794,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escouade de Reconnaissance · Reco · 110 pts de base --- */
   {
     id: "escouade-reconnaissance",
     nom: "Escouade de Reconnaissance",
@@ -14861,6 +14965,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escadron de Motos d'Assaut · Reco · 45 pts de base --- */
   {
     id: "escadron-bikes-assaut",
     nom: "Escadron de Motos d'Assaut",
@@ -14921,6 +15026,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade d'Éclaireurs · Reco · 70 pts de base --- */
   {
     id: "escouade-eclaireurs",
     nom: "Escouade d'Éclaireurs",
@@ -15061,6 +15167,7 @@ const UNITES = [
      de la liste des Armes Latérales de Légion (p. 21) : voir
      optionLaterauxLegion.
      ---------------------------------------------------------- */
+  /* --- Basilisk de Légion · Blindés · 140 pts de base --- */
   {
     id: "basilisk-de-legion",
     nom: "Basilisk de Légion",
@@ -15094,6 +15201,7 @@ const UNITES = [
     ],
     options: [optionArmatusNecrotechnika()],
   },
+  /* --- Medusa de Légion · Blindés · 150 pts de base --- */
   {
     id: "medusa-de-legion",
     nom: "Medusa de Légion",
@@ -15127,6 +15235,7 @@ const UNITES = [
     ],
     options: [optionArmatusNecrotechnika()],
   },
+  /* --- Bombarde Arquitor · Blindés · 150 pts de base --- */
   {
     id: "arquitor",
     nom: "Bombarde Arquitor",
@@ -15182,6 +15291,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char Lance-missiles Scorpius · Blindés · 120 pts de base --- */
   {
     id: "scorpius",
     nom: "Char Lance-missiles Scorpius",
@@ -15227,6 +15337,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char de Siège Vindicator · Blindés · 140 pts de base --- */
   {
     id: "vindicator",
     nom: "Char de Siège Vindicator",
@@ -15272,6 +15383,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char d'Assaut Kratos · Blindés · 280 pts de base --- */
   {
     id: "kratos",
     nom: "Char d'Assaut Kratos",
@@ -15346,6 +15458,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Sicaran Venator · Blindés · 170 pts de base --- */
   {
     id: "sicaran-venator",
     nom: "Sicaran Venator",
@@ -15383,6 +15496,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Sicaran · Blindés · 160 pts de base --- */
   {
     id: "sicaran",
     nom: "Sicaran",
@@ -15439,6 +15553,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Predator · Blindés · 100 pts de base --- */
   {
     id: "predator",
     nom: "Predator",
@@ -15505,6 +15620,7 @@ const UNITES = [
   /* Char Lance-missiles Whirlwind — Addendum au Liber (ajouté à la
      Liste d'Armée des Legiones Astartes après la publication du
      livre d'armée principal). */
+  /* --- Char Lance-missiles Whirlwind · Blindés · 100 pts de base --- */
   {
     id: "whirlwind",
     nom: "Char Lance-missiles Whirlwind",
@@ -15573,6 +15689,7 @@ const UNITES = [
      bras ; les « paires » à prix spécial du livre sont des
      options de type "paire" qui remplacent les deux bras.
      ---------------------------------------------------------- */
+  /* --- Dreadnought Contemptor · Engins de Guerre · 150 pts de base --- */
   {
     id: "dreadnought-contemptor",
     nom: "Dreadnought Contemptor",
@@ -15726,6 +15843,7 @@ const UNITES = [
      source (pas d'encart Arsenal séparé) — laissée en texte
      d'équipement brut, conformément à la règle 6 (CLAUDE.md).
      ---------------------------------------------------------- */
+  /* --- Dreadnought Contemptor-Osiron · Engins de Guerre · 200 pts de base --- */
   {
     id: "dreadnought-contemptor-osiron",
     nom: "Dreadnought Contemptor-Osiron",
@@ -15834,6 +15952,7 @@ const UNITES = [
     legion: "XV",
   },
 
+  /* --- Dreadnought Castra Ferrum · Engins de Guerre · 115 pts de base --- */
   {
     id: "dreadnought-castra-ferrum",
     nom: "Dreadnought Castra Ferrum",
@@ -15975,6 +16094,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Dreadnought Deredeo · Engins de Guerre · 190 pts de base --- */
   {
     id: "dreadnought-deredeo",
     nom: "Dreadnought Deredeo",
@@ -16047,6 +16167,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Dreadnought Leviathan · Engins de Guerre · 220 pts de base --- */
   {
     id: "dreadnought-leviathan",
     nom: "Dreadnought Leviathan",
@@ -16175,6 +16296,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Dreadnought Saturnine · Engins de Guerre · 340 pts de base --- */
   {
     id: "dreadnought-saturnine",
     nom: "Dreadnought Saturnine",
@@ -16255,6 +16377,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Dreadnought Contemptor-Incaendius · Engins de Guerre · 200 pts de base --- */
   {
     id: "dreadnought-contemptor-incaendius",
     nom: "Dreadnought Contemptor-Incaendius",
@@ -16313,6 +16436,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — TRANSPORTS
      ---------------------------------------------------------- */
+  /* --- Rhino · Transports · 60 pts de base --- */
   {
     id: "rhino",
     nom: "Rhino",
@@ -16389,6 +16513,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Module de Largage · Transports · 50 pts de base --- */
   {
     id: "module-largage",
     nom: "Module de Largage",
@@ -16422,6 +16547,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Termite · Transports · 80 pts de base --- */
   {
     id: "termite",
     nom: "Termite",
@@ -16470,6 +16596,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS — TRANSPORTS LOURDS
      ---------------------------------------------------------- */
+  /* --- Land Raider Achilles · Transports Lourds · 280 pts de base --- */
   {
     id: "land-raider-achilles",
     nom: "Land Raider Achilles",
@@ -16517,6 +16644,7 @@ const UNITES = [
       ...optionsMissileEtProjecteurs(),
     ],
   },
+  /* --- Bélier d'Assaut Caestus · Transports Lourds · 290 pts de base --- */
   {
     id: "belier-dassaut-caestus",
     nom: "Bélier d'Assaut Caestus",
@@ -16550,6 +16678,7 @@ const UNITES = [
     ],
     options: [optionArmatusNecrotechnika()],
   },
+  /* --- Griffe d'Assaut Kharybdis · Transports Lourds · 235 pts de base --- */
   {
     id: "kharybdis",
     nom: "Griffe d'Assaut Kharybdis",
@@ -16579,6 +16708,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Module de Largage Dreadclaw · Transports Lourds · 115 pts de base --- */
   {
     id: "dreadclaw",
     nom: "Module de Largage Dreadclaw",
@@ -16608,6 +16738,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Module de Largage à Dreadnought · Transports Lourds · 100 pts de base --- */
   {
     id: "module-largage-dreadnought",
     nom: "Module de Largage à Dreadnought",
@@ -16641,6 +16772,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Spartan · Transports Lourds · 400 pts de base --- */
   {
     id: "spartan",
     nom: "Spartan",
@@ -16699,6 +16831,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Porteur Land Raider · Transports Lourds · 265 pts de base --- */
   {
     id: "porteur-land-raider",
     nom: "Porteur Land Raider",
@@ -16800,6 +16933,7 @@ const UNITES = [
       ...optionsFinBlinde({ missile: "Coque (Avant)", bulldozer: true }),
     ],
   },
+  /* --- Transport d'Assaut Super-lourd Mastodon · Seigneurs des Batailles · 600 pts de base --- */
   {
     id: "mastodon",
     nom: "Transport d'Assaut Super-lourd Mastodon",
@@ -16844,6 +16978,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika(), ...optionsMissileEtProjecteurs()],
   },
 
+  /* --- Stormbird Sokar · Seigneurs des Batailles · 850 pts de base --- */
   {
     id: "stormbird-sokar",
     nom: "Stormbird Sokar",
@@ -16910,6 +17045,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Escorteur Thunderhawk · Seigneurs des Batailles · 685 pts de base --- */
   {
     id: "escorteur-thunderhawk",
     nom: "Escorteur Thunderhawk",
@@ -16946,6 +17082,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Transporteur Thunderhawk · Seigneurs des Batailles · 500 pts de base --- */
   {
     id: "transporteur-thunderhawk",
     nom: "Transporteur Thunderhawk",
@@ -16977,6 +17114,7 @@ const UNITES = [
     options: [optionArmatusNecrotechnika()],
   },
 
+  /* --- Chasseur de Chars Super-lourd Falchion · Seigneurs des Batailles · 650 pts de base --- */
   {
     id: "falchion",
     nom: "Chasseur de Chars Super-lourd Falchion",
@@ -17022,6 +17160,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char de Combat Super-lourd Fellblade · Seigneurs des Batailles · 650 pts de base --- */
   {
     id: "fellblade",
     nom: "Char de Combat Super-lourd Fellblade",
@@ -17080,6 +17219,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char à Arme Spéciale Super-lourd Glaive · Seigneurs des Batailles · 650 pts de base --- */
   {
     id: "glaive",
     nom: "Char à Arme Spéciale Super-lourd Glaive",
@@ -17137,6 +17277,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Char de Siège Lourd Typhon · Seigneurs des Batailles · 400 pts de base --- */
   {
     id: "typhon",
     nom: "Char de Siège Lourd Typhon",
@@ -17172,6 +17313,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Chasseur de Chars Lourd Cerberus · Seigneurs des Batailles · 400 pts de base --- */
   {
     id: "cerberus",
     nom: "Chasseur de Chars Lourd Cerberus",
@@ -17211,6 +17353,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA XIXe LÉGION (RAVEN GUARD)
      Voir la note sur Kaedes Nex, catégorie État-major.
      ---------------------------------------------------------- */
+  /* --- Corvus Corax · Seigneur de Guerre · 440 pts de base --- */
   {
     id: "corvus-corax",
     nom: "Corvus Corax",
@@ -17266,6 +17409,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
      Voir la note sur Qin Xa, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Jaghatai Khan · Seigneur de Guerre · 440 pts de base --- */
   {
     id: "jaghatai-khan",
     nom: "Jaghatai Khan",
@@ -17317,6 +17461,7 @@ const UNITES = [
      UNITÉ RÉSERVÉE À LA IXe LÉGION (BLOOD ANGELS)
      Voir la note sur Raldoron, catégorie Quartier Général.
      ---------------------------------------------------------- */
+  /* --- Sanguinius · Seigneur de Guerre · 485 pts de base --- */
   {
     id: "sanguinius",
     nom: "Sanguinius",
@@ -17391,6 +17536,7 @@ const UNITES = [
      exclusifs : deux formes du même Primarque, jamais les deux à la
      fois dans la même Armée (voir uniteAccessible, js/unites.js).
      ---------------------------------------------------------- */
+  /* --- Angron · Seigneur de Guerre · 450 pts de base --- */
   {
     id: "angron",
     nom: "Angron",
@@ -17440,6 +17586,7 @@ const UNITES = [
     excluAvec: ["angron-transfigure"],
     legion: "XII",
   },
+  /* --- Angron Transfiguré · Seigneur de Guerre · 600 pts de base --- */
   {
     id: "angron-transfigure",
     nom: "Angron Transfiguré",
@@ -17487,6 +17634,7 @@ const UNITES = [
     excluAvec: ["angron"],
     legion: "XII",
   },
+  /* --- Khârn le Sanglant · Quartier Général · 175 pts de base --- */
   {
     id: "kharn-le-sanglant",
     nom: "Khârn le Sanglant",
@@ -17543,6 +17691,7 @@ const UNITES = [
     ],
     legion: "XII",
   },
+  /* --- Lotara Sarrin · État-major · 85 pts de base --- */
   {
     id: "lotara-sarrin",
     nom: "Lotara Sarrin",
@@ -17579,6 +17728,7 @@ const UNITES = [
     options: [],
     legion: "XII",
   },
+  /* --- Escouade Saccageuse · Assaut Lourd · 135 pts de base --- */
   {
     id: "escouade-saccageuse",
     nom: "Escouade Saccageuse",
@@ -17692,6 +17842,7 @@ const UNITES = [
     ],
     legion: "XII",
   },
+  /* --- Escouade de Destructeurs Main Rouge Mortalis · Elite · 85 pts de base --- */
   {
     id: "escouade-main-rouge-mortalis",
     nom: "Escouade de Destructeurs Main Rouge Mortalis",
@@ -17869,6 +18020,7 @@ const UNITES = [
     ],
     legion: "XII",
   },
+  /* --- Escouade de Destructeurs Main Rouge d'Assaut · Elite · 110 pts de base --- */
   {
     id: "escouade-main-rouge-assaut",
     nom: "Escouade de Destructeurs Main Rouge d'Assaut",
@@ -18052,6 +18204,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA XVIIIe LÉGION (SALAMANDERS)
      ---------------------------------------------------------- */
+  /* --- Vulkan · Seigneur de Guerre · 465 pts de base --- */
   {
     id: "vulkan",
     nom: "Vulkan",
@@ -18100,6 +18253,7 @@ const UNITES = [
     options: [],
     legion: "XVIII",
   },
+  /* --- Escouade Pyroclaste · Assaut Lourd · 175 pts de base --- */
   {
     id: "escouade-pyroclaste",
     nom: "Escouade Pyroclaste",
@@ -18186,6 +18340,7 @@ const UNITES = [
     ],
     legion: "XVIII",
   },
+  /* --- Escouade Terminator Pyrodracs · Elite · 250 pts de base --- */
   {
     id: "escouade-terminator-pyrodracs",
     nom: "Escouade Terminator Pyrodracs",
@@ -18328,6 +18483,7 @@ const UNITES = [
      avec la mention « (Legacies) » dans le menu déroulant « Unité à
      ajouter ». Voir js/armes-data.js pour leurs armes propres.
      ---------------------------------------------------------- */
+  /* --- Cassian Dracos Ressuscité · Quartier Général · 220 pts de base --- */
   {
     id: "cassian-dracos-reborn",
     nom: "Cassian Dracos Ressuscité",
@@ -18376,6 +18532,7 @@ const UNITES = [
     options: [],
     legion: "XVIII",
   },
+  /* --- Escouade des Adhérents · Troupes · 85 pts de base --- */
   {
     id: "escouade-adherents",
     nom: "Escouade des Adhérents",
@@ -18517,6 +18674,7 @@ const UNITES = [
     ],
     legion: "XVIII",
   },
+  /* --- Escouade des Sanctificateurs · Elite · 90 pts de base --- */
   {
     id: "escouade-sanctificateurs",
     nom: "Escouade des Sanctificateurs",
@@ -18703,6 +18861,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA IIIe LÉGION (EMPEROR'S CHILDREN)
      ---------------------------------------------------------- */
+  /* --- Seigneur Commandant Eidolon · Quartier Général · 215 pts de base --- */
   {
     id: "seigneur-commandant-eidolon",
     nom: "Seigneur Commandant Eidolon",
@@ -18747,6 +18906,7 @@ const UNITES = [
     options: [],
     legion: "III",
   },
+  /* --- Capitaine Lucius · État-major · 215 pts de base --- */
   {
     id: "capitaine-lucius",
     nom: "Capitaine Lucius",
@@ -18796,6 +18956,7 @@ const UNITES = [
     ],
     legion: "III",
   },
+  /* --- Escouade Terminator Phénix · Suites · 200 pts de base --- */
   {
     id: "escouade-terminator-phenix",
     nom: "Escouade Terminator Phénix",
@@ -18887,6 +19048,7 @@ const UNITES = [
      Emperor's Children). L'équipement « Bolter Némésis » de Saul
      Tarvitz existait déjà dans js/armes-data.js (déjà utilisé par une
      Unité Raven Guard) : aucune arme à ajouter pour lui. --- */
+  /* --- Fulgrim · Seigneur de Guerre · 425 pts de base --- */
   {
     id: "fulgrim",
     nom: "Fulgrim",
@@ -18930,6 +19092,7 @@ const UNITES = [
     excluAvec: ["fulgrim-transfigure"],
     legion: "III",
   },
+  /* --- Fulgrim Transfiguré · Seigneur de Guerre · 600 pts de base --- */
   {
     id: "fulgrim-transfigure",
     nom: "Fulgrim Transfiguré",
@@ -18975,6 +19138,7 @@ const UNITES = [
     excluAvec: ["fulgrim"],
     legion: "III",
   },
+  /* --- Saul Tarvitz · État-major · 215 pts de base --- */
   {
     id: "saul-tarvitz",
     nom: "Saul Tarvitz",
@@ -19018,6 +19182,7 @@ const UNITES = [
     options: [],
     legion: "III",
   },
+  /* --- Escouade de Lames Palatines · Elite · 165 pts de base --- */
   {
     id: "escouade-lames-palatines",
     nom: "Escouade de Lames Palatines",
@@ -19141,6 +19306,7 @@ const UNITES = [
     ],
     legion: "III",
   },
+  /* --- Escouade Kakophoni · Appui · 150 pts de base --- */
   {
     id: "escouade-kakophoni",
     nom: "Escouade Kakophoni",
@@ -19244,6 +19410,7 @@ const UNITES = [
      le Canon à plasma et la Lance énergétique Phénix existaient déjà
      (réutilisés tels quels).
      ---------------------------------------------------------- */
+  /* --- Escouade de Lames Palatines Aquilae · Elite · 195 pts de base --- */
   {
     id: "escouade-lames-palatines-aquilae",
     nom: "Escouade de Lames Palatines Aquilae",
@@ -19362,6 +19529,7 @@ const UNITES = [
     ],
     legion: "III",
   },
+  /* --- Rylanor l'Inébranlable · Engins de Guerre · 180 pts de base --- */
   {
     id: "rylanor-inebranlable",
     nom: "Rylanor l'Inébranlable",
@@ -19409,6 +19577,7 @@ const UNITES = [
     options: [],
     legion: "III",
   },
+  /* --- Escouade Tueurs de Soleils · Elite · 65 pts de base --- */
   {
     id: "escouade-tueurs-de-soleils",
     nom: "Escouade Tueurs de Soleils",
@@ -19547,6 +19716,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA VIIe LÉGION (IMPERIAL FISTS)
      ---------------------------------------------------------- */
+  /* --- Rogal Dorn · Seigneur de Guerre · 435 pts de base --- */
   {
     id: "rogal-dorn",
     nom: "Rogal Dorn",
@@ -19594,6 +19764,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Sigismund · Quartier Général · 250 pts de base --- */
   {
     id: "sigismund",
     nom: "Sigismund",
@@ -19641,6 +19812,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Fafnir Rann · Quartier Général · 175 pts de base --- */
   {
     id: "fafnir-rann",
     nom: "Fafnir Rann",
@@ -19684,6 +19856,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Evander Garrius · Quartier Général · 215 pts de base --- */
   {
     id: "evander-garrius",
     nom: "Evander Garrius",
@@ -19721,6 +19894,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Camba Diaz · État-major · 120 pts de base --- */
   {
     id: "camba-diaz",
     nom: "Camba Diaz",
@@ -19762,6 +19936,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Alexis Polux · État-major · 185 pts de base --- */
   {
     id: "alexis-polux",
     nom: "Alexis Polux",
@@ -19810,6 +19985,7 @@ const UNITES = [
     options: [],
     legion: "VII",
   },
+  /* --- Frères Templiers · Elite · 160 pts de base --- */
   {
     id: "freres-templiers",
     nom: "Frères Templiers",
@@ -19971,6 +20147,7 @@ const UNITES = [
     ],
     legion: "VII",
   },
+  /* --- Escouade de Gardiens du Phalanx · Assaut Lourd · 200 pts de base --- */
   {
     id: "gardiens-du-phalanx",
     nom: "Escouade de Gardiens du Phalanx",
@@ -20169,6 +20346,7 @@ const UNITES = [
      les Véhicules génériques faute d'un tel mécanisme (même gap pour
      Blood Angels, voir plus bas).
      ---------------------------------------------------------- */
+  /* --- Escorte de Terminators Huscarl Imperial Fists · Suites · 275 pts de base --- */
   {
     id: "escorte-terminators-huscarl",
     nom: "Escorte de Terminators Huscarl Imperial Fists",
@@ -20261,6 +20439,7 @@ const UNITES = [
     ],
     legion: "VII",
   },
+  /* --- Ætos Dios · Seigneurs des Batailles · 700 pts de base --- */
   {
     id: "aetos-dios",
     nom: "Ætos Dios",
@@ -20306,6 +20485,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA XIIIe LÉGION (ULTRAMARINES)
      ---------------------------------------------------------- */
+  /* --- Roboute Guilliman · Seigneur de Guerre · 465 pts de base --- */
   {
     id: "roboute-guilliman",
     nom: "Roboute Guilliman",
@@ -20354,6 +20534,7 @@ const UNITES = [
     options: [],
     legion: "XIII",
   },
+  /* --- Remus Ventanus · État-major · 175 pts de base --- */
   {
     id: "remus-ventanus",
     nom: "Remus Ventanus",
@@ -20399,6 +20580,7 @@ const UNITES = [
     options: [],
     legion: "XIII",
   },
+  /* --- Escouade de Suzerains Invictarus · Elite · 175 pts de base --- */
   {
     id: "escouade-suzerains-invictarus",
     nom: "Escouade de Suzerains Invictarus",
@@ -20467,6 +20649,7 @@ const UNITES = [
     ],
     legion: "XIII",
   },
+  /* --- Escouade de Brécheurs Prétoriens · Assaut Lourd · 115 pts de base --- */
   {
     id: "escouade-brecheurs-pretoriens",
     nom: "Escouade de Brécheurs Prétoriens",
@@ -20618,6 +20801,7 @@ const UNITES = [
      Gravis et le Lance-missiles de Destructeur — Missile Rad
      existaient déjà (réutilisés tels quels).
      ---------------------------------------------------------- */
+  /* --- Escouade d'Assaut Locutarus · Elite · 200 pts de base --- */
   {
     id: "escouade-assaut-locutarus",
     nom: "Escouade d'Assaut Locutarus",
@@ -20746,6 +20930,7 @@ const UNITES = [
     ],
     legion: "XIII",
   },
+  /* --- Escouade Terminator Fulmentarus · Assaut Lourd · 290 pts de base --- */
   {
     id: "escouade-terminator-fulmentarus",
     nom: "Escouade Terminator Fulmentarus",
@@ -20863,6 +21048,7 @@ const UNITES = [
     ],
     legion: "XIII",
   },
+  /* --- Escouade de Destructeurs Némésis · Assaut Lourd · 165 pts de base --- */
   {
     id: "escouade-destructeurs-nemesis",
     nom: "Escouade de Destructeurs Némésis",
@@ -21088,6 +21274,7 @@ const UNITES = [
     ],
     legion: "XIII",
   },
+  /* --- Telemechrus Honoré · Engins de Guerre · 170 pts de base --- */
   {
     id: "telemechrus-honore",
     nom: "Telemechrus Honoré",
@@ -21142,6 +21329,7 @@ const UNITES = [
      (Neuvième / Vingt-troisième Ordre) : rien ne les rend mutuellement
      exclusifs, tous deux peuvent coexister dans la même Armée.
      ---------------------------------------------------------- */
+  /* --- Lion El'Jonson · Seigneur de Guerre · 460 pts de base --- */
   {
     id: "lion-eljonson",
     nom: "Lion El'Jonson",
@@ -21201,6 +21389,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Corswain · Quartier Général · 220 pts de base --- */
   {
     id: "corswain",
     nom: "Corswain",
@@ -21244,6 +21433,7 @@ const UNITES = [
     options: [],
     legion: "I",
   },
+  /* --- Marduk Sedras · Quartier Général · 225 pts de base --- */
   {
     id: "marduk-sedras",
     nom: "Marduk Sedras",
@@ -21285,6 +21475,7 @@ const UNITES = [
     options: [],
     legion: "I",
   },
+  /* --- Détachement de Compagnons de la Deathwing · Suites · 175 pts de base --- */
   {
     id: "detachement-compagnons-deathwing",
     nom: "Détachement de Compagnons de la Deathwing",
@@ -21412,6 +21603,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Interemptors de la Dreadwing · Appui · 125 pts de base --- */
   {
     id: "interemptors-dreadwing",
     nom: "Interemptors de la Dreadwing",
@@ -21555,6 +21747,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Cenobium de Chevaliers du Cercle Intérieur · Elite · 275 pts de base --- */
   {
     id: "cenobium-chevaliers-cercle-interieur",
     nom: "Cenobium de Chevaliers du Cercle Intérieur",
@@ -21672,6 +21865,7 @@ const UNITES = [
      Primaire), les mécaniques d'Avantages Primaires/Cases Primaires
      n'étant pas modélisées ailleurs dans ce fichier.
      ---------------------------------------------------------- */
+  /* --- Compagnons Terminator Cataphractii de la Deathwing · Suites · 240 pts de base --- */
   {
     id: "compagnons-terminator-cataphractii-deathwing",
     nom: "Compagnons Terminator Cataphractii de la Deathwing",
@@ -21800,6 +21994,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Compagnons Terminator Tartaros de la Deathwing · Suites · 240 pts de base --- */
   {
     id: "compagnons-terminator-tartaros-deathwing",
     nom: "Compagnons Terminator Tartaros de la Deathwing",
@@ -21927,6 +22122,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Cenobium de Chevaliers du Cercle Intérieur — Ordre des Griffes Brisées · Elite · 285 pts de base --- */
   {
     id: "cenobium-ordre-griffes-brisees",
     nom: "Cenobium de Chevaliers du Cercle Intérieur — Ordre des Griffes Brisées",
@@ -22011,6 +22207,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Excindio · Engins de Guerre · 180 pts de base --- */
   {
     id: "excindio",
     nom: "Excindio",
@@ -22090,6 +22287,7 @@ const UNITES = [
     ],
     legion: "I",
   },
+  /* --- Cabale Enigmatus de la Firewing · Elite · 90 pts de base --- */
   {
     id: "cabale-enigmatus-firewing",
     nom: "Cabale Enigmatus de la Firewing",
@@ -22152,6 +22350,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA VIe LÉGION (SPACE WOLVES)
      ---------------------------------------------------------- */
+  /* --- Meute de Tueurs Gris · Troupes · 145 pts de base --- */
   {
     id: "meute-tueurs-gris",
     nom: "Meute de Tueurs Gris",
@@ -22392,6 +22591,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Meute de Mort-jurés · Assaut Lourd · 175 pts de base --- */
   {
     id: "meute-mort-jures",
     nom: "Meute de Mort-jurés",
@@ -22488,6 +22688,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Escouade Terminator de Gardes Loups Varagyr · Elite · 250 pts de base --- */
   {
     id: "escouade-terminator-gardes-loups-varagyr",
     nom: "Escouade Terminator de Gardes Loups Varagyr",
@@ -22661,6 +22862,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Frères Loups de Russ · Suites · 100 pts de base --- */
   {
     id: "freres-loups-de-russ",
     nom: "Frères Loups de Russ",
@@ -22729,6 +22931,7 @@ const UNITES = [
     options: [],
     legion: "VI",
   },
+  /* --- Tireur de Runes · État-major · 110 pts de base --- */
   {
     id: "tireur-de-runes",
     nom: "Tireur de Runes",
@@ -22796,6 +22999,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Geigor Main Terrible · État-major · 105 pts de base --- */
   {
     id: "geigor-main-terrible",
     nom: "Geigor Main Terrible",
@@ -22838,6 +23042,7 @@ const UNITES = [
     options: [],
     legion: "VI",
   },
+  /* --- Hvarl Lamerouge · Quartier Général · 210 pts de base --- */
   {
     id: "hvarl-lamerouge",
     nom: "Hvarl Lamerouge",
@@ -22875,6 +23080,7 @@ const UNITES = [
     options: [],
     legion: "VI",
   },
+  /* --- Leman Russ · Seigneur de Guerre · 450 pts de base --- */
   {
     id: "leman-russ",
     nom: "Leman Russ",
@@ -22936,6 +23142,7 @@ const UNITES = [
      Hache/la Griffe de givre et la Grande lame de givre existaient déjà
      (réutilisés tels quels).
      ---------------------------------------------------------- */
+  /* --- Tireur de Runes avec Jump Pack · État-major · 140 pts de base --- */
   {
     id: "tireur-de-runes-sac-de-saut",
     nom: "Tireur de Runes avec Jump Pack",
@@ -23004,6 +23211,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Tireur de Runes à moto · État-major · 150 pts de base --- */
   {
     id: "tireur-de-runes-monte",
     nom: "Tireur de Runes à moto",
@@ -23133,6 +23341,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Tireur de Runes en Armure Terminator · État-major · 130 pts de base --- */
   {
     id: "tireur-de-runes-terminator",
     nom: "Tireur de Runes en Armure Terminator",
@@ -23207,6 +23416,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Porte-Parole des Morts · État-major · 100 pts de base --- */
   {
     id: "porte-parole-des-morts",
     nom: "Porte-Parole des Morts",
@@ -23291,6 +23501,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Porte-Parole des Morts à moto · État-major · 130 pts de base --- */
   {
     id: "porte-parole-des-morts-monte",
     nom: "Porte-Parole des Morts à moto",
@@ -23405,6 +23616,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Porte-Parole des Morts en Armure Terminator · État-major · 120 pts de base --- */
   {
     id: "porte-parole-des-morts-terminator",
     nom: "Porte-Parole des Morts en Armure Terminator",
@@ -23486,6 +23698,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Meute de Chasseurs Jorlund · Appui · 95 pts de base --- */
   {
     id: "meute-chasseurs-jorlund",
     nom: "Meute de Chasseurs Jorlund",
@@ -23619,6 +23832,7 @@ const UNITES = [
     ],
     legion: "VI",
   },
+  /* --- Meute de Loups Fenrisiens · Suites · 10 pts de base --- */
   {
     id: "meute-loups-fenrisiens",
     nom: "Meute de Loups Fenrisiens",
@@ -23662,6 +23876,7 @@ const UNITES = [
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA Xe LÉGION (IRON HANDS)
      ---------------------------------------------------------- */
+  /* --- Escouade d'Immortels de Medusa · Troupes · 95 pts de base --- */
   {
     id: "escouade-immortels-medusa",
     nom: "Escouade d'Immortels de Medusa",
@@ -23856,6 +24071,7 @@ const UNITES = [
     ],
     legion: "X",
   },
+  /* --- Escouade Terminator Gorgone · Assaut Lourd · 200 pts de base --- */
   {
     id: "escouade-terminator-gorgone",
     nom: "Escouade Terminator Gorgone",
@@ -24046,6 +24262,7 @@ const UNITES = [
     ],
     legion: "X",
   },
+  /* --- Révérend de Fer · Quartier Général · 175 pts de base --- */
   {
     id: "reverend-de-fer",
     nom: "Révérend de Fer",
@@ -24125,6 +24342,7 @@ const UNITES = [
     ],
     legion: "X",
   },
+  /* --- Shadrak Meduson · Quartier Général · 175 pts de base --- */
   {
     id: "shadrak-meduson",
     nom: "Shadrak Meduson",
@@ -24168,6 +24386,7 @@ const UNITES = [
     options: [],
     legion: "X",
   },
+  /* --- Ferrus Manus · Seigneur de Guerre · 465 pts de base --- */
   {
     id: "ferrus-manus",
     nom: "Ferrus Manus",
@@ -24238,6 +24457,7 @@ const UNITES = [
      Lord, Primus Medicae, Delegatus, Mortificator) génériques de Légion
      qui n'ont pas non plus de fiche propre dans ce fichier.
      ---------------------------------------------------------- */
+  /* --- Iron Father en Armure Artificer · Quartier Général · 150 pts de base --- */
   {
     id: "iron-father-armure-artificer",
     nom: "Iron Father en Armure Artificer",
@@ -24372,6 +24592,7 @@ const UNITES = [
     ],
     legion: "X",
   },
+  /* --- Escouade Terminator Morlock · Suites · 165 pts de base --- */
   {
     id: "escouade-terminator-morlock",
     nom: "Escouade Terminator Morlock",
@@ -24574,6 +24795,7 @@ const UNITES = [
      même Armée (voir uniteAccessible, js/unites.js) — même mécanique
      qu'Angron / Angron Transfiguré.
      ---------------------------------------------------------- */
+  /* --- Horus Lupercal · Seigneur de Guerre · 530 pts de base --- */
   {
     id: "horus",
     nom: "Horus Lupercal",
@@ -24623,6 +24845,7 @@ const UNITES = [
     excluAvec: ["horus-exalte"],
     legion: "XVI",
   },
+  /* --- Horus Exalté · Seigneur de Guerre · 850 pts de base --- */
   {
     id: "horus-exalte",
     nom: "Horus Exalté",
@@ -24674,6 +24897,7 @@ const UNITES = [
     excluAvec: ["horus"],
     legion: "XVI",
   },
+  /* --- Ezekyle Abaddon · Quartier Général · 250 pts de base --- */
   {
     id: "ezekyle-abaddon",
     nom: "Ezekyle Abaddon",
@@ -24733,6 +24957,7 @@ const UNITES = [
     ],
     legion: "XVI",
   },
+  /* --- Horus Aximand · Quartier Général · 170 pts de base --- */
   {
     id: "horus-aximand",
     nom: "Horus Aximand",
@@ -24776,6 +25001,7 @@ const UNITES = [
     options: [],
     legion: "XVI",
   },
+  /* --- Tybalt Marr · Quartier Général · 160 pts de base --- */
   {
     id: "tybalt-marr",
     nom: "Tybalt Marr",
@@ -24819,6 +25045,7 @@ const UNITES = [
     options: [],
     legion: "XVI",
   },
+  /* --- Vheren Ashurhaddon · Quartier Général · 205 pts de base --- */
   {
     id: "vheren-ashurhaddon",
     nom: "Vheren Ashurhaddon",
@@ -24862,6 +25089,7 @@ const UNITES = [
     options: [],
     legion: "XVI",
   },
+  /* --- Garviel Loken · Quartier Général · 175 pts de base --- */
   {
     id: "garviel-loken",
     nom: "Garviel Loken",
@@ -24907,6 +25135,7 @@ const UNITES = [
     options: [],
     legion: "XVI",
   },
+  /* --- Émissaire Noir · État-major · 90 pts de base --- */
   {
     id: "emissaire-noir",
     nom: "Émissaire Noir",
@@ -24960,6 +25189,7 @@ const UNITES = [
     ],
     legion: "XVI",
   },
+  /* --- Maloghurst le Retors · État-major · 140 pts de base --- */
   {
     id: "maloghurst-le-retors",
     nom: "Maloghurst le Retors",
@@ -25004,6 +25234,7 @@ const UNITES = [
     options: [],
     legion: "XVI",
   },
+  /* --- Escouade Terminator Justaerin · Elite · 275 pts de base --- */
   {
     id: "escouade-terminator-justaerin",
     nom: "Escouade Terminator Justaerin",
@@ -25209,6 +25440,7 @@ const UNITES = [
     ],
     legion: "XVI",
   },
+  /* --- Escouade d'Attaque Ravageuse · Assaut Lourd · 135 pts de base --- */
   {
     id: "escouade-attaque-ravageuse",
     nom: "Escouade d'Attaque Ravageuse",
@@ -25361,6 +25593,7 @@ const UNITES = [
      Sceptre de Sombre Autorité (Staff of Dark Authority) et le Bolter
      Banestrike existaient déjà (réutilisés tels quels).
      ---------------------------------------------------------- */
+  /* --- Émissaire Noir en Armure Terminator · État-major · 120 pts de base --- */
   {
     id: "emissaire-noir-terminator",
     nom: "Émissaire Noir en Armure Terminator",
@@ -25442,6 +25675,7 @@ const UNITES = [
     ],
     legion: "XVI",
   },
+  /* --- Escouade des Chefs de Guerre · Suites · 155 pts de base --- */
   {
     id: "escouade-chefs-de-guerre",
     nom: "Escouade des Chefs de Guerre",
@@ -25532,6 +25766,7 @@ const UNITES = [
     ],
     legion: "XVI",
   },
+  /* --- Escouade de Ravageurs Agresseurs · Assaut Lourd · 165 pts de base --- */
   {
     id: "escouade-ravageurs-agresseurs",
     nom: "Escouade de Ravageurs Agresseurs",
@@ -25700,6 +25935,7 @@ const UNITES = [
      fichier) : plus encore que la section Sons of Horus, ne pas
      considérer cette section comme fiable sans relecture.
      ---------------------------------------------------------- */
+  /* --- Lorgar · Seigneur de Guerre · 445 pts de base --- */
   {
     id: "lorgar",
     nom: "Lorgar",
@@ -25750,6 +25986,7 @@ const UNITES = [
     options: [],
     legion: "XVII",
   },
+  /* --- Kor Phaeron · Quartier Général · 125 pts de base --- */
   {
     id: "kor-phaeron",
     nom: "Kor Phaeron",
@@ -25797,6 +26034,7 @@ const UNITES = [
     options: [],
     legion: "XVII",
   },
+  /* --- Erebus · Quartier Général · 165 pts de base --- */
   {
     id: "erebus",
     nom: "Erebus",
@@ -25844,6 +26082,7 @@ const UNITES = [
     options: [],
     legion: "XVII",
   },
+  /* --- Argel Tal · Quartier Général · 240 pts de base --- */
   {
     id: "argel-tal",
     nom: "Argel Tal",
@@ -25886,6 +26125,7 @@ const UNITES = [
     options: [],
     legion: "XVII",
   },
+  /* --- Zardu Layak · État-major · 180 pts de base --- */
   {
     id: "zardu-layak",
     nom: "Zardu Layak",
@@ -25965,6 +26205,7 @@ const UNITES = [
     options: [],
     legion: "XVII",
   },
+  /* --- Gal Vorbak · Elite · 250 pts de base --- */
   {
     id: "gal-vorbak",
     nom: "Gal Vorbak",
@@ -26066,6 +26307,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Dreadnought Mhara Gal · Engins de Guerre · 210 pts de base --- */
   {
     id: "dreadnought-mhara-gal",
     nom: "Dreadnought Mhara Gal",
@@ -26116,6 +26358,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Escouade du Cercle de Cendres · Attaque Rapide · 125 pts de base --- */
   {
     id: "escouade-cercle-cendres",
     nom: "Escouade du Cercle de Cendres",
@@ -26293,6 +26536,7 @@ const UNITES = [
       optionBombesFusion(),
     ],
   },
+  /* --- Diaboliste · État-major · 105 pts de base --- */
   {
     id: "diaboliste",
     nom: "Diaboliste",
@@ -26375,6 +26619,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Diaboliste en Armure Terminator · État-major · 135 pts de base --- */
   {
     id: "diaboliste-armure-terminator",
     nom: "Diaboliste en Armure Terminator",
@@ -26462,6 +26707,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Diaboliste à moto · État-major · 145 pts de base --- */
   {
     id: "diaboliste-monte",
     nom: "Diaboliste à moto",
@@ -26580,6 +26826,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Conclave des Phraetus Oints (Forges of Saturn) · Elite · 240 pts de base --- */
   {
     id: "conclave-phraetus-oints",
     nom: "Conclave des Phraetus Oints (Forges of Saturn)",
@@ -26708,6 +26955,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Procurateurs · Elite · 100 pts de base --- */
   {
     id: "procurateurs",
     nom: "Procurateurs",
@@ -26831,6 +27079,7 @@ const UNITES = [
     ],
     legion: "XVII",
   },
+  /* --- Procurateurs avec Jump Pack · Elite · 130 pts de base --- */
   {
     id: "procurateurs-sac-de-saut",
     nom: "Procurateurs avec Jump Pack",
@@ -26966,6 +27215,7 @@ const UNITES = [
      hors-cadre sur la photo : à corriger contre le livre en cas de
      doute (voir l'en-tête du fichier).
      ---------------------------------------------------------- */
+  /* --- Mortarion · Seigneur de Guerre · 425 pts de base --- */
   {
     id: "mortarion",
     nom: "Mortarion",
@@ -27017,6 +27267,7 @@ const UNITES = [
     options: [],
     legion: "XIV",
   },
+  /* --- Calas Typhon · Quartier Général · 200 pts de base --- */
   {
     id: "calas-typhon",
     nom: "Calas Typhon",
@@ -27061,6 +27312,7 @@ const UNITES = [
     options: [],
     legion: "XIV",
   },
+  /* --- Escouade Terminator du Linceul · Suites · 100 pts de base --- */
   {
     id: "escouade-terminator-du-linceul",
     nom: "Escouade Terminator du Linceul",
@@ -27119,6 +27371,7 @@ const UNITES = [
     ],
     legion: "XIV",
   },
+  /* --- Garde-tombe · Assaut Lourd · 225 pts de base --- */
   {
     id: "garde-tombe",
     nom: "Garde-tombe",
@@ -27286,6 +27539,7 @@ const UNITES = [
      Angels/Iron Warriors (pas de mécanisme de « liste de Sponson de
      Légion » partagé entre Véhicules dans ce fichier).
      ---------------------------------------------------------- */
+  /* --- Escouade des Empoisonneurs Mortus · Elite · 70 pts de base --- */
   {
     id: "escouade-empoisonneurs-mortus",
     nom: "Escouade des Empoisonneurs Mortus",
@@ -27479,6 +27733,7 @@ const UNITES = [
      Magnus/Ahriman/Amon (Sous-type Unique) et le Castellax-Achea
      (Automate) en sont exclus.
      ---------------------------------------------------------- */
+  /* --- Magnus le Rouge · Seigneur de Guerre · 470 pts de base --- */
   {
     id: "magnus-le-rouge",
     nom: "Magnus le Rouge",
@@ -27539,6 +27794,7 @@ const UNITES = [
     ],
     legion: "XV",
   },
+  /* --- Ahzek Ahriman · Quartier Général · 185 pts de base --- */
   {
     id: "ahzek-ahriman",
     nom: "Ahzek Ahriman",
@@ -27581,6 +27837,7 @@ const UNITES = [
     options: [],
     legion: "XV",
   },
+  /* --- Magistus Amon · Quartier Général · 185 pts de base --- */
   {
     id: "magistus-amon",
     nom: "Magistus Amon",
@@ -27618,6 +27875,7 @@ const UNITES = [
     options: [],
     legion: "XV",
   },
+  /* --- Sorcier de Prospero · État-major · 105 pts de base --- */
   {
     id: "sorcier-de-prospero",
     nom: "Sorcier de Prospero",
@@ -27672,6 +27930,7 @@ const UNITES = [
     ],
     legion: "XV",
   },
+  /* --- Cabale de Terminators Sekhmet · Elite · 250 pts de base --- */
   {
     id: "cabale-terminators-sekhmet",
     nom: "Cabale de Terminators Sekhmet",
@@ -27823,6 +28082,7 @@ const UNITES = [
     ],
     legion: "XV",
   },
+  /* --- Cabale du Khenetai Occulte · Elite · 145 pts de base --- */
   {
     id: "cabale-khenetai-occulte",
     nom: "Cabale du Khenetai Occulte",
@@ -27927,6 +28187,7 @@ const UNITES = [
     ],
     legion: "XV",
   },
+  /* --- Castellax-Achea · Appui · 80 pts de base --- */
   {
     id: "castellax-achea",
     nom: "Castellax-Achea",
@@ -28012,6 +28273,7 @@ const UNITES = [
      Pouvoirs Psychiques fixes à la place (voir sa Règle Spéciale), et
      l'Ammitara n'en mentionne aucun sur sa fiche.
      ---------------------------------------------------------- */
+  /* --- Cabale de Numérologistes · Elite · 130 pts de base --- */
   {
     id: "cabale-numerologistes",
     nom: "Cabale de Numérologistes",
@@ -28198,6 +28460,7 @@ const UNITES = [
     ],
     legion: "XV",
   },
+  /* --- Cabale d'Intercession Occulte Ammitara · Reco · 145 pts de base --- */
   {
     id: "cabale-intercession-occulte-ammitara",
     nom: "Cabale d'Intercession Occulte Ammitara",
@@ -28358,6 +28621,7 @@ const UNITES = [
      titre et éventuelle ligne d'effectif supplémentaire hors-cadre sur
      la photo) : à corriger contre le livre en cas de doute.
      ---------------------------------------------------------- */
+  /* --- Alpharius · Seigneur de Guerre · 465 pts de base --- */
   {
     id: "alpharius",
     nom: "Alpharius",
@@ -28410,6 +28674,7 @@ const UNITES = [
     options: [],
     legion: "XX",
   },
+  /* --- Armillus Dynat · Quartier Général · 185 pts de base --- */
   {
     id: "armillus-dynat",
     nom: "Armillus Dynat",
@@ -28453,6 +28718,7 @@ const UNITES = [
     options: [],
     legion: "XX",
   },
+  /* --- Saboteur · État-major · 95 pts de base --- */
   {
     id: "saboteur",
     nom: "Saboteur",
@@ -28507,6 +28773,7 @@ const UNITES = [
     ],
     legion: "XX",
   },
+  /* --- Chasseur de Têtes · Elite · 135 pts de base --- */
   {
     id: "chasseur-de-tetes",
     nom: "Chasseur de Têtes",
@@ -28667,6 +28934,7 @@ const UNITES = [
     ],
     legion: "XX",
   },
+  /* --- Exodus · Elite · 165 pts de base --- */
   {
     id: "exodus",
     nom: "Exodus",
@@ -28718,6 +28986,7 @@ const UNITES = [
     options: [],
     legion: "XX",
   },
+  /* --- Escouade Terminator Lernéenne · Elite · 250 pts de base --- */
   {
     id: "escouade-terminator-lerneenne",
     nom: "Escouade Terminator Lernéenne",
@@ -28897,6 +29166,7 @@ const UNITES = [
      Fusil à pompe Banestrike, le Bolter/Combi-bolter Banestrike et le
      Pistolet Inferno existaient déjà (réutilisés tels quels).
      ---------------------------------------------------------- */
+  /* --- Autilon Skorr · État-major · 135 pts de base --- */
   {
     id: "autilon-skorr",
     nom: "Autilon Skorr",
@@ -28940,6 +29210,7 @@ const UNITES = [
     options: [],
     legion: "XX",
   },
+  /* --- Cadre de Perturbation Effrit · Reco · 145 pts de base --- */
   {
     id: "cadre-perturbation-effrit",
     nom: "Cadre de Perturbation Effrit",
@@ -29067,6 +29338,7 @@ const UNITES = [
      caractéristiques (comme Les Écailles Pythiennes ou le Bouclier de
      combat Karceri) — à compléter si le livre en donne un.
      ---------------------------------------------------------- */
+  /* --- Perturabo · Seigneur de Guerre · 425 pts de base --- */
   {
     id: "perturabo",
     nom: "Perturabo",
@@ -29116,6 +29388,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Forgeguerre · Quartier Général · 155 pts de base --- */
   {
     id: "forgeguerre",
     nom: "Forgeguerre",
@@ -29172,6 +29445,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Escouade Terminator Tyrans de Siège · Assaut Lourd · 300 pts de base --- */
   {
     id: "escouade-terminator-tyrans-de-siege",
     nom: "Escouade Terminator Tyrans de Siège",
@@ -29295,6 +29569,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Manipule du Cercle de Fer · Suites · 150 pts de base --- */
   {
     id: "manipule-cercle-de-fer",
     nom: "Manipule du Cercle de Fer",
@@ -29354,6 +29629,7 @@ const UNITES = [
      avec la mention « (Legacies) » dans le menu déroulant « Unité à
      ajouter ». Voir js/armes-data.js pour leurs armes propres.
      ---------------------------------------------------------- */
+  /* --- Forgeguerre en Armure Artificer · Quartier Général · 140 pts de base --- */
   {
     id: "forgeguerre-armure-artificer",
     nom: "Forgeguerre en Armure Artificer",
@@ -29494,6 +29770,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Nârik Dreygur · État-major · 115 pts de base --- */
   {
     id: "narik-dreygur",
     nom: "Nârik Dreygur",
@@ -29553,6 +29830,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Cohorte de Dominators Iron Warriors · Suites · 255 pts de base --- */
   {
     id: "cohorte-dominators",
     nom: "Cohorte de Dominators Iron Warriors",
@@ -29659,6 +29937,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Iron Havocs · Appui · 135 pts de base --- */
   {
     id: "iron-havocs",
     nom: "Iron Havocs",
@@ -29809,6 +30088,7 @@ const UNITES = [
     ],
     legion: "IV",
   },
+  /* --- Le Tourmenteur · Seigneurs des Batailles · 700 pts de base --- */
   {
     id: "le-tourmenteur",
     nom: "Le Tourmenteur",
@@ -29899,6 +30179,7 @@ const UNITES = [
      Rapaces Nocturnes (voir js/armes-data.js pour leurs armes propres
      et l'Arsenal des Night Lords).
      ---------------------------------------------------------- */
+  /* --- Konrad Curze · Seigneur de Guerre · 450 pts de base --- */
   {
     id: "konrad-curze",
     nom: "Konrad Curze",
@@ -29942,6 +30223,7 @@ const UNITES = [
     options: [],
     legion: "VIII",
   },
+  /* --- Sevatar · Quartier Général · 220 pts de base --- */
   {
     id: "sevatar",
     nom: "Sevatar",
@@ -29989,6 +30271,7 @@ const UNITES = [
     options: [],
     legion: "VIII",
   },
+  /* --- Escouade Terminator Contekar · Elite · 235 pts de base --- */
   {
     id: "escouade-terminator-contekar",
     nom: "Escouade Terminator Contekar",
@@ -30085,6 +30368,7 @@ const UNITES = [
     ],
     legion: "VIII",
   },
+  /* --- Escouade Terreur · Troupes · 115 pts de base --- */
   {
     id: "escouade-terreur",
     nom: "Escouade Terreur",
@@ -30234,6 +30518,7 @@ const UNITES = [
     ],
     legion: "VIII",
   },
+  /* --- Escouade de Rapaces Nocturnes · Attaque Rapide · 150 pts de base --- */
   {
     id: "escouade-rapaces-nocturnes",
     nom: "Escouade de Rapaces Nocturnes",
@@ -30404,6 +30689,7 @@ const UNITES = [
     ],
     legion: "VIII",
   },
+  /* --- Atramentar Écorchés · Assaut Lourd · 170 pts de base --- */
   {
     id: "atramentar-ecorches",
     nom: "Atramentar Écorchés",
@@ -30640,6 +30926,7 @@ const UNITES = [
      celle de l'Équipage Minoris, gratuit) : le libellé de chaque
      choix précise la CT obtenue.
      ---------------------------------------------------------- */
+  /* --- Axiarque Secutarius · État-major · 95 pts de base · Faction legio-titanicus --- */
   {
     id: "axiarque-secutarius",
     nom: "Axiarque Secutarius",
@@ -30702,6 +30989,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Cohorte de Secutarii · Troupes · 165 pts de base · Faction legio-titanicus --- */
   {
     id: "cohorte-secutarii",
     nom: "Cohorte de Secutarii",
@@ -30795,6 +31083,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Convoyeur Blindé Triaros · Transports Lourds · 200 pts de base --- */
   {
     id: "triaros",
     nom: "Convoyeur Blindé Triaros",
@@ -30839,6 +31128,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Titan Warhound · Seigneurs des Batailles · 750 pts de base --- */
   {
     id: "titan-warhound",
     nom: "Titan Warhound",
@@ -30946,6 +31236,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Titan Reaver · Seigneurs des Batailles · 1500 pts de base · Faction legio-titanicus --- */
   {
     id: "titan-reaver",
     nom: "Titan Reaver",
@@ -31058,6 +31349,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Titan Warbringer Némésis · Seigneurs des Batailles · 2000 pts de base --- */
   {
     id: "titan-warbringer-nemesis",
     nom: "Titan Warbringer Némésis",
@@ -31183,6 +31475,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Titan Warlord · Seigneurs des Batailles · 3000 pts de base · Faction legio-titanicus --- */
   {
     id: "titan-warlord",
     nom: "Titan Warlord",
@@ -31356,6 +31649,7 @@ const UNITES = [
      (voir trouverArmeDansTexte dans js/unites.js — une arme absente de
      l'Arsenal n'apparaît simplement dans aucune table).
      ---------------------------------------------------------- */
+  /* --- Chevalier Acastus Astérius · Seigneurs des Batailles · 750 pts de base --- */
   {
     id: "chevalier-acastus-asterius",
     nom: "Chevalier Acastus Astérius",
@@ -31399,6 +31693,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Acastus Porphyrion · Seigneurs des Batailles · 725 pts de base --- */
   {
     id: "chevalier-acastus-porphyrion",
     nom: "Chevalier Acastus Porphyrion",
@@ -31465,6 +31760,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Chevalier Cerastus Atrapos · Seigneurs des Batailles · 600 pts de base --- */
   {
     id: "chevalier-cerastus-atrapos",
     nom: "Chevalier Cerastus Atrapos",
@@ -31502,6 +31798,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Cerastus Lancier · Seigneurs des Batailles · 480 pts de base --- */
   {
     id: "chevalier-cerastus-lancier",
     nom: "Chevalier Cerastus Lancier",
@@ -31539,6 +31836,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Cerastus Achéron · Seigneurs des Batailles · 500 pts de base --- */
   {
     id: "chevalier-cerastus-acheron",
     nom: "Chevalier Cerastus Achéron",
@@ -31577,6 +31875,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Cerastus Castigateur · Seigneurs des Batailles · 480 pts de base --- */
   {
     id: "chevalier-cerastus-castigateur",
     nom: "Chevalier Cerastus Castigateur",
@@ -31614,6 +31913,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Questoris Styrix · Seigneurs des Batailles · 455 pts de base --- */
   {
     id: "chevalier-questoris-styrix",
     nom: "Chevalier Questoris Styrix",
@@ -31653,6 +31953,7 @@ const UNITES = [
     options: [],
   },
 
+  /* --- Chevalier Questoris Magaera · Seigneurs des Batailles · 460 pts de base --- */
   {
     id: "chevalier-questoris-magaera",
     nom: "Chevalier Questoris Magaera",
@@ -31702,6 +32003,7 @@ const UNITES = [
      "choix"). Le livre ne numérote pas ces deux emplacements : les noms
      d'équipement ci-dessous ajoutent « (Armement 1/2) » uniquement pour
      les distinguer sur la fiche, sans changer leur effet de jeu. */
+  /* --- Chevalier Questoris · Seigneurs des Batailles · 400 pts de base --- */
   {
     id: "chevalier-questoris",
     nom: "Chevalier Questoris",
@@ -31814,6 +32116,7 @@ const UNITES = [
      Questoris, catégorie "Engins de Guerre" (Détachement Auxiliaire
      Appui Lourd, factionLibre — voir organigramme-data.js) et Type
      Marcheur, comme un Dreadnought (profil de Figurine standard). */
+  /* --- Armigère Moirax · Engins de Guerre · 165 pts de base · Faction chevaliers-questoris --- */
   {
     id: "armigere-moirax",
     nom: "Armigère Moirax",
@@ -31902,6 +32205,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Armigère Hastaire · Engins de Guerre · 150 pts de base · Faction chevaliers-questoris --- */
   {
     id: "armigere-hastaire",
     nom: "Armigère Hastaire",
@@ -31957,6 +32261,7 @@ const UNITES = [
     ],
   },
 
+  /* --- Armigère Helvérien · Engins de Guerre · 150 pts de base · Faction chevaliers-questoris --- */
   {
     id: "armigere-helverien",
     nom: "Armigère Helvérien",
@@ -32305,6 +32610,7 @@ const UNITES = [
       optionBombesFusionAuxilia("Compagnon"),
     ],
   },
+  /* --- Section d'État-major de Ligne · État-major · 65 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-etat-major-ligne",
     nom: "Section d'État-major de Ligne",
@@ -32415,6 +32721,7 @@ const UNITES = [
       optionBombesFusionAuxilia("Vétéran"),
     ],
   },
+  /* --- Section d'État-major Veletaris · État-major · 75 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-etat-major-veletaris",
     nom: "Section d'État-major Veletaris",
@@ -32535,6 +32842,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Section d'État-major Hermes · État-major · 75 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-etat-major-hermes",
     nom: "Section d'État-major Hermes",
@@ -32624,6 +32932,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Section d'État-major Artillerie · État-major · 65 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-etat-major-artillerie",
     nom: "Section d'État-major Artillerie",
@@ -32734,6 +33043,7 @@ const UNITES = [
       optionBombesFusionAuxilia("Vétéran"),
     ],
   },
+  /* --- Section d'État-major Blindé · État-major · 150 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-etat-major-blinde",
     nom: "Section d'État-major Blindé",
@@ -33272,6 +33582,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Section d'Avant-garde Veletaris · Elite · 100 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-avant-garde-veletaris",
     nom: "Section d'Avant-garde Veletaris",
@@ -33755,6 +34066,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char d'Artillerie Basilisk · Appui · 120 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-basilisk",
     nom: "Char d'Artillerie Basilisk",
@@ -33815,6 +34127,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char d'Artillerie Medusa · Appui · 140 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-medusa",
     nom: "Char d'Artillerie Medusa",
@@ -33875,6 +34188,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Section de Rapier · Appui · 30 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-rapier",
     nom: "Section de Rapier",
@@ -33973,6 +34287,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escadron d'Hermes Veletaris · Appui · 40 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-hermes-veletaris",
     nom: "Escadron d'Hermes Veletaris",
@@ -34217,6 +34532,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Transport Blindé Dracosan · Transports Lourds · 140 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-dracosan",
     nom: "Transport Blindé Dracosan",
@@ -34474,6 +34790,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Chasseur Lourd Thunderbolt · Attaque Rapide · 120 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-thunderbolt",
     nom: "Chasseur Lourd Thunderbolt",
@@ -34685,6 +35002,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char d'Assaut Leman Russ · Blindés · 140 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-leman-russ-assaut",
     nom: "Char d'Assaut Leman Russ",
@@ -34769,6 +35087,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char Lourd Malcador · Blindés · 215 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-malcador",
     nom: "Char Lourd Malcador",
@@ -34872,6 +35191,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char à Arme Spéciale Malcador Infernus · Blindés · 240 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-malcador-infernus",
     nom: "Char à Arme Spéciale Malcador Infernus",
@@ -34952,6 +35272,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Chasseur de Chars Valdor · Blindés · 225 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-valdor",
     nom: "Chasseur de Chars Valdor",
@@ -35035,6 +35356,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char d'Assaut Super-Lourd Stormhammer · Blindés · 500 pts de base · Faction solar-auxilia --- */
   {
     id: "sa-stormhammer",
     nom: "Char d'Assaut Super-Lourd Stormhammer",
@@ -35819,6 +36141,7 @@ const UNITES = [
       ...optionsMagos({ archimagos: true }),
     ],
   },
+  /* --- Archimagos sur Abéant · Quartier Général · 150 pts de base · Faction mechanicum --- */
   {
     id: "mech-archimagos-abeant",
     nom: "Archimagos sur Abéant",
@@ -35867,6 +36190,7 @@ const UNITES = [
       ...optionsMagos({ archimagos: true }),
     ],
   },
+  /* --- Archimagos Scoria · Quartier Général · 410 pts de base · Faction mechanicum --- */
   {
     id: "mech-archimagos-scoria",
     nom: "Archimagos Scoria",
@@ -35917,6 +36241,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Archimagos Draykavac · Quartier Général · 200 pts de base · Faction mechanicum --- */
   {
     id: "mech-archimagos-draykavac",
     nom: "Archimagos Draykavac",
@@ -36064,6 +36389,7 @@ const UNITES = [
       ...optionsMagos(),
     ],
   },
+  /* --- Magos sur Abéant · État-major · 130 pts de base · Faction mechanicum --- */
   {
     id: "mech-magos-abeant",
     nom: "Magos sur Abéant",
@@ -36112,6 +36438,7 @@ const UNITES = [
       ...optionsMagos(),
     ],
   },
+  /* --- Arcuitor Magisterium · État-major · 115 pts de base · Faction mechanicum --- */
   {
     id: "mech-arcuitor-magisterium",
     nom: "Arcuitor Magisterium",
@@ -36215,6 +36542,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Manipule Servo Echidnax · Suites · 40 pts de base · Faction mechanicum --- */
   {
     id: "mech-servo-echidnax",
     nom: "Manipule Servo Echidnax",
@@ -36313,6 +36641,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Ost de Myrmidons Secutors · Elite · 150 pts de base · Faction mechanicum --- */
   {
     id: "mech-ost-secutors",
     nom: "Ost de Myrmidons Secutors",
@@ -36481,6 +36810,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Decimator · Elite · 125 pts de base · Faction mechanicum --- */
   {
     id: "mech-decimator",
     nom: "Decimator",
@@ -36688,6 +37018,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Cohorte d'Ursarax · Assaut Lourd · 150 pts de base · Faction mechanicum --- */
   {
     id: "mech-cohorte-ursarax",
     nom: "Cohorte d'Ursarax",
@@ -36771,6 +37102,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Massacreur de Sang · Assaut Lourd · 100 pts de base · Faction mechanicum --- */
   {
     id: "mech-massacreur-de-sang",
     nom: "Massacreur de Sang",
@@ -36912,6 +37244,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Cohorte de Thallax · Appui · 120 pts de base · Faction mechanicum --- */
   {
     id: "mech-cohorte-thallax",
     nom: "Cohorte de Thallax",
@@ -37032,6 +37365,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Manipule de Combat Castellax · Appui · 100 pts de base · Faction mechanicum --- */
   {
     id: "mech-combat-castellax",
     nom: "Manipule de Combat Castellax",
@@ -37251,6 +37585,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Armigère Moirax · Engins de Guerre · 165 pts de base · Faction mechanicum --- */
   {
     id: "mech-armigere-moirax",
     nom: "Armigère Moirax",
@@ -37721,6 +38056,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char de Combat Krios · Blindés · 135 pts de base · Faction mechanicum --- */
   {
     id: "mech-krios",
     nom: "Char de Combat Krios",
@@ -37774,6 +38110,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Krios Venator · Blindés · 160 pts de base · Faction mechanicum --- */
   {
     id: "mech-krios-venator",
     nom: "Krios Venator",
@@ -37867,6 +38204,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Engin Démon Kytan · Seigneurs des Batailles · 450 pts de base · Faction mechanicum --- */
   {
     id: "mech-kytan",
     nom: "Engin Démon Kytan",
@@ -38058,6 +38396,7 @@ const UNITES = [
      "skitarii"`, pas `legacy: true`. Toutes les Unités portent le
      Trait remplaçable « [Skitarii] » (voir optionTraitSkitarii,
      TRAITS_FACTION_SKITARII plus haut) sauf mention contraire. --- */
+  /* --- Maréchal des Pérégrins de Combat Skitarii · État-major · 100 pts de base · Faction skitarii --- */
   {
     id: "skitarii-marechal",
     nom: "Maréchal des Pérégrins de Combat Skitarii",
@@ -38135,6 +38474,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Corpus de Pérégrins de Combat Skitarii · Troupes · 100 pts de base · Faction skitarii --- */
   {
     id: "skitarii-corpus-peregrins",
     nom: "Corpus de Pérégrins de Combat Skitarii",
@@ -38225,6 +38565,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Ost de Glaneurs · Appui · 50 pts de base · Faction skitarii --- */
   {
     id: "skitarii-ost-glaneurs",
     nom: "Ost de Glaneurs",
@@ -38261,6 +38602,7 @@ const UNITES = [
     ],
     options: [optionTraitSkitarii()],
   },
+  /* --- Automate-stratos Vultarax Skitarii · Attaque Rapide · 100 pts de base · Faction skitarii --- */
   {
     id: "skitarii-vultarax",
     nom: "Automate-stratos Vultarax Skitarii",
@@ -38306,6 +38648,7 @@ const UNITES = [
     ],
     options: [optionTraitSkitarii()],
   },
+  /* --- Convoyeur Blindé Triaros Skitarii · Transports Lourds · 200 pts de base · Faction skitarii --- */
   {
     id: "skitarii-triaros",
     nom: "Convoyeur Blindé Triaros Skitarii",
@@ -38350,6 +38693,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char d'Assaut Karacnos Skitarii · Blindés · 235 pts de base · Faction skitarii --- */
   {
     id: "skitarii-karacnos",
     nom: "Char d'Assaut Karacnos Skitarii",
@@ -38393,6 +38737,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char de Combat Krios Skitarii · Blindés · 135 pts de base · Faction skitarii --- */
   {
     id: "skitarii-krios",
     nom: "Char de Combat Krios Skitarii",
@@ -38448,6 +38793,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Chasseur de Chars Krios Venator Skitarii · Blindés · 160 pts de base · Faction skitarii --- */
   {
     id: "skitarii-krios-venator",
     nom: "Chasseur de Chars Krios Venator Skitarii",
@@ -38504,6 +38850,7 @@ const UNITES = [
      Custodes n'a pas de variante Renégate dans ce livre) et le Trait
      générique « [Legio Custodes] » (masqué sur la fiche récap comme
      « [Legiones Astartes]», voir construireFiche, js/unites.js). --- */
+  /* --- Sodalité de Gardes Adrasites · Elite · 360 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-adrasites",
     nom: "Sodalité de Gardes Adrasites",
@@ -38557,6 +38904,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Gardes Pyrithites · Elite · 360 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-pyrithites",
     nom: "Sodalité de Gardes Pyrithites",
@@ -38610,6 +38958,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Gardes Sagittarii · Appui · 240 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-sagittarii",
     nom: "Sodalité de Gardes Sagittarii",
@@ -38698,6 +39047,7 @@ const UNITES = [
      est le nom exact imprimé sur la fiche fournie, conservé tel quel
      malgré sa sonorité inhabituelle plutôt que substitué par une
      traduction plus attendue (« Griffe »/« Serre » Achillus). --- */
+  /* --- Constantin Valdor · Seigneur de Guerre · 400 pts de base · Faction legio-custodes --- */
   {
     id: "constantin-valdor",
     nom: "Constantin Valdor",
@@ -38741,6 +39091,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Tribun · Quartier Général · 250 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-tribun",
     nom: "Tribun",
@@ -38789,6 +39140,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Capitaine-rempart · État-major · 175 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-capitaine-rempart",
     nom: "Capitaine-rempart",
@@ -38843,6 +39195,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Terminators Aquilon · Assaut Lourd · 255 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-terminators-aquilon",
     nom: "Sodalité de Terminators Aquilon",
@@ -38921,6 +39274,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Gardes Custodiens · Troupes · 270 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-gardes-custodiens",
     nom: "Sodalité de Gardes Custodiens",
@@ -38976,6 +39330,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Gardes Sentinelles · Troupes · 240 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-gardes-sentinelles",
     nom: "Sodalité de Gardes Sentinelles",
@@ -39061,6 +39416,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Dreadnought Contemptor-Achillus · Engins de Guerre · 250 pts de base · Faction legio-custodes --- */
   {
     id: "dreadnought-contemptor-achillus",
     nom: "Dreadnought Contemptor-Achillus",
@@ -39133,6 +39489,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Dreadnought Contemptor-Galatus · Engins de Guerre · 225 pts de base · Faction legio-custodes --- */
   {
     id: "dreadnought-contemptor-galatus",
     nom: "Dreadnought Contemptor-Galatus",
@@ -39177,6 +39534,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Dreadnought Lourd Telemon · Engins de Guerre · 360 pts de base · Faction legio-custodes --- */
   {
     id: "dreadnought-lourd-telemon",
     nom: "Dreadnought Lourd Telemon",
@@ -39264,6 +39622,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Graviporteur Coronus · Transports Lourds · 180 pts de base · Faction legio-custodes --- */
   {
     id: "graviporteur-coronus",
     nom: "Graviporteur Coronus",
@@ -39319,6 +39678,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Venatari · Reco · 165 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-venatari",
     nom: "Sodalité de Venatari",
@@ -39383,6 +39743,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Sodalité de Motojets Gyrfalcon · Attaque Rapide · 140 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-gyrfalcon",
     nom: "Sodalité de Motojets Gyrfalcon",
@@ -39452,6 +39813,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Antigrav d'Attaque Pallas · Attaque Rapide · 105 pts de base · Faction legio-custodes --- */
   {
     id: "antigrav-attaque-pallas",
     nom: "Antigrav d'Attaque Pallas",
@@ -39496,6 +39858,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Char Antigrav Caladius · Blindés · 225 pts de base · Faction legio-custodes --- */
   {
     id: "char-antigrav-caladius",
     nom: "Char Antigrav Caladius",
@@ -39568,6 +39931,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escorteur Ares · Seigneurs des Batailles · 650 pts de base · Faction legio-custodes --- */
   {
     id: "escorteur-ares",
     nom: "Escorteur Ares",
@@ -39603,6 +39967,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Navette d'Assaut Orion · Seigneurs des Batailles · 600 pts de base · Faction legio-custodes --- */
   {
     id: "navette-assaut-orion",
     nom: "Navette d'Assaut Orion",
@@ -39653,6 +40018,7 @@ const UNITES = [
      Figurine/« Legion Equipment list » (optionsEquipementLegion
      ci-dessus) et un vexillum à +10 Points pour un Inductii.
      ============================================================ */
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-dark-angels",
     nom: "Escouade Inductii",
@@ -39707,6 +40073,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-emperors-children",
     nom: "Escouade Inductii",
@@ -39800,6 +40167,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-iron-warriors",
     nom: "Escouade Inductii",
@@ -39864,6 +40232,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-white-scars",
     nom: "Escouade Inductii",
@@ -39963,6 +40332,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-space-wolves",
     nom: "Escouade Inductii",
@@ -40078,6 +40448,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-imperial-fists",
     nom: "Escouade Inductii",
@@ -40148,6 +40519,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-night-lords",
     nom: "Escouade Inductii",
@@ -40208,6 +40580,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-blood-angels",
     nom: "Escouade Inductii",
@@ -40313,6 +40686,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-iron-hands",
     nom: "Escouade Inductii",
@@ -40375,6 +40749,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-world-eaters",
     nom: "Escouade Inductii",
@@ -40486,6 +40861,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-ultramarines",
     nom: "Escouade Inductii",
@@ -40665,6 +41041,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-death-guard",
     nom: "Escouade Inductii",
@@ -40750,6 +41127,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-thousand-sons",
     nom: "Escouade Inductii",
@@ -40810,6 +41188,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-sons-of-horus",
     nom: "Escouade Inductii",
@@ -40914,6 +41293,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-word-bearers",
     nom: "Escouade Inductii",
@@ -41008,6 +41388,7 @@ const UNITES = [
       ...optionsEquipementLegion("Inductii : "),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 100 pts de base --- */
   {
     id: "escouade-inductii-salamanders",
     nom: "Escouade Inductii",
@@ -41215,6 +41596,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-raven-guard",
     nom: "Escouade Inductii",
@@ -41275,6 +41657,7 @@ const UNITES = [
       ...optionBaionnette(),
     ],
   },
+  /* --- Escouade Inductii · Troupes · 90 pts de base --- */
   {
     id: "escouade-inductii-alpha-legion",
     nom: "Escouade Inductii",
@@ -41353,6 +41736,7 @@ const UNITES = [
      sans entrée armes-data.js — même principe que pour le reste du
      roster Legio Custodes plus haut dans ce fichier.
      ============================================================ */
+  /* --- Cadre Anathema · Troupes · 65 pts de base · Faction anathema-psykana --- */
   {
     id: "cadre-anathema",
     nom: "Cadre Anathema",
@@ -41430,6 +41814,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Chevalière Centura · État-major · 75 pts de base · Faction anathema-psykana --- */
   {
     id: "chevaliere-centura",
     nom: "Chevalière Centura",
@@ -41480,6 +41865,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Jenetia Krole · Quartier Général · 125 pts de base · Faction anathema-psykana --- */
   {
     id: "jenetia-krole",
     nom: "Jenetia Krole",
@@ -41530,6 +41916,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Acquisitor Modèle Kharon · Transports Lourds · 120 pts de base · Faction anathema-psykana --- */
   {
     id: "acquisitor-kharon",
     nom: "Acquisitor Modèle Kharon",
@@ -41595,6 +41982,7 @@ const UNITES = [
      Trait → Règle Spéciale automatique n'existe sur ce site pour un
      Trait de Faction générique (même limite déjà documentée pour
      [Legio Custodes]/[Anathema Psykana]). ============================================================ */
+  /* --- Assassin Adamus · Appui · 125 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-adamus",
     nom: "Assassin Adamus",
@@ -41638,6 +42026,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Callidus · Appui · 125 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-callidus",
     nom: "Assassin Callidus",
@@ -41682,6 +42071,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Culexus · Appui · 140 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-culexus",
     nom: "Assassin Culexus",
@@ -41731,6 +42121,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Eversor · Appui · 125 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-eversor",
     nom: "Assassin Eversor",
@@ -41778,6 +42169,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Infocyte Vanus · Appui · 105 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-vanus",
     nom: "Assassin Infocyte Vanus",
@@ -41823,6 +42215,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Venenum · Appui · 125 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-venenum",
     nom: "Assassin Venenum",
@@ -41867,6 +42260,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Assassin Vindicare · Appui · 150 pts de base · Faction divisio-assassinorum --- */
   {
     id: "assassin-vindicare",
     nom: "Assassin Vindicare",
@@ -41924,6 +42318,7 @@ const UNITES = [
      dominionEtheriqueDe, js/unites.js), sauf Unités à Dominion FIXE
      (Ka'bandha, Cor'bax Utterblight, Samus).
      ============================================================ */
+  /* --- Souverain Démoniaque de la Tempête de la Ruine · Quartier Général · 350 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-sovereign",
     nom: "Souverain Démoniaque de la Tempête de la Ruine",
@@ -41995,6 +42390,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Hiérarque Démoniaque de la Tempête de la Ruine · État-major · 250 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-hierarch",
     nom: "Hiérarque Démoniaque de la Tempête de la Ruine",
@@ -42076,6 +42472,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Héraut Démoniaque de la Tempête de la Ruine · État-major · 135 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-harbinger",
     nom: "Héraut Démoniaque de la Tempête de la Ruine",
@@ -42118,6 +42515,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Brutes Démoniaques de la Tempête de la Ruine · Assaut Lourd · 120 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-brutes",
     nom: "Brutes Démoniaques de la Tempête de la Ruine",
@@ -42156,6 +42554,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Démons Mineurs de la Tempête de la Ruine · Troupes · 100 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-lesser-daemons",
     nom: "Démons Mineurs de la Tempête de la Ruine",
@@ -42229,6 +42628,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Essaims Démoniaques de la Tempête de la Ruine · Troupes · 60 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-swarms",
     nom: "Essaims Démoniaques de la Tempête de la Ruine",
@@ -42284,6 +42684,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Grande Bête Démoniaque de la Tempête de la Ruine · Appui · 150 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-greater-beast",
     nom: "Grande Bête Démoniaque de la Tempête de la Ruine",
@@ -42321,6 +42722,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Bêtes Démoniaques de la Tempête de la Ruine · Appui · 110 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-beasts",
     nom: "Bêtes Démoniaques de la Tempête de la Ruine",
@@ -42359,6 +42761,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Béhémoth Démoniaque de la Tempête de la Ruine · Engins de Guerre · 250 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-behemoth",
     nom: "Béhémoth Démoniaque de la Tempête de la Ruine",
@@ -42403,6 +42806,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Harceleurs Démoniaques de la Tempête de la Ruine · Reco · 150 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-harriers",
     nom: "Harceleurs Démoniaques de la Tempête de la Ruine",
@@ -42476,6 +42880,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Cavaliers Démoniaques de la Tempête de la Ruine · Attaque Rapide · 150 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "ruinstorm-riders",
     nom: "Cavaliers Démoniaques de la Tempête de la Ruine",
@@ -42544,6 +42949,7 @@ const UNITES = [
       },
     ],
   },
+  /* --- Ka'bandha · Seigneurs des Batailles · 600 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "kabandha",
     nom: "Ka'bandha",
@@ -42586,6 +42992,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Cor'bax Utterblight · Seigneurs des Batailles · 350 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "corbax-utterblight",
     nom: "Cor'bax Utterblight",
@@ -42631,6 +43038,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Samus · Seigneurs des Batailles · 400 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "samus",
     nom: "Samus",
@@ -42688,6 +43096,7 @@ const UNITES = [
      que la visibilité dans le sélecteur, pas le placement en Case (déjà
      garanti par un changement de Faction qui vide toujours l'Armée).
      ============================================================ */
+  /* --- Endryd Haar · Quartier Général · 165 pts de base --- */
   {
     id: "endryd-haar",
     nom: "Endryd Haar",
@@ -42767,6 +43176,7 @@ const UNITES = [
      proprio — accepté malgré la collision de nom avec « Devin de
      l'Orage » (Stormseer, White Scars), un nom d'unité distinct.
      ============================================================ */
+  /* --- Nathaniel Garro · Quartier Général · 160 pts de base --- */
   {
     id: "nathaniel-garro",
     nom: "Nathaniel Garro",
@@ -42816,6 +43226,7 @@ const UNITES = [
     ],
     options: [],
   },
+  /* --- Tylos Rubio · État-major · 130 pts de base --- */
   {
     id: "tylos-rubio",
     nom: "Tylos Rubio",

@@ -2064,6 +2064,7 @@ const RITES_DE_GUERRE = {
    js/unites.js). Légion/Rite absent d'ici = contenu non encore
    transcrit, rien n'est affiché sur la page de garde. */
 const RITE_DE_GUERRE_LEGION = {
+  /* --- Légion I — Dark Angels --- */
   I: {
     nomRite: "Legio Astartes Dark Angels",
     sections: [
@@ -2138,6 +2139,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion IV — Iron Warriors --- */
   IV: {
     nomRite: "Legio Astartes Iron Warriors",
     sections: [
@@ -2211,6 +2213,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion VIII — Night Lords --- */
   VIII: {
     nomRite: "Legio Astartes Night Lords",
     sections: [
@@ -2285,6 +2288,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion VII — Imperial Fists --- */
   VII: {
     nomRite: "Legio Astartes Imperial Fists",
     sections: [
@@ -2359,6 +2363,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XV — Thousand Sons --- */
   XV: {
     nomRite: "Legio Astartes Thousand Sons",
     sections: [
@@ -2433,6 +2438,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XVIII — Salamanders --- */
   XVIII: {
     nomRite: "Legio Astartes Salamanders",
     sections: [
@@ -2517,6 +2523,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XIII — Ultramarines --- */
   XIII: {
     nomRite: "Legio Astartes Ultramarines",
     sections: [
@@ -2591,6 +2598,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion VI — Space Wolves --- */
   VI: {
     nomRite: "Legio Astartes Space Wolves",
     sections: [
@@ -2675,6 +2683,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XVI — Sons of Horus --- */
   XVI: {
     nomRite: "Legio Astartes Sons of Horus",
     sections: [
@@ -2749,6 +2758,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XVII — Word Bearers --- */
   XVII: {
     nomRite: "Legio Astartes Word Bearers",
     sections: [
@@ -2823,6 +2833,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XIV — Death Guard --- */
   XIV: {
     nomRite: "Legio Astartes Death Guard",
     sections: [
@@ -2897,6 +2908,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XIX — Raven Guard --- */
   XIX: {
     nomRite: "Legio Astartes Raven Guard",
     sections: [
@@ -2971,6 +2983,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion V — White Scars --- */
   V: {
     nomRite: "Legio Astartes White Scars",
     sections: [
@@ -3045,6 +3058,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion IX — Blood Angels --- */
   IX: {
     nomRite: "Legio Astartes Blood Angels",
     sections: [
@@ -3119,6 +3133,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion X — Iron Hands --- */
   X: {
     nomRite: "Legio Astartes Iron Hands",
     sections: [
@@ -3193,6 +3208,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion III — Emperor’s Children · Rite « Legio Astartes » --- */
   "legio-astartes-emperors-children": {
     nomRite: "Legio Astartes Emperor's Children",
     sections: [
@@ -3267,6 +3283,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion III — Emperor’s Children · Rite « Legio Hereticus » --- */
   "legio-hereticus-emperors-children": {
     nomRite: "Legio Hereticus Emperor's Children",
     sections: [
@@ -3346,6 +3363,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XII — World Eaters · Rite « Legio Astartes » --- */
   "legio-astartes-world-eaters": {
     nomRite: "Legio Astartes World Eaters",
     sections: [
@@ -3416,6 +3434,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XII — World Eaters · Rite « Legio Hereticus » --- */
   "legio-hereticus-world-eaters": {
     nomRite: "Legio Hereticus World Eaters",
     sections: [
@@ -3490,6 +3509,7 @@ const RITE_DE_GUERRE_LEGION = {
       },
     ],
   },
+  /* --- Légion XX — Alpha Legion --- */
   XX: {
     nomRite: "Legio Astartes Alpha Legion",
     sections: [

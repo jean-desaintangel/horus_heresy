@@ -21,6 +21,7 @@
 const ENTETES_TIR = ["P", "PF", "FT", "PA", "D"];
 
 const ARMES_TIR = [
+  /* --- Pièce d'Artillerie — 13 entrées --- */
   {
     titre: "Pièce d'Artillerie",
     armes: [
@@ -117,6 +118,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Pistolet Archéotech — 2 entrées --- */
   {
     titre: "Pistolet Archéotech",
     armes: [
@@ -134,6 +136,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Auto — 52 entrées --- */
   {
     titre: "Armes Auto",
     armes: [
@@ -506,6 +509,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Bolts — 31 entrées --- */
   {
     titre: "Armes à Bolts",
     armes: [
@@ -743,6 +747,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Combinées — 8 entrées --- */
   {
     titre: "Armes Combinées",
     armes: [
@@ -797,6 +802,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Conversion — 16 entrées --- */
   {
     titre: "Armes à Conversion",
     armes: [
@@ -904,6 +910,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Désintégratrices — 6 entrées --- */
   {
     titre: "Armes Désintégratrices",
     armes: [
@@ -945,6 +952,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Gravitons — 12 entrées --- */
   {
     titre: "Armes à Gravitons",
     armes: [
@@ -1041,6 +1049,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Flammes — 19 entrées --- */
   {
     titre: "Armes à Flammes",
     armes: [
@@ -1187,6 +1196,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Laser — 25 entrées --- */
   {
     titre: "Armes Laser",
     armes: [
@@ -1353,6 +1363,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Fusion — 17 entrées --- */
   {
     titre: "Armes à Fusion",
     armes: [
@@ -1469,6 +1480,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Missiles — 41 entrées --- */
   {
     titre: "Armes à Missiles",
     armes: [
@@ -1733,6 +1745,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Particules — 2 entrées --- */
   {
     titre: "Armes à Particules",
     armes: [
@@ -1750,6 +1763,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Phosphex — 2 entrées --- */
   {
     titre: "Armes à Phosphex",
     armes: [
@@ -1780,6 +1794,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Plasma — 46 entrées --- */
   {
     titre: "Armes à Plasma",
     armes: [
@@ -2087,6 +2102,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Rad — 16 entrées --- */
   {
     titre: "Armes Rad",
     armes: [
@@ -2213,6 +2229,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Soniques — 1 entrée --- */
   {
     titre: "Armes Soniques",
     armes: [
@@ -2224,6 +2241,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Volkites — 20 entrées --- */
   {
     titre: "Armes Volkites",
     armes: [
@@ -2355,6 +2373,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Exotiques et Diverses (Tir) — 79 entrées --- */
   {
     titre: "Armes Exotiques et Diverses (Tir)",
     armes: [
@@ -3024,6 +3043,7 @@ const ARMES_TIR = [
      Arsenal des Maisonnées de Chevaliers et des Legios Titaniques :
      armes montées sur les Chevaliers Questoris et les Titans.
      ============================================================ */
+  /* --- Électro-armes — 5 entrées --- */
   {
     titre: "Électro-armes",
     armes: [
@@ -3062,6 +3082,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Foudre — 5 entrées --- */
   {
     titre: "Armes à Foudre",
     armes: [
@@ -3103,6 +3124,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Outils de Découpe du Mechanicum — 2 entrées --- */
   {
     titre: "Outils de Découpe du Mechanicum",
     armes: [
@@ -3122,6 +3144,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Tactiques Titaniques — 3 entrées --- */
   {
     titre: "Armes Tactiques Titaniques",
     armes: [
@@ -3145,6 +3168,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Stratégiques Titaniques — 20 entrées --- */
   {
     titre: "Armes Stratégiques Titaniques",
     armes: [
@@ -3275,6 +3299,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes de Frappe Titaniques — 2 entrées --- */
   {
     titre: "Armes de Frappe Titaniques",
     armes: [
@@ -3340,6 +3365,7 @@ const ARMES_TIR = [
      d'Arsenal dédiée fournie par le propriétaire : complète les
      Armes déjà transcrites ci-dessous (Lance adrasite/pyrithite,
      Arquebuse à bolts Adrastus, La Lance Apollonienne). --- */
+  /* --- Armes Cinétiques — 1 entrée --- */
   {
     titre: "Armes Cinétiques",
     armes: [
@@ -3351,6 +3377,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Bolts Lastrum — 3 entrées --- */
   {
     titre: "Armes à Bolts Lastrum",
     armes: [
@@ -3374,6 +3401,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Cascade de Neutronium — 2 entrées --- */
   {
     titre: "Armes à Cascade de Neutronium",
     armes: [
@@ -3392,6 +3420,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Adrathiques — 3 entrées --- */
   {
     titre: "Armes Adrathiques",
     armes: [
@@ -3415,6 +3444,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Laser Arachnus — 8 entrées --- */
   {
     titre: "Armes Laser Arachnus",
     armes: [
@@ -3468,6 +3498,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes de Gardien — 6 entrées --- */
   {
     titre: "Armes de Gardien",
     armes: [
@@ -3510,6 +3541,7 @@ const ARMES_TIR = [
     ],
     note: "Ces Armes possèdent à la fois un profil de Tir et de Mêlée (voir Armes de Mêlée ci-dessous).",
   },
+  /* --- Lanceurs Spiculus — 2 entrées --- */
   {
     titre: "Lanceurs Spiculus",
     armes: [
@@ -3548,6 +3580,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Laser Corvae — 1 entrée --- */
   {
     titre: "Armes Laser Corvae",
     armes: [
@@ -3559,6 +3592,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes à Flammes Infernus — 3 entrées --- */
   {
     titre: "Armes à Flammes Infernus",
     armes: [
@@ -3582,6 +3616,7 @@ const ARMES_TIR = [
       },
     ],
   },
+  /* --- Armes Accélératrices Iliastus — 3 entrées --- */
   {
     titre: "Armes Accélératrices Iliastus",
     armes: [
@@ -3716,6 +3751,7 @@ const ARMES_TIR = [
   },
   /* --- Arsenal des Démons de la Tempête de la Ruine (« Legacies of the
      Age of Darkness : Daemons of the Ruinstorm »). --- */
+  /* --- Armes des Démons de la Tempête de la Ruine — 4 entrées --- */
   {
     titre: "Armes des Démons de la Tempête de la Ruine",
     armes: [
@@ -3836,6 +3872,7 @@ const ARMES_TIR = [
 const ENTETES_MELEE = ["MI", "MA", "MF", "PA", "D"];
 
 const ARMES_MELEE = [
+  /* --- Armes Tronçonneuses — 15 entrées --- */
   {
     titre: "Armes Tronçonneuses",
     armes: [
@@ -3947,6 +3984,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes Charnabales — 3 entrées --- */
   {
     titre: "Armes Charnabales",
     armes: [
@@ -3971,6 +4009,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes de Force — 6 entrées --- */
   {
     titre: "Armes de Force",
     armes: [
@@ -4017,6 +4056,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes Énergétiques — 104 entrées --- */
   {
     titre: "Armes Énergétiques",
     armes: [
@@ -4861,6 +4901,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes de Parangon — 34 entrées --- */
   {
     titre: "Armes de Parangon",
     armes: [
@@ -5164,6 +5205,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes Exotiques et Diverses (Mêlée) — 33 entrées --- */
   {
     titre: "Armes Exotiques et Diverses (Mêlée)",
     armes: [
@@ -5415,6 +5457,7 @@ const ARMES_MELEE = [
      Arsenal des Maisonnées de Chevaliers et des Legios Titaniques :
      armes montées sur les Chevaliers Questoris et les Titans.
      ============================================================ */
+  /* --- Électro-armes — 3 entrées --- */
   {
     titre: "Électro-armes",
     armes: [
@@ -5440,6 +5483,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Outils de Découpe du Mechanicum — 2 entrées --- */
   {
     titre: "Outils de Découpe du Mechanicum",
     armes: [
@@ -5459,6 +5503,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Destructeurs de Siège — 3 entrées --- */
   {
     titre: "Destructeurs de Siège",
     armes: [
@@ -5521,6 +5566,7 @@ const ARMES_MELEE = [
   },
   /* --- Arsenal des Forces de l'Empereur (Legio Custodes), suite
      (voir la note miroir côté Armes de Tir ci-dessus). --- */
+  /* --- Armes de Gardien — 6 entrées --- */
   {
     titre: "Armes de Gardien",
     armes: [
@@ -5564,6 +5610,7 @@ const ARMES_MELEE = [
     ],
     note: "Ces Armes possèdent à la fois un profil de Tir et de Mêlée (voir Armes de Tir ci-dessus).",
   },
+  /* --- Armes Diverses — 1 entrée --- */
   {
     titre: "Armes Diverses",
     armes: [
@@ -5575,6 +5622,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes de la Sororité Silencieuse — 1 entrée --- */
   {
     titre: "Armes de la Sororité Silencieuse",
     armes: [
@@ -5586,6 +5634,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes d'Éternité — 1 entrée --- */
   {
     titre: "Armes d'Éternité",
     armes: [
@@ -5598,6 +5647,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes Solarites — 5 entrées --- */
   {
     titre: "Armes Solarites",
     armes: [
@@ -5721,6 +5771,7 @@ const ARMES_MELEE = [
   /* --- Arsenal des Démons de la Tempête de la Ruine (« Legacies of the
      Age of Darkness : Daemons of the Ruinstorm »), tables « Immaterial
      Blades » et « Forms of Ruin ». --- */
+  /* --- Armes des Démons de la Tempête de la Ruine — 16 entrées --- */
   {
     titre: "Armes des Démons de la Tempête de la Ruine",
     armes: [
@@ -5844,6 +5895,7 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes de Zone Mortalis — 1 entrée --- */
   {
     titre: "Armes de Zone Mortalis",
     armes: [

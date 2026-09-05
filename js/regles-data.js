@@ -7,9 +7,44 @@
    - js/armes.js   (page armes.html : info-bulles sur les tables d'armes)
    Dépend : aucun (vanilla JS). Doit être chargé avant les scripts
    ci-dessus.
+   ============================================================
+
+   MODÈLE DE DONNÉES (pour les étudiants) :
+
+   Une règle = { nom: "Brèche (X)", texte: "…" }
+   · `nom`   sert à la fois d'étiquette affichée ET de CLÉ de
+     rapprochement : js/armes.js cherche dans ce tableau le nom lu
+     dans la colonne « Règles spéciales » d'une arme pour en tirer
+     l'info-bulle (voir trouverDefinitionRegle, js/main.js).
+   · `texte` est reproduit du livre, sans mise en forme : aucune
+     balise HTML ici. Le rendu injecte le texte via `textContent`
+     (jamais `innerHTML`) — réflexe anti-XSS du projet. Si une balise
+     se glissait dans ces données, elle s'afficherait littéralement
+     au lieu d'être interprétée : c'est exactement l'effet recherché.
+
+   POURQUOI DEUX TABLEAUX plutôt qu'un seul, ou qu'un objet
+   { nom: texte } ?
+   · Deux tableaux, parce que les deux familles n'ont pas le même
+     usage : REGLES_ARMES alimente les info-bulles de la page Arsenal,
+     REGLES_DIVERSES les cartes de la page Glossaire. La page regles.html
+     les affiche à la suite, mais la séparation garde la source lisible.
+   · Un tableau (et non un objet), parce que l'ORDRE compte : il est
+     celui du livre, et la recherche parcourt la liste pour trouver la
+     correspondance la plus longue (« Brèche (5+) » avant « Brèche »).
+     Un objet ne garantit pas cet ordre de manière évidente et
+     interdirait deux entrées de même nom.
+
+   Le suffixe « (X) » d'un nom est un paramètre variable du jeu
+   (« Brèche (5+) », « Brèche (4+) »…) : les données ne stockent que
+   la forme générique, la valeur réelle vient de la ligne d'arme.
    ============================================================ */
 
-// --- Règles spécifiques aux armes ---
+/* ----------------------------------------------------------
+   RÈGLES SPÉCIFIQUES AUX ARMES
+   Portées par une arme (colonne « Règles spéciales » de l'Arsenal) :
+   elles modifient une attaque, jamais la figurine elle-même.
+   Ordre du livre de règles conservé.
+   ---------------------------------------------------------- */
 const REGLES_ARMES = [
   {
     nom: "Sonner (X)",
@@ -204,7 +239,14 @@ const REGLES_ARMES = [
   },
 ];
 
-// --- Règles diverses ---
+/* ----------------------------------------------------------
+   RÈGLES DIVERSES (règles spéciales de figurine et d'unité)
+   Portées par une figurine, une unité ou un détachement — pas par une
+   arme. C'est le contenu principal de la page regles.html, où une
+   barre de recherche insensible aux accents les filtre en direct
+   (voir normaliserTexte dans js/main.js).
+   Ordre du livre de règles conservé.
+   ---------------------------------------------------------- */
 const REGLES_DIVERSES = [
   {
     nom: "Avance Implacable",

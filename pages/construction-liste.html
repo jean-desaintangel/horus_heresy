@@ -1,5 +1,37 @@
 ﻿<!doctype html>
 <html lang="fr">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Configurateur de liste d'armée
+     Fichier : pages/construction-liste.html
+
+     La page la plus complexe du site — et la plus intéressante à étudier.
+     Elle assemble deux modules :
+     - l'Assistant de Sélection d'Armée (js/organigramme.js) : détachements,
+       quotas, validation des règles de construction ;
+     - le configurateur d'unités (js/unites.js) : options d'armement, coût
+       recalculé en direct, export PDF/Word.
+     Ordre de chargement des scripts (lire les balises dans le <head>) :
+     données d'abord (regles-data, armes-data, unites-data, organigramme-data),
+     logique ensuite. jsPDF et AutoTable sont les SEULES bibliothèques tierces
+     du projet, auto-hébergées dans js/vendor/ pour ne dépendre d'aucun CDN.
+     Notions illustrées : manipulation du DOM, gestion d'état en mémoire,
+     persistance avec localStorage, génération de fichier côté client,
+     formulaires accessibles.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

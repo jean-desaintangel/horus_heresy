@@ -1,5 +1,32 @@
 ﻿<!doctype html>
 <html lang="fr">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Glossaire des règles spéciales
+     Fichier : pages/regles.html
+
+     Liste de toutes les règles spéciales, avec recherche instantanée et
+     insensible aux accents.
+     Charge js/regles-data.js (les données) PUIS js/regles.js (le rendu et la
+     recherche) : c'est la convention du projet — les données d'un côté, la
+     logique de l'autre, et l'ordre des balises <script> fait la dépendance
+     (tous en `defer`, donc exécutés dans l'ordre du document).
+     Le <main> ne contient qu'un conteneur vide : tout le contenu est fabriqué
+     en JavaScript, via textContent (jamais innerHTML) — réflexe anti-XSS.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

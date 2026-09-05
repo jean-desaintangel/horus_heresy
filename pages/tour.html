@@ -1,5 +1,29 @@
 ﻿<!doctype html>
 <html lang="fr">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Le tour de jeu
+     Fichier : pages/tour.html
+
+     Les cinq phases d'un tour, présentées en « timeline » (frise verticale).
+     La mise en forme de la frise est entièrement en CSS (section TIMELINE de
+     css/style.css) ; js/main.js n'ajoute que le repliement des étapes.
+     Modèle de toutes les pages de règles du site : même en-tête, même
+     structure <main><section>.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

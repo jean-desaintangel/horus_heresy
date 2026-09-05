@@ -3,6 +3,41 @@
    Feuille de style principale (thème clair)
    Auteur : Jean · Modifié : 2026-07-14
    Palette : parchemin #f4f1e8, bordeaux #8b0000, or #8a6a2c, gris acier #6b6b85
+   ============================================================
+
+   COMMENT LIRE CE FICHIER (≈ 5 000 lignes, une seule feuille pour
+   tout le site — sauf pages/choix-legion.html, volontairement à part) :
+
+   1. L'ORDRE compte. Le fichier suit le parcours de l'œil :
+      polices → variables → reset → navigation → contenu commun →
+      composants d'une page précise → utilitaires → accessibilité.
+      Les blocs `/* ==== TITRE ==== */` marquent chaque grande section :
+      c'est la table des matières du fichier, à parcourir en repliant
+      le code (Ctrl+K Ctrl+0 dans VS Code).
+
+   2. MOBILE-FIRST. Les règles écrites SANS media query décrivent le
+      TÉLÉPHONE. Les `@media (min-width: …)` viennent ensuite ENRICHIR
+      pour les grands écrans. Jamais l'inverse : partir du grand écran
+      obligerait à défaire des règles pour le petit, ce qui allonge la
+      feuille et rend les priorités difficiles à suivre.
+
+   3. AUCUNE VALEUR EN DUR pour les couleurs et les espacements : tout
+      passe par les variables CSS (`--fond`, `--accent`, `--titre`…)
+      déclarées dans `:root` plus bas. C'est ce qui permet aux 18
+      « skins » de Légion de repeindre le site entier en surchargeant
+      une poignée de variables sur `<body>` (voir section SKINS).
+
+   4. LES COMMENTAIRES expliquent le POURQUOI, jamais le QUOI. Écrire
+      `/* met le texte en gras */` au-dessus de `font-weight: 700` est
+      du bruit ; expliquer pourquoi ce contraste précis a été choisi,
+      ou quel critère WCAG impose une règle, est utile six mois plus
+      tard. Les références « WCAG 1.4.3 / RGAA 3.2 » renvoient aux
+      référentiels d'accessibilité officiels.
+
+   5. NOMMAGE : classes en kebab-case français, préfixées par leur
+      domaine (`nav-`, `orga-`, `unite-`, `timeline-`). Pas de
+      framework, pas d'étape de build : ce que vous lisez ici est
+      exactement ce que le navigateur reçoit.
    ============================================================ */
 
 /* ---------- Polices auto-hébergées ----------
@@ -2776,6 +2811,11 @@ footer p {
    ============================================================ */
 
 /* ---------- Paramètres de la partie ---------- */
+/* ---------- Paramètres de la partie (en-tête de l'assistant) ----------
+   Formulaire posé au-dessus de l'organigramme : Faction, Légion, Rite
+   de Guerre, plafond de points. Chaque champ est un vrai <label> +
+   <select> associés — jamais un faux menu en <div>, qui perdrait le
+   clavier et les lecteurs d'écran. */
 .orga-parametres {
   display: flex;
   flex-wrap: wrap;
@@ -2875,6 +2915,11 @@ footer p {
 }
 
 /* ---------- Bandeau de contexte historique (skin de Légion) ---------- */
+/* ---------- Bandeau de Légion ----------
+   Bandeau héraldique affiché une fois la Légion choisie (construit par
+   js/organigramme.js). Il sert de repère visuel : la couleur du
+   bandeau et celle du reste de la page proviennent des MÊMES variables,
+   c'est ce qui donne l'impression d'un site « repeint ». */
 .legion-banniere {
   margin: -0.4rem 0 1rem;
   padding: 0.6rem 1rem;
@@ -2949,6 +2994,34 @@ footer p {
   gap: 0.5rem;
   vertical-align: middle;
 }
+
+/* ============================================================
+   SKINS DE LÉGION — le cœur du système de thèmes (≈ 1 100 lignes)
+
+   PRINCIPE (à retenir, c'est LA technique du fichier) : js/organigramme.js
+   pose sur <body> une classe `skin-legion-<id>` (ex : skin-legion-xvi
+   pour les Sons of Horus). Chaque bloc ci-dessous redéfinit alors
+   seulement quelques VARIABLES CSS (--accent, --titre, --fond…).
+   Comme tout le reste de la feuille consomme ces variables au lieu de
+   couleurs en dur, changer trois lignes repeint le site entier.
+
+   Sans cette technique, il aurait fallu dupliquer toute la feuille
+   dix-huit fois. C'est l'exemple typique de ce qu'apportent les
+   variables CSS (« custom properties ») par rapport aux variables
+   d'un préprocesseur type Sass : celles-ci vivent dans le navigateur
+   et se recalculent en direct, à l'exécution.
+
+   Le sélecteur `body[class*="skin-legion-"]` cible « n'importe quel
+   body dont l'attribut class CONTIENT skin-legion- » : c'est là qu'on
+   met les retouches communes à TOUS les skins (filets, liserés). Les
+   blocs `body.skin-legion-xvi { … }` qui suivent ne portent, eux, que
+   les valeurs propres à une Légion.
+
+   Chaque couleur a été vérifiée au contraste (WCAG 1.4.3 : 4,5:1 pour
+   le texte courant) — les commentaires qui suivent gardent la trace
+   des teintes rejetées et de leur ratio, pour qu'on ne les réintroduise
+   pas par inadvertance.
+   ============================================================ */
 
 /* Double filet (accent + or) sous les titres de section : évoque les
    liserés d'héraldique de Légion plutôt qu'un simple trait plein. */
@@ -4066,6 +4139,13 @@ body.nuit-eternelle {
     color 1s ease;
 }
 
+/* ============================================================
+   ORGANIGRAMME : VALIDATION, DÉTACHEMENTS ET CASES
+   Fin des skins. Ce qui suit habille la mécanique de l'assistant :
+   jauge de points, messages d'erreur, boîtes de détachement et cases
+   de Rôle Tactique à remplir. Tout est généré par js/organigramme.js.
+   ============================================================ */
+
 /* ---------- Jauge de points + compteurs ---------- */
 .orga-total {
   font-weight: 700;
@@ -4134,6 +4214,12 @@ body.nuit-eternelle .orga-erreurs-titre {
 }
 
 /* ---------- Cartes de détachements (arbre) ---------- */
+/* ---------- Boîte de Détachement ----------
+   Un détachement = un encadré contenant des « cases » à remplir. Les
+   modificateurs `--principal`, `--apex`, `--additionnel`, `--narratif`
+   ne changent QUE la couleur du liseré : la structure reste commune.
+   C'est le principe « un bloc, des modificateurs » (inspiration BEM) —
+   on évite ainsi quatre copies de la même règle. */
 .orga-detachement {
   background: var(--carte);
   border: 1px solid var(--acier);
@@ -4238,6 +4324,11 @@ body.nuit-eternelle .orga-erreurs-titre {
   gap: 0.5rem;
 }
 
+/* ---------- Case de l'organigramme ----------
+   Emplacement à remplir (Troupes, Élite, Appui…). Deux états :
+   libre (pointillés, en attente) et `--occupee` (trait plein + nom de
+   l'unité). L'état est porté par une CLASSE posée en JS, jamais par un
+   style en ligne : la présentation reste entièrement dans ce fichier. */
 .orga-case {
   display: flex;
   gap: 0.6rem;
@@ -4335,6 +4426,11 @@ body.nuit-eternelle .orga-case-unite a {
    Équivalents textuels des icônes du livre (p. 285) : cercle
    uni pour une case normale, liseré étoilé (pointillés + ✶)
    pour une Case Principale (p. 283). */
+/* ---------- Badge de Rôle Tactique ----------
+   Petite pastille rappelant le Rôle d'une unité. `display: inline-flex`
+   permet de centrer verticalement une icône à côté du texte tout en
+   gardant le badge dans le fil du texte (un `flex` classique en ferait
+   un bloc, qui casserait la ligne). */
 .orga-badge {
   position: relative;
   flex-shrink: 0;
@@ -4368,6 +4464,11 @@ body.nuit-eternelle .orga-case-unite a {
 }
 
 /* ---------- Panneau « Ajouter un détachement » ---------- */
+/* ---------- Panneau « Ajouter une unité » ----------
+   Liste dépliable des unités disponibles, groupées par famille de
+   détachement. Construit sur <details>/<summary> natifs : le
+   navigateur gère seul l'ouverture, le clavier et l'annonce aux
+   lecteurs d'écran — inutile d'écrire un accordéon en JavaScript. */
 .orga-ajout-titre {
   margin: 0.8rem 0 0.4rem;
   color: var(--titre-contraste);

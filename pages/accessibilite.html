@@ -1,5 +1,29 @@
 ﻿<!doctype html>
 <html lang="fr">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Déclaration d'accessibilité
+     Fichier : pages/accessibilite.html
+
+     État de conformité au RGAA 4.1 : ce qui est conforme, ce qui ne l'est
+     pas, et les voies de recours. Page de contenu pur.
+     Le pendant documentaire du travail d'accessibilité que l'on retrouve
+     partout dans le code (aria-*, :focus-visible, contrastes vérifiés,
+     prefers-reduced-motion).
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
