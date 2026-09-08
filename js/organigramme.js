@@ -785,7 +785,27 @@ const Organigramme = (() => {
   // Légion (`traitRequis`) que pour la Légion à laquelle cette Case
   // peut effectivement donner accès.
   function legionPertinentePourCase(det) {
-    return typeDe(det).id === "allie" ? det.legionAlliee : etat.legion;
+    if (typeDe(det).id === "allie") return det.legionAlliee;
+    const allie = allieParentDe(det);
+    return allie ? allie.legionAlliee : etat.legion;
+  }
+
+  // Détachement Allié auquel un Détachement Auxiliaire/d'Apex est
+  // rattaché (`parent`, choisi à l'ajout via le sélecteur « Lier à quel
+  // détachement ? », voir afficherSelecteurParent) — null s'il est
+  // rattaché au Détachement Principal ou sans parent. Un Auxiliaire/Apex
+  // est débloqué par une Case de Quartier Général/État-major de son
+  // Parent (p. 283-284) et fait donc partie de CETTE force : quand ce
+  // Parent est un Détachement Allié, ses Cases suivent la Faction et la
+  // Légion du Détachement Allié (menus « Faction Alliée »/« Légion
+  // Alliée » de sa carte) plutôt que celles de l'Armée — sans quoi un
+  // Appui Blindé rattaché à un Détachement Allié Conclaves Skitarii
+  // n'accepterait que des Blindés de la Faction de l'Armée. Consommée
+  // par caseAccepte() et legionPertinentePourCase() ci-dessus.
+  function allieParentDe(det) {
+    if (!det || det.parent == null) return null;
+    const parent = etat.detachements.find((d) => d.uid === det.parent);
+    return parent && typeDe(parent).id === "allie" ? parent : null;
   }
 
   // Paradigme de Maisonnée pertinent pour un Détachement (livre
@@ -1441,6 +1461,13 @@ const Organigramme = (() => {
         return factionUnite === avantageOrigine.factionCaseAjoutee;
       }
     }
+    // Détachement Auxiliaire/d'Apex rattaché à un Détachement Allié
+    // (voir allieParentDe plus haut) : la Faction/Légion requise est
+    // celle de ce Détachement Allié, pas celle de l'Armée. Un type qui
+    // déclare sa PROPRE Faction (`faction`, ex : Tercio de Fer) garde
+    // la sienne — seul le repli implicite sur la Faction de l'Armée
+    // (factionCroisadeParDefaut) est remplacé ici.
+    const allieParent = allieParentDe(det);
     if (type.id === "allie") {
       if (factionUnite !== (det.factionAlliee || "legio-astartes"))
         return false;
@@ -1452,7 +1479,13 @@ const Organigramme = (() => {
       ) {
         return false;
       }
-    } else if (factionUnite !== (type.faction || factionCroisadeParDefaut())) {
+    } else if (
+      factionUnite !==
+      (type.faction ||
+        (allieParent
+          ? allieParent.factionAlliee || "legio-astartes"
+          : factionCroisadeParDefaut()))
+    ) {
       return false;
     }
     // Légion (p. 283) : une unité réservée à une Légion (champ
@@ -1470,12 +1503,17 @@ const Organigramme = (() => {
       if (
         etat.faction === "legions-brisees" &&
         type.id !== "allie" &&
+        !allieParent &&
         etat.legionsBrisees.includes(unite.legion)
       ) {
         // légion acceptée, on continue les autres vérifications
       } else {
         const legionRequise =
-          type.id === "allie" ? det.legionAlliee : etat.legion;
+          type.id === "allie"
+            ? det.legionAlliee
+            : allieParent
+              ? allieParent.legionAlliee
+              : etat.legion;
         if (unite.legion !== legionRequise) return false;
       }
     }
