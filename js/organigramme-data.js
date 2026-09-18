@@ -1395,7 +1395,10 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     texte:
       "Débloqué quand un Briseur de Siège occupe une Case d'État-major. Cases d'Appui : Batteries de Rapier uniquement ; Cases de Blindés : Bombardes Arquitor ou Chars de Siège Vindicator uniquement.",
-    deblocage: { caseRole: "État-major", uniteIds: ["briseur-siege"] },
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["briseur-siege", "briseur-siege-terminator"],
+    },
     restrictions: {
       Appui: ["batterie-rapier"],
       Blindés: ["arquitor", "vindicator"],

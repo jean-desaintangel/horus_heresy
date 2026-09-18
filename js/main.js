@@ -1096,7 +1096,7 @@ function lienExterne(href, texte) {
 const SOURCES_SITE = [
   {
     texte: "Livre de Règles",
-    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-age-of-darkness-rulebook-2025-fre",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-age-of-darkness-rulebook-2025-eng",
   },
   {
     texte: "Liber Astartes",
@@ -1108,7 +1108,7 @@ const SOURCES_SITE = [
   },
   {
     texte: "Liber Questoris",
-    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-questoris-2025-fre",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-questoris-2025-eng",
   },
   {
     texte: "Liber Custodes",
@@ -1120,7 +1120,7 @@ const SOURCES_SITE = [
   },
   {
     texte: "Liber Mechanicum",
-    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-mechanicum-2025-fre",
+    href: "https://www.warhammer.com/fr-FR/shop/horus-heresy-liber-mechanicum-2025-eng",
   },
   {
     texte: "Journal Tactica : The Isstvan V Dropsite Massacre",
