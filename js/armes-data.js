@@ -1248,7 +1248,7 @@ const ARMES_TIR = [
       },
       {
         nom: "Laser à neutrons",
-        stats: ["24", "1", "9", "2", "2"],
+        stats: ["36", "2", "10", "2", "2"],
         regles: "Artillerie (D), Fléau des Blindages, Choc (Neutralisée)",
         traits: "Laser",
       },
@@ -1424,31 +1424,31 @@ const ARMES_TIR = [
       {
         nom: "Magnacanon à fusion",
         stats: ["36", "1", "9", "2", "4"],
-        regles: "Lourde (FT), Fusion (8)",
+        regles: "Lourde (FT), Fusion (12)",
         traits: "Fusion",
       },
       {
         nom: "Lance à fusion cyclonique",
         stats: ["12", "3", "8", "2", "3"],
-        regles: "Lourde (FT), Fusion (12)",
+        regles: "Lourde (FT), Fusion (8)",
         traits: "Fusion",
       },
       {
         nom: "Affût à fusion de siège",
         stats: ["12", "1", "10", "2", "4"],
-        regles: "Lourde (FT), Fusion (8)",
+        regles: 'Lourde (FT), Explosion (5"), Fusion (6)',
         traits: "Fusion",
       },
       {
         nom: "Découpeurs à fusion",
         stats: ["6", "1", "8", "2", "3"],
-        regles: 'Lourde (FT), Explosion (5"), Fusion (6)',
+        regles: 'Lourde (FT), Explosion (3"), Fusion (6)',
         traits: "Fusion",
       },
       {
         nom: "Fuseur-éclateur",
         stats: ["36", "2", "9", "2", "4"],
-        regles: 'Lourde (FT), Explosion (3"), Fusion (3)',
+        regles: "Lourde (FT), Fusion (24)",
         traits: "Fusion",
       },
       {
@@ -1563,79 +1563,79 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles rotatif",
         stats: ["48", "3", "8", "2", "2"],
-        regles: "Brèche (6+), Limitée (1)",
+        regles: "-",
         traits: "Missile Guidé",
       },
       {
         nom: "Missile Sabre",
         stats: ["36", "1", "7", "4", "2"],
-        regles: "Fléau des Blindages, Limitée (1)",
+        regles: "Brèche (6+), Limitée (1)",
         traits: "Missile",
       },
       {
         nom: "Roquette Tempest",
         stats: ["48", "1", "7", "4", "3"],
-        regles: 'Lourde (PF), Explosion (3"), Barrage (1)',
+        regles: "Fléau des Blindages, Limitée (1)",
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Aiolos",
         stats: ["60", "1", "6", "4", "1"],
-        regles: "Limitée (1), Antiaérien, Poursuite Rapide",
+        regles: 'Lourde (PF), Explosion (3"), Barrage (1)',
         traits: "Missile",
       },
       {
         nom: "Missile antiaérien Boreas",
         stats: ["48", "1", "8", "2", "3"],
-        regles: 'Explosion (7"), Barrage (2), Neutralisation (1)',
+        regles: "Limitée (1), Antiaérien, Poursuite Rapide",
         traits: "Missile",
       },
       {
         nom: "Système de roquettes Spicula",
         stats: ["72", "1", "7", "4", "1"],
-        regles: "-",
+        regles: 'Explosion (7"), Barrage (2), Neutralisation (1)',
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Arcus — Ogives Arcus",
         stats: ["36", "5", "8", "2", "2"],
-        regles: "Antiaérien, Fléau des Blindages, Poursuite Rapide",
+        regles: "-",
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Arcus — Ogives Skyspear",
         stats: ["36", "3", "8", "2", "2"],
-        regles: 'Explosion (5"), Panique (1)',
+        regles: "Antiaérien, Fléau des Blindages, Poursuite Rapide",
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Arcus — Ogives Pyrax",
         stats: ["36", "1", "5", "4", "1"],
-        regles: "Choc (Neutralisée)",
+        regles: 'Explosion (5"), Panique (1)',
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Arcus — Ogives à flux de neutrons",
         stats: ["36", "3", "7", "4", "1"],
-        regles: 'Lourde (FT), Explosion (5")',
+        regles: "Choc (Neutralisée)",
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Cyclone — Frag",
         stats: ["48", "1", "4", "6", "1"],
-        regles: "Lourde (D)",
+        regles: 'Lourde (FT), Explosion (5")',
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Cyclone — Krak",
         stats: ["48", "2", "8", "3", "1"],
-        regles: "Lourde (D), Antiaérien",
+        regles: "Lourde (D)",
         traits: "Missile",
       },
       {
         nom: "Lance-missiles Cyclone — Flak",
         stats: ["48", "2", "8", "4", "1"],
-        regles: 'Lourde (PF), Explosion (3"), Barrage (2)',
+        regles: "Lourde (D), Antiaérien",
         traits: "Missile",
       },
       {
@@ -1661,7 +1661,7 @@ const ARMES_TIR = [
       {
         nom: "Lance-missiles Scorpius",
         stats: ["48", "1", "8", "4", "1"],
-        regles: "Brèche (5+)",
+        regles: 'Lourde (PF), Explosion (3"), Barrage (2), Brèche (5+)',
         traits: "Missile",
       },
       {
@@ -2292,7 +2292,7 @@ const ARMES_TIR = [
       {
         nom: "Arquebuse volkite jumelée",
         stats: ["30", "3", "6", "5", "1"],
-        regles: "Déflagration (6)",
+        regles: "Lourde (PF), Déflagration (6)",
         traits: "Volkite",
       },
       {
@@ -2310,25 +2310,25 @@ const ARMES_TIR = [
       {
         nom: "Fauconneau volkite",
         stats: ["45", "10", "7", "5", "1"],
-        regles: "Lourde (PF), Déflagration (6)",
+        regles: "Déflagration (7), Fixation (2)",
         traits: "Volkite",
       },
       {
         nom: "Sacre volkite",
         stats: ["25", "6", "6", "5", "1"],
-        regles: "Déflagration (7), Fixation (2)",
+        regles: "Déflagration (6)",
         traits: "Volkite",
       },
       {
         nom: "Macro-sacre volkite",
-        stats: ["45", "8", "6", "5", "1"],
+        stats: ["45", "8", "6", "5", "2"],
         regles: "Déflagration (6)",
         traits: "Volkite",
       },
       {
         nom: "Carronade volkite",
         stats: ["45", "12", "8", "3", "2"],
-        regles: "Déflagration (6)",
+        regles: "Déflagration (8)",
         traits: "Volkite",
       },
       {
@@ -2392,13 +2392,13 @@ const ARMES_TIR = [
       {
         nom: "Lance-grenades — Frag",
         stats: ["24", "1", "3", "6", "1"],
-        regles: "-",
+        regles: 'Explosion (3")',
         traits: "-",
       },
       {
         nom: "Lance-grenades — Krak",
         stats: ["24", "1", "6", "4", "2"],
-        regles: 'Explosion (3")',
+        regles: "-",
         traits: "-",
       },
       {
@@ -3878,7 +3878,7 @@ const ARMES_MELEE = [
     armes: [
       {
         nom: "Épée tronçonneuse",
-        stats: ["1", "A", "F", "5", "1"],
+        stats: ["I", "A", "F", "5", "1"],
         regles: "Lacération (6+)",
         traits: "Tronçonneuse",
       },
@@ -4170,7 +4170,7 @@ const ARMES_MELEE = [
       {
         nom: "Marteau Thunder",
         stats: ["-2", "A", "+3", "2", "2"],
-        regles: "Brèche (6+)",
+        regles: "-",
         traits: "Énergétique",
       },
       /* --- Arsenal des Solar Auxilia (Liber Auxilia). --- */
@@ -4252,8 +4252,8 @@ const ARMES_MELEE = [
       },
       {
         nom: "Crozius Arcanum",
-        stats: ["1", "A", "+2", "3", "2"],
-        regles: "Vulnérante (6+), Brèche (6+)",
+        stats: ["I", "A", "+2", "3", "2"],
+        regles: "Brèche (6+)",
         traits: "Énergétique",
       },
       {
@@ -4270,14 +4270,14 @@ const ARMES_MELEE = [
       },
       {
         nom: "Hache de guerre Saturnine",
-        stats: ["1", "A", "+1", "2", "2"],
-        regles: "Touche Critique (6+)",
+        stats: ["I", "A", "+1", "2", "2"],
+        regles: "Fauchage (2)",
         traits: "Énergétique",
       },
       {
         nom: "Marteau commotionneur Saturnine",
         stats: ["-3", "A", "x2", "2", "3"],
-        regles: "-",
+        regles: "Touche Critique (6+)",
         traits: "Énergétique",
       },
       {
@@ -4483,7 +4483,7 @@ const ARMES_MELEE = [
         // Champion ou Sergent ayant le Trait Ultramarines, +5 Points
         // par Figurine.
         nom: "Hache légatine",
-        stats: ["1", "A", "+1", "3", "1"],
+        stats: ["I", "A", "+1", "3", "1"],
         regles: "Brèche (4+)",
         traits: "Énergétique",
       },
@@ -4907,9 +4907,9 @@ const ARMES_MELEE = [
     armes: [
       {
         nom: "Lame de parangon",
-        stats: ["1", "A", "+1", "2", "1"],
+        stats: ["I", "A", "+1", "2", "1"],
         regles: "Touche Critique (6+)",
-        traits: "Énergétique",
+        traits: "-",
       },
       {
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
@@ -5297,36 +5297,36 @@ const ARMES_MELEE = [
       {
         nom: "Grenades Krak",
         stats: ["-3", "1", "6", "4", "2"],
-        regles: "-",
+        regles: "Détonation",
         traits: "-",
       },
       {
         nom: "Bombes à fusion",
         stats: ["-3", "1", "9", "2", "4"],
-        regles: "Détonation",
+        regles: "Détonation, Fléau des Blindages",
         traits: "-",
       },
       {
         nom: "Pince de siège Leviathan",
-        stats: ["1", "A", "+2", "2", "3"],
-        regles: "Fléau des Blindages, Détonation",
+        stats: ["I", "A", "+2", "2", "3"],
+        regles: "-",
         traits: "-",
       },
       {
         nom: "Paire de pinces de siège Leviathan",
-        stats: ["1", "+1", "+2", "2", "3"],
+        stats: ["I", "+1", "+2", "2", "3"],
         regles: "-",
         traits: "-",
       },
       {
         nom: "Trépan de siège Leviathan",
         stats: ["-2", "A", "+4", "2", "3"],
-        regles: "-",
+        regles: "Fléau des Blindages",
         traits: "-",
       },
       {
         nom: "Paire de trépans de siège Leviathan",
-        stats: ["-2", "A", "+4", "2", "3"],
+        stats: ["-2", "A", "+4", "2", "4"],
         regles: "Fléau des Blindages",
         traits: "-",
       },
