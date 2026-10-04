@@ -1417,7 +1417,15 @@ const TYPES_DETACHEMENTS = [
     // factionLibre (comme "tercio-de-fer" plus haut) : ses Cases
     // d'Assaut Lourd accueillent des Unités de la Faction "daemons-
     // ruinstorm" (Liste d'Armée des Démons de la Tempête de la Ruine)
-    // au lieu des Unités Legio Astartes habituelles.
+    // au lieu des Unités Legio Astartes habituelles. `faction` posé à
+    // côté (comme Tercio de Fer) : Détachement masqué hors Legio
+    // Astartes (et des deux Factions qui en réutilisent la Liste
+    // d'Armée, voir typeDisponiblePourFaction, js/organigramme.js).
+    // Ces Brutes n'entrent dans l'Armée QUE par ce Détachement (voir
+    // DETACHEMENTS_CROISES, js/unites.js) : aucun autre Détachement
+    // Legio Astartes ne les accepte (vérification de Faction de
+    // caseAccepte()).
+    faction: "legio-astartes",
     factionLibre: true,
     texte:
       "Débloqué quand un Ésotériste d'Allégeance Renégate occupe une Case d'État-major. Les Cases d'Assaut Lourd n'acceptent que des Brutes Démoniaques de la Tempête de la Ruine.",

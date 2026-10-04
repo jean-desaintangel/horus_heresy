@@ -931,6 +931,13 @@ const Organigramme = (() => {
     if (type.faction)
       return (
         type.faction === etat.faction ||
+        // Légions Brisées/Blackshields réutilisent la Liste d'Armée
+        // Legiones Astartes (voir plus bas) : un type explicitement
+        // réservé à "legio-astartes" (ex : Manifestation Démoniaque)
+        // leur reste proposé, comme les Détachements génériques.
+        (type.faction === "legio-astartes" &&
+          (etat.faction === "legions-brisees" ||
+            etat.faction === "blackshields")) ||
         maisonneeSeigneurBataillesDebloqueVisibilite(type)
       );
     // Légions Brisées et Blackshields (voir FACTIONS ci-dessus)
