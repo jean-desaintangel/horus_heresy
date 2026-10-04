@@ -458,6 +458,29 @@ main.main-accueil {
   justify-content: center;
 }
 
+/* Bandeaux d'information de l'accueil (annonces de mises à jour).
+   Rouge FIXE, volontairement hors de --accent : les skins de Légion
+   recolorent --accent (vert, bleu, gris…) et le bandeau doit rester
+   rouge. Blanc sur #8b0000 ≈ 10:1 (WCAG 1.4.3), valable aussi en
+   Nuit Éternelle. */
+.bandeaux-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.bandeau-info {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: #8b0000;
+  color: #fff;
+  border-left: 6px solid #4d0000;
+  border-radius: var(--radius);
+  font-weight: 700;
+  text-align: center;
+}
+
 section {
   margin-bottom: 3.5rem;
 }

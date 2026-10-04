@@ -190,7 +190,9 @@
 // v124 : corrections Solar Auxilia — Section de Raiders Veletaris (max 20),
 // Section Technicien de Combat Auxilia (4 Techniciens, max 12) —
 // js/unites-data.js.
-const CACHE_VERSION = "v149";
+// v150 : bandeaux d'information rouges sur l'accueil — index.html,
+// css/style.css.
+const CACHE_VERSION = "v151"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
