@@ -192,7 +192,10 @@
 // js/unites-data.js.
 // v150 : bandeaux d'information rouges sur l'accueil — index.html,
 // css/style.css.
-const CACHE_VERSION = "v151"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v152 : bandeau FAQ du 12 oct 2026 sur l'accueil + FAQ téléchargeable
+// (et précachée) — index.html, pages/telechargement.html, css/style.css,
+// assets/documents/FAQ_12_oct_2026.pdf (NOUVEAU fichier).
+const CACHE_VERSION = "v152"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -370,6 +373,7 @@ const PRECACHE_URLS = [
   "assets/documents/feuille_aide_regles_speciales.docx",
   "assets/documents/feuille_aide_regles_speciales.pdf",
   "assets/documents/postures_de_defi.pdf",
+  "assets/documents/FAQ_12_oct_2026.pdf",
 ];
 
 /* ----------------------------------------------------------

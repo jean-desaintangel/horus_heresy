@@ -481,6 +481,18 @@ main.main-accueil {
   text-align: center;
 }
 
+/* Liens dans le bandeau : blancs et soulignés (la couleur de lien par
+   défaut serait illisible sur le fond rouge). */
+.bandeau-info a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.bandeau-info a:hover,
+.bandeau-info a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
 section {
   margin-bottom: 3.5rem;
 }
