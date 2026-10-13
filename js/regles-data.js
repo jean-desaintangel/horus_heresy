@@ -359,6 +359,13 @@ const REGLES_DIVERSES = [
       "Bonus aux Jets de Réparation d'un Véhicule : on réussit sur X ou plus, au lieu du 6 habituel.",
   },
   {
+    // Journal Tactica : Battle of Tallarn (Char de Commandement Spartan
+    // Prometheus, voir js/unites-data.js).
+    nom: "Commandant de Chars (X)",
+    texte:
+      "Dans toutes les diverses forces militaires de l'Imperium existaient des cadres d'officiers spécialisés formés spécifiquement pour commander et organiser des forces blindées. Une Figurine ayant cette Règle Spéciale permet d'inclure dans une Armée un nombre de détachements de chars égal à la valeur de X. Si une Figurine ayant cette Règle Spéciale est sélectionnée pour occuper une Case de Haut Commandement ou de Commandement d'un Détachement quelconque, le Joueur en Contrôle peut sélectionner un nombre de Détachements Auxiliaires égal à la valeur de X de la version spécifique de cette Règle Spéciale au lieu d'un seul — toutefois, les Détachements ainsi sélectionnés ne peuvent inclure que des Cases de Blindés. Si la Figurine ayant cette Règle Spéciale a le Trait Solar Auxilia, ces Détachements Auxiliaires peuvent alors inclure des Détachements Auxiliaires de Tercio Blindé.",
+  },
+  {
     nom: "Bouclier Void (X)",
     texte:
       "Une figurine avec X boucliers void ignore les touches pénétrantes (Dégâts ramenés à 0) tant qu'il lui en reste ; chaque touche pénétrante en consomme un.",

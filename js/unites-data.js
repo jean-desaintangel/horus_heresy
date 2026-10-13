@@ -2946,6 +2946,58 @@ const UNITES = [
       },
     ],
   },
+  {
+    // Journal Tactica : Battle of Tallarn. Générique « Legio Astartes »
+    // (pas de champ `legion`). Commandant de Chars (2) : seulement
+    // affiché comme Règle Spéciale, les Détachements Auxiliaires
+    // supplémentaires (Blindés uniquement) ne sont pas modélisés dans
+    // l'organigramme.
+    id: "spartan-prometheus",
+    nom: "Char de Commandement Spartan Prometheus (Battle of Tallarn)",
+    categorie: "Quartier Général",
+    cout: 420,
+    composition: "1 Char de Commandement Prometheus",
+    traits: [
+      "[Allégeance]",
+      "[Legiones Astartes]",
+      "Écran de Fumée",
+      "Maître de la Légion",
+    ],
+    notes:
+      "La variante Prometheus du Spartan, dotée d'une excellente batterie d'armes défensives, a longtemps servi de base aux véhicules de commandement spécialisés des Space Marines. Les Techmarines de la Légion convertissent l'immense baie de transport en une nacelle de commandement abritant de puissants émetteurs-récepteurs vox et des augures holographiques topographiques avancés, qui permettent au commandant scellé à l'intérieur de percevoir le champ de bataille d'en haut et en détail. Si un Praetor ainsi retranché ne peut prendre part en personne à la bataille qui se déroule, sa capacité à observer et à diriger les guerriers de la Légion pendant qu'ils combattent s'est souvent révélée plus vitale pour remporter la victoire sur l'ennemi. Cette Figurine a un Point d'Accès sur chaque Flanc et à l'Avant.",
+    equipement: [
+      { nom: "Deux batteries de bolters lourds Gravis Latérales", porteurs: 2 },
+      "Scanner augure",
+    ],
+    variantes: [
+      {
+        nom: "Char de Commandement Prometheus",
+        cout: 0,
+        profilVehicule: {
+          M: 10,
+          CT: 5,
+          avant: 14,
+          flanc: 14,
+          arriere: 14,
+          PC: 12,
+          transport: 8,
+        },
+        regles: [
+          "Transport de Commandement",
+          "Véhicule de Commandement (9)",
+          "Commandant de Chars (2)",
+          "Véhicule d'Assaut",
+          "Autoréparation (4+)",
+        ],
+        type: "Véhicule (Transport)",
+      },
+    ],
+    options: [
+      optionArmatusNecrotechnika(),
+      optionPivotLegion(),
+      ...optionsMissileEtProjecteurs(),
+    ],
+  },
 
   /* ----------------------------------------------------------
      UNITÉ RÉSERVÉE À LA Ve LÉGION (WHITE SCARS)
