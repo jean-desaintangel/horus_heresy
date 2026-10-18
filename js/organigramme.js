@@ -1198,6 +1198,125 @@ const Organigramme = (() => {
     return false;
   }
 
+  /* Règles Spéciales qui ajoutent une Case d'Organigramme de Force
+     additionnelle au Détachement de la Figurine qui les porte, réservée
+     à des Unités précises (même hors Faction du Détachement) :
+     - « Maître des Automates » (Praevius, Liber Hereticus p. 37 ; Nârik
+       Dreygur) : Manipule de Combat Castellax ou Manipule Castellax
+       Destructor (Liber Mechanicum) ;
+     - « Seigneur des Automates » (Révérend de Fer, Liber Astartes
+       p. 235) : Manipule de Combat Castellax uniquement.
+     L'Unité placée dans cette Case remplace son Trait Cybernetica par
+     « Automates Liés » (voir remplacementTraitDe, consommé par
+     js/unites.js). Une Case par Figurine porteuse : chaque Case
+     `origineRegle` garde l'uid de l'instance qui l'a créée
+     (`porteurUid`), et disparaît dès que ce porteur quitte le
+     Détachement (voir synchroniserCasesRegles). Le Rôle Tactique de la
+     Case suit celui de son occupant (null tant qu'elle est vide). */
+  const REGLES_CASE_ADDITIONNELLE = [
+    {
+      nom: "Maître des Automates",
+      uniteIds: ["mech-combat-castellax", "mech-castellax-destructor"],
+      remplaceTrait: { de: "Cybernetica", par: "Automates Liés" },
+    },
+    {
+      nom: "Seigneur des Automates",
+      uniteIds: ["mech-combat-castellax"],
+      remplaceTrait: { de: "Cybernetica", par: "Automates Liés" },
+    },
+  ];
+
+  function regleCaseParNom(nom) {
+    return REGLES_CASE_ADDITIONNELLE.find((r) => r.nom === nom) || null;
+  }
+
+  // Règles de REGLES_CASE_ADDITIONNELLE portées par l'occupant d'une
+  // Case (nom exact, ou suivi d'une précision entre parenthèses, ex :
+  // « Maître des Automates (voir Liber Hereticus, page 37) »).
+  function reglesCaseAdditionnelleDe(occ) {
+    const regles = varianteDe(occ).regles || [];
+    return REGLES_CASE_ADDITIONNELLE.filter((def) =>
+      regles.some((r) => r === def.nom || r.startsWith(def.nom + " (")),
+    );
+  }
+
+  /* Ajoute/retire les Cases `origineRegle` de chaque Détachement pour
+     qu'il y en ait exactement une par (Figurine porteuse, Règle)
+     présente dans ce Détachement. Une Case retirée alors qu'elle était
+     occupée libère simplement son Unité (qui se retrouve hors
+     Organigramme, signalée comme telle) plutôt que de la supprimer de
+     la liste. */
+  function synchroniserCasesRegles() {
+    for (const det of etat.detachements) {
+      const attendues = [];
+      for (const c of det.cases) {
+        if (c.origineRegle) continue;
+        const occ = occupant(c);
+        if (!occ) continue;
+        for (const def of reglesCaseAdditionnelleDe(occ)) {
+          attendues.push({ nom: def.nom, porteurUid: occ.instance.uid });
+        }
+      }
+      for (let i = det.cases.length - 1; i >= 0; i--) {
+        const c = det.cases[i];
+        if (!c.origineRegle) continue;
+        const encoreAttendue = attendues.some(
+          (a) => a.nom === c.origineRegle && a.porteurUid === c.porteurUid,
+        );
+        if (!encoreAttendue) det.cases.splice(i, 1);
+      }
+      for (const a of attendues) {
+        const existe = det.cases.some(
+          (c) => c.origineRegle === a.nom && c.porteurUid === a.porteurUid,
+        );
+        if (existe) continue;
+        det.cases.push({
+          role: null,
+          principale: false,
+          uniteUid: null,
+          avantage: "aucun",
+          extra: false,
+          origineRegle: a.nom,
+          porteurUid: a.porteurUid,
+        });
+      }
+      for (const c of det.cases) {
+        if (!c.origineRegle) continue;
+        const occ = occupant(c);
+        c.role = occ ? occ.unite.categorie : null;
+      }
+    }
+  }
+
+  // Remplacement de Trait accordé à cette instance par la Case
+  // `origineRegle` qu'elle occupe (ex : Cybernetica → Automates Liés),
+  // null sinon.
+  function remplacementTraitDe(uniteUid) {
+    for (const det of etat.detachements) {
+      for (const c of det.cases) {
+        if (c.uniteUid !== uniteUid || !c.origineRegle) continue;
+        const def = regleCaseParNom(c.origineRegle);
+        return (def && def.remplaceTrait) || null;
+      }
+    }
+    return null;
+  }
+
+  // Ids d'Unités rendues sélectionnables par une Case `origineRegle`
+  // présente dans l'Armée (consommé par js/unites.js, uniteAccessible :
+  // ces Unités sont souvent d'une autre Faction que l'Armée).
+  function unitesDebloqueesParRegle() {
+    const ids = new Set();
+    for (const det of etat.detachements) {
+      for (const c of det.cases) {
+        if (!c.origineRegle) continue;
+        const def = regleCaseParNom(c.origineRegle);
+        if (def) def.uniteIds.forEach((id) => ids.add(id));
+      }
+    }
+    return [...ids];
+  }
+
   /* Les Cases Troupes de CE Détachement sont-elles dynamiquement
      promues Cases Principales par une Règle « Sire des X » ? Ne
      s'applique qu'au Détachement Principal lui-même — c'est ce que
@@ -1374,6 +1493,8 @@ const Organigramme = (() => {
     if (!hooks.traitFactionMechanicumDe) return null;
     for (const c of det.cases) {
       if (c.uniteUid === null || c.uniteUid === excluUid) continue;
+      // Automates Liés (Case `origineRegle`) : hors uniformité.
+      if (c.origineRegle) continue;
       // Exclure les Cases créées par Bénéfice Logistique si demandé
       // (Liber Mechanicum p. 13 : l'Unité sélectionnée via Bénéfice Logistique
       // peut avoir un Techno-arcane différent du reste du Détachement).
@@ -1438,6 +1559,15 @@ const Organigramme = (() => {
         spécifiques (ex : Cases Reco de la Demi-compagnie Reco =
         Escouades de Reconnaissance uniquement). */
   function caseAccepte(det, caseOrga, unite) {
+    // Case additionnelle d'une Règle Spéciale (Maître/Seigneur des
+    // Automates, voir REGLES_CASE_ADDITIONNELLE) : seules les Unités
+    // listées par la Règle, qui peuvent rejoindre le Détachement bien
+    // qu'elles n'aient pas le même Trait de Faction que ses autres
+    // Unités — aucune autre vérification de Faction/Légion/Rôle.
+    if (caseOrga.origineRegle) {
+      const def = regleCaseParNom(caseOrga.origineRegle);
+      return Boolean(def && def.uniteIds.includes(unite.id));
+    }
     const type = typeDe(det);
     // Faction (champ `faction`, js/unites-data.js — Legio Astartes vs
     // Legio Titanicus etc., à ne pas confondre avec la Légion Astartes
@@ -1701,6 +1831,15 @@ const Organigramme = (() => {
   function libelleCase(det, indice) {
     const caseOrga = det.cases[indice];
     const role = ROLES_TACTIQUES[caseOrga.role];
+    if (caseOrga.origineRegle) {
+      return (
+        typeDe(det).nom +
+        " — Case additionnelle (" +
+        caseOrga.origineRegle +
+        ") n°" +
+        (indice + 1)
+      );
+    }
     return (
       typeDe(det).nom +
       " — Case " +
@@ -3170,6 +3309,8 @@ const Organigramme = (() => {
               extra: c.extra,
               origineAvantage: c.origineAvantage || null,
               libre: c.libre || false,
+              origineRegle: c.origineRegle || null,
+              porteurUid: c.origineRegle ? c.porteurUid : null,
             })),
           })),
         }),
@@ -3441,6 +3582,10 @@ const Organigramme = (() => {
         }
         let indiceExtra = 0;
         det.cases.forEach((caseOrga, indice) => {
+          // Case `libre` déjà entièrement restaurée ci-dessus (son indice
+          // peut ne plus correspondre à `casesSauvees` si une Case
+          // `origineRegle` la précédait dans la sauvegarde).
+          if (caseOrga.libre) return;
           const sauvee = caseOrga.extra
             ? extraSauvees[indiceExtra++]
             : casesSauvees[indice];
@@ -3452,6 +3597,29 @@ const Organigramme = (() => {
           if (Number.isInteger(sauvee.uniteUid))
             caseOrga.uniteUid = sauvee.uniteUid;
         });
+        // Cases additionnelles de Règles Spéciales (Maître des Automates…,
+        // voir REGLES_CASE_ADDITIONNELLE) : restaurées après coup avec
+        // leur porteur ; synchroniserCasesRegles (appelée par
+        // reconcilier) retire celles dont le porteur a disparu.
+        for (const sauvee of casesSauvees) {
+          if (
+            !sauvee ||
+            !regleCaseParNom(sauvee.origineRegle) ||
+            !Number.isInteger(sauvee.porteurUid)
+          )
+            continue;
+          det.cases.push({
+            role: null,
+            principale: false,
+            uniteUid: Number.isInteger(sauvee.uniteUid)
+              ? sauvee.uniteUid
+              : null,
+            avantage: "aucun",
+            extra: false,
+            origineRegle: sauvee.origineRegle,
+            porteurUid: sauvee.porteurUid,
+          });
+        }
         etat.detachements.push(det);
       }
       // Deuxième passe : résout parentIndexBrut et serimentsRattachesIndexBrut
@@ -3507,6 +3675,9 @@ const Organigramme = (() => {
         vus.add(caseOrga.uniteUid);
       }
     }
+    // Cases additionnelles de Règles Spéciales : une fois les porteurs
+    // invalides écartés ci-dessus.
+    synchroniserCasesRegles();
     // Case supplémentaire d'un Avantage `ajouteCase` devenue orpheline
     // (données anciennes/altérées où plus aucune case du détachement
     // ne porte l'Avantage qui l'a créée) : on la retire, comme le fait
@@ -5107,7 +5278,19 @@ const Organigramme = (() => {
         el(
           "p",
           "orga-case-role",
-          (role ? role.livre : caseOrga.role || "Rôle à choisir") +
+          (caseOrga.origineRegle
+            ? "Case additionnelle — " +
+              caseOrga.origineRegle +
+              " (" +
+              regleCaseParNom(caseOrga.origineRegle)
+                .uniteIds.map((id) => hooks.trouverUnite(id))
+                .filter(Boolean)
+                .map((u) => u.nom)
+                .join(" ou ") +
+              ")"
+            : role
+              ? role.livre
+              : caseOrga.role || "Rôle à choisir") +
             (estCasePrincipale(det, caseOrga) ? " — Case Principale" : "") +
             (caseOrga.extra
               ? " (" +
@@ -5648,6 +5831,7 @@ const Organigramme = (() => {
     if (sectionTutorielBlackshields) {
       sectionTutorielBlackshields.hidden = etat.faction !== "blackshields";
     }
+    synchroniserCasesRegles();
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");
@@ -5750,6 +5934,11 @@ const Organigramme = (() => {
     assignationDe,
     avantageDe,
     traitDetachementDe,
+    // Cases additionnelles de Règles Spéciales (Maître/Seigneur des
+    // Automates, voir REGLES_CASE_ADDITIONNELLE) : Trait remplacé pour
+    // l'occupant, et Unités rendues sélectionnables.
+    remplacementTraitDe,
+    unitesDebloqueesParRegle,
     // Serments du Moment (Blackshields) actifs pour une instance d'unité
     // (voir sermentsDe ci-dessus) : consommée par js/unites.js pour
     // appliquer leurs effets sur la fiche récap (Règles Spéciales/

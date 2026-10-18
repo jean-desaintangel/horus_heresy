@@ -195,7 +195,7 @@
 // v152 : bandeau FAQ du 12 oct 2026 sur l'accueil + FAQ téléchargeable
 // (et précachée) — index.html, pages/telechargement.html, css/style.css,
 // assets/documents/FAQ_12_oct_2026.pdf (NOUVEAU fichier).
-const CACHE_VERSION = "v153"; // Incrémenter à chaque modification de PRECACHE_URLS
+const CACHE_VERSION = "v155"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

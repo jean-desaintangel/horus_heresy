@@ -271,6 +271,15 @@ function uniteAccessible(unite) {
       orgaPret && typeof Organigramme !== "undefined"
         ? Organigramme.factionsDebloqueesParAvantage()
         : [];
+    // Unités rendues sélectionnables par une Case additionnelle de Règle
+    // Spéciale présente dans l'Armée (ex : Manipule de Combat Castellax
+    // via Maître des Automates d'un Praevius) — même principe que les
+    // DETACHEMENTS_CROISES : un choix explicite du joueur (la Figurine
+    // porteuse) les fait entrer dans l'Armée.
+    const unitesDebloqueesRegle =
+      orgaPret && typeof Organigramme !== "undefined"
+        ? Organigramme.unitesDebloqueesParRegle()
+        : [];
     const factionUnite = unite.faction || "legio-astartes";
     // Légions Brisées (Legacies of the Age of Darkness : The Shattered
     // Legions) et Blackshields (Legacies of the Age of Darkness :
@@ -287,7 +296,8 @@ function uniteAccessible(unite) {
       !(reutiliseLegioAstartes && factionUnite === "legio-astartes") &&
       !factionsAllieesActuelles.includes(factionUnite) &&
       !uniteAccessibleParDetachementCroise(unite) &&
-      !factionsDebloqueesAvantage.includes(factionUnite)
+      !factionsDebloqueesAvantage.includes(factionUnite) &&
+      !unitesDebloqueesRegle.includes(unite.id)
     )
       return false;
     // Techno-arcane Majeur Mechanicum (Liber Mechanicum p. 13) : toutes les
@@ -2714,6 +2724,12 @@ function construireFiche(unite, instance) {
   const traitMechanicum = traitFactionMechanicumDe(unite, instance);
   const traitSkitarii = traitFactionSkitariiDe(unite, instance);
   const traitDominion = dominionEtheriqueDe(unite);
+  // Case additionnelle de Règle Spéciale (ex : Maître des Automates) :
+  // Cybernetica → Automates Liés pour l'Unité qui l'occupe.
+  const remplacementTrait =
+    window.Organigramme && Organigramme.remplacementTraitDe
+      ? Organigramme.remplacementTraitDe(instance.uid)
+      : null;
   const traitsAffiches = unite.traits
     .filter(
       (trait) =>
@@ -2728,6 +2744,8 @@ function construireFiche(unite, instance) {
       if (trait === "[Skitarii]" && traitSkitarii) return traitSkitarii;
       if (trait === "[Dominion Éthérique]" && traitDominion)
         return traitDominion;
+      if (remplacementTrait && trait === remplacementTrait.de)
+        return remplacementTrait.par;
       return trait;
     });
   // Trait accordé par le Détachement Auxiliaire occupé (ex : Tercio
