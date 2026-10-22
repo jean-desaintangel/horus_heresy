@@ -1645,6 +1645,19 @@ const REGLES_DIVERSES = [
     texte:
       "Amélioration de Décurion de Légion (Predator, Sicaran, Char d'Assaut Kratos), réservée au Trait de Légion Sons of Horus : requiert l'absence de toute Arme sur Pivot. Une Figurine qui la possède gagne un canon à bolts Banestrike sur Pivot et la Règle Spéciale « Mise au Pas Brutal ».",
   },
+  /* Décurion Magna — Journal Tactica : Mailed Fist. Amélioration de
+     Décurion pour les chars super-lourds Fellblade et Falchion (+60
+     pts, option "decurion-magna" de leurs fiches, js/unites-data.js). */
+  {
+    nom: "Décurion Magna",
+    texte:
+      "Amélioration de Décurion de Légion (Journal Tactica : Mailed Fist) pour le Char de Combat Super-lourd Fellblade et le Chasseur de Chars Super-lourd Falchion, ouverte à toute Légion. Une Figurine qui la possède a une matrice de commandement de motif Incursor.",
+  },
+  {
+    nom: "Matrice de commandement de motif Incursor",
+    texte:
+      "Équipement (Journal Tactica : Mailed Fist). Une Figurine de Sous-type Super-lourd dotée d'une matrice de commandement de motif Incursor peut faire les Réactions Tir d'état d'alerte et Répliquer en réponse aux actions de n'importe quelle Unité, au lieu des seules Unités comprenant des Figurines de Type Parangon ou de Sous-type Super-lourd, Chevalier ou Titan. De plus, tant qu'une Figurine dotée d'une matrice de commandement de motif Incursor a le Statut Tactique Neutralisée ou Sonnée, elle a la Règle Spéciale Autoréparation (4+).",
+  },
   {
     nom: "Défense de Point",
     texte:

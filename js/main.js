@@ -1135,6 +1135,18 @@ const SOURCES_SITE = [
     href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-zone-mortalis-eng-2026",
   },
   {
+    texte: "Journal Tactica : Mailed Fist",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-mailed-fist-2026-eng",
+  },
+  {
+    texte: "Journal Tactica : Prospero Burns",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-prospero-burns-judgement-of-valdor-eng-2026",
+  },
+  {
+    texte: "Journal Tactica : The Battle for the Signus Cluster",
+    href: "https://www.warhammer.com/fr-FR/shop/journal-tactica-the-battle-for-the-signus-cluster-assault-on-kol-eng-pb-2026",
+  },
+  {
     texte: "Unités Legacies",
     href: "https://assets.warhammer-community.com/eng_30-10_thehorusheresy_aod_legacies-rosvjdnd1o-gqos8xkdx7.pdf",
   },

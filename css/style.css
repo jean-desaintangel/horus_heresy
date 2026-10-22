@@ -2017,6 +2017,12 @@ button:focus-visible,
   fill: var(--accent-texte);
 }
 
+/* Portes des cartes Zone Mortalis (ex : Path of the Unforgiven) : petits
+   rectangles pleins posés sur les limites de secteur. */
+.carte-deploiement .porte {
+  fill: var(--titre-contraste);
+}
+
 .carte-deploiement .etiquette-carte {
   font-size: 16px;
   fill: var(--texte-doux);

@@ -1793,6 +1793,21 @@ function optionsDecurionLegion({ defensor, locus, sagittar, lanius, sicaran }) {
   ];
 }
 
+/* Décurion Magna (Journal Tactica : Mailed Fist) : amélioration de
+   Décurion de Légion réservée aux super-lourds Fellblade et Falchion,
+   ouverte à toute Légion. Seul Décurion de ces deux fiches, donc pas
+   d'exclusion croisée comme dans optionsDecurionLegion ci-dessus. Texte
+   des règles : REGLES_DIVERSES (js/regles-data.js). */
+function optionDecurionMagna() {
+  return {
+    type: "case",
+    id: "decurion-magna",
+    libelle: "Décurion Magna (Mailed Fist) (+60 pts)",
+    cout: 60,
+    ajoute: ["Décurion Magna", "Matrice de commandement de motif Incursor"],
+  };
+}
+
 /* Remplace les deux bolters lourds Latéraux (équipement de départ
    standard des Blindés et de certains Seigneurs des Batailles) par un
    objet de la liste des Armes Latérales de Légion. On exclut de cette
@@ -17293,6 +17308,7 @@ const UNITES = [
         ],
       },
       ...optionsVehiculeSuperLourdPivot(),
+      optionDecurionMagna(),
     ],
   },
 
@@ -17352,6 +17368,7 @@ const UNITES = [
         ],
       },
       ...optionsVehiculeSuperLourdPivot(),
+      optionDecurionMagna(),
     ],
   },
 

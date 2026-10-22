@@ -195,7 +195,19 @@
 // v152 : bandeau FAQ du 12 oct 2026 sur l'accueil + FAQ téléchargeable
 // (et précachée) — index.html, pages/telechargement.html, css/style.css,
 // assets/documents/FAQ_12_oct_2026.pdf (NOUVEAU fichier).
-const CACHE_VERSION = "v155"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v156 : mission légendaire The Charge of the Khalekaorus (Paramar V) —
+// pages/missions.html.
+// v157 : pack de missions Leviathan (règles générales, Clash of Behemoths,
+// Rolling Bastions, Break the Lines) et Atouts de champ de bataille —
+// pages/missions.html ; Décurion Magna (Mailed Fist) —
+// js/unites-data.js, js/regles-data.js, pages/construction-liste.html.
+// Tout ce contenu vient du Journal Tactica : Mailed Fist. S'y ajoute la
+// mission légendaire The Fall of the Domus Tenebri (Journal Tactica :
+// Prospero Burns) — pages/missions.html — et la mission légendaire Zone
+// Mortalis Path of the Unforgiven (Journal Tactica : The Battle for the
+// Signus Cluster) — pages/missions.html, css/style.css ; liens vers ces
+// trois Journal Tactica en pied de page — js/main.js.
+const CACHE_VERSION = "v158"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
