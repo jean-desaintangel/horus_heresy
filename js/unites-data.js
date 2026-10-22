@@ -33952,6 +33952,139 @@ const UNITES = [
       },
     ],
   },
+  /* --- Section Exaltée · Elite · 90 pts de base · Faction solar-auxilia ---
+     Journal Tactica : The Battle for the Signus Cluster (traduction
+     maison). Renégat uniquement (Trait Traitor). Profils du fouet-crochet
+     et de la griffe-rasoir : js/armes-data.js. --- */
+  {
+    id: "sa-section-exaltee",
+    nom: "Section Exaltée (Signus Cluster)",
+    faction: "solar-auxilia",
+    categorie: "Elite",
+    cout: 90,
+    composition: "1 Dépravateur, 9 Avilis",
+    effectif: { base: 10, max: 20, cout: 8 },
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["Renégat", "Solar Auxilia"],
+    notes:
+      "La corruption avait depuis longtemps pris racine au sein de certaines cohortes des Solar Auxilia, et le déclenchement de l'Hérésie d'Horus ne fut qu'un catalyseur à l'étalage de leur dépravation. N'étant plus contraints de cacher leur trahison des idéaux de l'Imperium, des tercios entiers de guerriers gagnèrent le champ de bataille, arborant ouvertement les dons de leurs nouveaux maîtres. Sous de nouvelles bannières d'allégeance, et avec la ferveur de servir les caprices de leur dieu du plaisir hédoniste, ils portaient d'étranges mutations et des membres grotesquement distendus en griffes sauvages ne faisant plus qu'un avec leur chair. Armés de ces nouveaux outils de guerre, ils se retournèrent contre les armées de Terra au sein de l'ost du Maître de Guerre.",
+    equipement: ["Ryfle laser — Salve", "Grenades Frag", "Grenades Krak"],
+    variantes: [
+      {
+        nom: "Section Exaltée",
+        cout: 0,
+        profils: [
+          {
+            nom: "Avili",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 6,
+              Sf: 7,
+              Vo: 7,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+          {
+            nom: "Dépravateur",
+            profil: {
+              M: 6,
+              CC: 4,
+              CT: 4,
+              F: 3,
+              E: 3,
+              PV: 1,
+              I: 3,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 6,
+              Sv: "4+",
+              Inv: "—",
+            },
+          },
+        ],
+        regles: ["Avant-garde (3)"],
+        type: "Dépravateur : Infanterie (Sergent, Maléfique) · Avili : Infanterie (Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "quantite",
+        id: "pistolet-sabre",
+        libelle:
+          "Figurines : pistolet laser et sabre charnabal (à la place du ryfle laser, gratuit)",
+        cout: 0,
+        parTranche: 1,
+        ajoute: "Pistolet laser et sabre charnabal (à la place du ryfle laser)",
+        remplaceIntegral: "Ryfle laser — Salve",
+      },
+      {
+        type: "quantite",
+        id: "griffe-rasoir",
+        libelle:
+          "Figurines : griffe-rasoir (à la place du pistolet laser ou du sabre charnabal)",
+        cout: 5,
+        parTranche: 1,
+        ajoute: "Griffe-rasoir (à la place du pistolet laser ou du sabre charnabal)",
+      },
+      {
+        type: "choix",
+        id: "melee-depravateur",
+        libelle: "Dépravateur : remplacer le sabre charnabal",
+        prefixeFiche: "Dépravateur : ",
+        ajoute: true,
+        remplacePartiel: "Sabre charnabal",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          { nom: "Fouet-crochet", cout: 10 },
+          ...depuisListes(LISTES_AUXILIA.melee),
+        ],
+      },
+      {
+        type: "choix",
+        id: "pistolet-depravateur",
+        libelle: "Dépravateur : remplacer le pistolet laser",
+        prefixeFiche: "Dépravateur : ",
+        ajoute: true,
+        remplacePartiel: "Pistolet laser",
+        choix: [
+          { nom: "— Aucun —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pistolets),
+        ],
+      },
+      {
+        type: "case",
+        id: "scanner",
+        libelle: "Un Avili : scanner augure",
+        cout: 10,
+        ajoute: "Scanner augure (un Avili)",
+      },
+      {
+        type: "case",
+        id: "totem",
+        libelle: "Un Avili : Totem de Dominion",
+        cout: 10,
+        ajoute: "Totem de Dominion (un Avili)",
+      },
+      {
+        type: "case",
+        id: "bombes",
+        libelle: "Un Avili : bombes à fusion",
+        cout: 10,
+        ajoute: "Bombes à fusion (Solar Auxilia) (un Avili)",
+      },
+    ],
+  },
 
   /* ---------- Assaut Lourd ---------- */
   {

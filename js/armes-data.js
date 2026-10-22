@@ -4023,6 +4023,25 @@ const ARMES_MELEE = [
       },
     ],
   },
+  /* --- Armes de la Section Exaltée (Solar Auxilia, Journal Tactica :
+     The Battle for the Signus Cluster) — 2 entrées --- */
+  {
+    titre: "Armes de la Section Exaltée",
+    armes: [
+      {
+        nom: "Fouet-crochet",
+        stats: ["+2", "+2", "F", "-", "1"],
+        regles: "Phage (Vo)",
+        traits: "Immatériel",
+      },
+      {
+        nom: "Griffe-rasoir",
+        stats: ["1", "A", "F", "3", "1"],
+        regles: "Vulnérante (6+), Brèche (6+), Phage (Vo)",
+        traits: "Immatériel",
+      },
+    ],
+  },
   /* --- Armes de Force — 6 entrées --- */
   {
     titre: "Armes de Force",

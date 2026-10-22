@@ -2144,6 +2144,30 @@ const Organigramme = (() => {
      null = compte globalement (comportement antérieur, réservé à la
      validation d'Armée et au calcul de disponibilité au niveau
      Principal). */
+  /* Détachement Auxiliaire qui ne consomme aucun crédit : débloqué par
+     une Case d'Appui, ou accordé « pour chaque » Détachement d'un autre
+     type (`parTypeDetachement`, ex : Tercio Hilote). */
+  function auxiliaireHorsCredit(type) {
+    return (
+      Boolean(type.parTypeDetachement) ||
+      Boolean(type.deblocage && type.deblocage.caseRole === "Appui")
+    );
+  }
+
+  /* Détachements `parTypeDetachement` encore sélectionnables : un par
+     Détachement du type lié, moins ceux déjà pris (`parentUid` : même
+     filtre par Parent que calculerCredits()). */
+  function liesRestants(type, parentUid = null) {
+    const duParent = (d) => parentUid === null || d.parent === parentUid;
+    const lies = etat.detachements.filter(
+      (d) => d.typeId === type.parTypeDetachement && duParent(d),
+    ).length;
+    const pris = etat.detachements.filter(
+      (d) => d.typeId === type.id && duParent(d),
+    ).length;
+    return lies - pris;
+  }
+
   function calculerCredits(parentUid = null) {
     let creditsEM = 0;
     let qgRemplis = 0;
@@ -2201,7 +2225,7 @@ const Organigramme = (() => {
       return (
         type.famille === "auxiliaire" &&
         (parentUid === null || d.parent === parentUid) &&
-        !(type.deblocage && type.deblocage.caseRole === "Appui")
+        !auxiliaireHorsCredit(type)
       );
     }).length;
     return {
@@ -2405,9 +2429,17 @@ const Organigramme = (() => {
       };
     }
     if (type.famille === "auxiliaire") {
-      const consommeCredit = !(
-        type.deblocage && type.deblocage.caseRole === "Appui"
-      );
+      if (type.parTypeDetachement && liesRestants(type) <= 0) {
+        const lie = typeParId(type.parTypeDetachement);
+        return {
+          possible: false,
+          raison:
+            "Un seul par Détachement « " +
+            (lie ? lie.nom : type.parTypeDetachement) +
+            " » présent dans l'Armée.",
+        };
+      }
+      const consommeCredit = !auxiliaireHorsCredit(type);
       if (consommeCredit && credits.auxRestants <= 0) {
         return {
           possible: false,
@@ -2606,8 +2638,44 @@ const Organigramme = (() => {
       );
     }
 
+    // Doctrine de Cohorte Oblitum (Journal Tactica : Prospero Burns) :
+    // réservée aux Armées Loyalistes, et jamais cumulable avec une
+    // Désignation de Legiones Auxilia.
+    if (etat.doctrineCohorte === "oblitum") {
+      if (etat.allegeance === "renegat") {
+        erreurs.push(
+          "La Doctrine de Cohorte « Cohorte Oblitum » est réservée aux Armées d'Allégeance Loyaliste.",
+        );
+      }
+      if (etat.designationAuxilia) {
+        erreurs.push(
+          "Une Armée avec la Doctrine de Cohorte « Cohorte Oblitum » ne peut jamais avoir de Désignation de Legiones Auxilia.",
+        );
+      }
+    }
+    // Doctrine de Cohorte Sublime (Journal Tactica : The Battle for the
+    // Signus Cluster) : réservée aux Armées Renégates.
+    if (etat.doctrineCohorte === "sublime" && etat.allegeance === "loyaliste") {
+      erreurs.push(
+        "La Doctrine de Cohorte « Cohorte Sublime » est réservée aux Armées d'Allégeance Renégate.",
+      );
+    }
+
     // 5. Déblocages spécifiques (livre d'armée Legiones Astartes).
     for (const type of TYPES_DETACHEMENTS) {
+      // Détachement accordé « pour chaque » Détachement d'un autre type
+      // (ex : Tercio Hilote / Tercio Veletaris), devenu surnuméraire
+      // après le retrait de ce dernier.
+      if (type.parTypeDetachement && liesRestants(type) < 0) {
+        const lie = typeParId(type.parTypeDetachement);
+        erreurs.push(
+          "« " +
+            type.nom +
+            " » : un seul par Détachement « " +
+            (lie ? lie.nom : type.parTypeDetachement) +
+            " » présent dans l'Armée.",
+        );
+      }
       if (
         type.deblocage &&
         type.deblocage.uniteIds &&
@@ -3217,10 +3285,7 @@ const Organigramme = (() => {
       const candidats = etat.detachements.filter((d) => {
         const type = typeDe(d);
         if (famille === "apex") return type.famille === "apex";
-        return (
-          type.famille === "auxiliaire" &&
-          !(type.deblocage && type.deblocage.caseRole === "Appui")
-        );
+        return type.famille === "auxiliaire" && !auxiliaireHorsCredit(type);
       });
       if (candidats.length === 0) continue;
       candidats.sort(
@@ -5471,11 +5536,18 @@ const Organigramme = (() => {
       (d) => typeDe(d).famille === "principal",
     );
     const parents = [];
+    // Détachement `parTypeDetachement` (ex : Tercio Hilote) : lié au
+    // Parent du Détachement qui l'accorde, sans crédit consommé.
+    const creditsPour = (credits, uid) =>
+      type.parTypeDetachement
+        ? liesRestants(type, uid)
+        : type.famille === "apex"
+          ? credits.apexRestants
+          : credits.auxRestants;
 
     if (detPrincipal) {
       const credits = calculerCredits(detPrincipal.uid);
-      const creditsDisponibles =
-        type.famille === "apex" ? credits.apexRestants : credits.auxRestants;
+      const creditsDisponibles = creditsPour(credits, detPrincipal.uid);
       parents.push({
         uid: detPrincipal.uid,
         nom: "Détachement Principal",
@@ -5487,8 +5559,7 @@ const Organigramme = (() => {
     for (const det of etat.detachements) {
       if (typeDe(det).id !== "allie") continue;
       const credits = calculerCredits(det.uid);
-      const creditsDisponibles =
-        type.famille === "apex" ? credits.apexRestants : credits.auxRestants;
+      const creditsDisponibles = creditsPour(credits, det.uid);
       parents.push({
         uid: det.uid,
         nom: "Allié : " + (typeDe(det).nom || det.uid),

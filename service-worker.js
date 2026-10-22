@@ -213,7 +213,14 @@
 // js/armes-data.js, js/regles-data.js.
 // v160 : Sodalité Adjutorum (Journal Tactica : Prospero Burns) —
 // js/unites-data.js, js/armes-data.js.
-const CACHE_VERSION = "v160"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v161 : Doctrine de Cohorte Oblitum + Tercio Hilote (Journal Tactica :
+// Prospero Burns) — js/organigramme-data.js, js/organigramme.js,
+// js/regles-data.js, pages/construction-liste.html.
+// v162 : Doctrine de Cohorte Sublime + Détachement Antemasque + Section
+// Exaltée (Journal Tactica : The Battle for the Signus Cluster) —
+// js/organigramme-data.js, js/organigramme.js, js/regles-data.js,
+// js/unites-data.js, js/armes-data.js, pages/construction-liste.html.
+const CACHE_VERSION = "v162"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

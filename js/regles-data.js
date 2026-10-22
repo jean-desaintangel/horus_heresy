@@ -1810,6 +1810,18 @@ const REGLES_DIVERSES = [
     texte:
       "Doctrine de Cohorte qui intègre des automates du Mechanicum aux Sections de Ryeliers. Chaque Figurine d'une Unité de Section de Ryeliers d'une Armée qui adhère à cette Doctrine gagne la Règle Spéciale Sacrifiable (1). Débloque le Détachement Auxiliaire de Tercio de Fer, qui permet de sélectionner des Unités de Manipule Castellax Destructor, de Technoprêtre, de Manipule de Combat Castellax ou de Cohorte Thallax (Liber Mechanicum, non transcrites sur ce site) — les Figurines sélectionnées y remplacent leur Trait [Mechanicum]/Cybernetica/Reductor par le Trait de Faction Tercio de Fer.",
   },
+  {
+    // Journal Tactica : Prospero Burns.
+    nom: "Cohorte Oblitum",
+    texte:
+      "Doctrine de Cohorte réservée aux Armées d'Allégeance Loyaliste, axée sur le psycho-conditionnement. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine suivent deux Règles Spéciales. Psycho-conditionné : ces Figurines ignorent les modificateurs négatifs de Commandement et ne peuvent jamais en subir sur leur Caractéristique de Commandement, mais quand une Unité entièrement composée de telles Figurines est choisie pour marquer un Objectif ou déclarée comme Unité Réactive d'une Réaction, elle doit d'abord réussir un Test de Volonté avant que des Points de Victoire ne soient marqués ou que l'Attribution de Réactions ne soit dépensée ; en cas d'échec, l'Unité gagne aussitôt le Statut Sonnée et ne marque pas l'Objectif ou ne poursuit pas la Réaction (d'autres Unités éligibles du Joueur peuvent toujours marquer cet Objectif). Mandat Impérial : ces Figurines gagnent le Trait Serres de l'Empereur, peuvent être incluses dans un Détachement Allié d'une Armée Legio Custodes, et l'Armée ne peut jamais avoir de Désignation de Legiones Auxilia. Débloque, pour chaque Détachement Auxiliaire de Tercio Veletaris de la Feuille d'Armée, un Détachement Auxiliaire de Tercio Hilote sans occuper de Case d'État-major, lié au Détachement qui inclut la Section d'État-major Veletaris ayant débloqué ce Tercio Veletaris — ses Unités sont issues de la Liste d'Armée de l'Imperialis Militia (non transcrite sur ce site).",
+  },
+  {
+    // Journal Tactica : The Battle for the Signus Cluster.
+    nom: "Cohorte Sublime",
+    texte:
+      "Doctrine de Cohorte réservée aux Armées d'Allégeance Renégate, vouée au culte de Slaanesh. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine suivent la Règle Spéciale Disciples de la Douleur : elles gagnent le Trait Slaanesh et la Règle Spéciale Vif (1) ; une telle Figurine de Sous-type Commandement gagne en outre le Trait Psyker et la Discipline Psychique Enraptura (non transcrite sur ce site), et ne peut recevoir aucune autre Discipline Psychique. Débloque, pour chaque Détachement Auxiliaire de Tercio d'Infanterie de la Feuille d'Armée, un Détachement Antemasque sans occuper de Case d'État-major, lié au même Détachement que ce Tercio d'Infanterie — ses Cases n'accueillent que des Unités de la Liste d'Armée des Démons de Slaanesh (non transcrite sur ce site).",
+  },
 
   /* --- Réactions Avancées « Legiones Auxilia » (livre Legiones
      Auxilia intégré au Liber Auxilia, p. 50-84) : accessibles quand une

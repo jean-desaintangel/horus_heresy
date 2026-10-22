@@ -143,6 +143,14 @@
                  `requiertAllegeance` (ex : Tercio de Fer, débloqué par
                  la Doctrine de Cohorte de Fer sans Case d'État-major à
                  occuper, contrairement aux 5 autres Tercios).
+     parTypeDetachement : id de TYPES_DETACHEMENTS — Détachement
+                 Auxiliaire accordé « pour chaque » Détachement de ce
+                 type présent dans l'Armée, SANS consommer de crédit
+                 Auxiliaire (aucune Case d'État-major à remplir) et lié
+                 au même Parent que lui (ex : Tercio Hilote, un par
+                 Tercio Veletaris avec la Doctrine de Cohorte Oblitum) —
+                 vérifié par liesRestants()/disponibilite()/
+                 validerArmee() dans js/organigramme.js.
      excluAvec : [ids de TYPES_DETACHEMENTS] — indisponible tant qu'un
                  Détachement de l'un de ces types est déjà présent
                  dans l'Armée (même mécanique que le champ `excluAvec`
@@ -1059,6 +1067,78 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Assaut Lourd"),
       _caseOrga("Troupes"),
       _caseOrga("Appui"),
+    ],
+  },
+  /* Tercio Hilote (Journal Tactica : Prospero Burns, Doctrine de
+     Cohorte Oblitum) : un par Tercio Veletaris de l'Armée, sans Case
+     d'État-major à remplir (`parTypeDetachement`), lié au même Parent
+     que ce Tercio Veletaris. Ses Cases puisent dans la Liste d'Armée de
+     l'Imperialis Militia (`factionLibre`, même mécanique que Tercio de
+     Fer) — Liste NON transcrite sur ce site : les ids de `restrictions`
+     ci-dessous sont réservés pour ces futures Unités (Cadre de Maîtres
+     de Discipline, Troupes d'Infanterie/de Levée, Militia Medicae,
+     Troupes d'Appui Feu), aucune Case n'acceptant donc d'Unité tant
+     qu'elles n'existent pas. `pasDeCredit` : ses Unités de
+     Commandement ne débloquent aucun Détachement Auxiliaire
+     supplémentaire. Non modélisé (gap documenté) : les Figurines y
+     remplacent le Trait Imperialis Militia par le Trait de Faction
+     Solar Auxilia. */
+  {
+    id: "tercio-hilote",
+    nom: "Tercio Hilote",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    factionLibre: true,
+    requiertDoctrineCohorte: "oblitum",
+    parTypeDetachement: "tercio-veletaris",
+    pasDeCredit: true,
+    texte:
+      "Doctrine de Cohorte Oblitum : un par Tercio Veletaris de l'Armée, sans Case d'État-major requise, lié au même Détachement que ce Tercio Veletaris. Case d'État-major : Cadre de Maîtres de Discipline uniquement. Cases de Troupes : Troupes d'Infanterie ou de Levée uniquement. Case d'Appui : Militia Medicae ou Troupes d'Appui Feu uniquement — toutes issues de la Liste d'Armée de l'Imperialis Militia (non transcrite sur ce site). Les Figurines y remplacent le Trait Imperialis Militia par le Trait de Faction Solar Auxilia ; ses Unités de Commandement ne débloquent aucun Détachement Auxiliaire supplémentaire.",
+    restrictions: {
+      "État-major": ["mil-cadre-maitres-discipline"],
+      Troupes: ["mil-troupe-infanterie", "mil-troupe-levee"],
+      Appui: ["mil-militia-medicae", "mil-troupe-appui-feu"],
+    },
+    cases: [
+      _caseOrga("État-major", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+    ],
+  },
+  /* Détachement Antemasque (Journal Tactica : The Battle for the Signus
+     Cluster, Doctrine de Cohorte Sublime) : même mécanique que Tercio
+     Hilote ci-dessus — un par Tercio d'Infanterie, sans Case
+     d'État-major à remplir, lié au même Parent. Ses Cases n'acceptent
+     que des Unités de la Liste d'Armée des Démons de Slaanesh, NON
+     transcrite sur ce site (les Démons de la Tempête de la Ruine en sont
+     une Liste distincte) : `restrictions` vides, aucune Case n'accepte
+     donc d'Unité tant que cette Liste n'existe pas — à remplacer par
+     les ids de ses Unités le jour venu. `pasDeCredit` : son Unité de
+     Commandement ne débloque aucun Détachement supplémentaire. */
+  {
+    id: "antemasque",
+    nom: "Détachement Antemasque",
+    famille: "auxiliaire",
+    faction: "solar-auxilia",
+    factionLibre: true,
+    requiertDoctrineCohorte: "sublime",
+    parTypeDetachement: "tercio-infanterie",
+    pasDeCredit: true,
+    texte:
+      "Doctrine de Cohorte Sublime : un par Tercio d'Infanterie de l'Armée, sans Case d'État-major requise, lié au même Détachement que ce Tercio d'Infanterie. Toutes ses Cases ne peuvent accueillir que des Unités de la Liste d'Armée des Démons de Slaanesh (non transcrite sur ce site) ; son Unité de Commandement ne débloque aucun Détachement supplémentaire.",
+    restrictions: {
+      "État-major": [],
+      Troupes: [],
+      "Attaque Rapide": [],
+      "Assaut Lourd": [],
+    },
+    cases: [
+      _caseOrga("État-major", true),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Assaut Lourd"),
     ],
   },
 
@@ -3618,6 +3698,13 @@ const DOCTRINES_DE_COHORTE = [
   ["mecanisee", "Cohorte Mécanisée"],
   ["siege", "Cohorte de Siège"],
   ["fer", "Cohorte de Fer"],
+  // Journal Tactica : Prospero Burns — Allégeance Loyaliste uniquement,
+  // incompatible avec une Désignation de Legiones Auxilia (vérifié par
+  // validerArmee(), js/organigramme.js).
+  ["oblitum", "Cohorte Oblitum"],
+  // Journal Tactica : The Battle for the Signus Cluster — Allégeance
+  // Renégate uniquement (vérifié par validerArmee(), js/organigramme.js).
+  ["sublime", "Cohorte Sublime"],
 ];
 
 /* ----------------------------------------------------------
