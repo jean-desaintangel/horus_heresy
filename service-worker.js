@@ -207,7 +207,13 @@
 // Mortalis Path of the Unforgiven (Journal Tactica : The Battle for the
 // Signus Cluster) — pages/missions.html, css/style.css ; liens vers ces
 // trois Journal Tactica en pied de page — js/main.js.
-const CACHE_VERSION = "v158"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v159 : Legio Custodes (Journal Tactica : The Battle for the Signus
+// Cluster) — Venatari-Proconsul Ephoroi, Proconsul-Délégué Hykanatoi,
+// canon à salves Arachnus (Liber Addenda Gyrfalcon) — js/unites-data.js,
+// js/armes-data.js, js/regles-data.js.
+// v160 : Sodalité Adjutorum (Journal Tactica : Prospero Burns) —
+// js/unites-data.js, js/armes-data.js.
+const CACHE_VERSION = "v160"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

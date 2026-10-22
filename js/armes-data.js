@@ -3444,7 +3444,7 @@ const ARMES_TIR = [
       },
     ],
   },
-  /* --- Armes Laser Arachnus — 8 entrées --- */
+  /* --- Armes Laser Arachnus — 10 entrées --- */
   {
     titre: "Armes Laser Arachnus",
     armes: [
@@ -3494,6 +3494,20 @@ const ARMES_TIR = [
         nom: "Canon tempête Arachnus — Tir en rafale",
         stats: ["24", "4", "6", "3", "2"],
         regles: "Lourde (PF)",
+        traits: "Laser",
+      },
+      // Journal Tactica : The Battle for the Signus Cluster (Liber
+      // Addenda, Sodalité de Motojets Gyrfalcon).
+      {
+        nom: "Canon à salves Arachnus — Tir concentré",
+        stats: ["36", "1", "8", "2", "2"],
+        regles: "Fléau des Blindages",
+        traits: "Laser",
+      },
+      {
+        nom: "Canon à salves Arachnus — Tir en rafale",
+        stats: ["24", "3", "5", "3", "1"],
+        regles: "-",
         traits: "Laser",
       },
     ],
@@ -5644,6 +5658,20 @@ const ARMES_MELEE = [
         regles:
           "En Feu (2), Touche Critique (6+), Lacération (4+), Atout du Duelliste (1)",
         traits: "-",
+      },
+    ],
+  },
+  /* --- Épée des voûtes (« Vaultsword ») — Journal Tactica : The Battle
+     for the Signus Cluster (Venatari-Proconsul Ephoroi) et Journal
+     Tactica : Prospero Burns (Sodalité Adjutorum). --- */
+  {
+    titre: "Armes des Voûtes",
+    armes: [
+      {
+        nom: "Épée des voûtes",
+        stats: ["+1", "+2", "F", "2", "1"],
+        regles: "Atout du Duelliste (1), Précision (4+)",
+        traits: "Énergétique",
       },
     ],
   },

@@ -2509,6 +2509,18 @@ const REGLES_DIVERSES = [
     texte:
       "Après une Charge réussie, les Armes de Mêlée d'une Figurine ayant la Règle Spéciale Coups Éclairs gagnent temporairement la Règle Spéciale Touche Critique (6+). Si une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale réussit une Charge, jusqu'à la fin de la Phase d'Assaut, toutes les Figurines de l'Unité ayant cette Règle Spéciale gagnent la Règle Spéciale Touche Critique (6+) pour les Armes de Mêlée dont elles sont dotées.",
   },
+  /* Journal Tactica : The Battle for the Signus Cluster (Proconsul-
+     Délégué Hykanatoi et Venatari-Proconsul Ephoroi, js/unites-data.js). */
+  {
+    nom: "Hykanatoi Excelsis",
+    texte:
+      "Sous la direction d'un Proconsul-Délégué Hykanatoi, les guerriers déjà redoutables de la Legio Custodes font preuve d'une coordination terrifiante, rendant dérisoires les considérations tactiques ordinaires face à l'« Auric Mortalis ». Les vexillums du Magisterium dans la même Unité qu'une Figurine ayant cette Règle Spéciale ont une portée de 10 pouces. Tant qu'une Figurine ayant cette Règle Spéciale a rejoint une Unité de Sodalité de Gardes Custodiens ou de Sodalité de Gardes Sentinelles, toute Figurine de cette Unité dotée d'un vexillum du Magisterium est considérée comme se trouvant 2 pouces plus près de toute Figurine ennemie pour déterminer si cet objet d'Équipement prend effet.",
+  },
+  {
+    nom: "Ephoroi Excelsis",
+    texte:
+      "Vétérans d'innombrables infiltrations et frappes de décapitation, les Venatari-Proconsuls Ephoroi mènent avec une précision absolue les Sodalités de Venatari placées sous leur commandement, calculant leurs incursions pour semer le chaos le plus total parmi l'ennemi. Si une Figurine ayant cette Règle Spéciale a rejoint une Unité de Sodalité de Venatari en Réserve, le Joueur en Contrôle peut choisir de réussir automatiquement tout Test de Réserves qu'il fait pour cette Unité.",
+  },
   {
     nom: "Ex Oblivio",
     texte:

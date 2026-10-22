@@ -39348,6 +39348,236 @@ const UNITES = [
       },
     ],
   },
+  /* --- Venatari-Proconsul Ephoroi · État-major · 160 pts de base · Faction legio-custodes ---
+     Journal Tactica : The Battle for the Signus Cluster (traduction
+     maison, pas de version française officielle). Règle Ephoroi
+     Excelsis : js/regles-data.js ; profil de l'Épée des voûtes :
+     js/armes-data.js. --- */
+  {
+    id: "custodes-venatari-proconsul-ephoroi",
+    nom: "Venatari-Proconsul Ephoroi (Signus Cluster)",
+    faction: "legio-custodes",
+    categorie: "État-major",
+    cout: 160,
+    composition: "1 Venatari-Proconsul Ephoroi",
+    notes:
+      "Voués aux arts de la surveillance, de la contre-attaque et de la décapitation, les Venatari-Proconsuls des Ephoroi sont des assassins et des exécuteurs d'une telle compétence qu'ils se distinguent même au sein de leur propre caste guerrière, refusant le commandement stratégique plus large du rang de Capitaine-rempart afin de pratiquer sans entrave leurs arts de mort particuliers. Lorsque le devoir les mène sur le champ de bataille proprement dit, ces guerriers adoptent le plus souvent la panoplie des Venatari, qui leur permet d'observer le tumulte de la guerre depuis les hauteurs avant de fondre sur leur proie et de manœuvrer habilement d'un ennemi à l'autre, moissonnant les vies à l'arme à feu ou à la lame.",
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: [
+      "Destructeur cinétique n°1",
+      "Destructeur cinétique n°2",
+      "Misericordia",
+    ],
+    variantes: [
+      {
+        nom: "Venatari-Proconsul Ephoroi",
+        cout: 0,
+        profil: {
+          M: 14,
+          CC: 6,
+          CT: 7,
+          F: 5,
+          E: 5,
+          PV: 3,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 9,
+          Int: 9,
+          Sv: "3+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (3)",
+          "Frappe en Profondeur",
+          "Guerrier Éternel (1)",
+          "Orage de Feu",
+          "Protocoles de Tir (2)",
+          "Attaque de Flanc",
+          "Précision (5+)",
+          "Avant-garde (3)",
+          "Ephoroi Excelsis",
+        ],
+        type: "Infanterie (État-major, Antigrav, Léger)",
+      },
+    ],
+    options: [
+      {
+        type: "paire",
+        id: "epee-voutes",
+        libelle: "Remplacer un destructeur cinétique par une épée des voûtes",
+        cout: 15,
+        ajoute: "Épée des voûtes (à la place d'un destructeur cinétique)",
+        remplaceListe: ["Destructeur cinétique n°2"],
+      },
+      {
+        type: "case",
+        id: "mines-neutronium",
+        libelle: "Mines à cascade de neutronium",
+        cout: 10,
+        ajoute: "Mines à cascade de neutronium",
+      },
+    ],
+  },
+  /* --- Proconsul-Délégué Hykanatoi · État-major · 80 pts de base · Faction legio-custodes ---
+     Journal Tactica : The Battle for the Signus Cluster (traduction
+     maison). Règle Hykanatoi Excelsis : js/regles-data.js. --- */
+  {
+    id: "custodes-proconsul-delegue-hykanatoi",
+    nom: "Proconsul-Délégué Hykanatoi (Signus Cluster)",
+    faction: "legio-custodes",
+    categorie: "État-major",
+    cout: 80,
+    composition: "1 Proconsul-Délégué Hykanatoi",
+    notes:
+      "Les Hykanatoi sont le cœur battant de la Legio Custodes : ils constituent à la fois la plus nombreuse de ses subdivisions de caste guerrière et l'archétype emblématique par lequel les étrangers identifient les célèbres Custodiens de l'Empereur. Les Proconsuls-Délégués que l'on trouve dans leurs rangs ont maîtrisé l'art de la bataille au sein de la Garde Sentinelle comme de la Garde Custodienne ; on les sait capables de sentir le cours du combat avec acuité, qu'ils arpentent des champs de bataille grouillants ou les remparts imposants du Palais Impérial, et ils commandent souvent de plus petites bandes de Custodiens dans toute mission qui ne requiert pas l'attention des Capitaines-remparts.",
+    traits: ["Loyaliste", "[Legio Custodes]", "La Sodalité"],
+    equipement: ["Misericordia"],
+    variantes: [
+      {
+        nom: "Proconsul-Délégué Hykanatoi",
+        cout: 0,
+        profil: {
+          M: 8,
+          CC: 5,
+          CT: 5,
+          F: 5,
+          E: 5,
+          PV: 2,
+          I: 5,
+          A: 3,
+          Cd: 10,
+          Sf: 10,
+          Vo: 9,
+          Int: 9,
+          Sv: "2+",
+          Inv: "6+",
+        },
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (2)",
+          "Hykanatoi Excelsis",
+        ],
+        type: "Infanterie (État-major)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme",
+        libelle: "Arme (choix obligatoire)",
+        ajoute: true,
+        obligatoire: true,
+        choix: [
+          { nom: "Lame de Sentinelle", cout: 0 },
+          { nom: "Lame de Sentinelle et bouclier Praesidium", cout: 5 },
+          { nom: "Lance de Gardien", cout: 10 },
+        ],
+      },
+    ],
+  },
+  /* --- Sodalité Adjutorum · Suites · 275 pts de base · Faction legio-custodes ---
+     Journal Tactica : Prospero Burns (traduction maison). 0-1 par
+     Armée. Les textes de la Règle Spéciale Promulgation et du vexillum
+     Imperatoris ne figurent pas sur la fiche fournie : pas d'entrée
+     dans js/regles-data.js, à compléter. Profil de l'Épée des voûtes :
+     js/armes-data.js (déjà ajouté pour le Venatari-Proconsul Ephoroi). --- */
+  {
+    id: "custodes-sodalite-adjutorum",
+    nom: "Sodalité Adjutorum (Prospero Burns)",
+    faction: "legio-custodes",
+    categorie: "Suites",
+    cout: 275,
+    composition: "1 Vestarios, 1 Signifer, 1 Champion de la Lame",
+    maxParArmee: 1,
+    notes:
+      "0-1 : une seule Sodalité Adjutorum est autorisée par Armée. Lors de sa constitution, le commandant d'un Ost-rempart ou d'une Compagnie-rempart peut appeler à ses côtés une suite de guerriers, chacun délégué pour soutenir une facette de l'autorité de son supérieur. Il s'agit généralement du Vestarios, chargé de relayer les ordres sur de vastes champs de bataille, du Signifer, qui porte une incarnation physique du dominion de l'Empereur, et du Champion de la Lame, à la fois garde du corps et exécuteur au service de son chef. Chacun est un vétéran couvert d'éloges, et l'on sait que certains commandants ont maintenu de telles Sodalités Adjutorum à perpétuité, le cas le plus célèbre étant celui du propre Vestarios de Constantin Valdor, Samonas.",
+    traits: ["Loyaliste", "[Legio Custodes]"],
+    equipement: [
+      "Lance de Gardien (Vestarios seulement)",
+      "Lame de Sentinelle (Signifer seulement)",
+      "Vexillum Imperatoris (Signifer seulement)",
+      "Épée des voûtes (Champion de la Lame seulement)",
+      "Misericordia",
+    ],
+    variantes: [
+      {
+        nom: "Sodalité Adjutorum",
+        cout: 0,
+        profils: [
+          {
+            nom: "Vestarios",
+            profil: {
+              M: 8,
+              CC: 5,
+              CT: 5,
+              F: 5,
+              E: 5,
+              PV: 2,
+              I: 5,
+              A: 3,
+              Cd: 10,
+              Sf: 10,
+              Vo: 9,
+              Int: 9,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Signifer",
+            profil: {
+              M: 8,
+              CC: 5,
+              CT: 5,
+              F: 5,
+              E: 5,
+              PV: 3,
+              I: 5,
+              A: 3,
+              Cd: 10,
+              Sf: 10,
+              Vo: 8,
+              Int: 8,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Champion de la Lame",
+            profil: {
+              M: 8,
+              CC: 6,
+              CT: 5,
+              F: 5,
+              E: 5,
+              PV: 2,
+              I: 5,
+              A: 3,
+              Cd: 10,
+              Sf: 10,
+              Vo: 8,
+              Int: 8,
+              Sv: "2+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (2)",
+          "Guerrier Éternel (1)",
+          "Coups Éclairs",
+          "Avant-garde (1)",
+          "Promulgation (Vestarios seulement)",
+        ],
+        type: "Vestarios : Infanterie (Sergent) · Signifer : Infanterie · Champion de la Lame : Infanterie (Champion)",
+      },
+    ],
+    options: [],
+  },
   /* --- Sodalité de Terminators Aquilon · Assaut Lourd · 255 pts de base · Faction legio-custodes --- */
   {
     id: "custodes-sodalite-terminators-aquilon",
@@ -39896,7 +40126,10 @@ const UNITES = [
       },
     ],
   },
-  /* --- Sodalité de Motojets Gyrfalcon · Attaque Rapide · 140 pts de base · Faction legio-custodes --- */
+  /* --- Sodalité de Motojets Gyrfalcon · Attaque Rapide · 140 pts de base · Faction legio-custodes ---
+     Profil mis à jour par le Liber Addenda du Journal Tactica : The
+     Battle for the Signus Cluster (remplace celui de la p. 45 du Liber
+     Custodes) : seul ajout, l'option canon à salves Arachnus (+20). --- */
   {
     id: "custodes-sodalite-gyrfalcon",
     nom: "Sodalité de Motojets Gyrfalcon",
@@ -39963,6 +40196,18 @@ const UNITES = [
         remplaceIntegral: "Canon à bolts Lastrum",
         ajoute:
           "Pulseur laser Corvae jumelé (à la place du canon à bolts Lastrum)",
+      },
+      {
+        type: "quantite",
+        id: "canon-salves-arachnus",
+        libelle:
+          "Figurines : canon à salves Arachnus (à la place du canon à bolts Lastrum)",
+        cout: 20,
+        parTranche: 1,
+        groupe: "arme",
+        remplaceIntegral: "Canon à bolts Lastrum",
+        ajoute:
+          "Canon à salves Arachnus (à la place du canon à bolts Lastrum)",
       },
     ],
   },
