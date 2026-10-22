@@ -220,7 +220,18 @@
 // Exaltée (Journal Tactica : The Battle for the Signus Cluster) —
 // js/organigramme-data.js, js/organigramme.js, js/regles-data.js,
 // js/unites-data.js, js/armes-data.js, pages/construction-liste.html.
-const CACHE_VERSION = "v162"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v163 : Démons de Tzeentch (sous-faction Démons) + Détachement
+// Auxiliaire Incursion Éthérique (Journal Tactica : Prospero Burns) —
+// js/unites-data.js, js/armes-data.js, js/regles-data.js,
+// js/organigramme-data.js, js/organigramme.js, js/unites.js,
+// pages/construction-liste.html.
+// v164 : Démons de Slaanesh (sous-faction Démons) + Détachement
+// Auxiliaire Ost Extatique + Corruption Insidieuse, Antemasque branché
+// (Journal Tactica : The Battle for the Signus Cluster) —
+// js/unites-data.js, js/armes-data.js, js/regles-data.js,
+// js/organigramme-data.js, js/organigramme.js, js/unites.js,
+// pages/construction-liste.html.
+const CACHE_VERSION = "v164"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

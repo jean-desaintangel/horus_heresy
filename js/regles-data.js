@@ -1820,7 +1820,7 @@ const REGLES_DIVERSES = [
     // Journal Tactica : The Battle for the Signus Cluster.
     nom: "Cohorte Sublime",
     texte:
-      "Doctrine de Cohorte réservée aux Armées d'Allégeance Renégate, vouée au culte de Slaanesh. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine suivent la Règle Spéciale Disciples de la Douleur : elles gagnent le Trait Slaanesh et la Règle Spéciale Vif (1) ; une telle Figurine de Sous-type Commandement gagne en outre le Trait Psyker et la Discipline Psychique Enraptura (non transcrite sur ce site), et ne peut recevoir aucune autre Discipline Psychique. Débloque, pour chaque Détachement Auxiliaire de Tercio d'Infanterie de la Feuille d'Armée, un Détachement Antemasque sans occuper de Case d'État-major, lié au même Détachement que ce Tercio d'Infanterie — ses Cases n'accueillent que des Unités de la Liste d'Armée des Démons de Slaanesh (non transcrite sur ce site).",
+      "Doctrine de Cohorte réservée aux Armées d'Allégeance Renégate, vouée au culte de Slaanesh. Les Figurines ayant le Trait Solar Auxilia d'une Armée qui adhère à cette Doctrine suivent la Règle Spéciale Disciples de la Douleur : elles gagnent le Trait Slaanesh et la Règle Spéciale Vif (1) ; une telle Figurine de Sous-type Commandement gagne en outre le Trait Psyker et la Discipline Psychique Ravissement (Enraptura), et ne peut recevoir aucune autre Discipline Psychique. Débloque, pour chaque Détachement Auxiliaire de Tercio d'Infanterie de la Feuille d'Armée, un Détachement Antemasque sans occuper de Case d'État-major, lié au même Détachement que ce Tercio d'Infanterie — ses Cases n'accueillent que des Unités de la Liste d'Armée des Démons de Slaanesh.",
   },
 
   /* --- Réactions Avancées « Legiones Auxilia » (livre Legiones
@@ -2820,6 +2820,147 @@ const REGLES_DIVERSES = [
     nom: "Artifice Malveillant",
     texte:
       "Dominion Éthérique. Tout Modèle ayant ce Trait gagne la Règle Spéciale Profanateurs et la Règle Spéciale Brise-blindage (4+).",
+  },
+
+  /* --- Démons de Tzeentch (Journal Tactica : Prospero Burns,
+     traduction maison) — sous-faction de la Faction Démons, voir
+     js/unites-data.js. Terreur Primordiale, Totem de Dominion et
+     Héraut de l'Irréalité sont communs avec la Tempête de la Ruine
+     (définis plus haut). --- */
+  {
+    nom: "Tzeentch",
+    texte:
+      "Dominion Éthérique (Trait) des Démons de Tzeentch, porté à la place du Trait [Dominion Éthérique] et jamais remplaçable. Toutes les Figurines ayant ce Trait gagnent la Règle Spéciale Convocateurs ; celles qui ont aussi le Trait Psyker ont la Discipline Psychique Tisse-Destin et ne peuvent recevoir aucune autre Discipline Psychique, sauf mention contraire. Alignement des Puissances Ruineuses : si une Unité d'un Détachement a ce Trait, des Unités ayant les Traits Tempête Infernale, Distorsion Informe, Ruine Rampante ou Artifice Malveillant peuvent être sélectionnées dans la même Armée sans restriction ; en revanche, si des Figurines ayant un autre Trait [Dominion Éthérique] figurent dans la même Armée que des Figurines ayant ce Trait, toutes les Figurines de la Faction Démons de l'Armée subissent un modificateur de -2 à leur Commandement, Sang-froid, Volonté et Intelligence (exception spécifique aux règles du Sous-type Maléfique). Gambit Maître des Destins : quand il sélectionne un Gambit, le Joueur en Contrôle d'une Figurine ayant ce Trait peut choisir Maître des Destins à la place de tout autre — il peut alors faire les Tests de Touche et de Blessure de l'Étape de Frappe avec la Capacité de Combat, la Force et les Profils d'Arme du Seigneur du Changement au lieu de ceux de la Figurine.",
+  },
+  {
+    nom: "Maître des Destins",
+    texte:
+      "Gambit des Figurines ayant le Trait Tzeentch, sélectionnable à la place de tout autre Gambit disponible. Le Joueur en Contrôle peut utiliser les Caractéristiques d'un Seigneur du Changement pour faire ses Attaques : tant que ce Gambit est sélectionné pour une Figurine, il peut faire les Tests de Touche et de Blessure pendant l'Étape de Frappe avec la Capacité de Combat, la Force et les Profils d'Arme du Seigneur du Changement, au lieu des Caractéristiques et des Armes de la Figurine pour laquelle ce Gambit est sélectionné.",
+  },
+  {
+    nom: "Convocateurs",
+    texte:
+      "Les Psykers peuvent être sélectionnés comme Nœuds pour modifier la valeur de Ligne (X) d'Unités amies ou ennemies. Au début de chaque Sous-phase de Victoire, le Joueur en Contrôle d'au moins une Figurine sur le champ de bataille ayant cette Règle Spéciale peut désigner une Unité amie ou ennemie. Il doit alors sélectionner un Nœud : une Figurine amie ayant à la fois le Trait Psyker et cette Règle Spéciale, qui n'a pas déjà été Nœud pendant ce Tour de Bataille, qui n'est pas Verrouillée en Combat et ne subit aucun Statut Tactique, et faire un Test de Volonté avec la Volonté du Nœud. Si le Test est réussi, toutes les Figurines de l'Unité désignée perdent toute variante d'Avant-garde (X) et gagnent la Règle Spéciale Ligne (1), ou voient toute variante de Ligne (X) qu'elles possèdent déjà modifiée de +1, jusqu'à un maximum de Ligne (3), jusqu'à la fin de la Sous-phase de Victoire en cours ; le Joueur en Contrôle peut ensuite sélectionner un nouveau Nœud et répéter ce processus. Si le Test est raté, le Nœud subit D3 Blessures, contre lesquelles aucune Sauvegarde d'Armure ni Mitigation de Dégâts ne peut être faite (les Sauvegardes Invulnérables restent possibles) ; de plus, toutes les Figurines de l'Unité désignée voient la valeur de toute variante de Ligne (X) qu'elles possèdent modifiée de -1, jusqu'à un minimum de 0, et ne peuvent avoir aucune variante de Ligne (X) modifiée positivement, jusqu'à la fin de la Sous-phase de Victoire en cours.",
+  },
+  {
+    nom: "Tisse-Destin",
+    texte:
+      "Discipline Psychique des Figurines ayant les Traits Tzeentch et Psyker. Une Figurine qui la possède gagne le Trait Tisseur de Destin, les Pouvoirs Psychiques Métamorphose et Transphasage, et la Réaction Psychique Bouclier Warp.",
+  },
+  {
+    nom: "Tisseur de Destin",
+    texte:
+      "Trait accordé par la Discipline Psychique Tisse-Destin. Une Figurine ayant ce Trait peut être le Focus des Pouvoirs Psychiques Métamorphose et Transphasage et de la Réaction Psychique Bouclier Warp.",
+  },
+  {
+    nom: "Métamorphose",
+    texte:
+      "Pouvoir Psychique (Malédiction) de la Discipline Tisse-Destin : si elle réussit, la Cible gagne un Statut Tactique aléatoire. Déclencheur : le Joueur Actif peut le Manifester pendant la Phase de Tir. Focus : une Figurine ayant le Trait Tisseur de Destin contrôlée par le Joueur Actif. Cible : une Unité sans Figurine de Type Véhicule contrôlée par le Joueur Réactif, avec au moins une Figurine à 15 pouces ou moins du Focus et en Ligne de Vue de celui-ci. Durée : effets résolus immédiatement. Processus : le Joueur en Contrôle de l'Unité Cible fait un Test de Résistance, dont le résultat est modifié de l'écart entre la Volonté du Focus et celle de la Cible (ex : Volonté 10 contre 8 → +2 ; Volonté 7 contre 9 → -2 ; une Figurine sans Volonté est considérée comme ayant Volonté 12). S'il est raté, il lance un D6 et l'Unité Cible gagne le Statut Tactique correspondant : 1 → Fixée ; 2-3 → Sonnée ; 4-6 → Neutralisée. S'il est réussi, aucun effet.",
+  },
+  {
+    nom: "Transphasage",
+    texte:
+      "Pouvoir Psychique (Malédiction) de la Discipline Tisse-Destin : s'il réussit, le Terrain de Zone ciblé ne bloque pas la Ligne de Vue. Déclencheur : le Joueur Actif peut le Manifester pendant la Phase de Tir. Focus : une Figurine ayant le Trait Tisseur de Destin contrôlée par le Joueur Actif. Cible : une zone de Terrain de Zone Moyen ou Lourd ne dépassant 10 pouces dans aucune dimension ; s'il n'y en a aucune sur le champ de bataille, un point unique dans une zone de Terrain Moyen ou Lourd. Durée : jusqu'à la fin de la prochaine Phase de Tir du Joueur adverse. Processus : le Joueur en Contrôle du Focus fait un Test de Manifestation ; s'il est réussi, la zone sélectionnée (ou toute zone de Terrain de Zone à 5 pouces ou moins du point sélectionné) ne bloque pas la Ligne de Vue pendant la Durée du Pouvoir ; s'il est raté, aucun effet.",
+  },
+  {
+    nom: "Bouclier Warp",
+    texte:
+      "Réaction Psychique (Bénédiction) de la Discipline Tisse-Destin : permet à une Unité de gagner une Mitigation de Dégâts de Dissimulation. Déclencheur : le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir du Joueur Actif qui cible une Unité comprenant au moins une Figurine ayant le Trait Tisseur de Destin. Coût : 1 point d'Allocation de Réactions, payé seulement si le Test de Volonté est réussi. Focus : une Figurine ayant le Trait Tisseur de Destin contrôlée par le Joueur Réactif et faisant partie de l'Unité ciblée. Cible : l'Unité du Focus. Durée : jusqu'à la fin de la Sous-phase où elle a été déclarée. Processus : le Joueur en Contrôle du Focus fait un Test de Manifestation ; s'il est réussi, toutes les Figurines de l'Unité Cible gagnent une Mitigation de Dégâts de Dissimulation (5+) contre toutes les blessures infligées ; s'il est raté, aucun effet.",
+  },
+  {
+    nom: "Champion des Dieux Sombres",
+    texte:
+      "Pendant la Sous-phase de Défi, si une Figurine ayant cette Règle Spéciale est éligible, elle doit être déclarée Challenger ou pour accepter un Défi ; si plusieurs Figurines ayant cette Règle Spéciale sont éligibles, le Joueur en Contrôle choisit laquelle. De plus, si une Figurine ayant cette Règle Spéciale devait gagner le Statut Disgracié, elle est à la place retirée du champ de bataille et placée en Réserves.",
+  },
+  {
+    nom: "Mitose Infernale",
+    texte:
+      "Réaction des Horreurs de Tzeentch. Déclencheur : le Joueur Réactif peut la déclarer à l'Étape 9 de toute Attaque de Tir dont l'Unité Cible comprend une ou plusieurs Figurines ayant cette Règle Spéciale ; elle ne peut pas être déclenchée par une Attaque de Tir faite uniquement avec des Armes ayant le Trait Désintégrateur. Coût : 1 point d'Allocation de Réactions. Cible : l'Unité Réactive est toujours l'Unité ciblée par l'Attaque de Tir qui a déclenché la Réaction ; une majorité de ses Figurines doit avoir cette Règle Spéciale au moment de la déclaration. Processus : à l'Étape 11, une fois toutes les Pertes de l'Unité Cible retirées, deux Horreurs Bleues sont placées sur le champ de bataille pour chaque Horreur Rose retirée comme Perte, en Cohérence d'Unité avec une Figurine de l'Unité qui n'a pas été placée par cette Réaction, et jamais à 1 pouce ou moins d'une Figurine ennemie. Les Figurines qui ne peuvent pas être placées à cause de ces restrictions sont considérées comme Détruites.",
+  },
+  {
+    nom: "Marées du Changement",
+    texte:
+      "L'Allocation de Réactions de Base d'un Joueur dont l'Armée comprend une Figurine ayant cette Règle Spéciale est déterminée en lançant un D3 au début de chacun des Tours de Joueur où il est le Joueur Réactif. Le résultat de ce jet, plus les éventuels Points de Réaction bonus obtenus via la Limite de Points de Bataille, donne son Allocation de Réactions pour ce Tour.",
+  },
+  {
+    // Règle Spéciale d'Arme (Bâton du Changement).
+    nom: "Fléau Warp",
+    texte:
+      "Si une Figurine est réduite à 0 Points de Vie ou 0 Points de Coque par une attaque faite avec une Arme ayant cette Règle Spéciale, elle Explose automatiquement, comme décrit par la Règle Spéciale Explose (X), avant d'être retirée comme Perte.",
+  },
+  {
+    // Règle Spéciale d'Arme (Regard funeste).
+    nom: "Embrasement Warp",
+    texte:
+      "Une Figurine qui subit une Blessure Non Sauvegardée infligée par une Arme ayant cette Règle Spéciale subit D3 blessures au lieu de 1. Le nombre de blessures subies peut être limité par des Règles Spéciales telles que Guerrier Éternel (X).",
+  },
+
+  /* --- Démons de Slaanesh (Journal Tactica : The Battle for the
+     Signus Cluster, traduction maison) — sous-faction de la Faction
+     Démons, voir js/unites-data.js. Terreur Primordiale, Totem de
+     Dominion, Héraut de l'Irréalité et Champion des Dieux Sombres sont
+     communs avec la Tempête de la Ruine/les Démons de Tzeentch
+     (définis plus haut). --- */
+  {
+    nom: "Slaanesh",
+    texte:
+      "Dominion Éthérique (Trait) des Démons de Slaanesh, porté à la place du Trait [Dominion Éthérique] et jamais remplaçable. Toutes les Figurines ayant ce Trait gagnent les Règles Spéciales Hédonistes et Musc Soporifique ; celles qui ont aussi le Trait Psyker ont la Discipline Psychique Ravissement et ne peuvent recevoir aucune autre Discipline Psychique, sauf mention contraire. Alignement des Puissances Ruineuses : si une Unité d'un Détachement a ce Trait, des Unités ayant les Traits Tempête Infernale, Sensation Extatique, Ruine Rampante ou Artifice Malveillant peuvent être sélectionnées dans la même Armée sans restriction ; en revanche, si des Figurines ayant un autre Trait [Dominion Éthérique] figurent dans la même Armée que des Figurines ayant ce Trait, toutes les Figurines de la Faction Démons de l'Armée subissent un modificateur de -2 à leur Commandement, Sang-froid, Volonté et Intelligence (exception spécifique aux règles du Sous-type Maléfique). Gambit Douleur Bienheureuse et Réaction Avancée Soif de Bataille réservés aux Figurines/Unités ayant ce Trait.",
+  },
+  {
+    nom: "Douleur Bienheureuse",
+    texte:
+      "Gambit des Figurines ayant le Trait Slaanesh, sélectionnable à la place de tout autre Gambit disponible. Le Joueur en Contrôle gagne des attaques pendant l'Étape de Frappe pour chaque Blessure infligée à sa Figurine, qu'elle soit sauvegardée ou non. Ce Gambit ne peut être sélectionné qu'une fois par Défi. Quand il est sélectionné, le Joueur adverse gagne l'Avantage du Défi sans qu'aucun Jet de Focus ne soit fait. En revanche, pour chaque Test de Blessure réussi par le Joueur adverse pendant l'Étape de Frappe, la Caractéristique d'Attaques de la Figurine pour laquelle ce Gambit a été sélectionné est modifiée de +2 pour la durée de cette Étape de Frappe.",
+  },
+  {
+    nom: "Soif de Bataille",
+    texte:
+      "Réaction Avancée accessible au Joueur en Contrôle de toute Unité ne comprenant que des Figurines ayant le Trait Slaanesh : permet à l'Unité Réactive de se déplacer quand elle est la cible d'une Attaque de Tir ennemie, et ses Figurines survivantes gagnent +1 en Initiative. Déclencheur : une fois par Tour, le Joueur Réactif peut la déclarer pendant la Phase de Tir, à l'Étape 11 de toute Attaque de Tir faite par le Joueur Actif, après le retrait des Pertes causées par cette Attaque ; elle ne peut pas être déclenchée par une Attaque de Tir faite uniquement avec des Armes ayant le Trait Désintégrateur. Coût : 1 point d'Allocation de Réactions. Cible : l'Unité dont l'Attaque de Tir a déclenché la Réaction ; l'Unité Réactive est toujours l'Unité Cible de cette Attaque de Tir. Processus : le Joueur Réactif lance un dé ; chaque Figurine de l'Unité Réactive peut être déplacée d'une distance en pouces au plus égale au résultat. Une fois l'Unité déplacée, toutes ses Figurines gagnent un modificateur supplémentaire de +1 à leur Initiative jusqu'à la fin du prochain Tour de Joueur de leur Joueur en Contrôle.",
+  },
+  {
+    nom: "Hédonistes",
+    texte:
+      "Les Figurines ayant cette Règle Spéciale gagnent ou améliorent Ligne (X) quand des Unités ennemies proches subissent des Statuts Tactiques. Au début de chacune de ses Sous-phases de Victoire en tant que Joueur Actif, le Joueur en Contrôle peut désigner une Unité amie ne comprenant que des Figurines ayant cette Règle Spéciale. Pour chaque Statut Tactique (Fixée, Sonnée, Neutralisée ou En Déroute) appliqué à toute Unité ennemie située à 18 pouces ou moins et en Ligne de Vue de l'Unité amie désignée et qui n'a pas le Type Véhicule, l'Unité désignée perd toute variante d'Avant-garde (X) et gagne la Règle Spéciale Ligne (1) pour la durée de la Sous-phase de Victoire, ou modifie de +1 la valeur de toute variante de Ligne (X) qu'elle possède, jusqu'à un maximum de Ligne (3).",
+  },
+  {
+    nom: "Musc Soporifique",
+    texte:
+      "Les Unités ennemies en Combat avec une Unité ayant cette Règle Spéciale doivent réussir un Test de Volonté avant qu'une option de Conséquence ne soit sélectionnée pour elles. Si un Combat comprend des Figurines ayant cette Règle Spéciale, leur Joueur en Contrôle peut choisir que le Joueur adverse fasse un Test de Volonté pour chacune de ses Unités du Combat sélectionné, avant de choisir une option de Conséquence pour cette Unité. Si le Test est réussi, le Joueur peut choisir une option de Conséquence normalement ; s'il est raté, il doit choisir Tenir. Si une Unité comprend des Figurines ayant le Statut En Déroute, un Test de Volonté doit quand même être fait pour elle : s'il est réussi, l'Unité doit se Replier ; s'il est raté, elle doit Tenir, mais ses Figurines conservent le Statut En Déroute, quel que soit le résultat.",
+  },
+  {
+    nom: "Souffrance Exquise",
+    texte:
+      "Les Démonettes marquent des Points de Résolution de Combat supplémentaires quand leur adversaire rate ses Jets de Mitigation de Dégâts d'Insensible à la Douleur. Lors du décompte des Points de Résolution de Combat marqués par les Joueurs dans un Combat, le Joueur en Contrôle de toute Figurine ayant cette Règle Spéciale gagne +1 Point de Résolution de Combat pour chaque Jet de Mitigation de Dégâts d'Insensible à la Douleur fait pour une Figurine ennemie, contre une Blessure d'une Attaque de Mêlée faite par une Figurine ayant cette Règle Spéciale, dont le résultat est un 1.",
+  },
+  {
+    // Règle Spéciale d'Arme (Lance miroitante et bouclier).
+    nom: "Déviation",
+    texte:
+      "Quand une Arme ayant cette Règle Spéciale est sélectionnée pour une Figurine pendant un Défi, le Joueur en Contrôle peut sélectionner un Test de Touche réussi fait par le Joueur adverse avec un résultat de 6, et en fixer le résultat à 1.",
+  },
+  {
+    nom: "Ravissement",
+    texte:
+      "Discipline Psychique (Enraptura) des Figurines ayant les Traits Slaanesh et Psyker. Une Figurine qui la possède gagne le Trait Murmureur, le Pouvoir Psychique Envoûtement et l'Arme Psychique Malignité.",
+  },
+  {
+    nom: "Murmureur",
+    texte:
+      "Trait accordé par la Discipline Psychique Ravissement. Une Figurine ayant ce Trait peut être le Focus du Pouvoir Psychique Envoûtement.",
+  },
+  {
+    nom: "Envoûtement",
+    texte:
+      "Pouvoir Psychique (Malédiction) de la Discipline Ravissement : s'il réussit, la Cible ne peut pas faire de Réactions déclenchées par une Unité ayant le Trait Slaanesh. Déclencheur : le Joueur Actif peut le Manifester dans n'importe quelle Phase. Focus : une Figurine ayant le Trait Murmureur contrôlée par le Joueur Actif. Cible : une Unité contrôlée par le Joueur Réactif avec au moins une Figurine à 18 pouces ou moins du Focus et en Ligne de Vue de celui-ci. Durée : effets résolus immédiatement, pour la durée du Tour de Joueur en cours. Processus : le Joueur en Contrôle de l'Unité Cible fait un Test de Résistance (une Figurine sans Volonté est considérée comme ayant une Volonté de base de 8). S'il est raté, aucune Réaction ne peut être déclarée pour l'Unité Cible si l'Unité qui la déclenche comprend des Figurines ayant le Trait Slaanesh. S'il est réussi, aucun autre effet — mais si le Test de Résistance est réussi avec un double, le Focus subit les Périls du Warp.",
+  },
+  {
+    nom: "Malignité",
+    texte:
+      "Arme Psychique de la Discipline Ravissement (Portée 12 pouces, Trait Psychique) : si un Test de Volonté est réussi, cette attaque utilise les Caractéristiques d'une arme quelconque de l'Unité Cible. Après avoir sélectionné l'Unité Cible d'une attaque faite avec une Arme ayant cette Règle Spéciale, mais avant tout Test de Touche, on fait un Test de Volonté pour la Figurine qui attaque. S'il est raté, l'attaque prend fin immédiatement, et si un double est obtenu, l'Unité attaquante subit les Périls du Warp. S'il est réussi, l'attaquant sélectionne une seule arme de tir parmi celles de n'importe quelle Figurine de l'Unité Cible ; le reste de l'attaque est résolu avec la PF, la FT, la PA, les D et les Règles Spéciales de l'arme sélectionnée. Si cette arme a la Règle Spéciale Explosion (X) ou Souffle, la PF de l'attaque vaut D6 au lieu de celle de l'arme, l'attaque n'utilise pas les Règles Spéciales Explosion (X) ou Souffle et aucun marqueur ni gabarit n'est placé.",
+  },
+  {
+    nom: "Corruption Insidieuse",
+    texte:
+      "Journal Tactica : The Battle for the Signus Cluster. Les Unités suivantes sélectionnées dans le Détachement Principal d'une Armée d'Allégeance Renégate peuvent recevoir le Sous-type Maléfique pour +20 Points par Figurine : Praetor, Praetor à Réacteurs, Praetor Cataphractii, Praetor Tartaros, Praetor Saturnine.",
   },
 
   /* --- Légions Brisées (« Legacies of the Age of Darkness : The

@@ -1110,12 +1110,11 @@ const TYPES_DETACHEMENTS = [
      Cluster, Doctrine de Cohorte Sublime) : même mécanique que Tercio
      Hilote ci-dessus — un par Tercio d'Infanterie, sans Case
      d'État-major à remplir, lié au même Parent. Ses Cases n'acceptent
-     que des Unités de la Liste d'Armée des Démons de Slaanesh, NON
-     transcrite sur ce site (les Démons de la Tempête de la Ruine en sont
-     une Liste distincte) : `restrictions` vides, aucune Case n'accepte
-     donc d'Unité tant que cette Liste n'existe pas — à remplacer par
-     les ids de ses Unités le jour venu. `pasDeCredit` : son Unité de
-     Commandement ne débloque aucun Détachement supplémentaire. */
+     que des Unités de la Liste d'Armée des Démons de Slaanesh (sous-
+     faction "daemons-ruinstorm", voir js/unites-data.js) du Rôle
+     Tactique correspondant — accessibles grâce à DETACHEMENTS_CROISES,
+     js/unites.js. `pasDeCredit` : son Unité de Commandement ne débloque
+     aucun Détachement supplémentaire. */
   {
     id: "antemasque",
     nom: "Détachement Antemasque",
@@ -1126,12 +1125,12 @@ const TYPES_DETACHEMENTS = [
     parTypeDetachement: "tercio-infanterie",
     pasDeCredit: true,
     texte:
-      "Doctrine de Cohorte Sublime : un par Tercio d'Infanterie de l'Armée, sans Case d'État-major requise, lié au même Détachement que ce Tercio d'Infanterie. Toutes ses Cases ne peuvent accueillir que des Unités de la Liste d'Armée des Démons de Slaanesh (non transcrite sur ce site) ; son Unité de Commandement ne débloque aucun Détachement supplémentaire.",
+      "Doctrine de Cohorte Sublime : un par Tercio d'Infanterie de l'Armée, sans Case d'État-major requise, lié au même Détachement que ce Tercio d'Infanterie. Toutes ses Cases ne peuvent accueillir que des Unités de la Liste d'Armée des Démons de Slaanesh ; son Unité de Commandement ne débloque aucun Détachement supplémentaire.",
     restrictions: {
-      "État-major": [],
-      Troupes: [],
-      "Attaque Rapide": [],
-      "Assaut Lourd": [],
+      "État-major": ["slaanesh-heraut"],
+      Troupes: ["slaanesh-demonettes"],
+      "Attaque Rapide": ["slaanesh-chasseresses"],
+      "Assaut Lourd": ["slaanesh-betes"],
     },
     cases: [
       _caseOrga("État-major", true),
@@ -1519,6 +1518,77 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Assaut Lourd"),
       _caseOrga("Assaut Lourd"),
       _caseOrga("Assaut Lourd"),
+    ],
+  },
+  /* Incursion Éthérique (Journal Tactica : Prospero Burns, traduction
+     maison, « Thousand Sons Auxiliary Detachment ») : même mécanique
+     que Manifestation Démoniaque ci-dessus, réservée à la XVe Légion
+     (`legion`). Ses Cases n'acceptent que des Unités dont les
+     Figurines ont le Trait Tzeentch (Démons de Tzeentch, Faction
+     "daemons-ruinstorm", voir js/unites-data.js) — ici les seules
+     Unités Tzeentch de chaque Rôle Tactique concerné. Accessibles
+     grâce à DETACHEMENTS_CROISES, js/unites.js. */
+  {
+    id: "incursion-etherique",
+    nom: "Incursion Éthérique",
+    famille: "auxiliaire",
+    faction: "legio-astartes",
+    factionLibre: true,
+    legion: "XV",
+    texte:
+      "Thousand Sons d'Allégeance Renégate uniquement. Débloqué quand un Ésotériste ou un Sorcier de Prospero d'Allégeance Renégate occupe une Case d'État-major, à la place des options du Diagramme de Croisade. Ses Cases n'acceptent que des Unités composées de Figurines ayant le Trait Tzeentch (Démons de Tzeentch).",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["esoteriste", "sorcier-de-prospero"],
+      allegeance: "renegat",
+    },
+    restrictions: {
+      "État-major": ["tzeentch-heraut"],
+      Troupes: ["tzeentch-horreurs"],
+      Appui: ["tzeentch-incendiaires"],
+      "Attaque Rapide": ["tzeentch-hurleurs"],
+    },
+    cases: [
+      _caseOrga("État-major"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Appui"),
+      _caseOrga("Attaque Rapide"),
+    ],
+  },
+  /* Ost Extatique (Journal Tactica : The Battle for the Signus Cluster,
+     traduction maison, « Traitor Legion Auxiliary Detachment ») : même
+     mécanique que Manifestation Démoniaque/Incursion Éthérique, ouvert
+     à TOUTE Légion d'Allégeance Renégate (pas de `legion`). Ses Cases
+     n'acceptent que des Unités dont les Figurines ont le Trait Slaanesh
+     (Démons de Slaanesh, Faction "daemons-ruinstorm", voir
+     js/unites-data.js). Accessibles grâce à DETACHEMENTS_CROISES,
+     js/unites.js. */
+  {
+    id: "ost-extatique",
+    nom: "Ost Extatique",
+    famille: "auxiliaire",
+    faction: "legio-astartes",
+    factionLibre: true,
+    texte:
+      "Légions d'Allégeance Renégate uniquement. Débloqué quand un Ésotériste d'Allégeance Renégate occupe une Case d'État-major, à la place des options du Diagramme de Croisade. Ses Cases n'acceptent que des Unités composées de Figurines ayant le Trait Slaanesh (Démons de Slaanesh).",
+    deblocage: {
+      caseRole: "État-major",
+      uniteIds: ["esoteriste"],
+      allegeance: "renegat",
+    },
+    restrictions: {
+      "État-major": ["slaanesh-heraut"],
+      Troupes: ["slaanesh-demonettes"],
+      "Assaut Lourd": ["slaanesh-betes"],
+      "Attaque Rapide": ["slaanesh-chasseresses"],
+    },
+    cases: [
+      _caseOrga("État-major"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Attaque Rapide"),
     ],
   },
   /* NOTE (hypothèse de transcription) : sur les photos du livre, le

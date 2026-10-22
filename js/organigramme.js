@@ -119,6 +119,28 @@ const Organigramme = (() => {
     "Artifice Malveillant",
   ];
 
+  // Dominions compatibles avec chaque Trait de Dieu Sombre (Alignement
+  // des Puissances Ruineuses — Tzeentch : Journal Tactica : Prospero
+  // Burns ; Slaanesh : Journal Tactica : The Battle for the Signus
+  // Cluster) — voir le menu « Dominion Éthérique » de
+  // construireParametres. Deux Dieux différents dans la même Armée
+  // valent eux aussi le malus (chacun est un Trait [Dominion
+  // Éthérique] absent de la liste de l'autre).
+  const DOMINIONS_ALIGNES = {
+    Tzeentch: [
+      "Tempête Infernale",
+      "Distorsion Informe",
+      "Ruine Rampante",
+      "Artifice Malveillant",
+    ],
+    Slaanesh: [
+      "Tempête Infernale",
+      "Sensation Extatique",
+      "Ruine Rampante",
+      "Artifice Malveillant",
+    ],
+  };
+
   // Techno-arcanes Majeurs (Liber Mechanicum, p. 13/45-51) : Trait de
   // Faction choisi UNE FOIS pour toute l'Armée Mechanicum (pas par
   // Détachement ni par Unité) — les Unités génériques portent le
@@ -4195,9 +4217,42 @@ const Organigramme = (() => {
       selectDominion.id = "dominion-armee";
       labelDominion.htmlFor = selectDominion.id;
       ajouterOption(selectDominion, "", "Choisir un Dominion Éthérique");
+      // Alignement des Puissances Ruineuses (Démons de Tzeentch/de
+      // Slaanesh, voir DOMINIONS_ALIGNES) : seuls 4 Dominions cohabitent
+      // sans pénalité avec les Unités d'un Dieu Sombre — les autres
+      // valent -2 Cd/Sf/Vo/Int à toute la Faction Démons de l'Armée.
+      // Signalé dans le libellé plutôt qu'interdit : la combinaison
+      // reste légale.
+      const dieuxPresents = Object.keys(DOMINIONS_ALIGNES).filter((dieu) =>
+        hooks.getArmee().some((inst) => {
+          const unite = hooks.trouverUnite(inst.uniteId);
+          return Boolean(unite && unite.traits && unite.traits.includes(dieu));
+        }),
+      );
       for (const nom of DOMINIONS_ETHERIQUES) {
-        ajouterOption(selectDominion, nom, nom);
+        const dieuxEnConflit = dieuxPresents.filter(
+          (dieu) => !DOMINIONS_ALIGNES[dieu].includes(nom),
+        );
+        ajouterOption(
+          selectDominion,
+          nom,
+          dieuxEnConflit.length > 0
+            ? nom + " (malus -2 avec " + dieuxEnConflit.join(" et ") + ")"
+            : nom,
+        );
       }
+      selectDominion.title =
+        dieuxPresents.length > 1
+          ? "Alignement des Puissances Ruineuses : des Unités " +
+            dieuxPresents.join(" et ") +
+            " dans la même Armée infligent déjà le malus de -2 en Commandement, Sang-froid, Volonté et Intelligence à toutes les Figurines Démons, quel que soit le Dominion choisi."
+          : dieuxPresents.length === 1
+            ? "Alignement des Puissances Ruineuses : avec des Unités " +
+              dieuxPresents[0] +
+              ", seuls " +
+              DOMINIONS_ALIGNES[dieuxPresents[0]].join(", ") +
+              " évitent le malus de -2 en Commandement, Sang-froid, Volonté et Intelligence de toutes les Figurines Démons de l'Armée."
+            : "";
       selectDominion.value = etat.dominion;
       selectDominion.addEventListener("change", () => {
         etat.dominion = selectDominion.value;

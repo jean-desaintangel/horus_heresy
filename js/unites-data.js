@@ -854,6 +854,25 @@ const LISTES_ARSENAL_THOUSAND_SONS = {
 // Trait Word Bearers fixe, mais ce fichier n'étend pas les ajouts
 // d'Arsenal génériques aux Figurines uniques, voir Erebus qui a déjà
 // Psyker/Anathemata en dur et n'a besoin d'aucune option).
+// Corruption Insidieuse (Journal Tactica : The Battle for the Signus
+// Cluster, traduction maison) : Praetor (et Praetor à Réacteurs),
+// Praetor Cataphractii/Tartaros et Praetor Saturnine du Détachement
+// Principal d'une Armée Renégate peuvent recevoir le Sous-type Maléfique
+// pour +20 Points par Figurine. La restriction au Détachement Principal
+// n'est pas vérifiée par le site (rappelée dans le libellé), seule
+// l'Allégeance l'est (optionAllegeanceOk, js/unites.js).
+function optionCorruptionInsidieuse() {
+  return {
+    type: "case",
+    id: "corruption-insidieuse",
+    libelle:
+      "Corruption Insidieuse : Sous-type Maléfique (Détachement Principal uniquement)",
+    cout: 20,
+    requiertAllegeance: "renegat",
+    ajoute: "Corruption Insidieuse (Sous-type Maléfique)",
+  };
+}
+
 function optionTraditionArdente() {
   return {
     type: "case",
@@ -2526,6 +2545,7 @@ const UNITES = [
     options: [
       { ...optionReacteursCorvide(), variantesExclues: [0] },
       optionTraditionArdente(),
+      optionCorruptionInsidieuse(),
       optionSpheresVenin(),
       optionTropheesDuJugement(),
       optionArmesSoniques(),
@@ -2674,6 +2694,7 @@ const UNITES = [
     ],
     options: [
       optionTraditionArdente(),
+      optionCorruptionInsidieuse(),
       optionSpheresVenin(),
       optionTropheesDuJugement(),
       optionArmesSoniques(),
@@ -2764,6 +2785,7 @@ const UNITES = [
     ],
     options: [
       optionTraditionArdente(),
+      optionCorruptionInsidieuse(),
       ARCANE_DE_PROSPERO,
       {
         type: "choix",
@@ -43612,6 +43634,852 @@ const UNITES = [
       },
     ],
     options: [],
+  },
+  /* ============================================================
+     DÉMONS DE TZEENTCH
+     Journal Tactica : Prospero Burns (traduction maison), « The
+     Daemons of Tzeentch Army List ». Sous-faction de la Faction
+     Démons (choix de Jean) : même `faction: "daemons-ruinstorm"`
+     que la Liste d'Armée des Démons de la Tempête de la Ruine,
+     sélectionnables dans toute Armée de cette Faction. Leur Trait
+     « Tzeentch » remplace [Dominion Éthérique] et n'est jamais
+     remplaçable (non concerné par le menu « Dominion Éthérique »,
+     voir dominionEtheriqueDe, js/unites.js) ; l'Alignement des
+     Puissances Ruineuses (malus -2 Cd/Sf/Vo/Int si un Dominion hors
+     Tempête Infernale/Distorsion Informe/Ruine Rampante/Artifice
+     Malveillant est présent) est signalé sur le menu « Dominion
+     Éthérique » (js/organigramme.js). Les Unités Troupes/État-major/
+     Appui/Attaque Rapide entrent aussi dans une Armée Thousand Sons
+     Renégate via le Détachement Auxiliaire Incursion Éthérique (voir
+     js/organigramme-data.js). Discipline Tisse-Destin : accordée
+     d'office aux Figurines Tzeentch + Psyker (Règle « Tisse-Destin »
+     dans `regles`), les options Pyromancie/Télékinésie restant
+     l'exception « sauf mention contraire » du livre.
+     ============================================================ */
+  /* --- Seigneur Ascendant de Tzeentch · Quartier Général · 300 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "tzeentch-seigneur-ascendant",
+    nom: "Seigneur Ascendant de Tzeentch",
+    faction: "daemons-ruinstorm",
+    categorie: "Quartier Général",
+    cout: 300,
+    composition: "1 Seigneur Ascendant",
+    notes:
+      "Les plus belliqueux serviteurs de Tzeentch servent leur dieu patron en tant que champions et coupeurs de têtes du Seigneur des Voies. Comblés non seulement des nombreux dons accordés aux autres serviteurs, les Seigneurs Ascendants sont imprégnés de talents surnaturellement élevés dans les arts de la guerre. Avec eux, ils sont chargés de mener les hordes de Tzeentch à la guerre à la place d'un Seigneur du Changement, ou bien jurent de garder les Démons Majeurs contre l'ingérence gênante de leurs ennemis, tandis qu'ils observent et tissent les nombreux écheveaux de la réalité.",
+    traits: ["Renégat", "Tzeentch", "Psyker"],
+    equipement: ["Lame changeante"],
+    variantes: [
+      {
+        nom: "Seigneur Ascendant",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 9,
+          Int: 7,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (7)",
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Champion des Dieux Sombres",
+          "Convocateurs",
+          "Tisse-Destin",
+        ],
+        type: "Infanterie (Champion, Maléfique)",
+      },
+      {
+        nom: "Seigneur Ascendant avec Ailes",
+        cout: 30,
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 9,
+          Int: 7,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (8)",
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Champion des Dieux Sombres",
+          "Convocateurs",
+          "Tisse-Destin",
+        ],
+        type: "Infanterie (Champion, Maléfique, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-cac",
+        libelle:
+          "Échanger la Lame changeante contre une Grande lame changeante",
+        remplace: "Lame changeante",
+        choix: [
+          { nom: "— Conserver la Lame changeante —", cout: 0 },
+          { nom: "Grande lame changeante", cout: 15 },
+        ],
+      },
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Pyromancie", cout: 10 },
+          { nom: "Télékinésie", cout: 20 },
+        ],
+      },
+    ],
+  },
+  /* --- Héraut de Tzeentch · État-major · 135 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "tzeentch-heraut",
+    nom: "Héraut de Tzeentch",
+    faction: "daemons-ruinstorm",
+    categorie: "État-major",
+    cout: 135,
+    composition: "1 Héraut de Tzeentch",
+    notes:
+      "Manifestations suprêmes des changelins mineurs, les Hérauts de Tzeentch sont ces daemonkin qui s'élèvent au-dessus de leurs semblables, exerçant une plus grande maîtrise des pouvoirs du Warp et faisant office de champions dans les rangs. En retour, ces Hérauts sont bénis de maintes faveurs de leur divinité patronne et récompensés des armes les plus puissantes, avec lesquelles ils sèment la ruine à travers l'Imperium.",
+    traits: ["Renégat", "Tzeentch", "Psyker"],
+    equipement: ["Lame éthérique", "Bâton du Changement"],
+    variantes: [
+      {
+        nom: "Héraut",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 3,
+          F: 5,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 8,
+          Sf: 8,
+          Vo: 9,
+          Int: 8,
+          Sv: "4+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (3)",
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Héraut de l'Irréalité",
+          "Convocateurs",
+          "Tisse-Destin",
+        ],
+        type: "Infanterie (État-major, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Pyromancie", cout: 10 },
+          { nom: "Télékinésie", cout: 20 },
+        ],
+      },
+    ],
+  },
+  /* --- Horreurs de Tzeentch · Troupes · 140 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "tzeentch-horreurs",
+    nom: "Horreurs de Tzeentch",
+    faction: "daemons-ruinstorm",
+    categorie: "Troupes",
+    cout: 140,
+    composition: "10 Horreurs Roses",
+    effectif: { base: 10, max: 20, cout: 12 },
+    notes:
+      "Les Horreurs sont des formes humanoïdes tordues qui gambadent à travers le champ de bataille en assaillant leurs cibles d'orbes d'énergie warp conjurés. Frappées sous le coup de la colère, leurs formes charnues se fendent aisément, mais elles ne périssent pas toujours : un nouvel animus est insufflé dans les morceaux tranchés, chacun formant une nouvelle Horreur. Bien que plus petits, ces nouveaux Démons combattent avec une vigueur intacte, s'escaladant les uns les autres pour submerger leurs assaillants. Les Horreurs Bleues n'entrent en jeu que par la Réaction Mitose Infernale.",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["Renégat", "Tzeentch"],
+    equipement: ["Feu warp", "Poigne scintillante"],
+    variantes: [
+      {
+        nom: "Horreurs de Tzeentch",
+        cout: 0,
+        profils: [
+          {
+            nom: "Horreur Rose",
+            profil: {
+              M: 7,
+              CC: 4,
+              CT: 4,
+              F: 4,
+              E: 4,
+              PV: 1,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 7,
+              Vo: 8,
+              Int: 7,
+              Sv: "5+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Horreur Bleue",
+            profil: {
+              M: 7,
+              CC: 3,
+              CT: 3,
+              F: 3,
+              E: 4,
+              PV: 1,
+              I: 3,
+              A: 1,
+              Cd: 7,
+              Sf: 7,
+              Vo: 8,
+              Int: 7,
+              Sv: "5+",
+              Inv: "6+",
+            },
+          },
+        ],
+        regles: ["Peur (1)", "Mitose Infernale", "Convocateurs"],
+        type: "Horreur Rose : Infanterie (Maléfique) · Horreur Bleue : Infanterie (Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "totem-dominion",
+        libelle: "Un Modèle : Totem de Dominion",
+        cout: 20,
+        ajoute: "Totem de Dominion",
+      },
+    ],
+  },
+  /* --- Incendiaires de Tzeentch · Appui · 90 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "tzeentch-incendiaires",
+    nom: "Incendiaires de Tzeentch",
+    faction: "daemons-ruinstorm",
+    categorie: "Appui",
+    cout: 90,
+    composition: "3 Incendiaires de Tzeentch",
+    effectif: { base: 3, max: 9, cout: 30 },
+    notes:
+      "Entièrement contre-nature sont ces écœurantes daemonformes connues sous le nom d'Incendiaires de Tzeentch, aux corps indistincts et distendus d'où s'étendent des bras dégingandés. Sans membres inférieurs dignes de ce nom, ces créatures aberrantes glissent et se vautrent à travers le champ de bataille à une allure alarmante, sans le moindre souci de leur propre sécurité. Quand elles approchent des lignes ennemies, des panaches de feu warp jaillissent du bout de leurs doigts, corrompant et tordant la physiologie de tous ceux qu'ils touchent. Incendiaire Exalté : Massif (4) au lieu de Massif (3).",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["Renégat", "Tzeentch"],
+    equipement: ["Feu changeant"],
+    variantes: [
+      {
+        nom: "Incendiaires de Tzeentch",
+        cout: 0,
+        profils: [
+          {
+            nom: "Incendiaire de Tzeentch",
+            profil: {
+              M: 10,
+              CC: 2,
+              CT: 2,
+              F: 4,
+              E: 4,
+              PV: 3,
+              I: 4,
+              A: 1,
+              Cd: 7,
+              Sf: 6,
+              Vo: 8,
+              Int: 6,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Incendiaire Exalté de Tzeentch",
+            profil: {
+              M: 10,
+              CC: 2,
+              CT: 2,
+              F: 5,
+              E: 4,
+              PV: 5,
+              I: 4,
+              A: 2,
+              Cd: 7,
+              Sf: 6,
+              Vo: 8,
+              Int: 6,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (3)",
+          "Peur (1)",
+          "Mouvement à Couvert",
+          "Unité d'appui (1)",
+          "Convocateurs",
+        ],
+        type: "Incendiaire : Infanterie (Maléfique) · Incendiaire Exalté : Infanterie (Sergent, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "incendiaire-exalte",
+        // Simple montée en grade (profil Incendiaire Exalté de la table
+        // ci-dessus) : aucun objet d'Équipement ajouté.
+        libelle: "Un Modèle : Incendiaire Exalté de Tzeentch",
+        cout: 15,
+      },
+    ],
+  },
+  /* --- Hurleurs de Tzeentch · Attaque Rapide · 130 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "tzeentch-hurleurs",
+    nom: "Hurleurs de Tzeentch",
+    faction: "daemons-ruinstorm",
+    categorie: "Attaque Rapide",
+    cout: 130,
+    composition: "3 Hurleurs de Tzeentch",
+    effectif: { base: 3, max: 9, cout: 40 },
+    notes:
+      "Parodies horrifiantes des prédateurs des océans les plus profonds et les plus froids, les Hurleurs de Tzeentch glissent dans les airs comme s'ils nageaient, soutenus par une force contre-nature. Ils sont attirés par la guerre et la violence comme des chasseurs par l'odeur du sang, en quête de proies dont se repaître. Malgré leur comportement apparemment sans but, les gueules aux crocs innombrables et les épines barbelées d'un banc nombreux et frénétique de Hurleurs peuvent se révéler plus que redoutables, même pour les guerriers les plus capables.",
+    traits: ["Renégat", "Tzeentch"],
+    equipement: ["Épines-rasoirs"],
+    variantes: [
+      {
+        nom: "Hurleur",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 4,
+          CT: 2,
+          F: 5,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 2,
+          Cd: 7,
+          Sf: 6,
+          Vo: 8,
+          Int: 6,
+          Sv: "4+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (3)",
+          "Peur (1)",
+          "Contournement",
+          "Avant-garde (2)",
+          "Convocateurs",
+        ],
+        type: "Cavalerie (Antigrav, Maléfique)",
+      },
+    ],
+    options: [],
+  },
+  /* --- Seigneur du Changement · Seigneur de Guerre · 400 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "seigneur-du-changement",
+    nom: "Seigneur du Changement",
+    faction: "daemons-ruinstorm",
+    categorie: "Seigneur de Guerre",
+    cout: 400,
+    composition: "1 Seigneur du Changement",
+    notes:
+      "Démons Majeurs de Tzeentch, les Seigneurs du Changement comptent parmi les plus grandes manifestations démoniaques du dominion. D'une stature colossale et possédés d'un pouvoir Immatériel dépassant l'imagination, ces Seigneurs changelins servent leur maître et sont en retour gratifiés de tous les dons de Tzeentch lui-même, le Seigneur des Voies. Capables d'anéantir des multitudes d'humains d'un regard funeste et de tordre les lois de la physique de leurs mains griffues, ces Démons sont la terreur incarnée.",
+    traits: ["Renégat", "Tzeentch", "Psyker"],
+    equipement: ["Bâton de Tzeentch", "Regard funeste"],
+    variantes: [
+      {
+        nom: "Seigneur du Changement",
+        cout: 0,
+        profil: {
+          M: 10,
+          CC: 6,
+          CT: 6,
+          F: 6,
+          E: 6,
+          PV: 7,
+          I: 6,
+          A: 6,
+          Cd: 10,
+          Sf: 10,
+          Vo: 11,
+          Int: 12,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (7)",
+          "Peur (1)",
+          "Guerrier Éternel (2)",
+          "Marées du Changement",
+          "Terreur Primordiale",
+          "Convocateurs",
+          "Tisse-Destin",
+        ],
+        type: "Parangon (Unique, Antigrav, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Pyromancie", cout: 10 },
+          { nom: "Télékinésie", cout: 20 },
+        ],
+      },
+    ],
+  },
+  /* ============================================================
+     DÉMONS DE SLAANESH
+     Journal Tactica : The Battle for the Signus Cluster (traduction
+     maison), « The Daemons of Slaanesh Army List ». Même principe que
+     les Démons de Tzeentch ci-dessus : sous-faction de la Faction
+     Démons (`faction: "daemons-ruinstorm"`), Trait fixe « Slaanesh »
+     à la place de [Dominion Éthérique]. Toute Figurine Slaanesh a les
+     Règles Hédonistes et Musc Soporifique ; les Psykers ont la
+     Discipline Ravissement (Règle « Ravissement » dans `regles`, Arme
+     Psychique Malignité dans `equipement`). Le Seigneur Ascendant de
+     Slaanesh n'a PAS le Trait Psyker dans le livre (contrairement à
+     son homologue de Tzeentch) mais garde l'option de Disciplines.
+     Accessibles hors Armée Démons via les Détachements Ost Extatique
+     (Légions Renégates) et Antemasque (Doctrine de Cohorte Sublime),
+     js/organigramme-data.js.
+     ============================================================ */
+  /* --- Seigneur Ascendant de Slaanesh · Quartier Général · 300 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "slaanesh-seigneur-ascendant",
+    nom: "Seigneur Ascendant de Slaanesh",
+    faction: "daemons-ruinstorm",
+    categorie: "Quartier Général",
+    cout: 300,
+    composition: "1 Seigneur Ascendant",
+    notes:
+      "Apparemment subordonnés aux seuls Gardiens des Secrets, les Seigneurs Ascendants mènent les osts de Slaanesh en première ligne, en généraux. On suppose que leurs penchants se portent sur les innombrables plaisirs sensoriels de la guerre : ils sont avides du frisson du combat et de la caresse de la lame sur la chair vivante. Quelle que soit la vérité de leurs motivations, ces Démons sont des guerriers mortels — de taille à affronter même les Centurions et les Praetors des Legiones Astartes — et semblent posséder l'expérience de nombreuses vies, acquise au fil de batailles sans fin.",
+    traits: ["Renégat", "Slaanesh"],
+    equipement: ["Lame tourmenteuse"],
+    variantes: [
+      {
+        nom: "Seigneur Ascendant",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 6,
+          CT: 5,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 9,
+          Int: 7,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (7)",
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Champion des Dieux Sombres",
+          "Hédonistes",
+          "Musc Soporifique",
+        ],
+        type: "Infanterie (Champion, Maléfique)",
+      },
+      {
+        nom: "Seigneur Ascendant avec Ailes",
+        cout: 30,
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 6,
+          E: 6,
+          PV: 6,
+          I: 5,
+          A: 4,
+          Cd: 9,
+          Sf: 9,
+          Vo: 9,
+          Int: 7,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (8)",
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Champion des Dieux Sombres",
+          "Hédonistes",
+          "Musc Soporifique",
+        ],
+        type: "Infanterie (Champion, Maléfique, Antigrav)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-cac",
+        libelle:
+          "Échanger la Lame tourmenteuse contre une Grande lame tourmenteuse",
+        remplace: "Lame tourmenteuse",
+        choix: [
+          { nom: "— Conserver la Lame tourmenteuse —", cout: 0 },
+          { nom: "Grande lame tourmenteuse", cout: 15 },
+        ],
+      },
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Biomancie", cout: 20 },
+          { nom: "Télépathie", cout: 10 },
+        ],
+      },
+    ],
+  },
+  /* --- Héraut de Slaanesh · État-major · 135 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "slaanesh-heraut",
+    nom: "Héraut de Slaanesh",
+    faction: "daemons-ruinstorm",
+    categorie: "État-major",
+    cout: 135,
+    composition: "1 Héraut de Slaanesh",
+    notes:
+      "En tête des osts de Slaanesh viennent les Hérauts, annonciateurs de leur espèce autour desquels s'assemblent des congénères toujours plus nombreux. Au premier regard, ils apparaissent comme des êtres beaux et gracieux qui dansent d'un pas léger parmi les ruines du champ de bataille, mais dès qu'ils peuvent retenir le regard de leur victime, ils révèlent leur vraie forme : leurs yeux d'un noir de jais se révèlent des puits sans fond et leurs traits délicats se tordent en rictus lubriques. Hurlant et gémissant d'excitation, ils fondent sur leur proie, invitant leurs congénères démoniaques à les suivre et à s'adonner aux plaisirs enivrants de la mise à mort.",
+    traits: ["Renégat", "Slaanesh", "Psyker"],
+    equipement: ["Griffes lacérantes", "Malignité"],
+    variantes: [
+      {
+        nom: "Héraut",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 5,
+          CT: 3,
+          F: 5,
+          E: 3,
+          PV: 3,
+          I: 5,
+          A: 4,
+          Cd: 8,
+          Sf: 8,
+          Vo: 9,
+          Int: 8,
+          Sv: "4+",
+          Inv: "5+",
+        },
+        regles: [
+          "Guerrier Éternel (1)",
+          "Peur (1)",
+          "Vif (1)",
+          "Impact (1)",
+          "Héraut de l'Irréalité",
+          "Hédonistes",
+          "Musc Soporifique",
+          "Ravissement",
+        ],
+        type: "Infanterie (État-major, Maléfique)",
+      },
+    ],
+    options: [],
+  },
+  /* --- Démonettes · Troupes · 140 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "slaanesh-demonettes",
+    nom: "Démonettes",
+    faction: "daemons-ruinstorm",
+    categorie: "Troupes",
+    cout: 140,
+    composition: "10 Démonettes",
+    effectif: { base: 10, max: 20, cout: 12 },
+    notes:
+      "Parmi les plus nombreux des osts de Slaanesh à assaillir l'espace réel de l'Imperium figurent les Démons mineurs que les troupes impériales qui les virent au combat baptisèrent les premières « Démonettes ». D'apparence humanoïde mais dotées d'appendices griffus aberrants et de protubérances cornues et lisses sur le crâne, ces formes rôdent sur le champ de bataille en meutes surexcitées, cherchant les concentrations de troupes pour les engager au corps à corps.",
+    traits: ["Renégat", "Slaanesh"],
+    equipement: ["Griffes-rasoirs"],
+    variantes: [
+      {
+        nom: "Démonette",
+        cout: 0,
+        profil: {
+          M: 7,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 3,
+          PV: 1,
+          I: 4,
+          A: 2,
+          Cd: 7,
+          Sf: 7,
+          Vo: 8,
+          Int: 7,
+          Sv: "5+",
+          Inv: "5+",
+        },
+        regles: [
+          "Peur (1)",
+          "Vif (1)",
+          "Impact (1)",
+          "Souffrance Exquise",
+          "Hédonistes",
+          "Musc Soporifique",
+        ],
+        type: "Infanterie (Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "totem-dominion",
+        libelle: "Un Modèle : Totem de Dominion",
+        cout: 20,
+        ajoute: "Totem de Dominion",
+      },
+    ],
+  },
+  /* --- Chasseresses de Slaanesh · Attaque Rapide · 90 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "slaanesh-chasseresses",
+    nom: "Chasseresses de Slaanesh",
+    faction: "daemons-ruinstorm",
+    categorie: "Attaque Rapide",
+    cout: 90,
+    composition: "5 Chasseresses de Slaanesh",
+    effectif: { base: 5, max: 10, cout: 18 },
+    notes:
+      "Caste distincte des Démons mineurs connus sous le nom de Démonettes, les Chasseresses de Slaanesh semblent avoir beaucoup en commun avec ces dernières ; elles choisissent toutefois, ou reçoivent l'ordre de leurs maîtres, de monter au combat des destriers reptiliens bipèdes. On ne peut que deviner pourquoi ces Démons coopèrent ainsi, quand d'autres formes reçoivent des ailes ou des moyens de vol entièrement contre-nature, mais il est évident que ces montures donnent de la vitesse à l'avance de ces vils serviteurs de la souffrance.",
+    traits: ["Renégat", "Slaanesh"],
+    equipement: ["Griffes-rasoirs"],
+    variantes: [
+      {
+        nom: "Chasseresse de Slaanesh",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 4,
+          CT: 4,
+          F: 4,
+          E: 4,
+          PV: 2,
+          I: 4,
+          A: 2,
+          Cd: 7,
+          Sf: 7,
+          Vo: 8,
+          Int: 7,
+          Sv: "5+",
+          Inv: "5+",
+        },
+        regles: [
+          "Massif (2)",
+          "Peur (1)",
+          "Contournement",
+          "Impact (F)",
+          "Avant-garde (2)",
+          "Souffrance Exquise",
+          "Hédonistes",
+          "Musc Soporifique",
+        ],
+        type: "Cavalerie (Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "totem-dominion",
+        libelle: "Un Modèle : Totem de Dominion",
+        cout: 20,
+        ajoute: "Totem de Dominion",
+      },
+    ],
+  },
+  /* --- Bêtes de Slaanesh · Assaut Lourd · 150 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "slaanesh-betes",
+    nom: "Bêtes de Slaanesh",
+    faction: "daemons-ruinstorm",
+    categorie: "Assaut Lourd",
+    cout: 150,
+    composition: "3 Bêtes de Slaanesh",
+    notes:
+      "Les Bêtes de Slaanesh sont de grandes créatures bestiales qui, au premier regard, semblent liées à leurs maîtres invisibles et poussées au combat dans le monde matériel. Pourtant, ceux qui ont eu le malheur d'observer leurs agissements assez longtemps ont noté que cette première impression trahit leur vraie nature : les bêtes semblent au contraire rechercher d'elles-mêmes le cœur de la bataille, sans y être poussées ni persuadées, et se délecter des visions, des sons et des odeurs brutales qu'elles trouvent dans la mêlée.",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["Renégat", "Slaanesh"],
+    equipement: ["Grandes griffes-rasoirs"],
+    variantes: [
+      {
+        nom: "Bêtes de Slaanesh",
+        cout: 0,
+        profils: [
+          {
+            nom: "Bête de Slaanesh",
+            profil: {
+              M: 8,
+              CC: 4,
+              CT: 2,
+              F: 5,
+              E: 5,
+              PV: 5,
+              I: 4,
+              A: 3,
+              Cd: 6,
+              Sf: 7,
+              Vo: 7,
+              Int: 6,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+          {
+            nom: "Seigneur-Bête de Slaanesh",
+            profil: {
+              M: 8,
+              CC: 4,
+              CT: 2,
+              F: 5,
+              E: 5,
+              PV: 5,
+              I: 4,
+              A: 4,
+              Cd: 7,
+              Sf: 7,
+              Vo: 7,
+              Int: 6,
+              Sv: "4+",
+              Inv: "5+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (4)",
+          "Peur (1)",
+          "Impact (1)",
+          "Hédonistes",
+          "Musc Soporifique",
+        ],
+        type: "Bête : Infanterie (Maléfique) · Seigneur-Bête : Infanterie (Sergent, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "seigneur-bete",
+        // Simple montée en grade (profil Seigneur-Bête de la table
+        // ci-dessus) : aucun objet d'Équipement ajouté.
+        libelle: "Un Modèle : Seigneur-Bête de Slaanesh",
+        cout: 20,
+      },
+    ],
+  },
+  /* --- Gardien des Secrets · Seigneur de Guerre · 400 pts de base · Faction daemons-ruinstorm --- */
+  {
+    id: "gardien-des-secrets",
+    nom: "Gardien des Secrets",
+    faction: "daemons-ruinstorm",
+    categorie: "Seigneur de Guerre",
+    cout: 400,
+    composition: "1 Gardien des Secrets",
+    notes:
+      "Les plus grands des osts démoniaques de Slaanesh se font connaître des forces impériales sous le nom de « Gardiens des Secrets », à cause de leurs murmures tentateurs. Le plus souvent, ils prennent une forme humanoïde, mais possèdent fréquemment des membres inférieurs et des traits crâniens d'aspect caprin. Au mépris de l'ordre naturel des choses, on a aussi vu ces manifestations dotées de membres prolongés en griffes-faucilles aux tranchants de rasoir, capables de se mouvoir avec une grâce improbable, d'où une discordance esthétique écœurante à contempler.",
+    traits: ["Renégat", "Slaanesh", "Psyker"],
+    equipement: ["Lame miroitante", "Malignité"],
+    variantes: [
+      {
+        nom: "Gardien des Secrets",
+        cout: 0,
+        profil: {
+          M: 10,
+          CC: 6,
+          CT: 6,
+          F: 5,
+          E: 6,
+          PV: 6,
+          I: 7,
+          A: 6,
+          Cd: 10,
+          Sf: 11,
+          Vo: 10,
+          Int: 12,
+          Sv: "2+",
+          Inv: "4+",
+        },
+        regles: [
+          "Massif (7)",
+          "Peur (1)",
+          "Guerrier Éternel (2)",
+          "Terreur Primordiale",
+          "Hédonistes",
+          "Musc Soporifique",
+          "Ravissement",
+        ],
+        type: "Parangon (Unique, Maléfique)",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "arme-cac",
+        libelle:
+          "Échanger la Lame miroitante contre une Lance miroitante et bouclier",
+        remplace: "Lame miroitante",
+        choix: [
+          { nom: "— Conserver la Lame miroitante —", cout: 0 },
+          { nom: "Lance miroitante et bouclier", cout: 0 },
+        ],
+      },
+      {
+        type: "multi",
+        id: "disciplines",
+        libelle: "Disciplines Psychiques (jusqu'à deux)",
+        max: 2,
+        prefixe: "Discipline : ",
+        choix: [
+          { nom: "Biomancie", cout: 20 },
+          { nom: "Télépathie", cout: 10 },
+        ],
+      },
+    ],
   },
   /* ============================================================
      BLACKSHIELDS

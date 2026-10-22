@@ -59,8 +59,10 @@ const CLE_STOCKAGE = "hh-fiche-unites";
 // Liste d'Armée différente de la Faction de l'Armée (`factionLibre`,
 // voir js/organigramme-data.js) : Tercio de Fer (Solar Auxilia →
 // Mechanicum), Serre d'Automates et Maisnie Roturière (Chevaliers
-// Questoris → Mechanicum / Solar Auxilia), Manifestation Démoniaque
-// (Legio Astartes → Démons de la Tempête de la Ruine). Leurs Unités
+// Questoris → Mechanicum / Solar Auxilia), Manifestation Démoniaque,
+// Incursion Éthérique et Ost Extatique (Legio Astartes → Démons de la
+// Tempête de la Ruine / de Tzeentch / de Slaanesh), Antemasque (Solar
+// Auxilia → Démons de Slaanesh). Leurs Unités
 // resteraient sinon bloquées par la vérification de Faction de
 // uniteAccessible() ci-dessous — voir uniteAccessibleParDetachementCroise.
 const DETACHEMENTS_CROISES = [
@@ -68,6 +70,9 @@ const DETACHEMENTS_CROISES = [
   "serre-automates",
   "maisnie-roturiere",
   "manifestation-demoniaque",
+  "incursion-etherique",
+  "ost-extatique",
+  "antemasque",
 ];
 
 // Cette Unité devient-elle accessible via l'un des DETACHEMENTS_CROISES
