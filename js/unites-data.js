@@ -43649,8 +43649,8 @@ const UNITES = [
      Tempête Infernale/Distorsion Informe/Ruine Rampante/Artifice
      Malveillant est présent) est signalé sur le menu « Dominion
      Éthérique » (js/organigramme.js). Les Unités Troupes/État-major/
-     Appui/Attaque Rapide entrent aussi dans une Armée Thousand Sons
-     Renégate via le Détachement Auxiliaire Incursion Éthérique (voir
+     Appui/Attaque Rapide entrent aussi dans une Armée Legio Astartes
+     Renégate (toute Légion) via le Détachement Auxiliaire Incursion Éthérique (voir
      js/organigramme-data.js). Discipline Tisse-Destin : accordée
      d'office aux Figurines Tzeentch + Psyker (Règle « Tisse-Destin »
      dans `regles`), les options Pyromancie/Télékinésie restant

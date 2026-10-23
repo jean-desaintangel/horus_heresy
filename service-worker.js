@@ -231,7 +231,10 @@
 // js/unites-data.js, js/armes-data.js, js/regles-data.js,
 // js/organigramme-data.js, js/organigramme.js, js/unites.js,
 // pages/construction-liste.html.
-const CACHE_VERSION = "v164"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v165 : Incursion Éthérique ouverte à toute Légion Renégate (Traitor
+// Legion Auxiliary Detachment) — js/organigramme-data.js,
+// js/unites-data.js, pages/construction-liste.html.
+const CACHE_VERSION = "v166"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

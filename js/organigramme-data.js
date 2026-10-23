@@ -1521,9 +1521,9 @@ const TYPES_DETACHEMENTS = [
     ],
   },
   /* Incursion Éthérique (Journal Tactica : Prospero Burns, traduction
-     maison, « Thousand Sons Auxiliary Detachment ») : même mécanique
-     que Manifestation Démoniaque ci-dessus, réservée à la XVe Légion
-     (`legion`). Ses Cases n'acceptent que des Unités dont les
+     maison, « Traitor Legion Auxiliary Detachment ») : même mécanique
+     que Manifestation Démoniaque ci-dessus, ouvert à TOUTE Légion
+     d'Allégeance Renégate (pas de `legion`). Ses Cases n'acceptent que des Unités dont les
      Figurines ont le Trait Tzeentch (Démons de Tzeentch, Faction
      "daemons-ruinstorm", voir js/unites-data.js) — ici les seules
      Unités Tzeentch de chaque Rôle Tactique concerné. Accessibles
@@ -1534,9 +1534,8 @@ const TYPES_DETACHEMENTS = [
     famille: "auxiliaire",
     faction: "legio-astartes",
     factionLibre: true,
-    legion: "XV",
     texte:
-      "Thousand Sons d'Allégeance Renégate uniquement. Débloqué quand un Ésotériste ou un Sorcier de Prospero d'Allégeance Renégate occupe une Case d'État-major, à la place des options du Diagramme de Croisade. Ses Cases n'acceptent que des Unités composées de Figurines ayant le Trait Tzeentch (Démons de Tzeentch).",
+      "Légions d'Allégeance Renégate uniquement. Débloqué quand un Ésotériste ou un Sorcier de Prospero d'Allégeance Renégate occupe une Case d'État-major, à la place des options du Diagramme de Croisade. Ses Cases n'acceptent que des Unités composées de Figurines ayant le Trait Tzeentch (Démons de Tzeentch).",
     deblocage: {
       caseRole: "État-major",
       uniteIds: ["esoteriste", "sorcier-de-prospero"],
