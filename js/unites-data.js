@@ -2104,11 +2104,11 @@ const LISTES_AUXILIA = {
   coque: {
     nom: "Armes de Coque des Auxilia",
     items: [
-      { nom: "Bolter lourd de Coque", cout: 0 },
-      { nom: "Lance-flammes lourd de Coque", cout: 0 },
-      { nom: "Multi-laser de Coque", cout: 0 },
-      { nom: "Autocanon de Coque", cout: 5 },
-      { nom: "Canon laser de Coque", cout: 10 },
+      { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
+      { nom: "Lance-flammes lourd de Coque (Avant)", cout: 0 },
+      { nom: "Multi-laser de Coque (Avant)", cout: 0 },
+      { nom: "Autocanon de Coque (Avant)", cout: 5 },
+      { nom: "Canon laser de Coque (Avant)", cout: 10 },
     ],
   },
   laterales: {
@@ -2287,16 +2287,31 @@ const optionsMagos = ({
   // Le Technoprêtre (p. 32) n'a droit qu'à la liste d'Équipement du
   // Mechanicum, pas à celle d'Équipement de Magos.
   equipementMagos = true,
+  // L'Arcuitor Magisterium (p. 24) peut prendre son Arme de Mêlée et son
+  // Pistolet « dans la liste ... OU dans celle des Armes de Magos » :
+  // cette dernière liste vient alors s'ajouter aux choix de ces deux
+  // puces (deux Armes de Magos possibles, une par puce).
+  armesMagosAlternative = false,
 } = {}) => {
   const listeVers = (liste, extra = {}) =>
     liste.items.map((item) => ({ nom: item.nom, cout: item.cout, ...extra }));
-  const optionListe = (id, liste) => ({
+  const optionListe = (id, liste, alternative = null) => ({
     type: "choix",
     id,
-    libelle: "Un objet de la liste des " + liste.nom.replace(/^Armes/, "Armes"),
+    libelle:
+      "Un objet de la liste des " +
+      liste.nom +
+      (alternative ? " ou des " + alternative.nom : ""),
     ajoute: true,
-    choix: [{ nom: "— Aucun —", cout: 0 }, ...listeVers(liste)],
+    choix: [
+      { nom: "— Aucun —", cout: 0 },
+      ...listeVers(liste),
+      ...(alternative ? listeVers(alternative) : []),
+    ],
   });
+  const alternativeMagos = armesMagosAlternative
+    ? LISTES_MECHANICUM.armesMagos
+    : null;
   return [
     {
       type: "multi",
@@ -2326,8 +2341,16 @@ const optionsMagos = ({
     ...(archimagos
       ? [optionListe("arme-magos", LISTES_MECHANICUM.armesMagos)]
       : []),
-    optionListe("arme-melee-mechanicum", LISTES_MECHANICUM.melee),
-    optionListe("pistolet-mechanicum", LISTES_MECHANICUM.pistolets),
+    optionListe(
+      "arme-melee-mechanicum",
+      LISTES_MECHANICUM.melee,
+      alternativeMagos,
+    ),
+    optionListe(
+      "pistolet-mechanicum",
+      LISTES_MECHANICUM.pistolets,
+      alternativeMagos,
+    ),
     optionListe("arme-tir-mechanicum", LISTES_MECHANICUM.tir),
     // Dernière puce absente de la fiche de l'Arcuitor Magisterium
     // (p. 24), qui a bien les cinq listes mais pas ces trois armes :
@@ -33274,7 +33297,7 @@ const UNITES = [
       {
         type: "choix",
         id: "coque",
-        libelle: "Remplacer le bolter lourd de Coque",
+        libelle: "Remplacer le bolter lourd de Coque (Avant)",
         remplace: "Bolter lourd de Coque (Avant)",
         choix: [
           { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
@@ -34540,7 +34563,8 @@ const UNITES = [
               Sf: 7,
               Vo: 6,
               Int: 6,
-              Sv: "3+",
+              // Errata Liber Auxilia : Sauvegarde d'Armure « 4+ ».
+              Sv: "4+",
               Inv: "—",
             },
           },
@@ -35270,7 +35294,7 @@ const UNITES = [
       {
         type: "choix",
         id: "coque",
-        libelle: "Remplacer le bolter lourd de Coque",
+        libelle: "Remplacer le bolter lourd de Coque (Avant)",
         remplace: "Bolter lourd de Coque (Avant)",
         choix: [
           { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
@@ -35355,7 +35379,7 @@ const UNITES = [
       {
         type: "choix",
         id: "coque",
-        libelle: "Remplacer le bolter lourd de Coque",
+        libelle: "Remplacer le bolter lourd de Coque (Avant)",
         remplace: "Bolter lourd de Coque (Avant)",
         choix: [
           { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
@@ -35395,13 +35419,13 @@ const UNITES = [
       },
     ],
   },
-  /* --- Char Lourd Malcador · Blindés · 215 pts de base · Faction solar-auxilia --- */
+  /* --- Char Lourd Malcador · Blindés · 180 pts de base (errata Liber Auxilia) · Faction solar-auxilia --- */
   {
     id: "sa-malcador",
     nom: "Char Lourd Malcador",
     faction: "solar-auxilia",
     categorie: "Blindés",
-    cout: 215,
+    cout: 180,
     composition: "1 Malcador",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
@@ -35430,7 +35454,7 @@ const UNITES = [
       {
         type: "choix",
         id: "obusier",
-        libelle: "Remplacer l'obusier de Coque",
+        libelle: "Remplacer l'obusier de Coque (Avant)",
         remplace: "Obusier de Coque (Avant)",
         choix: [
           { nom: "Obusier de Coque (Avant)", cout: 0 },
@@ -35441,7 +35465,7 @@ const UNITES = [
       {
         type: "choix",
         id: "coque",
-        libelle: "Remplacer le bolter lourd de Coque",
+        libelle: "Remplacer le bolter lourd de Coque (Avant)",
         remplace: "Bolter lourd de Coque (Avant)",
         choix: [
           { nom: "Bolter lourd de Coque (Avant)", cout: 0 },
@@ -35499,13 +35523,13 @@ const UNITES = [
       },
     ],
   },
-  /* --- Char à Arme Spéciale Malcador Infernus · Blindés · 240 pts de base · Faction solar-auxilia --- */
+  /* --- Char à Arme Spéciale Malcador Infernus · Blindés · 205 pts de base (errata Liber Auxilia) · Faction solar-auxilia --- */
   {
     id: "sa-malcador-infernus",
     nom: "Char à Arme Spéciale Malcador Infernus",
     faction: "solar-auxilia",
     categorie: "Blindés",
-    cout: 240,
+    cout: 205,
     composition: "1 Malcador Infernus",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
@@ -35580,13 +35604,13 @@ const UNITES = [
       },
     ],
   },
-  /* --- Chasseur de Chars Valdor · Blindés · 225 pts de base · Faction solar-auxilia --- */
+  /* --- Chasseur de Chars Valdor · Blindés · 190 pts de base (errata Liber Auxilia) · Faction solar-auxilia --- */
   {
     id: "sa-valdor",
     nom: "Chasseur de Chars Valdor",
     faction: "solar-auxilia",
     categorie: "Blindés",
-    cout: 225,
+    cout: 190,
     composition: "1 Valdor",
     traits: ["[Allégeance]", "Solar Auxilia", "Écran de Fumée"],
     equipement: [
@@ -36795,7 +36819,9 @@ const UNITES = [
     // Malagra — c'est exactement ce qu'encode leur `requiertTechnoArcane`.
     // `armesLourdes: false` : sa fiche a bien les cinq listes, mais pas
     // la puce Faisceau de conversion/Fusil à plasma phasé/Irradieur.
-    options: optionsMagos({ armesLourdes: false }),
+    // `armesMagosAlternative` : ses puces Mêlée et Pistolet ouvrent
+    // aussi la liste des Armes de Magos du Mechanicum.
+    options: optionsMagos({ armesLourdes: false, armesMagosAlternative: true }),
   },
 
   /* ---------- Suites ---------- */
@@ -37127,9 +37153,11 @@ const UNITES = [
     cout: 125,
     composition: "1 Decimator",
     traits: ["Renégat", "Cybernetica"],
+    // Comptés à l'unité (`porteurs: 2`) plutôt qu'en un seul texte
+    // « Deux ... » : chaque échange ci-dessous n'en retire qu'un.
     equipement: [
-      "Deux lance-flammes lourds",
-      "Pince Decimator (deux exemplaires)",
+      { nom: "Lance-flammes lourd", porteurs: 2 },
+      { nom: "Griffe de Decimator", porteurs: 2 },
     ],
     variantes: [
       {
@@ -37162,17 +37190,34 @@ const UNITES = [
         type: "Automate (Maléfique)",
       },
     ],
+    // « Cette Figurine peut échanger un lance-flammes lourd et une
+    // griffe de Decimator contre l'un des éléments suivants (cette
+    // option peut être choisie plusieurs fois par Figurine) » : deux
+    // `quantite` d'un même `groupe`, plafonné à 2 (la Figurine n'a que
+    // deux paires lance-flammes lourd/griffe à échanger). Chaque échange
+    // retire un exemplaire de chaque arme de base (`remplaceIntegral`).
     options: [
       {
-        type: "choix",
-        id: "arme-speciale",
+        type: "quantite",
+        id: "canon-boucher",
         libelle:
-          "Peut être dotée d'un des choix suivants ; si une option est choisie, la Figurine perd un lance-flammes lourd et une pince Decimator",
-        choix: [
-          { nom: "— Aucune —", cout: 0 },
-          { nom: "Canon boucher", cout: 20 },
-          { nom: "Pétard brûlemânes", cout: 15 },
-        ],
+          "Échanger un lance-flammes lourd et une griffe de Decimator contre : canon boucher (plusieurs fois par Figurine)",
+        cout: 20,
+        max: 2,
+        groupe: "echange-decimator",
+        ajoute: "Canon boucher",
+        remplaceIntegral: ["Lance-flammes lourd", "Griffe de Decimator"],
+      },
+      {
+        type: "quantite",
+        id: "petard-brulemanes",
+        libelle:
+          "Échanger un lance-flammes lourd et une griffe de Decimator contre : pétard brûlemânes (plusieurs fois par Figurine)",
+        cout: 15,
+        max: 2,
+        groupe: "echange-decimator",
+        ajoute: "Pétard brûlemânes",
+        remplaceIntegral: ["Lance-flammes lourd", "Griffe de Decimator"],
       },
     ],
   },

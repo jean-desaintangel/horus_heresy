@@ -1716,7 +1716,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Lance-leurres",
     texte:
-      "Une Figurine dotée de lance-leurres gagne un Jet de Mitigation de Dégâts de Dissimulation de 5+ contre toute Touche infligée au cours d'une Réaction Interception.",
+      "Une Figurine dotée de lance-leurres gagne une Sauvegarde Invulnérable de 5+ contre toute Touche infligée au cours d'une Réaction Interception.",
   },
 
   /* --- Arsenal des Solar Auxilia (Liber Auxilia) : Règles Spéciales
@@ -2034,6 +2034,13 @@ const REGLES_DIVERSES = [
     nom: "Maléfique",
     texte:
       "Une Unité entièrement composée de Figurines de ce Sous-type ne peut jamais gagner de Statut Tactique, et ne peut être Ralliée que par une Figurine qui peut elle-même gagner des Statuts Tactiques et se retrouver En Déroute ; quand elle est censée gagner un Statut Tactique, elle subit à la place D3 Blessures automatiques (PA 2, Dégâts 1, aucune Sauvegarde possible). Les Figurines de ce Sous-type ne sont pas affectées par les Règles Spéciales qui modifient négativement leur Commandement, leur Volonté ou leur Intelligence, et aucune Figurine qui n'est pas elle-même Maléfique ne peut rejoindre, ni être rejointe par, une telle Figurine.",
+  },
+  {
+    // FAQ octobre 2026. Exception à « Maléfique » ci-dessus, pour les
+    // Cybertheurges Hétérodoxes devenus Maléfiques.
+    nom: "Hétérodoxistes",
+    texte:
+      "FAQ octobre 2026. Une Figurine possédant le Trait Hétérodoxe et le Sous-type Maléfique peut voir ses Caractéristiques modifiées dans le but d'Invoquer des Rites Cybertheurgiques. Ce changement constitue une exception spécifique aux Règles s'appliquant aux Figurines possédant le Sous-type Maléfique.",
   },
 
   /* --- Techno-arcanes Majeurs (Liber Mechanicum, p. 45-51) : chacun

@@ -1313,7 +1313,8 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
-        nom: "Ryfle laser — Surchargeur",
+        // Errata Liber Auxilia : « Blast-charger* » (astérisque ajouté).
+        nom: "Ryfle laser — Surchargeur*",
         stats: ["18", "1", "4", "4", "1"],
         regles: "Vulnérante (6+), Lacération (6+)",
         traits: "Laser",
@@ -5470,7 +5471,7 @@ const ARMES_MELEE = [
       },
       {
         // Arme par défaut du Decimator (deux exemplaires).
-        nom: "Pince Decimator",
+        nom: "Griffe de Decimator",
         stats: ["-1", "2", "+2", "2", "2"],
         regles: "Fléau des Blindages",
         traits: "-",
