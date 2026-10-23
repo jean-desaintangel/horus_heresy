@@ -234,7 +234,7 @@
 // v165 : Incursion Éthérique ouverte à toute Légion Renégate (Traitor
 // Legion Auxiliary Detachment) — js/organigramme-data.js,
 // js/unites-data.js, pages/construction-liste.html.
-const CACHE_VERSION = "v168"; // Incrémenter à chaque modification de PRECACHE_URLS
+const CACHE_VERSION = "v170"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];

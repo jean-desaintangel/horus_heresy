@@ -190,7 +190,7 @@ const REGLES_ARMES = [
   {
     nom: "Sélecteur de Tir",
     texte:
-      "Au début d'une Attaque de Tir, l'arme peut gagner Panique (1), Brèche (4+) ou Neutralisation (2) jusqu'à la fin de l'attaque.",
+      "Au début d'une Attaque de Tir, l'arme peut gagner Panique (1), Brèche (5+) ou Neutralisation (2) jusqu'à la fin de l'attaque.",
   },
   {
     nom: "Souffle",
@@ -256,7 +256,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Avant-garde (X)",
     texte:
-      "Une Unité qui comprend une majorité de Figurines ayant cette Règle Spéciale ne peut jamais marquer plus de 1 Point de Victoire pour Contrôler un Objectif. Le Joueur en Contrôle gagne X Points de Victoire supplémentaires si : (1) une Attaque retire comme Perte la dernière Figurine d'une Unité ennemie qui Contrôle ou Conteste un Objectif, ou (2) une Attaque en Combat fait battre en Retraite une Unité ennemie qui comptait au moins une Figurine à 3\" d'un Objectif au début de cette Phase d'Assaut. Cette Règle ne peut servir qu'une fois par Objectif et par Tour de Joueur.",
+      "Une Unité comprenant des Figurines possédant cette Règle Spéciale peut marquer des Points de Victoire en détruisant des Unités ennemies. Le Joueur contrôlant une Unité dont la majorité des Figurines possède la Règle Spéciale Avant-Garde (X) marque un nombre de Points de Victoire égal à la valeur de X lorsque : (1) une Unité ennemie qui se trouve à 3\" ou moins d'un Marqueur d'Objectif, ou qui s'y trouvait au début du Tour du Joueur, voit sa dernière figurine Retirée comme Perte par une attaque effectuée par cette Unité ; (2) une Unité ennemie qui se trouve à 3\" ou moins d'un Marqueur d'Objectif, ou qui s'y trouvait au début du Tour du Joueur, obtient le Statut Tactique En Déroute alors qu'elle est en Combat avec cette Unité. Si une Unité comprend des Figurines ayant des valeurs de X différentes pour cette Règle Spéciale, le Joueur contrôlant peut choisir laquelle est utilisée. Une Unité dont la majorité des Figurines possède la Règle Spéciale Avant-Garde (X) ne peut jamais marquer plus de 1 Point de Victoire pour le Contrôle d'un Objectif, quels que soient la valeur de cet Objectif ou tout autre bonus.",
   },
   {
     nom: "Réacteurs",
@@ -399,7 +399,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Insensible à la Douleur (X)",
     texte:
-      "Jet de mitigation de dégâts supplémentaire, en plus d'une sauvegarde, réussi sur X ou plus.",
+      "Un Test d'Atténuation des Dégâts Insensible à la Douleur peut être effectué pour une Figurine possédant la Règle Spéciale Insensible à la Douleur (X) afin d'annuler les blessures allouées à la Figurine, après un Jet de Sauvegarde et en plus de celui-ci. Le Nombre Cible d'un Test d'Atténuation des Dégâts Insensible à la Douleur est la valeur de X associée à la variante spécifique de la Règle Spéciale.",
   },
   {
     nom: "Ligne (X)",
