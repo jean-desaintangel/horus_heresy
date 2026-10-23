@@ -2998,6 +2998,15 @@ const Organigramme = (() => {
           "Réservé aux Figurines de Type " +
           avantage.typesRequis.join(" ou ") +
           ".";
+      } else if (
+        avantage.typesExclus &&
+        occ &&
+        avantage.typesExclus.some((t) => aSousType(occ, t))
+      ) {
+        raison =
+          "Interdit aux Figurines de Type " +
+          avantage.typesExclus.join(" ou ") +
+          ".";
       } else if (avantage.caseEM && caseOrga.role !== "État-major") {
         raison = "Réservé aux Cases d'État-major.";
       } else if (avantage.roleRequis && caseOrga.role !== avantage.roleRequis) {

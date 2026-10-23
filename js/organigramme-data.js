@@ -3974,7 +3974,10 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  Les Défavorisés, Iron Warriors, réservé au seul Type
                  Infanterie ; Les Sagyar Mazan, White Scars, qui
                  acceptent Infanterie OU Cavalerie).
-   - ajouteCase   : ajoute une case au détachement (tout Rôle Tactique
+   - typesExclus  : [Types] — inverse de `typesRequis` : avantage grisé
+                 si l'unité inclut l'un des Types listés (ex : Vrais
+                 Croyants, interdit aux Véhicules — FAQ octobre 2026).
+   - ajouteCase  : ajoute une case au détachement (tout Rôle Tactique
                  sauf QG, État-major, Seigneur de Guerre et Seigneurs
                  des Batailles — voir ROLES_INTERDITS_LOGISTIQUE), comme
                  Bénéfice Logistique et Le Salaire de la Traîtrise (une
@@ -4094,8 +4097,10 @@ const AVANTAGES_PRINCIPAUX = [
     nom: "Vrais Croyants (Légions Corrompues)",
     renegat: true,
     factionRequise: "legio-astartes",
+    // FAQ octobre 2026 : ne s'applique pas aux Véhicules.
+    typesExclus: ["Véhicule"],
     texte:
-      "Armées d'Allégeance Renégate (liste Legiones Astartes) : toutes les figurines de l'unité gagnent le Sous-type Maléfique — elles ignorent les Statuts Tactiques (remplacés par D3 blessures automatiques PA2/Dégâts 1 sans sauvegarde) et les règles réduisant Cd/Sf/Vo/Int, et ne peuvent pas rejoindre ou être rejointes par des unités non-Maléfiques.",
+      "Armées d'Allégeance Renégate (liste Legiones Astartes) : toutes les figurines de l'unité gagnent le Sous-type Maléfique — elles ignorent les Statuts Tactiques (remplacés par D3 blessures automatiques PA2/Dégâts 1 sans sauvegarde) et les règles réduisant Cd/Sf/Vo/Int, et ne peuvent pas rejoindre ou être rejointes par des unités non-Maléfiques. FAQ octobre 2026 : ne s'applique pas aux Véhicules.",
   },
   /* --- Arsenal des Sons of Horus (XVIe Légion), page « Suprématie
      Martiale » (voir js/unites-data.js, unités réservées à cette

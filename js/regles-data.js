@@ -419,10 +419,10 @@ const REGLES_DIVERSES = [
   },
   {
     // Mortarion, Primarque de la Death Guard (XIVe Légion) : voir
-    // js/unites-data.js.
+    // js/unites-data.js. Partie règles remplacée par un erratum.
     nom: "Ombre du Faucheur",
     texte:
-      "Terrifiant et quasi spectral, Mortarion peut malgré sa stature se mouvoir sans être vu et attaquer là où on ne l'attend pas. Mortarion peut Foncer ou faire un Mouvement de Positionnement comme s'il avait 10 en Caractéristique de Mouvement : chaque fois qu'une Figurine ayant cette Règle Spéciale Fonce ou fait un Mouvement de Positionnement, on considère que sa Caractéristique de Mouvement est de 10.",
+      "Terrifiant et quasi spectral, Mortarion peut malgré sa stature se mouvoir sans être vu et attaquer là où on ne l'attend pas. Chaque fois qu'une Figurine possédant cette Règle Spéciale Court, considérez que sa Caractéristique de Mouvement est de 10. De plus, ajoutez 2\" à la distance de tout Mouvement de Mise en Place effectué par une Figurine possédant cette Règle Spéciale.",
   },
   {
     // Mortarion, Primarque de la Death Guard (XIVe Légion) : voir
@@ -1761,9 +1761,12 @@ const REGLES_DIVERSES = [
       "Réaction Avancée des Solar Auxilia qui resserre les rangs d'une Unité pour lui conférer une Sauvegarde Invulnérable temporaire. Le Joueur Réactif peut la déclarer à la Sous-phase de Déplacement de la Phase de Mouvement pour une Unité sous son contrôle dont la moindre Figurine a le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions). Chaque Figurine de l'Unité Réactive se Déplace pour finir en Contact Socle à Socle avec au moins deux autres Figurines de la même Unité ; l'Unité gagne alors une Sauvegarde Invulnérable de 5+ contre toutes les Attaques de Tir pour le reste du Tour du Joueur Actif.",
   },
   {
+    // Étape 2 du Processus remplacée par la version corrigée
+    // (sélection à 12" de l'Unité Réagissante, Ligne de Vue non requise,
+    // Arme de Bataille et Pivot pour un Véhicule).
     nom: "Appui Feu !",
     texte:
-      "Réaction Avancée qui éloigne une Unité du danger en ripostant avec une Arme de Barrage amie. Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif contre une Unité sous son contrôle uniquement composée de Figurines qui ont le Trait Solar Auxilia (coût : 1 Point d'Attribution de Réactions) : l'Unité Cible se Déplace de sa Caractéristique d'Initiative en pouces en s'éloignant, puis une seule Figurine amie dotée d'une Arme ayant la Règle Spéciale Barrage (X) et à 12 pouces de la Cible fait aussitôt une Attaque de Tir contre l'Unité qui a déclenché la Réaction.",
+      "Réaction Avancée qui éloigne une Unité du danger en ripostant avec une Arme de Barrage amie. Le Joueur Réactif peut la déclarer à l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif contre une Unité sous son contrôle uniquement composée de Figurines d'Infanterie qui ont le Trait Solar Auxilia, mais pas la Règle Spéciale Massif (X) (coût : 1 Point d'Attribution de Réactions). L'Unité Cible de la Réaction est toujours l'Unité dont l'Attaque de Tir l'a déclenchée. 1. Les Figurines de l'Unité Réactive se Déplacent d'un nombre de pouces au plus égal à leur Initiative, en finissant en Cohésion et à plus de 1\" de toute Figurine ennemie ; si plus aucune n'est alors en Ligne de Vue et/ou à Portée de la moindre Figurine de l'Unité Cible, le Joueur Actif ne peut pas choisir d'autre cible pour cette Unité lors de la Phase de Tir en cours. 2. Une fois que le Joueur Réagissant a résolu ce mouvement, il peut sélectionner une seule Figurine amie possédant le Trait Solar Auxilia et disposant d'une Arme dotée de la Règle Spéciale Barrage (X), située à 12\" ou moins d'au moins une Figurine de l'Unité Réagissante. Cette Figurine effectue immédiatement une Attaque de Tir contre l'Unité Cible avec une seule Arme dotée de la Règle Spéciale Barrage (X), qui peut être effectuée sans Ligne de Vue conformément à cette Règle Spéciale. Si cette Figurine possède le Type Véhicule, il peut s'agir d'une Arme de Bataille (Battle Weapon) et la Figurine peut Pivoter juste avant d'effectuer l'Attaque de Tir. Notez que l'Unité de cette Figurine compte toujours comme ayant effectué une Réaction durant ce Tour de Bataille. 3. Une fois cette Attaque de Tir résolue, Retrait des Pertes compris, on finit de résoudre l'Attaque de Tir initiale qui a déclenché la Réaction.",
   },
   {
     nom: "Baïonnettes aux Canons !",
@@ -2041,6 +2044,13 @@ const REGLES_DIVERSES = [
     nom: "Hétérodoxistes",
     texte:
       "FAQ octobre 2026. Une Figurine possédant le Trait Hétérodoxe et le Sous-type Maléfique peut voir ses Caractéristiques modifiées dans le but d'Invoquer des Rites Cybertheurgiques. Ce changement constitue une exception spécifique aux Règles s'appliquant aux Figurines possédant le Sous-type Maléfique.",
+  },
+  {
+    // Superviseur (État-major, Legiones Astartes) : voir
+    // js/unites-data.js. Texte remplacé par la FAQ octobre 2026.
+    nom: "Maître des Auxilia",
+    texte:
+      "FAQ octobre 2026. Si une Figurine possédant cette Règle Spéciale rejoint une Unité ayant le Trait Solar Auxilia ou Imperialis Militia, les Caractéristiques de Commandement et de Sang-froid des Figurines de cette Unité ne sont pas réduites de ce fait, mais peuvent être modifiées normalement par d'autres règles.",
   },
 
   /* --- Techno-arcanes Majeurs (Liber Mechanicum, p. 45-51) : chacun
@@ -2364,6 +2374,12 @@ const REGLES_DIVERSES = [
     nom: "Inductii",
     texte:
       "Une Unité qui compte au moins une Figurine ayant cette Règle Spéciale ne peut jamais servir à choisir un Avantage Principal. Quand une Unité qui compte au moins une Figurine ayant cette Règle Spéciale est sélectionnée pour remplir une Case d'Organigramme de Force Suprême, aucun Avantage Principal correspondant ne peut être choisi.",
+  },
+  {
+    // Escouade Inductii (World Eaters) : voir js/unites-data.js.
+    nom: "Fous Voraces",
+    texte:
+      "Une Unité comprenant des Figurines possédant cette Règle Spéciale ne peut rejoindre, ou être rejointe par, que des Figurines possédant cette Règle Spéciale.",
   },
   {
     nom: "Perfection Incarnée",
