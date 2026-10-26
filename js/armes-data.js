@@ -6048,7 +6048,7 @@ const ARMES_MELEE = [
         traits: "Immatériel",
       },
       {
-        // Razorclaws (Démonettes, Chasseresses de Slaanesh).
+        // Razorclaws (Démonettes, Veneuses de Slaanesh).
         nom: "Griffes-rasoirs",
         stats: ["1", "+1", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+), Phage (Vo)",

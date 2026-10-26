@@ -44323,22 +44323,22 @@ const UNITES = [
       },
     ],
   },
-  /* --- Chasseresses de Slaanesh · Attaque Rapide · 90 pts de base · Faction daemons-ruinstorm --- */
+  /* --- Veneuses de Slaanesh · Attaque Rapide · 90 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "slaanesh-chasseresses",
-    nom: "Chasseresses de Slaanesh",
+    nom: "Veneuses de Slaanesh",
     faction: "daemons-ruinstorm",
     categorie: "Attaque Rapide",
     cout: 90,
-    composition: "5 Chasseresses de Slaanesh",
+    composition: "5 Veneuses de Slaanesh",
     effectif: { base: 5, max: 10, cout: 18 },
     notes:
-      "Caste distincte des Démons mineurs connus sous le nom de Démonettes, les Chasseresses de Slaanesh semblent avoir beaucoup en commun avec ces dernières ; elles choisissent toutefois, ou reçoivent l'ordre de leurs maîtres, de monter au combat des destriers reptiliens bipèdes. On ne peut que deviner pourquoi ces Démons coopèrent ainsi, quand d'autres formes reçoivent des ailes ou des moyens de vol entièrement contre-nature, mais il est évident que ces montures donnent de la vitesse à l'avance de ces vils serviteurs de la souffrance.",
+      "Caste distincte des Démons mineurs connus sous le nom de Démonettes, les Veneuses de Slaanesh semblent avoir beaucoup en commun avec ces dernières ; elles choisissent toutefois, ou reçoivent l'ordre de leurs maîtres, de monter au combat des destriers reptiliens bipèdes. On ne peut que deviner pourquoi ces Démons coopèrent ainsi, quand d'autres formes reçoivent des ailes ou des moyens de vol entièrement contre-nature, mais il est évident que ces montures donnent de la vitesse à l'avance de ces vils serviteurs de la souffrance.",
     traits: ["Renégat", "Slaanesh"],
     equipement: ["Griffes-rasoirs"],
     variantes: [
       {
-        nom: "Chasseresse de Slaanesh",
+        nom: "Veneuse de Slaanesh",
         cout: 0,
         profil: {
           M: 12,
@@ -44379,10 +44379,10 @@ const UNITES = [
       },
     ],
   },
-  /* --- Bêtes de Slaanesh · Assaut Lourd · 150 pts de base · Faction daemons-ruinstorm --- */
+  /* --- Bêtes de Slaanesh (Charnelles) · Assaut Lourd · 150 pts de base · Faction daemons-ruinstorm --- */
   {
     id: "slaanesh-betes",
-    nom: "Bêtes de Slaanesh",
+    nom: "Bêtes de Slaanesh (Charnelles)",
     faction: "daemons-ruinstorm",
     categorie: "Assaut Lourd",
     cout: 150,
