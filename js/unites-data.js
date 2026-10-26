@@ -44258,7 +44258,7 @@ const UNITES = [
           "Guerrier Éternel (1)",
           "Peur (1)",
           "Vif (1)",
-          "Impact (1)",
+          "Impact (I)",
           "Héraut de l'Irréalité",
           "Hédonistes",
           "Musc Soporifique",
@@ -44305,7 +44305,7 @@ const UNITES = [
         regles: [
           "Peur (1)",
           "Vif (1)",
-          "Impact (1)",
+          "Impact (I)",
           "Souffrance Exquise",
           "Hédonistes",
           "Musc Soporifique",
@@ -44439,7 +44439,7 @@ const UNITES = [
         regles: [
           "Massif (4)",
           "Peur (1)",
-          "Impact (1)",
+          "Impact (I)",
           "Hédonistes",
           "Musc Soporifique",
         ],

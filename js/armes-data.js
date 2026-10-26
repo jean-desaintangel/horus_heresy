@@ -6073,7 +6073,7 @@ const ARMES_MELEE = [
         nom: "Lance miroitante et bouclier",
         stats: ["+1", "-1", "F", "2", "2"],
         regles:
-          "Impact (1), Touche Critique (6+), Force (F), Phage (Vo), Déviation",
+          "Impact (I), Touche Critique (6+), Force (F), Phage (Vo), Déviation",
         traits: "Immatériel",
       },
     ],

@@ -4210,9 +4210,9 @@ const AVANTAGES_PRINCIPAUX = [
       { id: "escouade-etat-major-tartaros" },
     ],
     traitRequis: "Night Lords",
-    reglesAppliquees: ["Frappe en Profondeur", "Impact (1)"],
+    reglesAppliquees: ["Frappe en Profondeur", "Impact (I)"],
     texte:
-      "Réservé à une Figurine de Centurion en Armure Terminator (Cataphractii ou Tartaros) ou d'Escouade d'État-major Terminator (Cataphractii ou Tartaros) ayant le Trait Night Lords : les Figurines de l'Unité gagnent les Règles Spéciales Frappe en Profondeur et Impact (1).",
+      "Réservé à une Figurine de Centurion en Armure Terminator (Cataphractii ou Tartaros) ou d'Escouade d'État-major Terminator (Cataphractii ou Tartaros) ayant le Trait Night Lords : les Figurines de l'Unité gagnent les Règles Spéciales Frappe en Profondeur et Impact (I).",
   },
   /* --- Arsenal des Emperor's Children (IIIe Légion), page « Garde
      Phénix » (voir js/unites-data.js, unités réservées à cette
