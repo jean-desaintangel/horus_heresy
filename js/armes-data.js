@@ -4080,7 +4080,7 @@ const ARMES_MELEE = [
       },
       {
         nom: "Griffe-rasoir",
-        stats: ["1", "A", "F", "3", "1"],
+        stats: ["I", "A", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+), Phage (Vo)",
         traits: "Immatériel",
       },
@@ -5898,19 +5898,19 @@ const ARMES_MELEE = [
       },
       {
         nom: "Armement immatériel",
-        stats: ["1", "A", "F", "3", "2"],
+        stats: ["I", "A", "F", "3", "2"],
         regles: "Brèche (5+)",
         traits: "Immatériel",
       },
       {
         nom: "Griffes démoniaques",
-        stats: ["1", "A", "F", "5", "1"],
+        stats: ["I", "A", "F", "5", "1"],
         regles: "Lacération (5+)",
         traits: "Immatériel",
       },
       {
         nom: "Lame infernale",
-        stats: ["1", "-1", "F", "4", "1"],
+        stats: ["I", "-1", "F", "4", "1"],
         regles: "Brèche (6+)",
         traits: "Immatériel",
       },
@@ -5928,19 +5928,19 @@ const ARMES_MELEE = [
       },
       {
         nom: "Gueule et serre",
-        stats: ["1", "A", "F", "4", "2"],
+        stats: ["I", "A", "F", "4", "2"],
         regles: "Brèche (6+)",
         traits: "Immatériel",
       },
       {
         nom: "Grande gueule et serre",
-        stats: ["1", "A", "F", "4", "2"],
+        stats: ["I", "A", "F", "4", "2"],
         regles: "Brèche (5+)",
         traits: "Immatériel",
       },
       {
         nom: "Membres pulvérisateurs",
-        stats: ["1", "A", "F", "5", "2"],
+        stats: ["I", "A", "F", "5", "2"],
         regles: "-",
         traits: "Immatériel",
       },
@@ -5948,19 +5948,19 @@ const ARMES_MELEE = [
         // Baneaxe, moitié Mêlée de l'Armement de Ka'bandha (voir
         // Lanière de fer, Armes de Tir plus haut, pour la moitié Tir).
         nom: "Hache-Fléau",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Touche Critique (5+)",
         traits: "Immatériel",
       },
       {
         nom: "Griffes moissonneuses",
-        stats: ["1", "A", "F", "3", "2"],
+        stats: ["I", "A", "F", "3", "2"],
         regles: "Fauchage (2), Brèche (6+)",
         traits: "Immatériel",
       },
       {
         nom: "Lame de Samus",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Touche Critique (6+)",
         traits: "Immatériel",
       },
@@ -5974,7 +5974,7 @@ const ARMES_MELEE = [
       {
         // Changeblade (Seigneur Ascendant de Tzeentch).
         nom: "Lame changeante",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Atout du Duelliste (1), Touche Critique (6+)",
         traits: "Immatériel",
       },
@@ -5987,7 +5987,7 @@ const ARMES_MELEE = [
       {
         // Ætherblade (Héraut de Tzeentch).
         nom: "Lame éthérique",
-        stats: ["1", "+2", "F", "3", "1"],
+        stats: ["I", "+2", "F", "3", "1"],
         regles: "Brèche (5+), Force (D)",
         traits: "Immatériel",
       },
@@ -6001,21 +6001,21 @@ const ARMES_MELEE = [
       {
         // Razorspines (Hurleurs de Tzeentch).
         nom: "Épines-rasoirs",
-        stats: ["1", "A", "F", "-", "1"],
+        stats: ["I", "A", "F", "-", "1"],
         regles: "Impact (F), Brèche (6+)",
         traits: "Immatériel",
       },
       {
         // Coruscating grasp (Horreurs de Tzeentch).
         nom: "Poigne scintillante",
-        stats: ["1", "A", "F", "-", "1"],
+        stats: ["I", "A", "F", "-", "1"],
         regles: "Vulnérante (6+), Lacération (6+)",
         traits: "Immatériel",
       },
       {
         // Staff of Tzeentch (Seigneur du Changement).
         nom: "Bâton de Tzeentch",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Fauchage (3), Force (F), Touche Critique (6+)",
         traits: "Immatériel",
       },
@@ -6043,28 +6043,28 @@ const ARMES_MELEE = [
       {
         // Ripclaws (Héraut de Slaanesh).
         nom: "Griffes lacérantes",
-        stats: ["1", "+2", "F", "3", "1"],
+        stats: ["I", "+2", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+), Force (D), Phage (Vo)",
         traits: "Immatériel",
       },
       {
         // Razorclaws (Démonettes, Veneuses de Slaanesh).
         nom: "Griffes-rasoirs",
-        stats: ["1", "+1", "F", "3", "1"],
+        stats: ["I", "+1", "F", "3", "1"],
         regles: "Vulnérante (6+), Brèche (6+), Phage (Vo)",
         traits: "Immatériel",
       },
       {
         // Great razorclaws (Bêtes de Slaanesh).
         nom: "Grandes griffes-rasoirs",
-        stats: ["1", "+1", "F", "3", "2"],
+        stats: ["I", "+1", "F", "3", "2"],
         regles: "Vulnérante (6+), Brèche (6+), Phage (Vo)",
         traits: "Immatériel",
       },
       {
         // Shimmerblade (Gardien des Secrets).
         nom: "Lame miroitante",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Touche Critique (5+), Force (F), Phage (Vo)",
         traits: "Immatériel",
       },
@@ -6086,7 +6086,7 @@ const ARMES_MELEE = [
     armes: [
       {
         nom: "Lame de Halo",
-        stats: ["1", "A", "+2", "2", "1"],
+        stats: ["I", "A", "+2", "2", "1"],
         regles: "Lacération (5+)",
         traits: "Xenos",
       },
