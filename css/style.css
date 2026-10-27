@@ -481,6 +481,14 @@ main.main-accueil {
   text-align: center;
 }
 
+/* Variante « communauté » : vert accueillant au lieu du rouge
+   d'annonce. Couleur fixe pour la même raison (skins de Légion).
+   Blanc sur #2e6b2e ≈ 6,6:1 (WCAG 1.4.3). */
+.bandeau-info--communaute {
+  background: #2e6b2e;
+  border-left-color: #1d4a1d;
+}
+
 /* Liens dans le bandeau : blancs et soulignés (la couleur de lien par
    défaut serait illisible sur le fond rouge). */
 .bandeau-info a {
