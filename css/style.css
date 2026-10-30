@@ -2031,6 +2031,20 @@ button:focus-visible,
   fill: var(--titre-contraste);
 }
 
+/* Carte d'Ambush at Rho:19 : route du convoi (trait épais) et cratères
+   (contour pointillé). */
+.carte-deploiement .route-convoi {
+  stroke: var(--titre-contraste);
+  stroke-width: 4;
+}
+
+.carte-deploiement .cratere {
+  fill: none;
+  stroke: var(--acier);
+  stroke-width: 2;
+  stroke-dasharray: 3 4;
+}
+
 .carte-deploiement .etiquette-carte {
   font-size: 16px;
   fill: var(--texte-doux);

@@ -210,6 +210,13 @@ const REGLES_ARMES = [
       "Si le Jet de Pénétration de Blindage est supérieur ou égal à X, la Touche Pénétrante inflige 1 point de Dégâts supplémentaire.",
   },
   {
+    // Journal Tactica : Battle of Tallarn (mortier taupe, Section de
+    // Rapier des Solar Auxilia).
+    nom: "Souterrain",
+    texte:
+      "Les ogives qui creusent la terre se moquent du couvert. Aucune Sauvegarde de Couvert ni aucun Jet de Mitigation de Dégâts de Dissimulation ne peut être fait contre une blessure ou une Touche Pénétrante infligée par une Arme ayant cette Règle Spéciale (les Sauvegardes d'Armure et Invulnérables restent possibles). Contre un Véhicule, ses Touches visent toujours la Face de Blindage de Flanc. Elle ne peut jamais prendre pour cible une Figurine de Sous-type Aéronef. Contre une Unité dont des Figurines sont dans une zone de terrain à plusieurs niveaux, ses Touches ne peuvent être allouées qu'aux Figurines du niveau le plus bas.",
+  },
+  {
     nom: "Brise-bouclier (X)",
     texte:
       "Une attaque qui abat un bouclier Void en abat X à la fois au lieu d'un seul.",
@@ -364,6 +371,18 @@ const REGLES_DIVERSES = [
     nom: "Commandant de Chars (X)",
     texte:
       "Dans toutes les diverses forces militaires de l'Imperium existaient des cadres d'officiers spécialisés formés spécifiquement pour commander et organiser des forces blindées. Une Figurine ayant cette Règle Spéciale permet d'inclure dans une Armée un nombre de détachements de chars égal à la valeur de X. Si une Figurine ayant cette Règle Spéciale est sélectionnée pour occuper une Case de Haut Commandement ou de Commandement d'un Détachement quelconque, le Joueur en Contrôle peut sélectionner un nombre de Détachements Auxiliaires égal à la valeur de X de la version spécifique de cette Règle Spéciale au lieu d'un seul — toutefois, les Détachements ainsi sélectionnés ne peuvent inclure que des Cases de Blindés. Si la Figurine ayant cette Règle Spéciale a le Trait Solar Auxilia, ces Détachements Auxiliaires peuvent alors inclure des Détachements Auxiliaires de Tercio Blindé.",
+  },
+  {
+    // Journal Tactica : Battle of Tallarn (Chars de Commandement
+    // Spartan Prometheus et Dracosan).
+    nom: "Transport de Commandement",
+    texte:
+      "Seules les Figurines d'Unités comprenant au moins une Figurine de Sous-type État-major peuvent embarquer dans une Figurine ayant cette Règle Spéciale. Cela ne permet pas à des Figurines qui ne pourraient normalement pas embarquer dans une Figurine de Type Transport de le faire.",
+  },
+  {
+    nom: "Véhicule de Commandement (X)",
+    texte:
+      "Une fois par Tour, tant qu'une Figurine ayant cette Règle Spéciale est sur le Champ de Bataille et que le Joueur en Contrôle doit faire un Test de Sang-froid ou de Commandement pour une autre de ses Unités comprenant au moins une Figurine dotée d'un nuncio-vox, d'un vox d'état-major ou d'une interconnexion vox, la valeur de X peut être utilisée pour résoudre ce Test.",
   },
   {
     nom: "Bouclier Void (X)",
@@ -2007,6 +2026,18 @@ const REGLES_DIVERSES = [
     nom: "Rétroaction Cybertheurgique",
     texte:
       "Certains Rites ou Statuts Cybertheurgiques infligent une Rétroaction Cybertheurgique à une Unité : chaque Figurine subit 1 Blessure avec une PA de « - » et des Dégâts de 1, sans Jet de Blessure ni Sauvegarde de Couvert/Invulnérable (Sauvegardes d'Armure autorisées). Une Figurine de Type Véhicule ne subit qu'une seule Touche Superficielle par Rétroaction Cybertheurgique, sans Jet de Pénétration de Blindage.",
+  },
+  {
+    // Journal Tactica : Battle of Tallarn, Cohortes Vagus (Avantages
+    // Principaux Vagus, voir js/organigramme-data.js).
+    nom: "Corruption du Cortex",
+    texte:
+      "Les automates laissés trop longtemps sans surveillance subissent souvent une grave dégradation logique. Une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale ne peut être rejointe par aucune autre Figurine, et aucune Figurine ayant cette Règle Spéciale ne peut être la cible d'un Rite Cybertheurgique invoqué pour une Figurine amie.",
+  },
+  {
+    nom: "Vagus",
+    texte:
+      "Trait des Cohortes Vagus (Journal Tactica : Battle of Tallarn) : toute Figurine d'un Détachement Cohortes Vagus qui a le Trait Cybernetica le remplace par ce Trait. Les Avantages Principaux Vagus ne peuvent être choisis que pour une Case Principale occupée par une Unité composée uniquement de Figurines ayant ce Trait.",
   },
   {
     nom: "Statut Cybertheurgique : Accélérer",

@@ -2963,6 +2963,14 @@ const Organigramme = (() => {
       ) {
         continue;
       }
+      // Avantages propres à un Détachement (`detachementsRequis`, ex :
+      // Armoured Spearhead) : masqués partout ailleurs.
+      if (
+        avantage.detachementsRequis &&
+        !avantage.detachementsRequis.includes(type.id)
+      ) {
+        continue;
+      }
       let raison = "";
       if (
         type.avantagesAutorises &&

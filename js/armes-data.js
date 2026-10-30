@@ -1241,6 +1241,14 @@ const ARMES_TIR = [
         traits: "Laser",
       },
       {
+        // Journal Tactica : Battle of Tallarn (Section de Rapier).
+        nom: "Mortier taupe",
+        stats: ["36", "2", "7", "3", "2"],
+        regles:
+          "Lourde (D), Barrage (0), Fléau des Blindages, Fixation (1), Souterrain",
+        traits: "-",
+      },
+      {
         nom: "Magnadestructeur laser",
         stats: ["36", "2", "10", "2", "3"],
         regles: "Artillerie (D), Fléau des Blindages",
@@ -4261,6 +4269,26 @@ const ARMES_MELEE = [
         nom: "Pinces de Charonite",
         stats: ["1", "A", "7", "3", "2"],
         regles: "Brèche (5+)",
+        traits: "Énergétique",
+      },
+      /* Journal Tactica : Battle of Tallarn (Section d'Ogryns
+         Charonites, échanges de pinces). */
+      {
+        nom: "Lame de Charonite",
+        stats: ["1", "A", "5", "3", "1"],
+        regles: "Brèche (6+), Fauchage (2)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Broyeur de Charonite",
+        stats: ["-1", "-2", "10", "2", "2"],
+        regles: "Fléau des Blindages, Brise-blindage (4+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Déchiqueteur de Charonite",
+        stats: ["1", "A", "6", "4", "2"],
+        regles: "Lacération (4+), Vulnérante (4+)",
         traits: "Énergétique",
       },
       {

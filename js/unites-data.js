@@ -34181,7 +34181,43 @@ const UNITES = [
         type: "Infanterie (Tirailleurs)",
       },
     ],
-    options: [],
+    // Journal Tactica : Battle of Tallarn : chaque Figurine peut
+    // échanger l'une de ses pinces ou les deux, contre un objet chacune
+    // de la liste ci-dessous — budget commun (`groupe`) de 2 échanges
+    // par Figurine.
+    options: [
+      {
+        type: "quantite",
+        id: "lame",
+        groupe: "pinces-charonite",
+        libelle: "Remplacer une pince de Charonite par une lame de Charonite",
+        cout: 5,
+        parTranche: 1,
+        parTrancheMax: 2,
+        ajoute: "Lame de Charonite",
+      },
+      {
+        type: "quantite",
+        id: "broyeur",
+        groupe: "pinces-charonite",
+        libelle: "Remplacer une pince de Charonite par un broyeur de Charonite",
+        cout: 10,
+        parTranche: 1,
+        parTrancheMax: 2,
+        ajoute: "Broyeur de Charonite",
+      },
+      {
+        type: "quantite",
+        id: "dechiqueteur",
+        groupe: "pinces-charonite",
+        libelle:
+          "Remplacer une pince de Charonite par un déchiqueteur de Charonite",
+        cout: 5,
+        parTranche: 1,
+        parTrancheMax: 2,
+        ajoute: "Déchiqueteur de Charonite",
+      },
+    ],
   },
 
   /* ---------- Troupes ---------- */
@@ -34614,6 +34650,8 @@ const UNITES = [
           },
           { nom: "Batterie de bolters lourds Gravis", cout: 5 },
           { nom: "Destructeur laser", cout: 25 },
+          // Journal Tactica : Battle of Tallarn.
+          { nom: "Mortier taupe", cout: 25 },
           { nom: "Lanceur quadruple", cout: 20 },
         ],
       },
@@ -34941,6 +34979,96 @@ const UNITES = [
         libelle: "Bouclier répulsif",
         cout: 20,
         ajoute: "Bouclier répulsif",
+      },
+    ],
+  },
+  /* --- Char de Commandement Dracosan · Quartier Général · 200 pts ·
+     Faction solar-auxilia. Journal Tactica : Battle of Tallarn. « Flare
+     shield » rendu par « Bouclier répulsif », comme l'option du
+     Transport Blindé Dracosan ci-dessus ; les lance-fumigènes donnent
+     le Trait Écran de Fumée (même parti que les autres véhicules de la
+     liste). Commandant de Chars (2) : seulement affiché comme Règle
+     Spéciale (voir Spartan Prometheus). --- */
+  {
+    id: "sa-dracosan-commandement",
+    nom: "Char de Commandement Dracosan",
+    faction: "solar-auxilia",
+    categorie: "Quartier Général",
+    cout: 200,
+    composition: "1 Dracosan de Commandement",
+    traits: [
+      "[Allégeance]",
+      "Solar Auxilia",
+      "Écran de Fumée",
+      "État-major Suprême de Cohorte",
+    ],
+    notes:
+      "Le Dracosan de Commandement reconvertit la vaste baie de transport du Dracosan pour accueillir un puissant matériel de communication et des augures tactiques, qui permettent au commandant retranché à l'intérieur de garder un contrôle étroit sur les guerriers qui l'entourent. Ces véhicules ne servent que de transports personnels à des commandants qui préfèrent éviter le champ de bataille à découvert pour se concentrer sur la situation stratégique.",
+    equipement: ["Canon laser jumelé de Coque (Avant)", "Bouclier répulsif"],
+    variantes: [
+      {
+        nom: "Dracosan de Commandement",
+        cout: 0,
+        profilVehicule: {
+          M: 12,
+          CT: 4,
+          avant: 13,
+          flanc: 13,
+          arriere: 11,
+          PC: 9,
+          transport: "—",
+        },
+        regles: [
+          "Véhicule de Commandement (9)",
+          "Commandant de Chars (2)",
+          "Autoréparation (4+)",
+          "Combat Blindé",
+        ],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        type: "choix",
+        id: "coque",
+        libelle: "Remplacer le canon laser jumelé",
+        remplace: "Canon laser jumelé de Coque (Avant)",
+        choix: [
+          { nom: "Canon laser jumelé de Coque (Avant)", cout: 0 },
+          { nom: "Canon Demolisher de Coque (Avant)", cout: 40 },
+        ],
+      },
+      {
+        type: "choix",
+        id: "pivot",
+        libelle: "Arme sur Pivot",
+        ajoute: true,
+        choix: [
+          { nom: "— Aucune —", cout: 0 },
+          ...depuisListes(LISTES_AUXILIA.pivot),
+        ],
+      },
+      {
+        type: "quantite",
+        id: "missile",
+        libelle: "Missile traqueur de Coque (Avant)",
+        cout: 5,
+        max: 2,
+        ajoute: "Missile traqueur (Solar Auxilia) de Coque (Avant)",
+      },
+      {
+        type: "case",
+        id: "projecteurs",
+        libelle: "Projecteurs",
+        cout: 5,
+        ajoute: "Projecteurs",
+      },
+      {
+        type: "case",
+        id: "bulldozer",
+        libelle: "Lame de bulldozer",
+        cout: 5,
+        ajoute: "Lame de bulldozer",
       },
     ],
   },

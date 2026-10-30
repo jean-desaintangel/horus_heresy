@@ -62,7 +62,8 @@ const CLE_STOCKAGE = "hh-fiche-unites";
 // Questoris → Mechanicum / Solar Auxilia), Manifestation Démoniaque,
 // Incursion Éthérique et Ost Extatique (Legio Astartes → Démons de la
 // Tempête de la Ruine / de Tzeentch / de Slaanesh), Antemasque (Solar
-// Auxilia → Démons de Slaanesh). Leurs Unités
+// Auxilia → Démons de Slaanesh), Cohortes Vagus (toute Faction →
+// Mechanicum). Leurs Unités
 // resteraient sinon bloquées par la vérification de Faction de
 // uniteAccessible() ci-dessous — voir uniteAccessibleParDetachementCroise.
 const DETACHEMENTS_CROISES = [
@@ -73,6 +74,7 @@ const DETACHEMENTS_CROISES = [
   "incursion-etherique",
   "ost-extatique",
   "antemasque",
+  "cohortes-vagus",
 ];
 
 // Cette Unité devient-elle accessible via l'un des DETACHEMENTS_CROISES

@@ -726,6 +726,56 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Cohortes Vagus (Journal Tactica : Battle of Tallarn) ----------
+     Détachement Additionnel ouvert à toute Faction et toute Allégeance
+     (`factionLibre` sans `faction`), un seul par Armée, dont les Cases
+     piochent dans la Liste d'Armée du Mechanicum (`restrictions`,
+     accessibles grâce à DETACHEMENTS_CROISES, js/unites.js).
+     Composition confirmée par Jean : 12 Cases, toutes Principales.
+     Seuls les Avantages Principaux Vagus y sont permis
+     (`avantagesAutorises`) ; deux contraintes du livre ne sont PAS
+     vérifiées par ce site : chaque Unité doit en recevoir un, et ce
+     doit être le même pour toutes les Unités du Détachement. L'option
+     « Carnage et Pandémonium » (utilisation comme Détachement Principal
+     à 1500 points ou moins) n'est pas modélisée non plus. */
+  {
+    id: "cohortes-vagus",
+    nom: "Cohortes Vagus",
+    famille: "additionnel",
+    factionLibre: true,
+    max: 1,
+    avantagesAutorises: [
+      "orphelins-du-champ-de-bataille",
+      "renforts-egares",
+      "programmation-corrompue",
+      "influence-maligne",
+    ],
+    texte:
+      "Un seul par Armée, pour toute Faction et toute Allégeance. 12 Cases, toutes Principales : 3 Assaut Lourd (Manipules Castellax Destructor), 3 Appui (Manipules de Combat Castellax), 3 Reco (Manipules d'Attaque Vorax), 1 Engins de Guerre (Manipule de Siège Thanatar), 1 Attaque Rapide (Escadron de Stratos Vultarax), 1 Élite (Manipule de Combat Domitar) — issues du Liber Mechanicum. Chaque Unité doit recevoir un Avantage Principal Vagus, le même pour toutes les Unités du Détachement (non vérifié par ce site). Les Figurines ayant le Trait Cybernetica le remplacent par le Trait Vagus. Carnage et Pandémonium : à 1500 points ou moins, ce Détachement peut remplacer le Détachement Principal (sans Détachement Auxiliaire ni d'Apex lié, Alliés permis) ; le joueur qui l'utilise ainsi marque alors, à la Sous-phase de Victoire de chacun de ses Tours, 1 PV si au moins une Unité ennemie a perdu sa dernière Figurine (+2 si l'une d'elles avait une variante de Ligne (X)), soit 3 PV au plus par Tour (non modélisé par ce site).",
+    restrictions: {
+      "Assaut Lourd": ["mech-castellax-destructor"],
+      Appui: ["mech-combat-castellax"],
+      Reco: ["mech-attaque-vorax"],
+      "Engins de Guerre": ["mech-siege-thanatar"],
+      "Attaque Rapide": ["mech-stratos-vultarax"],
+      Elite: ["mech-combat-domitar"],
+    },
+    cases: [
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Appui", true),
+      _caseOrga("Appui", true),
+      _caseOrga("Appui", true),
+      _caseOrga("Reco", true),
+      _caseOrga("Reco", true),
+      _caseOrga("Reco", true),
+      _caseOrga("Engins de Guerre", true),
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Elite", true),
+    ],
+  },
+
   /* ---------- Détachements Auxiliaires standard (p. 284) ---------- */
   {
     id: "poing-blinde",
@@ -1311,6 +1361,27 @@ const TYPES_DETACHEMENTS = [
       _caseOrga("Assaut Lourd"),
       _caseOrga("Suites"),
       _caseOrga("Engins de Guerre"),
+    ],
+  },
+  /* Journal Tactica : Battle of Tallarn, pack de missions Armoured
+     Spearhead (voir pages/missions.html#armoured-spearhead). Le livre
+     le réserve aux Missions Armoured Spearhead, ouvert à toute Faction
+     et toute Allégeance — condition de mission non modélisée sur ce
+     site (comme les Détachements Principaux Zone Mortalis plus haut).
+     Composition confirmée par Jean : 3 Cases Blindés, toutes
+     Principales. Seuls les Avantages Principaux Armoured Spearhead y
+     sont permis (`avantagesAutorises`). */
+  {
+    id: "escadron-commandement-blinde",
+    nom: "Escadron de Commandement Blindé",
+    famille: "apex",
+    texte:
+      "Réservé en principe aux Missions Armoured Spearhead (non vérifié par ce site), pour toute Faction et toute Allégeance. Toutes les Cases de ce Détachement ne peuvent recevoir que les Avantages Principaux Armoured Spearhead (Systèmes Durcis, Stabilisateurs à Toile Suspensive).",
+    avantagesAutorises: ["systemes-durcis", "stabilisateurs-toile-suspensive"],
+    cases: [
+      _caseOrga("Blindés", true),
+      _caseOrga("Blindés", true),
+      _caseOrga("Blindés", true),
     ],
   },
   /* Premier Détachement d'Apex réservé à une Légion sur le site.
@@ -3974,6 +4045,11 @@ const DESIGNATIONS_LEGIONES_AUXILIA = [
                  Les Défavorisés, Iron Warriors, réservé au seul Type
                  Infanterie ; Les Sagyar Mazan, White Scars, qui
                  acceptent Infanterie OU Cavalerie).
+   - detachementsRequis : [ids de TYPES_DETACHEMENTS] — Avantage
+                 entièrement MASQUÉ (pas seulement grisé) hors des
+                 Détachements de ces types (ex : Avantages Armoured
+                 Spearhead, réservés à l'Escadron de Commandement
+                 Blindé — voir avantagesPossibles, js/organigramme.js).
    - typesExclus  : [Types] — inverse de `typesRequis` : avantage grisé
                  si l'unité inclut l'un des Types listés (ex : Vrais
                  Croyants, interdit aux Véhicules — FAQ octobre 2026).
@@ -4101,6 +4177,63 @@ const AVANTAGES_PRINCIPAUX = [
     typesExclus: ["Véhicule"],
     texte:
       "Armées d'Allégeance Renégate (liste Legiones Astartes) : toutes les figurines de l'unité gagnent le Sous-type Maléfique — elles ignorent les Statuts Tactiques (remplacés par D3 blessures automatiques PA2/Dégâts 1 sans sauvegarde) et les règles réduisant Cd/Sf/Vo/Int, et ne peuvent pas rejoindre ou être rejointes par des unités non-Maléfiques. FAQ octobre 2026 : ne s'applique pas aux Véhicules.",
+  },
+  /* --- Journal Tactica : Battle of Tallarn, Avantages Principaux
+     Armoured Spearhead. Le livre les ouvre à toute Unité composée
+     uniquement de Véhicules occupant une Case Principale lors d'une
+     Mission Armoured Spearhead ; faute de notion de mission sur ce
+     site, ils ne sont proposés que dans l'Escadron de Commandement
+     Blindé (`detachementsRequis`), le seul endroit où leur usage est
+     certain. `typesRequis` approxime « uniquement des Véhicules ». --- */
+  {
+    id: "systemes-durcis",
+    nom: "Systèmes Durcis (Armoured Spearhead)",
+    typesRequis: ["Véhicule"],
+    detachementsRequis: ["escadron-commandement-blinde"],
+    texte:
+      "Missions Armoured Spearhead, Unité composée uniquement de Figurines de Type Véhicule : la Figurine peut faire des Tests de Réparation lors de la Sous-phase des Effets de la Phase de Début de son Joueur en Contrôle ET lors de la Phase de Fin.",
+  },
+  {
+    id: "stabilisateurs-toile-suspensive",
+    nom: "Stabilisateurs à Toile Suspensive (Armoured Spearhead)",
+    typesRequis: ["Véhicule"],
+    detachementsRequis: ["escadron-commandement-blinde"],
+    texte:
+      "Missions Armoured Spearhead, Unité composée uniquement de Figurines de Type Véhicule : la Figurine compte toujours comme Stationnaire pour bénéficier de la Règle Spéciale Lourde (X), qu'elle se soit déplacée ou non lors du Tour de Bataille.",
+  },
+  /* --- Journal Tactica : Battle of Tallarn, Avantages Principaux
+     Vagus : réservés à une Case Principale occupée par une Unité
+     composée uniquement de Figurines ayant le Trait Vagus, c'est-à-dire
+     aux Unités des Cohortes Vagus (`detachementsRequis`). Effets
+     appliqués manuellement par le joueur (bonus de profil, Réserves,
+     déploiement…) : pas de `reglesAppliquees`. --- */
+  {
+    id: "orphelins-du-champ-de-bataille",
+    nom: "Orphelins du Champ de Bataille (Vagus)",
+    detachementsRequis: ["cohortes-vagus"],
+    texte:
+      "Toutes les Figurines de l'Unité commencent la bataille en Réserves et gagnent les Règles Spéciales Corruption du Cortex et Sacrifiable (1). Quand l'Unité est déployée sur le Champ de Bataille, la CC et la CT de Base de ses Figurines sont modifiées de +1 (maximum 4) et leur Endurance de Base de -1. À la Sous-phase des Effets de la dernière Phase de Fin de la bataille, toutes les Figurines de l'Unité sont retirées comme pertes.",
+  },
+  {
+    id: "renforts-egares",
+    nom: "Renforts Égarés (Vagus)",
+    detachementsRequis: ["cohortes-vagus"],
+    texte:
+      "Toutes les Figurines de l'Unité gagnent les Règles Spéciales Corruption du Cortex, Sacrifiable (1) et Infiltration (9), et doivent être déployées avec Infiltration (X) — ou, si c'est impossible, placées en Réserves. Si l'Unité est déployée avec toutes ses Figurines à plus de 12\" de toute Figurine ennemie, elles commencent la bataille avec un PV de moins que leur valeur de Base. Dès son entrée en jeu, la CC et la CT de Base de ses Figurines passent à 2 ; puis, à la Sous-phase des Effets de chaque Phase de Début du Joueur en Contrôle, elles sont modifiées de +1 (maximum 4).",
+  },
+  {
+    id: "programmation-corrompue",
+    nom: "Programmation Corrompue (Vagus)",
+    detachementsRequis: ["cohortes-vagus"],
+    texte:
+      "Toutes les Figurines de l'Unité gagnent les Règles Spéciales Corruption du Cortex, Sacrifiable (1) et Peur (1), et remplacent toute variante d'Explose (X) par Explose (4+). De plus, à la Sous-phase de Charge des Phases d'Assaut des deux joueurs, si l'Unité n'est pas Verrouillée au Combat et n'a pas déclaré de Charge, elle subit immédiatement une Rétroaction Cybertheurgique.",
+  },
+  {
+    id: "influence-maligne",
+    nom: "Influence Maligne (Vagus)",
+    detachementsRequis: ["cohortes-vagus"],
+    texte:
+      "Toutes les Figurines de l'Unité gagnent les Règles Spéciales Corruption du Cortex, Sacrifiable (1) et Haine (toutes les Figurines qui n'ont pas le Type Automate). L'Unité peut faire des Attaques de Tir contre des Unités amies : résolues normalement avec toutes les Armes disponibles, sans Réaction possible pour la cible, et sans qu'aucun joueur ne marque de PV grâce à elles. Si, à la fin d'un Tour du Joueur en Contrôle, l'Unité n'a fait aucune attaque pendant la Phase de Tir ni la Phase d'Assaut, elle subit une Rétroaction Cybertheurgique à la Sous-phase des Effets de la Phase de Fin de ce Tour.",
   },
   /* --- Arsenal des Sons of Horus (XVIe Légion), page « Suprématie
      Martiale » (voir js/unites-data.js, unités réservées à cette
