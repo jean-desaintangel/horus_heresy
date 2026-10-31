@@ -2004,8 +2004,9 @@ const TYPES_DETACHEMENTS = [
     legion: "I",
   },
   /* Icônes identifiées par comparaison avec la légende des Rôles
-     Tactiques (p. 285) : char (Blindés, ×4). Aucun bullet de
-     restriction visible sous l'encadré : aucune restriction transcrite. */
+     Tactiques (p. 285), corrigé par Jean : Transports Lourds ×2 +
+     Blindés ×2. Aucun bullet de restriction visible sous l'encadré :
+     aucune restriction transcrite. */
   {
     id: "gantelet-ironwing",
     nom: "Gantelet de l'Ironwing",
@@ -2013,8 +2014,8 @@ const TYPES_DETACHEMENTS = [
     texte:
       "L'Ironwing régit les immenses arsenaux des Dark Angels, et donc une force d'engins de guerre qui surpasse celle de toute autre Légion. Les Gantelets de l'Ironwing constituent une force tactiquement flexible de chars et de transports blindés.",
     cases: [
-      _caseOrga("Blindés"),
-      _caseOrga("Blindés"),
+      _caseOrga("Transports Lourds"),
+      _caseOrga("Transports Lourds"),
       _caseOrga("Blindés"),
       _caseOrga("Blindés"),
     ],
