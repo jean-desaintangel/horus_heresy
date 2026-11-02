@@ -2483,6 +2483,14 @@ const ARMES_TIR = [
         traits: "Psychique",
       },
       {
+        // Arme Psychique (Discipline Anathemata : Ésotériste, Lorgar,
+        // Erebus, option Tradition Ardente des Word Bearers).
+        nom: "Dards du Néant",
+        stats: ["18", "D6", "5", "4", "1"],
+        regles: "Lacération (5+), Force (D)",
+        traits: "Psychique",
+      },
+      {
         // Arme Psychique (Discipline Navis Astrologis, Expeditionary
         // Navigator, Legacies Solar Auxilia) : voir js/unites-data.js.
         nom: "Regard sans Paupières",

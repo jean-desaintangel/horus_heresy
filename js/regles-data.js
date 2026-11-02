@@ -2201,6 +2201,29 @@ const REGLES_DIVERSES = [
     texte:
       "Pouvoir Psychique (Bénédiction) : puisant dans les profondeurs tourmentées du Warp, le Diaboliste confère des bénédictions maléfiques aux Légionnaires de la XVIIe, les nourrissant d'une énergie ténébreuse tout en les rendant toujours plus monstrueux aux yeux de leurs ennemis. Le Joueur Actif peut choisir de le Manifester au début de la Sous-Phase de Combat de sa Phase d'Assaut ; le Foyer doit être une Figurine ayant le Trait Diaboliste sous son contrôle, et l'Unité Cible doit être une Unité du Joueur Réactif comptant au moins une Figurine à 12 pouces du Foyer et en Ligne de Vue de celui-ci, entièrement composée de Figurines ayant le Trait Word Bearers. En cas de Manifestation réussie, toutes les Figurines de l'Unité Cible gagnent les Règles Spéciales En Feu (1) et Insensible à la Douleur (6+) jusqu'à la fin de la Phase d'Assaut.",
   },
+  /* --- Discipline Anathemata (Ésotériste, Lorgar, Erebus, option
+     Tradition Ardente des Word Bearers — p. 35) : voir js/unites-data.js,
+     et l'Arme Psychique Dards du Néant dans js/armes-data.js. --- */
+  {
+    nom: "Discipline Anathemata",
+    texte:
+      "Certains Ésotéristes étudient le Warp dans le seul but de découvrir les points faibles des entités qui y rôdent. D'autres voient en elles des outils fort commodes pour remporter la victoire, dénuées de loyauté ou d'intentions propres. Une Figurine ayant la Discipline Anathemata gagne la Règle Spéciale Peur (1), l'Arme Psychique Dards du Néant et le Trait « Anathemata » ; si elle a le Trait Loyaliste, elle peut utiliser la Réaction Psychique Sceller le Voile, et si elle a le Trait Renégat, le Pouvoir Psychique Déchirer le Voile.",
+  },
+  {
+    nom: "Anathemata",
+    texte:
+      "Trait conféré par la Discipline Anathemata : sert de Focus aux Pouvoir et Réaction Psychiques Déchirer le Voile et Sceller le Voile.",
+  },
+  {
+    nom: "Déchirer le Voile",
+    texte:
+      "Pouvoir Psychique (Bénédiction) de la Discipline Anathemata, réservé aux Figurines ayant le Trait Renégat : pliant les entités du Warp à sa volonté, l'Ésotériste déchire le tissu de la réalité pour attirer ses alliés extra-dimensionnels sur le champ de bataille. Le Joueur Actif peut le Manifester au début de la Sous-phase de Réserves de sa Phase de Mouvement ; le Focus doit être une Figurine ayant le Trait Anathemata sous son contrôle, et ce Pouvoir n'a pas de Cible. On fait un Test de Manifestation : en cas de réussite, le Joueur Actif peut choisir une Unité d'un Détachement de Manifestation Démoniaque de la même Armée que le Focus et qui est en Réserves — ses Jets de Réserves sont automatiquement réussis jusqu'à la fin de cette Sous-phase de Réserves.",
+  },
+  {
+    nom: "Sceller le Voile",
+    texte:
+      "Réaction Psychique (Malédiction) de la Discipline Anathemata, réservée aux Figurines ayant le Trait Loyaliste : nombre d'Ésotéristes ont appris à sceller les fissures dans la réalité et à repousser les immondes créatures qui se déversent du Warp. Le Joueur Réactif peut la déclarer au début de l'Étape 3 de la Procédure de Charge, lors d'une Charge déclarée par le Joueur Actif pour une Unité incluant au moins une Figurine de Sous-type Maléfique (Coût : 1 Point d'Attribution de Réactions, payé dès la déclaration). Le Focus doit être une Figurine ayant le Trait Anathemata, sous le contrôle du Joueur Réactif et faisant partie de l'Unité ciblée par la Charge ; la Cible est l'Unité qui Charge. On fait un Test de Résistance : en cas de réussite, l'Unité Cible ne peut pas faire de Mouvement de Positionnement supérieur à 1 pouce, et lors de son Jet de Charge (Étape 5 de la Procédure de Charge), on défausse le Dé qui donne le résultat le plus élevé au lieu du plus faible. Effets résolus immédiatement.",
+  },
   {
     // Lorgar, Primarque des Word Bearers (XVIIe Légion) : voir
     // js/unites-data.js.

@@ -2329,6 +2329,34 @@ function construireTablesArmes(equipementComptes, factionUnite) {
   return fragment;
 }
 
+// Arme Psychique conférée par chaque Discipline Psychique (voir
+// js/regles-data.js) : la Discipline n'apparaît sur la fiche que comme
+// une entrée d'Équipement (option `multi` « Discipline : … », Tradition
+// Ardente) ou de Règles Spéciales (Ésotériste, Lorgar, Erebus), jamais
+// comme le nom de l'Arme — sans cette table, construireTablesArmes ne
+// trouverait pas son profil. Clé cherchée comme sous-chaîne de l'entrée.
+const ARMES_PSYCHIQUES_DISCIPLINES = {
+  "Appel de l'Orage": "Foudre Invisible",
+  Anathemata: "Dards du Néant",
+  Diabolisme: "Feu Infernal",
+};
+
+// Copie de `equipementComptes` complétée par l'Arme Psychique de chaque
+// Discipline présente dans l'Équipement ou dans `regles` (1 porteur :
+// le Psyker), sauf si cette Arme figure déjà dans l'Équipement.
+function avecArmesDisciplines(equipementComptes, regles) {
+  const comptes = new Map(equipementComptes);
+  const entrees = [...equipementComptes.keys(), ...regles];
+  for (const [discipline, arme] of Object.entries(
+    ARMES_PSYCHIQUES_DISCIPLINES,
+  )) {
+    if (!entrees.some((e) => e.includes(discipline))) continue;
+    if ([...comptes.keys()].some((nom) => nom.includes(arme))) continue;
+    comptes.set(arme, 1);
+  }
+  return comptes;
+}
+
 // Bloc « Définitions », réservé à l'impression (voir .unite-fiche-
 // definitions dans css/style.css) : reprend en texte visible la
 // définition de chaque règle spéciale et trait de la fiche (unité et
@@ -2718,7 +2746,15 @@ function construireFiche(unite, instance) {
       true,
     ),
   );
-  fiche.appendChild(construireTablesArmes(equipementComptes, unite.faction));
+  fiche.appendChild(
+    construireTablesArmes(
+      avecArmesDisciplines(
+        equipementComptes,
+        reglesFinales(unite, variante, instance),
+      ),
+      unite.faction,
+    ),
+  );
   // [Allégeance], [Legiones Astartes], [Questoris Familia], [Legio
   // Custodes] et [Anathema Psykana] sont communs à toutes les unités de
   // la Légion/Faction : ne pas les afficher sur la fiche évite de les y
