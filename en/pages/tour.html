@@ -1,0 +1,286 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Le tour de jeu
+     Fichier : pages/tour.html
+
+     Les cinq phases d'un tour, présentées en « timeline » (frise verticale).
+     La mise en forme de la frise est entièrement en CSS (section TIMELINE de
+     css/style.css) ; js/main.js n'ajoute que le repliement des étapes.
+     Modèle de toutes les pages de règles du site : même en-tête, même
+     structure <main><section>.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turn Sequence — Horus Heresy</title>
+    <link rel="canonical" href="https://lagrandecroisade.fr/en/pages/tour.html" />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/tour.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/tour.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/tour.html" />
+    <meta
+      name="description"
+      content="The Horus Heresy 3rd edition game turn: phases and sub-phases, resolving shooting."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Turn Sequence — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="The Horus Heresy 3rd edition game turn: phases and sub-phases, resolving shooting."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/tour.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <!-- ===================== TIMELINE DES PHASES ===================== -->
+      <section id="phases">
+        <h1 class="section-titre section-titre--centre titre-page">
+          Turn sequence
+        </h1>
+
+        <div class="timeline">
+          <p>
+            The missions in the rulebook are played over 4 rounds, in which each player takes a turn, one after the other.
+          </p>
+          <!-- ===================== PHASE DE DÉBUT ===================== -->
+          <div class="timeline-item">
+            <h2 class="timeline-entete">
+              <button
+                type="button"
+                class="timeline-titre"
+                aria-expanded="false"
+              >
+                1. The Start Phase <span class="chevron" aria-hidden="true">❯</span>
+              </button>
+            </h2>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <p>
+                  <strong>Effects Sub-phase</strong> — resolve everything that triggers "at the start of the turn": special rules, powers, lasting effects.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===================== PHASE DE MOUVEMENT ===================== -->
+          <div class="timeline-item">
+            <h2 class="timeline-entete">
+              <button
+                type="button"
+                class="timeline-titre"
+                aria-expanded="false"
+              >
+                2. The Movement Phase <span class="chevron" aria-hidden="true">❯</span>
+              </button>
+            </h2>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Reserves Sub-phase</strong> — units kept off the table (Reserves, Deep Strike…) attempt to arrive in play.
+                  </li>
+                  <li>
+                    <strong>Move Sub-phase</strong> — you move your units: a normal move, or "Rush" to go faster (at the cost of shooting and charging).
+                  </li>
+                  <li>
+                    <strong>Rout Sub-phase</strong> — <em>Routed</em> units Fall Back towards your deployment zone (see <a href="statuts-reactions.html#statuts">statuses</a>).
+                  </li>
+                </ul>
+                <p class="lien-detail">
+                  <a href="mouvement.html">Movement Phase in detail →</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===================== PHASE DE TIR ===================== -->
+          <div class="timeline-item">
+            <h2 class="timeline-entete">
+              <button
+                type="button"
+                class="timeline-titre"
+                aria-expanded="false"
+              >
+                3. The Shooting Phase <span class="chevron" aria-hidden="true">❯</span>
+              </button>
+            </h2>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Attack Sub-phase</strong> — units shoot, one at a time, following the resolution sequence detailed below.
+                  </li>
+                  <li>
+                    <strong>Morale Sub-phase</strong> — units that have suffered heavily test their morale; if they fail, hello Tactical Statuses.
+                  </li>
+                </ul>
+                <p class="lien-detail">
+                  <a href="tir.html">Shooting Phase in detail →</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===================== PHASE D’ASSAUT ===================== -->
+          <div class="timeline-item">
+            <h2 class="timeline-entete">
+              <button
+                type="button"
+                class="timeline-titre"
+                aria-expanded="false"
+              >
+                4. The Assault Phase <span class="chevron" aria-hidden="true">❯</span>
+              </button>
+            </h2>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Charge Sub-phase</strong> — units declare their charges and hurl themselves into contact (the opponent may react: Overwatch, Evade…).
+                  </li>
+                  <li>
+                    <strong>Challenge Sub-phase</strong> — champions call each other out to a duel (see the <a href="defi.html">Challenge</a> page).
+                  </li>
+                  <li>
+                    <strong>Fight Sub-phase</strong> — everyone strikes, in descending order of Initiative.
+                  </li>
+                  <li>
+                    <strong>Resolution Sub-phase</strong> — count up each side's points: the loser tests its morale and risks being routed.
+                  </li>
+                </ul>
+                <p class="lien-detail">
+                  <a href="assaut.html">Assault Phase in detail →</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===================== PHASE DE FIN ===================== -->
+          <div class="timeline-item">
+            <h2 class="timeline-entete">
+              <button
+                type="button"
+                class="timeline-titre"
+                aria-expanded="false"
+              >
+                5. The End Phase <span class="chevron" aria-hidden="true">❯</span>
+              </button>
+            </h2>
+            <div class="timeline-details">
+              <div class="timeline-details-inner">
+                <ul>
+                  <li>
+                    <strong>Effects Sub-phase</strong> — resolve "end of turn" effects.
+                  </li>
+                  <li>
+                    <strong>Statuses Sub-phase</strong> — some Tactical Statuses expire or change.
+                  </li>
+                  <li>
+                    <strong>Victory Sub-phase</strong> — check the objectives and score Victory Points.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Mentions légales
+     Fichier : pages/mentions-legales.html
+
+     Obligations de la LCEN : éditeur, hébergeur, propriété intellectuelle,
+     absence de collecte de données. Page de contenu pur, mais obligatoire
+     pour tout site publié en France — à ne pas oublier dans un projet
+     d'examen.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legal notice — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/mentions-legales.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/mentions-legales.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/mentions-legales.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/mentions-legales.html" />
+    <meta
+      name="description"
+      content="Legal notice of the Horus Heresy beginner's guide: publisher, host, intellectual property, personal data."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Legal notice — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Publisher, host, intellectual property and personal data of the Horus Heresy beginner's guide."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/mentions-legales.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Legal Notice
+      </h1>
+
+      <h2 class="section-titre">Site publisher</h2>
+      <p>
+        This site is published on a <strong>personal, non-profit</strong> basis by a private individual.
+      </p>
+      <ul>
+        <li>Name: <em>Jean de SAINT ANGEL</em></li>
+        <li>Contact: <a href="contact.html">contact form</a></li>
+      </ul>
+      <div class="encadre">
+        <p>
+          <strong>Non-professional publisher.</strong> Article 6-III-2 of the LCEN (French law on confidence in the digital economy) allows a natural person publishing a site on a non-professional basis not to publish their address, provided they have given their full identity to their host — which is required to keep it and provide it upon a court order. The host's name must then appear below, which is the case.
+        </p>
+      </div>
+
+      <h2 class="section-titre">Host</h2>
+      <p>
+        The site is hosted by <strong>GitHub&nbsp;Pages</strong>, a service of GitHub,&nbsp;Inc. (a subsidiary of Microsoft Corporation).
+      </p>
+      <ul>
+        <li>GitHub,&nbsp;Inc.</li>
+        <li>
+          88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States
+        </li>
+        <li>
+          Website: <a href="https://github.com" target="_blank" rel="noopener noreferrer" >github.com <span class="sr-only">(new window)</span></a >
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Intellectual property</h2>
+      <div class="encadre-attention">
+        <p>
+          <strong>Unofficial site, made by volunteer fans.</strong> It is not affiliated with Games&nbsp;Workshop&nbsp;Ltd, nor approved, sponsored or endorsed by that company.
+        </p>
+      </div>
+      <p>
+        <em>Warhammer: The Horus Heresy</em>, <em>Horus Heresy</em>, <em>Adeptus Astartes</em>, the names of the Legions, the heraldry, the illustrations and all associated names, trademarks, characters and elements of the setting are the exclusive property of <a href="https://www.games-workshop.com" target="_blank" rel="noopener noreferrer" >Games Workshop Ltd <span class="sr-only">(new window)</span></a >, used here without permission. No challenge to their status is intended.
+      </p>
+      <p>
+        The rules texts are <strong>summarised transcriptions</strong> intended for beginners. They do not replace the official books, which must still be purchased to play: the sources used are listed in the footer of each page of the site. Any takedown request from the rights holder will be honoured without delay via the <a href="contact.html">contact form</a>.
+      </p>
+      <p>
+        The site's source code (HTML, CSS, JavaScript) is published under the licence stated in the repository's <code>LICENSE</code> file.
+      </p>
+
+      <h2 class="section-titre">Personal data</h2>
+      <p>
+        The site is <strong>static</strong>: it has no database and creates no user accounts. Only two kinds of processing may involve personal data.
+      </p>
+
+      <h3>Report form</h3>
+      <p>
+        The data entered in the <a href="contact.html">contact form</a> (name, e-mail address, message) is transmitted by the <a href="https://formspree.io" target="_blank" rel="noopener noreferrer" >Formspree <span class="sr-only">(new window)</span></a > service, which forwards it by e-mail to the publisher.
+      </p>
+      <ul>
+        <li>
+          <strong>Purpose</strong>: to respond to the report or suggestion.
+        </li>
+        <li>
+          <strong>Legal basis</strong>: legitimate interest (Article 6.1.f of the GDPR) — sending the form is solely at the visitor's initiative.
+        </li>
+        <li>
+          <strong>Optional fields</strong>: only the message is required. The name and e-mail address are only used to reply; they are neither published nor passed on to third parties for any other purpose.
+        </li>
+        <li>
+          <strong>Retention</strong>: <em>[period to be specified]</em>.
+        </li>
+      </ul>
+
+      <h3>Audience measurement</h3>
+      <p>
+        The site uses <a href="https://www.goatcounter.com" target="_blank" rel="noopener noreferrer" >GoatCounter <span class="sr-only">(new window)</span></a > to count visits to each page. This measurement is <strong>anonymous</strong> and <strong>cookie-free</strong>: no information that could identify you is collected or stored.
+      </p>
+
+      <h3>Local storage in the browser</h3>
+      <p>
+        The site saves some information in your browser's storage (<code>localStorage</code> and <code>sessionStorage</code>) for your convenience: the army list you are building, weapons ticked in the Arsenal, the heraldry shown in the tab.
+      </p>
+      <p>
+        This data <strong>never leaves your device</strong>: none of it is sent to a server, and the publisher has no access to it. You can delete it at any time by clearing your browser's site data.
+      </p>
+
+      <h3>Your rights</h3>
+      <p>
+        You have the right to access, rectify, erase, object to and restrict the processing of data concerning you. To exercise it, use the <a href="contact.html">contact form</a>. In the event of disagreement, you may lodge a complaint with the <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer" >CNIL (French data protection authority) <span class="sr-only">(new window)</span></a >.
+      </p>
+
+      <h2 class="section-titre">Accessibility</h2>
+      <p>
+        The site's compliance with RGAA&nbsp;4.1 (the French accessibility standard) is detailed in the <a href="accessibilite.html">accessibility statement</a>.
+      </p>
+
+      <h2 class="section-titre">Liability</h2>
+      <p>
+        The content of this site is provided for information only, with no guarantee of accuracy or completeness. In the event of any discrepancy, <strong>the official book always prevails</strong>. The publisher cannot be held liable for any transcription error or for the use made of this information in games or tournaments.
+      </p>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

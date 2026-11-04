@@ -1,0 +1,567 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Phase d'Assaut
+     Fichier : pages/assaut.html
+
+     Règles de la phase d'Assaut + tables de référence (CC, Blessure,
+     positionnement) construites par js/tables.js, comme sur pages/tir.html :
+     conteneurs vides ici, contenu généré.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Assault Phase — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/assaut.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/assaut.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/assaut.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/assaut.html" />
+    <meta
+      name="description"
+      content="The Horus Heresy 3rd edition Assault Phase in detail: declaring a charge, Setup Move and Volley Attacks, Charge Roll and Disordered Charge, Challenges, the Fight Sub-Phase and resolution."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="The Assault Phase — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="The Horus Heresy 3rd edition Assault Phase in detail: declaring a charge, Charge Roll and Disordered Charge, Challenges, the Fight Sub-Phase and resolution."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/assaut.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/tables.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Assault Phase
+      </h1>
+      <div class="encadre-attention">
+        <p>
+          A unit cannot declare a charge if: it Rushed this turn; it is already <em>locked in combat</em>; it is embarked on a transport; or it includes at least one <em>pinned</em> or <em>routed</em> model.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== SOUS-PHASE DE CHARGE ===================== -->
+        <div class="timeline-item" id="declarer">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Charge Sub-Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                <strong>1.</strong> Declare the target · <strong>2.</strong> Check Line of Sight and maximum charge range · <strong>3.</strong> Make the Setup Move · <strong>4.</strong> Make Volley Attacks · <strong>5.</strong> Make the Charge Move
+              </p>
+
+              <div class="encadre-attention">
+                <p>
+                  <strong>Disordered charge.</strong> Applies if the unit disembarked this turn, or if it includes <em>stunned</em> or <em>suppressed</em> models: no Setup Move, no Volley Attack (the target can still make one), and no bonus for a successful charge granted by a special rule.
+                </p>
+              </div>
+
+              <div class="timeline">
+                <!-- ===================== DECLARER LA CIBLE ===================== -->
+                <div class="timeline-item" id="declarer-cible">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      1/2. Declare the target and check Line of Sight and maximum charge range <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        At least one model must be able to draw Line of Sight to the target, within a maximum distance of <strong>12 inches</strong>.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== MOUVEMENT DE POSITIONNEMENT ===================== -->
+                <div class="timeline-item" id="mise-en-place">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      3. Make the Setup Move <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Before the Charge Roll, the unit makes a Setup Move, whose distance depends on the sum of <strong>Initiative + Movement</strong>:
+                      </p>
+                      <div id="table-positionnement"></div>
+                      <div class="encadre">
+                        <p>
+                          <strong>Charge already successful?</strong> If this Setup Move is enough to bring a model into base contact with the target, the charge succeeds immediately: skip the Volley Attack and the Charge Roll below.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== ATTAQUE DE VOLÉE ===================== -->
+                <div class="timeline-item" id="attaque-de-volee">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      4. Make Volley Attacks <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Both units, starting with the charging unit, may make a <strong>Volley Attack</strong> against each other: only weapons with the <em>Assault</em> trait can fire, and only as Snap Shots. This attack can never inflict a Tactical Status.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== MOUVEMENT DE CHARGE ======================== -->
+                <div class="timeline-item" id="jet-de-charge">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      5. Make the Charge Move <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        The charging player rolls <strong>2D6</strong> and discards the lowest dice: the result is the charge distance in inches.
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>Successful charge.</strong> If the result is enough to reach the target, the models in the charging unit move into base contact. At least one model in contact = both units are <strong>locked in combat</strong>.
+                        </li>
+                        <li>
+                          <strong>Failed charge.</strong> If the result is not enough, <strong>no movement</strong>: the charging unit simply takes a Cool Check. If passed, no further effect; if failed, all of its models become <em>stunned</em>.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE DÉFI ===================== -->
+        <div class="timeline-item" id="defi">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Challenge Sub-Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A character engaged in melee (<span class="regle-tag" tabindex="0" >Paragon<span class="tooltip" >Allocates the hits it inflicts itself, both in shooting and in melee. May join or leave an Infantry unit (and vice versa), embark on a model with the Transport sub-type, issue and accept Challenges, and lend its characteristics to its unit for any Characteristic Test. Counts as its base Wounds value for combat resolution.</span ></span > type, or Command/<span class="regle-tag" tabindex="0" >Champion<span class="tooltip" >A model with the Champion sub-type may issue and accept Challenges.</span ></span > sub-type) may call out an enemy to a duel: Face-Off (choosing a Gambit), Focus (advantage roll), Strike (resolving attacks) then Glory (consequences for the combat). Full details of the procedure and Gambits on the <a href="defi.html">The Challenge</a> page.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE COMBAT ===================== -->
+        <div class="timeline-item" id="combat">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Fight Sub-Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                <strong>1.</strong> Declare combatants · <strong>2.</strong> Make pile-in moves · <strong >3.</strong > Declare engaged models · <strong>4.</strong> Form Strike Groups · <strong>5.</strong> Make Hit Tests · <strong>6.</strong> Make Wound Tests · <strong>7.</strong> Choose a Strike Group and the target · <strong>8.</strong> Make Saving Throws · <strong >9.</strong > Choose the next Strike Group · <strong>10.</strong> Remove Casualties.
+              </p>
+              <div class="timeline">
+                <!-- ===================== DECLARER LES COMBATTANTS ===================== -->
+                <div class="timeline-item" id="declarer-combattants">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      1/2. Declare combatants and make pile-in moves <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        The models with the highest <strong>Initiative</strong> in the combat fight first, then the others in descending order. Models must be brought into contact by moving a number of inches equal to their Initiative.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== ETABLIR LES GROUPES DE COUPS ===================== -->
+                <div class="timeline-item" id="groupes-de-coups">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      4. Form Strike Groups <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        The player declares which weapons in their unit take part in the combat (one weapon per model). They are then gathered into <strong>Strike Groups</strong>: all attacks made with weapons of the same name form a single group, resolved together.
+                      </p>
+                      <p>
+                        Two exceptions require separate groups, even for the same weapon: if the weapon has several profiles (you then choose which one to use), or if the fighting models do not all have the same Weapon Skill.
+                      </p>
+                      <p>
+                        Groups are resolved <strong>one at a time</strong>, in the order chosen by the Active Player.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== TOUCHE ===================== -->
+                <div class="timeline-item" id="toucher">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      5. Make Hit Tests <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Cross-reference the <strong>attacker's Weapon Skill (WS)</strong> with the <strong>defender's</strong>. The result is the minimum score needed on 1D6 to hit.
+                      </p>
+                      <!-- La table est générée par js/tables.js -->
+                      <div id="table-cc"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== BLESSURE ===================== -->
+                <div class="timeline-item" id="blesser">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      6. Make Wound Tests <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Each hit is then converted into a Wound Test, by cross-referencing the weapon's <strong>Strength</strong> with the target's <strong>Toughness</strong> — see the table below. A "−" means the wound is impossible.
+                      </p>
+                      <div id="table-blessure"></div>
+                      <div class="encadre">
+                        <p>
+                          <strong>Vehicle target:</strong> no Wound Test. Instead, make an <strong>Armour Penetration Test</strong>, comparing the weapon's Strength with the Armour hit.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
+                <div class="timeline-item" id="sauvegardes">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      7/8. Choose the target and Saving Throws. <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <ol class="etapes">
+                        <li>
+                          <strong>Choose the target model.</strong> The defending player chooses which model in the unit takes each wound. A model that is already wounded must be chosen first.
+                        </li>
+                        <li>
+                          <strong>Saving Throw.</strong> A save may be attempted for each wound or penetrating hit; if successful, it is simply discarded.
+                        </li>
+                        <li>
+                          <strong>Applying Damage.</strong> Each wound that is not avoided reduces the model's <strong>Wounds</strong> by the weapon's <strong>Damage</strong> value. At 0, it is set aside as a Casualty.
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE RÉSOLUTION ===================== -->
+        <div class="timeline-item" id="resolution">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Resolution Sub-Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Once a round of combat has been fully resolved, determine what happens to both sides in 4 steps.
+              </p>
+              <ol class="etapes">
+                <li>
+                  <strong>Total the Combat Resolution Points.</strong> Each player makes a single total (even if they control several units in this combat): 1 point per enemy model Removed as a Casualty in this Fight Sub-Phase, +1 point for the player controlling the most models in the combat, plus any points from a Challenge won or a special rule.
+                </li>
+                <li>
+                  <strong>Declare the winner.</strong> The highest total wins; in the event of a tie, nobody wins or loses the combat.
+                </li>
+                <li>
+                  <strong>Panic Check for the loser.</strong> The losing player takes a Leadership Check, with a penalty equal to the difference in points between the two sides. If failed, all the models they control in this combat become <em>routed</em>; if passed, no effect.
+                </li>
+                <li>
+                  <strong>Aftermath.</strong> Each player chooses one option per unit involved (the loser chooses first) — see the table below.
+                </li>
+              </ol>
+
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Combat Aftermath options: who may choose them and their effects
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Option</th>
+                      <th scope="col" class="gauche">Who may choose it</th>
+                      <th scope="col" class="gauche">Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche"><strong>Hold</strong></td>
+                      <td class="gauche">Any unit</td>
+                      <td class="gauche">
+                        Immediate pile-in; remains locked in combat.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Disengage</strong></td>
+                      <td class="gauche">Losing side's units only</td>
+                      <td class="gauche">
+                        Move equal to the model's Movement, away from all enemies in the combat.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">
+                        <strong>Fall Back</strong>
+                      </td>
+                      <td class="gauche">
+                        Mandatory if a model is <em>routed</em>
+                      </td>
+                      <td class="gauche">
+                        See <a href="mouvement.html#deroute">Fall Back</a>.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Gun Down</strong></td>
+                      <td class="gauche">
+                        Winning side, if every enemy has fallen back
+                      </td>
+                      <td class="gauche">
+                        Volley Attack (Assault trait weapons) against the fleeing unit.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Pursue</strong></td>
+                      <td class="gauche">
+                        Winning side, if every enemy has fallen back
+                      </td>
+                      <td class="gauche">
+                        Move of Initiative + 1D6 towards the fleeing enemy; on contact, the charge is successful and the combat resumes.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche"><strong>Consolidate</strong></td>
+                      <td class="gauche">
+                        Winning side, if every enemy has fallen back or disengaged
+                      </td>
+                      <td class="gauche">
+                        Move equal to Initiative, towards the nearest enemy or an objective.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="encadre">
+                <p>
+                  <strong>Massacre:</strong> if all the models on one side are Removed as Casualties during this round, the other side is no longer locked in combat and must consolidate.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS DE CHARGE ===================== -->
+        <div class="timeline-item" id="reactions-assaut">
+          <h2 class="timeline-entete">
+            <button
+              type="button"
+              class="timeline-titre timeline-titre--reactions"
+              aria-expanded="false"
+            >
+              Enemy Reactions <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Overwatch</span
+                ><span class="badge-phase">Assault</span>
+                <p>
+                  Declared at the Volley Attack: the charged unit fires normally with all its weapons at the unit charging it, but with no cover roll or Shrouded mitigation for the attacker.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Shield Wall</span
+                ><span class="badge-phase">Shooting/Charge</span>
+                <p>
+                  Legiones Astartes Advanced Reaction, costs 1 Reaction Allotment. Declared at the start of step 4 (Volley Attacks): +1 Toughness for the phase if the majority of the unit has the Shield trait.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Evade</span
+                ><span class="badge-phase">Assault</span>
+                <p>
+                  After the Volley Attack: evasion move equal to the unit's Initiative.
+                </p>
+              </div>
+              <div class="reaction reaction-assaut">
+                <span class="reaction-nom">Heroic Intervention</span
+                ><span class="badge-phase">Assault</span>
+                <p>A character issues a Challenge.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

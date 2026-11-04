@@ -1,0 +1,731 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Règles des Titans
+     Fichier : pages/titan.html
+
+     Règles propres à la Legio Titanicus (Profils de Titan, Boucliers de Vide,
+     Réactions). Page de contenu pur.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Titans — Horus Heresy</title>
+    <link rel="canonical" href="https://lagrandecroisade.fr/en/pages/titan.html" />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/titan.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/titan.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/titan.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition Titan (Legio Titanicus) rules made simple for beginners: multiple profiles, fire arcs, Titan weapons, damage, crippling and toppling."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Titans — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition Titan (Legio Titanicus) rules made simple: multiple profiles, fire arcs, Titan weapons, damage, crippling and toppling."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/titan.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">Titans</h1>
+      <div class="encadre">
+        <p>
+          A Titan is a vehicle with the <a href="vehicule.html#sous-types">Titan Sub-type</a>: a war machine so gigantic that it uses <strong>four separate profiles</strong> (Head, Carapace, Arm, Legs) instead of a single set of Front/Side/Rear Armour. This page details everything that changes compared to a normal vehicle.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== LES BASES ===================== -->
+        <div class="timeline-item" id="bases">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. The basics: four profiles, a single model <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ul>
+                <li>
+                  <strong>A single model, four profiles.</strong> A Titan counts as a single model, but each profile (Head, Carapace, Arm, Legs) has its own Hull Points and suffers damage separately — losing Hull Points on one profile does not make the others lose any.
+                </li>
+                <li>
+                  <strong>Two Armour values per profile,</strong> instead of Front/Side/Rear: <strong>Principal Armour</strong> (used almost all the time) and <strong>Exposed Armour</strong> (used only when a profile is Crippled). The direction the attack comes from does not matter: the facing hit does not depend on the Titan's orientation.
+                </li>
+                <li>
+                  <strong>Blocks its own Line of Sight.</strong> A Titan never blocks Line of Sight to other models, but it does block Line of Sight to its own other profiles: you can only target its Head if you can actually see it, without "seeing through" the rest of the Titan.
+                </li>
+                <li>
+                  <strong>Never holds objectives.</strong> A Titan can never hold, control or contest an objective, and it only triggers secondary objectives that explicitly say so.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Titan classes</h2>
+              <p>
+                Each Titan has a <em>[Class]</em> trait that indicates its size. This trait grants no rule in itself, but other rules refer to it (notably for <a href="#ecroulement">Toppling</a>).
+              </p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Titan classes and example chassis
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Class</th>
+                      <th scope="col" class="gauche">Examples</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Scout Titan</td>
+                      <td class="gauche">Warhound</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Light Titan</td>
+                      <td class="gauche">Reaver</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Medium Titan</td>
+                      <td class="gauche">Warbringer Nemesis, Warlord</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Heavy Titan</td>
+                      <td class="gauche">(future publications)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== MOUVEMENT ===================== -->
+        <div class="timeline-item" id="mouvement">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Movement Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A Titan moves like a vehicle, with several important differences:
+              </p>
+              <ul>
+                <li>
+                  <strong>Ignores terrain.</strong> Difficult terrain, dangerous terrain and even impassable terrain do not hinder it — except that it can never <strong>end</strong> its move in an area of impassable terrain.
+                </li>
+                <li>
+                  <strong>Pivoting</strong> costs it 10" of its move (to a minimum of 0), as for a normal vehicle.
+                </li>
+                <li>
+                  <strong>Rushing</strong> is only possible for a Scout Titan or Light Titan, and does not add Initiative-based speed: it simply adds <strong>+5"</strong> to its Movement Characteristic. A Titan that rushes cannot pivot that turn.
+                </li>
+                <li>
+                  <strong>It tramples.</strong> If it moves through a unit (friendly or enemy) with no Knight or Titan Sub-type models, without ending its move on it, that unit takes a Cool test: if failed, it suffers D3+1 hits at Strength 10, AP 2, Damage 4 and gains the <em>Stunned</em> status; if passed, a single hit.
+                </li>
+                <li>
+                  <strong>Never leaves the battlefield,</strong> for any reason.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== TIR ===================== -->
+        <div class="timeline-item" id="tir">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Shooting Phase: arcs and Titan weapons <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  A Titan can always fire <strong>all</strong> of its weapons, splitting its Shooting Attacks across several enemy units, <strong>without ever</strong> being reduced to Snap Shots as a result.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Titan fire arcs</h2>
+              <p>
+                A Titan has only two main arcs — <strong>front</strong> and <strong>rear</strong> — plus special arcs depending on the weapon's mount:
+              </p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Titan fire arcs by weapon mount
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Mount</th>
+                      <th scope="col" class="gauche">Can fire…</th>
+                      <th scope="col" class="gauche">Restriction</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Centreline</td>
+                      <td class="gauche">
+                        Narrow corridor (6" wide) straight ahead of the Titan
+                      </td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Carapace</td>
+                      <td class="gauche">Any arc, without limit</td>
+                      <td class="gauche">
+                        The whole target must be more than 12" away
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Arm</td>
+                      <td class="gauche">Front arc only</td>
+                      <td class="gauche">
+                        Strategic Weapons: target more than 6" away (Strike Weapons do not have this restriction)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                <strong>Scout Titan:</strong> ignores the range restrictions of the Arm and Carapace weapons above.
+              </p>
+
+              <h2 class="sous-titre">The three types of Titan weapons</h2>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Tactical Weapons</h3>
+                  <ul>
+                    <li>
+                      Fire normally and always count as <strong>Defensive Weapons</strong> with the <em>Assault</em> trait.
+                    </li>
+                    <li>
+                      Small weapons (Autocannon, Bolt cannon or Defensor lascannon): useful against infantry.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Strategic Weapons</h3>
+                  <ul>
+                    <li>
+                      Fire normally, but count as Battle Weapons.
+                    </li>
+                    <li>
+                      Can also make <strong>Strategic Attacks</strong> (see below): the bulk of a Titan's armament.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Strike Weapons</h3>
+                  <ul>
+                    <li>
+                      Titan-scale melee weapons, but they fire under the Shooting Attack rules.
+                    </li>
+                    <li>
+                      Very short range, and can only target Knights, Titans, or any model with at least 10 Wounds — not small combatants.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">Strategic Attacks</h2>
+              <p>
+                A Strategic Attack targets a <strong>Strategic Target</strong> (designated by the mission special rules, not a normal unit) using the shooter's base Ballistic Skill. Three advantages:
+              </p>
+              <ul>
+                <li><strong>+1</strong> to the result of Hit Tests.</li>
+                <li>
+                  A weapon with <em>Blast (X)</em> ignores the vehicle damage table on a Glancing Hit: the target directly suffers damage equal to <strong>half</strong> the hit's Damage characteristic.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== ASSAUT ===================== -->
+        <div class="timeline-item" id="assaut">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Assault Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  Remember the essentials: <strong>a Titan never charges</strong>, can never be Locked in Combat, and only strikes once everything else has been resolved.
+                </p>
+              </div>
+              <ul>
+                <li>
+                  <strong>Cannot charge,</strong> but can be the target of an enemy charge.
+                </li>
+                <li>
+                  <strong>Restricted target.</strong> Models engaging it in combat can only attack its <strong>Legs</strong> — except models with the Knight or Antigrav Sub-type, which can target any profile.
+                </li>
+                <li>
+                  <strong>Very low Weapon Skill:</strong> Hit Tests against it are made against WS 1 (WS 4 only against its Head).
+                </li>
+                <li>
+                  <strong>Strikes last.</strong> If engaged, the Titan inflicts D3+1 hits at Strength 10, AP 2, Damage 4 on every unit in the combat with no Knight, Titan or Antigrav Sub-type models — <strong>after</strong> all other attacks in the combat have been resolved. It has no Initiative and these hits do not count towards combat resolution.
+                </li>
+                <li>
+                  <strong>Gains and loses nothing from resolution.</strong> A Titan never acts in the Resolution Sub-phase, and continues to move normally even if it remains engaged.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== DÉGÂTS ===================== -->
+        <div class="timeline-item" id="degats">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              5. Targeting and damaging a Titan <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <h2 class="sous-titre">Choosing the targeted profile</h2>
+              <p>
+                Before making Hit Tests against a Titan, the attacking player must declare <strong>which profile</strong> they are targeting (Head, Carapace, Arm or Legs) — at least one attacking model must be able to draw a line to that profile to choose it.
+              </p>
+              <ul>
+                <li>
+                  <strong>Targeting the Head:</strong> all attacks are Snap Shots.
+                </li>
+                <li><strong>Other profile:</strong> normal Hit Tests.</li>
+              </ul>
+
+              <h2 class="sous-titre">Armour Penetration roll</h2>
+              <p>
+                As for a vehicle: compare the result with the Armour value of the targeted profile — the <strong>Principal Armour</strong>, unless that profile is already <a href="#desempare">Crippled</a>, in which case its Exposed Armour is used.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Penetrating Hit</h3>
+                  <ul>
+                    <li>
+                      The targeted profile loses Hull Points equal to the attack's Damage.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Glancing Hit (undamaged profile)</h3>
+                  <ul>
+                    <li>
+                      One roll on the Titan damage table below.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Glancing Hit (Crippled profile)</h3>
+                  <ul>
+                    <li>
+                      Treated as Penetrating, but Damage −1 (minimum 1) — see <a href="#desempare">Crippled Profiles</a>.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">Titan damage table</h2>
+              <p>(1D6 per Glancing Hit on an undamaged profile)</p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Titan damage table: dice result and effect
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Dice</th>
+                      <th scope="col" class="gauche">Result</th>
+                      <th scope="col" class="gauche">Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1–4</td>
+                      <td class="gauche">Armour breached</td>
+                      <td class="gauche">The profile loses 1 Hull Point.</td>
+                    </tr>
+                    <tr>
+                      <td>5–6</td>
+                      <td class="gauche">System shutdown</td>
+                      <td class="gauche">
+                        No Hull Point loss, but a temporary penalty depending on the profile (see below).
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                <strong>System shutdown</strong> (until the end of the Controlling Player's next turn, cumulative):
+              </p>
+              <ul>
+                <li>
+                  <strong>Head:</strong> no multiple Shooting Attacks this turn.
+                </li>
+                <li>
+                  <strong>Carapace:</strong> −1 to this profile's Ballistic Skill.
+                </li>
+                <li>
+                  <strong>Arm:</strong> −1 to this profile's Ballistic Skill.
+                </li>
+                <li>
+                  <strong>Legs:</strong> −2 to the Movement Characteristic.
+                </li>
+              </ul>
+              <div class="encadre-attention">
+                <p>
+                  A profile reduced to <strong>0 Hull Points</strong> is not destroyed: it becomes <a href="#desempare"><strong>Crippled</strong></a >.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== DÉSEMPARÉ ===================== -->
+        <div class="timeline-item" id="desempare">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              6. Crippled Profiles <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A profile on 0 Hull Points is <strong>not destroyed</strong>: it becomes Crippled, and the Titan fights on with a handicap specific to that profile.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Crippled Head</h3>
+                  <ul>
+                    <li>
+                      No Shooting Attacks if it moved in the Movement Phase this turn.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Crippled Carapace</h3>
+                  <ul>
+                    <li>
+                      −1 to the ranged Strength of all Strategic Weapons, and no more Reactions possible.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Crippled Arms</h3>
+                  <ul>
+                    <li>
+                      All weapons on the Arm profile fire <strong>Snap Shots</strong>.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-neutralise">
+                  <h3>Crippled Legs</h3>
+                  <ul>
+                    <li>
+                      Movement −5, can no longer rush, and pivoting costs all of its remaining movement.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">
+                Further damage to an already Crippled profile
+              </h2>
+              <p>
+                If a Crippled profile suffers further damage, its Hull Points do not go below zero: instead, roll on the <strong>Titan critical damage table</strong> (with a bonus equal to the damage suffered).
+              </p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Further damage to an already Crippled profile: dice result and effect
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Dice</th>
+                      <th scope="col" class="gauche">Result</th>
+                      <th scope="col" class="gauche">Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1–4</td>
+                      <td class="gauche">Superficial damage</td>
+                      <td class="gauche">No effect.</td>
+                    </tr>
+                    <tr>
+                      <td>5–6</td>
+                      <td class="gauche">Structural damage</td>
+                      <td class="gauche">
+                        No immediate effect, but a permanent +1 to all future rolls on this table (cumulative).
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>7–19</td>
+                      <td class="gauche">Secondary explosions</td>
+                      <td class="gauche">
+                        Effect specific to the profile hit — see below.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>20+</td>
+                      <td class="gauche">Reactor failure</td>
+                      <td class="gauche">
+                        The Titan shuts down, out of action but not destroyed: it can no longer move or attack. The opposing player scores the Engine Kill Victory Points.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                <strong>Secondary explosions</strong>, depending on the profile hit:
+              </p>
+              <ul>
+                <li>
+                  <strong>Head — Killing blow:</strong> in each End Phase, the Princeps has a chance of dying (on a 3 or less on a D6) — the Titan then ceases to function as if it had suffered a Reactor failure.
+                </li>
+                <li>
+                  <strong>Carapace — Reactor cascade:</strong> roll a D6 each time. On a 1 to 5, a Crippled Carapace penalty worsens. On a 6, the <strong>Titan explodes</strong> and is Removed as a Casualty, inflicting heavy hits on its surroundings.
+                </li>
+                <li>
+                  <strong>Arm — Weapon destroyed:</strong> one arm (the one nearest the attacker) permanently loses all its Strategic Weapons for the rest of the battle.
+                </li>
+                <li>
+                  <strong>Legs — Titan topples:</strong> see <a href="#ecroulement">Toppling</a> below.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== ÉCROULEMENT ===================== -->
+        <div class="timeline-item" id="ecroulement">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              7. Toppling a Titan <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ol class="etapes">
+                <li>
+                  <strong>Staggering.</strong> A Toppling result on already Crippled Legs makes the Titan <em>Staggering</em> until the end of the Controlling Player's next turn.
+                </li>
+                <li>
+                  <strong>Toppled.</strong> If the Titan is made Staggering a second time while it already is, it <strong>topples</strong>: it is Removed as a Casualty after inflicting a hit at Strength 14, AP 5, Damage 8 on everything in the destruction zone. The opposing player scores half the normal Engine Kill Victory Points.
+                </li>
+              </ol>
+
+              <h2 class="sous-titre">Destruction zone</h2>
+              <p>
+                The players choose one of these two methods before the game, and stick to it for the whole battle:
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Simple</h3>
+                  <ul>
+                    <li>
+                      Everything within <strong>9"</strong> of a point of the Titan in contact with the ground.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Directional</h3>
+                  <ul>
+                    <li>
+                      The player who caused the toppling places a dice at a given distance from the Titan (depending on its class, see below), scatters it D6", then draws a line between the Titan and that point: everything within 6" of that line (or of the dice) is destroyed.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Placement distance of the scatter dice by Titan class
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Class</th>
+                      <th scope="col" class="gauche">
+                        Dice placement distance
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Scout Titan</td>
+                      <td class="gauche">10"</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Light Titan</td>
+                      <td class="gauche">20"</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Medium Titan</td>
+                      <td class="gauche">30"</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Heavy Titan</td>
+                      <td class="gauche">35"</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== À NE PAS OUBLIER ===================== -->
+        <div class="timeline-item" id="a-retenir">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              8. Don't forget <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ul>
+                <li>
+                  <strong>Reactions:</strong> a Titan counts as a single unit and can make one Reaction per turn, but only against an attack by a Knight, Titan or Super-heavy Sub-type model with a ranged Strength (or Strength modifier) of at least 10.
+                </li>
+                <li>
+                  <strong>Template weapons:</strong> a Template attack against a Titan can only target its Legs profile.
+                </li>
+                <li>
+                  <strong>Blast markers:</strong> the attacking player chooses a profile before making their Hit Test; only that profile can be hit, whatever other profiles are covered by the marker.
+                </li>
+                <li>
+                  <strong>Immune to Psychic.</strong> No Psychic power, weapon or Reaction can affect a Titan (see also <a href="vehicule.html#sous-types">Sub-types</a>).
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">
+                Optional rule: Desperate Tactics — Swarming
+              </h2>
+              <div class="encadre">
+                <p>
+                  A <strong>rare and advanced</strong> option, reserved for infantry normally unable to harm a Titan. A unit (Infantry or Paragon only, Movement greater than 0) engaged in combat exclusively against a Titan may, in the Assault Phase, <strong>give up all its normal attacks</strong> to try to climb the Titan and sabotage one of its profiles.
+                </p>
+              </div>
+              <p>
+                <strong>Three steps</strong>: the player chooses a target profile and a goal (<em>Inflict Damage</em> or <em>Preserve Themselves</em>), then makes an Intelligence test (modified by, among other things, the Titan's crew and the targeted profile) to see whether the Swarming succeeds, then a Cool test to limit their unit's losses.
+              </p>
+              <ul>
+                <li>
+                  <strong>Intelligence test passed:</strong> a sabotage effect of the player's choice (for example removing a Void Shield, making the Titan Staggering, or burning out one of its Strategic Weapons).
+                </li>
+                <li>
+                  <strong>Cool test:</strong> the unit attempting the Swarming suffers hits in return, fewer if this test is passed.
+                </li>
+              </ul>
+              <p>
+                For the exact modifiers and the full list of sabotage effects, refer to the army book.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

@@ -61,6 +61,7 @@ Chaque fichier porte un **en-tête commenté** qui explique son rôle, ses dépe
 - **Progressive Web App** : installable sur mobile et bureau (`manifest.json`), Service Worker (`service-worker.js`) précachant l'app shell (pages, CSS, JS, données de jeu, polices, blasons) pour une consultation **hors ligne** en boutique/tournoi.
 - **Accessibilité soignée** : lien d'évitement, `aria-current`, `aria-expanded`, contrastes WCAG AA vérifiés, focus visible, tooltips accessibles au clavier, déclaration d'accessibilité dédiée (`pages/accessibilite.html`).
 - **RGPD** : polices auto-hébergées, aucune requête vers un tiers, aucune donnée collectée, mentions légales dédiées (`pages/mentions-legales.html`).
+- **Version anglaise** (`en/`) : tout le site, configurateur compris, avec la terminologie officielle GW ; lien « English » / « Français » dans le menu vers la même page dans l'autre langue, balises `hreflang`. Générée à partir des sources françaises — voir [outils/traduction-en/](outils/traduction-en/README.md).
 
 ---
 
@@ -126,6 +127,11 @@ horus_heresy/
 │   ├── contact.js           # Envoi AJAX du formulaire de signalement
 │   └── vendor/              # jsPDF + AutoTable, auto-hébergées (export PDF)
 │
+├── en/                      # Version anglaise GÉNÉRÉE (ne pas modifier à la
+│                            # main) : mêmes pages et scripts, traduits
+├── outils/traduction-en/    # Génération de en/ + mémoire de traduction
+│                            # (voir son README)
+│
 └── assets/
     ├── fonts/               # Cinzel, Lato & EB Garamond auto-hébergées (WOFF2)
     ├── img/                 # Illustrations (hero, logos hors Légion…)
@@ -146,7 +152,7 @@ horus_heresy/
 
 ## Technologies utilisées
 
-- **HTML5 / CSS3 / JavaScript vanilla** — aucun framework, aucune étape de build. Seule exception : [jsPDF](https://github.com/parallax/jsPDF) + [AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) (`js/vendor/`, MIT), auto-hébergées comme les polices, pour l'export PDF du configurateur d'unités. L'export Word ne nécessite aucune dépendance (fichier `.doc` au format HTML).
+- **HTML5 / CSS3 / JavaScript vanilla** — aucun framework, aucune étape de build. Seule exception : [jsPDF](https://github.com/parallax/jsPDF) + [AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable) (`js/vendor/`, MIT), auto-hébergées comme les polices, pour l'export PDF du configurateur d'unités. L'export Word ne nécessite aucune dépendance (fichier `.doc` au format HTML). La version anglaise est produite par un script Node (`outils/traduction-en/`) **au moment du développement** : le site publié reste 100 % statique.
 - **Mobile-first** : les styles de base ciblent le petit écran, les media queries `min-width` enrichissent pour le bureau.
 - **Sécurité** : tout le texte est injecté via `textContent` (jamais `innerHTML`) — réflexe anti-XSS.
 - **Hébergement** : GitHub Pages, domaine personnalisé via `CNAME`.
@@ -174,6 +180,18 @@ node check_quantite.js
 ```
 
 Relit les 480 fiches d'unités et signale les options d'armement qui semblent oublier leur remplacement. Doit afficher `Total: 0 problème(s) trouvé(s)`.
+
+### Mettre à jour la version anglaise
+
+Après **toute** modification d'une page ou d'un script français, régénérer `en/` :
+
+```bash
+cd outils/traduction-en
+npm install          # la première fois seulement
+node a-traduire.js   # régénère en/ et liste les nouveaux textes à traduire
+```
+
+Le détail (traduire, intégrer, tester) est dans [outils/traduction-en/README.md](outils/traduction-en/README.md).
 
 ---
 

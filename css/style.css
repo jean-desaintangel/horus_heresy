@@ -398,6 +398,14 @@ img {
   font-weight: 700;
 }
 
+/* Lien de changement de langue (construireLienLangue, js/main.js) :
+   dernier élément du menu, détaché des pages par un filet pour ne pas
+   être pris pour une rubrique de plus. */
+.nav-langue a {
+  font-style: italic;
+  border-top: 1px solid var(--acier);
+}
+
 /* ---------- Nav bureau : menu toujours déplié, burger masqué ---------- */
 @media (min-width: 761px) {
   .nav-burger {
@@ -418,6 +426,10 @@ img {
   .nav-menu a {
     padding: 0.5rem 0.9rem;
     font-size: 0.95rem;
+  }
+  .nav-langue a {
+    border-top: none;
+    border-left: 1px solid var(--acier);
   }
 }
 

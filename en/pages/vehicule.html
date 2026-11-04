@@ -1,0 +1,676 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Règles des Véhicules
+     Fichier : pages/vehicule.html
+
+     Blindage, Capacité de Transport, Sous-types (Rapide, Stable, Super-lourd,
+     Titan, Chevalier). Page de contenu pur, mais l'une des plus longues : les
+     ancres (#sous-types…) permettent d'y renvoyer depuis les fiches d'unités
+     du configurateur.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicles — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/vehicule.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/vehicule.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/vehicule.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/vehicule.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition vehicle rules made simple: movement, fire arcs, armour and penetration, damage table, assault, transports and Sub-types."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Vehicles — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition vehicle rules made simple: movement, fire arcs, armour and penetration, damage table, assault, transports and Sub-types."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/vehicule.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Vehicles
+      </h1>
+      <div class="encadre">
+        <p>
+          A vehicle is a model apart: it has <strong>neither Wounds nor an Armour Save</strong>. Instead, it has <strong>Hull Points</strong>, <strong>Armour values</strong> (front, side, rear) and each of its weapons fires within a specific <strong>fire arc</strong>.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== LES BASES ===================== -->
+        <div class="timeline-item" id="bases">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. The basics <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ul>
+                <li>
+                  <strong>Always alone.</strong> A vehicle always forms a unit of <strong>a single model</strong>.
+                </li>
+                <li>
+                  <strong>No Armour Save.</strong> A vehicle can only use <strong>Invulnerable or Cover Saves</strong> (Damage Mitigation rolls are still allowed: they are not saves).
+                </li>
+                <li>
+                  <strong>Hull Points.</strong> These are the vehicle's "life". Reduced to <strong>0 Hull Points</strong>, it is Removed as a Casualty.
+                </li>
+                <li>
+                  <strong>Statuses.</strong> A vehicle can suffer all <a href="statuts-reactions.html#statuts">statuses</a> except <em>Routed</em> (it has no Cool). It can only get rid of them with a <strong>Repair Test</strong> or the <em>Battlesmith</em> special rule.
+                </li>
+              </ul>
+              <h2 class="sous-titre">Repair Test</h2>
+              <p>
+                In the <strong>Statuses Sub-phase</strong>, roll 1D6 for each vehicle you control: on a <strong>6</strong>, remove one status of your choice from it. Some special rules add dice or improve the target number.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== MOUVEMENT ===================== -->
+        <div class="timeline-item" id="mouvement">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Movement Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A vehicle moves like other models, up to its <strong>Movement</strong> Characteristic, and can end facing any direction. Its facing matters enormously: it determines the <a href="#tirer-sur">facings targeted by the enemy</a> and the <a href="#tir">fire arcs</a> of its own weapons.
+              </p>
+              <ul>
+                <li>
+                  <strong>Pivoting is not moving.</strong> A vehicle may pivot on the centre of its hull instead of moving: it then counts as having remained <strong>Stationary</strong> (the pivot must end more than 1" from any enemy).
+                </li>
+                <li>
+                  <strong>No rushing.</strong> Having no Initiative, a vehicle cannot Rush — unless it has the <a href="#sous-types">Fast</a> Sub-type.
+                </li>
+                <li>
+                  <strong>No climbing.</strong> A vehicle cannot move vertically within terrain or onto terrain pieces to go up a level. It can never be deployed on a level above the battlefield's <strong>ground level</strong> (level 0), nor occupy one in any way, nor be on the battlements of a building <em>(FAQ October 2026)</em>.
+                </li>
+                <li>
+                  <strong>Dangerous terrain.</strong> Failed test = the vehicle suffers <strong>1 point of Damage</strong> (no penetration roll, no save or mitigation possible).
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Driving through other units</h2>
+              <p>
+                Unlike other models, a vehicle can <strong>move through</strong> units that are not vehicles (but never through another vehicle or terrain), and it cannot end its move on a model or within 1" of an enemy.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Friendly unit moved through</h3>
+                  <ul>
+                    <li>No effect: its models are not even moved.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Enemy unit moved through</h3>
+                  <ul>
+                    <li>
+                      It suffers <strong>D6 hits at Strength 6, AP&nbsp;–</strong> (allocated by its owner). It can trigger the <em>Death or Glory</em> Advanced Reaction.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== LE VÉHICULE TIRE ===================== -->
+        <div class="timeline-item" id="tir">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Shooting Phase: the vehicle shoots <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A vehicle shoots with its <strong>Ballistic Skill</strong> like everyone else, but with two big differences: each weapon is limited to its <strong>fire arc</strong>, and it can <strong>split its weapons between several targets</strong>.
+              </p>
+              <div class="encadre-attention">
+                <p>
+                  <strong>Targeting several units comes at a price:</strong> if the vehicle makes several Shooting Attacks in the same phase, all its attacks are <strong>Snap Shots</strong>… except those with <em>Defensive Weapons</em>. Each Shooting Attack must target a different unit, and each weapon is used only once per phase.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Defensive Weapons and Battle Weapons</h2>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Defensive Weapons and Battle Weapons: categories, weapons concerned and advantage
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Category</th>
+                      <th scope="col" class="gauche">Which weapons?</th>
+                      <th scope="col" class="gauche">Advantage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Defensive Weapon</td>
+                      <td class="gauche">
+                        Strength 6 or less (or listed as such)
+                      </td>
+                      <td class="gauche">
+                        Never Snap Shots when targeting several units
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Battle Weapon</td>
+                      <td class="gauche">Strength 7 or more</td>
+                      <td class="gauche">—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 class="sous-titre">Fire arcs and weapon mounts</h2>
+              <p>
+                Draw two imaginary lines through the corners of the vehicle to define four arcs: <strong>front</strong>, <strong>rear</strong>, <strong>left</strong> and <strong>right</strong>. Each weapon's profile states its mount, which determines where it can fire:
+              </p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Vehicle fire arcs by weapon mount
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Mount</th>
+                      <th scope="col" class="gauche">Can fire…</th>
+                      <th scope="col" class="gauche">Bonus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Hull (Arc)</td>
+                      <td class="gauche">
+                        Within the single arc stated (e.g. front)
+                      </td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Turret</td>
+                      <td class="gauche">Within all 4 arcs, without restriction</td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Centreline</td>
+                      <td class="gauche">
+                        Within the strip extending the sides forwards (or rearwards if specified)
+                      </td>
+                      <td class="gauche">—</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Sponson</td>
+                      <td class="gauche">
+                        Within its side arc (left or right); usually one mount per side
+                      </td>
+                      <td class="gauche">Always a Defensive Weapon</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Pintle</td>
+                      <td class="gauche">Within all 4 arcs, without restriction</td>
+                      <td class="gauche">
+                        Always a Defensive Weapon + <em>Assault</em> trait
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Co-axial (X)</td>
+                      <td class="gauche">
+                        Within the arcs of weapon X to which it is attached
+                      </td>
+                      <td class="gauche">
+                        Must target the same target as weapon X, otherwise does not fire
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== TIRER SUR UN VÉHICULE ===================== -->
+        <div class="timeline-item" id="tirer-sur">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Shooting at a vehicle: armour and damage <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <ol class="etapes">
+                <li>
+                  <strong>Line of Sight and Hit Tests</strong> as usual (Line of Sight measured to the hull, not counting protruding barrels and antennae).
+                </li>
+                <li>
+                  <strong>Which facing is hit?</strong> Draw two imaginary lines through the corners of the vehicle: the zone the shooter is in shows the facing targeted (front, side or rear). If the shooter can see two facings, the <strong>vehicle's owner</strong> chooses. Indirect fire or no Line of Sight: always the <strong>Side Armour</strong>.
+                </li>
+                <li>
+                  <strong>Armour Penetration roll</strong> instead of the Wound Test: <strong>1D6 + the hit's Strength</strong>, compared with the Armour value of the targeted facing.
+                </li>
+              </ol>
+
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Total &lt; Armour</h3>
+                  <ul>
+                    <li>No effect, the hit is discarded.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Total = Armour</h3>
+                  <ul>
+                    <li>
+                      <strong>Glancing Hit</strong>: no damage, but one roll on the damage table below.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Total &gt; Armour</h3>
+                  <ul>
+                    <li>
+                      <strong>Penetrating Hit</strong>: unless a save (invulnerable/cover) or mitigation is passed, the vehicle loses as many <strong>Hull Points</strong> as the weapon's Damage characteristic.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">Vehicle damage table</h2>
+              <p>(1D6 per Glancing Hit)</p>
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Vehicle damage table: dice result and effect
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Dice</th>
+                      <th scope="col" class="gauche">Result</th>
+                      <th scope="col" class="gauche">Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1–2</td>
+                      <td class="gauche">Sensors scrambled</td>
+                      <td class="gauche"><em>Stunned</em> status</td>
+                    </tr>
+                    <tr>
+                      <td>3–4</td>
+                      <td class="gauche">Engines damaged</td>
+                      <td class="gauche"><em>Pinned</em> status</td>
+                    </tr>
+                    <tr>
+                      <td>5–6</td>
+                      <td class="gauche">Weapons damaged</td>
+                      <td class="gauche"><em>Suppressed</em> status</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="encadre-attention">
+                <p>
+                  <strong>Status already present?</strong> If the result gives a status the vehicle already has, it instead loses <strong>1 Hull Point</strong> — with no save or mitigation possible.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Wrecks</h2>
+              <p>
+                At 0 Hull Points, the vehicle is Removed as a Casualty. Optionally (if both players agree), a <strong>wreck</strong> can be left on the table: it counts as <strong>difficult and dangerous</strong> terrain and grants a <strong>6+ Cover Save</strong> (no wreck if the vehicle exploded via <em>Explodes (X)</em>).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== ASSAUT ===================== -->
+        <div class="timeline-item" id="assaut">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              5. Assault Phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="encadre">
+                <p>
+                  Remember the essentials: <strong >a vehicle never charges and never strikes</strong > but the enemy can charge it and tear it apart.
+                </p>
+              </div>
+              <ul>
+                <li>
+                  <strong >No charges, no attacks, no locking: </strong >a vehicle does not lock the enemy in combat and is never <em>Locked in Combat</em>.
+                </li>
+                <li>
+                  <strong>Being charged.</strong> A charge is declared against a vehicle as normal; it can react and make its <em>Volley Attacks</em> at step 4 of the charge if it has suitable weapons.
+                </li>
+                <li>
+                  <strong>Striking it in combat.</strong> The vehicle counts as <strong>WS 1</strong>. Every hit is resolved against the <strong>Rear Armour</strong>, whatever the combatants' positions, with penetration rolls (no Wound Tests).
+                </li>
+                <li>
+                  <strong>Resolution.</strong> As it does not attack, a lone vehicle will normally lose the combat. It can only <em>Hold</em> at the end of the combat, then moves normally in its next Movement Phase.
+                </li>
+                <li>
+                  <strong>Staying in contact pays off:</strong> a unit still in base contact with the vehicle in its own Assault Phase can attack it again, without counting as having charged.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== TRANSPORTS ===================== -->
+        <div class="timeline-item" id="transports">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              6. Transports <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A vehicle with the <strong class="regle-tag" tabindex="0" >Transport<span class="tooltip" >Its Transport Capacity characteristic sets the number of models that can embark on it (one model per point, unless Bulky (X) states otherwise). Only Infantry or Paragon models with the same Faction trait can embark or disembark, one unit at a time and in its entirety — never partial embarkation. The embarked unit remains a separate unit from the transport in all respects.</span ></strong > Sub-type can carry a unit. The rules govern who gets in, when, and what happens when everything blows up.
+              </p>
+
+              <h2 class="sous-titre">Who can get in?</h2>
+              <ul>
+                <li>
+                  <strong>Transport Capacity:</strong> 1 model per point of capacity. Models with the Bulky (X) special rule count as X models.
+                </li>
+                <li>
+                  Only <strong class="regle-tag" tabindex="0" >Infantry<span class="tooltip" >The most common type: uses the core rules without any bonus or penalty. An Infantry model can embark on and disembark from a model with the Transport Sub-type.</span ></strong > or <strong class="regle-tag" tabindex="0" >Paragon<span class="tooltip" >Allocates the hits it inflicts itself, both shooting and in melee. Can join or leave an Infantry unit (and vice versa), embark on a model with the Transport Sub-type, issue and accept Challenges, and lend its characteristics to its unit for any characteristic test. Counts as its base Wounds value for combat resolution.</span ></strong > models with the <strong>same Faction trait</strong> as the transport.
+                </li>
+                <li>
+                  <strong>Only one unit at a time</strong> (characters who have joined the unit are part of it), and <strong>the whole unit or nothing</strong>: no partial embarkation.
+                </li>
+                <li>
+                  The embarked unit and the transport remain <strong>two separate units</strong> in all respects.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Embarking / Disembarking</h2>
+              <ul>
+                <li>
+                  Only in the <strong>Move Sub-phase</strong>; a unit cannot embark <em>and</em> disembark in the same Movement Phase.
+                </li>
+                <li>
+                  <strong>Embarking:</strong> all models in the unit must start or end the sub-phase within <strong>2"</strong> of a facing of the transport with an <strong>access point</strong> (doors, ramps, hatches — shown on the profile). The unit is then removed from the table.
+                </li>
+                <li>
+                  <strong>Disembarking:</strong> before or after the transport moves (not during). Place the models one by one in contact with a facing with an access point, never within 1" of an enemy, in unit coherency. Cannot be placed = Casualty.
+                </li>
+                <li>
+                  <strong>After disembarking:</strong> the unit can shoot (it counts as having moved) and charge — but as a <em>Disordered charge</em>, unless the vehicle has the <em>Assault Vehicle</em> rule.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">During the journey</h2>
+              <div class="encadre">
+                <p>
+                  An embarked unit is treated as <strong>temporarily out of play</strong>: it cannot be targeted by anything, makes no attacks or Reactions, and all effects it generates (such as <em>Fear (X)</em>) cease. Its statuses are kept but frozen until it disembarks, and nothing that affects the transport affects it… as long as it keeps rolling.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">Emergency Disembarkation</h2>
+              <p>
+                If the transport is <strong>destroyed</strong> with a unit on board, that unit must make an <strong>Emergency Disembarkation</strong> before the vehicle is removed — even if it embarked in the same phase:
+              </p>
+              <ol class="etapes">
+                <li>
+                  Place each model in contact with the transport's hull, never within 1" of an enemy or in impassable terrain (no need for unit coherency). A model that cannot be placed = Casualty.
+                </li>
+                <li>
+                  No damage from the attack that destroyed the transport is transferred to the unit.
+                </li>
+                <li>
+                  Once everyone is placed: <strong>Cool test</strong>. If failed, the unit gains the <em>Pinned</em> status.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-TYPES ===================== -->
+        <div class="timeline-item" id="sous-types">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              7. Vehicle Sub-types <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                The Sub-type is shown in brackets after the type on the profile, e.g. <em>Vehicle (Fast, Transport)</em>. Each Sub-type adds its rules to the core rules above.
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-neutralise">
+                  <h3>Transport</h3>
+                  <ul>
+                    <li>Can embark and disembark units.</li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-fixe">
+                  <h3>Stable</h3>
+                  <ul>
+                    <li>
+                      Always fires as if it had remained <strong>Stationary</strong>, whatever its movement (unless it has Rushed).
+                    </li>
+                    <li>
+                      Its multiple Shooting Attacks are <strong>not all Snap Shots</strong>.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Fast</h3>
+                  <ul>
+                    <li>
+                      Can <strong>Rush</strong>: a fixed +6" (no Initiative).
+                    </li>
+                    <li>
+                      Can shoot while Rushing, but everything is <strong>Snap Shots</strong> and with no multiple Shooting Attacks that turn.
+                    </li>
+                    <li>
+                      Fast + Transport that Rushes: no one disembarks that turn (except by Emergency Disembarkation).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Super-heavy</h3>
+                  <ul>
+                    <li>
+                      Ignores difficult and dangerous terrain (but not impassable).
+                    </li>
+                    <li>
+                      Always fires as if <strong>Stationary</strong>; its multiple Shooting Attacks are not all Snap Shots.
+                    </li>
+                    <li>
+                      Only reacts to Paragons, Super-heavies, Knights and Titans.
+                    </li>
+                    <li>
+                      No roll on the damage table: it loses <strong>1 Hull Point</strong> instead.
+                    </li>
+                    <li>
+                      If it transports: as many units as you like, within the limit of its capacity.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-assaut">
+                  <h3>Knight</h3>
+                  <ul>
+                    <li>
+                      Distances measured to and from its <strong>base</strong>, not its hull.
+                    </li>
+                    <li>
+                      Profile with <strong>WS, Strength, Initiative and Attacks</strong> in addition to the vehicle characteristics; never any Transport Capacity.
+                    </li>
+                    <li>
+                      Only <strong>2 armour facings</strong> (front/rear); hits targeting the side target the rear instead.
+                    </li>
+                    <li>
+                      Can <strong>Rush</strong> thanks to its Initiative.
+                    </li>
+                    <li>
+                      Ignores difficult and dangerous terrain, but can neither move through nor end its move on impassable terrain.
+                    </li>
+                    <li>
+                      Ignores other models/units when moving (never counts as having moved through an enemy unit), but must end more than 1" from any model outside its unit if it has stepped over one.
+                    </li>
+                    <li>
+                      Does not block <strong>Line of Sight</strong>; a unit made up entirely of Knights can still be targeted by shooting even while in combat.
+                    </li>
+                    <li>
+                      Its own fire arcs, limited to front/rear. A Carapace Mount (Arc) can target within any of its stated arcs, but not a target within 8".
+                    </li>
+                    <li>
+                      Can declare <strong>charges</strong> and attack in the Fight Sub-phase; its Defensive Weapons have the Assault trait.
+                    </li>
+                    <li>
+                      Failed charge by a unit made up entirely of Knights: dice roll against the unit's best Auto-repair (X) value, or the whole unit gains the Stunned Tactical Status.
+                    </li>
+                    <li>
+                      In combat resolution, the controller of a unit with at least one Knight model may choose Consolidate or Fall Back in addition to Hold (restrictions may apply).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut reaction-mouvement">
+                  <h3>Titan</h3>
+                  <ul>
+                    <li>
+                      Ignores difficult and dangerous terrain, and can move through impassable terrain without ending its move in it.
+                    </li>
+                    <li>
+                      Its multiple Shooting Attacks are <strong>not all Snap Shots</strong>.
+                    </li>
+                    <li>
+                      Restricted Reactions, and damage and shooting/combat attack rules specific to Titans (different from other vehicles).
+                    </li>
+                    <li>
+                      If it transports: as many units as you like, within the limit of its Transport Capacity.
+                    </li>
+                    <li>
+                      Cannot gain <strong>any Tactical or Cybertheurgic Status</strong>.
+                    </li>
+                    <li>
+                      <strong>Immune</strong> to psychic powers, weapons and reactions.
+                    </li>
+                    <li>
+                      Cannot be targeted by the Battlesmith (X) special rule.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

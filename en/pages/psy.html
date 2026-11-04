@@ -1,0 +1,399 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Aptitudes Psychiques
+     Fichier : pages/psy.html
+
+     Pouvoirs psychiques, tests de Volonté, Périls du Warp.
+     Page de contenu pur.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Psychic Abilities — Horus Heresy</title>
+    <link rel="canonical" href="https://lagrandecroisade.fr/en/pages/psy.html" />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/psy.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/psy.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/psy.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition psychic rules made simple: Psyker trait, psychic weapons, psychic powers (Blessings and Curses), psychic reactions and Perils of the Warp."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Psychic Abilities — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition psychic rules made simple: Psyker trait, psychic weapons, psychic powers, psychic reactions and Perils of the Warp."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/psy.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Psychic Abilities
+      </h1>
+      <div class="encadre">
+        <p>
+          Some models can draw on the power of the Warp to attack, support their allies or hinder the enemy. There are three families of psychic abilities: <strong>psychic weapons</strong>, <strong>psychic powers</strong> and <strong>psychic reactions</strong>. All of them require the model to have the <strong>Psyker trait</strong>.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== LE TRAIT PSYKER ===================== -->
+        <div class="timeline-item" id="bases">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. The Psyker trait <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A <strong>Psyker</strong> is a model with the <strong>Psyker trait</strong> on its profile. Like any trait, on its own it grants <strong>no rules, no weapons and no powers</strong>: it simply acts as a "key" that lets the model use the psychic weapons, psychic powers or psychic reactions listed on its profile, or chosen as options during army selection.
+              </p>
+              <div class="encadre-attention">
+                <p>
+                  <strong>No Psyker trait, no psychic ability.</strong> A model without this trait cannot attack with a psychic weapon, nor use a psychic power or reaction, even if its unit includes some.
+                </p>
+              </div>
+
+              <h2 class="sous-titre">The three families at a glance</h2>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-neutralise">
+                  <h3>Psychic weapons</h3>
+                  <ul>
+                    <li>
+                      Resolved like normal attacks, at range or in melee.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-fixe">
+                  <h3>Psychic powers</h3>
+                  <ul>
+                    <li>
+                      Separate actions, resolved in a specific phase: they are not attacks as such.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>Psychic reactions</h3>
+                  <ul>
+                    <li>
+                      Psychic powers that can only be used as a Reaction, during the opponent's turn.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== ARMES PSYCHIQUES ===================== -->
+        <div class="timeline-item" id="armes">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Psychic weapons <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Psychic weapons are entirely normal weapons — same characteristics, same shooting or melee rules — except that they have the <strong>Psychic trait</strong> and only a Psyker can use them. Many are not even represented on the model.
+              </p>
+              <ul>
+                <li>
+                  <strong>Shooting:</strong> a Psyker may attack with any of its psychic ranged weapons (or several, if a rule explicitly allows it).
+                </li>
+                <li>
+                  <strong>Melee:</strong> a psychic melee weapon counts like any other weapon when determining whether the model has more than one, with the same restrictions.
+                </li>
+                <li>
+                  <strong>No special test</strong> to attack, unless the weapon's special rule requires one.
+                </li>
+                <li>
+                  <strong>Indestructible:</strong> a psychic weapon can never be destroyed or taken away from a model, except by a rule that specifically targets psychic weapons.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== POUVOIRS PSYCHIQUES ===================== -->
+        <div class="timeline-item" id="pouvoirs">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Psychic powers <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A psychic power is a separate action, described as a special rule: it is resolved in its own phase, with its own rules (even if it can ultimately inflict hits, wounds or damage). There are two types, depending on the target:
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Blessing</h3>
+                  <ul>
+                    <li>
+                      Always targets a <strong>friendly</strong> model or unit (never a model or unit that is not, even if caught in the area of effect).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Curse</h3>
+                  <ul>
+                    <li>
+                      Always targets an <strong>enemy</strong> model or unit.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre">Key points</h2>
+              <ul>
+                <li>
+                  Using a psychic power or reaction <strong >does not prevent moving, shooting or charging</strong >, unless the power itself says otherwise.
+                </li>
+                <li>
+                  A model or unit in <strong>Reserves</strong>, <strong>embarked</strong>, or not on the battlefield cannot use any psychic power or reaction.
+                </li>
+                <li>
+                  If the user leaves play (goes into Reserves, embarks, or is Removed as a Casualty), any lasting effect it has manifested is <strong>immediately cancelled</strong>.
+                </li>
+              </ul>
+
+              <div class="encadre-attention">
+                <p>
+                  <strong>Only one use per Player Turn:</strong> a unit that contains at least one Psyker cannot use more than <strong>one psychic power</strong> in its own Player Turn, nor more than <strong>one psychic reaction</strong> in the opposing Player Turn (psychic weapons do not count towards this limit). If a model leaves the unit, both the original unit and the newly created unit remain limited for that Player Turn — even a failed Willpower Check counts as a use.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS PSYCHIQUES ===================== -->
+        <div class="timeline-item" id="reactions">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              4. Psychic reactions <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A psychic reaction is a psychic power that can only be used as a <a href="statuts-reactions.html#reactions">Reaction</a>, during the opposing Player Turn. It follows both the rules for psychic powers and those for Reactions:
+              </p>
+              <ul>
+                <li>
+                  It is only triggered when the <strong>Reactive Player</strong> responds to an action by the Active Player, and costs at least <strong>1 Reaction point</strong>.
+                </li>
+                <li>
+                  Each psychic reaction specifies <strong>when</strong> it can be declared and <strong>at what cost</strong>.
+                </li>
+                <li>
+                  A <strong>Stunned</strong> model cannot declare any Reaction, and therefore no psychic reaction either.
+                </li>
+              </ul>
+              <p>
+                Some psychic reactions do not apply the Blessing/Curse rules below and describe their own effect directly — this is the case for <em>Nullify</em>, which lets a Psyker counter an opponent's Curse (see the <a href="statuts-reactions.html#reactions" >Statuses &amp; Reactions</a > page).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== MANIFESTER ===================== -->
+        <div class="timeline-item" id="manifester">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              5. Manifesting a power: the procedure <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Using a psychic power or reaction is called <strong>manifesting</strong> a Blessing or a Curse. The model using it is called the <strong>Focus</strong>. The procedure differs slightly depending on the type.
+              </p>
+
+              <h2 class="sous-titre">Manifesting a Blessing</h2>
+              <ol class="etapes">
+                <li>
+                  The Controlling Player declares the use of the power and nominates the <strong>Focus</strong>, then announces the target (always friendly) to all players.
+                </li>
+                <li>
+                  They make a <strong>Willpower Check</strong>, known as a <strong>Manifestation Check</strong>: the target number is the Focus's current Willpower.
+                </li>
+                <li>
+                  <strong>Passed:</strong> the power's effects apply to the target. <strong>Failed:</strong> nothing happens (but it still counts as a use).
+                </li>
+              </ol>
+
+              <h2 class="sous-titre">Manifesting a Curse</h2>
+              <ol class="etapes">
+                <li>
+                  The Controlling Player declares the use of the power, nominates the Focus, then announces the target (always an enemy).
+                </li>
+                <li>
+                  This time, it is the <strong>player controlling the target</strong> who makes the Willpower Check, known as a <strong>Resistance Check</strong>: the target number is the current Willpower of the targeted model or — if the target unit contains several models — of the one with the lowest Willpower (the player may choose a Sergeant, Command or Paragon model instead, if the unit has one).
+                </li>
+                <li>
+                  <strong>Passed:</strong> the target has resisted, the Curse fails and has no effect. <strong>Failed:</strong> the power's effects apply to the target.
+                </li>
+                <li>
+                  If several units are targeted, a separate test is made for each.
+                </li>
+              </ol>
+
+              <div class="encadre-attention">
+                <p>
+                  One target per power, even if the effect hits several models in the same unit: make <strong>only one test</strong> per targeted unit, never one per model.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== PÉRILS DU WARP ===================== -->
+        <div class="timeline-item" id="perils">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              6. Perils of the Warp <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                The Warp is an unstable power: it can turn against the Psyker and their allies. When a <strong>Manifestation Check</strong> or a <strong>Resistance Check</strong> rolls a <strong>natural double</strong> (both dice show the same number, before any modifiers), <strong>Perils of the Warp</strong> is triggered against the unit that includes the Focus.
+              </p>
+              <div class="encadre-attention">
+                <p>
+                  <strong>Common trap:</strong> a Willpower Check is always automatically passed on a double 1, and always automatically failed on a double 6. That does <strong>not</strong> stop them from also triggering Perils of the Warp!
+                </p>
+              </div>
+
+              <h2 class="sous-titre">What happens?</h2>
+              <p>
+                Look up the number rolled on the test dice in the table below (if the Perils did not come from a test, simply roll 1D6).
+              </p>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-deroute">
+                  <h3>1 or 6 — Warp Rupture</h3>
+                  <ul>
+                    <li>
+                      The unit suffers wounds that ignore Armour Saves, Cover Saves and Damage Mitigation rolls (an Invulnerable Save is still allowed).
+                    </li>
+                    <li>
+                      Number of wounds = 13 minus the unit's lowest current Willpower (or that of a Sergeant, Command or Paragon model, at the Controlling Player's choice if the unit has one).
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-sonne">
+                  <h3>2, 3, 4 or 5 — Aetheric Backlash</h3>
+                  <ul>
+                    <li>The unit simply gains the <em>Stunned</em> status.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

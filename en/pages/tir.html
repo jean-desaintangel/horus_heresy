@@ -1,0 +1,407 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Phase de Tir
+     Fichier : pages/tir.html
+
+     Règles de la phase de Tir + tables de référence (CT, Blessure)
+     construites en JavaScript par js/tables.js.
+     Point important : les tables ne sont PAS écrites en HTML ici, seulement
+     des conteneurs vides. Les valeurs vivent dans les données (js/tables.js,
+     js/main.js) et le script fabrique les <table> — une seule source pour une
+     donnée de jeu utilisée sur plusieurs pages.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Shooting Phase — Horus Heresy</title>
+    <link rel="canonical" href="https://lagrandecroisade.fr/en/pages/tir.html" />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/tir.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/tir.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/tir.html" />
+    <meta
+      name="description"
+      content="The Shooting Phase of Horus Heresy 3rd edition in detail: target and Line of Sight, Fire Groups, Hit Tests and Wound Tests, cover and Damage Mitigation, multiple Damage, Morale Sub-phase."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="The Shooting Phase — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="The Shooting Phase of Horus Heresy 3rd edition in detail: target and Line of Sight, Fire Groups, Hit Tests and Wound Tests, cover and Damage Mitigation, Morale Sub-phase."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/tir.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/tables.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Shooting Phase
+      </h1>
+      <div class="encadre-attention">
+        <p>
+          <strong>A unit cannot shoot if:</strong> it has Rushed, is <em>Locked in Combat</em> or is embarked on a transport.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== SOUS-PHASE D'ATTAQUE ===================== -->
+        <div class="timeline-item" id="sequence">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Attack Sub-phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                <strong>1.</strong> Choose the Target Unit · <strong>2.</strong> Check the target · <strong>3.</strong> Declare weapons · <strong>4.</strong> Form Fire Groups · <strong>5.</strong> Choose a Fire Group to resolve · <strong>6.</strong> Make Hit Tests · <strong >7.</strong > Make Wound Tests · <strong>8.</strong> Choose the Target Model · <strong>9.</strong> Make Saving Throws and Damage Mitigation rolls · <strong>10.</strong> Choose the next Fire Group (repeat steps 6 to 9) · <strong>11.</strong> Remove Casualties.
+              </p>
+
+              <div class="timeline">
+                <!-- ===================== CIBLE ET LIGNE DE VUE ===================== -->
+                <div class="timeline-item" id="cible">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      1/2. Choose and check the target <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        An eligible unit shoots at <strong>a single enemy unit</strong>, chosen from those that are visible and within reach — never a unit that is embarked, in Reserves, or already engaged in melee.
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>Line of Sight.</strong> At least one model in the shooting unit must be able to draw Line of Sight to at least one model in the target.
+                        </li>
+                        <li>
+                          <strong>Range.</strong> A weapon is only "in range" if the distance between the shooter and the targeted model (via a valid Line of Sight) is less than or equal to that weapon's <strong>Range</strong>.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== GROUPES DE TIRS ===================== -->
+                <div class="timeline-item" id="groupes">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      3/4/5. Declare weapons and Fire Groups <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        The shooter declares which weapons in their unit take part in the shooting (one weapon per model, unless a special rule says otherwise), respecting range and Line of Sight for each. They are then gathered into <strong>Fire Groups</strong>: all attacks made with weapons of the same name form a single group, resolved in one go.
+                      </p>
+                      <p>
+                        Two exceptions require separate groups, even for the same weapon: if the weapon has several profiles (you then choose which one to use), or if the models shooting do not all have the same Ballistic Skill.
+                      </p>
+                      <p>
+                        Groups are resolved <strong>one at a time</strong>, in the order chosen by the shooting player.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== TOUCHE ===================== -->
+                <div class="timeline-item" id="toucher">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      6. Make Hit Tests <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Add up the <strong>Firepower</strong> characteristic of all the weapons in the group: this total gives the number of Hit Tests to make. The score needed depends on the majority <strong>Ballistic Skill</strong> in the unit. Each success is a hit.
+                      </p>
+                      <div id="table-ct"></div>
+                      <div class="encadre">
+                        <p>
+                          <strong>Key:</strong> <strong>Cr X+</strong>: hits on 2+, and on X+ it counts as a Critical Hit. <strong>Fail</strong>: automatic failure.
+                        </p>
+                      </div>
+                      <div class="encadre-attention">
+                        <p>
+                          A <em>Suppressed</em> unit (see <a href="statuts-reactions.html#statuts" >Tactical Statuses</a >) must use the "Snap Shots" row for all of its shooting — likewise for the Intercept Reaction, or a weapon fired by a unit with the Light trait after it has Rushed.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== BLESSURE ===================== -->
+                <div class="timeline-item" id="blesser">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      7. Make Wound Tests <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        Each hit is then converted into a Wound Test, by cross-referencing the weapon's <strong>Strength</strong> with the target's <strong>Toughness</strong> — see the table below. A "−" means the wound is impossible.
+                      </p>
+                      <div id="table-blessure"></div>
+                      <div class="encadre">
+                        <p>
+                          <strong>Vehicle target:</strong> no Wound Test. Instead, make an <strong>Armour Penetration test</strong>, which compares the weapon's Strength with the Armour hit.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== ALLOCATION ET SAUVEGARDES ===================== -->
+                <div class="timeline-item" id="sauvegardes">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      8/9. Choose the Target Model, saves and mitigation <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <ol class="etapes">
+                        <li>
+                          <strong>Choose the target model.</strong> The defending player chooses which model in the unit takes each wound. A model that is already wounded must be chosen first.
+                        </li>
+                        <li>
+                          <strong>Saving Throw.</strong> A save may be attempted for each wound or penetrating hit; if successful, it is simply discarded.
+                        </li>
+                        <li>
+                          <strong>Damage Mitigation roll.</strong> If the save is failed and a mitigation is available (Shrouded, Force field…), it is the model's last chance of survival.
+                        </li>
+                        <li>
+                          <strong>Applying Damage.</strong> Each wound that is not avoided reduces the model's <strong>Wounds</strong> by the weapon's <strong>Damage</strong> value. At 0, it is set aside as a Casualty.
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===================== COUVERT ===================== -->
+                <div class="timeline-item" id="couvert">
+                  <h2 class="timeline-entete">
+                    <button
+                      type="button"
+                      class="timeline-titre"
+                      aria-expanded="false"
+                    >
+                      Cover <span class="chevron" aria-hidden="true">❯</span>
+                    </button>
+                  </h2>
+                  <div class="timeline-details">
+                    <div class="timeline-details-inner">
+                      <p>
+                        A target partially obscured by terrain benefits from a Cover Save (not affected by AP), whose value depends on the type of cover (light: 6, medium: 5, heavy: 4).
+                      </p>
+                      <div class="encadre-attention">
+                        <p>
+                          <strong>Overwatch:</strong> when a charged unit reacts with it, the attacker benefits from <strong >no</strong > Cover Save or Shrouded mitigation. Details on the <a href="statuts-reactions.html#reactions" >Reactions</a > page.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE MORAL ===================== -->
+        <div class="timeline-item" id="moral">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Morale Sub-phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Once all Fire Groups have been resolved, units that have suffered heavily test their morale.
+              </p>
+              <ul>
+                <li>
+                  <strong>Out of coherency.</strong> Cool test; if failed, the unit becomes <em>Suppressed</em>.
+                </li>
+                <li>
+                  <strong>Panic.</strong> If the unit has lost 25% or more of its models during this Shooting Attack, Leadership test; if failed, it becomes <em>Routed</em>.
+                </li>
+              </ul>
+              <p>
+                A unit never takes more than one test for the same status in this sub-phase, even if several rules could trigger it.
+              </p>
+              <p>
+                Details of the Tactical Statuses and their effects on the <a href="statuts-reactions.html#statuts">Tactical Statuses</a> page.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS DE TIR ===================== -->
+        <div class="timeline-item" id="reactions-tir">
+          <h2 class="timeline-entete">
+            <button
+              type="button"
+              class="timeline-titre timeline-titre--reactions"
+              aria-expanded="false"
+            >
+              Enemy Reactions <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Return Fire</span
+                ><span class="badge-phase">Shooting</span>
+                <p>
+                  The targeted unit fires back in turn, even with the models that are about to die in the exchange.
+                </p>
+              </div>
+
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Shield Wall</span
+                ><span class="badge-phase">Shooting/Charge</span>
+                <p>
+                  Legiones Astartes Advanced Reaction, costs 1 Reaction point. Declared at the start of step 3 of a Shooting Attack (or step 4 of a Charge), if the majority of the targeted unit has the <em>Shield</em> trait: +1 Toughness for the rest of the phase.
+                </p>
+              </div>
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Smokescreen</span
+                ><span class="badge-phase">Shooting</span>
+                <p>
+                  Legiones Astartes Advanced Reaction, costs 1 Reaction point. Declared at the start of step 3 of a Shooting Attack, if the majority of the targeted unit has the <em>Smokescreen</em> trait: Shrouded (5+) mitigation roll for the rest of the phase, against wounds, penetrating hits and glancing hits.
+                </p>
+              </div>
+              <div class="reaction reaction-tir">
+                <span class="reaction-nom">Medic!</span
+                ><span class="badge-phase">Shooting</span>
+                <p>
+                  Legiones Astartes Advanced Reaction, costs 1 Reaction point. Declared at step 9 of a Shooting Attack targeting a unit that includes a Medic. When removing casualties (step 11): one recovery roll for each model that has suffered an unsaved wound (except models that themselves have <em>Medic</em>).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

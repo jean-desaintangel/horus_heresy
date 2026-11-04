@@ -1,0 +1,19 @@
+{
+  "name": "horus-heresy-traduction-en",
+  "private": true,
+  "description": "Génère la version anglaise du site (dossier en/) à partir des sources françaises et de la mémoire de traduction.",
+  "scripts": {
+    "construire": "node construire.js",
+    "a-traduire": "node a-traduire.js",
+    "integrer": "node integrer.js",
+    "tester": "node tests/tout.js"
+  },
+  "dependencies": {
+    "acorn": "8.14.0",
+    "acorn-walk": "8.3.4",
+    "parse5": "7.2.1"
+  },
+  "devDependencies": {
+    "puppeteer-core": "23.11.1"
+  }
+}

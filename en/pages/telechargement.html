@@ -1,0 +1,250 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Téléchargements
+     Fichier : pages/telechargement.html
+
+     Aides de jeu à imprimer (PDF, DOCX, PPTX) rangées dans
+     assets/documents/. Page de contenu pur : les liens pointent directement
+     les fichiers, aucun script de téléchargement.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Downloads — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/telechargement.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/telechargement.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/telechargement.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/telechargement.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition documents to download and print: play aids (special rules), Challenge Gambits and Loyalist/Traitor painting guides."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Downloads — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition documents to download and print."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/telechargement.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Downloads
+      </h1>
+
+      <!-- ===================== FAQ ===================== -->
+      <section id="faq">
+        <h2 class="section-titre">Official FAQ</h2>
+        <div class="grille-telechargements">
+          <div class="carte-telechargement">
+            <h3>FAQ of 12 October 2026</h3>
+            <p>
+              Source: <a href="https://assets.warhammer-community.com/eng_12-10_the_horus_heresy_faq_oct_26-irthbggkht-5m6q9dgjfy.pdf" target="_blank" rel="noopener noreferrer" >Warhammer Community <span class="sr-only">(new window)</span></a >
+            </p>
+            <a
+              class="bouton-telecharger"
+              href="../../assets/documents/FAQ_12_oct_2026.pdf"
+              aria-label="Download the FAQ of 12 October 2026 as a PDF (367 KB)"
+              download
+            > Download <span class="taille">(367 KB)</span> </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== PEINTURE ===================== -->
+      <section id="peinture">
+        <h2 class="section-titre">Painting guides</h2>
+        <div class="grille-telechargements">
+          <div class="carte-telechargement">
+            <h3>Loyalists</h3>
+            <p>
+              Source: <a href="https://www.warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/" target="_blank" rel="noopener noreferrer" >Warhammer Community <span class="sr-only">(new window)</span></a >
+            </p>
+            <a
+              class="bouton-telecharger"
+              href="../../assets/documents/guide_peinture_loyalistes.pdf"
+              aria-label="Download the Loyalist painting guide as a PDF (12.9 MB)"
+              download
+            > Download <span class="taille">(12.9 MB)</span> </a>
+          </div>
+          <div class="carte-telechargement">
+            <h3>Traitors</h3>
+            <p>
+              Source: <a href="https://www.warhammer-community.com/en-gb/downloads/warhammer-the-horus-heresy/" target="_blank" rel="noopener noreferrer" >Warhammer Community <span class="sr-only">(new window)</span></a >
+            </p>
+            <a
+              class="bouton-telecharger"
+              href="../../assets/documents/guide_peinture_renegats.pdf"
+              aria-label="Download the Traitor painting guide as a PDF (14.2 MB)"
+              download
+            > Download <span class="taille">(14.2 MB)</span> </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== AIDES DE JEU ===================== -->
+      <section id="aides-de-jeu">
+        <h2 class="section-titre">Play aids</h2>
+        <div class="grille-telechargements">
+          <div class="carte-telechargement">
+            <h3>General reference sheet (in French)</h3>
+            <p>Source: my own</p>
+            <div class="groupe-boutons-telechargement">
+              <a class="bouton-telecharger" href="../../assets/documents/feuille_aide_generale.pptx" aria-label="Download the general reference sheet (in French) as a PowerPoint file (202 KB)" download > Download pptx <span class="taille">(202 KB)</span> </a> <a class="bouton-telecharger" href="../../assets/documents/feuille_aide_generale.pdf" aria-label="Download the general reference sheet (in French) as a PDF (554 KB)" download > Download pdf <span class="taille">(554 KB)</span> </a>
+            </div>
+          </div>
+          <div class="carte-telechargement">
+            <h3>Reference sheet: special rules (in French)</h3>
+            <p>Source: my own</p>
+            <div class="groupe-boutons-telechargement">
+              <a class="bouton-telecharger" href="../../assets/documents/feuille_aide_regles_speciales.docx" aria-label="Download the special rules reference sheet (in French) as a Word file (16 KB)" download > Download docx <span class="taille">(16 KB)</span> </a> <a class="bouton-telecharger" href="../../assets/documents/feuille_aide_regles_speciales.pdf" aria-label="Download the special rules reference sheet (in French) as a PDF (393 KB)" download > Download pdf <span class="taille">(393 KB)</span> </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== POSTURES DE DÉFI ===================== -->
+      <section id="postures-de-defi">
+        <h2 class="section-titre">Challenge Gambits (in French)</h2>
+        <div class="grille-telechargements">
+          <div class="carte-telechargement">
+            <h3>Challenge Gambits (in French)</h3>
+            <p>
+              Source: Sgt Furius, Facebook group <a href="https://www.facebook.com/groups/1881902328756053/permalink/4307366312876297" target="_blank" rel="noopener noreferrer" >Horus Heresy France <span class="sr-only">(new window)</span></a >
+            </p>
+            <a
+              class="bouton-telecharger"
+              href="../../assets/documents/postures_de_defi.pdf"
+              aria-label="Download the Challenge Gambit sheet (in French) as a PDF (2.2 MB)"
+              download
+            > Download <span class="taille">(2.2 MB)</span> </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== REMERCIEMENTS ===================== -->
+      <section id="remerciements">
+        <h2 class="section-titre">Acknowledgements</h2>
+        <p class="sous-titre">
+          This guide would not have come about without the generosity and involvement of several people. My warmest thanks to them.
+        </p>
+        <ul class="liste-remerciements" aria-label="List of acknowledgements">
+          <li class="remerciement">
+            <strong>Raphaël</strong> — for his extensive feedback and suggestions, which helped me improve the site greatly, as well as his <em>Liber Auxilia</em> and <em>Liber Mechanicus</em>.
+          </li>
+          <li class="remerciement">
+            <strong>Élian</strong> — for his <em>Liber Custodes</em>, without which the "golden boys" would not be in the army builder.
+          </li>
+          <li class="remerciement">
+            <strong>Alexis</strong> — for the formatting when generating the army sheets.
+          </li>
+          <li class="remerciement">
+            <strong>Pol Pot</strong> — my goldfish.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

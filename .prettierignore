@@ -27,3 +27,12 @@ js/unites-data.js
 
 # --- Binaires et documents ---
 assets/
+
+# --- Version anglaise générée ---
+# en/ est réécrit en entier par outils/traduction-en/construire.js à
+# partir des sources françaises : le formater n'aurait aucun effet
+# durable (perdu à la génération suivante) et ferait apparaître des
+# diffs parasites. Même chose pour la mémoire de traduction, triée et
+# écrite par le script.
+en/
+outils/traduction-en/memoire/

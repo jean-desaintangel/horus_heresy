@@ -1,0 +1,339 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Phase de Mouvement
+     Fichier : pages/mouvement.html
+
+     Règles de la phase de Mouvement (Réserves, Déplacement, Déroute,
+     Réactions). Page de contenu pur : aucun script propre, le HTML porte
+     tout le texte. Les bandeaux de commentaire « SOUS-PHASE … » plus bas
+     découpent le fichier comme les sections d'un chapitre.
+     (Au passage : on ne peut pas écrire la séquence de fermeture d'un
+     commentaire HTML À L'INTÉRIEUR d'un commentaire — le navigateur
+     refermerait le commentaire à cet endroit et afficherait la suite
+     comme du texte. Les commentaires HTML ne s'imbriquent pas.)
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Movement Phase — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/mouvement.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/mouvement.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/mouvement.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/mouvement.html" />
+    <meta
+      name="description"
+      content="The Movement Phase of Horus Heresy 3rd edition in detail: Reserves Sub-phase, normal moves and unit coherency, difficult and dangerous terrain, rushing, and Rout Sub-phase."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="The Movement Phase — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="The Movement Phase of Horus Heresy 3rd edition in detail: Reserves Sub-phase, normal moves and unit coherency, difficult and dangerous terrain, rushing, and Rout Sub-phase."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/mouvement.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Movement Phase
+      </h1>
+      <div class="encadre-attention">
+        <p>
+          Units with the <em>Routed</em> status (<a href="statuts-reactions.html#statuts" >Tactical Statuses</a >) are <strong>forced to flee</strong> during this final sub-phase.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <!-- ===================== SOUS-PHASE DE RÉSERVES ===================== -->
+        <div class="timeline-item" id="reserves">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              1. Reserves Sub-phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A unit placed in Reserves attempts to arrive on the battlefield in each Reserves Sub-phase of its turn.
+              </p>
+              <ol class="etapes">
+                <li>
+                  <strong>Reserves Test.</strong> Roll 1D6, passed on a 3+. Otherwise, the unit stays in Reserves and tries again the following turn.
+                </li>
+                <li>
+                  <strong>Entering play.</strong> Once the test is passed, choose a point on the table edge in your deployment zone: the first model is placed there, then each other model in the unit enters in turn, staying in unit coherency. A model that cannot manage this is Removed as a Casualty.
+                </li>
+                <li>
+                  <strong>No second move.</strong> A unit that has just arrived in this way does not move a second time during the following Move Sub-phase. It can, however, shoot and charge normally later in the turn — unless it chose to <a href="#foncer">rush</a> when entering play.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE DÉPLACEMENT ===================== -->
+        <div class="timeline-item" id="deplacement">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              2. Move Sub-phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                Each eligible unit may move its models up to a distance equal to its <strong>Movement Characteristic</strong>. A unit may also choose not to move: it then remains <strong>Stationary</strong>, which matters for certain rules (a unit that has only pivoted on the spot is also considered Stationary).
+              </p>
+
+              <div class="encadre-attention">
+                <p>
+                  <strong >A unit cannot make a normal move if:</strong > it entered play from Reserves this turn; it has the <em>Pinned</em> or <em>Routed</em> status (it then moves in the Rout Sub-phase); it is <em>Locked in Combat</em>; or one of its models has a Movement Characteristic of 0.
+                </p>
+              </div>
+
+              <ul>
+                <li>
+                  <strong>Unit coherency.</strong> At the end of the move, each model must remain within <strong>2"</strong> of at least one other model in its unit, as far as possible. If the unit genuinely cannot manage this, it automatically gains the <em>Suppressed</em> status.
+                </li>
+                <li>
+                  <strong>Safe distance.</strong> A model can never end its move within <strong >1"</strong > of an enemy model.
+                </li>
+                <li>
+                  <strong>Impassable terrain and table edges.</strong> A model can never end its move on impassable terrain, on another model, or off the table.
+                </li>
+                <li>
+                  <strong>Pivoting does not count as moving.</strong> A unit that only pivots on the spot, without changing the position of its models, is not considered to have "moved" this turn.
+                </li>
+              </ul>
+
+              <h2 class="sous-titre">Difficult terrain and dangerous terrain</h2>
+              <div class="grille-statuts">
+                <div class="carte-statut statut-fixe">
+                  <h3>Difficult terrain</h3>
+                  <ul>
+                    <li>
+                      If a model's path crosses difficult terrain, its move is reduced by <strong>2"</strong> for that move.
+                    </li>
+                  </ul>
+                </div>
+                <div class="carte-statut statut-deroute">
+                  <h3>Dangerous terrain</h3>
+                  <ul>
+                    <li>
+                      A model moving through it must pass a test; if it fails, it is Removed as a Casualty.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 class="sous-titre" id="foncer">Rush</h2>
+              <p>
+                Instead of a normal move, a unit may choose to <strong>rush</strong>: it then moves a distance in inches equal to its <strong>Movement + Initiative</strong>.
+              </p>
+              <div class="encadre-attention">
+                <p>
+                  <strong>The price to pay:</strong> a unit that has rushed can <strong>neither shoot</strong> in the Shooting Phase <strong>nor declare a charge</strong> in the Assault Phase that same turn.
+                </p>
+              </div>
+              <p>
+                You can only choose to rush when moving the unit in the Move Sub-phase (or in the Reserves Sub-phase): not during a Reaction.
+              </p>
+
+              <div class="table-scroll">
+                <table>
+                  <caption class="sr-only">
+                    Types of move: permitted distance, ability to shoot and charge
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="gauche">Type of move</th>
+                      <th scope="col" class="gauche">Distance</th>
+                      <th scope="col">Shoot?</th>
+                      <th scope="col">Charge?</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="gauche">Normal move</td>
+                      <td class="gauche">Movement</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Rush</td>
+                      <td class="gauche">Movement + Initiative</td>
+                      <td>No</td>
+                      <td>No</td>
+                    </tr>
+                    <tr>
+                      <td class="gauche">Arriving from Reserves</td>
+                      <td class="gauche">Placed in deployment zone</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== SOUS-PHASE DE DÉROUTE ===================== -->
+        <div class="timeline-item" id="deroute">
+          <h2 class="timeline-entete">
+            <button type="button" class="timeline-titre" aria-expanded="false">
+              3. Rout Sub-phase <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <p>
+                A unit that includes models with the <em>Routed</em> status (see <a href="statuts-reactions.html#statuts">Tactical Statuses</a>) must Fall Back during this final sub-phase, unless it is Locked in Combat.
+              </p>
+              <div class="encadre">
+                <p>
+                  <strong>Falling Back:</strong> roll 1D6 and add it to the Initiative to find the Fall Back distance. The unit then moves that distance, in as direct a line as possible towards the nearest point of its deployment zone (or the nearest table edge if it has none), going around obstacles if needed, never moving within 1" of an enemy model.
+                </p>
+              </div>
+              <p>
+                As soon as a model in the unit reaches the table edge in its deployment zone: Leadership test. If failed, all its models are <strong>Removed as Casualties</strong>; if passed, the unit stays in play, loses <em>Routed</em> but becomes <em>Suppressed</em>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== RÉACTIONS DE MOUVEMENT ===================== -->
+        <div class="timeline-item" id="reactions-mouvement">
+          <h2 class="timeline-entete">
+            <button
+              type="button"
+              class="timeline-titre timeline-titre--reactions"
+              aria-expanded="false"
+            >
+              Enemy Reactions <span class="chevron" aria-hidden="true">❯</span>
+            </button>
+          </h2>
+          <div class="timeline-details">
+            <div class="timeline-details-inner">
+              <div class="reaction reaction-mouvement">
+                <span class="reaction-nom">Reposition</span
+                ><span class="badge-phase">Movement</span>
+                <p>
+                  During the opponent's Movement Phase, if an enemy unit ends its move within 12" of one of your units, that unit may make a move up to the unit's Initiative, towards or away from the enemy, as you choose.
+                </p>
+              </div>
+
+              <div class="reaction reaction-special">
+                <span class="reaction-nom">Intercept</span
+                ><span class="badge-phase">Reserves</span>
+                <p>
+                  During your Reserves Sub-phase, if a unit enters play, a nearby enemy unit may make Snap Shots at the unit that has just entered (vehicles then only fire their defensive weapons).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

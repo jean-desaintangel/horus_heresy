@@ -75,3 +75,9 @@
 # c'est du contenu écrit et relu à la main, légion par légion — le
 # masquer dans les diffs reviendrait à masquer le cœur du projet.
 js/vendor/*.min.js  linguist-vendored
+
+# Version anglaise générée (outils/traduction-en/construire.js) :
+# repliée par défaut dans les diffs GitHub —
+# la relecture se fait sur la source française et sur memoire/*.json
+# quand on corrige une traduction.
+en/**  linguist-generated

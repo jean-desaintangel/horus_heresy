@@ -1,0 +1,474 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Sous-phase de Défi
+     Fichier : pages/defi.html
+
+     Règles des Défis : Postures, Concentration, résolution.
+     Page de contenu pur (pas de script propre).
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Challenge — Horus Heresy</title>
+    <link rel="canonical" href="https://lagrandecroisade.fr/en/pages/defi.html" />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/defi.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/defi.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/defi.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition Challenge Sub-phase: eligibility conditions, challenge procedure (declare challenge, face-off, focus, strike, glory), basic gambits, combat initiative, outside support and the Disgraced status."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="The Challenge — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition Challenge Sub-phase: challenge procedure, basic gambits, combat initiative, outside support and the Disgraced status."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/defi.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">Challenge</h1>
+      <p>
+        The Challenge Sub-phase is when commanders and champions face each other in single combat, before the rest of the units clash.
+      </p>
+
+      <div class="encadre-attention">
+        <p>
+          To be eligible, a model must meet the following conditions:
+        </p>
+        <ul>
+          <li>
+            be of the <span class="regle-tag" tabindex="0" >Command<span class="tooltip" >This model can issue and accept challenges, among other prerogatives specific to unit commanders.</span ></span > or <span class="regle-tag" tabindex="0" >Champion<span class="tooltip" >A model of the Champion sub-type can issue and accept challenges.</span ></span > sub-type;
+          </li>
+          <li>
+            be locked in combat with at least one enemy unit that includes an eligible enemy model;
+          </li>
+          <li>not be subject to the <em>Routed</em> status.</li>
+        </ul>
+      </div>
+
+      <section id="procedure">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="procedure-corps"
+          >
+            <span>Challenge procedure</span> <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="procedure-corps">
+          <p>The player must follow these 5 steps:</p>
+
+          <div class="timeline">
+            <!-- ===================== 1. DÉCLARATION DE DÉFI ===================== -->
+            <div class="timeline-item" id="declaration">
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  1. Declare Challenge <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    If a player issues a challenge for the chosen combat, they must then choose a model eligible to take part in a challenge — this model being the <strong>Challenger</strong>. The opposing player may then choose an eligible model under their control in the combat to accept the challenge — this model being the <strong>Challenged</strong> model.
+                  </p>
+                  <div class="encadre">
+                    <p>
+                      <strong>If the opposing player does not want</strong> to accept the challenge, the player issuing the challenge must choose an enemy model eligible to accept the challenge and apply the <em>Disgraced</em> status to it (see below) — no other model in the same unit gains this status.
+                    </p>
+                  </div>
+                  <p>
+                    The Challenger and the Challenged model are immediately removed from the combat and set aside together, in base contact, before moving on to step 2. For the duration of the challenge, they are considered out of play until they are returned in the Resolution Sub-phase (see below).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 2. CONFRONTATION ===================== -->
+            <div class="timeline-item" id="confrontation">
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  2. Face-Off <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <ul>
+                    <li>
+                      In the <strong>first round</strong> of any challenge, the player controlling the Challenger chooses the first gambit.
+                    </li>
+                    <li>
+                      In each <strong>subsequent</strong> round, the player with the <strong>Challenge Advantage</strong> chooses the first gambit.
+                    </li>
+                  </ul>
+                  <p>
+                    Once a player has chosen a gambit, they apply its bonuses or limitations before the opposing player chooses theirs. If the effects of the two gambits conflict, the gambit chosen by the player with the Challenge Advantage takes precedence, or — if neither player has the advantage — the one chosen by the Active Player.
+                  </p>
+                  <p>
+                    Once a gambit has been chosen, no other model in the challenge may choose the same gambit in the same Face-Off Step (if the challenge lasts several rounds, the choices made in one step do not restrict later steps).
+                  </p>
+
+                  <h3 class="sous-titre" id="postures">Basic gambits</h3>
+                  <div class="table-scroll">
+                    <table>
+                      <caption class="sr-only">
+                        Basic challenge gambits and their effects
+                      </caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="gauche">Gambit</th>
+                          <th scope="col" class="gauche">Effect</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Seize the Initiative</strong>
+                          </td>
+                          <td class="gauche">
+                            The player rolls one extra dice in the Focus Step and discards the lowest result.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Flurry of Blows</strong>
+                          </td>
+                          <td class="gauche">
+                            The model gains a +D3 bonus to its Attacks characteristic, but hits inflicted by these attacks have their Damage characteristic set to “1”, which cannot be modified by any special rule.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Test the Foe</strong>
+                          </td>
+                          <td class="gauche">
+                            The model this choice applies to gains no bonus in the Focus or Strike Steps, but if it is not removed as a casualty, it automatically gains the Challenge Advantage at the start of the next Face-Off Step.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Guard Up</strong></td>
+                          <td class="gauche">
+                            The model gains a +1 bonus to its Weapon Skill in the Strike Step, but may only make a single attack, whatever its Attacks characteristic. In the Strike Step, each missed attack by the enemy model gives the player who chose this gambit a +1 bonus to their next Focus Roll.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Taunt and Bait</strong>
+                          </td>
+                          <td class="gauche">
+                            The model has its Weapon Skill and Attacks characteristics reduced to those of the enemy model (or, if they were already equal, reduced by -1). For each time a player has chosen this gambit during the current challenge, they gain +1 combat resolution point if they win the challenge.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Grandstand</strong></td>
+                          <td class="gauche">
+                            The player must roll one extra dice in the Focus Step and discard the highest result; the model gains no outside support bonus. In exchange, it gains a bonus to its attacks equal to the outside support bonus it would normally have been entitled to in the Focus Step.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche">
+                            <strong>Feint and Riposte</strong>
+                          </td>
+                          <td class="gauche">
+                            Can only be chosen by the player choosing the first gambit. That player may name any other gambit (including a faction-specific gambit they do not have access to): the opposing player cannot choose that gambit in this Face-Off Step.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Withdraw</strong></td>
+                          <td class="gauche">
+                            The model may only make a single attack, whatever its Attacks characteristic. In the Glory Step, a player who chose this gambit may end the challenge and score no combat resolution points, provided the model under their control was not removed as a casualty in the Strike Step.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="gauche"><strong>Finishing Blow</strong></td>
+                          <td class="gauche">
+                            The player must roll one extra dice and discard the highest result before totalling. In exchange, the model gains a +1 bonus to the Strength and Damage characteristics of all hits inflicted in the Strike Step.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 3. CONCENTRATION ===================== -->
+            <div class="timeline-item" id="concentration">
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  3. Focus <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    The players must choose a single weapon for their model, the Reactive Player first, then each must make a <strong>Focus Roll</strong>: roll a dice and add the following modifiers, if they apply:
+                  </p>
+                  <ul>
+                    <li>
+                      add the model's <strong>Initiative </strong> (with the modifiers of the chosen weapon);
+                    </li>
+                    <li>
+                      a model of the <span class="regle-tag" tabindex="0" >Heavy<span class="tooltip" >A unit composed entirely of models of the Heavy sub-type gains +1 Cool, but cannot rush.</span ></span > sub-type suffers a -1 modifier;
+                    </li>
+                    <li>
+                      a model whose current Wounds characteristic is lower than its base Wounds characteristic suffers a -1 modifier per point of difference;
+                    </li>
+                    <li>
+                      if a model, or the chosen weapon, has the <span class="regle-tag" tabindex="0" >Duellist's Edge (X)<span class="tooltip" >Adds a positive modifier equal to X to Focus Rolls made for the model.</span ></span > special rule, it gains a positive modifier equal to the value of X;
+                    </li>
+                    <li>
+                      a model of the <span class="regle-tag" tabindex="0" >Light<span class="tooltip" >A unit composed entirely of models of the Light sub-type gains +2 to its Initiative when rushing, and may make snap shots after Rushing.</span ></span > sub-type gains a +1 modifier;
+                    </li>
+                    <li>
+                      a model may gain a positive modifier from <strong>outside support</strong>.
+                    </li>
+                  </ul>
+
+                  <div class="encadre" id="soutien-exterieur">
+                    <ul>
+                      <li>
+                        For every <strong>five friendly models</strong> in the combat, the model gains a +1 bonus to the Focus Roll. Only engaged models are counted, excluding models subject to statuses. Vehicles or Automata do not count, and each model of the Walker type counts as five.
+                      </li>
+                      <li>
+                        If the opposing player has no model under their control in this combat, a different procedure is followed: you gain a +2 bonus to the Focus Roll for every full or partial group of five models. These models do not need to be engaged to count, and they count even if they are subject to statuses. Vehicles or Automata are still not counted.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <p>
+                    Once the players have made their Focus Rolls and added all modifiers, their totals are compared: the player with the highest total takes the <strong >Challenge Advantage</strong >, and attacks first in the Strike Step, gaining a +1 attack bonus for that Strike Step only (if the challenge lasts over several Strike Steps, this bonus does not carry over). In the event of a tie, both players must re-roll their Focus Roll until one of them has a higher total than their opponent.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 4. FRAPPE ===================== -->
+            <div class="timeline-item" id="frappe">
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  4. Strike <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
+
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    Hit Tests => Wound Tests => Saving Throws and/or Damage Mitigation Rolls => Apply the damage from unsaved wounds.
+                  </p>
+
+                  <div class="encadre">
+                    <p>
+                      <strong>Winning a challenge.</strong> If a model engaged in a challenge is removed as a casualty, the player controlling the remaining model is the winner. When a model is removed — or even if both models are removed as casualties in the challenge — the players immediately move on to the Glory Step.
+                    </p>
+                    <p>
+                      <strong>Draw.</strong> If, after all attacks for all models engaged in the challenge, neither the Challenger nor the Challenged model has been removed as a casualty, the challenge ends in a draw. The player with the Challenge Advantage may either return to step 2 (Face-Off) and repeat steps 2, 3 and 4, or move on to the Glory Step. There is no limit to the number of times steps 2, 3 and 4 can be repeated in a prolonged challenge.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== 5. GLOIRE ===================== -->
+            <div class="timeline-item" id="gloire">
+              <h3 class="timeline-entete">
+                <button
+                  type="button"
+                  class="timeline-titre"
+                  aria-expanded="false"
+                >
+                  5. Glory <span class="chevron" aria-hidden="true">❯</span>
+                </button>
+              </h3>
+              <div class="timeline-details">
+                <div class="timeline-details-inner">
+                  <p>
+                    If, when the Glory Step begins, a model has been removed as a casualty, the remaining player is the winner and gains a number of <strong>combat resolution points</strong> equal to the base Wounds of the model removed as a casualty (not equal to the number of Wounds removed). Add +1 to this value if the model removed as a casualty was of the <span class="regle-tag" tabindex="0" >Paragon<span class="tooltip" >Allocates the hits it inflicts itself, both when shooting and in melee. Can issue and accept challenges, and counts as its base Wounds value for combat resolution.</span ></span > type or the Command sub-type.
+                  </p>
+                  <p>
+                    If no model has been removed as a casualty when the Glory Step begins, the model that caused the other to lose the most Wounds is declared the winner and gains a number of combat resolution points equal to the number of Wounds removed. The defeated model gains no combat resolution points, even though it was not removed as a casualty.
+                  </p>
+                  <p>
+                    If no model has been removed as a casualty and no Wounds have been lost, or both players have caused the same number to be lost — or both models have been removed as casualties — the challenge ends in a <strong>draw</strong> and neither player gains combat resolution.
+                  </p>
+                  <p>
+                    Once the winner of the challenge (or the lack of one) is known, the players must return to step 1 and choose a new combat in which to declare a challenge — or, if there are no more eligible combats, end the Challenge Sub-phase and begin the Fight Sub-phase.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="disgrace">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="disgrace-corps"
+          >
+            <span>The Disgraced status</span> <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="disgrace-corps">
+          <div class="encadre-attention">
+            <p>
+              A model subject to the <strong>Disgraced</strong> status halves its Weapon Skill and Leadership characteristics for the duration of the Assault Phase in which it gained this status. All effects that normally apply to a unit that includes a model subject to a status affect the models in the same unit as a Disgraced model, including being reduced to a Combat Initiative of 1.
+            </p>
+            <p>
+              Unlike other statuses, the Disgraced status is automatically removed in the End Phase of the same Player Turn in which it was inflicted, without making a test. Note that the Disgraced status does not affect models that other statuses do not affect, and that other rules and effects able to remove statuses can remove this one before the End Phase.
+            </p>
+            <p>
+              A unit that includes <em>Routed</em> models can include Disgraced models.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="restitution">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="restitution-corps"
+          >
+            <span>Returning the Challenger and the Challenged model to their units</span> <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="restitution-corps">
+          <p>
+            Models that made attacks in the Challenge Sub-phase and are not removed as casualties must remain set aside until the Resolution Sub-phase. At that point, all models that made attacks in the Challenge Sub-phase are returned to the unit they were part of. They may be placed anywhere as long as they are in unit coherency with at least one other model from the same unit, and they must be engaged with an enemy unit wherever possible.
+          </p>
+          <p>
+            If the unit the model was part of was entirely removed as casualties in the Fight Sub-phase, the model must be placed in base contact with any enemy model from the unit it was locked in combat with at the start of the Challenge Sub-phase. In that case, the model returned to play is considered locked in the same combat, keeping all combat resolution modifiers inflicted in the Challenge Sub-phase and the Fight Sub-phase. The combat is then resolved normally.
+          </p>
+          <div class="encadre">
+            <p>
+              Note that this means models that made attacks in the Challenge Sub-phase will not make any attacks in the following Fight Sub-phase, and no wounds can be allocated to them during that sub-phase. In some cases, this can result in a unit that is “locked in combat” but without a single enemy model to target with attacks in the Fight Sub-phase: in that case, no attacks are made in that sub-phase, and the models remaining on the battlefield in that combat cannot make a pile-in or any other move. After returning the models that were engaged in the challenge to their units, the combat is resolved normally, adding up the combat resolution points earned in the challenge and all those arising from the composition of the unit, such as outnumbering or any vexilla.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

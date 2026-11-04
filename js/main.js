@@ -1077,6 +1077,30 @@ function construireNavigation() {
     li.appendChild(a);
     menu.appendChild(li);
   }
+  menu.appendChild(construireLienLangue());
+}
+
+/* Lien vers la MÊME page dans l'autre langue : la version anglaise vit
+   dans en/ avec les mêmes noms de fichiers (en/pages/tour.html ↔
+   pages/tour.html), d'où un simple préfixe à ajouter ou retirer.
+   RACINE_SITE vaut la racine FR ou en/ selon le main.js qui s'exécute ;
+   le chemin relatif de la page courante s'en déduit sans liste à tenir.
+   lang/hreflang : le lecteur d'écran prononce le libellé dans la bonne
+   langue (WCAG 3.1.2) et les moteurs comprennent la cible. */
+function construireLienLangue() {
+  const enAnglais = document.documentElement.lang === "en";
+  const chemin = location.href.split("#")[0].split("?")[0].startsWith(RACINE_SITE)
+    ? location.href.split("#")[0].split("?")[0].slice(RACINE_SITE.length)
+    : "";
+  const a = document.createElement("a");
+  a.href = (enAnglais ? RACINE_SITE + "../" : RACINE_SITE + "en/") + chemin;
+  a.lang = enAnglais ? "fr" : "en"; // i18n-ignore
+  a.hreflang = a.lang;
+  a.textContent = enAnglais ? "Français" : "English"; // i18n-ignore
+  const li = document.createElement("li");
+  li.className = "nav-langue";
+  li.appendChild(a);
+  return li;
 }
 
 // Lien externe accessible (nouvel onglet + mention "(nouvelle fenêtre)"

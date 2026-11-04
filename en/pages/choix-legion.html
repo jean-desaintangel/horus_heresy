@@ -1,0 +1,189 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Choix de la Légion
+     Fichier : pages/choix-legion.html
+
+     Grille des dix-huit Primarques, point d'entrée du configurateur.
+     Page VOLONTAIREMENT AUTONOME : elle ne charge ni css/style.css ni
+     js/main.js, n'affiche ni la navigation ni le pied de page communs, et
+     possède sa propre palette (css/choix-legion.css). Elle n'apparaît donc
+     pas dans LIENS_NAV (js/main.js).
+     Choix assumé : cette page joue le rôle d'un écran de titre, et le
+     contraste avec le reste du site est l'effet recherché.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Titre de page (RGAA 8.6 / WCAG 2.4.2) : c'est la PREMIÈRE chose
+         qu'annonce un lecteur d'écran à l'arrivée sur la page, et c'est
+         ce que lit l'utilisateur dans l'onglet ou l'historique. Il doit
+         donc décrire le contenu, pas seulement l'étiqueter. « Choix
+         legion » était le seul titre du site à ne respecter ni le
+         gabarit commun « Sujet — Horus Heresy » (les dix-huit autres
+         pages le suivent), ni l'orthographe (« legion » sans accent).
+         Il contredisait en outre l'og:title juste en dessous, qui lui
+         était correct — signe qu'il n'avait jamais été repris depuis le
+         brouillon initial. -->
+    <title>Legion choice — Horus Heresy, beginner's guide</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/choix-legion.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/choix-legion.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/choix-legion.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/choix-legion.html" />
+    <meta
+      name="description"
+      content="Choose your loyalist Legion for the Horus Heresy 3rd edition beginner's guide: the eighteen Primarchs and their Legions."
+    />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Legion choice — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Choose your loyalist Legion from among the eighteen Primarchs for the Horus Heresy 3rd edition beginner's guide."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/choix-legion.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Habillage propre à cette page (palette sombre, grille des
+         portraits, modale). Extrait dans un fichier dédié le
+         2026-07-27 : un <style> de 400 lignes se retéléchargeait
+         avec la page à chaque visite et ne pouvait pas être mis en
+         cache séparément. Cette page ne charge volontairement PAS
+         css/style.css : elle est autonome (voir l'en-tête de
+         css/choix-legion.css). -->
+    <link rel="stylesheet" href="../../css/choix-legion.css" />
+    <!-- Polices préchargées : celles réellement utilisées au premier
+         rendu (titre en Cinzel 900, texte en EB Garamond 400). -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/ebgaramond-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/choix-legion.js" defer></script>
+  </head>
+  <body>
+    <!-- Le script « Nuit Éternelle » présent sur les quinze autres pages
+         a été retiré d'ici : il posait la classe .nuit-eternelle sur
+         <body>, mais cette page ne charge pas css/style.css — donc
+         AUCUNE règle ne répondait à cette classe. C'était un script
+         bloquant, exécuté à chaque affichage, pour un effet nul.
+         L'extraction du <style> vers css/choix-legion.css l'a rendu
+         visible : tant que les 400 lignes étaient noyées dans le HTML,
+         personne ne pouvait constater que la règle manquait.
+         Sur le fond, le thème n'aurait de toute façon rien à recolorer :
+         cette page est déjà sombre par conception. -->
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <header>
+      <div class="legion-surtitre">Horus Heresy</div>
+      <h1>Legion choice</h1>
+      <p class="legion-accroche">
+        Eighteen Legions. Eighteen destinies forged in the fires of the Great Crusade.
+      </p>
+    </header>
+
+    <main id="contenu">
+      <!-- Accessibilité (WCAG 1.3.1 / RGAA 9.3) : ce conteneur portait
+           role="list", mais ses enfants directs sont des boutons —
+           or un role="list" n'accepte QUE des role="listitem". La
+           structure annoncée était donc invalide : selon le lecteur
+           d'écran, soit la liste était ignorée, soit elle était
+           annoncée comme vide alors qu'elle contient dix-huit choix.
+           Retirer le rôle est ici la bonne correction : une grille de
+           boutons se parcourt très bien à la touche Tab et n'a rien à
+           gagner à être présentée comme une liste. -->
+      <div class="legion-grille" id="legion-grille"></div>
+
+      <!-- Modale image + validation -->
+      <div class="legion-modale" id="legion-modale" aria-hidden="true">
+        <div class="legion-modale-fond" id="legion-modale-fond"></div>
+
+        <div
+          class="legion-modale-contenu"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="legion-modale-titre"
+        >
+          <button
+            class="legion-modale-fermer"
+            id="legion-modale-fermer"
+            type="button"
+            aria-label="Close the window"
+          >
+            ×
+          </button>
+
+          <!-- Ni src ni alt en dur : les deux sont posés par
+               ouvrirModale() (js/choix-legion.js) au moment de
+               l'ouverture. L'ancien src=""
+               n'était pas neutre — un src vide se résout à l'URL de la
+               PAGE COURANTE, que le navigateur télécharge alors une
+               seconde fois pour tenter de l'afficher comme une image.
+               Requête inutile, et erreur de validation HTML. -->
+          <img id="legion-modale-image" alt="" />
+          <h2 id="legion-modale-titre" class="legion-modale-titre"></h2>
+
+          <button
+            class="legion-bouton-valider"
+            id="legion-valider"
+            type="button"
+          >
+            Confirm choice
+          </button>
+          <div class="legion-motif-expurgee" id="legion-motif-expurgee"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Horus Heresy</p>
+    </footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

@@ -1,0 +1,327 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Formulaire de signalement
+     Fichier : pages/contact.html
+
+     Formulaire d'erreur ou de suggestion. Le site étant STATIQUE (GitHub
+     Pages, aucun serveur PHP), l'envoi du courriel est délégué au service
+     tiers Formspree : js/contact.js poste les données en AJAX (fetch) et
+     affiche la réponse sans recharger la page.
+     À observer : chaque champ a un <label for> associé, les messages d'état
+     sont annoncés via aria-live, et rien n'est stocké côté site — c'est ce
+     que disent les mentions légales.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report an error — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/contact.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/contact.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/contact.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/contact.html" />
+    <meta
+      name="description"
+      content="Report an error or a typo, or suggest an improvement for the Horus Heresy 3rd edition beginner's guide."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Report an error — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Report an error or suggest an improvement for the Horus Heresy beginner's guide."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/contact.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/contact.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Report an error or suggest an improvement
+      </h1>
+
+      <p class="sous-titre">
+        A rule transcribed incorrectly, a typo, a dead link, an idea for a page? This form sends us a message directly.
+      </p>
+
+      <div class="encadre">
+        <p>
+          <strong>For a correction, please be specific</strong>: tell us the page concerned and, if possible, the section title. An exact quote of the faulty passage saves us a lot of time.
+        </p>
+      </div>
+
+      <!-- ===================== FORMULAIRE =====================
+           action pointe vers l'endpoint Formspree (voir README) ;
+           method="post" : les données passent dans le CORPS de la
+           requête, pas dans l'URL — obligatoire ici (message long,
+           et une URL serait conservée dans l'historique/les logs).
+           La validation est confiée aux attributs HTML natifs
+           (required, type="email", minlength) : le navigateur bloque
+           l'envoi et affiche lui-même le message d'erreur, sans une
+           ligne de JavaScript.
+           Sans JavaScript, le formulaire fonctionne quand même : le
+           navigateur poste vers Formspree, qui affiche sa propre page
+           de confirmation (principe d'amélioration progressive). -->
+      <form
+        id="form-signalement"
+        class="formulaire"
+        action="https://formspree.io/f/mwvgodaq"
+        method="post"
+      >
+        <!-- CHAMPS SPÉCIAUX FORMSPREE (noms réservés, en minuscules) :
+             « subject » alimente l'objet du mail reçu, « email »
+             (plus bas) alimente son en-tête Reply-To — on répond au
+             visiteur d'un simple « Répondre ». Tous les autres noms
+             (Type, Page…) sont libres et apparaissent tels quels dans
+             le corps du mail : on les écrit donc en clair, avec une
+             majuscule, puisqu'ils servent de libellés. -->
+        <input
+          type="hidden"
+          name="subject"
+          value="[Guide Horus Heresy] Nouveau signalement"
+        />
+
+        <!-- Accessibilité (RGAA 11.10 / WCAG 3.3.2) : un astérisque seul
+             n'est PAS une indication de champ obligatoire — c'est un
+             symbole dont le sens doit être explicité quelque part dans
+             le formulaire, avant les champs concernés. Cette légende
+             joue ce rôle. Le mot « obligatoire » est en outre répété
+             dans chaque libellé (voir plus bas) pour l'utilisateur de
+             lecteur d'écran qui navigue de champ en champ (touche F sous
+             NVDA) sans jamais entendre le texte courant qui les
+             sépare. -->
+        <!-- L'id "legende-obligatoire" a été retiré : il n'était référencé
+             par aucun aria-labelledby/aria-describedby, ni par le CSS, ni
+             par le JS. Un id orphelin donne l'illusion d'une association
+             qui n'existe pas — c'est justement le genre de détail qu'un
+             audit relève. La légende reste efficace sans lui : placée
+             AVANT les champs, elle est lue dans l'ordre naturel du
+             document (RGAA 11.10). -->
+        <p class="champ-aide">
+          Fields marked with an asterisk <span aria-hidden="true">(*)</span> are required.
+        </p>
+
+        <div class="champ">
+          <label for="nom">
+            Your name <span class="champ-option">(optional)</span>
+          </label>
+          <input
+            type="text"
+            id="nom"
+            name="Nom"
+            autocomplete="name"
+            placeholder="What to call you in our reply"
+          />
+        </div>
+
+        <div class="champ">
+          <label for="type">
+            Type of message <span aria-hidden="true">*</span> <span class="sr-only">(required)</span>
+          </label>
+          <select id="type" name="Type" required>
+            <option value="Erreur de règle">
+              Rule / content error
+            </option>
+            <option value="Coquille">Spelling mistake or typo</option>
+            <option value="Bug">
+              Technical problem (display, dead link…)
+            </option>
+            <option value="Amélioration">Suggested improvement</option>
+            <option value="Autre">Other</option>
+          </select>
+        </div>
+
+        <div class="champ">
+          <!-- Cohérence des libellés (RGAA 11.10) : les quatre autres
+               champs annoncent tous leur statut — « (facultatif) » ou
+               « * (obligatoire) ». Celui-ci était le seul muet, ce qui
+               laissait le doute à l'utilisateur (et surtout à celui qui
+               tabule de champ en champ sans voir le formulaire d'un
+               coup d'œil). L'indication doit être systématique, pas
+               seulement présente là où elle semble utile. -->
+          <label for="page">
+            Page concerned <span class="champ-option">(optional)</span>
+          </label>
+          <!-- Pré-rempli par js/contact.js si l'utilisateur arrive
+               depuis une page du site (lien du pied de page). -->
+          <input
+            type="text"
+            id="page"
+            name="Page"
+            placeholder="E.g.: Special rules, Weapons…"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="champ">
+          <label for="message">
+            Your message <span aria-hidden="true">*</span> <span class="sr-only">(required)</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="8"
+            required
+            minlength="10"
+            placeholder="Describe the error or your suggestion. Quote the passage concerned if possible."
+          ></textarea>
+        </div>
+
+        <div class="champ">
+          <label for="email">
+            Your e-mail <span class="champ-option">(optional)</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="so we can reply if needed"
+            aria-describedby="aide-email"
+          />
+          <!-- aria-describedby : le lecteur d'écran annonce cette
+               précision juste après le libellé du champ (WCAG 3.3.2). -->
+          <p class="champ-aide" id="aide-email">
+            Only used to reply to you. Never published, never passed on to third parties.
+          </p>
+        </div>
+
+        <!-- PIÈGE À ROBOTS (« honeypot »).
+             Les robots spammeurs remplissent automatiquement tous les
+             champs d'un formulaire. Ce champ est invisible pour un
+             humain (classe .honeypot en CSS) : s'il arrive rempli,
+             c'est forcément un robot — Formspree jette alors le
+             message en silence. Le nom « _gotcha » est celui reconnu
+             par Formspree.
+             tabindex="-1" : hors du parcours clavier.
+             aria-hidden : masqué aux lecteurs d'écran, qui sinon
+             annonceraient un champ que l'utilisateur ne voit pas. -->
+        <div class="honeypot" aria-hidden="true">
+          <label for="_gotcha">Do not fill in this field</label>
+          <input
+            type="text"
+            id="_gotcha"
+            name="_gotcha"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <button type="submit" class="bouton-envoyer">Send</button>
+
+        <!-- Zone de retour (succès / erreur).
+             role="status" + aria-live="polite" : tout texte inséré ici
+             par JavaScript est annoncé par les lecteurs d'écran sans
+             interrompre la lecture en cours (WCAG 4.1.3). Le conteneur
+             doit exister dans le HTML AVANT l'insertion, sinon
+             l'annonce ne se déclenche pas. -->
+        <p
+          class="form-retour"
+          id="form-retour"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </form>
+    </main>
+
+    <!-- ===================== PIED DE PAGE ===================== -->
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

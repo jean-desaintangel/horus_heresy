@@ -1,0 +1,4 @@
+node_modules/
+.manquants.json
+a-traduire.json
+tests/.sorties/

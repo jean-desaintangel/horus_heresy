@@ -1,0 +1,228 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Déclaration d'accessibilité
+     Fichier : pages/accessibilite.html
+
+     État de conformité au RGAA 4.1 : ce qui est conforme, ce qui ne l'est
+     pas, et les voies de recours. Page de contenu pur.
+     Le pendant documentaire du travail d'accessibilité que l'on retrouve
+     partout dans le code (aria-*, :focus-visible, contrastes vérifiés,
+     prefers-reduced-motion).
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accessibility statement — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/accessibilite.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/accessibilite.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/accessibilite.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/accessibilite.html" />
+    <meta
+      name="description"
+      content="RGAA 4.1 accessibility statement for the Horus Heresy beginner's guide: compliance status, non-compliances and means of redress."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Accessibility statement — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="RGAA 4.1 compliance status of the Horus Heresy beginner's guide."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/accessibilite.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <h1 class="section-titre section-titre--centre titre-page">
+        Accessibility statement
+      </h1>
+
+      <p class="sous-titre">
+        Drawn up in accordance with article 47 of French law no.&nbsp;2005-102 of 11&nbsp;February&nbsp;2005 and decree no.&nbsp;2019-768 of 24&nbsp;July&nbsp;2019.
+      </p>
+
+      <p>
+        <em>Jean de SAINT ANGEL</em> is committed to making this site accessible to people with disabilities.
+      </p>
+
+      <h2 class="section-titre">Compliance status</h2>
+      <p>
+        The site is <strong>partially compliant</strong> with the French General Accessibility Improvement Framework (RGAA)&nbsp;4.1, owing to the non-compliances listed below.
+      </p>
+
+      <h2 class="section-titre">Test results</h2>
+      <p>
+        The self-assessment carried out on <em>27/07/2026</em> shows that <strong>93.5&nbsp;% of applicable RGAA criteria</strong> are met.
+      </p>
+      <div class="encadre">
+        <p>
+          <strong>Scope and limits of this figure.</strong> It results from an analysis of the source code, contrast measurements calculated on the CSS variables and automated tests. It is based neither on an audit by a third-party body nor on tests carried out with people with disabilities. In particular, two checks remain to be carried out manually: the contrast of text overlaid on the gradients of the eighteen Legion themes (with Colour Contrast Analyser), and the actual rendering of the pages by a screen reader (NVDA, VoiceOver).
+        </p>
+      </div>
+
+      <h2 class="section-titre">Non-accessible content</h2>
+
+      <h3>Non-compliances</h3>
+      <ul>
+        <li>
+          <strong>Changes of language</strong> (criterion&nbsp;8.7): some English game terms deliberately left untranslated (<span lang="en">Jump Pack</span>, <span lang="en">Breacher</span>) are not marked with a <code>lang</code> attribute. <em>Planned fix: [date].</em>
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Preparation of this statement</h2>
+      <p>Statement drawn up on <em>27/07/2026</em>.</p>
+
+      <h3>Technologies used</h3>
+      <ul>
+        <li>HTML&nbsp;5</li>
+        <li>CSS&nbsp;3</li>
+        <li>JavaScript (ECMAScript&nbsp;2020), no framework</li>
+        <li>Service Worker (offline browsing)</li>
+      </ul>
+
+      <h3>Test environment</h3>
+      <ul>
+        <li>Firefox with NVDA</li>
+        <li>Safari with VoiceOver</li>
+        <li>Chrome with the Axe DevTools extension</li>
+      </ul>
+
+      <h3>Tools used</h3>
+      <ul>
+        <li>W3C HTML validator</li>
+        <li>Colour Contrast Analyser</li>
+        <li>Axe DevTools</li>
+        <li>Browser accessibility inspector</li>
+      </ul>
+
+      <h2 class="section-titre">Feedback and contact</h2>
+      <p>
+        If you are unable to access any content or service, you can report it so that you can be directed to an accessible alternative:
+      </p>
+      <ul>
+        <li>
+          via the <a href="contact.html">contact form</a>, choosing the "Technical problem" category;
+        </li>
+        <li>
+          stating the page concerned and the difficulty encountered, which makes fixing it much faster.
+        </li>
+      </ul>
+
+      <h2 class="section-titre">Means of redress</h2>
+      <p>
+        If you notice an accessibility defect preventing you from accessing content or a feature of the site, you report it to us and you do not receive a response, you are entitled to send your complaint or a referral request to the Défenseur des droits (French Rights Defender).
+      </p>
+      <p>Several options are available to you:</p>
+      <ul>
+        <li>
+          <a href="https://formulaire.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer" >write a message to the Défenseur des droits (in French) <span class="sr-only">(new window)</span></a >;
+        </li>
+        <li>
+          <a href="https://www.defenseurdesdroits.fr/saisir/delegues" target="_blank" rel="noopener noreferrer" >contact the Défenseur des droits delegate for your region (in French) <span class="sr-only">(new window)</span></a >;
+        </li>
+        <li>
+          send a letter by post, free of charge and without a stamp:<br /> Défenseur des droits<br /> Libre réponse 71120<br /> 75342 Paris CEDEX 07
+        </li>
+      </ul>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

@@ -1,0 +1,342 @@
+﻿<!doctype html>
+<html lang="en">
+<!-- ============================================================
+     FICHE D'IDENTITÉ DE LA PAGE — Statuts tactiques et Réactions
+     Fichier : pages/statuts-reactions.html
+
+     Tableau de référence des Statuts (Épinglé, Neutralisé…) et des Réactions
+     disponibles à chaque phase. Page de contenu pur.
+
+     Rappels valables sur TOUTES les pages du site :
+     - lang="fr" sur <html> : indispensable aux lecteurs d'écran
+       (prononciation) et aux moteurs de recherche.
+     - Le premier élément du <body> est le lien d'évitement « Aller au
+       contenu principal » (WCAG 2.4.1) : invisible tant qu'on ne
+       l'atteint pas au clavier.
+     - Les <script> portent l'attribut `defer` : le navigateur les
+       télécharge en parallèle du HTML mais ne les exécute qu'une fois le
+       document construit, DANS L'ORDRE des balises. C'est ce qui garantit
+       que les données sont chargées avant la logique qui les consomme.
+     - Aucun style ni gestionnaire d'événement écrit en attribut (pas de
+       style="…" ni de onclick="…") : présentation dans css/, comportement
+       dans js/. Séparation des responsabilités.
+     ============================================================ -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statuses &amp; Reactions — Horus Heresy</title>
+    <link
+      rel="canonical"
+      href="https://lagrandecroisade.fr/en/pages/statuts-reactions.html"
+    />
+    <!-- Version anglaise (en/, mêmes noms de fichiers) : hreflang
+         indique aux moteurs la page équivalente dans chaque langue. -->
+    <link rel="alternate" hreflang="fr" href="https://lagrandecroisade.fr/pages/statuts-reactions.html" />
+    <link rel="alternate" hreflang="en" href="https://lagrandecroisade.fr/en/pages/statuts-reactions.html" />
+    <link rel="alternate" hreflang="x-default" href="https://lagrandecroisade.fr/pages/statuts-reactions.html" />
+    <meta
+      name="description"
+      content="Horus Heresy 3rd edition Tactical Statuses (Pinned, Suppressed, Stunned, Routed) and Reactions: Reposition, Return Fire, Shield Wall, Smokescreen, Medic!, Overwatch, Evade, Heroic Intervention, Intercept, Death or Glory, Nullify."
+    />
+    <!-- Polices auto-hébergées via css/style.css (RGPD : aucune requête
+         vers Google Fonts) ; préchargement de la police du texte courant. -->
+    <link
+      rel="preload"
+      href="../../assets/fonts/lato-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="../../assets/favicon/favicon_sons_of_horus.webp"
+    />
+    <!-- Mode hors ligne (PWA) : manifest + icône iOS + couleur de
+         thème de la barre système/barre d'adresse quand le site est
+         installé (voir manifest.json, service-worker.js, js/main.js). -->
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="apple-touch-icon" href="../../assets/pwa/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2c2a24" />
+    <!-- Métadonnées de partage (Open Graph) : og:image et og:url exigent
+         une URL ABSOLUE (le site qui affiche l’aperçu n’a aucun moyen de
+         résoudre un chemin relatif). À mettre à jour en cas de changement
+         d’hébergement. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Statuses and Reactions — Horus Heresy, beginner's guide"
+    />
+    <meta
+      property="og:description"
+      content="Horus Heresy 3rd edition Tactical Statuses (Pinned, Suppressed, Stunned, Routed) and Reactions."
+    />
+    <meta
+      property="og:image"
+      content="https://lagrandecroisade.fr/assets/img/hero.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://lagrandecroisade.fr/pages/statuts-reactions.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Reconnaissance des mots-clés tapés au clavier (clins
+         d'œil) : chargé AVANT le script principal, qui consomme
+         surSequenceClavier. Les deux sont en `defer`, donc exécutés
+         dans l'ordre des balises. -->
+    <script src="../js/sequence-clavier.js" defer></script>
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <script>
+      // Applique Nuit Éternelle avant le premier rendu (voir
+      // activerNuitEternelle, js/main.js) : sans ce script bloquant, en
+      // tout début de <body>, la page s'affiche d'abord en clair puis
+      // bascule en sombre une fois main.js chargé (defer) — ce qui
+      // déclenche la transition CSS de body.nuit-eternelle (le dégradé
+      // blanc vers noir) à chaque changement de page.
+      try {
+        if (sessionStorage.getItem("hh-nuit-eternelle") === "1") {
+          document.body.classList.add("nuit-eternelle");
+        }
+      } catch {}
+    </script>
+    <a class="lien-evitement" href="#contenu">Skip to main content</a>
+    <!-- ===================== NAVIGATION ===================== -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="../index.html"
+          >Horus Heresy <span>· Beginner's guide</span></a
+        >
+        <button
+          type="button"
+          class="nav-burger"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <nav class="nav-principale" aria-label="Main navigation">
+          <ul class="nav-menu"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <!-- Accessibilité (WCAG 1.3.1 / 2.4.6, RGAA 9.1) : cette page était
+           la seule du site à démarrer directement sur un <h2>. Un lecteur
+           d'écran qui liste les titres (touche 1 sous NVDA/JAWS) n'y
+           trouvait donc aucun point d'entrée de niveau 1, et la hiérarchie
+           sautait un niveau. Le titre reprend le libellé de la page dans
+           le menu de navigation, pour que les deux concordent (RGAA 8.6 /
+           WCAG 2.4.2 : le titre annoncé doit correspondre à la page
+           atteinte). Il porte aussi .titre-page, l'accroche sur laquelle
+           js/main.js pose le blason de la Légion choisie : sans <h1>, le
+           skin de Légion ne s'affichait pas non plus sur cette page. -->
+      <h1 class="section-titre section-titre--centre titre-page">
+        Statuses &amp; Reactions
+      </h1>
+
+      <!-- ===================== STATUTS TACTIQUES ===================== -->
+      <section id="statuts">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="statuts-corps"
+          >
+            <span>Tactical Statuses</span> <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+        <div class="section-corps" id="statuts-corps">
+          <div class="encadre-attention">
+            <p>
+              Whatever the Tactical Status, a unit suffers the following penalties: <strong>Disordered charge</strong>; <strong>combat Initiative of 1</strong>; <strong>neither controls nor contests objectives</strong> and <strong>no "Stationary" benefit</strong>.
+            </p>
+          </div>
+
+          <div class="grille-statuts">
+            <div class="carte-statut statut-fixe">
+              <h3>Pinned</h3>
+              <ul>
+                <li>
+                  Cannot <strong>Move</strong>, <strong>Rush</strong> or <strong>Charge</strong>, in any phase.
+                </li>
+                <li>
+                  If in combat: normal pile-in moves, but cannot <strong>Pursue</strong> or <strong>Disengage</strong>.
+                </li>
+              </ul>
+            </div>
+
+            <div class="carte-statut statut-neutralise">
+              <h3>Suppressed</h3>
+              <ul>
+                <li>
+                  Must make all of its Shooting Attacks as <strong>Snap Shots</strong>.
+                </li>
+              </ul>
+            </div>
+
+            <div class="carte-statut statut-sonne">
+              <h3>Stunned</h3>
+              <ul>
+                <li>
+                  Cannot declare <strong>any Reactions</strong>. The unit takes the punishment without being able to respond.
+                </li>
+              </ul>
+            </div>
+
+            <div class="carte-statut statut-deroute">
+              <h3>Routed</h3>
+              <ul>
+                <li>All the penalties of the other statuses.</li>
+                <li>
+                  In the Movement Phase: must <strong>Fall Back</strong> during the Rout Sub-phase if it includes Routed models, unless it is Locked in Combat.
+                </li>
+                <li>
+                  If it reaches the table edge: Leadership test. Failed = <strong>Removed as a Casualty</strong>. Passed = loses "Routed" and becomes <strong>Suppressed</strong>.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== RÉACTIONS ===================== -->
+      <section id="reactions">
+        <h2 class="section-titre">
+          <button
+            type="button"
+            class="section-toggle"
+            aria-expanded="false"
+            aria-controls="reactions-corps"
+          >
+            <span>Reactions</span> <span class="chevron" aria-hidden="true">❯</span>
+          </button>
+        </h2>
+
+        <div class="section-corps" id="reactions-corps">
+          <p>
+            All players have 1 Reaction available by default. The number of Reactions available increases with the Points Limit. Up to 1500 points: nothing; 1501-3500: +1 Reaction; 3501 - 5000: +2 Reactions; >5000: +3 Reactions.
+          </p>
+
+          <p>
+            Some rules grant additional Reactions, for example the Primary Detachment of the Legiones Astartes, Legio Custodes, Solar Auxilia, Questoris Knight, and the 'Master of the Legion' rule (Praetor, certain characters).
+          </p>
+
+          <h3 class="sous-titre">Opponent's Movement Phase</h3>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-mouvement">
+              <h3 class="reaction-nom">
+                Reposition<span class="badge-phase">Movement</span>
+              </h3>
+              <p>
+                When an enemy unit comes within 12": an immediate move up to the unit's Initiative. Useful for taking cover or improving your position.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="sous-titre">Opponent's Shooting Phase</h3>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Return Fire<span class="badge-phase">Shooting</span>
+              </h3>
+              <p>
+                The targeted unit fires back in turn — even models that are about to die take part.
+              </p>
+            </div>
+
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Shield Wall<span class="badge-phase">Shooting/Charge</span>
+              </h3>
+              <p>
+                Legiones Astartes Advanced Reaction, costs 1 Reaction Allotment. Declared at the start of step 3 of a Shooting Attack, or step 4 of a Charge (volley attacks), made by the opponent. If the majority of models in the targeted unit have the <em>Shield</em> trait: <strong>+1 Toughness</strong> for the rest of the phase.
+              </p>
+            </div>
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Smokescreen<span class="badge-phase">Shooting</span>
+              </h3>
+              <p>
+                Legiones Astartes Advanced Reaction, costs 1 Reaction Allotment. Declared at the start of step 3 of a Shooting Attack made by the opponent. If the majority of models in the targeted unit have the <em>Smokescreen</em> trait: Shrouded (5+) Damage Mitigation roll for the rest of the phase, against wounds, penetrating hits and glancing hits.
+              </p>
+            </div>
+            <div class="carte-statut reaction-tir">
+              <h3 class="reaction-nom">
+                Medic!<span class="badge-phase">Shooting</span>
+              </h3>
+              <p>
+                Legiones Astartes Advanced Reaction, costs 1 Reaction Allotment. Declared at step 9 of a Shooting Attack targeting a unit that includes a Medic. When removing casualties (step 11): one recovery roll for each model that has suffered an unsaved wound (except models that themselves have "Medic").
+              </p>
+            </div>
+          </div>
+
+          <h3 class="sous-titre">Opponent's Assault Phase</h3>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Overwatch<span class="badge-phase">Assault</span>
+              </h3>
+              <p>
+                The charged unit shoots normally with all its weapons at the unit charging it. However, the attacker gets no Cover Saves or Shrouded Damage Mitigation.
+              </p>
+            </div>
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Evade<span class="badge-phase">Assault</span>
+              </h3>
+              <p>
+                After the charge's volley attacks: the unit dodges away with a move up to its Initiative.
+              </p>
+            </div>
+            <div class="carte-statut reaction-assaut">
+              <h3 class="reaction-nom">
+                Heroic Intervention<span class="badge-phase">Assault</span>
+              </h3>
+              <p>
+                A character issues a Challenge (see <a href="defi.html">The Challenge</a> page).
+              </p>
+            </div>
+          </div>
+
+          <h3 class="sous-titre">Special Reactions</h3>
+          <div class="grille-reactions">
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                Intercept<span class="badge-phase">Reserves</span>
+              </h3>
+              <p>
+                Snap Shots at an enemy unit that has just arrived from Reserves (a vehicle only uses its defensive weapons).
+              </p>
+            </div>
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                Death or Glory<span class="badge-phase">Vehicle</span>
+              </h3>
+              <p>
+                To stop a vehicle that is "moving through" your unit (base to base): one model (not necessarily in contact) shoots OR strikes in melee. All its attacks hit automatically; Wound Tests are made against the Front Armour. If the vehicle is destroyed or Pinned: the model survives and the vehicle inflicts no hits as it passes. Otherwise, the model is Removed as a Casualty.
+              </p>
+            </div>
+            <div class="carte-statut reaction-special">
+              <h3 class="reaction-nom">
+                Nullify<span class="badge-phase">Psychic</span>
+              </h3>
+              <p>
+                When a Resistance Check against a psychic Curse is failed: a model with the <em>Psyker</em> trait and Line of Sight to the target unit (or to the Curse's Focus) may attempt to nullify it. Subtract the Focus's Willpower from our model's Willpower, then make a Willpower Check with the power's modifier. Passed: the Curse fails. Failed: it is resolved normally.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+    <script data-goatcounter="https://djaunie.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>

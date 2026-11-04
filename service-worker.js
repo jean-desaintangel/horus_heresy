@@ -234,7 +234,11 @@
 // v165 : Incursion Éthérique ouverte à toute Légion Renégate (Traitor
 // Legion Auxiliary Detachment) — js/organigramme-data.js,
 // js/unites-data.js, pages/construction-liste.html.
-const CACHE_VERSION = "v183"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v184 : version anglaise du site (dossier en/, pages et scripts
+// traduits, précachés via la liste dérivée sous PRECACHE_URLS), lien de
+// changement de langue dans le menu (js/main.js, css/style.css) et
+// balises hreflang sur toutes les pages.
+const CACHE_VERSION = "v184"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
@@ -415,6 +419,21 @@ const PRECACHE_URLS = [
   "assets/documents/FAQ_12_oct_2026.pdf",
 ];
 
+/* Version anglaise (dossier en/, générée par outils/traduction-en/) :
+   mêmes noms de fichiers que la version française pour les pages et les
+   scripts, les CSS/polices/images/documents et jsPDF (js/vendor/)
+   restant partagés à la racine. On DÉRIVE donc la liste au
+   lieu de la recopier : une page ajoutée ci-dessus est automatiquement
+   précachée dans les deux langues (à condition que en/ contienne bien
+   sa traduction, sinon l'échec est simplement journalisé à l'install). */
+PRECACHE_URLS.push(
+  "en/",
+  "en/manifest.json",
+  ...PRECACHE_URLS.filter((url) =>
+    /^(index\.html|pages\/|js\/(?!vendor\/))/.test(url),
+  ).map((url) => "en/" + url),
+);
+
 /* ----------------------------------------------------------
    INSTALL — précharge l'app shell.
    `addAll` échoue en bloc si UNE SEULE requête échoue (404, typo de
@@ -493,7 +512,15 @@ self.addEventListener("fetch", (evenement) => {
           return reponse;
         })
         .catch(() =>
-          caches.match(requete).then((r) => r || caches.match("index.html")),
+          caches
+            .match(requete)
+            .then(
+              (r) =>
+                r ||
+                caches.match(
+                  url.pathname.includes("/en/") ? "en/index.html" : "index.html",
+                ),
+            ),
         ),
     );
     return;
