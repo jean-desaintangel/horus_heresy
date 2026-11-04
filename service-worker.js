@@ -238,7 +238,8 @@
 // traduits, précachés via la liste dérivée sous PRECACHE_URLS), lien de
 // changement de langue dans le menu (js/main.js, css/style.css) et
 // balises hreflang sur toutes les pages.
-const CACHE_VERSION = "v184"; // Incrémenter à chaque modification de PRECACHE_URLS
+// v185 : lien de langue encadré sur ses quatre côtés (css/style.css).
+const CACHE_VERSION = "v185"; // Incrémenter à chaque modification de PRECACHE_URLS
 const CACHE_PRECACHE = `horus-heresy-precache-${CACHE_VERSION}`;
 const CACHE_RUNTIME = `horus-heresy-runtime-${CACHE_VERSION}`;
 const CACHES_CONNUS = [CACHE_PRECACHE, CACHE_RUNTIME];
