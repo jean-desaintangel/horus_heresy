@@ -2412,7 +2412,12 @@ function traitFactionMechanicumDe(unite, instance) {
     // Unité générique Mechanicum : récupère le choix global du Techno-arcane
     // depuis les paramètres de la partie.
     if (!orgaPret || typeof Organigramme === "undefined") return null;
-    const technoChoisi = Organigramme.technoArcaneActuel();
+    // Techno-arcane du Détachement qui accueille l'instance (Techno-
+    // arcane Allié d'un Détachement Allié Mechanicum), sinon de l'Armée.
+    const technoChoisi =
+      instance && Organigramme.technoArcanePourInstance
+        ? Organigramme.technoArcanePourInstance(instance.uid)
+        : Organigramme.technoArcaneActuel();
     if (!technoChoisi) return null;
     // Mappe le code du Techno-arcane vers son libellé français : la constante
     // TECHNO_ARCANES n'est pas accessible ici (définie en organigramme.js),
@@ -2566,7 +2571,9 @@ function reglesFinales(unite, variante, instance) {
 
   // Bénéfice d'Arcane de Mechanicum : accordé automatiquement à toute
   // Figurine Mechanicum quand ce Techno-arcane est choisi.
-  const beneficeArcane = Organigramme.beneficeArcaneActuel();
+  const beneficeArcane = Organigramme.beneficeArcaneActuel(
+    instance ? instance.uid : undefined,
+  );
   if (
     beneficeArcane &&
     (unite.traits.includes("[Mechanicum]") ||
@@ -2578,7 +2585,9 @@ function reglesFinales(unite, variante, instance) {
 
   // Option d'Arcane de Mechanicum : accordée automatiquement à toute
   // Figurine Mechanicum quand ce Techno-arcane est choisi.
-  const optionArcane = Organigramme.optionArcaneActuel();
+  const optionArcane = Organigramme.optionArcaneActuel(
+    instance ? instance.uid : undefined,
+  );
   if (
     optionArcane &&
     (unite.traits.includes("[Mechanicum]") ||

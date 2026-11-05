@@ -2100,7 +2100,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Cybernetica",
     texte:
-      "Major Techno-arcana: Arcana Benefit The Deus Machina (a Unit that includes at least one Archmagos/Magos/Tech-priest and a Model with the Automata Type that have this Trait may Control or Contest an Objective). Mechanicum Prime Advantage Paragon of Metal (entirely Cybernetica Unit only): +4 Leadership/Intelligence/Willpower, +1 Initiative/Weapon Skill and the Sergeant Sub-type for one Model. Unlocks the Command Maniple Apex Detachment (Elites, Automata only) if a Cybernetica Model fills a High Command Slot.",
+      "Major Techno-arcana: Arcana Benefit The Deus Machina (a Unit that includes at least one Archmagos/Magos/Tech-priest and a Model with the Automata Type that have this Trait may Control or Contest an Objective). Mechanicum Prime Advantage Paragon of Metal (entirely Cybernetica Unit only): +4 Leadership/Intelligence/Willpower, +1 Initiative/Weapon Skill and the Sergeant Sub-type for one Model. Unlocks the Command Maniple Apex Detachment (1 Support, 1 Elites and 1 War Engine, all Prime; Automata only) if a Cybernetica Model fills a High Command Slot.",
   },
   {
     nom: "Lacrymaerta",

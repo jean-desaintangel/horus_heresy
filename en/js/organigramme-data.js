@@ -547,7 +547,7 @@ const TYPES_DETACHEMENTS = [
     // (Chevaliers Questoris, voir plus bas).
     excluAvec: ["maisonnees-chevaliers"],
     texte:
-      "Any number. Must have a different Faction from the Primary Detachment (“Allied Faction” menu on its card). As each Legiones Astartes Legion, Questoris Knights Household and Solar Auxilia Cohort Doctrine counts as a separate Faction, the same Faction as the Primary Detachment may still be chosen provided it differs in that subdivision (“Allied Legion”/“Allied Household”/“Allied Cohort Doctrine” menu, depending on the Allied Faction chosen). It necessarily shares the same Allegiance as the rest of the Army (a single Allegiance setting per game). The total cost of allied units may not exceed 50% of the Points Limit (rounded up). Each filled allied Command Slot unlocks 1 Auxiliary Detachment, just like a Command Slot of the Primary Detachment.",
+      "Any number. Must have a different Faction from the Primary Detachment (“Allied Faction” menu on its card). As each Legiones Astartes Legion, Questoris Knights Household and Solar Auxilia Cohort Doctrine counts as a separate Faction, the same Faction as the Primary Detachment may still be chosen provided it differs in that subdivision (“Allied Legion”/“Allied Household”/“Allied Cohort Doctrine” menu, depending on the Allied Faction chosen). Likewise, a Mechanicum Army may include a Mechanicum Allied Detachment as long as none of its Units shares a Techno-arcana with a Unit of the Primary Detachment (“Allied Techno-arcana” menu). It necessarily shares the same Allegiance as the rest of the Army (a single Allegiance setting per game). The total cost of allied units may not exceed 50% of the Points Limit (rounded up). Each filled allied Command Slot unlocks 1 Auxiliary Detachment, just like a Command Slot of the Primary Detachment.",
     cases: [
       _caseOrga("Command", true),
       _caseOrga("Command"),
@@ -1436,9 +1436,9 @@ const TYPES_DETACHEMENTS = [
     texte:
       "Apex Detachment reserved for the Cybernetica Techno-arcana. The Deus Machina grants bonuses to any controlled Automata Model.",
     cases: [
-      _caseOrga("High Command", true),
-      _caseOrga("High Command"),
-      _caseOrga("Support"),
+      _caseOrga("Support", true),
+      _caseOrga("Elites", true),
+      _caseOrga("War-engines", true),
     ],
   },
   {
@@ -1510,13 +1510,18 @@ const TYPES_DETACHEMENTS = [
     nom: "Veteran Cadre",
     famille: "auxiliaire",
     texte:
-      "Unlocked when a Legion Champion — on foot, Mounted (Biker / Scimitar Jetbike) or in Terminator Armour — occupies a Command Slot (instead of a standard Auxiliary Detachment).",
+      "Unlocked when a Legion Champion — on foot, with Jump Pack, Mounted (Biker / Scimitar Jetbike) or in Terminator Armour — occupies a Command Slot (instead of a standard Auxiliary Detachment).",
     // « Champion sur Scimitar » et « Champion de Légion en Armure
     // Terminator » (js/unites-data.js) comptent tous deux comme une
     // Unité de Champion de Légion pour ce déblocage (voir leur note).
     deblocage: {
       caseRole: "Command",
-      uniteIds: ["champion", "champion-monte", "champion-armure-terminator"],
+      uniteIds: [
+        "champion",
+        "champion-monte",
+        "champion-armure-terminator",
+        "champion-reacteurs",
+      ],
     },
     cases: [
       _caseOrga("Retinues"),

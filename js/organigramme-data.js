@@ -547,7 +547,7 @@ const TYPES_DETACHEMENTS = [
     // (Chevaliers Questoris, voir plus bas).
     excluAvec: ["maisonnees-chevaliers"],
     texte:
-      "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte). Chaque Légion Astartes, Maisonnée de Chevaliers Questoris et Doctrine de Cohorte Solar Auxilia comptant comme une Faction distincte, la même Faction que le Détachement Principal reste choisissable à condition de différer sur cette subdivision (menu « Légion Alliée »/« Maisonnée Alliée »/« Doctrine de Cohorte Alliée », selon la Faction Alliée choisie). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
+      "Nombre libre. Doit porter une Faction différente de celle du Détachement Principal (menu « Faction Alliée » sur sa carte). Chaque Légion Astartes, Maisonnée de Chevaliers Questoris et Doctrine de Cohorte Solar Auxilia comptant comme une Faction distincte, la même Faction que le Détachement Principal reste choisissable à condition de différer sur cette subdivision (menu « Légion Alliée »/« Maisonnée Alliée »/« Doctrine de Cohorte Alliée », selon la Faction Alliée choisie). De même, une Armée Mechanicum peut s'allier un Détachement Mechanicum tant qu'aucune de ses Unités ne partage de Techno-arcane avec une Unité du Détachement Principal (menu « Techno-arcane Allié »). Il partage forcément la même Allégeance que le reste de l'Armée (un seul réglage Allégeance par partie). Le coût total des unités alliées ne peut pas dépasser 50 % de la Limite de Points (arrondi supérieur). Chaque Case d'État-major alliée remplie débloque 1 Détachement Auxiliaire, comme une Case d'État-major du Détachement Principal.",
     cases: [
       _caseOrga("État-major", true),
       _caseOrga("État-major"),
@@ -1436,9 +1436,9 @@ const TYPES_DETACHEMENTS = [
     texte:
       "Détachement d'Apex réservé au Techno-arcane Cybernetica. Le Deus Machina accorde des bonus à toute Figurine d'Automate contrôlée.",
     cases: [
-      _caseOrga("Quartier Général", true),
-      _caseOrga("Quartier Général"),
-      _caseOrga("Appui"),
+      _caseOrga("Appui", true),
+      _caseOrga("Elite", true),
+      _caseOrga("Engins de Guerre", true),
     ],
   },
   {
@@ -1510,13 +1510,18 @@ const TYPES_DETACHEMENTS = [
     nom: "Cadre de Vétérans",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Champion de Légion — à pied, Monté (Motard / Motojet Scimitar) ou en Armure Terminator — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
+      "Débloqué quand un Champion de Légion — à pied, à Réacteurs, Monté (Motard / Motojet Scimitar) ou en Armure Terminator — occupe une Case d'État-major (à la place d'un Détachement Auxiliaire standard).",
     // « Champion sur Scimitar » et « Champion de Légion en Armure
     // Terminator » (js/unites-data.js) comptent tous deux comme une
     // Unité de Champion de Légion pour ce déblocage (voir leur note).
     deblocage: {
       caseRole: "État-major",
-      uniteIds: ["champion", "champion-monte", "champion-armure-terminator"],
+      uniteIds: [
+        "champion",
+        "champion-monte",
+        "champion-armure-terminator",
+        "champion-reacteurs",
+      ],
     },
     cases: [
       _caseOrga("Suites"),

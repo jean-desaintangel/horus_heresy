@@ -4021,6 +4021,65 @@ const UNITES = [
       },
     ],
   },
+  /* --- Champion de Légion à Réacteurs · État-major · 135 pts --- */
+  {
+    // Legacies of the Age of Darkness. Générique « Legio Astartes »
+    // (pas de champ `legion`).
+    id: "champion-reacteurs",
+    nom: "Champion de Légion à Réacteurs",
+    legacy: true,
+    categorie: "État-major",
+    cout: 135,
+    composition: "1 Champion de Légion à Réacteurs",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "De nombreux Champions de Légion sont issus des compagnies d'assaut de leur Légion, et fondent sur le champ de bataille dans des traînées de flammes à la tête de dizaines de Légionnaires équipés de réacteurs dorsaux. Cette Unité compte comme une Unité de Champion de Légion pour la sélection du Détachement Auxiliaire Cadre de Vétérans.",
+    equipement: [
+      "Serpentine volkite",
+      "Lame de parangon",
+      "Grenades Frag",
+      "Grenades Krak",
+    ],
+    variantes: [
+      {
+        nom: "Champion de Légion à Réacteurs",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 5,
+          Cd: 8,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Massif (2)", "Frappe en Profondeur", "Ne Jamais Céder"],
+        type: "Infanterie (État-major, Antigrav)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        type: "choix",
+        id: "serpentine",
+        libelle: "Remplacer la serpentine volkite",
+        remplace: "Serpentine volkite",
+        choix: [
+          { nom: "— Conserver la serpentine volkite —", cout: 0 },
+          { nom: "Combi-fuseur", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
   /* --- Centurion sur moto · État-major · 110 pts de base --- */
   {
     id: "centurion-monte",

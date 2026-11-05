@@ -4021,6 +4021,65 @@ const UNITES = [
       },
     ],
   },
+  /* --- Champion de Légion à Réacteurs · État-major · 135 pts --- */
+  {
+    // Legacies of the Age of Darkness. Générique « Legio Astartes »
+    // (pas de champ `legion`).
+    id: "champion-reacteurs",
+    nom: "Legion Champion with Jump Pack",
+    legacy: true,
+    categorie: "Command",
+    cout: 135,
+    composition: "1 Legion Champion with Jump Pack",
+    traits: ["[Allegiance]", "[Legiones Astartes]"],
+    notes:
+      "Many Legion Champions are drawn from the assault companies of their Legion, descending onto the battlefield upon contrails of flame at the head of scores of jump pack-equipped Legionaries. This Unit counts as a Legion Champion Unit for the purposes of selecting the Veteran Cadre Auxiliary Detachment.",
+    equipement: [
+      "Volkite serpenta",
+      "Paragon blade",
+      "Frag Grenades",
+      "Krak grenades",
+    ],
+    variantes: [
+      {
+        nom: "Legion Champion with Jump Pack",
+        cout: 0,
+        profil: {
+          M: 12,
+          CC: 6,
+          CT: 5,
+          F: 4,
+          E: 4,
+          PV: 3,
+          I: 5,
+          A: 5,
+          Cd: 8,
+          Sf: 8,
+          Vo: 8,
+          Int: 8,
+          Sv: "2+",
+          Inv: "5+",
+        },
+        regles: ["Bulky (2)", "Deep Strike", "Never Back Down"],
+        type: "Infantry (Command, Antigrav)",
+      },
+    ],
+    options: [
+      ARCANE_DE_PROSPERO,
+      {
+        type: "choix",
+        id: "serpentine",
+        libelle: "Replace the volkite serpenta",
+        remplace: "Volkite serpenta",
+        choix: [
+          { nom: "— Keep the volkite serpenta —", cout: 0 },
+          { nom: "Combi-melta", cout: 10 },
+        ],
+      },
+      optionBombesFusion(),
+    ],
+  },
+
   /* --- Centurion sur moto · État-major · 110 pts de base --- */
   {
     id: "centurion-monte",

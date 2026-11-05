@@ -2100,7 +2100,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Cybernetica",
     texte:
-      "Techno-arcane Majeur : Bénéfice d'Arcane Le Deus Machina (une Unité qui inclut au moins un Archimagos/Magos/Technoprêtre et une Figurine de Type Automate qui ont ce Trait peut Contrôler ou Contester un Objectif). Avantage Principal du Mechanicum Parangon de Métal (Unité entièrement Cybernetica seulement) : +4 Commandement/Intelligence/Volonté, +1 Initiative/Capacité de Combat et Sous-type Sergent à une Figurine. Débloque le Détachement d'Apex Manipule de Commandement (Elite, Automates uniquement) si une Figurine Cybernetica occupe une Case de Quartier Général.",
+      "Techno-arcane Majeur : Bénéfice d'Arcane Le Deus Machina (une Unité qui inclut au moins un Archimagos/Magos/Technoprêtre et une Figurine de Type Automate qui ont ce Trait peut Contrôler ou Contester un Objectif). Avantage Principal du Mechanicum Parangon de Métal (Unité entièrement Cybernetica seulement) : +4 Commandement/Intelligence/Volonté, +1 Initiative/Capacité de Combat et Sous-type Sergent à une Figurine. Débloque le Détachement d'Apex Manipule de Commandement (1 Appui, 1 Élite et 1 Engins de Guerre, toutes Principales ; Automates uniquement) si une Figurine Cybernetica occupe une Case de Quartier Général.",
   },
   {
     nom: "Lacrymaerta",

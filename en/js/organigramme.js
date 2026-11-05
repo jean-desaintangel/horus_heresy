@@ -182,14 +182,19 @@ const Organigramme = (() => {
   // que le Détachement Principal à condition de différer sur sa
   // subdivision (Légion/Maisonnée/Doctrine Alliée, voir
   // construireSelectLegionAlliee/MaisonneeAlliee/DoctrineAlliee
-  // ci-dessous). Les autres Factions (Legio Titanicus, Mechanicum)
-  // n'ont pas de subdivision ici : leur Détachement Allié doit porter
-  // une Faction strictement différente de celle du Détachement
-  // Principal.
+  // ci-dessous). Mechanicum (Liber Mechanicum) : un Détachement Allié
+  // Mechanicum est permis dans une Armée Mechanicum tant qu'aucune de
+  // ses Unités ne partage de Techno-arcane avec une Unité du
+  // Détachement Principal — subdivision « Techno-arcane Allié », voir
+  // construireSelectTechnoArcaneAllie et conflitArcaneAllie ci-dessous.
+  // Les autres Factions (Legio Titanicus) n'ont pas de subdivision ici :
+  // leur Détachement Allié doit porter une Faction strictement
+  // différente de celle du Détachement Principal.
   const FACTIONS_AVEC_SOUS_IDENTITE = [
     "legio-astartes",
     "chevaliers-questoris",
     "solar-auxilia",
+    "mechanicum",
   ];
 
   const MAISONNEES = [
@@ -830,6 +835,83 @@ const Organigramme = (() => {
     return parent && typeDe(parent).id === "allie" ? parent : null;
   }
 
+  // Détachement Allié Mechanicum dont relève `det` (lui-même ou son
+  // Parent Allié), null sinon.
+  function allieMechanicumDe(det) {
+    if (!det) return null;
+    const allie = typeDe(det).id === "allie" ? det : allieParentDe(det);
+    return allie && allie.factionAlliee === "mechanicum" ? allie : null;
+  }
+
+  // Techno-arcane Majeur qui résout « [Mechanicum] » pour les Unités
+  // d'un Détachement : celui du Détachement Allié Mechanicum dont il
+  // relève (menu « Techno-arcane Allié »), sinon celui de l'Armée.
+  function technoArcaneDuDetachement(det) {
+    const allie = allieMechanicumDe(det);
+    return allie ? allie.technoArcaneAllie || "" : etat.technoArcane;
+  }
+
+  // Même chose pour une instance d'Unité (uid), d'après le Détachement
+  // qui l'accueille ; Techno-arcane de l'Armée si elle n'est pas placée.
+  function technoArcanePourInstance(uniteUid) {
+    const det = etat.detachements.find((d) =>
+      d.cases.some((c) => c.uniteUid === uniteUid),
+    );
+    return det ? technoArcaneDuDetachement(det) : etat.technoArcane;
+  }
+
+  // Techno-arcane (libellé, ex. "Cybernetica") que porterait `unite`
+  // placée dans `det` : fixe s'il est écrit dans ses `traits`, sinon
+  // celui qui résout « [Mechanicum] » pour ce Détachement.
+  function traitArcaneDansDetachement(unite, det) {
+    if (unite.faction !== "mechanicum" || !unite.traits) return null;
+    if (unite.traits.includes("[Mechanicum]")) {
+      const code = technoArcaneDuDetachement(det);
+      return (TECHNO_ARCANES.find(([v]) => v === code) || [])[1] || null;
+    }
+    return (
+      unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null
+    );
+  }
+
+  // Techno-arcanes (libellés) portés par les Unités déjà placées dans
+  // les Détachements retenus par `filtre`, `excluUid` mis à part.
+  function arcanesPlaces(filtre, excluUid) {
+    const res = new Set();
+    for (const d of etat.detachements) {
+      if (!filtre(d)) continue;
+      for (const c of d.cases) {
+        if (c.uniteUid === excluUid) continue;
+        const occ = occupant(c);
+        if (!occ) continue;
+        const t = traitArcaneDansDetachement(occ.unite, d);
+        if (t) res.add(t);
+      }
+    }
+    return res;
+  }
+
+  const estDetachementPrincipal = (d) => typeDe(d).famille === "principal";
+
+  // Liber Mechanicum : dans une Armée Mechanicum, aucune Unité d'un
+  // Détachement Allié Mechanicum (ou d'un Auxiliaire/Apex qui lui est
+  // rattaché) ne peut partager de Techno-arcane avec une Unité du
+  // Détachement Principal. Vrai si placer `unite` dans `det`
+  // enfreindrait cette règle — contrôlé dans les deux sens (placement
+  // côté Allié comme côté Principal).
+  function conflitArcaneAllie(det, unite, excluUid = null) {
+    if (etat.faction !== "mechanicum" || unite.faction !== "mechanicum")
+      return false;
+    const cote = allieMechanicumDe(det)
+      ? estDetachementPrincipal
+      : estDetachementPrincipal(det)
+        ? (d) => Boolean(allieMechanicumDe(d))
+        : null;
+    if (!cote) return false;
+    const trait = traitArcaneDansDetachement(unite, det);
+    return Boolean(trait) && arcanesPlaces(cote, excluUid).has(trait);
+  }
+
   // Paradigme de Maisonnée pertinent pour un Détachement (livre
   // d'armée Chevaliers Questoris) : celui propre au Détachement de
   // Seigneur des Batailles (`maisonneeSeigneurBatailles`, menu
@@ -1446,6 +1528,12 @@ const Organigramme = (() => {
       // Détachement Allié — n'a de sens que si `factionAlliee` vaut
       // "solar-auxilia". Sans objet (null) sinon.
       doctrineCohorteAlliee: type.id === "allie" ? "" : null,
+      // Techno-arcane Majeur (Liber Mechanicum) propre à ce Détachement
+      // Allié — n'a de sens que si `factionAlliee` vaut "mechanicum" :
+      // remplace le Techno-arcane de l'Armée pour ses Unités génériques
+      // « [Mechanicum] » (voir technoArcanePourInstance). Sans objet
+      // (null) sinon.
+      technoArcaneAllie: type.id === "allie" ? "" : null,
       // Paradigme de Maisonnée (livre d'armée Chevaliers Questoris)
       // propre à ce Détachement de Seigneur des Batailles, indépendant
       // de la Faction de l'Armée — seul moyen pour une Armée d'une
@@ -1794,6 +1882,9 @@ const Organigramme = (() => {
         if (traitEtabli && traitFixe !== traitEtabli) return false;
       }
     }
+    // Détachement Allié Mechanicum d'une Armée Mechanicum : aucun
+    // Techno-arcane partagé avec le Détachement Principal.
+    if (conflitArcaneAllie(det, unite, caseOrga.uniteUid)) return false;
     // Trait de Faction [Skitarii] (Conclaves Skitarii) : « Toutes les
     // Unités sélectionnées dans un Détachement donné doivent avoir le
     // même Trait de Faction » — à la différence du Techno-arcane
@@ -3390,6 +3481,7 @@ const Organigramme = (() => {
             legionAlliee: d.legionAlliee || null,
             maisonneeAlliee: d.maisonneeAlliee || null,
             doctrineCohorteAlliee: d.doctrineCohorteAlliee || null,
+            technoArcaneAllie: d.technoArcaneAllie || null,
             maisonneeSeigneurBatailles: d.maisonneeSeigneurBatailles || null,
             serments: d.serments || [],
             legionPanoplie: d.legionPanoplie || "",
@@ -3593,6 +3685,13 @@ const Organigramme = (() => {
               ))
           ) {
             det.doctrineCohorteAlliee = brute.doctrineCohorteAlliee;
+          }
+          if (
+            typeof brute.technoArcaneAllie === "string" &&
+            (brute.technoArcaneAllie === "" ||
+              TECHNO_ARCANES.some(([v]) => v === brute.technoArcaneAllie))
+          ) {
+            det.technoArcaneAllie = brute.technoArcaneAllie;
           }
         } else if (type.id === "seigneur-batailles") {
           if (
@@ -4910,6 +5009,7 @@ const Organigramme = (() => {
       det.legionAlliee = "";
       det.maisonneeAlliee = "";
       det.doctrineCohorteAlliee = "";
+      det.technoArcaneAllie = "";
       actualiser();
     });
     label.appendChild(select);
@@ -5050,6 +5150,58 @@ const Organigramme = (() => {
       if (!appliquerLegionAlliee(det, select.value, { confirmer: true })) {
         select.value = det.legionAlliee || "";
         return;
+      }
+      actualiser();
+    });
+    label.appendChild(select);
+    ligne.appendChild(label);
+    return ligne;
+  }
+
+  /* Menu « Techno-arcane Allié » d'une carte de Détachement Allié,
+     affiché uniquement quand det.factionAlliee vaut "mechanicum" (Liber
+     Mechanicum : un Détachement Allié Mechanicum est permis dans une
+     Armée Mechanicum tant qu'aucune de ses Unités ne partage de
+     Techno-arcane avec une Unité du Détachement Principal). Dans une
+     Armée Mechanicum, le Techno-arcane de l'Armée y est grisé (ses
+     Unités génériques le partageraient forcément) ; les Unités à
+     Techno-arcane FIXE restent contrôlées une à une au placement (voir
+     conflitArcaneAllie). Dans une Armée d'une autre Faction, ce menu
+     sert seulement à résoudre « [Mechanicum] » des Unités alliées. */
+  function construireSelectTechnoArcaneAllie(det) {
+    const ligne = el("p", "orga-detachement-techno-arcane");
+    const label = el("label", null, "Allied Techno-arcana ");
+    const select = document.createElement("select");
+    select.setAttribute("aria-label", "Techno-arcana of the Allied Detachment");
+    ajouterOption(select, "", "— Choose the Allied Techno-arcana —");
+    const arcanesPrincipal =
+      etat.faction === "mechanicum"
+        ? arcanesPlaces(estDetachementPrincipal, null)
+        : new Set();
+    for (const [valeur, texte] of TECHNO_ARCANES) {
+      const memeQueArmee =
+        etat.faction === "mechanicum" &&
+        (valeur === etat.technoArcane || arcanesPrincipal.has(texte));
+      const opt = ajouterOption(
+        select,
+        valeur,
+        texte +
+          (memeQueArmee ? " (Techno-arcana of the Primary Detachment)" : ""),
+      );
+      opt.disabled = memeQueArmee;
+    }
+    select.value = det.technoArcaneAllie || "";
+    select.addEventListener("change", () => {
+      det.technoArcaneAllie = select.value;
+      // Unités de ce Détachement Allié (et de ses Auxiliaires/Apex) que
+      // le nouveau Techno-arcane rend illégales : retirées de leur Case
+      // (elles restent dans la liste d'unités).
+      for (const d of etat.detachements) {
+        if (allieMechanicumDe(d) !== det) continue;
+        for (const c of d.cases) {
+          const occ = occupant(c);
+          if (occ && !caseAccepte(d, c, occ.unite)) liberer(c.uniteUid);
+        }
       }
       actualiser();
     });
@@ -5382,6 +5534,8 @@ const Organigramme = (() => {
         carte.appendChild(construireSelectMaisonneeAlliee(det));
       } else if (det.factionAlliee === "solar-auxilia") {
         carte.appendChild(construireSelectDoctrineAlliee(det));
+      } else if (det.factionAlliee === "mechanicum") {
+        carte.appendChild(construireSelectTechnoArcaneAllie(det));
       }
     } else if (type.id === "seigneur-batailles") {
       carte.appendChild(construireSelectMaisonneeSeigneurBatailles(det));
@@ -6131,13 +6285,23 @@ const Organigramme = (() => {
     // placeholder « [Mechanicum] » des Unités génériques et par
     // uniteAccessible pour filtrer les Unités réservées à un Techno-arcane.
     technoArcaneActuel: () => etat.technoArcane,
-    optionArcaneActuel: () => {
+    // Techno-arcane qui résout « [Mechanicum] » pour une instance
+    // précise : celui de son Détachement Allié Mechanicum s'il y en a
+    // un (menu « Techno-arcane Allié »), sinon celui de l'Armée.
+    technoArcanePourInstance,
+    // `uniteUid` (facultatif) : Techno-arcane du Détachement de cette
+    // instance (Techno-arcane Allié compris), sinon celui de l'Armée.
+    optionArcaneActuel: (uniteUid) => {
       // Option d'Arcane automatiquement retournée selon le Techno-arcane choisi
-      if (!etat.technoArcane) return null;
-      const options = OPTIONS_ARCANES[etat.technoArcane];
+      const code =
+        uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane;
+      if (!code) return null;
+      const options = OPTIONS_ARCANES[code];
       return (options && options[0] && options[0][0]) || null; // retourne le premier (et unique) id
     },
-    beneficeArcaneActuel: () => {
+    beneficeArcaneActuel: (uniteUid) => {
+      const code =
+        uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane;
       // Mapping Techno-arcane → Bénéfice d'Arcane
       const mapping = {
         archimandrite: "The Engram of Authority",
@@ -6148,7 +6312,7 @@ const Organigramme = (() => {
         malagra: "Relentlessly Subtracted Army",
         macrotek: "Iron Protector",
       };
-      return (etat.technoArcane && mapping[etat.technoArcane]) || null;
+      return (code && mapping[code]) || null;
     },
     chartPrincipalActuel: () => etat.chartPrincipal,
     // Désignation de Legiones Auxilia choisie ("" = aucune, Faction
