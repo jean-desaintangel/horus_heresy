@@ -44909,3 +44909,21 @@ const UNITES = [
     options: [],
   },
 ];
+
+// Techno-arcane Majeur par Unité (Liber Mechanicum p. 13 : dans un
+// Détachement Principal, Allié ou de Seigneur des Batailles, « il n'est
+// pas nécessaire qu'elles aient la même variante que les autres Unités
+// du même Détachement ») : toute Unité générique « [Mechanicum] » reçoit
+// le menu optionTechnoArcane() en tête de ses options. Sa valeur par
+// défaut est le Techno-arcane Majeur de l'Armée (valeursParDefaut,
+// js/unites.js) ; l'uniformité des Détachements Auxiliaires/d'Apex et le
+// Techno-arcane Allié l'alignent et la grisent (synchroniserConfig).
+for (const unite of UNITES) {
+  if (
+    unite.faction === "mechanicum" &&
+    unite.traits &&
+    unite.traits.includes("[Mechanicum]") &&
+    !unite.options.some((opt) => opt.id === "techno-arcane")
+  )
+    unite.options.unshift(optionTechnoArcane());
+}

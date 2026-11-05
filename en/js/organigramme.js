@@ -862,16 +862,35 @@ const Organigramme = (() => {
 
   // Techno-arcane (libellé, ex. "Cybernetica") que porterait `unite`
   // placée dans `det` : fixe s'il est écrit dans ses `traits`, sinon
-  // celui qui résout « [Mechanicum] » pour ce Détachement.
-  function traitArcaneDansDetachement(unite, det) {
+  // celui choisi sur la carte de l'instance (hors Détachement Allié
+  // Mechanicum, aligné sur son Techno-arcane Allié), sinon celui qui
+  // résout « [Mechanicum] » pour ce Détachement.
+  function traitArcaneDansDetachement(unite, det, instance = null) {
     if (unite.faction !== "mechanicum" || !unite.traits) return null;
     if (unite.traits.includes("[Mechanicum]")) {
+      if (instance && !allieMechanicumDe(det) && hooks.traitFactionMechanicumDe)
+        return hooks.traitFactionMechanicumDe(unite, instance);
       const code = technoArcaneDuDetachement(det);
       return (TECHNO_ARCANES.find(([v]) => v === code) || [])[1] || null;
     }
     return (
       unite.traits.find((t) => TRAITS_FACTION_MECHANICUM.includes(t)) || null
     );
+  }
+
+  // Vrai si une Unité de Quartier Général de l'Armée porte le
+  // Techno-arcane `code` (Trait fixe ou choisi sur sa carte).
+  function quartierGeneralAvecTechnoArcane(code) {
+    const libelle = (TECHNO_ARCANES.find(([v]) => v === code) || [])[1];
+    if (!libelle || !hooks || !hooks.traitFactionMechanicumDe) return false;
+    return hooks.getArmee().some((instance) => {
+      const unite = hooks.trouverUnite(instance.uniteId);
+      return (
+        unite &&
+        unite.categorie === "High Command" &&
+        hooks.traitFactionMechanicumDe(unite, instance) === libelle
+      );
+    });
   }
 
   // Techno-arcanes (libellés) portés par les Unités déjà placées dans
@@ -884,7 +903,7 @@ const Organigramme = (() => {
         if (c.uniteUid === excluUid) continue;
         const occ = occupant(c);
         if (!occ) continue;
-        const t = traitArcaneDansDetachement(occ.unite, d);
+        const t = traitArcaneDansDetachement(occ.unite, d, occ.instance);
         if (t) res.add(t);
       }
     }
@@ -1025,10 +1044,13 @@ const Organigramme = (() => {
   // d'Automates/Maisnie Roturière pour une Armée d'une autre Faction.
   // Utilisé par construireAjoutDetachements() et suggestionPourRole().
   function typeDisponiblePourFaction(type) {
-    // Détachements d'Apex de Mechanicum réservés à un Techno-arcane
+    // Détachements d'Apex de Mechanicum réservés à un Techno-arcane :
+    // celui de l'Armée, ou celui d'une Unité de Quartier Général de
+    // l'Armée (Techno-arcane choisi par Unité, Liber Mechanicum p. 13).
     if (
       type.requiertTechnoArcane &&
-      type.requiertTechnoArcane !== etat.technoArcane
+      type.requiertTechnoArcane !== etat.technoArcane &&
+      !quartierGeneralAvecTechnoArcane(type.requiertTechnoArcane)
     )
       return false;
 
@@ -2161,6 +2183,17 @@ const Organigramme = (() => {
     for (const det of etat.detachements) {
       const caseOrga = det.cases.find((c) => c.uniteUid === uniteUid);
       if (!caseOrga) continue;
+      // Détachement Allié Mechanicum (et ses Auxiliaires/Apex) : ses
+      // Unités génériques suivent son menu « Techno-arcane Allié », seul
+      // garant de la règle « aucun Techno-arcane partagé avec le
+      // Détachement Principal » (conflitArcaneAllie).
+      const allie = allieMechanicumDe(det);
+      if (allie && allie.technoArcaneAllie) {
+        return (
+          (TECHNO_ARCANES.find(([v]) => v === allie.technoArcaneAllie) ||
+            [])[1] || null
+        );
+      }
       const type = typeDe(det);
       if (type.famille !== "auxiliaire" && type.famille !== "apex") return null;
       // Exclure les Cases Bénéfice Logistique du trait imposé
@@ -6291,17 +6324,22 @@ const Organigramme = (() => {
     technoArcanePourInstance,
     // `uniteUid` (facultatif) : Techno-arcane du Détachement de cette
     // instance (Techno-arcane Allié compris), sinon celui de l'Armée.
-    optionArcaneActuel: (uniteUid) => {
+    // `codeForce` (facultatif) : Techno-arcane propre à l'Unité (son
+    // Trait de Faction, fixe ou choisi sur sa carte — voir reglesFinales,
+    // js/unites.js), prioritaire sur celui de son Détachement/de l'Armée.
+    optionArcaneActuel: (uniteUid, codeForce) => {
       // Option d'Arcane automatiquement retournée selon le Techno-arcane choisi
       const code =
-        uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane;
+        codeForce ||
+        (uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane);
       if (!code) return null;
       const options = OPTIONS_ARCANES[code];
       return (options && options[0] && options[0][0]) || null; // retourne le premier (et unique) id
     },
-    beneficeArcaneActuel: (uniteUid) => {
+    beneficeArcaneActuel: (uniteUid, codeForce) => {
       const code =
-        uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane;
+        codeForce ||
+        (uniteUid != null ? technoArcanePourInstance(uniteUid) : etat.technoArcane);
       // Mapping Techno-arcane → Bénéfice d'Arcane
       const mapping = {
         archimandrite: "The Engram of Authority",

@@ -44,6 +44,17 @@ let compteurUid = 0;
 // Vrai une fois window.Organigramme initialisé : évite d'actualiser
 // l'organigramme pendant la restauration initiale des cartes.
 let orgaPret = false;
+// Code de Techno-arcane Majeur (TECHNO_ARCANES, js/organigramme.js) →
+// libellé du Trait de Faction (TRAITS_FACTION_MECHANICUM).
+const LIBELLES_TECHNO_ARCANES = {
+  archimandrite: "Archimandrite",
+  cybernetica: "Cybernetica",
+  lacrymaerta: "Lacrymaerta",
+  myrmidax: "Myrmidax",
+  reductor: "Reductor",
+  malagra: "Malagra",
+  macrotek: "Macrotek",
+};
 // Dernier Avantage Principal connu par uid (voir actualiserSelectsCases) :
 // permet de ne reconstruire la fiche récap d'une unité que lorsque son
 // Avantage a réellement changé, plutôt qu'à chaque interaction sur
@@ -459,6 +470,15 @@ function valeursParDefaut(unite) {
     else if (opt.type === "multi") valeurs[opt.id] = [];
     else if (opt.type === "quantite") valeurs[opt.id] = 0;
     else valeurs[opt.id] = false; // case, paire
+  }
+  // Techno-arcane Majeur par Unité (optionTechnoArcane, js/unites-
+  // data.js) : pré-sélectionné sur celui de l'Armée (menu « Techno-arcane
+  // Majeur » des paramètres), modifiable ensuite sur la carte.
+  if ("techno-arcane" in valeurs && orgaPret && window.Organigramme) {
+    const indice = TRAITS_FACTION_MECHANICUM.indexOf(
+      LIBELLES_TECHNO_ARCANES[Organigramme.technoArcaneActuel()],
+    );
+    if (indice !== -1) valeurs["techno-arcane"] = indice;
   }
   return valeurs;
 }
@@ -2409,30 +2429,24 @@ function construireDefinitions(fiche) {
 function traitFactionMechanicumDe(unite, instance) {
   if (unite.faction !== "mechanicum" || !unite.traits) return null;
   if (unite.traits.includes("[Mechanicum]")) {
-    // Unité générique Mechanicum : récupère le choix global du Techno-arcane
-    // depuis les paramètres de la partie.
+    // Unité générique Mechanicum : Techno-arcane choisi sur sa carte
+    // (option "techno-arcane", Liber Mechanicum p. 13 — un choix par
+    // Unité, les variantes pouvant différer au sein d'un même
+    // Détachement Principal/Allié/de Seigneur des Batailles).
+    const opt = unite.options.find((o) => o.id === "techno-arcane");
+    if (opt && instance && Number.isInteger(instance.valeurs["techno-arcane"])) {
+      const choix = opt.choix[instance.valeurs["techno-arcane"]];
+      if (choix) return choix.nom;
+    }
+    // Sans instance : Techno-arcane du Détachement qui l'accueillerait
+    // (Techno-arcane Allié d'un Détachement Allié Mechanicum), sinon
+    // celui de l'Armée.
     if (!orgaPret || typeof Organigramme === "undefined") return null;
-    // Techno-arcane du Détachement qui accueille l'instance (Techno-
-    // arcane Allié d'un Détachement Allié Mechanicum), sinon de l'Armée.
     const technoChoisi =
       instance && Organigramme.technoArcanePourInstance
         ? Organigramme.technoArcanePourInstance(instance.uid)
         : Organigramme.technoArcaneActuel();
-    if (!technoChoisi) return null;
-    // Mappe le code du Techno-arcane vers son libellé français : la constante
-    // TECHNO_ARCANES n'est pas accessible ici (définie en organigramme.js),
-    // donc on mappe manuellement les codes vers les noms (même mappage que
-    // TECHNO_ARCANES en organigramme.js).
-    const TECHNO_MAPPING = {
-      archimandrite: "Archimandrite",
-      cybernetica: "Cybernetica",
-      lacrymaerta: "Lacrymaerta",
-      myrmidax: "Myrmidax",
-      reductor: "Reductor",
-      malagra: "Malagra",
-      macrotek: "Macrotek",
-    };
-    return TECHNO_MAPPING[technoChoisi] || null;
+    return LIBELLES_TECHNO_ARCANES[technoChoisi] || null;
   }
   // Unité propre à un Techno-arcane fixe : retourne le Trait trouvé dans
   // `traits`.
@@ -2570,9 +2584,19 @@ function reglesFinales(unite, variante, instance) {
   if (!orgaPret || !window.Organigramme) return regles;
 
   // Bénéfice d'Arcane de Mechanicum : accordé automatiquement à toute
-  // Figurine Mechanicum quand ce Techno-arcane est choisi.
+  // Figurine Mechanicum selon SON Techno-arcane (Trait de Faction fixe
+  // ou choisi sur sa carte, voir traitFactionMechanicumDe), à défaut
+  // celui de son Détachement/de l'Armée.
+  const traitArcane =
+    unite.faction === "mechanicum"
+      ? traitFactionMechanicumDe(unite, instance)
+      : null;
+  const codeArcane = Object.keys(LIBELLES_TECHNO_ARCANES).find(
+    (code) => LIBELLES_TECHNO_ARCANES[code] === traitArcane,
+  );
   const beneficeArcane = Organigramme.beneficeArcaneActuel(
     instance ? instance.uid : undefined,
+    codeArcane,
   );
   if (
     beneficeArcane &&
@@ -2587,6 +2611,7 @@ function reglesFinales(unite, variante, instance) {
   // Figurine Mechanicum quand ce Techno-arcane est choisi.
   const optionArcane = Organigramme.optionArcaneActuel(
     instance ? instance.uid : undefined,
+    codeArcane,
   );
   if (
     optionArcane &&
