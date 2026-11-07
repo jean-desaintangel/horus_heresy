@@ -1664,7 +1664,7 @@ const ARMES_TIR = [
       {
         nom: "Cyclone missile launcher (Mechanicum) — Flak",
         stats: ["48", "2", "8", "4", "1"],
-        regles: "Heavy (D), Skyfire, Limited (1)",
+        regles: "Heavy (D), Skyfire",
         traits: "Missile",
       },
       {
@@ -5228,8 +5228,10 @@ const ARMES_MELEE = [
         // Arme de personnage (Perturabo, Primarque des Iron Warriors) :
         // profil de Mêlée, voir aussi son profil de Tir dans Armes
         // Exotiques et Diverses (Tir) ci-dessus.
+        // Corrigé (2026-11-07, signalé par le proprio) : MI valait "1"
+        // au lieu de "I" (Initiative du porteur, sans modificateur).
         nom: "The Arsenal of the Logos",
-        stats: ["1", "+2", "6", "3", "1"],
+        stats: ["I", "+2", "6", "3", "1"],
         regles: "Rending (4+)",
         traits: "Power",
       },

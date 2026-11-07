@@ -2024,8 +2024,13 @@ const SUFFIXES_FACTION_ARMES = {
 // Faction visée par le suffixe entre parenthèses d'un nom d'Arme
 // (`arme.nom`, pas `arme.nomBase` qui l'a déjà retiré), ou `null` si
 // son suffixe ne désigne pas de Faction connue (ou n'a pas de suffixe).
+// Le profil après un tiret cadratin est ignoré : « Lance-missiles
+// Cyclone (Mechanicum) — Frag » vise bien la Faction Mechanicum (sinon
+// la Manipule de Combat Domitar affichait aussi le Cyclone générique).
 function suffixeFactionArme(arme) {
-  const correspondance = arme.nom.match(/\(([^)]+)\)\s*$/);
+  const separateur = arme.nom.indexOf(" — ");
+  const montage = separateur === -1 ? arme.nom : arme.nom.slice(0, separateur);
+  const correspondance = montage.match(/\(([^)]+)\)\s*$/);
   return (correspondance && SUFFIXES_FACTION_ARMES[correspondance[1]]) || null;
 }
 
