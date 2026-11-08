@@ -244,6 +244,13 @@ const REGLES_ARMES = [
     texte:
       "Quand on fait un Jet de Blessure pour une Attaque ayant cette Règle Spéciale, si le résultat est supérieur ou égal à la Valeur de X attachée à cette variante de la Règle Spéciale (sans tenir compte des modificateurs), les Blessures ainsi infligées ignorent la Règle Spéciale Guerrier Éternel (X) de la Figurine Cible.",
   },
+  /* --- Arsenal des Thousand Sons (Bâton sorcier de Prospero, livre
+     d'armée p. 230). --- */
+  {
+    nom: "Conduit",
+    texte:
+      "Quand une Figurine dotée d'une Arme ayant cette Règle Spéciale manifeste une Arme Psychique : si l'Arme Psychique est une Arme de Tir, on modifie de +1 sa Caractéristique de Force de Tir ; si l'Arme Psychique est une Arme de Mêlée, on modifie de +1 sa Caractéristique de Modificateur de Force.",
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -1585,7 +1592,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Pavoni",
     texte:
-      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne la Réaction Psychique Corps de Pierre, l'Arme Psychique Ébullition Sanguine, et le Trait « Pavoni ».",
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne la Réaction Psychique Corps de Pierre, l'Arme Psychique Ébullition Sanguine, et le Trait « Pavoni ». Une seule Figurine de l'Unité peut utiliser l'Arme Psychique à chaque fois que l'Unité est choisie pour attaquer. Ébullition Sanguine (Arme Psychique de Tir) : Portée 12 pouces, PF 1, FT 4, PA 2, D 2, Empoisonnée (2+), Trait Psychique — l'initié fait bouillir le sang de la victime.",
   },
   {
     nom: "Corps de Pierre",
@@ -1610,7 +1617,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Athanéen",
     texte:
-      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Manifestation de l'Effroi, le Pouvoir Psychique Clarté, et le Trait « Athanéen ».",
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Manifestation de l'Effroi, le Pouvoir Psychique Clarté, et le Trait « Athanéen ». Une seule Figurine de l'Unité peut utiliser l'Arme Psychique à chaque fois que l'Unité est choisie pour attaquer. Manifestation de l'Effroi (Arme Psychique de Tir) : Portée 24 pouces, PF 3, FT 4, PA -, D 1, Panique (1), Trait Psychique.",
   },
   {
     nom: "Clarté",
@@ -1620,7 +1627,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Pyrae",
     texte:
-      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne le Pouvoir Psychique Bouclier Incandescent, l'Arme Psychique Étreinte Brûlante, et le Trait « Pyrae ».",
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne le Pouvoir Psychique Bouclier Incandescent, l'Arme Psychique Étreinte Brûlante, et le Trait « Pyrae ». Une seule Figurine de l'Unité peut utiliser l'Arme Psychique à chaque fois que l'Unité est choisie pour attaquer. Étreinte Brûlante (Arme Psychique de Mêlée) : MI I, MA 1, MF 8, PA 3, D 2, Brèche (5+), Touche Critique (6+), Fléau des Blindages, Trait Psychique.",
   },
   {
     nom: "Bouclier Incandescent",
@@ -1630,12 +1637,80 @@ const REGLES_DIVERSES = [
   {
     nom: "Raptora",
     texte:
-      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Force Écrasante, la Réaction Psychique Bouclier Télékinétique, et le Trait « Raptora ».",
+      "Discipline Psychique (Arcane de Prospero) des Thousand Sons : une Figurine qui la possède gagne l'Arme Psychique Force Écrasante, la Réaction Psychique Bouclier Télékinétique, et le Trait « Raptora ». Une seule Figurine de l'Unité peut utiliser l'Arme Psychique à chaque fois que l'Unité est choisie pour attaquer. Force Écrasante (Arme Psychique de Tir) : Portée 12 pouces, PF 1, FT 9, PA 4, D 2, Force (D), Fléau des Blindages, Trait Psychique.",
   },
   {
     nom: "Bouclier Télékinétique",
     texte:
       "Réaction Psychique (Bénédiction) qui donne à une Unité un Jet de Mitigation de Dégâts de Dissimulation. Le Joueur Réactif peut la déclarer au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif qui cible une Unité incluant au moins une Figurine ayant le Trait Raptora (Coût : 1 Point d'Attribution de Réactions, payé seulement si le Test de Volonté est réussi). Le Focus doit être une Figurine ayant le Trait Raptora de l'Unité ciblée ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de la Sous-phase : toutes les Figurines de l'Unité Cible gagnent un Jet de Mitigation de Dégâts de Dissimulation de 4+ contre toute Blessure subie.",
+  },
+  /* --- Arcane de Prospero Khenetai (livre d'armée p. 232-233) : propre
+     à la Cabale du Khenetai Occulte (Trait « Khenetai », Règle
+     Spéciale Guerriers du Khenetai) ; suit toutes les règles des
+     Arcanes de Prospero ci-dessus. --- */
+  {
+    nom: "Guerriers du Khenetai",
+    texte:
+      "Culte mineur des Arcanes de Prospero, le Khenetai comptait un effectif modeste mais ses membres étaient renommés pour leur maîtrise de l'art du combat à l'épée. Les Figurines de Lames du Khenetai Occulte ont leur propre Arcane de Prospero. On ne peut pas choisir un Arcane de Prospero pour une Unité qui comprend des Figurines ayant cette Règle Spéciale. À la place, elles ont l'Arcane de Prospero Khenetai, qui suit toutes les règles des Arcanes de Prospero : toutes les Figurines d'une Unité nantie de l'Arcane de Prospero Khenetai gagnent la Réaction Psychique Tisselame, le Pouvoir Psychique Chant Mental des Lames et le Trait « Khenetai ».",
+  },
+  {
+    nom: "Khenetai",
+    texte:
+      "Arcane de Prospero propre à la Cabale du Khenetai Occulte (voir Guerriers du Khenetai) : une Figurine qui le possède gagne la Réaction Psychique Tisselame, le Pouvoir Psychique Chant Mental des Lames, et le Trait « Khenetai ».",
+  },
+  {
+    nom: "Tisselame",
+    texte:
+      "Réaction Psychique (Bénédiction) qui permet à l'Unité de gagner une Sauvegarde Invulnérable contre les Attaques de Volée et de Mêlée. Déclencheur : le Joueur Réactif peut la déclarer à la Phase d'Assaut, au début de l'Étape 4 du Processus de Charge, si le Joueur Actif déclare une Charge qui cible une Unité incluant au moins une Figurine ayant le Trait Khenetai. Coût : 1 point d'Attribution de Réactions, payé seulement si le Test de Volonté est réussi. Focus : une Figurine ayant le Trait Khenetai sous le contrôle du Joueur Réactif, faisant partie de l'Unité visée par la Charge. Cible : l'Unité visée par la Charge qui déclenche la Réaction. Durée : jusqu'à la fin de la Sous-phase de Combat à laquelle elle a été déclarée. Processus : 1) le Joueur en Contrôle du Focus fait un Test de Manifestation ; 2) s'il est réussi, toutes les Figurines de l'Unité ciblée gagnent une Sauvegarde Invulnérable de 5+ contre toute Blessure subie ; 3) s'il est raté, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Chant Mental des Lames",
+    texte:
+      "Pouvoir Psychique (Bénédiction) qui confère la Règle Spéciale Précision (5+) aux paires d'épées de force Achea. Déclencheur : le Joueur Actif peut le Manifester à la Phase d'Assaut, au début de l'Étape Déclarer les Armes et Définir les Rangs d'Initiative d'un Combat impliquant une Unité dont au moins une Figurine a le Trait Khenetai. Focus : une Figurine ayant le Trait Khenetai faisant partie d'une Unité impliquée dans le Combat. Cible : l'Unité dont le Focus fait partie. Durée : jusqu'à la fin de la Sous-phase de Combat en cours. Processus : 1) le Joueur en Contrôle du Focus fait un Test de Manifestation ; 2) s'il est réussi, toutes les paires d'épées de force Achea dont sont dotées les Figurines de l'Unité Cible gagnent la Règle Spéciale Précision (5+) ; 3) s'il est raté, il n'y a pas d'autre effet.",
+  },
+  /* --- Personnages et unités des Thousand Sons (livre d'armée
+     p. 228-235). --- */
+  {
+    nom: "Archi-magister des Corvidae",
+    texte:
+      "Ahriman était le principal magister du Culte des Corvidae, il était le plus puissant praticien des arts divinatoires des Thousand Sons après Magnus lui-même. Ahzek Ahriman connaît son propre éventail de Disciplines Psychiques : une Figurine ayant cette Règle Spéciale est nantie de l'Arcane de Prospero Corvidae (Pouvoirs Psychiques Tirs Fatidiques et Voies de Conséquence), et elle connaît les Disciplines Psychiques Thaumaturgie et Divination.",
+  },
+  {
+    nom: "Magister de la Poussière",
+    texte:
+      "En tant que Seigneur des Cachés, Amon consacrait ses pouvoirs à l'acquisition des secrets. Magistus Amon connaît son propre éventail de Disciplines Psychiques : une Figurine ayant cette Règle Spéciale connaît les Disciplines Psychiques Télépathie et Divination.",
+  },
+  {
+    nom: "Sorcellerie de Prospero",
+    texte:
+      "Le Culte Sortiarae ne s'occupait que de destruction, mû par une rage qu'on eût dite insatiable. Une Figurine ayant cette Règle Spéciale connaît les Pouvoirs Psychiques suivants, mais on ne peut pas lui choisir un Arcane de Prospero normalement : Frappe Biomantique (Discipline Biomancie), Incendie (Discipline Pyromancie) et Force Inébranlable (Discipline Télékinésie).",
+  },
+  {
+    nom: "Conduit Psychique",
+    texte:
+      "Un Castellax-Achea peut subir des blessures consécutives aux Périls du Warp à la place d'une autre Figurine. Si une Figurine qui a le Trait Thousand Sons subit les Périls du Warp alors qu'elle se trouve à 6 pouces d'une Figurine amie ayant cette Règle Spéciale, le Joueur en Contrôle peut à la place appliquer à une Figurine de cette Unité le résultat du tableau des Périls du Warp, ou les éventuelles blessures subies s'il s'agissait d'un Pouvoir Psychique d'un Arcane de Prospero. Si une Figurine ayant cette Règle Spéciale subit le résultat Reflux Éthérique, elle subit à la place une Blessure qui ignore toutes les Sauvegardes et tous les Jets de Mitigation de Dégâts.",
+  },
+  /* --- Rite de Guerre : Legio Astartes Thousand Sons (livre d'armée
+     p. 217-219), aussi détaillé dans js/organigramme-data.js. --- */
+  {
+    nom: "Arcanes du Culte",
+    texte:
+      "Tactica de Légion des Thousand Sons : toutes les Figurines qui ont le Trait Thousand Sons (sauf les Figurines de Type Véhicule) sont des Psykers et ont une Caractéristique de Volonté supérieure à ce qu'indique leur profil. Elles gagnent un bonus de +1 à la Valeur de Base de leur Caractéristique de Volonté, et elles gagnent le Trait Psyker.",
+  },
+  {
+    nom: "Duelliste Prophétique",
+    texte:
+      "Posture des Thousand Sons : quand il choisit une Posture, le Joueur en Contrôle d'une Figurine qui a le Trait Thousand Sons peut choisir Duelliste Prophétique à la place d'une autre accessible à cette Figurine. Si cette Posture est choisie, immédiatement après avoir fait son Jet de Concentration à l'Étape de Concentration, le Joueur en Contrôle a le droit de remplacer le résultat de son Jet de Concentration (après modificateurs) par la Valeur de la Caractéristique de Volonté de cette Figurine.",
+  },
+  {
+    nom: "Forteresse Mentale",
+    texte:
+      "Réaction Avancée des Thousand Sons, qui donne à l'Unité Réactive une Sauvegarde supplémentaire contre les attaques qui la ciblent. Déclencheur : une fois par Bataille, le Joueur Réactif peut la déclarer à l'Étape 4 du processus d'Attaque de Tir d'une Attaque de Tir déclarée par le Joueur Actif qui cible une Unité composée uniquement de Figurines qui ont le Trait Thousand Sons et ne comprend aucune Figurine de Type Véhicule. Coût : 1 point d'Attribution de Réactions, payé dès la déclaration. Cible : l'Unité dont l'Attaque de Tir déclenche la Réaction ; l'Unité Réactive est l'Unité ciblée par cette Attaque de Tir. Processus : 1) le Joueur Réactif fait un Test de Volonté pour l'Unité Réactive ; 2) s'il est réussi, l'Unité Réactive gagne une Sauvegarde Invulnérable de 3+ contre toutes les Blessures infligées par l'Attaque de Tir ; 3) s'il est raté, elle gagne une Sauvegarde Invulnérable de 5+ contre ces Blessures, et l'Unité Réactive ainsi que l'Unité Cible subissent le résultat Rupture Warp du tableau des Périls du Warp, résolu immédiatement après l'Étape 11 de la Phase de Tir.",
+  },
+  {
+    nom: "Déplacement Télékinétique",
+    texte:
+      "Avantage Principal des Thousand Sons : si une Unité ayant le Rôle Tactique Troupes composée uniquement de Figurines qui ont le Trait Thousand Sons occupe une Case Principale d'Organigramme de Force, ses Figurines peuvent gagner cette Règle Spéciale. Quand le Joueur en Contrôle choisit de faire Foncer une Unité composée de Figurines ayant cette Règle Spéciale, il a le droit de faire un Test de Volonté pour ladite Unité. Si le Test de Volonté est réussi, l'Unité gagne le Sous-type Antigrav et la Règle Spéciale Mouvement à Couvert jusqu'à la fin de la Phase de Mouvement en cours. Si le Test de Volonté est raté, l'Unité choisie ne peut pas se Déplacer à la Phase de Mouvement en cours.",
   },
 
   /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de

@@ -1907,6 +1907,7 @@ const ARCANE_DE_PROSPERO = {
   id: "arcane-prospero",
   libelle: "Prosperine Arcana",
   ajoute: true,
+  prefixeFiche: "Prosperine Arcana: ",
   requiertLegion: "XV",
   choix: [
     { nom: "— No Prosperine Arcana —", cout: 0 },
@@ -16094,9 +16095,8 @@ const UNITES = [
      câblées : Canon à bolts Gravis → Canon Magna à étherfeu (+10),
      combi-bolter → Blaster à étherfeu (+10) — voir options `canon`/
      `combi-bolter` ci-dessus.
-     « Lame de force Gravis » : aucun profil d'Arme donné sur la fiche
-     source (pas d'encart Arsenal séparé) — laissée en texte
-     d'équipement brut, conformément à la règle 6 (CLAUDE.md).
+     « Lame de force Gravis » : profil ajouté à js/armes-data.js d'après
+     l'encart Équipement du livre d'armée (p. 236).
      ---------------------------------------------------------- */
   /* --- Dreadnought Contemptor-Osiron · Engins de Guerre · 200 pts de base --- */
   {
@@ -16122,10 +16122,10 @@ const UNITES = [
           PV: 6,
           I: 4,
           A: 4,
-          Cd: 10,
-          Sf: 8,
-          Vo: 5,
-          Int: 7,
+          Cd: 12,
+          Sf: 10,
+          Vo: 8,
+          Int: 5,
           Sv: "2+",
           Inv: "5+",
         },
@@ -28115,8 +28115,8 @@ const UNITES = [
           CT: 5,
           F: 4,
           E: 4,
-          PV: 5,
-          I: 4,
+          PV: 4,
+          I: 5,
           A: 5,
           Cd: 10,
           Sf: 9,
@@ -28153,9 +28153,9 @@ const UNITES = [
         nom: "Sorcerer of Prospero",
         cout: 0,
         profil: {
-          M: 5,
+          M: 7,
           CC: 5,
-          CT: 4,
+          CT: 5,
           F: 4,
           E: 4,
           PV: 3,
@@ -28218,7 +28218,7 @@ const UNITES = [
               A: 3,
               Cd: 8,
               Sf: 8,
-              Vo: 7,
+              Vo: 8,
               Int: 7,
               Sv: "2+",
               Inv: "4+",
@@ -28326,6 +28326,19 @@ const UNITES = [
         parTranche: 5,
         groupe: "arme-lourde",
         ajoute: "Plasma blaster (instead of the combi-bolter)",
+      },
+      {
+        // Livre d'armée p. 231 : « Toute Figurine de cette Unité peut
+        // échanger son combi-bolter et son épée de force modèle Achea
+        // contre une paire de griffes Lightning pour +10 Points. »
+        type: "quantite",
+        id: "paires-griffes",
+        libelle:
+          "Models: pair of lightning claws (replaces the combi-bolter AND the Achea pattern force sword)",
+        cout: 10,
+        parTranche: 1,
+        remplaceIntegral: ["Combi-bolter", "Achea pattern force sword"],
+        ajoute: "Pair of lightning claws",
       },
       // Thousand Sons Legacy Wargear (thousand_sons_wargear.pdf),
       // section « Sekhmet Terminator Cabal ».
@@ -28475,7 +28488,7 @@ const UNITES = [
           Cd: 12,
           Sf: 10,
           Vo: 7,
-          Int: 7,
+          Int: 5,
           Sv: "3+",
           Inv: "5+",
         },

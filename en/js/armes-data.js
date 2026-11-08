@@ -4891,7 +4891,7 @@ const ARMES_MELEE = [
       {
         // Arme du Castellax-Achea (Thousand Sons).
         nom: "Achea force claws",
-        stats: ["1", "A", "+1", "3", "2"],
+        stats: ["I", "A", "+1", "3", "2"],
         regles: "Breaching (5+)",
         traits: "Psychic",
       },
@@ -4901,14 +4901,14 @@ const ARMES_MELEE = [
         // Figurine de Sous-type État-major ou Champion ayant le Trait
         // Thousand Sons (+5 Points par Figurine).
         nom: "Achea pattern force sword",
-        stats: ["1", "A", "+1", "3", "1"],
+        stats: ["I", "A", "+1", "3", "1"],
         regles: "Breaching (5+)",
         traits: "Psychic",
       },
       {
         // Arme de l'Unité Cabale du Khenetai Occulte (Thousand Sons).
         nom: "Pair of Achea force swords",
-        stats: ["1", "+1", "+1", "3", "1"],
+        stats: ["I", "+1", "+1", "3", "1"],
         regles: "Breaching (5+)",
         traits: "Psychic",
       },
@@ -4918,15 +4918,23 @@ const ARMES_MELEE = [
         // Diverses (Tir) ci-dessus. MF transcrit « F » (lettre ambiguë
         // sur la photo, lue « S ») : à vérifier contre le livre.
         nom: "The Reliquary of Ash",
-        stats: ["1", "A", "S", "2", "1"],
+        stats: ["I", "A", "S", "2", "1"],
         regles: "Poisoned (2+)",
         traits: "Psychic",
       },
       {
         // Arme Psychique (Arcane de Prospero Pyrae, Thousand Sons).
         nom: "Burning Embrace",
-        stats: ["1", "1", "8", "3", "2"],
+        stats: ["I", "1", "8", "3", "2"],
         regles: "Breaching (5+), Critical Hit (6+), Armourbane",
+        traits: "Psychic",
+      },
+      {
+        // Arme du Dreadnought Contemptor-Osiron (Thousand Sons, livre
+        // d'armée p. 236).
+        nom: "Gravis force blade",
+        stats: ["I", "A", "+2", "2", "2"],
+        regles: "Force (D), Reaping Blow (2)",
         traits: "Psychic",
       },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,
@@ -5202,7 +5210,7 @@ const ARMES_MELEE = [
         // Armes Exotiques et Diverses (Tir) ci-dessus, Serpentine à feu
         // psychique).
         nom: "The Blade of Ahn-nunurta",
-        stats: ["1", "+1", "S", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Force (D)",
         traits: "Psychic",
       },

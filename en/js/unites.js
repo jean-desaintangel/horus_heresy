@@ -2359,6 +2359,41 @@ const ARMES_PSYCHIQUES_DISCIPLINES = {
   Diabolism: "Hellfire",
 };
 
+// Arcanes de Prospero (Thousand Sons, livre d'armée p. 220-225 et
+// 232-233) : [nom de l'Arcane, Pouvoirs/Réactions Psychiques, Arme
+// Psychique ou null]. Les Pouvoirs sont ajoutés à la ligne « Règles
+// spéciales » de la fiche (texte complet en info-bulle, REGLES_DIVERSES)
+// et l'Arme Psychique à l'Équipement, pour que sa table de profil
+// s'affiche. Paires de CHAÎNES plutôt qu'un objet : la version anglaise
+// (outils/traduction-en) traduit les chaînes, pas les clés d'objet.
+// L'Arcane vient de l'option "arcane-prospero", d'un Trait fixe
+// (Corvidae de l'Ammitara, Khenetai) ou d'une Règle Spéciale (Sorcier
+// Suprême de Magnus : les cinq Arcanes ; Archi-magister des Corvidae).
+const ARCANES_PROSPERO = [
+  ["Raptora", ["Telekinetic Shield"], "Crushing Force"],
+  ["Pyrae", ["Incandescent Shield"], "Burning Embrace"],
+  ["Pavoni", ["Body of Stone"], "Blood Boil"],
+  ["Corvidae", ["Fateful Shots", "Paths of Consequence"], null],
+  ["Athanaean", ["Clarity"], "Manifestation of Dread"],
+  ["Khenetai", ["Bladeweave", "Mind-song of Blades"], null],
+];
+const REGLES_TOUS_ARCANES = ["Supreme Sorcerer"];
+const REGLES_ARCANE_CORVIDAE = ["Arch-magister of the Corvidae"];
+
+// Entrées d'ARCANES_PROSPERO dont l'Unité est nantie.
+function arcanesProsperoDe(unite, instance, regles) {
+  const noms = new Set(unite.traits || []);
+  const opt = (unite.options || []).find((o) => o.id === "arcane-prospero");
+  const val = opt && instance && instance.valeurs[opt.id];
+  if (val && opt.choix[val]) noms.add(opt.choix[val].nom);
+  const tous = regles.some((r) => REGLES_TOUS_ARCANES.includes(r));
+  if (regles.some((r) => REGLES_ARCANE_CORVIDAE.includes(r)))
+    noms.add(ARCANES_PROSPERO[3][0]);
+  return ARCANES_PROSPERO.filter(
+    ([nom], i) => noms.has(nom) || (tous && i < 5),
+  );
+}
+
 // Copie de `equipementComptes` complétée par l'Arme Psychique de chaque
 // Discipline présente dans l'Équipement ou dans `regles` (1 porteur :
 // le Psyker), sauf si cette Arme figure déjà dans l'Équipement.
@@ -2369,6 +2404,13 @@ function avecArmesDisciplines(equipementComptes, regles) {
     ARMES_PSYCHIQUES_DISCIPLINES,
   )) {
     if (!entrees.some((e) => e.includes(discipline))) continue;
+    if ([...comptes.keys()].some((nom) => nom.includes(arme))) continue;
+    comptes.set(arme, 1);
+  }
+  // Armes Psychiques des Arcanes de Prospero : reglesFinales y a déjà
+  // ajouté les Pouvoirs de chaque Arcane connu, on les y reconnaît.
+  for (const [, pouvoirs, arme] of ARCANES_PROSPERO) {
+    if (!arme || !regles.includes(pouvoirs[0])) continue;
     if ([...comptes.keys()].some((nom) => nom.includes(arme))) continue;
     comptes.set(arme, 1);
   }
@@ -2579,6 +2621,9 @@ function reglesFinales(unite, variante, instance) {
   let regles = variante.regles
     .concat(reglesAvantagePrincipalDe(instance))
     .concat(reglesOptionsDe(unite, instance));
+  for (const [, pouvoirs] of arcanesProsperoDe(unite, instance, regles))
+    for (const pouvoir of pouvoirs)
+      if (!regles.includes(pouvoir)) regles = [...regles, pouvoir];
   if (!orgaPret || !window.Organigramme) return regles;
 
   // Bénéfice d'Arcane de Mechanicum : accordé automatiquement à toute

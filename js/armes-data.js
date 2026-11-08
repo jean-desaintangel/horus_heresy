@@ -4891,7 +4891,7 @@ const ARMES_MELEE = [
       {
         // Arme du Castellax-Achea (Thousand Sons).
         nom: "Griffes de force Achea",
-        stats: ["1", "A", "+1", "3", "2"],
+        stats: ["I", "A", "+1", "3", "2"],
         regles: "Brèche (5+)",
         traits: "Psychique",
       },
@@ -4901,14 +4901,14 @@ const ARMES_MELEE = [
         // Figurine de Sous-type État-major ou Champion ayant le Trait
         // Thousand Sons (+5 Points par Figurine).
         nom: "Épée de force modèle Achea",
-        stats: ["1", "A", "+1", "3", "1"],
+        stats: ["I", "A", "+1", "3", "1"],
         regles: "Brèche (5+)",
         traits: "Psychique",
       },
       {
         // Arme de l'Unité Cabale du Khenetai Occulte (Thousand Sons).
         nom: "Paire d'épées de force Achea",
-        stats: ["1", "+1", "+1", "3", "1"],
+        stats: ["I", "+1", "+1", "3", "1"],
         regles: "Brèche (5+)",
         traits: "Psychique",
       },
@@ -4918,15 +4918,23 @@ const ARMES_MELEE = [
         // Diverses (Tir) ci-dessus. MF transcrit « F » (lettre ambiguë
         // sur la photo, lue « S ») : à vérifier contre le livre.
         nom: "Le Reliquaire de Cendres",
-        stats: ["1", "A", "F", "2", "1"],
+        stats: ["I", "A", "F", "2", "1"],
         regles: "Empoisonnée (2+)",
         traits: "Psychique",
       },
       {
         // Arme Psychique (Arcane de Prospero Pyrae, Thousand Sons).
         nom: "Étreinte Brûlante",
-        stats: ["1", "1", "8", "3", "2"],
+        stats: ["I", "1", "8", "3", "2"],
         regles: "Brèche (5+), Touche Critique (6+), Fléau des Blindages",
+        traits: "Psychique",
+      },
+      {
+        // Arme du Dreadnought Contemptor-Osiron (Thousand Sons, livre
+        // d'armée p. 236).
+        nom: "Lame de force Gravis",
+        stats: ["I", "A", "+2", "2", "2"],
+        regles: "Force (D), Fauchage (2)",
         traits: "Psychique",
       },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,
@@ -5202,7 +5210,7 @@ const ARMES_MELEE = [
         // Armes Exotiques et Diverses (Tir) ci-dessus, Serpentine à feu
         // psychique).
         nom: "La Lame d'Ahn-nunurta",
-        stats: ["1", "+1", "F", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Force (D)",
         traits: "Psychique",
       },

@@ -244,6 +244,13 @@ const REGLES_ARMES = [
     texte:
       "When making a Wound Test for an Attack with this Special Rule, if the result is equal to or greater than the value of X attached to this variant of the Special Rule (ignoring modifiers), the Wounds inflicted ignore the Target Model's Eternal Warrior (X) Special Rule.",
   },
+  /* --- Arsenal des Thousand Sons (Bâton sorcier de Prospero, livre
+     d'armée p. 230). --- */
+  {
+    nom: "Conduit",
+    texte:
+      "When a Model equipped with a Weapon that has this Special Rule manifests a Psychic Weapon: if the Psychic Weapon is a Ranged Weapon, its Ranged Strength Characteristic is modified by +1; if the Psychic Weapon is a Melee Weapon, its Strength Modifier Characteristic is modified by +1.",
+  },
 ];
 
 /* ----------------------------------------------------------
@@ -1585,7 +1592,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Pavoni",
     texte:
-      "Thousand Sons Psychic Discipline (Prosperine Arcana): a Model that has it gains the Body of Stone Psychic Reaction, the Blood Boil Psychic Weapon, and the \"Pavoni\" Trait.",
+      "Psychic Discipline (Prosperine Arcana) of the Thousand Sons: a Model that has it gains the Psychic Reaction Body of Stone, the Psychic Weapon Blood Boil, and the \"Pavoni\" Trait. Only one Model in the Unit may use the Psychic Weapon each time the Unit is selected to make attacks. Blood Boil (Ranged Psychic Weapon): Range 12\", FP 1, RS 4, AP 2, D 2, Poisoned (2+), Psychic Trait — the initiate boils the victim's blood.",
   },
   {
     nom: "Body of Stone",
@@ -1610,7 +1617,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Athanaean",
     texte:
-      "Thousand Sons Psychic Discipline (Prosperine Arcana): a Model that has it gains the Manifestation of Dread Psychic Weapon, the Clarity Psychic Power, and the \"Athanaean\" Trait.",
+      "Psychic Discipline (Prosperine Arcana) of the Thousand Sons: a Model that has it gains the Psychic Weapon Manifestation of Dread, the Psychic Power Clarity, and the \"Athanaean\" Trait. Only one Model in the Unit may use the Psychic Weapon each time the Unit is selected to make attacks. Manifestation of Dread (Ranged Psychic Weapon): Range 24\", FP 3, RS 4, AP -, D 1, Panic (1), Psychic Trait.",
   },
   {
     nom: "Clarity",
@@ -1620,7 +1627,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Pyrae",
     texte:
-      "Thousand Sons Psychic Discipline (Prosperine Arcana): a Model that has it gains the Incandescent Shield Psychic Power, the Burning Embrace Psychic Weapon, and the \"Pyrae\" Trait.",
+      "Psychic Discipline (Prosperine Arcana) of the Thousand Sons: a Model that has it gains the Psychic Power Incandescent Shield, the Psychic Weapon Burning Embrace, and the \"Pyrae\" Trait. Only one Model in the Unit may use the Psychic Weapon each time the Unit is selected to make attacks. Burning Embrace (Melee Psychic Weapon): IM I, AM 1, SM 8, AP 3, D 2, Breaching (5+), Critical Hit (6+), Armourbane, Psychic Trait.",
   },
   {
     nom: "Incandescent Shield",
@@ -1630,12 +1637,80 @@ const REGLES_DIVERSES = [
   {
     nom: "Raptora",
     texte:
-      "Thousand Sons Psychic Discipline (Prosperine Arcana): a Model that has it gains the Crushing Force Psychic Weapon, the Telekinetic Shield Psychic Reaction, and the \"Raptora\" Trait.",
+      "Psychic Discipline (Prosperine Arcana) of the Thousand Sons: a Model that has it gains the Psychic Weapon Crushing Force, the Psychic Reaction Telekinetic Shield, and the \"Raptora\" Trait. Only one Model in the Unit may use the Psychic Weapon each time the Unit is selected to make attacks. Crushing Force (Ranged Psychic Weapon): Range 12\", FP 1, RS 9, AP 4, D 2, Force (D), Armourbane, Psychic Trait.",
   },
   {
     nom: "Telekinetic Shield",
     texte:
       "Psychic Reaction (Blessing) that gives a Unit a Shrouded Damage Mitigation Roll. The Reactive Player may declare it at the start of Step 3 of a Shooting Attack made by the Active Player that targets a Unit including at least one Model with the Raptora Trait (Cost: 1 Reaction Allotment, paid only if the Willpower Check is passed). The Focus must be a Model with the Raptora Trait in the targeted Unit; the Target is that same Unit, composed entirely of Models with the Thousand Sons Trait. If successful, its effects last until the end of the Sub-Phase: all Models in the Target Unit gain a 4+ Shrouded Damage Mitigation Roll against any Wound suffered.",
+  },
+  /* --- Arcane de Prospero Khenetai (livre d'armée p. 232-233) : propre
+     à la Cabale du Khenetai Occulte (Trait « Khenetai », Règle
+     Spéciale Guerriers du Khenetai) ; suit toutes les règles des
+     Arcanes de Prospero ci-dessus. --- */
+  {
+    nom: "Warriors of the Khenetai",
+    texte:
+      "A minor cult of the Prosperine Arcana, the Khenetai had modest numbers but its members were renowned for their mastery of the art of swordsmanship. Khenetai Occult Blade Models have their own Prosperine Arcana. A Prosperine Arcana cannot be selected for a Unit that includes Models with this Special Rule. Instead, they have the Khenetai Prosperine Arcana, which follows all the rules for Prosperine Arcana: all Models in a Unit with the Khenetai Prosperine Arcana gain the Psychic Reaction Bladeweave, the Psychic Power Mind-song of Blades and the \"Khenetai\" Trait.",
+  },
+  {
+    nom: "Khenetai",
+    texte:
+      "Prosperine Arcana unique to the Khenetai Occult Cabal (see Warriors of the Khenetai): a Model that has it gains the Psychic Reaction Bladeweave, the Psychic Power Mind-song of Blades, and the \"Khenetai\" Trait.",
+  },
+  {
+    nom: "Bladeweave",
+    texte:
+      "Psychic Reaction (Blessing) that allows the Unit to gain an Invulnerable Save against Volley and Melee Attacks. Trigger: the Reactive Player may declare it in the Assault Phase, at the start of Step 4 of the Charge Procedure, if the Active Player declares a Charge targeting a Unit that includes at least one Model with the Khenetai Trait. Cost: 1 point of Reaction Allotment, paid only if the Willpower Check is passed. Focus: a Model with the Khenetai Trait controlled by the Reactive Player, part of the Unit targeted by the Charge. Target: the Unit targeted by the Charge that triggers the Reaction. Duration: until the end of the Fight Sub-phase in which it was declared. Process: 1) the Player controlling the Focus makes a Manifestation Check; 2) if it is passed, all Models in the targeted Unit gain a 5+ Invulnerable Save against any Wound suffered; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Mind-song of Blades",
+    texte:
+      "Psychic Power (Blessing) that grants the Precision (5+) Special Rule to pairs of Achea force swords. Trigger: the Active Player may Manifest it in the Assault Phase, at the start of the Declare Weapons and Set Initiative Steps Step of a Combat involving a Unit in which at least one Model has the Khenetai Trait. Focus: a Model with the Khenetai Trait that is part of a Unit involved in the Combat. Target: the Unit the Focus is part of. Duration: until the end of the current Fight Sub-phase. Process: 1) the Player controlling the Focus makes a Manifestation Check; 2) if it is passed, all pairs of Achea force swords carried by Models in the Target Unit gain the Precision (5+) Special Rule; 3) if it is failed, there is no further effect.",
+  },
+  /* --- Personnages et unités des Thousand Sons (livre d'armée
+     p. 228-235). --- */
+  {
+    nom: "Arch-magister of the Corvidae",
+    texte:
+      "Ahriman was the foremost magister of the Cult of the Corvidae, the most powerful practitioner of the divinatory arts among the Thousand Sons after Magnus himself. Ahzek Ahriman knows his own range of Psychic Disciplines: a Model with this Special Rule has the Corvidae Prosperine Arcana (Psychic Powers Fateful Shots and Paths of Consequence), and knows the Thaumaturgy and Divination Psychic Disciplines.",
+  },
+  {
+    nom: "Magister of Dust",
+    texte:
+      "As Lord of the Hidden, Amon devoted his powers to the acquisition of secrets. Magistus Amon knows his own range of Psychic Disciplines: a Model with this Special Rule knows the Telepathy and Divination Psychic Disciplines.",
+  },
+  {
+    nom: "Sorcery of Prospero",
+    texte:
+      "The Sortiarae Cult concerned itself only with destruction, driven by a seemingly insatiable rage. A Model with this Special Rule knows the following Psychic Powers, but cannot select a Prosperine Arcana normally: Biomantic Strike (Biomancy Discipline), Conflagration (Pyromancy Discipline) and Immovable Force (Telekinesis Discipline).",
+  },
+  {
+    nom: "Psychic Conduit",
+    texte:
+      "A Castellax-Achea can suffer wounds caused by Perils of the Warp in place of another Model. If a Model with the Thousand Sons Trait suffers Perils of the Warp while within 6\" of a friendly Model with this Special Rule, the Controlling Player may instead apply the result of the Perils of the Warp table, or any wounds suffered if it was a Psychic Power of a Prosperine Arcana, to a Model in that Unit. If a Model with this Special Rule suffers the Aetheric Backlash result, it instead suffers one Wound that ignores all Saves and all Damage Mitigation Rolls.",
+  },
+  /* --- Rite de Guerre : Legio Astartes Thousand Sons (livre d'armée
+     p. 217-219), aussi détaillé dans js/organigramme-data.js. --- */
+  {
+    nom: "Arcana of the Cult",
+    texte:
+      "Legion Tactica of the Thousand Sons: all Models with the Thousand Sons Trait (except Models of the Vehicle Type) are Psykers and have a higher Willpower Characteristic than their profile shows. They gain a +1 bonus to the Base Value of their Willpower Characteristic, and they gain the Psyker Trait.",
+  },
+  {
+    nom: "Prophetic Duellist",
+    texte:
+      "Gambit of the Thousand Sons: when selecting a Gambit, the Controlling Player of a Model with the Thousand Sons Trait may choose Prophetic Duellist instead of another available to that Model. If this Gambit is chosen, immediately after making their Focus Roll in the Focus Step, the Controlling Player may replace the result of their Focus Roll (after modifiers) with the Value of that Model's Willpower Characteristic.",
+  },
+  {
+    nom: "Mental Fortress",
+    texte:
+      "Advanced Reaction of the Thousand Sons, which gives the Reactive Unit an additional Save against attacks that target it. Trigger: once per Battle, the Reactive Player may declare it at Step 4 of the Shooting Attack process of a Shooting Attack declared by the Active Player that targets a Unit composed only of Models with the Thousand Sons Trait and that includes no Models of the Vehicle Type. Cost: 1 point of Reaction Allotment, paid on declaration. Target: the Unit whose Shooting Attack triggers the Reaction; the Reactive Unit is the Unit targeted by that Shooting Attack. Process: 1) the Reactive Player makes a Willpower Check for the Reactive Unit; 2) if it is passed, the Reactive Unit gains a 3+ Invulnerable Save against all Wounds inflicted by the Shooting Attack; 3) if it is failed, it gains a 5+ Invulnerable Save against those Wounds, and both the Reactive Unit and the Target Unit suffer the Warp Rupture result of the Perils of the Warp table, resolved immediately after Step 11 of the Shooting Phase.",
+  },
+  {
+    nom: "Telekinetic Reposition",
+    texte:
+      "Prime Advantage of the Thousand Sons: if a Unit with the Troops Tactical Role composed only of Models with the Thousand Sons Trait occupies a Prime Force Organisation Slot, its Models may gain this Special Rule. When the Controlling Player chooses to have a Unit composed of Models with this Special Rule Rush, they may make a Willpower Check for that Unit. If the Willpower Check is passed, the Unit gains the Antigrav Sub-type and the Move Through Cover Special Rule until the end of the current Movement Phase. If the Willpower Check is failed, the chosen Unit cannot Move in the current Movement Phase.",
   },
 
   /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de

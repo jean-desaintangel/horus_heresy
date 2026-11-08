@@ -2177,7 +2177,7 @@ const TYPES_DETACHEMENTS = [
     nom: "Convocation of Prospero",
     famille: "auxiliaire",
     texte:
-      "Troops, a Fast Attack unit, an Elites unit and a Heavy Transport unit.",
+      "Auxiliary Detachment available to an Army that includes a Primary Detachment of the Thousand Sons Faction. The Thousand Sons approached war in the same way as meditation: preparation, balance and calm ensured the victory of their mixed forces where the brute force of other, less subtle Legions would have failed. One Troops Prime Slot, one Fast Attack Slot, one Elites Slot and one Heavy Transports Slot.",
     cases: [
       _caseOrga("Troops", true),
       _caseOrga("Fast Attack"),

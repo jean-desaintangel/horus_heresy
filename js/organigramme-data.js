@@ -2177,7 +2177,7 @@ const TYPES_DETACHEMENTS = [
     nom: "Convocation de Prospero",
     famille: "auxiliaire",
     texte:
-      "Des Troupes, une unité d'Attaque Rapide, une unité d'Élite et une unité de Transport Lourd.",
+      "Détachement Auxiliaire accessible à une Armée comportant un Détachement Principal de la Faction Thousand Sons. Les Thousand Sons approchaient la guerre de la même façon que la méditation : la préparation, l'équilibre et le calme assuraient la victoire de leurs forces mixtes là où la force brute d'autres Légions, moins subtiles, aurait échoué. Une Case Principale Troupes, une Case Attaque Rapide, une Case Élite et une Case Transports Lourds.",
     cases: [
       _caseOrga("Troupes", true),
       _caseOrga("Attaque Rapide"),
