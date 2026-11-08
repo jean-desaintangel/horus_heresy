@@ -1683,7 +1683,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Sorcery of Prospero",
     texte:
-      "The Sortiarae Cult concerned itself only with destruction, driven by a seemingly insatiable rage. A Model with this Special Rule knows the following Psychic Powers, but cannot select a Prosperine Arcana normally: Biomantic Strike (Biomancy Discipline), Conflagration (Pyromancy Discipline) and Immovable Force (Telekinesis Discipline).",
+      "The Sortiarae Cult concerned itself only with destruction, driven by a seemingly insatiable rage. A Model with this Special Rule knows the following Psychic Powers, but cannot select a Prosperine Arcana normally: Biomantic Strike (Biomancy Discipline), Firestorm (Pyromancy Discipline) and Immovable Force (Telekinesis Discipline).",
   },
   {
     nom: "Psychic Conduit",
@@ -1711,6 +1711,125 @@ const REGLES_DIVERSES = [
     nom: "Telekinetic Reposition",
     texte:
       "Prime Advantage of the Thousand Sons: if a Unit with the Troops Tactical Role composed only of Models with the Thousand Sons Trait occupies a Prime Force Organisation Slot, its Models may gain this Special Rule. When the Controlling Player chooses to have a Unit composed of Models with this Special Rule Rush, they may make a Willpower Check for that Unit. If the Willpower Check is passed, the Unit gains the Antigrav Sub-type and the Move Through Cover Special Rule until the end of the current Movement Phase. If the Willpower Check is failed, the chosen Unit cannot Move in the current Movement Phase.",
+  },
+  /* --- Disciplines Psychiques du livre de règles (p. 341-346) :
+     options de Discipline de l'Archiviste, de Magnus, de l'Osiron, des
+     Devins de l'Orage, Tireurs de Runes, Démons de Tzeentch/Slaanesh,
+     et Disciplines connues d'Ahriman/Amon. Règles et Pouvoirs ajoutés
+     à la fiche par DISCIPLINES_PSYCHIQUES (js/unites.js), Armes
+     Psychiques dans js/armes-data.js. Le Pouvoir Tranquillité
+     (Thaumaturgie) : page pas encore transcrite. --- */
+  {
+    nom: "Psychic Discipline",
+    texte:
+      "Psychic Disciplines form a range of abilities that includes Psychic Weapons and Psychic Powers or Psychic Reactions. Only Models with the Psyker Trait can use them: attacks with Weapons that have the Psychic Trait cannot be made for Models without the Psyker Trait, and such Models cannot use them to Manifest a Psychic Power. That said, Models with the Psyker Trait do not automatically gain Psychic Weapons or Psychic Powers: in all cases, a Model's Army List Profile states whether it has or can access Psychic Weapons or Psychic Powers. Core Disciplines (Biomancy, Divination, Pyromancy, Telekinesis, Telepathy, Thaumaturgy): they are found as options in the Army Lists of any Faction. A Discipline can include Psychic Weapons, Psychic Reactions and/or Psychic Powers; a Model that has a given Discipline gains all the Psychic Powers and Psychic Weapons listed for that Discipline as well as the associated Trait. Future publications may introduce more Disciplines, which will then only be available to specific Models according to the rules for those additional Disciplines.",
+  },
+  {
+    nom: "Divination",
+    texte:
+      "Psychic Discipline. Through the fickle powers of the Warp, a diviner draws back the veil of time to glimpse what may be, and guides his attacks and those of his allies so that they strike at the opportune moment. A Model with the Divination Discipline gains the Duellist's Edge (2) Special Rule, the Anticipated Strikes Gambit, the Blessing of Clairvoyance Psychic Power and the \"Diviner\" Trait.",
+  },
+  {
+    nom: "Anticipated Strikes",
+    texte:
+      "Divination Gambit: if this Gambit is chosen, the Controlling Player must make a Willpower Check for the Model adopting this Gambit. If it is passed, in the Strike Step of the Challenge, Hit Tests made for this Model succeed on a 2+, regardless of the Weapon Skill Characteristics of the Models involved in the Challenge. If the Willpower Check is failed, Hit Tests are made normally. This Willpower Check cannot cause Perils of the Warp.",
+  },
+  {
+    nom: "Blessing of Clairvoyance",
+    texte:
+      "Psychic Power (Blessing) of Divination, used during a Shooting Attack to grant the Precision (5+) Special Rule to a Unit. Trigger: the Active Player may Manifest it in the Shooting Phase, at Step 4 of any Shooting Attack made by the Active Player. Focus: a Model with the Diviner Trait controlled by the Active Player, that is part of the Unit making the Shooting Attack or within 18\" and in Line of Sight of at least one Model of that Unit. Target: the Unit currently selected and making a Shooting Attack. Duration: until the end of the Shooting Attack being resolved. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, all Models in the Target Unit gain the Precision (5+) Special Rule; 3) if it is failed, there is no further effect.",
+  },
+  /* --- Discipline Runomancie des Space Wolves (livre d'armée p. 173),
+     option des Tireurs de Runes. --- */
+  {
+    nom: "Runomancy",
+    texte:
+      "Psychic Discipline of the Space Wolves. Within the VI Legion were warriors who served as seers or prophets, individuals who followed the threads of fate and channelled what they believed to be the power of Fenris to turn it against their foes. A Model with the Runomancy Discipline gains the Hatred (Psykers) Special Rule, the Wrath of the Deathwolf Psychic Weapon, the Stormshroud Psychic Power and the \"Caster of Runes\" Trait. Wrath of the Deathwolf (Ranged Psychic Weapon): Range Template, FP 1, RS 6, AP 4, D 1, Template, Stun (1), Force (D), Psychic and Assault Traits — the Caster of Runes summons a storm from the realm of Morkai and channels it as a blizzard that shatters its frozen victims into a thousand pieces.",
+  },
+  {
+    nom: "Stormshroud",
+    texte:
+      "Psychic Reaction (Blessing) of Runomancy: conjuring a sudden snow-laden gale, the Caster of Runes hides his allies from enemy fire. Trigger: the Reactive Player may declare it in the Shooting Phase, at the start of Step 3 of a Shooting Attack made by the Active Player. Cost: 1 point of Reaction Allotment, paid on declaration. Focus: a Model with the Caster of Runes Trait controlled by the Reactive Player, part of the Unit targeted by the Shooting Attack that triggers the Reaction. Target: the Unit targeted by the Shooting Attack that triggers the Reaction; it must include only Models with the Space Wolves Trait. Duration: until the end of the Sub-phase in which it was declared. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, all attacks made during the Shooting Attack against the Target must be resolved as Snap Shots; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Caster of Runes",
+    texte:
+      "Trait granted by the Runomancy Discipline (Space Wolves): a Model that has it can be the Focus of the Stormshroud Psychic Reaction.",
+  },
+  {
+    nom: "Diviner",
+    texte:
+      "Trait granted by the Divination Discipline: a Model that has it can be the Focus of the Blessing of Clairvoyance Psychic Power.",
+  },
+  {
+    nom: "Biomancy",
+    texte:
+      "Psychic Discipline. Biomancers are masters of manipulating flesh to magnify the abilities of living beings: they can harden bodies to the point of resisting bolts and blades, or swell the muscles of the humblest recruit until they tear the enemy apart with ease. A Model with the Biomancy Discipline gains the Impact (Strength) Special Rule, the Biomantic Rage Psychic Power, the Biomantic Slam Psychic Weapon and the \"Biomancer\" Trait. Biomantic Slam (Melee Psychic Weapon): IM -3, AM 1, SM 12, AP 2, D 2, Armourbane, Force (Damage), Psychic Trait.",
+  },
+  {
+    nom: "Biomantic Rage",
+    texte:
+      "Psychic Power (Blessing) of Biomancy, used in the Charge Sub-phase to give a Unit a bonus to Strength and Toughness. Trigger: the Active Player may Manifest it in the Charge Sub-phase, at Step 4 of the Charge procedure, before any Unit makes a Volley Attack. Focus: a Model with the Biomancer Trait controlled by the Active Player, that is part of the charging Unit or within 18\" and in Line of Sight of at least one Model of that Unit. Target: the Unit currently selected and making a Charge. Duration: until the end of the current Assault Phase. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, no Volley Attack may be made for the Target Unit, but all its Models gain a +2 bonus to their Strength and Toughness Characteristics; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Biomancer",
+    texte:
+      "Trait granted by the Biomancy Discipline: a Model that has it can be the Focus of the Biomantic Rage Psychic Power.",
+  },
+  {
+    nom: "Pyromancy",
+    texte:
+      "Psychic Discipline. Pyromancy is the essence of death and destruction: on the battlefield, a pyromancer is a walking vector of chaos whose sole calling is to kill. A Model with the Pyromancy Discipline gains the Explodes (4+) Special Rule, the Firestorm Psychic Weapon, the Conflagration Psychic Weapon and the \"Pyromancer\" Trait. Firestorm (Ranged Psychic Weapon): Range 18\", FP 1, RS 4, AP 4, D 1, Panic (1), Blast (5\"), Force (Strength), Ranged and Psychic Traits. Conflagration (Melee Psychic Weapon): IM -1, AM 6+D3, SM 5, AP 4, D 1, Deflagrate (5), Melee and Psychic Traits.",
+  },
+  {
+    nom: "Pyromancer",
+    texte:
+      "Trait granted by the Pyromancy Discipline (Firestorm and Conflagration Psychic Weapons).",
+  },
+  {
+    nom: "Telekinesis",
+    texte:
+      "Psychic Discipline. Telekinesis is the art of defence through an invisible force that strengthens and protects: the telekine commands an invisible force shield to shelter allies from bombardment, or to slow the enemy and pin them in place. A Model with the Telekinesis Discipline gains the Shrouded (4+) Special Rule, the Force Barrier Psychic Reaction, the Immovable Force Psychic Weapon and the \"Telekine\" Trait. Immovable Force (Ranged Psychic Weapon): Range 18\", FP 3, RS 6, AP 4, D 1, Pinning (2), Force (FP), Ranged and Psychic Traits.",
+  },
+  {
+    nom: "Force Barrier",
+    texte:
+      "Psychic Reaction (Blessing) of Telekinesis, usable in the Shooting or Assault Phase, that grants a Shrouded Damage Mitigation Roll. Trigger: the Reactive Player may declare it in the Assault Phase, at the start of Step 4 of the Charge Procedure, or in the Shooting Phase, at the start of Step 3 of a Shooting Attack made by the Active Player. Cost: 1 point of Reaction Allotment, paid on declaration. Focus: a Model with the Telekine Trait controlled by the Reactive Player, part of the Unit targeted by the Charge or the Shooting Attack. Target: the Unit targeted by the Shooting Attack or the Charge that triggers the Reaction. Duration: until the end of the Sub-phase in which it was declared. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, all Models in the Target Unit gain a 3+ Shrouded Damage Mitigation Roll against any Wound inflicted during a Volley or Shooting Attack; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Telekine",
+    texte:
+      "Trait granted by the Telekinesis Discipline: a Model that has it can be the Focus of the Force Barrier Psychic Reaction.",
+  },
+  {
+    nom: "Telepathy",
+    texte:
+      "Psychic Discipline. Telepaths are the masters of the invisible realms of thought and emotion: in battle they sow not death but terror and confusion. A Model with the Telepathy Discipline gains the Fear (1) Special Rule, the Mind-burst Psychic Power, the Cursed Whispers Psychic Weapon and the \"Telepath\" Trait. Cursed Whispers (Ranged Psychic Weapon): Range 18\", FP 2D6, RS 3, AP -, D 1, Stun (-), Ranged and Psychic Traits.",
+  },
+  {
+    nom: "Mind-burst",
+    texte:
+      "Psychic Power (Curse) of Telepathy, used in the Movement Phase, that can force the target to Fall Back or become Routed. Trigger: the Active Player may Manifest it in the Movement Phase, when selecting to Move a Unit they control that includes at least one Model with the Telepath Trait, before making any Move with it. Focus: a Model with the Telepath Trait that is part of the Unit selected to Move. Target: a Unit controlled by the Reactive Player with at least one Model within 18\" and in Line of Sight of the Focus; it cannot be Locked in Combat or otherwise ineligible as the target of a Shooting Attack, and must not include any Model of the Vehicle Type. Duration: effects resolved immediately. Process: 1) once the Focus and the Target Unit are decided, make a Resistance Check; 2) if the Resistance Check is failed, remove all Statuses from all Models in the Target Unit, then the Target Unit must immediately make a Fall Back Move; once this Move is resolved, its Controlling Player makes a Leadership Check for it, which cannot be modified by any effect or Special Rule: if it is passed there is no further effect, if it is failed all Models in the Target Unit gain the Routed Status; 3) if the Resistance Check is passed, there is no further effect on the Target Unit; 4) whether the Resistance Check is passed or failed, the Unit that includes the Focus of this Psychic Power can neither Move nor Rush in this Movement Phase.",
+  },
+  {
+    nom: "Telepath",
+    texte:
+      "Trait granted by the Telepathy Discipline: a Model that has it can be the Focus of the Mind-burst Psychic Power.",
+  },
+  {
+    nom: "Thaumaturgy",
+    texte:
+      "Psychic Discipline. Thaumaturgy is the discipline of scholars devoted to understanding and taming the fury of the Warp: these warriors strive to restore what the Warp has undone, can bring the dead back to life and banish supernatural beings to the depths of the Warp. A Model with the Thaumaturgy Discipline gains the Hatred (Psykers) Special Rule, the Resurrection Psychic Reaction, the Tranquillity Psychic Power and the \"Thaumaturge\" Trait.",
+  },
+  {
+    nom: "Resurrection",
+    texte:
+      "Psychic Reaction (Blessing) of Thaumaturgy, used in the Shooting Phase, that can restore a casualty to the Unit with all its Wounds. Trigger: the Reactive Player may declare it in the Shooting Phase, at the start of Step 11 of any Shooting Attack made by the Active Player. Cost: 1 point of Reaction Allotment, paid on declaration. Focus: a Model with the Thaumaturge Trait controlled by the Reactive Player, part of the Unit targeted by the Shooting Attack. Target: the Unit targeted by the Shooting Attack that triggers the Reaction. Duration: effects resolved immediately. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, before Removing any Model of the Target Unit as a Casualty, its Controlling Player chooses a single Model to be removed as a Casualty and rolls a Dice: on a 4+, that Model is not Removed as a Casualty and returns to play, in Unit Coherency with its Unit and with its Wounds Characteristic at its Base Value. This has no effect on Models without a Wounds Characteristic; if the Manifestation Check causes Perils of the Warp, they are resolved after any restoration; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Thaumaturge",
+    texte:
+      "Trait granted by the Thaumaturgy Discipline: a Model that has it can be the Focus of the Resurrection Psychic Reaction and the Tranquillity Psychic Power.",
   },
 
   /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de

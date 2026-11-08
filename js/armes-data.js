@@ -2490,6 +2490,39 @@ const ARMES_TIR = [
         regles: "Lacération (5+), Force (D)",
         traits: "Psychique",
       },
+      /* --- Disciplines Psychiques du livre de règles (p. 341-346) :
+         Armes Psychiques de Tir (voir DISCIPLINES_PSYCHIQUES,
+         js/unites.js). --- */
+      {
+        // Arme Psychique (Discipline Pyromancie).
+        nom: "Incendie",
+        stats: ["18", "1", "4", "4", "1"],
+        regles: 'Panique (1), Explosion (5"), Force (FT)',
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline Télékinésie).
+        nom: "Force Inébranlable",
+        stats: ["18", "3", "6", "4", "1"],
+        regles: "Fixation (2), Force (PF)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline Télépathie). « Sonner (-) » tel
+        // qu'imprimé dans le livre.
+        nom: "Murmures Maudits",
+        stats: ["18", "2D6", "3", "-", "1"],
+        regles: "Sonner (-)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline Runomancie, Space Wolves — livre
+        // d'armée p. 173).
+        nom: "Colère du Loup Funeste",
+        stats: ["Souffle", "1", "6", "4", "1"],
+        regles: "Souffle, Sonner (1), Force (D)",
+        traits: "Psychique, Assaut",
+      },
       {
         // Arme Psychique (Discipline Navis Astrologis, Expeditionary
         // Navigator, Legacies Solar Auxilia) : voir js/unites-data.js.
@@ -4935,6 +4968,22 @@ const ARMES_MELEE = [
         nom: "Lame de force Gravis",
         stats: ["I", "A", "+2", "2", "2"],
         regles: "Force (D), Fauchage (2)",
+        traits: "Psychique",
+      },
+      /* --- Disciplines Psychiques du livre de règles (p. 341-345) :
+         Armes Psychiques de Mêlée. --- */
+      {
+        // Arme Psychique (Discipline Biomancie).
+        nom: "Frappe Biomantique",
+        stats: ["-3", "1", "12", "2", "2"],
+        regles: "Fléau des Blindages, Force (D)",
+        traits: "Psychique",
+      },
+      {
+        // Arme Psychique (Discipline Pyromancie).
+        nom: "Conflagration",
+        stats: ["-1", "6+D3", "5", "4", "1"],
+        regles: "Déflagration (5)",
         traits: "Psychique",
       },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,

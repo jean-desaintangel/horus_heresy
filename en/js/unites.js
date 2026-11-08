@@ -2377,6 +2377,89 @@ const ARCANES_PROSPERO = [
   ["Athanaean", ["Clarity"], "Manifestation of Dread"],
   ["Khenetai", ["Bladeweave", "Mind-song of Blades"], null],
 ];
+// Disciplines Psychiques du livre de règles (p. 341-347) : [nom de la
+// Discipline, Règles Spéciales et Pouvoirs/Réactions Psychiques
+// accordés (ligne « Règles spéciales » de la fiche), Armes Psychiques
+// (tables de profils)]. Le Pouvoir Tranquillité de la Thaumaturgie :
+// texte pas encore transcrit (page manquante).
+const DISCIPLINES_PSYCHIQUES = [
+  ["Biomancy", ["Impact (S)", "Biomantic Rage"], ["Biomantic Slam"]],
+  ["Pyromancy", ["Explodes (4+)"], ["Firestorm", "Conflagration"]],
+  [
+    "Telekinesis",
+    ["Shrouded (4+)", "Force Barrier"],
+    ["Immovable Force"],
+  ],
+  ["Telepathy", ["Fear (1)", "Mind-burst"], ["Cursed Whispers"]],
+  ["Thaumaturgy", ["Hatred (Psykers)", "Resurrection"], []],
+  [
+    "Divination",
+    [
+      "Duellist's Edge (2)",
+      "Anticipated Strikes",
+      "Blessing of Clairvoyance",
+    ],
+    [],
+  ],
+  // Discipline des Space Wolves (Tireurs de Runes, livre d'armée p. 173).
+  [
+    "Runomancy",
+    ["Hatred (Psykers)", "Stormshroud"],
+    ["Wrath of the Deathwolf"],
+  ],
+];
+// Règles Spéciales de personnage qui font connaître des Disciplines :
+// [Règle, Disciplines connues entièrement, Armes Psychiques seules].
+const REGLES_DISCIPLINES = [
+  ["Arch-magister of the Corvidae", ["Thaumaturgy", "Divination"], []],
+  ["Magister of Dust", ["Telepathy", "Divination"], []],
+  [
+    "Sorcery of Prospero",
+    [],
+    ["Biomantic Slam", "Firestorm", "Immovable Force"],
+  ],
+];
+
+// Noms des entrées choisies dans les options `choix`/`multi` d'une
+// Unité (ex : Disciplines Psychiques de l'Archiviste ou de Magnus).
+function nomsChoisisDe(unite, instance) {
+  const noms = [];
+  if (!instance) return noms;
+  for (const opt of unite.options || []) {
+    const val = instance.valeurs[opt.id];
+    if (opt.type === "multi" && Array.isArray(val)) {
+      for (const i of val) if (opt.choix[i]) noms.push(opt.choix[i].nom);
+    } else if (opt.type === "choix" && typeof val === "number" && val > 0) {
+      if (opt.choix[val]) noms.push(opt.choix[val].nom);
+    }
+  }
+  return noms;
+}
+
+// { regles, armes } accordées par les Disciplines Psychiques de base
+// connues de l'Unité (option choisie ou Règle Spéciale de personnage).
+function apportsDisciplinesDe(unite, instance, regles) {
+  const choisis = nomsChoisisDe(unite, instance);
+  const connues = new Set(
+    DISCIPLINES_PSYCHIQUES.map(([nom]) => nom).filter((nom) =>
+      choisis.some((c) => c === nom || c.endsWith(nom)),
+    ),
+  );
+  const armes = [];
+  for (const [regle, disciplines, armesSeules] of REGLES_DISCIPLINES) {
+    if (!regles.includes(regle)) continue;
+    disciplines.forEach((d) => connues.add(d));
+    armes.push(...armesSeules);
+  }
+  const accordees = [];
+  for (const [nom, reglesD, armesD] of DISCIPLINES_PSYCHIQUES) {
+    if (!connues.has(nom)) continue;
+    accordees.push(...reglesD);
+    armes.push(...armesD);
+  }
+  return { regles: accordees, armes };
+}
+
 const REGLES_TOUS_ARCANES = ["Supreme Sorcerer"];
 const REGLES_ARCANE_CORVIDAE = ["Arch-magister of the Corvidae"];
 
@@ -2397,8 +2480,15 @@ function arcanesProsperoDe(unite, instance, regles) {
 // Copie de `equipementComptes` complétée par l'Arme Psychique de chaque
 // Discipline présente dans l'Équipement ou dans `regles` (1 porteur :
 // le Psyker), sauf si cette Arme figure déjà dans l'Équipement.
-function avecArmesDisciplines(equipementComptes, regles) {
+function avecArmesDisciplines(equipementComptes, regles, unite, instance) {
   const comptes = new Map(equipementComptes);
+  // Armes Psychiques des Disciplines du livre de règles (Biomancie…).
+  if (unite) {
+    for (const arme of apportsDisciplinesDe(unite, instance, regles).armes) {
+      if ([...comptes.keys()].some((nom) => nom.includes(arme))) continue;
+      comptes.set(arme, 1);
+    }
+  }
   const entrees = [...equipementComptes.keys(), ...regles];
   for (const [discipline, arme] of Object.entries(
     ARMES_PSYCHIQUES_DISCIPLINES,
@@ -2624,6 +2714,8 @@ function reglesFinales(unite, variante, instance) {
   for (const [, pouvoirs] of arcanesProsperoDe(unite, instance, regles))
     for (const pouvoir of pouvoirs)
       if (!regles.includes(pouvoir)) regles = [...regles, pouvoir];
+  for (const regle of apportsDisciplinesDe(unite, instance, regles).regles)
+    if (!regles.includes(regle)) regles = [...regles, regle];
   if (!orgaPret || !window.Organigramme) return regles;
 
   // Bénéfice d'Arcane de Mechanicum : accordé automatiquement à toute
@@ -2828,6 +2920,8 @@ function construireFiche(unite, instance) {
       avecArmesDisciplines(
         equipementComptes,
         reglesFinales(unite, variante, instance),
+        unite,
+        instance,
       ),
       unite.faction,
     ),

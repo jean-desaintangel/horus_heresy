@@ -2490,6 +2490,39 @@ const ARMES_TIR = [
         regles: "Rending (5+), Force (D)",
         traits: "Psychic",
       },
+      /* --- Disciplines Psychiques du livre de règles (p. 341-346) :
+         Armes Psychiques de Tir (voir DISCIPLINES_PSYCHIQUES,
+         js/unites.js). --- */
+      {
+        // Arme Psychique (Discipline Pyromancie).
+        nom: "Firestorm",
+        stats: ["18", "1", "4", "4", "1"],
+        regles: "Panic (1), Blast (5\"), Force (RS)",
+        traits: "Psychic",
+      },
+      {
+        // Arme Psychique (Discipline Télékinésie).
+        nom: "Immovable Force",
+        stats: ["18", "3", "6", "4", "1"],
+        regles: "Pinning (2), Force (FP)",
+        traits: "Psychic",
+      },
+      {
+        // Arme Psychique (Discipline Télépathie). « Sonner (-) » tel
+        // qu'imprimé dans le livre.
+        nom: "Cursed Whispers",
+        stats: ["18", "2D6", "3", "-", "1"],
+        regles: "Stun (-)",
+        traits: "Psychic",
+      },
+      {
+        // Arme Psychique (Discipline Runomancie, Space Wolves — livre
+        // d'armée p. 173).
+        nom: "Wrath of the Deathwolf",
+        stats: ["Template", "1", "6", "4", "1"],
+        regles: "Template, Stun (1), Force (D)",
+        traits: "Psychic, Assault",
+      },
       {
         // Arme Psychique (Discipline Navis Astrologis, Expeditionary
         // Navigator, Legacies Solar Auxilia) : voir js/unites-data.js.
@@ -4935,6 +4968,22 @@ const ARMES_MELEE = [
         nom: "Gravis force blade",
         stats: ["I", "A", "+2", "2", "2"],
         regles: "Force (D), Reaping Blow (2)",
+        traits: "Psychic",
+      },
+      /* --- Disciplines Psychiques du livre de règles (p. 341-345) :
+         Armes Psychiques de Mêlée. --- */
+      {
+        // Arme Psychique (Discipline Biomancie).
+        nom: "Biomantic Slam",
+        stats: ["-3", "1", "12", "2", "2"],
+        regles: "Armourbane, Force (D)",
+        traits: "Psychic",
+      },
+      {
+        // Arme Psychique (Discipline Pyromancie).
+        nom: "Conflagration",
+        stats: ["-1", "6+D3", "5", "4", "1"],
+        regles: "Deflagrate (5)",
         traits: "Psychic",
       },
       /* --- Arsenal de l'Alpha Legion (XXe Légion) : Armillus Dynat,

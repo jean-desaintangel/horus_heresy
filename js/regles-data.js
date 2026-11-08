@@ -1712,6 +1712,125 @@ const REGLES_DIVERSES = [
     texte:
       "Avantage Principal des Thousand Sons : si une Unité ayant le Rôle Tactique Troupes composée uniquement de Figurines qui ont le Trait Thousand Sons occupe une Case Principale d'Organigramme de Force, ses Figurines peuvent gagner cette Règle Spéciale. Quand le Joueur en Contrôle choisit de faire Foncer une Unité composée de Figurines ayant cette Règle Spéciale, il a le droit de faire un Test de Volonté pour ladite Unité. Si le Test de Volonté est réussi, l'Unité gagne le Sous-type Antigrav et la Règle Spéciale Mouvement à Couvert jusqu'à la fin de la Phase de Mouvement en cours. Si le Test de Volonté est raté, l'Unité choisie ne peut pas se Déplacer à la Phase de Mouvement en cours.",
   },
+  /* --- Disciplines Psychiques du livre de règles (p. 341-346) :
+     options de Discipline de l'Archiviste, de Magnus, de l'Osiron, des
+     Devins de l'Orage, Tireurs de Runes, Démons de Tzeentch/Slaanesh,
+     et Disciplines connues d'Ahriman/Amon. Règles et Pouvoirs ajoutés
+     à la fiche par DISCIPLINES_PSYCHIQUES (js/unites.js), Armes
+     Psychiques dans js/armes-data.js. Le Pouvoir Tranquillité
+     (Thaumaturgie) : page pas encore transcrite. --- */
+  {
+    nom: "Discipline Psychique",
+    texte:
+      "Les Disciplines Psychiques forment un éventail d'aptitudes qui comprend des Armes Psychiques et des Pouvoirs ou Réactions Psychiques. Seules les Figurines ayant le Trait Psyker peuvent les utiliser : on ne peut pas faire d'attaques avec des Armes ayant le Trait Psychique pour des Figurines n'ayant pas le Trait Psyker, et on ne peut pas se servir d'elles pour Manifester un Pouvoir Psychique. Cela dit, les Figurines ayant le Trait Psyker ne gagnent pas automatiquement des Armes Psychiques ou des Pouvoirs Psychiques : dans tous les cas, le Profil de Liste d'Armée d'une Figurine mentionne si elle possède ou peut accéder à des Armes Psychiques ou à des Pouvoirs Psychiques. Disciplines de Base (Biomancie, Divination, Pyromancie, Télékinésie, Télépathie, Thaumaturgie) : elles se trouvent sous forme d'options dans les Listes d'Armée de n'importe quelle Faction. Une Discipline peut inclure des Armes Psychiques, des Réactions Psychiques et/ou des Pouvoirs Psychiques ; une Figurine possédant une Discipline précise gagne l'ensemble des Pouvoirs Psychiques et Armes Psychiques listés pour ladite Discipline ainsi que le Trait associé. De futures publications pourraient introduire davantage de Disciplines, qui ne seront alors accessibles qu'à des Figurines précises selon les Règles des Disciplines supplémentaires.",
+  },
+  {
+    nom: "Divination",
+    texte:
+      "Discipline Psychique. Par la grâce des puissances versatiles du Warp, un devin écarte le voile du temps pour entrevoir les possibles, et guide ses attaques et celles de ses alliés pour qu'elles portent au moment opportun. Une Figurine ayant la Discipline Divination gagne la Règle Spéciale Atout du Duelliste (2), la Posture Anticipation des Frappes, le Pouvoir Psychique Bénédiction de Clairvoyance et le Trait « Devin ».",
+  },
+  {
+    nom: "Anticipation des Frappes",
+    texte:
+      "Posture de la Divination : si cette Posture est choisie, le Joueur en Contrôle doit faire un Test de Volonté pour la Figurine qui adopte cette Posture. Si le Test est réussi, à l'Étape de Frappe du Défi, les Jets de Touche faits pour cette Figurine réussissent sur un résultat de 2+, quelles que soient les Caractéristiques de Capacité de Combat des Figurines impliquées dans le Défi. Si le Test de Volonté est raté, on fait les Jets de Touche normalement. Ce Test de Volonté ne peut pas infliger les Périls du Warp.",
+  },
+  {
+    nom: "Bénédiction de Clairvoyance",
+    texte:
+      "Pouvoir Psychique (Bénédiction) de la Divination, qui sert lors d'une Attaque de Tir à conférer la Règle Spéciale Précision (5+) à une Unité. Déclencheur : le Joueur Actif peut le Manifester à la Phase de Tir, à l'Étape 4 de toute Attaque de Tir faite par le Joueur Actif. Focus : une Figurine avec le Trait Devin sous le contrôle du Joueur Actif, faisant partie de l'Unité qui fait l'Attaque de Tir ou se trouvant à 18 pouces et en Ligne de Vue d'au moins une Figurine de cette Unité. Cible : l'Unité choisie actuellement et en train de faire une Attaque de Tir. Durée : jusqu'à la fin de l'Attaque de Tir que l'on résout. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, toutes les Figurines de l'Unité Cible gagnent la Règle Spéciale Précision (5+) ; 3) s'il échoue, il n'y a pas d'autre effet.",
+  },
+  /* --- Discipline Runomancie des Space Wolves (livre d'armée p. 173),
+     option des Tireurs de Runes. --- */
+  {
+    nom: "Runomancie",
+    texte:
+      "Discipline Psychique des Space Wolves. Au sein de la VIe Légion se trouvaient des guerriers qui servaient de devins ou de prophètes, des individus qui suivaient les fils du destin et canalisaient ce qu'ils pensaient être le pouvoir de Fenris pour le diriger contre leurs ennemis. Une Figurine ayant la Discipline Runomancie gagne la Règle Spéciale Haine (Psykers), l'Arme Psychique Colère du Loup Funeste, le Pouvoir Psychique Nimbés d'Orage et le Trait « Tireur de Runes ». Colère du Loup Funeste (Arme Psychique de Tir) : Portée Souffle, PF 1, FT 6, PA 4, D 1, Souffle, Sonner (1), Force (D), Traits Psychique, Assaut — le Tireur de Runes invoque une tempête du royaume de Morkaï et la canalise sous la forme d'un blizzard qui brise en mille morceaux ses victimes gelées.",
+  },
+  {
+    nom: "Nimbés d'Orage",
+    texte:
+      "Réaction Psychique (Bénédiction) de la Runomancie : suscitant tout à coup une bise chargée de neige, le Tireur de Runes masque ses alliés pour les soustraire au feu de l'ennemi. Déclencheur : le Joueur Réactif peut la déclarer à la Phase de Tir, au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif. Coût : 1 point d'Attribution de Réactions, payé dès la déclaration. Focus : une Figurine qui a le Trait Tireur de Runes sous le contrôle du Joueur Réactif, faisant partie de l'Unité ciblée par l'Attaque de Tir qui déclenche la Réaction. Cible : l'Unité ciblée par l'Attaque de Tir qui déclenche la Réaction ; elle ne doit inclure que des Figurines qui ont le Trait Space Wolves. Durée : jusqu'à la fin de la Sous-phase à laquelle elle a été déclarée. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, toutes les attaques faites au cours de l'Attaque de Tir contre la Cible doivent être résolues au Jugé ; 3) s'il est raté, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Tireur de Runes",
+    texte:
+      "Trait accordé par la Discipline Runomancie (Space Wolves) : une Figurine qui l'a peut être le Focus de la Réaction Psychique Nimbés d'Orage.",
+  },
+  {
+    nom: "Devin",
+    texte:
+      "Trait accordé par la Discipline Divination : une Figurine qui l'a peut être le Focus du Pouvoir Psychique Bénédiction de Clairvoyance.",
+  },
+  {
+    nom: "Biomancie",
+    texte:
+      "Discipline Psychique. Les biomanciens sont passés maîtres en manipulation de la chair pour démultiplier les capacités des êtres vivants : ils savent endurcir les corps au point de résister aux bolts et aux lames, ou faire enfler les muscles de la plus humble recrue au point qu'elle déchiquette l'ennemi sans peine. Une Figurine ayant la Discipline Biomancie gagne la Règle Spéciale Impact (Force), le Pouvoir Psychique Rage Biomantique, l'Arme Psychique Frappe Biomantique et le Trait « Biomancien ». Frappe Biomantique (Arme Psychique de Mêlée) : MI -3, MA 1, MF 12, PA 2, D 2, Fléau des Blindages, Force (Dégâts), Trait Psychique.",
+  },
+  {
+    nom: "Rage Biomantique",
+    texte:
+      "Pouvoir Psychique (Bénédiction) de la Biomancie, qui s'utilise à la Sous-phase de Charge pour donner un bonus en Force et Endurance à une Unité. Déclencheur : le Joueur Actif peut le Manifester à la Sous-phase de Charge, à l'Étape 4 du processus de Charge, avant que la moindre Unité ne fasse une Attaque de Volée. Focus : une Figurine avec le Trait Biomancien sous le contrôle du Joueur Actif, faisant partie de l'Unité qui Charge ou se trouvant à 18 pouces et en Ligne de Vue d'au moins une Figurine de cette Unité. Cible : l'Unité choisie actuellement et en train d'exécuter une Charge. Durée : jusqu'à la fin de la Phase d'Assaut en cours. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, on ne peut faire aucune Attaque de Volée pour l'Unité Cible, mais toutes ses Figurines gagnent un bonus de +2 à leurs Caractéristiques de Force et d'Endurance ; 3) s'il échoue, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Biomancien",
+    texte:
+      "Trait accordé par la Discipline Biomancie : une Figurine qui l'a peut être le Focus du Pouvoir Psychique Rage Biomantique.",
+  },
+  {
+    nom: "Pyromancie",
+    texte:
+      "Discipline Psychique. La pyromancie est l'essence de la mort et de la destruction : sur le champ de bataille, un pyromancien est un vecteur ambulant de chaos dont l'unique vocation est de tuer. Une Figurine ayant la Discipline Pyromancie gagne la Règle Spéciale Explose (4+), l'Arme Psychique Incendie, l'Arme Psychique Conflagration et le Trait « Pyromancien ». Incendie (Arme Psychique de Tir) : Portée 18 pouces, PF 1, FT 4, PA 4, D 1, Panique (1), Explosion (5 pouces), Force (Force), Traits Tir, Psychique. Conflagration (Arme Psychique de Mêlée) : MI -1, MA 6+D3, MF 5, PA 4, D 1, Déflagration (5), Traits Mêlée, Psychique.",
+  },
+  {
+    nom: "Pyromancien",
+    texte:
+      "Trait accordé par la Discipline Pyromancie (Armes Psychiques Incendie et Conflagration).",
+  },
+  {
+    nom: "Télékinésie",
+    texte:
+      "Discipline Psychique. La télékinésie est l'art de la défense par une force invisible qui consolide et protège : le télékinésiste commande à un bouclier de force invisible pour soustraire ses alliés aux bombardements, ou pour ralentir l'ennemi et le clouer sur place. Une Figurine ayant la Discipline Télékinésie gagne la Règle Spéciale Dissimulation (4+), la Réaction Psychique Barrière de Force, l'Arme Psychique Force Inébranlable et le Trait « Télékinésiste ». Force Inébranlable (Arme Psychique de Tir) : Portée 18 pouces, PF 3, FT 6, PA 4, D 1, Fixation (2), Force (PF), Traits Tir, Psychique.",
+  },
+  {
+    nom: "Barrière de Force",
+    texte:
+      "Réaction Psychique (Bénédiction) de la Télékinésie, utilisable à la Phase de Tir ou d'Assaut, qui octroie un Jet de Mitigation de Dégâts de Dissimulation. Déclencheur : le Joueur Réactif peut la déclarer à la Phase d'Assaut, au début de l'Étape 4 du Processus de Charge, ou à la Phase de Tir, au début de l'Étape 3 d'une Attaque de Tir faite par le Joueur Actif. Coût : 1 point d'Attribution de Réactions, payé dès la déclaration. Focus : une Figurine avec le Trait Télékinésiste sous le contrôle du Joueur Réactif, faisant partie de l'Unité ciblée par la Charge ou l'Attaque de Tir. Cible : l'Unité ciblée par l'Attaque de Tir ou la Charge qui déclenche la Réaction. Durée : jusqu'à la fin de la Sous-phase à laquelle on l'a déclarée. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, toutes les Figurines de l'Unité Cible gagnent un Jet de Mitigation de Dégâts de Dissimulation de 3+ contre toute Blessure infligée lors d'une Attaque de Volée ou de Tir ; 3) s'il échoue, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Télékinésiste",
+    texte:
+      "Trait accordé par la Discipline Télékinésie : une Figurine qui l'a peut être le Focus de la Réaction Psychique Barrière de Force.",
+  },
+  {
+    nom: "Télépathie",
+    texte:
+      "Discipline Psychique. Les télépathes sont les maîtres des domaines invisibles de la pensée et de l'émotion : au combat, ils ne sèment pas la mort mais la terreur et la confusion. Une Figurine ayant la Discipline Télépathie gagne la Règle Spéciale Peur (1), le Pouvoir Psychique Cassure Mentale, l'Arme Psychique Murmures Maudits et le Trait « Télépathe ». Murmures Maudits (Arme Psychique de Tir) : Portée 18 pouces, PF 2D6, FT 3, PA -, D 1, Sonner (-), Traits Tir, Psychique.",
+  },
+  {
+    nom: "Cassure Mentale",
+    texte:
+      "Pouvoir Psychique (Malédiction) de la Télépathie, qui s'utilise à la Phase de Mouvement et peut obliger la cible à Battre en Retraite ou à être En Déroute. Déclencheur : le Joueur Actif peut le Manifester à la Phase de Mouvement, quand il choisit pour se Déplacer une Unité sous son contrôle qui inclut au moins une Figurine avec le Trait Télépathe, avant de lui faire faire le moindre Déplacement. Focus : une Figurine avec le Trait Télépathe faisant partie de l'Unité choisie pour se Déplacer. Cible : une Unité sous le contrôle du Joueur Réactif dont au moins une Figurine se trouve à 18 pouces et en Ligne de Vue du Focus ; elle ne peut pas être Verrouillée en Combat ni être autrement inéligible en tant que cible d'une Attaque de Tir, et ne doit inclure aucune Figurine de Type Véhicule. Durée : effets résolus immédiatement. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Résistance ; 2) si le Test de Résistance est échoué, on retire tous les Statuts de toutes les Figurines de l'Unité Cible, puis l'Unité Cible doit aussitôt faire un Mouvement de Retraite ; une fois ce Mouvement résolu, son Joueur en Contrôle fait pour elle un Test de Commandement, qui ne peut être modifié par aucun effet ni Règle Spéciale : s'il est réussi, il n'y a pas d'autre effet, s'il est raté toutes les Figurines de l'Unité Cible gagnent le Statut En Déroute ; 3) si le Test de Résistance est réussi, il n'y a pas d'autre effet sur l'Unité Cible ; 4) que le Test de Résistance réussisse ou échoue, l'Unité qui inclut le Focus ne peut ni se Déplacer ni Foncer à cette Phase de Mouvement.",
+  },
+  {
+    nom: "Télépathe",
+    texte:
+      "Trait accordé par la Discipline Télépathie : une Figurine qui l'a peut être le Focus du Pouvoir Psychique Cassure Mentale.",
+  },
+  {
+    nom: "Thaumaturgie",
+    texte:
+      "Discipline Psychique. La thaumaturgie est la discipline des érudits voués à comprendre et à assagir la fureur du Warp : ces guerriers s'évertuent à restaurer ce que le Warp a défait, peuvent ramener les morts à la vie et bannir les êtres surnaturels dans les tréfonds du Warp. Une Figurine ayant la Discipline Thaumaturgie gagne la Règle Spéciale Haine (Psykers), la Réaction Psychique Résurrection, le Pouvoir Psychique Tranquillité et le Trait « Thaumaturge ».",
+  },
+  {
+    nom: "Résurrection",
+    texte:
+      "Réaction Psychique (Bénédiction) de la Thaumaturgie, qui s'utilise à la Phase de Tir et peut restituer une perte à l'Unité avec tous ses Points de Vie. Déclencheur : le Joueur Réactif peut la déclarer à la Phase de Tir, au début de l'Étape 11 de toute Attaque de Tir faite par le Joueur Actif. Coût : 1 point d'Attribution de Réactions, payé dès la déclaration. Focus : une Figurine ayant le Trait Thaumaturge sous le contrôle du Joueur Réactif, faisant partie de l'Unité ciblée par l'Attaque de Tir. Cible : l'Unité ciblée par l'Attaque de Tir qui déclenche la Réaction. Durée : effets résolus immédiatement. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, avant de Retirer comme Perte la moindre Figurine de l'Unité Cible, son Joueur en Contrôle choisit une seule des Figurines à retirer comme Perte et jette un Dé : sur 4+, cette Figurine n'est pas Retirée comme Perte et revient en jeu, en Cohésion d'Unité avec son Unité et avec sa Caractéristique de Points de Vie à sa Valeur de Base. Sans effet sur les Figurines sans Caractéristique de Points de Vie ; si le Test de Manifestation entraîne les Périls du Warp, on les résout après l'éventuelle restitution ; 3) s'il échoue, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Thaumaturge",
+    texte:
+      "Trait accordé par la Discipline Thaumaturgie : une Figurine qui l'a peut être le Focus de la Réaction Psychique Résurrection et du Pouvoir Psychique Tranquillité.",
+  },
 
   /* --- Décurion de Légion (livre d'armée, amélioration de Figurine de
      Type Véhicule sélectionnées : Predator, Sicaran, Char d'Assaut
