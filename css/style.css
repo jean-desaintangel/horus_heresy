@@ -4454,6 +4454,226 @@ body.nuit-eternelle .orga-case-unite a {
   font-style: italic;
 }
 
+/* Ligne d'aide sous le titre « Organigramme de force ». */
+.orga-aide {
+  margin: 0 0 0.75rem;
+  color: var(--texte-doux);
+  font-size: 0.9rem;
+}
+
+/* Case libre au Rôle connu : bouton « + Choisir une unité » (ouvre la
+   fenêtre de choix, js/unites.js). Garde l'allure discrète de la case
+   libre, mais se signale comme cliquable au survol/focus. */
+.orga-case-choisir {
+  display: block;
+  width: 100%;
+  margin-top: 0.1rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px dashed var(--acier);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--texte-doux);
+  font: inherit;
+  font-style: italic;
+  text-align: left;
+  cursor: pointer;
+}
+
+.orga-case-choisir:hover,
+.orga-case-choisir:focus-visible {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--carte);
+  color: var(--texte);
+}
+
+/* ---------- Fenêtre centrée (js/unites.js, fenetreUnites) ----------
+   <dialog> native partagée : choix d'une unité pour une Case, fiche
+   d'unité, choix du détachement. Le cadre occupe toute la <dialog>
+   (padding 0) : un clic sur la <dialog> elle-même vient donc du fond
+   assombri, et ferme la fenêtre. */
+.fenetre {
+  /* margin: auto rétablit le centrage natif de la <dialog>, annulé par
+     la remise à zéro des marges en tête de ce fichier. */
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--carte);
+  color: var(--texte);
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.35);
+}
+
+.fenetre--large {
+  width: min(60rem, calc(100vw - 2rem));
+}
+
+.fenetre::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.fenetre-cadre {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+}
+
+.fenetre-entete {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.fenetre-titre {
+  flex: 1;
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--texte);
+}
+
+.fenetre-fermer {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--texte);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fenetre-fermer:hover,
+.fenetre-fermer:focus-visible {
+  background: var(--fond-neutre);
+}
+
+.fenetre-message {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: var(--fond-alerte);
+  color: var(--texte);
+  font-size: 0.9rem;
+}
+
+.fenetre-corps {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.fenetre-intro {
+  margin: 0 0 0.75rem;
+  color: var(--texte-doux);
+}
+
+.fenetre-recherche {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--fond);
+  color: var(--texte);
+  font: inherit;
+}
+
+.fenetre-legacies {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.fenetre-liste {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.fenetre-option {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--fond);
+  color: var(--texte);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fenetre-option:hover:not(:disabled),
+.fenetre-option:focus-visible {
+  border-color: var(--accent);
+  background: var(--carte-hover);
+}
+
+.fenetre-option:disabled {
+  color: var(--texte-doux);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.fenetre-vide,
+.fenetre-note {
+  color: var(--texte-doux);
+  font-style: italic;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.fenetre-indisponibles summary {
+  cursor: pointer;
+  color: var(--texte-doux);
+  margin-bottom: 0.5rem;
+}
+
+.fenetre-fiche-case {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.fenetre-fiche-avantage {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--acier);
+  border-radius: var(--radius);
+  background: var(--fond);
+}
+
+/* Carte affichée dans la fenêtre : toujours dépliée, sans les
+   commandes propres à la liste (repli, ordre). */
+.unite-carte--fenetre .unite-bascule,
+.unite-carte--fenetre .unite-monter,
+.unite-carte--fenetre .unite-descendre {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .fenetre,
+  .fenetre--large {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .fenetre-cadre {
+    max-height: 100vh;
+    height: 100%;
+  }
+}
+
 .orga-case-avantage-label {
   display: block;
   font-size: 0.82rem;

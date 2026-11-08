@@ -4025,6 +4025,59 @@ const Organigramme = (() => {
     return badge;
   }
 
+  /* Menu Avantage Principal d'une Case occupée (p. 283) et texte de
+     l'Avantage choisi, ou null si la Case n'en porte pas. Partagé par
+     la case de l'organigramme (construireDetachementDOM) et la fenêtre
+     de fiche d'unité de js/unites.js (via l'API avantagePrincipalDOM).
+     Aussi proposé sur une Case ordinaire occupée si le Serment du
+     Moment Dans la Disgrâce, Tous sont Égaux (Blackshields) est actif
+     sur ce Détachement : toute Case en devient une Case d'Organigramme
+     de Force Suprême (voir avantagesPossibles, qui y restreint déjà le
+     menu au seul Petit Seigneur de Guerre). */
+  function construireBlocAvantage(det, indice) {
+    const caseOrga = det.cases[indice];
+    if (!caseOrga || caseOrga.uniteUid === null) return null;
+    const casePrimeDisgrace =
+      !caseOrga.extra &&
+      !caseOrga.libre &&
+      sermentsActifsDe(det).some(
+        (id) => sermentParId(id) && sermentParId(id).toutesCasesDeviennentPrime,
+      );
+    if (!estCasePrincipale(det, caseOrga) && !casePrimeDisgrace) return null;
+    const bloc = document.createDocumentFragment();
+    const labelAv = el(
+      "label",
+      "orga-case-avantage-label",
+      "Prime Advantage ",
+    );
+    const selectAv = document.createElement("select");
+    selectAv.setAttribute("aria-label", "Prime Advantage of the slot");
+    for (const { avantage, grise, raison } of avantagesPossibles(
+      det,
+      caseOrga,
+    )) {
+      const opt = ajouterOption(selectAv, avantage.id, avantage.nom);
+      opt.disabled = grise;
+      opt.title = grise ? raison : avantage.texte;
+    }
+    selectAv.value = caseOrga.avantage;
+    selectAv.title = (avantageParId(caseOrga.avantage) || {}).texte || "";
+    selectAv.addEventListener("change", () => {
+      const erreur = changerAvantage(det, indice, selectAv.value);
+      if (erreur) {
+        window.alert(erreur);
+        selectAv.value = caseOrga.avantage; // annule le changement
+      }
+    });
+    labelAv.appendChild(selectAv);
+    bloc.appendChild(labelAv);
+    const definition = avantageParId(caseOrga.avantage);
+    if (definition && caseOrga.avantage !== "aucun") {
+      bloc.appendChild(el("p", "orga-case-avantage-texte", definition.texte));
+    }
+    return bloc;
+  }
+
   /* Vide la liste d'armée et remet à zéro les détachements (seul le
      Détachement Principal, obligatoire, est conservé) — après
      confirmation de l'utilisateur si l'Armée ou les détachements
@@ -5682,56 +5735,61 @@ const Organigramme = (() => {
           occ.unite.nom + " (" + coutInstanceParUid(occ.instance.uid) + " pts)",
         );
         lien.href = "#unite-" + occ.instance.uid; // ancre vers la carte
+        // Clic sur l'unité placée : ouvre sa fiche complète (équipement,
+        // options, Avantage Principal) dans une fenêtre centrée, gérée
+        // par js/unites.js (hook ouvrirFicheUnite). L'ancre reste en
+        // repli (JavaScript du hook absent, clic molette/nouvel onglet).
+        // `data-case` permet à js/unites.js de rendre le focus à cette
+        // case à la fermeture de la fenêtre, l'organigramme ayant été
+        // reconstruit entre-temps.
+        lien.dataset.case = det.uid + ":" + indice;
+        if (hooks && hooks.ouvrirFicheUnite) {
+          lien.setAttribute("aria-haspopup", "dialog");
+          lien.setAttribute(
+            "aria-label",
+            "View the wargear and options of " +
+              occ.unite.nom +
+              " (" +
+              coutInstanceParUid(occ.instance.uid) +
+              " pts)",
+          );
+          lien.addEventListener("click", (e) => {
+            if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0)
+              return;
+            e.preventDefault();
+            hooks.ouvrirFicheUnite(occ.instance.uid);
+          });
+        }
         ligneUnite.appendChild(lien);
         contenu.appendChild(ligneUnite);
 
-        // Avantage Principal (cases principales occupées, p. 283) —
-        // aussi affiché sur une Case ordinaire occupée si le Serment du
-        // Moment Dans la Disgrâce, Tous sont Égaux (Blackshields) est
-        // actif sur ce Détachement : toute Case en devient une Case
-        // d'Organigramme de Force Suprême (voir avantagesPossibles, qui
-        // y restreint déjà le menu au seul Petit Seigneur de Guerre).
-        const casePrimeDisgrace =
-          !caseOrga.extra &&
-          !caseOrga.libre &&
-          sermentsActifsDe(det).some(
-            (id) =>
-              sermentParId(id) && sermentParId(id).toutesCasesDeviennentPrime,
-          );
-        if (estCasePrincipale(det, caseOrga) || casePrimeDisgrace) {
-          const labelAv = el(
-            "label",
-            "orga-case-avantage-label",
-            "Prime Advantage ",
-          );
-          const selectAv = document.createElement("select");
-          selectAv.setAttribute("aria-label", "Prime Advantage of the slot");
-          for (const { avantage, grise, raison } of avantagesPossibles(
-            det,
-            caseOrga,
-          )) {
-            const opt = ajouterOption(selectAv, avantage.id, avantage.nom);
-            opt.disabled = grise;
-            opt.title = grise ? raison : avantage.texte;
-          }
-          selectAv.value = caseOrga.avantage;
-          selectAv.title = (avantageParId(caseOrga.avantage) || {}).texte || "";
-          selectAv.addEventListener("change", () => {
-            const erreur = changerAvantage(det, indice, selectAv.value);
-            if (erreur) {
-              window.alert(erreur);
-              selectAv.value = caseOrga.avantage; // annule le changement
-            }
-          });
-          labelAv.appendChild(selectAv);
-          contenu.appendChild(labelAv);
-          const definition = avantageParId(caseOrga.avantage);
-          if (definition && caseOrga.avantage !== "aucun") {
-            contenu.appendChild(
-              el("p", "orga-case-avantage-texte", definition.texte),
-            );
-          }
-        }
+        const blocAvantage = construireBlocAvantage(det, indice);
+        if (blocAvantage) contenu.appendChild(blocAvantage);
+      } else if (
+        hooks &&
+        hooks.ouvrirChoixUnite &&
+        (caseOrga.role || caseOrga.origineRegle)
+      ) {
+        // Case libre au Rôle connu : un clic ouvre la liste des unités
+        // pouvant l'occuper (js/unites.js, hook ouvrirChoixUnite) — une
+        // Case ajoutée dont le Rôle n'est pas encore choisi reste
+        // inerte tant que ce Rôle n'est pas fixé (menu ci-dessus).
+        const choisir = el(
+          "button",
+          "orga-case-choisir",
+          "+ Choose a unit",
+        );
+        choisir.type = "button";
+        choisir.dataset.case = det.uid + ":" + indice;
+        choisir.setAttribute("aria-haspopup", "dialog");
+        choisir.setAttribute(
+          "aria-label",
+          "Choose a unit: " + libelleCase(det, indice),
+        );
+        choisir.addEventListener("click", () =>
+          hooks.ouvrirChoixUnite(det.uid, indice),
+        );
+        contenu.appendChild(choisir);
       } else {
         contenu.appendChild(el("p", "orga-case-libre", "— Empty slot —"));
       }
@@ -6529,6 +6587,30 @@ const Organigramme = (() => {
       return skin ? skin.accent : null;
     },
     assigner,
+    // Choix d'une unité depuis une Case de l'organigramme (fenêtre
+    // « Choisir une unité » de js/unites.js) : la Case existe-t-elle,
+    // est-elle libre, son Rôle est-il fixé, et accepte-t-elle cette
+    // unité (mêmes règles que casesLibresPour, vues depuis la Case) ?
+    caseAccepteUnite(detUid, indice, unite) {
+      const det = trouverDetachement(detUid);
+      const caseOrga = det && det.cases[indice];
+      if (!caseOrga || caseOrga.uniteUid !== null) return false;
+      if ((caseOrga.extra || caseOrga.libre) && !caseOrga.role) return false;
+      return caseAccepte(det, caseOrga, unite);
+    },
+    // Libellé d'une Case (« Détachement Principal de Croisade — Case
+    // Troupes ★ n°3 »), null si elle n'existe plus.
+    libelleCaseDe(detUid, indice) {
+      const det = trouverDetachement(detUid);
+      return det && det.cases[indice] ? libelleCase(det, indice) : null;
+    },
+    // Menu Avantage Principal de la Case occupée par cette instance
+    // (fragment DOM), null si elle n'en porte pas — voir
+    // construireBlocAvantage.
+    avantagePrincipalDOM(uniteUid) {
+      const a = assignationDe(uniteUid);
+      return a ? construireBlocAvantage(trouverDetachement(a.detUid), a.indice) : null;
+    },
     // Retrait d'une unité de la liste : on libère sa case puis on
     // laisse js/unites.js supprimer la carte, avant d'actualiser. Si la
     // Case libérée était de Rôle Quartier Général ou État-major, le

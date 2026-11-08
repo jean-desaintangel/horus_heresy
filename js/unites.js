@@ -3619,7 +3619,18 @@ function dupliquerUnite(instanceSource, carteSource) {
   const unite = trouverUnite(instanceSource.uniteId);
   if (!unite) return;
   const messageAjout = document.getElementById("ajout-message");
+  // Carte affichée dans la fenêtre de fiche (ouvrirFicheUnite) : le
+  // message d'aide sous le sélecteur d'unité serait masqué par la
+  // fenêtre, on l'affiche donc dans la fenêtre elle-même, et la copie
+  // prend place dans la liste, juste après l'emplacement de l'original.
+  const emplacement = document.getElementById(
+    "emplacement-unite-" + instanceSource.uid,
+  );
   const afficherMessage = (texte) => {
+    if (emplacement) {
+      messageFenetre(texte);
+      return;
+    }
     if (!messageAjout) return;
     messageAjout.textContent = texte;
     messageAjout.hidden = false;
@@ -3653,11 +3664,364 @@ function dupliquerUnite(instanceSource, carteSource) {
     valeurs,
   };
   armee.push(instance);
-  carteSource.insertAdjacentElement("afterend", construireCarte(instance));
+  (emplacement || carteSource).insertAdjacentElement(
+    "afterend",
+    construireCarte(instance),
+  );
+  if (emplacement) messageFenetre("Copie de " + unite.nom + " ajoutée à la liste.");
   // Placement automatique dans la première case libre compatible ;
   // modifiable ensuite via le menu « Case occupée » de la carte, comme
   // pour un ajout normal.
   Organigramme.assigner(instance.uid, libres[0].detUid, libres[0].indice);
+}
+
+// Nouvel exemplaire « neuf » d'une unité (variante, effectif et options
+// par défaut), ajouté à la liste avec sa carte — sans case : l'appelant
+// le place ensuite (Organigramme.assigner). Partagé par le bouton
+// « Ajouter à la liste » et le choix d'une unité depuis une Case de
+// l'organigramme (ouvrirChoixUnitePourCase).
+function creerInstance(unite) {
+  const instance = {
+    uid: ++compteurUid,
+    uniteId: unite.id,
+    variante: 0,
+    effectif: unite.effectif ? unite.effectif.base : null,
+    valeurs: valeursParDefaut(unite),
+  };
+  armee.push(instance);
+  document.getElementById("liste-unites").appendChild(construireCarte(instance));
+  return instance;
+}
+
+/* ----------------------------------------------------------
+   FENÊTRE CENTRÉE (choix d'une unité pour une Case, fiche d'unité,
+   choix du détachement)
+   Une seule <dialog> native, partagée : elle apporte le piège du
+   focus, la touche Échap et le fond assombri. Le contenu est fourni
+   par l'appelant ; `surFermeture` est appelée AVANT que le contenu ne
+   soit vidé (la fiche d'unité y remet la carte à sa place dans la
+   liste). Le nettoyage est fait par fermerFenetre(), de façon
+   SYNCHRONE : l'évènement « close » natif n'arrive qu'après coup et
+   pourrait sinon vider une fenêtre rouverte entre-temps.
+   ---------------------------------------------------------- */
+let fenetreCourante = null; // { surFermeture, rafraichir, focusApres, focusAvant }
+
+function fenetreUnites() {
+  let dialog = document.getElementById("fenetre-unites");
+  if (dialog) return dialog;
+  dialog = document.createElement("dialog");
+  dialog.id = "fenetre-unites";
+  dialog.className = "fenetre";
+  dialog.setAttribute("aria-labelledby", "fenetre-unites-titre");
+  const cadre = el("div", "fenetre-cadre");
+  const entete = el("header", "fenetre-entete");
+  const titre = el("h2", "fenetre-titre");
+  titre.id = "fenetre-unites-titre";
+  const fermer = el("button", "fenetre-fermer", "×");
+  fermer.type = "button";
+  fermer.setAttribute("aria-label", "Fermer la fenêtre");
+  fermer.addEventListener("click", () => fermerFenetre());
+  entete.append(titre, fermer);
+  const message = el("p", "fenetre-message");
+  message.setAttribute("role", "status");
+  message.hidden = true;
+  const corps = el("div", "fenetre-corps");
+  cadre.append(entete, message, corps);
+  dialog.appendChild(cadre);
+  // Clic sur le fond assombri : le cadre occupe toute la <dialog>
+  // (sans marge interne), donc un clic dont la cible est la <dialog>
+  // elle-même ne peut venir que du fond.
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) fermerFenetre();
+  });
+  dialog.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    fermerFenetre();
+  });
+  // Filet de sécurité : fermeture native non interceptée ci-dessus.
+  dialog.addEventListener("close", () => {
+    if (fenetreCourante && !dialog.open) fermerFenetre();
+  });
+  document.body.appendChild(dialog);
+  return dialog;
+}
+
+function ouvrirFenetre({ titre, contenu, surFermeture, rafraichir, focusApres, large }) {
+  const dialog = fenetreUnites();
+  if (fenetreCourante) fermerFenetre();
+  fenetreCourante = {
+    surFermeture,
+    rafraichir,
+    focusApres,
+    focusAvant: document.activeElement,
+  };
+  dialog.classList.toggle("fenetre--large", Boolean(large));
+  definirTitreFenetre(titre);
+  messageFenetre("");
+  dialog.querySelector(".fenetre-corps").replaceChildren(contenu);
+  dialog.showModal();
+}
+
+function definirTitreFenetre(titre) {
+  const h2 = document.getElementById("fenetre-unites-titre");
+  if (h2) h2.textContent = titre;
+}
+
+// Message bref affiché sous le titre de la fenêtre (vide = masqué).
+function messageFenetre(texte) {
+  const dialog = document.getElementById("fenetre-unites");
+  const message = dialog && dialog.querySelector(".fenetre-message");
+  if (!message) return;
+  message.textContent = texte;
+  message.hidden = !texte;
+}
+
+function fermerFenetre() {
+  const dialog = document.getElementById("fenetre-unites");
+  const f = fenetreCourante;
+  fenetreCourante = null;
+  if (f && f.surFermeture) f.surFermeture();
+  if (dialog) {
+    dialog.querySelector(".fenetre-corps").replaceChildren();
+    if (dialog.open) dialog.close();
+  }
+  if (!f) return;
+  // Rend le focus à l'élément d'origine — ou, l'organigramme ayant pu
+  // être reconstruit entre-temps, à celui que désigne `focusApres`.
+  const cible =
+    (f.focusApres && f.focusApres()) ||
+    (f.focusAvant && f.focusAvant.isConnected ? f.focusAvant : null);
+  if (cible) cible.focus();
+}
+
+const elementCase = (detUid, indice) =>
+  document.querySelector('[data-case="' + detUid + ":" + indice + '"]');
+
+/* Clic sur une Case libre de l'organigramme : liste des unités pouvant
+   l'occuper (Organigramme.caseAccepteUnite : Rôle Tactique, Faction,
+   Légion, Trait… — mêmes règles que le sélecteur « Case » des cartes).
+   Les unités accessibles (uniteAccessible) sont proposées ; les autres,
+   compatibles avec la Case mais exclues par les règles de l'Armée
+   (quota, unité exclusive, personnage nommé déjà présent…), sont
+   rangées à part, grisées. Les unités Legacies suivent la case à
+   cocher « Afficher les unités Legacies » du sélecteur principal, et
+   peuvent être affichées depuis la fenêtre. */
+function ouvrirChoixUnitePourCase(detUid, indice) {
+  const libelleCase = Organigramme.libelleCaseDe(detUid, indice);
+  if (!libelleCase) return;
+  const focusCase = () => elementCase(detUid, indice);
+  const contenu = el("div", "fenetre-choix");
+
+  // Verrou du sélecteur principal (Légion, Maisonnée, Doctrine ou
+  // Techno-arcane à choisir d'abord, voir actualiserVerrouLegion) : son
+  // message, déjà rédigé, est repris tel quel.
+  const boutonAjouter = document.getElementById("ajouter-unite");
+  if (boutonAjouter && boutonAjouter.disabled) {
+    const messageAjout = document.getElementById("ajout-message");
+    contenu.appendChild(
+      el(
+        "p",
+        "fenetre-intro",
+        messageAjout && messageAjout.textContent
+          ? messageAjout.textContent
+          : "Complétez d'abord les paramètres de la partie pour pouvoir ajouter des unités.",
+      ),
+    );
+    ouvrirFenetre({ titre: libelleCase, contenu, focusApres: focusCase });
+    return;
+  }
+
+  const candidats = UNITES.filter((u) =>
+    Organigramme.caseAccepteUnite(detUid, indice, u),
+  ).sort((a, b) => a.nom.localeCompare(b.nom, "fr"));
+  const caseLegaciesPrincipale = document.getElementById("afficher-legacies");
+  const nbLegacies = candidats.filter((u) => u.legacy).length;
+
+  const recherche = document.createElement("input");
+  recherche.type = "search";
+  recherche.className = "fenetre-recherche";
+  recherche.placeholder = "Rechercher une unité…";
+  recherche.setAttribute("aria-label", "Rechercher une unité pour cette case");
+  recherche.autocomplete = "off";
+
+  const labelLegacies = el("label", "fenetre-legacies");
+  const caseLegacies = document.createElement("input");
+  caseLegacies.type = "checkbox";
+  caseLegacies.checked = Boolean(
+    caseLegaciesPrincipale && caseLegaciesPrincipale.checked,
+  );
+  labelLegacies.append(
+    caseLegacies,
+    " Afficher les unités Legacies (" + nbLegacies + ")",
+  );
+
+  const zoneListe = el("div", "fenetre-resultats");
+
+  const choisir = (unite) => {
+    const instance = creerInstance(unite);
+    if (Organigramme.assigner(instance.uid, detUid, indice)) {
+      fermerFenetre();
+    } else {
+      // Case devenue indisponible entre-temps : on n'ajoute pas l'unité.
+      retirerInstance(instance.uid);
+      messageFenetre(
+        "Impossible de placer " + unite.nom + " dans cette case.",
+      );
+    }
+  };
+
+  const libelleUnite = (unite) =>
+    unite.nom +
+    (unite.legacy ? " (" + (unite.legacyLibelle || "Legacies") + ")" : "") +
+    " — " +
+    unite.cout +
+    " pts";
+
+  const afficher = () => {
+    const q = normaliserTexte(recherche.value.trim());
+    const visibles = candidats.filter(
+      (u) =>
+        (!u.legacy || caseLegacies.checked) &&
+        (!q || normaliserTexte(u.nom).includes(q)),
+    );
+    const disponibles = visibles.filter((u) => uniteAccessible(u));
+    const indisponibles = visibles.filter((u) => !uniteAccessible(u));
+    zoneListe.replaceChildren();
+    if (disponibles.length === 0) {
+      zoneListe.appendChild(
+        el(
+          "p",
+          "fenetre-vide",
+          q
+            ? "Aucune unité disponible ne correspond à cette recherche."
+            : "Aucune unité disponible pour cette case.",
+        ),
+      );
+    } else {
+      const liste = el("ul", "fenetre-liste");
+      for (const unite of disponibles) {
+        const li = el("li");
+        const bouton = el("button", "fenetre-option", libelleUnite(unite));
+        bouton.type = "button";
+        bouton.addEventListener("click", () => choisir(unite));
+        li.appendChild(bouton);
+        liste.appendChild(li);
+      }
+      zoneListe.appendChild(liste);
+    }
+    if (indisponibles.length > 0) {
+      const details = el("details", "fenetre-indisponibles");
+      details.appendChild(
+        el(
+          "summary",
+          null,
+          "Unités non disponibles dans cette Armée (" +
+            indisponibles.length +
+            ")",
+        ),
+      );
+      details.appendChild(
+        el(
+          "p",
+          "fenetre-note",
+          "Compatibles avec cette case, mais exclues par les règles de l'Armée : quota atteint, unité exclusive, personnage nommé déjà présent, Allégeance ou choix de l'Armée incompatible.",
+        ),
+      );
+      const liste = el("ul", "fenetre-liste");
+      for (const unite of indisponibles) {
+        const li = el("li");
+        const bouton = el("button", "fenetre-option", libelleUnite(unite));
+        bouton.type = "button";
+        bouton.disabled = true;
+        li.appendChild(bouton);
+        liste.appendChild(li);
+      }
+      details.appendChild(liste);
+      zoneListe.appendChild(details);
+    }
+  };
+  recherche.addEventListener("input", afficher);
+  caseLegacies.addEventListener("change", afficher);
+
+  // Champ de recherche seulement si la liste est assez longue pour en
+  // avoir besoin ; case Legacies seulement s'il y en a.
+  contenu.appendChild(el("p", "fenetre-intro", libelleCase));
+  if (candidats.length > 8) contenu.appendChild(recherche);
+  if (nbLegacies > 0) contenu.appendChild(labelLegacies);
+  contenu.appendChild(zoneListe);
+  afficher();
+  ouvrirFenetre({
+    titre: "Choisir une unité",
+    contenu,
+    focusApres: focusCase,
+  });
+}
+
+/* Clic sur une unité placée dans l'organigramme : sa fiche complète
+   (Case occupée, options d'équipement, fiche récap) et l'Avantage
+   Principal de sa Case, dans la fenêtre centrée. La carte de la liste
+   y est DÉPLACÉE (pas copiée) le temps de l'affichage, puis remise à
+   sa place : un seul état, une seule source de vérité. */
+function ouvrirFicheUnite(uid) {
+  const instance = armee.find((i) => i.uid === uid);
+  const carte = document.getElementById("unite-" + uid);
+  if (!instance || !carte) return;
+  const unite = trouverUnite(instance.uniteId);
+
+  const emplacement = el("div", "unite-emplacement");
+  emplacement.id = "emplacement-unite-" + uid;
+  emplacement.hidden = true;
+  carte.before(emplacement);
+  const etaitRepliee = carte.classList.contains("unite-carte--repliee");
+  carte.classList.remove("unite-carte--repliee");
+  carte.classList.add("unite-carte--fenetre");
+
+  const contenu = el("div", "fenetre-fiche");
+  const zoneCase = el("p", "fenetre-fiche-case");
+  const zoneAvantage = el("div", "fenetre-fiche-avantage");
+  contenu.append(zoneCase, zoneAvantage, carte);
+
+  // Dernière Case connue de l'unité : le focus y revient à la
+  // fermeture, même si l'unité vient d'être retirée de la liste.
+  let derniereCase = Organigramme.assignationDe(uid);
+  const rafraichir = () => {
+    definirTitreFenetre(unite.nom + " — " + coutInstance(unite, instance) + " pts");
+    const a = Organigramme.assignationDe(uid);
+    if (a) derniereCase = a;
+    zoneCase.textContent = a ? a.libelle : "⚠ Non placée — choisir une case";
+    zoneAvantage.replaceChildren();
+    const bloc = Organigramme.avantagePrincipalDOM(uid);
+    zoneAvantage.hidden = !bloc;
+    if (bloc) zoneAvantage.appendChild(bloc);
+  };
+
+  // Bouton « Retirer » de la carte : la carte a quitté le document, il
+  // n'y a plus rien à afficher (évènement remonté jusqu'ici même après
+  // le retrait, son trajet étant fixé au départ).
+  contenu.addEventListener("click", () => {
+    if (!carte.isConnected && fenetreCourante) fermerFenetre();
+  });
+
+  ouvrirFenetre({
+    titre: unite.nom,
+    contenu,
+    large: true,
+    rafraichir,
+    surFermeture: () => {
+      carte.classList.remove("unite-carte--fenetre");
+      if (etaitRepliee) carte.classList.add("unite-carte--repliee");
+      if (carte.parentNode === contenu && emplacement.isConnected) {
+        emplacement.replaceWith(carte);
+      } else {
+        emplacement.remove();
+      }
+    },
+    focusApres: () => {
+      const a = Organigramme.assignationDe(uid) || derniereCase;
+      return a ? elementCase(a.detUid, a.indice) : null;
+    },
+  });
+  rafraichir();
 }
 
 /* ----------------------------------------------------------
@@ -3930,6 +4294,10 @@ function actualiserSelectsCases() {
   // surChangement — le rappeler ici boucherait indéfiniment).
   majTexteTotal();
   sauvegarder();
+  // Fenêtre ouverte (fiche d'unité) : titre, Case et Avantage Principal
+  // suivent l'organigramme, qui vient d'être reconstruit.
+  if (fenetreCourante && fenetreCourante.rafraichir)
+    fenetreCourante.rafraichir();
 }
 
 // Retrait d'une instance à la demande de l'organigramme (suppression
@@ -6239,102 +6607,66 @@ function initialiser() {
   );
   initialiserMenuDeroulant("bouton-export-import", "menu-export-import-liste");
 
-  // Affiche un modal pour choisir le détachement si plusieurs cases libres
+  // Fenêtre de choix du détachement quand plusieurs détachements
+  // peuvent accueillir l'unité qu'on vient d'ajouter (bouton « Ajouter
+  // à la liste ») — une case libre par détachement (la première). Si
+  // le joueur ferme la fenêtre sans choisir (Annuler, Échap, clic hors
+  // de la fenêtre), l'unité n'est pas ajoutée.
   function afficherModalChoixDetachementUnite(instance, casesLibres) {
-    const modal = document.createElement("div");
-    modal.className = "modal-choix-detachement";
-    modal.style.cssText =
-      "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); " +
-      "background: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; " +
-      "z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); " +
-      "max-width: 450px; width: 90%;";
-
-    const titre = document.createElement("h3");
-    titre.textContent = "Quel détachement ?";
-    titre.style.marginTop = "0";
-    modal.appendChild(titre);
-
-    const listeDetachements = document.createElement("div");
-    listeDetachements.style.margin = "15px 0";
-
+    const unite = trouverUnite(instance.uniteId);
+    const legions = Organigramme.legions() || [];
     const detachements = Organigramme.detachements();
-    const legions = Organigramme.legions();
+    let place = false;
 
-    // Grouper les cases libres par détachement pour éviter les doublons
-    const detachementsPar = new Map();
+    const contenu = el("div", "fenetre-choix");
+    contenu.appendChild(
+      el(
+        "p",
+        "fenetre-intro",
+        "Plusieurs détachements peuvent accueillir " +
+          unite.nom +
+          " : choisissez-en un.",
+      ),
+    );
+    const liste = el("ul", "fenetre-liste");
+    const dejaVus = new Set();
     for (const caseLibre of casesLibres) {
-      if (!detachementsPar.has(caseLibre.detUid)) {
-        detachementsPar.set(caseLibre.detUid, caseLibre);
-      }
-    }
-
-    for (const [detUid, caseLibre] of detachementsPar) {
-      const det = detachements.find((d) => d.uid === detUid);
+      if (dejaVus.has(caseLibre.detUid)) continue;
+      dejaVus.add(caseLibre.detUid);
+      const det = detachements.find((d) => d.uid === caseLibre.detUid);
       if (!det) continue;
-
-      // Construire le nom du Détachement
-      let nomDetachement = "";
-      if (det.legionAlliee) {
-        // Détachement Allié avec Légion
-        const found = legions ? legions.find(([code]) => code === det.legionAlliee) : null;
-        nomDetachement = found ? `Allié : ${found[1]}` : `Allié : ${det.legionAlliee}`;
-      } else if (det.factionAlliee) {
-        // Détachement Allié avec Faction
-        nomDetachement = `Allié : ${det.factionAlliee}`;
-      } else {
-        // Détachement Principal
-        nomDetachement = "Détachement Principal de Croisade";
-      }
-
-      const bouton = document.createElement("button");
-      bouton.className = "bouton-secondaire";
-      bouton.style.display = "block";
-      bouton.style.width = "100%";
-      bouton.style.padding = "10px";
-      bouton.style.marginBottom = "10px";
-      bouton.style.textAlign = "left";
-      bouton.textContent = nomDetachement;
+      const legionAlliee = det.legionAlliee
+        ? (legions.find(([code]) => code === det.legionAlliee) || [])[1] ||
+          det.legionAlliee
+        : "";
+      const li = el("li");
+      const bouton = el(
+        "button",
+        "fenetre-option",
+        caseLibre.libelle + (legionAlliee ? " (" + legionAlliee + ")" : ""),
+      );
+      bouton.type = "button";
       bouton.addEventListener("click", () => {
-        Organigramme.assigner(
-          instance.uid,
-          caseLibre.detUid,
-          caseLibre.indice,
-        );
-        fond.remove();
+        place = true;
+        Organigramme.assigner(instance.uid, caseLibre.detUid, caseLibre.indice);
+        fermerFenetre();
       });
-      listeDetachements.appendChild(bouton);
+      li.appendChild(bouton);
+      liste.appendChild(li);
     }
-    modal.appendChild(listeDetachements);
+    contenu.appendChild(liste);
+    const annuler = el("button", "bouton-secondaire", "Annuler");
+    annuler.type = "button";
+    annuler.addEventListener("click", () => fermerFenetre());
+    contenu.appendChild(annuler);
 
-    const annuler = document.createElement("button");
-    annuler.className = "bouton-secondaire";
-    annuler.textContent = "Annuler";
-    annuler.style.display = "block";
-    annuler.style.width = "100%";
-    annuler.addEventListener("click", () => {
-      // Retirer l'unité si l'utilisateur annule
-      armee.splice(armee.indexOf(instance), 1);
-      const carte = document.querySelector(`[data-uid="${instance.uid}"]`);
-      if (carte) carte.remove();
-      fond.remove();
+    ouvrirFenetre({
+      titre: "Quel détachement ?",
+      contenu,
+      surFermeture: () => {
+        if (!place) retirerInstance(instance.uid);
+      },
     });
-    modal.appendChild(annuler);
-
-    const fond = document.createElement("div");
-    fond.style.cssText =
-      "position: fixed; top: 0; left: 0; right: 0; bottom: 0; " +
-      "background: rgba(0,0,0,0.3); z-index: 9999;";
-    fond.addEventListener("click", (e) => {
-      if (e.target === fond) {
-        // Retirer l'unité si l'utilisateur clique en dehors
-        armee.splice(armee.indexOf(instance), 1);
-        const carte = document.querySelector(`[data-uid="${instance.uid}"]`);
-        if (carte) carte.remove();
-        fond.remove();
-      }
-    });
-    fond.appendChild(modal);
-    document.body.appendChild(fond);
   }
 
   boutonAjouter.addEventListener("click", () => {
@@ -6374,20 +6706,10 @@ function initialiser() {
       return;
     }
     messageAjout.hidden = true;
-    const instance = {
-      uid: ++compteurUid,
-      uniteId: unite.id,
-      variante: 0,
-      effectif: unite.effectif ? unite.effectif.base : null,
-      valeurs: valeursParDefaut(unite),
-    };
-    armee.push(instance);
-    listeCartes.appendChild(construireCarte(instance));
+    const instance = creerInstance(unite);
 
-    // Si plusieurs cases libres : afficher un modal pour choisir le détachement
-    console.log("Nombre de cases libres:", libres.length, "Cases:", libres);
-    if (libres.length > 1) {
-      console.log("Affichage du modal...");
+    // Si plusieurs détachements possibles : fenêtre de choix du détachement
+    if (new Set(libres.map((c) => c.detUid)).size > 1) {
       afficherModalChoixDetachementUnite(instance, libres);
       return;
     }
@@ -6490,6 +6812,11 @@ function initialiser() {
     // TOUT Détachement, voir traitFactionSkitariiRequisPour/caseAccepte
     // (js/organigramme.js) et CLAUDE.md.
     traitFactionSkitariiDe,
+    // Clic sur une Case de l'organigramme : libre → liste des unités
+    // pouvant l'occuper ; occupée → fiche complète de l'unité (voir
+    // ouvrirChoixUnitePourCase / ouvrirFicheUnite).
+    ouvrirChoixUnite: ouvrirChoixUnitePourCase,
+    ouvrirFicheUnite,
     surChangement: actualiserSelectsCases,
   });
   initialiserDragAndDrop();
