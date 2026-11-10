@@ -2370,7 +2370,7 @@ const RITE_DE_GUERRE_LEGION = {
           },
           {
             texte:
-              "Process: 1) Instead of moving on to the Make Final Pile-in Moves Step of this Combat, the Players must return to Step 1 of this Combat and resolve it a second time, discarding the Combat Resolution Points gained the first time (but not Combat Resolution Points scored in a Challenge during this Combat). 2) Models in the Reacting Unit gain the Rending (6+) Special Rule for their Weapons with the Sword of the Order Trait.",
+              "Process: 1) Instead of moving on to the Make Final Pile-in Moves Step of this Combat, the Players must return to Step 1 of this Combat and resolve it a second time, discarding the Combat Resolution Points gained the first time (but not Combat Resolution Points scored in a Challenge during this Combat). 2) Models in the Reacting Unit gain the Shred (6+) Special Rule for their Weapons with the Sword of the Order Trait.",
           },
         ],
       },

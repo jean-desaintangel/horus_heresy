@@ -91,7 +91,7 @@ const REGLES_ARMES = [
     texte: "When charging, the model gains +1 to its X Characteristic.",
   },
   {
-    nom: "Rending (X)",
+    nom: "Shred (X)",
     texte:
       "If the Wound Test result is equal to or greater than X: +1 Damage (except on an Armour Penetration Test).",
   },
@@ -112,7 +112,7 @@ const REGLES_ARMES = [
   {
     nom: "Wounding (X)",
     texte:
-      "A high Hit Test result (X or more, before modifiers) becomes a Rending Hit: it wounds automatically, with no Wound Test, keeping the weapon's AP and Damage.",
+      "A high Hit Test result (X or more, before modifiers) becomes a Shred Hit: it wounds automatically, with no Wound Test, keeping the weapon's AP and Damage.",
   },
   {
     nom: "Skyfire",
@@ -2926,7 +2926,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Fatal Shot",
     texte:
-      "Models with this Special Rule ignore Shrouded (X) Damage Mitigation Rolls against Wounds inflicted as part of a Shooting Attack. In addition, when a Shooting Attack is made for a Model with this Special Rule, at the start of Step 3 of the Shooting Attack procedure, the Controlling Player may apply one of the following Special Rules to all Weapons the Model is equipped with, for the duration of that Shooting Attack: Murderous (5+), Rending (5+), or Shock (Pinned, Suppressed).",
+      "Models with this Special Rule ignore Shrouded (X) Damage Mitigation Rolls against Wounds inflicted as part of a Shooting Attack. In addition, when a Shooting Attack is made for a Model with this Special Rule, at the start of Step 3 of the Shooting Attack procedure, the Controlling Player may apply one of the following Special Rules to all Weapons the Model is equipped with, for the duration of that Shooting Attack: Murderous (5+), Shred (5+), or Shock (Pinned, Suppressed).",
   },
   {
     // Journal Tactica : Zone Mortalis (Section Technicien de Combat

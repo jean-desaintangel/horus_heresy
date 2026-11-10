@@ -492,13 +492,13 @@ const ARMES_TIR = [
       {
         nom: "Kytan gatling cannon",
         stats: ["36", "12", "6", "4", "1"],
-        regles: "Pinning (1), Rending (6+)",
+        regles: "Pinning (1), Shred (6+)",
         traits: "Auto",
       },
       {
         nom: "Scorpion cannon",
         stats: ["30", "15", "5", "4", "1"],
-        regles: "Rending (6+), Pinning (0)",
+        regles: "Shred (6+), Pinning (0)",
         traits: "Auto",
       },
       {
@@ -534,13 +534,13 @@ const ARMES_TIR = [
       {
         nom: "Twin Maxima bolter",
         stats: ["18", "5", "4", "5", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Bolt",
       },
       {
         nom: "Mauler bolt cannon",
         stats: ["24", "4", "6", "4", "1"],
-        regles: "Pinning (0), Rending (5+)",
+        regles: "Pinning (0), Shred (5+)",
         traits: "Bolt",
       },
       {
@@ -566,7 +566,7 @@ const ARMES_TIR = [
         // Garro, Tylos Rubio) : « Paragon bolter ».
         nom: "Paragon bolter",
         stats: ["24", "2", "5", "4", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Bolt",
       },
       {
@@ -643,7 +643,7 @@ const ARMES_TIR = [
         // Arme de la Keshig d'Or (White Scars).
         nom: "Scatterbolt",
         stats: ["Template", "1", "5", "4", "1"],
-        regles: "Template, Rending (6+), Pinning (1)",
+        regles: "Template, Shred (6+), Pinning (1)",
         traits: "Bolt, Assault",
       },
       {
@@ -736,7 +736,7 @@ const ARMES_TIR = [
       {
         nom: "Twin Mauler bolt cannon",
         stats: ["24", "6", "6", "4", "1"],
-        regles: "Pinning (2), Rending (4+)",
+        regles: "Pinning (2), Shred (4+)",
         traits: "Bolt",
       },
       {
@@ -1163,14 +1163,14 @@ const ARMES_TIR = [
         // Arme du Dreadnought Mhara Gal (Word Bearers).
         nom: "Warpfire cannon",
         stats: ["36", "1", "6", "4", "2"],
-        regles: "Heavy (RS), Blast (3\"), Breaching (4+), Rending (6+)",
+        regles: "Heavy (RS), Blast (3\"), Breaching (4+), Shred (6+)",
         traits: "Plasma",
       },
       {
         // Arme du Dreadnought Mhara Gal (Word Bearers).
         nom: "Warp Brazier",
         stats: ["Template", "1", "5", "4", "1"],
-        regles: "Template, Panic (2), Breaching (4+), Rending (6+)",
+        regles: "Template, Panic (2), Breaching (4+), Shred (6+)",
         traits: "Flame",
       },
       {
@@ -1178,14 +1178,14 @@ const ARMES_TIR = [
         nom: "Acheron Infernus cannon",
         stats: ["Template", "1", "7", "4", "1"],
         regles:
-          "Template (Furnace), Heavy (AP), Rending (5+), Panic (2)",
+          "Template (Furnace), Heavy (AP), Shred (5+), Panic (2)",
         traits: "Flame",
       },
       /* --- Arsenal des Solar Auxilia (Liber Auxilia). --- */
       {
         nom: "Heavy incinerator",
         stats: ["Template", "1", "6", "4", "1"],
-        regles: "Template, Panic (1), Rending (4+)",
+        regles: "Template, Panic (1), Shred (4+)",
         traits: "Flame",
       },
       {
@@ -1324,13 +1324,13 @@ const ARMES_TIR = [
         // Errata Liber Auxilia : « Blast-charger* » (astérisque ajouté).
         nom: "Lasrifle — Overcharge*",
         stats: ["18", "1", "4", "4", "1"],
-        regles: "Wounding (6+), Rending (6+)",
+        regles: "Wounding (6+), Shred (6+)",
         traits: "Las",
       },
       {
         nom: "Las-blaster",
         stats: ["9", "2", "4", "4", "1"],
-        regles: "Pistol, Wounding (6+), Rending (6+)",
+        regles: "Pistol, Wounding (6+), Shred (6+)",
         traits: "Assault, Las",
       },
       {
@@ -2487,7 +2487,7 @@ const ARMES_TIR = [
         // Erebus, option Tradition Ardente des Word Bearers).
         nom: "Void Darts",
         stats: ["18", "D6", "5", "4", "1"],
-        regles: "Rending (5+), Force (D)",
+        regles: "Shred (5+), Force (D)",
         traits: "Psychic",
       },
       /* --- Disciplines Psychiques du livre de règles (p. 341-346) :
@@ -2536,7 +2536,7 @@ const ARMES_TIR = [
         // de Légion pour toute Figurine du Trait Word Bearers.
         nom: "Warpfire pistol",
         stats: ["12", "1", "5", "4", "1"],
-        regles: "Pistol, Breaching (5+), Rending (6+)",
+        regles: "Pistol, Breaching (5+), Shred (6+)",
         traits: "Assault, Plasma",
       },
       {
@@ -2544,7 +2544,7 @@ const ARMES_TIR = [
         // Spéciales de Légion pour toute Figurine du Trait Word Bearers.
         nom: "Warpfire blaster",
         stats: ["24", "2", "5", "4", "1"],
-        regles: "Breaching (5+), Rending (6+)",
+        regles: "Breaching (5+), Shred (6+)",
         traits: "Plasma",
       },
       {
@@ -2554,7 +2554,7 @@ const ARMES_TIR = [
         // CLAUDE.md, section Word Bearers).
         nom: "Warpfire projector",
         stats: ["36", "1", "5", "4", "1"],
-        regles: "Heavy (RS), Blast (3\"), Breaching (5+), Rending (6+)",
+        regles: "Heavy (RS), Blast (3\"), Breaching (5+), Shred (6+)",
         traits: "Plasma",
       },
       {
@@ -2881,7 +2881,7 @@ const ARMES_TIR = [
         // Arme de l'Unité Saboteur (Alpha Legion).
         nom: "Banestrike shotgun",
         stats: ["12", "2", "4", "4", "1"],
-        regles: "Breaching (6+), Rending (6+), Stun (0)",
+        regles: "Breaching (6+), Shred (6+), Stun (0)",
         traits: "Assault",
       },
       {
@@ -2902,7 +2902,7 @@ const ARMES_TIR = [
         // Parangon ci-dessous.
         nom: "The Arsenal of the Logos",
         stats: ["30", "6", "6", "3", "1"],
-        regles: "Rending (4+), Suppressive (1)",
+        regles: "Shred (4+), Suppressive (1)",
         traits: "Bolt, Assault",
       },
       {
@@ -2910,7 +2910,7 @@ const ARMES_TIR = [
         // Warriors).
         nom: "Twin shrapnel cannon",
         stats: ["36", "6", "5", "5", "1"],
-        regles: "Pinning (1), Rending (5+)",
+        regles: "Pinning (1), Shred (5+)",
         traits: "Bolt",
       },
       {
@@ -2972,7 +2972,7 @@ const ARMES_TIR = [
         // Fixation (0) au lieu de (1) (arme non jumelée).
         nom: "Shrapnel cannon",
         stats: ["36", "3", "5", "5", "1"],
-        regles: "Pinning (0), Rending (6+)",
+        regles: "Pinning (0), Shred (6+)",
         traits: "Bolt",
       },
       {
@@ -3011,7 +3011,7 @@ const ARMES_TIR = [
         // Children).
         nom: "Torch",
         stats: ["15", "2", "6", "2", "1"],
-        regles: "Rending (5+), Deflagrate (6)",
+        regles: "Shred (5+), Deflagrate (6)",
         traits: "Volkite, Assault",
       },
       {
@@ -3100,7 +3100,7 @@ const ARMES_TIR = [
       {
         nom: "Galvanic launcher",
         stats: ["24", "3", "3", "6", "1"],
-        regles: "Rending (5+), Wounding (5+)",
+        regles: "Shred (5+), Wounding (5+)",
         traits: "Arc, Assault",
       },
       {
@@ -3121,7 +3121,7 @@ const ARMES_TIR = [
       {
         nom: "Arc rifle",
         stats: ["18", "1", "5", "5", "1"],
-        regles: "Rending (6+), Suppressive (0)",
+        regles: "Shred (6+), Suppressive (0)",
         traits: "Assault, Arc",
       },
       {
@@ -3139,21 +3139,21 @@ const ARMES_TIR = [
       {
         nom: "Lightning gun",
         stats: ["18", "3", "5", "5", "1"],
-        regles: "Rending (6+), Suppressive (0)",
+        regles: "Shred (6+), Suppressive (0)",
         traits: "Assault, Arc",
       },
       {
         nom: "Lightning musket",
         stats: ["36", "1", "7", "3", "2"],
         regles:
-          "Blast (3\"), Breaching (5+), Rending (5+), Suppressive (0)",
+          "Blast (3\"), Breaching (5+), Shred (5+), Suppressive (0)",
         traits: "Arc",
       },
       {
         nom: "Lightning cannon",
         stats: ["36", "1", "7", "3", "2"],
         regles:
-          "Blast (5\"), Breaching (5+), Rending (5+), Suppressive (1)",
+          "Blast (5\"), Breaching (5+), Shred (5+), Suppressive (1)",
         traits: "Arc",
       },
       {
@@ -3162,14 +3162,14 @@ const ARMES_TIR = [
         nom: "Lightning musket (Mechanicum)",
         stats: ["36", "1", "7", "3", "2"],
         regles:
-          "Blast (3\"), Rending (5+), Breaching (5+), Suppressive (0)",
+          "Blast (3\"), Shred (5+), Breaching (5+), Suppressive (0)",
         traits: "Arc",
       },
       {
         nom: "Lightning cannon (Mechanicum)",
         stats: ["36", "1", "7", "3", "2"],
         regles:
-          "Blast (5\"), Rending (5+), Breaching (5+), Suppressive (1)",
+          "Blast (5\"), Shred (5+), Breaching (5+), Suppressive (1)",
         traits: "Arc",
       },
     ],
@@ -3332,7 +3332,7 @@ const ARMES_TIR = [
       {
         nom: "Sonic destructor — Dispersed blast",
         stats: ["72", "1", "7", "3", "1"],
-        regles: "Blast (7\"), Rending (4+), Panic (4), Breaching (6+)",
+        regles: "Blast (7\"), Shred (4+), Panic (4), Breaching (6+)",
         traits: "Sonic, Strategic",
       },
       {
@@ -3434,7 +3434,7 @@ const ARMES_TIR = [
       {
         nom: "Lastrum storm bolter",
         stats: ["24", "4", "5", "4", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Bolt",
       },
       {
@@ -3569,13 +3569,13 @@ const ARMES_TIR = [
       {
         nom: "Guardian spear (Ranged)",
         stats: ["18", "2", "4", "4", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Assault, Bolt",
       },
       {
         nom: "Sentinel blade (Ranged)",
         stats: ["8", "3", "4", "4", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Assault, Bolt",
       },
       {
@@ -3599,7 +3599,7 @@ const ARMES_TIR = [
       {
         nom: "Eternity Spear (Ranged)",
         stats: ["18", "2", "4", "3", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Assault, Bolt",
       },
     ],
@@ -3906,13 +3906,13 @@ const ARMES_TIR = [
       {
         nom: "Deathlock",
         stats: ["18", "2", "6", "2", "1"],
-        regles: "Rending (6+), Overload (2)",
+        regles: "Shred (6+), Overload (2)",
         traits: "Xenos",
       },
       {
         nom: "Doomlock",
         stats: ["9", "2", "6", "2", "1"],
-        regles: "Pistol, Rending (6+), Overload (2)",
+        regles: "Pistol, Shred (6+), Overload (2)",
         traits: "Xenos, Assault",
       },
       {
@@ -3986,49 +3986,49 @@ const ARMES_MELEE = [
       {
         nom: "Chainsword",
         stats: ["I", "A", "S", "5", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Heavy chainsword",
         stats: ["-1", "A", "+2", "4", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Chainaxe",
         stats: ["-1", "A", "+1", "5", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Heavy chainaxe",
         stats: ["-2", "A", "+3", "4", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Chainfist",
         stats: ["-3", "-1", "+6", "2", "2"],
-        regles: "Armourbane, Rending (6+)",
+        regles: "Armourbane, Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Gravis chainfist",
         stats: ["-1", "A", "+4", "2", "3"],
-        regles: "Armourbane, Rending (6+)",
+        regles: "Armourbane, Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Pair of Gravis chainfists",
         stats: ["-1", "A", "+4", "2", "4"],
-        regles: "Armourbane, Rending (6+)",
+        regles: "Armourbane, Shred (6+)",
         traits: "Chain",
       },
       {
         nom: "Chain bayonet",
         stats: ["I", "A", "S", "5", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Bayonet, Chain",
       },
       /* --- Arsenal des Night Lords (VIIIe Légion) : Sevatar, Escouade
@@ -4039,14 +4039,14 @@ const ARMES_MELEE = [
         // Arme de personnage (Sevatar, Night Lords).
         nom: "Whisper of the Night",
         stats: ["+1", "A", "+2", "2", "1"],
-        regles: "Critical Hit (6+), Rending (5+)",
+        regles: "Critical Hit (6+), Shred (5+)",
         traits: "Chain",
       },
       {
         // Arme de l'Unité Terminator Contekar (Night Lords).
         nom: "Chainblade",
         stats: ["1", "A", "+1", "3", "1"],
-        regles: "Breaching (6+), Rending (6+)",
+        regles: "Breaching (6+), Shred (6+)",
         traits: "Chain",
       },
       {
@@ -4057,7 +4057,7 @@ const ARMES_MELEE = [
         // Rapaces Nocturnes (option).
         nom: "Chainglaive",
         stats: ["1", "A", "+1", "3", "1"],
-        regles: "Breaching (6+), Rending (6+)",
+        regles: "Breaching (6+), Shred (6+)",
         traits: "Chain",
       },
       {
@@ -4074,13 +4074,13 @@ const ARMES_MELEE = [
       {
         nom: "Reaper chain-cleaver",
         stats: ["1", "A", "+1", "2", "2"],
-        regles: "Reaping Blow (2), Rending (5+)",
+        regles: "Reaping Blow (2), Shred (5+)",
         traits: "Chain",
       },
       {
         nom: "Reaper chainsword",
         stats: ["-1", "A", "+2", "2", "3"],
-        regles: "Reaping Blow (2), Rending (4+)",
+        regles: "Reaping Blow (2), Shred (4+)",
         traits: "Chain",
       },
       {
@@ -4303,7 +4303,7 @@ const ARMES_MELEE = [
       {
         nom: "Assault axe",
         stats: ["-1", "A", "+2", "3", "1"],
-        regles: "Breaching (5+), Rending (5+)",
+        regles: "Breaching (5+), Shred (5+)",
         traits: "Power",
       },
       {
@@ -4329,7 +4329,7 @@ const ARMES_MELEE = [
       {
         nom: "Charonite shredder",
         stats: ["1", "A", "6", "4", "2"],
-        regles: "Rending (4+), Wounding (4+)",
+        regles: "Shred (4+), Wounding (4+)",
         traits: "Power",
       },
       {
@@ -4576,7 +4576,7 @@ const ARMES_MELEE = [
         // possible contre La Trancheuse si Angron n'est pas dans l'Armée.
         nom: "Gorechild Reforged",
         stats: ["I", "A", "+1", "2", "1"],
-        regles: "Critical Hit (6+), Rending (5+)",
+        regles: "Critical Hit (6+), Shred (5+)",
         traits: "Chain",
       },
       {
@@ -4723,7 +4723,7 @@ const ARMES_MELEE = [
         // Figurine.
         nom: "Frost claw",
         stats: ["1", "A", "S", "3", "1"],
-        regles: "Breaching (4+), Reaping Blow (1), Rending (6+)",
+        regles: "Breaching (4+), Reaping Blow (1), Shred (6+)",
         traits: "Power",
       },
       {
@@ -4740,7 +4740,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Geigor Main Terrible, Space Wolves).
         nom: "The Terrible Hand",
         stats: ["1", "A", "S", "3", "1"],
-        regles: "Breaching (4+), Rending (5+)",
+        regles: "Breaching (4+), Shred (5+)",
         traits: "Power",
       },
       {
@@ -4762,7 +4762,7 @@ const ARMES_MELEE = [
         // Gorgone et des Révérends de Fer ayant le Trait Iron Hands.
         nom: "Artificer power axe",
         stats: ["-1", "A", "+1", "3", "1"],
-        regles: "Breaching (5+), Rending (5+)",
+        regles: "Breaching (5+), Shred (5+)",
         traits: "Power",
       },
       /* --- Arsenal des Sons of Horus (XVIe Légion) : Émissaire Noir,
@@ -4782,7 +4782,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Ezekyle Abaddon, Sons of Horus).
         nom: "Cthonian Power Claw",
         stats: ["-2", "A", "+4", "2", "2"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Power",
       },
       {
@@ -4813,7 +4813,7 @@ const ARMES_MELEE = [
         // Horus, +5 Points par Figurine.
         nom: "Carsoran power axe",
         stats: ["-2", "A", "+1", "3", "1"],
-        regles: "Breaching (5+), Rending (6+)",
+        regles: "Breaching (5+), Shred (6+)",
         traits: "Power",
       },
       {
@@ -4821,7 +4821,7 @@ const ARMES_MELEE = [
         // énergétique carsoraine, +10 Points par Figurine.
         nom: "Carsoran power tabar",
         stats: ["-2", "A", "+2", "3", "1"],
-        regles: "Breaching (5+), Rending (5+)",
+        regles: "Breaching (5+), Shred (5+)",
         traits: "Power",
       },
       /* --- Arsenal des Word Bearers (XVIIe Légion) : Kor Phaeron,
@@ -4832,7 +4832,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Kor Phaeron, Word Bearers).
         nom: "Patriarch's claws",
         stats: ["1", "A", "S", "2", "1"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Power",
       },
       {
@@ -4868,7 +4868,7 @@ const ARMES_MELEE = [
         // Arme de l'Unité Gal Vorbak (Word Bearers).
         nom: "Tainted Talons",
         stats: ["1", "A", "S", "3", "1"],
-        regles: "Breaching (6+), Rending (6+), Phage (S)",
+        regles: "Breaching (6+), Shred (6+), Phage (S)",
         traits: "Psychic",
       },
       {
@@ -5052,7 +5052,7 @@ const ARMES_MELEE = [
         // +25 Points — voir LISTES_EQUIPEMENT.officier).
         nom: "Escaton power claw",
         stats: ["-2", "A", "+3", "2", "2"],
-        regles: "Rending (6+)",
+        regles: "Shred (6+)",
         traits: "Power",
       },
       /* --- Arsenal des Maisonnées de Chevaliers et des Legios
@@ -5094,7 +5094,7 @@ const ARMES_MELEE = [
         // Angels) : échange possible gratuit contre l'Épée du Lion.
         nom: "The Wolf Blade",
         stats: ["1", "A", "S", "3", "1"],
-        regles: "Rending (4+), Breaching (4+), Reaping Blow (2)",
+        regles: "Shred (4+), Breaching (4+), Reaping Blow (2)",
         traits: "Chain, Sword of the Order",
       },
       {
@@ -5161,7 +5161,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Angron, Primarque des World Eaters).
         nom: "Gorefather and Gorechild",
         stats: ["1", "+1", "S", "2", "2"],
-        regles: "Critical Hit (6+), Rending (5+)",
+        regles: "Critical Hit (6+), Shred (5+)",
         traits: "Chain",
       },
       {
@@ -5191,7 +5191,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Rogal Dorn, Primarque des Imperial Fists).
         nom: "Teeth of the Storm",
         stats: ["1", "A", "S", "2", "2"],
-        regles: "Rending (4+), Reaping Blow (2)",
+        regles: "Shred (4+), Reaping Blow (2)",
         traits: "Chain",
       },
       {
@@ -5216,7 +5216,7 @@ const ARMES_MELEE = [
         // profil de Tir (voir Armes à Bolts ci-dessus).
         nom: "The Warmaster's Talon",
         stats: ["1", "A", "S", "2", "1"],
-        regles: "Reaping Blow (3), Rending (6+)",
+        regles: "Reaping Blow (3), Shred (6+)",
         traits: "Power",
       },
       {
@@ -5289,7 +5289,7 @@ const ARMES_MELEE = [
         // au lieu de "I" (Initiative du porteur, sans modificateur).
         nom: "The Arsenal of the Logos",
         stats: ["I", "+2", "6", "3", "1"],
-        regles: "Rending (4+)",
+        regles: "Shred (4+)",
         traits: "Power",
       },
       {
@@ -5305,7 +5305,7 @@ const ARMES_MELEE = [
         // Lords).
         nom: "Mercy and Forgiveness",
         stats: ["1", "+2", "S", "2", "1"],
-        regles: "Critical Hit (5+), Rending (4+)",
+        regles: "Critical Hit (5+), Shred (4+)",
         traits: "Power",
       },
       {
@@ -5360,7 +5360,7 @@ const ARMES_MELEE = [
       {
         nom: "Excoriator chainaxe",
         stats: ["-2", "A", "+2", "3", "1"],
-        regles: "Breaching (6+), Rending (6+)",
+        regles: "Breaching (6+), Shred (6+)",
         traits: "Chain",
       },
       {
@@ -5419,7 +5419,7 @@ const ARMES_MELEE = [
         // Mêlée, voir aussi son profil de Tir dans Armes de Tir.
         nom: "Fulcrum fist cannons (Melee)",
         stats: ["1", "+1", "6", "2", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "-",
       },
       {
@@ -5555,13 +5555,13 @@ const ARMES_MELEE = [
         // Arme de l'Engin Démon Kytan.
         nom: "Slaughter cleaver",
         stats: ["-2", "4", "+4", "2", "3"],
-        regles: "Armourbane, Rending (5+)",
+        regles: "Armourbane, Shred (5+)",
         traits: "-",
       },
       {
         nom: "Slaughterer's Blades",
         stats: ["1", "4", "+2", "3", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "-",
       },
       {
@@ -5582,7 +5582,7 @@ const ARMES_MELEE = [
         // Arme de la Cohorte d'Ursarax.
         nom: "Pair of Ursarax claws",
         stats: ["1", "+1", "+2", "3", "2"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "-",
       },
       {
@@ -5602,7 +5602,7 @@ const ARMES_MELEE = [
         // Arme de l'Escadron de Stratos Vultarax.
         nom: "Dendrite talons",
         stats: ["1", "A", "+1", "3", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "-",
       },
       {
@@ -5776,7 +5776,7 @@ const ARMES_MELEE = [
         nom: "Eternity Spear (Melee)",
         stats: ["I", "A", "+1", "2", "1"],
         regles:
-          "Aflame (2), Critical Hit (6+), Impact (AM), Rending (5+)",
+          "Aflame (2), Critical Hit (6+), Impact (AM), Shred (5+)",
         traits: "-",
       },
     ],
@@ -5814,7 +5814,7 @@ const ARMES_MELEE = [
         nom: "Eternity Blade",
         stats: ["+1", "A", "+1", "2", "1"],
         regles:
-          "Aflame (2), Critical Hit (6+), Rending (4+), Duellist's Edge (1)",
+          "Aflame (2), Critical Hit (6+), Shred (4+), Duellist's Edge (1)",
         traits: "-",
       },
     ],
@@ -5913,7 +5913,7 @@ const ARMES_MELEE = [
       {
         nom: "Nemesii Blade",
         stats: ["1", "A", "S", "2", "1"],
-        regles: "Critical Hit (5+), Rending (5+)",
+        regles: "Critical Hit (5+), Shred (5+)",
         traits: "-",
       },
       {
@@ -5988,7 +5988,7 @@ const ARMES_MELEE = [
       {
         nom: "Harbinger blade",
         stats: ["1", "A", "S", "3", "1"],
-        regles: "Breaching (5+), Rending (6+)",
+        regles: "Breaching (5+), Shred (6+)",
         traits: "Immaterial",
       },
       {
@@ -6000,7 +6000,7 @@ const ARMES_MELEE = [
       {
         nom: "Daemon claws",
         stats: ["I", "A", "S", "5", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Immaterial",
       },
       {
@@ -6104,7 +6104,7 @@ const ARMES_MELEE = [
         // Coruscating grasp (Horreurs de Tzeentch).
         nom: "Glimmering grasp",
         stats: ["I", "A", "S", "-", "1"],
-        regles: "Wounding (6+), Rending (6+)",
+        regles: "Wounding (6+), Shred (6+)",
         traits: "Immaterial",
       },
       {
@@ -6182,7 +6182,7 @@ const ARMES_MELEE = [
       {
         nom: "Halo blade",
         stats: ["I", "A", "+2", "2", "1"],
-        regles: "Rending (5+)",
+        regles: "Shred (5+)",
         traits: "Xenos",
       },
       {
