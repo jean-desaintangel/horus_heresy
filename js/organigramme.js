@@ -5050,19 +5050,42 @@ const Organigramme = (() => {
     const select = document.createElement("select");
     select.setAttribute("aria-label", "Faction du Détachement Allié");
     ajouterOption(select, "", "— Choisir la Faction Alliée —");
+    // Rôles Tactiques des Cases du Détachement Allié (État-major/Troupes) :
+    // une Faction dont aucune Unité n'a l'un de ces Rôles ne pourrait
+    // remplir aucune Case (ex : Chevaliers Questoris, dont toutes les
+    // Unités sont Seigneurs des Batailles ou Engins de Guerre — le livre
+    // d'armée ne prévoit pas de Détachement Allié de Chevaliers ; ils
+    // s'ajoutent à une autre Armée via le Détachement de Seigneur des
+    // Batailles). Une Faction sans aucune Unité sous son propre nom
+    // (Légions Brisées, Blackshields : elles réutilisent la Liste
+    // d'Armée Legiones Astartes grâce à des réglages propres à l'Armée —
+    // Légions choisies, Serments du Moment — non transposés au
+    // Détachement Allié) est elle aussi grisée, en « prochainement ».
+    const rolesAllie = new Set(typeDe(det).cases.map((c) => c.role));
+    const unitesDeFaction = (valeur) =>
+      UNITES.filter((u) => (u.faction || "legio-astartes") === valeur);
     for (const [valeur, texte, disponible] of FACTIONS) {
       const identique = valeur === etat.faction;
       const exclue = identique && !FACTIONS_AVEC_SOUS_IDENTITE.includes(valeur);
-      const dispo = disponible && !exclue;
+      const unitesFaction = unitesDeFaction(valeur);
+      const sansUnite = !exclue && disponible && unitesFaction.length === 0;
+      const sansRole =
+        !exclue &&
+        disponible &&
+        !sansUnite &&
+        !unitesFaction.some((u) => rolesAllie.has(u.categorie));
+      const dispo = disponible && !exclue && !sansUnite && !sansRole;
       const opt = ajouterOption(
         select,
         valeur,
         texte +
           (exclue
             ? " (Faction du Détachement Principal)"
-            : disponible
-              ? ""
-              : " (prochainement)"),
+            : sansRole
+              ? " (aucune Unité État-major/Troupes : utiliser le Détachement de Seigneur des Batailles et son menu Maisonnée)"
+              : disponible && !sansUnite
+                ? ""
+                : " (prochainement)"),
       );
       opt.disabled = !dispo;
     }
@@ -6564,6 +6587,24 @@ const Organigramme = (() => {
     // placement réel dans les AUTRES détachements de l'Armée).
     narratifPresent: () =>
       etat.detachements.some((d) => typeDe(d).id === "narratif"),
+    // Chevalier Questoris accueilli par un Détachement de Seigneur des
+    // Batailles dont la Maisonnée a été choisie (menu « Maisonnée » de sa
+    // carte) ? Seul moyen d'aligner des Chevaliers dans une Armée d'une
+    // autre Faction : le Détachement Allié n'a que des Cases État-major/
+    // Troupes, qu'aucune Unité Chevaliers ne peut occuper. Le choix de
+    // la Maisonnée est le geste explicite du joueur qui fait entrer
+    // cette Faction dans l'Armée (même principe que la Faction Alliée,
+    // voir uniteAccessible, js/unites.js) — une simple Case Seigneurs
+    // des Batailles libre ne suffit pas. caseAccepte() juge le Rôle,
+    // sans tenir compte de l'occupation des Cases.
+    accueillieParSeigneurBataillesMaisonnee: (unite) =>
+      unite.faction === "chevaliers-questoris" &&
+      etat.detachements.some(
+        (d) =>
+          typeDe(d).id === "seigneur-batailles" &&
+          d.maisonneeSeigneurBatailles &&
+          d.cases.some((c) => caseAccepte(d, c, unite)),
+      ),
     // Un Détachement de ce type (id de TYPES_DETACHEMENTS) est-il déjà
     // présent dans l'Armée ? Généralisation ponctuelle de narratifPresent
     // ci-dessus, consommée par uniteAccessible() (js/unites.js) pour le

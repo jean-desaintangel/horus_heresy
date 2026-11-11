@@ -315,7 +315,15 @@ function uniteAccessible(unite) {
       !factionsAllieesActuelles.includes(factionUnite) &&
       !uniteAccessibleParDetachementCroise(unite) &&
       !factionsDebloqueesAvantage.includes(factionUnite) &&
-      !unitesDebloqueesRegle.includes(unite.id)
+      !unitesDebloqueesRegle.includes(unite.id) &&
+      // Chevaliers Questoris : Détachement de Seigneur des Batailles
+      // dont la Maisonnée a été choisie (choix explicite du joueur, seul
+      // moyen d'aligner des Chevaliers dans une autre Armée).
+      !(
+        orgaPret &&
+        typeof Organigramme !== "undefined" &&
+        Organigramme.accueillieParSeigneurBataillesMaisonnee(unite)
+      )
     )
       return false;
     // Techno-arcane Majeur Mechanicum (Liber Mechanicum p. 13) : toutes les
