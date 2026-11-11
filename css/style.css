@@ -2016,9 +2016,18 @@ button:focus-visible,
    Réserves. Mêmes principes que ci-dessus — aucune couleur dans le
    SVG lui-même. */
 .carte-deploiement .secteur-ligne {
+  fill: none; /* aussi posé sur des <circle> (Imperium at War) */
   stroke: var(--acier);
   stroke-width: 1;
   stroke-dasharray: 4 6;
+}
+
+/* Limite pleine d'un secteur (cercle central de High Ground,
+   Imperium at War) : plus visible qu'une ligne de découpage. */
+.carte-deploiement .trait-secteur {
+  fill: none;
+  stroke: var(--acier-clair);
+  stroke-width: 2;
 }
 
 .carte-deploiement .zone-deploiement {
@@ -4331,6 +4340,68 @@ body.nuit-eternelle .orga-erreurs-titre {
 
 .orga-detachement-entete h3 {
   color: var(--titre-contraste);
+}
+
+/* Encart « Bénéfices / Restrictions » d'un Détachement Principal
+   Legiones Astartes (Pride of the Legion…, voir construireReglesChart
+   dans js/organigramme.js) : deux colonnes côte à côte dès que la
+   largeur le permet, une seule sur téléphone. Le liseré gauche reprend
+   les couleurs succès/erreur des messages de formulaire (contrastes
+   déjà vérifiés en clair et en sombre). */
+.orga-regles-chart {
+  margin-bottom: 0.8rem;
+  font-size: 0.92rem;
+}
+
+.orga-regles-chart-colonnes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.6rem;
+}
+
+.orga-regles-chart-colonne {
+  border-left: 4px solid var(--acier);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+}
+
+.orga-regles-chart-colonne h4 {
+  margin: 0 0 0.3rem;
+}
+
+.orga-regles-chart-colonne ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.orga-regles-chart-colonne li + li {
+  margin-top: 0.25rem;
+}
+
+.orga-regles-chart-benefices {
+  background: var(--fond-succes);
+  border-left-color: var(--succes);
+  color: var(--texte-succes);
+}
+
+.orga-regles-chart-restrictions {
+  background: var(--fond-erreur);
+  border-left-color: var(--accent-texte);
+  color: var(--texte-erreur);
+}
+
+.orga-regles-chart-details {
+  margin-top: 0.5rem;
+}
+
+.orga-regles-chart-details summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: var(--cible-tactile);
+}
+
+.orga-regles-chart-details p {
+  margin: 0.4rem 0 0;
 }
 
 /* Menu « Faction Alliée » (toute Armée — voir

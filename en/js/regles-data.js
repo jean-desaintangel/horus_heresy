@@ -373,6 +373,14 @@ const REGLES_DIVERSES = [
       "Bonus to a Vehicle's Repair Tests: they succeed on X or more, instead of the usual 6.",
   },
   {
+    // Legiones Astartes Primary Detachments (novembre 2026) : accordée
+    // aux Véhicules d'une Armée au Détachement Principal Armoured
+    // Spearhead (voir js/organigramme-data.js).
+    nom: "Squadron Tactics",
+    texte:
+      "While a Model with this Special Rule is within 6 inches of another Model with this Special Rule, the Controlling Player may add 2 to Repair Rolls made for that Model.",
+  },
+  {
     // Journal Tactica : Battle of Tallarn (Char de Commandement Spartan
     // Prometheus, voir js/unites-data.js).
     nom: "Tank Commander (X)",

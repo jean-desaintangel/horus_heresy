@@ -393,6 +393,316 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachements Principaux des Legiones Astartes (mise à
+     jour « Legiones Astartes Primary Detachments », Games Workshop,
+     novembre 2026) : alternatives au Détachement Principal de Croisade
+     pour une Armée dont le Détachement Principal est tiré de la Liste
+     d'Armée Legiones Astartes. Proposés dans le même menu « Choix de
+     Détachement Principal » que les Charts Zone Mortalis ci-dessus,
+     mais uniquement pour la Faction Legio Astartes (`faction` +
+     `choixPrincipal`, voir construireParametres, js/organigramme.js).
+     Compositions confirmées par le proprio (2026-11-11).
+     Champs propres à ces Détachements (consommés par
+     js/organigramme.js) :
+     - benefices / contraintes : textes affichés en clair sur la carte du
+       Détachement (encart « Bénéfices / Restrictions ») ;
+     - reglesDetachement : [{ nom, texte }] — Avantages Principaux et
+       Règles Spéciales propres au Détachement, affichés sous l'encart ;
+     - detachementsAutorises : seuls Détachements non Principaux
+       sélectionnables dans l'Armée (le Détachement Narratif, bac à sable
+       du site, reste toujours permis) ;
+     - maxDetachements : { id: n } — plafond propre à ce Chart ;
+     - interditAvantagesAjoutCase : les Avantages Principaux `ajouteCase`
+       sont grisés, sauf pour les Rôles de `rolesAjoutCaseAutorises` ;
+     - seigneurBataillesTransportUniquement : le Détachement de Seigneur
+       des Batailles n'accepte que des Unités de Sous-type Transport ;
+     - casesBonus : Cases gagnées en cours de construction —
+       { roles, par: "casesRemplies", rolesComptes } (une Case par Case
+       remplie de ces Rôles dans ce Détachement) ou
+       { roles, par: "unitesNonVehicule" } (une par Unité sans Type
+       Véhicule dans l'Armée) ;
+     - unitesVehiculeUniquement, interditMouvementNul,
+       sousTypesExigeantArtisan, decurionCommandement, requiertTrait :
+       restrictions de composition vérifiées par caseAccepte() /
+       validerArmee(). */
+  {
+    id: "pride-of-the-legion",
+    nom: "Pride of the Legion",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Détachement Principal Legiones Astartes centré sur les vétérans de la Légion. 1 Case Quartier Général, 2 Cases État-major (dont 1 Principale), 3 Cases Suite, 5 Cases Assaut Lourd (dont 1 Principale), 5 Cases Élite (dont 1 Principale).",
+    benefices: [
+      "Pour chaque Case de Suite, d'Assaut Lourd ou d'Élite remplie, une Case de Transport Lourd est ajoutée à ce Détachement.",
+      "En ajoutant une Unité de ce Détachement à la liste, toutes ses Figurines ayant la Règle Spéciale Avant-garde (X) peuvent l'échanger contre la Règle Spéciale Ligne (1) (à noter par le joueur).",
+    ],
+    contraintes: [
+      "L'Armée doit inclure au moins une Figurine ayant le Trait Maître de la Légion.",
+      "Les Avantages Principaux qui ajoutent des Cases de Rôle Tactique à un Détachement ne peuvent pas être choisis.",
+      "Seuls Détachements additionnels possibles : Cadre d'Officiers, Assaut de Choc, Appui Lourd, Seigneur de Guerre et Seigneur des Batailles (uniquement des Figurines de Sous-type Transport).",
+      "Chaque fois qu'une Unité de Rôle Tactique Élite ou Assaut Lourd de cette Armée est détruite, l'adversaire marque 1 point de victoire.",
+    ],
+    detachementsAutorises: [
+      "cadre-officiers",
+      "assaut-de-choc",
+      "appui-lourd",
+      "seigneur-guerre",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    seigneurBataillesTransportUniquement: true,
+    requiertTrait: "Maître de la Légion",
+    casesBonus: {
+      roles: ["Transports Lourds"],
+      par: "casesRemplies",
+      rolesComptes: ["Suites", "Assaut Lourd", "Elite"],
+    },
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major", true),
+      _caseOrga("État-major"),
+      _caseOrga("Suites"),
+      _caseOrga("Suites"),
+      _caseOrga("Suites"),
+      _caseOrga("Assaut Lourd", true),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Elite", true),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+    ],
+  },
+  {
+    id: "fury-of-the-ancients",
+    nom: "Fury of the Ancients",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Détachement Principal Legiones Astartes centré sur les Dreadnoughts. 1 Case Quartier Général, 2 Cases État-major (dont 1 Principale), 1 Case Suite, 10 Cases Engin de Guerre (dont 2 Principales).",
+    benefices: [
+      "Les Cases Principales de ce Détachement peuvent recevoir l'Avantage Principal Ancient of War.",
+    ],
+    contraintes: [
+      "Les Figurines de Sous-type État-major ou Spécialiste ne peuvent être choisies que si elles ont aussi la Règle Spéciale Guerrier-artisan (X).",
+      "Les Avantages Principaux qui ajoutent des Cases de Rôle Tactique à un Détachement ne peuvent pas être choisis, sauf si ce Rôle Tactique est Engin de Guerre.",
+      "Seuls Détachements additionnels possibles : Cénacle de Techmarines, Appui Lourd et Seigneur des Batailles (uniquement des Figurines de Sous-type Transport).",
+      "Chaque fois qu'une Unité de Rôle Tactique Engin de Guerre de cette Armée est détruite, l'adversaire marque 1 point de victoire.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Ancient of War (Avantage Principal)",
+        texte:
+          "Réservé à une Case contenant une Figurine de Type Marcheur sans Sous-type Maléfique. Les Figurines de l'Unité gagnent la Règle Spéciale Guerrier Éternel (1).",
+      },
+    ],
+    detachementsAutorises: [
+      "cenacle-techmarines",
+      "appui-lourd",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    rolesAjoutCaseAutorises: ["Engins de Guerre"],
+    seigneurBataillesTransportUniquement: true,
+    sousTypesExigeantArtisan: ["État-major", "Spécialiste"],
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major", true),
+      _caseOrga("État-major"),
+      _caseOrga("Suites"),
+      _caseOrga("Engins de Guerre", true),
+      _caseOrga("Engins de Guerre", true),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+      _caseOrga("Engins de Guerre"),
+    ],
+  },
+  {
+    id: "sky-hunter-phalanx",
+    nom: "Sky-Hunter Phalanx",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Détachement Principal Legiones Astartes centré sur les antigrav. 1 Case Quartier Général, 2 Cases État-major (dont 1 Principale), 2 Cases Suite, 10 Cases Attaque Rapide (dont 2 Principales).",
+    benefices: [
+      "Les Cases Principales de ce Détachement peuvent recevoir l'Avantage Principal Skilled Riders.",
+      "White Scars uniquement : chaque Case de Suite peut être échangée contre une Case d'Élite réservée aux Unités de Keshig d'Or, et chaque Case d'Attaque Rapide contre une Case d'Appui réservée aux Unités de Speeder d'Assaut Kyzagan (à noter par le joueur).",
+    ],
+    contraintes: [
+      "Les Avantages Principaux qui ajoutent des Cases de Rôle Tactique à un Détachement ne peuvent pas être choisis.",
+      "Seuls Détachements additionnels possibles : Première Frappe, Pionniers de Combat et Seigneur des Batailles.",
+      "Chaque Unité de l'Armée ne doit comprendre que des Figurines de Sous-type Antigrav ou Aéronef, ou commencer la bataille embarquée dans un Transport de Sous-type Aéronef. Toute autre Unité ne peut pas être déployée et est retirée comme perte.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Skilled Riders (Avantage Principal)",
+        texte:
+          "Les Figurines de Type Cavalerie de l'Unité gagnent les Règles Spéciales Dissimulation (6+) et Mouvement à couvert.",
+      },
+    ],
+    detachementsAutorises: [
+      "premiere-frappe",
+      "pionniers-combat",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major", true),
+      _caseOrga("État-major"),
+      _caseOrga("Suites"),
+      _caseOrga("Suites"),
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Attaque Rapide", true),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+      _caseOrga("Attaque Rapide"),
+    ],
+  },
+  {
+    id: "armoured-spearhead-principal",
+    nom: "Armoured Spearhead",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Détachement Principal Legiones Astartes centré sur les blindés. 1 Case Quartier Général, 3 Cases État-major, 1 Case Appui, 10 Cases Blindés.",
+    benefices: [
+      "Les Figurines de Type Véhicule de l'Armée gagnent la Règle Spéciale Tactiques d'Escadron.",
+      "Une Figurine dotée de l'amélioration Décurion Magna peut occuper la Case de Quartier Général de ce Détachement ; une Figurine dotée d'une autre amélioration de Décurion, une Case d'État-major.",
+    ],
+    contraintes: [
+      "Les Avantages Principaux qui ajoutent des Cases de Rôle Tactique à un Détachement ne peuvent pas être choisis.",
+      "Seuls Détachements additionnels possibles : Appui Blindé, Pionniers de Combat, Première Frappe, Cénacle de Techmarines, Poing Blindé et Seigneur des Batailles.",
+      "Les Figurines sans Type Véhicule ne peuvent faire partie de l'Armée que si elles ont la Règle Spéciale Guerrier-artisan (X).",
+      "Les Unités comprenant une Figurine dont la Caractéristique de Mouvement est 0 ou « — » ne peuvent pas être choisies.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Tactiques d'Escadron",
+        texte:
+          "Tant qu'une Figurine ayant cette Règle Spéciale est à 6\" ou moins d'une autre Figurine ayant cette Règle Spéciale, le Joueur en Contrôle peut ajouter 2 aux Jets de Réparation faits pour elle.",
+      },
+    ],
+    detachementsAutorises: [
+      "appui-blinde",
+      "pionniers-combat",
+      "premiere-frappe",
+      "cenacle-techmarines",
+      "poing-blinde",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    unitesVehiculeUniquement: true,
+    interditMouvementNul: true,
+    decurionCommandement: true,
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major"),
+      _caseOrga("État-major"),
+      _caseOrga("État-major"),
+      _caseOrga("Appui"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+      _caseOrga("Blindés"),
+    ],
+  },
+  {
+    id: "orbital-drop-assault",
+    nom: "Orbital Drop Assault",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Détachement Principal Legiones Astartes d'assaut orbital, conseillé pour les parties organisées à l'avance plutôt qu'improvisées. 1 Case Quartier Général, 2 Cases État-major (dont 1 Principale), 1 Case Suite, 2 Cases Assaut Lourd, 2 Cases Troupes, 2 Cases Élite, 2 Cases Appui.",
+    benefices: [
+      "Pour chaque Unité sans Type Véhicule de l'Armée, une Case de Transport ou de Transport Lourd est ajoutée à ce Détachement.",
+    ],
+    contraintes: [
+      "Les Avantages Principaux qui ajoutent des Cases de Rôle Tactique à un Détachement ne peuvent pas être choisis.",
+      "Seuls autres Détachements possibles : Appui Tactique, Première Frappe (1 au maximum), Assaut de Choc, Appui Lourd, Seigneur de Guerre et Seigneur des Batailles.",
+      "Toutes les Unités de l'Armée doivent utiliser la méthode de déploiement Protocoles de Largage Orbital (ci-dessous).",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Protocoles de Largage Orbital — Réserves",
+        texte:
+          "À l'étape de déclaration des Réserves : 1) les Unités ayant la Règle Spéciale Frappe en Profondeur ou Véhicule d'Assaut Orbital sont placées en Réserves ; 2) les Unités de Sous-type Aéronef sont placées en Réserves Aériennes ; 3) toutes les autres Unités (et les Figurines qui les ont rejointes) doivent être embarquées dans un Transport éligible en Réserves ou en Réserves Aériennes — sinon elles sont détruites ; 4) les Figurines ayant la Règle Spéciale Véhicule d'Assaut Orbital et le Sous-type Transport sans Unité embarquée sont détruites.",
+      },
+      {
+        nom: "Protocoles de Largage Orbital — Déploiement",
+        texte:
+          "Le joueur déploie toujours son Armée en second, sans jet. 1) Les Modules de Largage Deathstorm sortent des Réserves un par un et sont placés comme par Frappe en Profondeur, avec un jet sur la Table de Largage Orbital modifié de +1 ; 2) chacun fait ses Attaques de Tir Deathstorm, puis les Tests de Pilonnage et de Panique requis sont faits comme en Phase de Tir ; 3) les autres Figurines ayant la Règle Spéciale Véhicule d'Assaut Orbital sont placées de la même manière, avec un jet sur la Table de Largage Orbital modifié de +1. Si les deux joueurs utilisent ces Protocoles, ils placent leurs Unités en alternance à chaque étape, puis effectuent un jet pour savoir qui joue le premier Tour de Bataille.",
+      },
+      {
+        nom: "Protocoles de Largage Orbital — En cours de partie",
+        texte:
+          "Le joueur choisit normalement les Affectations de Combat de ses Unités en Réserves Aériennes. Les Unités en Réserves n'entrent en jeu que par Frappe en Profondeur (restrictions habituelles), mais n'importe quel nombre d'entre elles peut tenter une Frappe en Profondeur au même tour. Après avoir placé la première Figurine de chacune, on jette sur la Table de Largage Orbital.",
+      },
+      {
+        nom: "Table de Largage Orbital (D6)",
+        texte:
+          "Modificateurs : +1 si la première Figurine placée est à 9\" ou moins d'une Figurine amie dotée d'un vox d'état-major ou d'un nuncio-vox ; +2 si c'est un strato-vox. 1 — Signal de transpondeur perdu : l'Unité retourne en Réserves et plus aucune Unité ne peut arriver des Réserves ou Réserves Aériennes ce tour-ci. 2 — Largage retardé : l'Unité retourne en Réserves. 3 — Forte déviation : la première Figurine dévie de 3D6\" dans la direction de la petite flèche (sur un Touché, les autres sont placées normalement). 4 — Turbulences atmosphériques : idem avec 2D6\". 5 — Rétropropulsion insuffisante : une fois placée, l'Unité gagne le Statut Sonnée, ainsi que toute Unité qui en débarque ensuite. 6 — Largage net : l'Unité arrive sur sa cible sans autre effet. 7+ — Coordination précise : l'Unité arrive sur sa cible et le prochain jet sur cette table ce tour-ci est modifié de +2. Une Figurine déviée s'arrête à plus de 1\" de toute Figurine ennemie et hors du Terrain Infranchissable ; si elle franchit le bord du champ de bataille, son Unité retourne en Réserves.",
+      },
+    ],
+    detachementsAutorises: [
+      "appui-tactique",
+      "premiere-frappe",
+      "assaut-de-choc",
+      "appui-lourd",
+      "seigneur-guerre",
+      "seigneur-batailles",
+    ],
+    maxDetachements: { "premiere-frappe": 1 },
+    interditAvantagesAjoutCase: true,
+    casesBonus: {
+      roles: ["Transports", "Transports Lourds"],
+      par: "unitesNonVehicule",
+    },
+    cases: [
+      _caseOrga("Quartier Général"),
+      _caseOrga("État-major", true),
+      _caseOrga("État-major"),
+      _caseOrga("Suites"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Assaut Lourd"),
+      _caseOrga("Troupes"),
+      _caseOrga("Troupes"),
+      _caseOrga("Elite"),
+      _caseOrga("Elite"),
+      _caseOrga("Appui"),
+      _caseOrga("Appui"),
+    ],
+  },
+
   /* ---------- Détachement Principal de Legio Titanicus ----------
      Livre d'armée Legio Titanicus. Deuxième façon (avec le Titan
      isolé en Détachement de Seigneur des Batailles, voir plus bas)
@@ -4206,6 +4516,29 @@ const AVANTAGES_PRINCIPAUX = [
     detachementsRequis: ["escadron-commandement-blinde"],
     texte:
       "Missions Armoured Spearhead, Unité composée uniquement de Figurines de Type Véhicule : la Figurine compte toujours comme Stationnaire pour bénéficier de la Règle Spéciale Lourde (X), qu'elle se soit déplacée ou non lors du Tour de Bataille.",
+  },
+  /* --- Legiones Astartes Primary Detachments (novembre 2026) :
+     Avantages Principaux propres à un Détachement Principal précis
+     (`detachementsRequis`). `reglesAppliquees` approxime « les
+     Figurines de Type X gagnent… » au niveau de l'Unité entière. --- */
+  {
+    id: "ancient-of-war",
+    nom: "Ancient of War (Fury of the Ancients)",
+    typesRequis: ["Marcheur"],
+    typesExclus: ["Maléfique"],
+    detachementsRequis: ["fury-of-the-ancients"],
+    reglesAppliquees: ["Guerrier Éternel (1)"],
+    texte:
+      "Réservé à une Case contenant une Figurine de Type Marcheur sans Sous-type Maléfique : les Figurines de l'Unité gagnent la Règle Spéciale Guerrier Éternel (1).",
+  },
+  {
+    id: "skilled-riders",
+    nom: "Skilled Riders (Sky-Hunter Phalanx)",
+    typesRequis: ["Cavalerie"],
+    detachementsRequis: ["sky-hunter-phalanx"],
+    reglesAppliquees: ["Dissimulation (6+)", "Mouvement à couvert"],
+    texte:
+      "Les Figurines de Type Cavalerie de l'Unité gagnent les Règles Spéciales Dissimulation (6+) et Mouvement à couvert.",
   },
   /* --- Journal Tactica : Battle of Tallarn, Avantages Principaux
      Vagus : réservés à une Case Principale occupée par une Unité

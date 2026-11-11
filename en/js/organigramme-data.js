@@ -393,6 +393,316 @@ const TYPES_DETACHEMENTS = [
     ],
   },
 
+  /* ---------- Détachements Principaux des Legiones Astartes (mise à
+     jour « Legiones Astartes Primary Detachments », Games Workshop,
+     novembre 2026) : alternatives au Détachement Principal de Croisade
+     pour une Armée dont le Détachement Principal est tiré de la Liste
+     d'Armée Legiones Astartes. Proposés dans le même menu « Choix de
+     Détachement Principal » que les Charts Zone Mortalis ci-dessus,
+     mais uniquement pour la Faction Legio Astartes (`faction` +
+     `choixPrincipal`, voir construireParametres, js/organigramme.js).
+     Compositions confirmées par le proprio (2026-11-11).
+     Champs propres à ces Détachements (consommés par
+     js/organigramme.js) :
+     - benefices / contraintes : textes affichés en clair sur la carte du
+       Détachement (encart « Bénéfices / Restrictions ») ;
+     - reglesDetachement : [{ nom, texte }] — Avantages Principaux et
+       Règles Spéciales propres au Détachement, affichés sous l'encart ;
+     - detachementsAutorises : seuls Détachements non Principaux
+       sélectionnables dans l'Armée (le Détachement Narratif, bac à sable
+       du site, reste toujours permis) ;
+     - maxDetachements : { id: n } — plafond propre à ce Chart ;
+     - interditAvantagesAjoutCase : les Avantages Principaux `ajouteCase`
+       sont grisés, sauf pour les Rôles de `rolesAjoutCaseAutorises` ;
+     - seigneurBataillesTransportUniquement : le Détachement de Seigneur
+       des Batailles n'accepte que des Unités de Sous-type Transport ;
+     - casesBonus : Cases gagnées en cours de construction —
+       { roles, par: "casesRemplies", rolesComptes } (une Case par Case
+       remplie de ces Rôles dans ce Détachement) ou
+       { roles, par: "unitesNonVehicule" } (une par Unité sans Type
+       Véhicule dans l'Armée) ;
+     - unitesVehiculeUniquement, interditMouvementNul,
+       sousTypesExigeantArtisan, decurionCommandement, requiertTrait :
+       restrictions de composition vérifiées par caseAccepte() /
+       validerArmee(). */
+  {
+    id: "pride-of-the-legion",
+    nom: "Pride of the Legion",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Legiones Astartes Primary Detachment built around the Legion's veterans. 1 High Command Slot, 2 Command Slots (1 Prime), 3 Retinue Slots, 5 Heavy Assault Slots (1 Prime), 5 Elites Slots (1 Prime).",
+    benefices: [
+      "For each Retinue, Heavy Assault or Elites Slot filled, one Heavy Transport Slot is added to this Detachment.",
+      "When adding a Unit in this Detachment to the roster, all its Models with the Vanguard (X) Special Rule may exchange it for the Line (1) Special Rule (to be noted by the player).",
+    ],
+    contraintes: [
+      "The Army must include at least one Model with the Master of the Legion Trait.",
+      "Prime Advantages which add additional Battlefield Role Slots to a Detachment may not be selected.",
+      "Only additional Detachments allowed: Officer Cadre, Shock Assault, Heavy Support, Warlord and Lord of War (only Models with the Transport Sub-Type).",
+      "Each time a Unit with the Elites or Heavy Assault Battlefield Role in this Army is Destroyed, the opponent scores 1 Victory Point.",
+    ],
+    detachementsAutorises: [
+      "cadre-officiers",
+      "assaut-de-choc",
+      "appui-lourd",
+      "seigneur-guerre",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    seigneurBataillesTransportUniquement: true,
+    requiertTrait: "Master of the Legion",
+    casesBonus: {
+      roles: ["Heavy Transports"],
+      par: "casesRemplies",
+      rolesComptes: ["Retinues", "Heavy Assault", "Elites"],
+    },
+    cases: [
+      _caseOrga("High Command"),
+      _caseOrga("Command", true),
+      _caseOrga("Command"),
+      _caseOrga("Retinues"),
+      _caseOrga("Retinues"),
+      _caseOrga("Retinues"),
+      _caseOrga("Heavy Assault", true),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Elites", true),
+      _caseOrga("Elites"),
+      _caseOrga("Elites"),
+      _caseOrga("Elites"),
+      _caseOrga("Elites"),
+    ],
+  },
+  {
+    id: "fury-of-the-ancients",
+    nom: "Fury of the Ancients",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Legiones Astartes Primary Detachment built around Dreadnoughts. 1 High Command Slot, 2 Command Slots (1 Prime), 1 Retinue Slot, 10 War-engine Slots (2 Prime).",
+    benefices: [
+      "Prime Slots in this Detachment may have the Ancient of War Prime Advantage selected for them.",
+    ],
+    contraintes: [
+      "Models with the Command or Specialist Sub-Types may only be selected if they also have the Battlesmith (X) Special Rule.",
+      "Prime Advantages which add additional Battlefield Role Slots to a Detachment may not be selected, unless that Battlefield Role is War-engine.",
+      "Only additional Detachments allowed: Techmarine Covenant, Heavy Support and Lord of War (only Models with the Transport Sub-Type).",
+      "Each time a Unit with the War-engine Battlefield Role in this Army is Destroyed, the opponent scores 1 Victory Point.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Ancient of War (Prime Advantage)",
+        texte:
+          "Only for a Slot containing a Model with the Walker Type that does not have the Malefic Sub-Type. Models in the Unit gain the Eternal Warrior (1) Special Rule.",
+      },
+    ],
+    detachementsAutorises: [
+      "cenacle-techmarines",
+      "appui-lourd",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    rolesAjoutCaseAutorises: ["War-engines"],
+    seigneurBataillesTransportUniquement: true,
+    sousTypesExigeantArtisan: ["Command", "Specialist"],
+    cases: [
+      _caseOrga("High Command"),
+      _caseOrga("Command", true),
+      _caseOrga("Command"),
+      _caseOrga("Retinues"),
+      _caseOrga("War-engines", true),
+      _caseOrga("War-engines", true),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+      _caseOrga("War-engines"),
+    ],
+  },
+  {
+    id: "sky-hunter-phalanx",
+    nom: "Sky-Hunter Phalanx",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Legiones Astartes Primary Detachment built around antigrav craft. 1 High Command Slot, 2 Command Slots (1 Prime), 2 Retinue Slots, 10 Fast Attack Slots (2 Prime).",
+    benefices: [
+      "Prime Slots in this Detachment may have the Skilled Riders Prime Advantage selected for them.",
+      "White Scars only: any number of Retinue Slots may each be exchanged for one Elites Slot that may only be filled with Golden Keshig Units, and any number of Fast Attack Slots for one Support Slot that may only be filled with Kyzagan Assault Speeder Units (to be noted by the player).",
+    ],
+    contraintes: [
+      "Prime Advantages which add additional Battlefield Role Slots to a Detachment may not be selected.",
+      "Only additional Detachments allowed: First Strike, Combat Pioneers and Lord of War.",
+      "Every Unit in the Army must only include Models with the Antigrav or Flyer Sub-Type, or begin the battle Embarked on a Transport with the Flyer Sub-Type. Any other Unit may not be Deployed and is Removed as a Casualty.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Skilled Riders (Prime Advantage)",
+        texte:
+          "Models with the Cavalry Type in the Unit gain the Shrouded (6+) and Move Through Cover Special Rules.",
+      },
+    ],
+    detachementsAutorises: [
+      "premiere-frappe",
+      "pionniers-combat",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    cases: [
+      _caseOrga("High Command"),
+      _caseOrga("Command", true),
+      _caseOrga("Command"),
+      _caseOrga("Retinues"),
+      _caseOrga("Retinues"),
+      _caseOrga("Fast Attack", true),
+      _caseOrga("Fast Attack", true),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+      _caseOrga("Fast Attack"),
+    ],
+  },
+  {
+    id: "armoured-spearhead-principal",
+    nom: "Armoured Spearhead",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Legiones Astartes Primary Detachment built around armoured vehicles. 1 High Command Slot, 3 Command Slots, 1 Support Slot, 10 Armour Slots.",
+    benefices: [
+      "Models with the Vehicle Type in the Army gain the Squadron Tactics Special Rule.",
+      "A Model with the Decurion Magna upgrade may fill this Detachment's High Command Slot; a Model with another Decurion upgrade, a Command Slot.",
+    ],
+    contraintes: [
+      "Prime Advantages which add additional Battlefield Role Slots to a Detachment may not be selected.",
+      "Only additional Detachments allowed: Armoured Support, Combat Pioneers, First Strike, Techmarine Covenant, Armoured Fist and Lord of War.",
+      "Models without the Vehicle Type may only be included in the Army if they have the Battlesmith (X) Special Rule.",
+      "Units that include any Models with a Move Characteristic of 0 or “—” may not be selected.",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Squadron Tactics",
+        texte:
+          "While a Model with this Special Rule is within 6\" of another Model with this Special Rule, the Controlling Player may add 2 to Repair Rolls made for that Model.",
+      },
+    ],
+    detachementsAutorises: [
+      "appui-blinde",
+      "pionniers-combat",
+      "premiere-frappe",
+      "cenacle-techmarines",
+      "poing-blinde",
+      "seigneur-batailles",
+    ],
+    interditAvantagesAjoutCase: true,
+    unitesVehiculeUniquement: true,
+    interditMouvementNul: true,
+    decurionCommandement: true,
+    cases: [
+      _caseOrga("High Command"),
+      _caseOrga("Command"),
+      _caseOrga("Command"),
+      _caseOrga("Command"),
+      _caseOrga("Support"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+      _caseOrga("Armour"),
+    ],
+  },
+  {
+    id: "orbital-drop-assault",
+    nom: "Orbital Drop Assault",
+    famille: "principal",
+    faction: "legio-astartes",
+    choixPrincipal: true,
+    max: 1,
+    texte:
+      "Legiones Astartes orbital assault Primary Detachment, recommended for pre-arranged games rather than pick-up games. 1 High Command Slot, 2 Command Slots (1 Prime), 1 Retinue Slot, 2 Heavy Assault Slots, 2 Troops Slots, 2 Elites Slots, 2 Support Slots.",
+    benefices: [
+      "For each Unit without the Vehicle Type in the Army, one Transport or Heavy Transport Slot is added to this Detachment.",
+    ],
+    contraintes: [
+      "Prime Advantages which add additional Battlefield Role Slots to a Detachment may not be selected.",
+      "Only other Detachments allowed: Tactical Support, First Strike (maximum of 1), Shock Assault, Heavy Support, Warlord and Lord of War.",
+      "All Units in the Army must use the Orbital Drop Protocols deployment method (below).",
+    ],
+    reglesDetachement: [
+      {
+        nom: "Orbital Drop Protocols — Reserves",
+        texte:
+          "During the step in which Reserves are declared: 1) Units with the Deep Strike or Orbital Assault Vehicle Special Rule are placed into Reserves; 2) Units with the Flyer Sub-Type are placed into Aerial Reserves; 3) all other Units (and any Models joined to them) must be Embarked onto an eligible Transport in Reserves or Aerial Reserves — otherwise they are Destroyed; 4) Models with the Orbital Assault Vehicle Special Rule and the Transport Sub-Type with no Unit Embarked upon them are Destroyed.",
+      },
+      {
+        nom: "Orbital Drop Protocols — Deployment",
+        texte:
+          "The player always deploys their Army second, without a roll. 1) Deathstorm Drop Pods are removed from Reserves one at a time and set up as if using Deep Strike, with a roll on the Orbital Drop Table with a +1 Modifier; 2) each makes its Deathstorm Shooting Attacks, then any Pinning or Panic Checks required are made as if it were the Shooting Phase; 3) the other Models with the Orbital Assault Vehicle Special Rule are set up the same way, with a roll on the Orbital Drop Table with a +1 Modifier. If both players use these Protocols, they alternate setting up Units at each step, then roll off to determine who takes the first Battle Turn.",
+      },
+      {
+        nom: "Orbital Drop Protocols — During the battle",
+        texte:
+          "The player selects Combat Assignments as usual for Units in Aerial Reserves. Units in Reserves may only arrive using Deep Strike (usual restrictions), but any number of them may attempt a Deep Strike in the same turn. After placing the first Model of each, roll on the Orbital Drop Table.",
+      },
+      {
+        nom: "Orbital Drop Table (D6)",
+        texte:
+          "Modifiers: +1 if the first Model placed is within 9\" of a friendly Model with a command vox or nuncio-vox; +2 if it is a strato-vox. 1 — Transponder Signal Lost: the Unit is returned to Reserves and no further Units may arrive from Reserves or Aerial Reserves this turn. 2 — Combat Drop Delayed: the Unit is returned to Reserves. 3 — High Deviation Rate: scatter the first Model 3D6\" using the small arrow (on a HIT, place the remaining Models as normal). 4 — Atmospheric Turbulence: the same with 2D6\". 5 — Insufficient Retrothrust: once set up, the Unit gains the Stunned Status, as does any Unit that later Disembarks from it. 6 — Clean Drop: the Unit arrives on target with no additional effects. 7+ — Precise Coordination: the Unit arrives on target and the next roll on this table this turn gets +2. A scattered Model stops more than 1\" from any enemy Model and outside Impassable Terrain; if it crosses the battlefield edge, its Unit is returned to Reserves.",
+      },
+    ],
+    detachementsAutorises: [
+      "appui-tactique",
+      "premiere-frappe",
+      "assaut-de-choc",
+      "appui-lourd",
+      "seigneur-guerre",
+      "seigneur-batailles",
+    ],
+    maxDetachements: { "premiere-frappe": 1 },
+    interditAvantagesAjoutCase: true,
+    casesBonus: {
+      roles: ["Transports", "Heavy Transports"],
+      par: "unitesNonVehicule",
+    },
+    cases: [
+      _caseOrga("High Command"),
+      _caseOrga("Command", true),
+      _caseOrga("Command"),
+      _caseOrga("Retinues"),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Heavy Assault"),
+      _caseOrga("Troops"),
+      _caseOrga("Troops"),
+      _caseOrga("Elites"),
+      _caseOrga("Elites"),
+      _caseOrga("Support"),
+      _caseOrga("Support"),
+    ],
+  },
+
   /* ---------- Détachement Principal de Legio Titanicus ----------
      Livre d'armée Legio Titanicus. Deuxième façon (avec le Titan
      isolé en Détachement de Seigneur des Batailles, voir plus bas)
@@ -4206,6 +4516,29 @@ const AVANTAGES_PRINCIPAUX = [
     detachementsRequis: ["escadron-commandement-blinde"],
     texte:
       "Armoured Spearhead Missions, Unit composed only of Models of the Vehicle Type: the Model always counts as Stationary for the purposes of the Heavy (X) Special Rule, whether or not it has moved during the Battle Turn.",
+  },
+  /* --- Legiones Astartes Primary Detachments (novembre 2026) :
+     Avantages Principaux propres à un Détachement Principal précis
+     (`detachementsRequis`). `reglesAppliquees` approxime « les
+     Figurines de Type X gagnent… » au niveau de l'Unité entière. --- */
+  {
+    id: "ancient-of-war",
+    nom: "Ancient of War (Fury of the Ancients)",
+    typesRequis: ["Walker"],
+    typesExclus: ["Malefic"],
+    detachementsRequis: ["fury-of-the-ancients"],
+    reglesAppliquees: ["Eternal Warrior (1)"],
+    texte:
+      "Only for a Slot containing a Model with the Walker Type that does not have the Malefic Sub-Type: Models in the Unit gain the Eternal Warrior (1) Special Rule.",
+  },
+  {
+    id: "skilled-riders",
+    nom: "Skilled Riders (Sky-Hunter Phalanx)",
+    typesRequis: ["Cavalry"],
+    detachementsRequis: ["sky-hunter-phalanx"],
+    reglesAppliquees: ["Shrouded (6+)", "Move Through Cover"],
+    texte:
+      "Models with the Cavalry Type in the Unit gain the Shrouded (6+) and Move Through Cover Special Rules.",
   },
   /* --- Journal Tactica : Battle of Tallarn, Avantages Principaux
      Vagus : réservés à une Case Principale occupée par une Unité

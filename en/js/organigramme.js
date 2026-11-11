@@ -967,9 +967,169 @@ const Organigramme = (() => {
     // Principal de Maisonnées habituel de Chevaliers Questoris quand
     // il est renseigné — proposé pour toute Faction sauf Legio
     // Titanicus, voir construireParametres().
-    if (etat.chartPrincipal) return etat.chartPrincipal;
+    // Un Chart réservé à une Faction (`faction`, ex : Détachements
+    // Principaux Legiones Astartes) n'est retenu que pour celle-ci : s'il
+    // reste mémorisé après un changement de Faction, on l'ignore.
+    if (etat.chartPrincipal) {
+      const chart = TYPES_DETACHEMENTS.find((t) => t.id === etat.chartPrincipal);
+      if (chart && (!chart.faction || chart.faction === etat.faction))
+        return etat.chartPrincipal;
+    }
     if (etat.faction === "chevaliers-questoris") return "maisonnees-chevaliers";
     return "principal";
+  }
+
+  // Type du Détachement Principal actuel de l'Armée (porte les règles
+  // de composition des Détachements Principaux Legiones Astartes :
+  // detachementsAutorises, casesBonus, unitesVehiculeUniquement…, voir
+  // js/organigramme-data.js).
+  function chartArmee() {
+    return (
+      TYPES_DETACHEMENTS.find((t) => t.id === idDetachementPrincipal()) || null
+    );
+  }
+
+  // Une des variantes de l'Unité a une Règle Spéciale commençant par
+  // ce nom (ex : "Guerrier-artisan" pour « Guerrier-artisan (2) »).
+  function uniteARegle(unite, debut) {
+    return unite.variantes.some((v) =>
+      (v.regles || []).some((r) => r.startsWith(debut)),
+    );
+  }
+
+  // Toutes les variantes de l'Unité ont ce Type/Sous-type dans leur
+  // ligne « Type » (ex : "Véhicule").
+  function uniteToujoursType(unite, type) {
+    return unite.variantes.every((v) => (v.type || "").includes(type));
+  }
+
+  // Une Figurine de l'Unité a une Caractéristique de Mouvement de 0 ou
+  // « — » (Armoured Spearhead) — tous profils confondus (profil,
+  // profils, profilVehicule…).
+  function uniteMouvementNul(unite) {
+    const nul = (m) => m === 0 || m === "0" || m === "—" || m === "-";
+    return unite.variantes.some((v) =>
+      Object.keys(v)
+        .filter((cle) => cle.startsWith("profil"))
+        .some((cle) => {
+          const valeur = v[cle];
+          const profils = Array.isArray(valeur) ? valeur : [valeur];
+          return profils.some(
+            (p) => p && (nul(p.M) || (p.profil && nul(p.profil.M))),
+          );
+        }),
+    );
+  }
+
+  // L'Unité peut recevoir une amélioration de Décurion (Magna, ou l'une
+  // des autres) — Armoured Spearhead : Case QG / État-major.
+  function unitePeutDecurion(unite, magna) {
+    return (unite.options || []).some((o) =>
+      magna
+        ? o.id === "decurion-magna"
+        : o.id.startsWith("decurion-") && o.id !== "decurion-magna",
+    );
+  }
+
+  function instanceADecurion(instance, magna) {
+    return Object.entries(instance.valeurs || {}).some(
+      ([id, val]) =>
+        val === true &&
+        (magna
+          ? id === "decurion-magna"
+          : id.startsWith("decurion-") && id !== "decurion-magna"),
+    );
+  }
+
+  // Rôles Tactiques possibles pour la Case ajoutée par un Avantage
+  // `ajouteCase`, compte tenu du Détachement Principal de l'Armée (Fury
+  // of the Ancients : seul Engin de Guerre reste permis).
+  function rolesCaseAjouteePour(avantage) {
+    const base =
+      avantage.rolesCaseAjoutee ||
+      Object.keys(ROLES_TACTIQUES).filter(
+        (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
+      );
+    const chart = chartArmee();
+    return chart && chart.rolesAjoutCaseAutorises
+      ? base.filter((r) => chart.rolesAjoutCaseAutorises.includes(r))
+      : base;
+  }
+
+  // Avantage `ajouteCase` interdit par le Détachement Principal de
+  // l'Armée (« Prime Advantages which add additional Battlefield Role
+  // Slots to a Detachment may not be selected »).
+  function avantageAjoutCaseInterdit(avantage) {
+    const chart = chartArmee();
+    if (!chart || !chart.interditAvantagesAjoutCase || !avantage.ajouteCase)
+      return false;
+    return (
+      !chart.rolesAjoutCaseAutorises || rolesCaseAjouteePour(avantage).length === 0
+    );
+  }
+
+  /* Cases bonus d'un Détachement Principal `casesBonus` (Pride of the
+     Legion : une Case de Transport Lourd par Case de Suite/Assaut
+     Lourd/Élite remplie ; Orbital Drop Assault : une Case de Transport
+     ou Transport Lourd par Unité sans Type Véhicule de l'Armée). Même
+     principe que synchroniserCasesRegles : recalculées à chaque
+     actualisation ; une Case retirée alors qu'elle était occupée libère
+     son Unité. Les Cases vides partent en premier. */
+  function nombreCasesBonusAttendu(det, def) {
+    if (def.par === "casesRemplies") {
+      return det.cases.filter(
+        (c) =>
+          !c.bonus &&
+          !c.extra &&
+          c.uniteUid !== null &&
+          def.rolesComptes.includes(c.role),
+      ).length;
+    }
+    if (def.par === "unitesNonVehicule") {
+      return hooks.getArmee().filter((inst) => {
+        if (estExempteLimite(inst.uid)) return false;
+        const unite = hooks.trouverUnite(inst.uniteId);
+        if (!unite) return false;
+        const variante = unite.variantes[inst.variante] || unite.variantes[0];
+        return !(variante.type || "").includes("Vehicle");
+      }).length;
+    }
+    return 0;
+  }
+
+  function synchroniserCasesBonus() {
+    for (const det of etat.detachements) {
+      const def = typeDe(det).casesBonus;
+      if (!def) {
+        det.cases = det.cases.filter((c) => !c.bonus);
+        continue;
+      }
+      const attendu = nombreCasesBonusAttendu(det, def);
+      let bonus = det.cases.filter((c) => c.bonus);
+      while (bonus.length < attendu) {
+        det.cases.push({
+          role: def.roles.length === 1 ? def.roles[0] : null,
+          principale: false,
+          uniteUid: null,
+          avantage: "aucun",
+          extra: false,
+          bonus: true,
+        });
+        bonus = det.cases.filter((c) => c.bonus);
+      }
+      while (bonus.length > attendu) {
+        const vide = [...bonus].reverse().find((c) => c.uniteUid === null);
+        const aRetirer = vide || bonus[bonus.length - 1];
+        det.cases.splice(det.cases.indexOf(aRetirer), 1);
+        bonus = det.cases.filter((c) => c.bonus);
+      }
+      if (def.roles.length > 1) {
+        for (const c of bonus) {
+          const occ = occupant(c);
+          c.role = occ ? occ.unite.categorie : null;
+        }
+      }
+    }
   }
 
   // Faction implicite d'un Détachement Type qui ne déclare pas son
@@ -1701,6 +1861,33 @@ const Organigramme = (() => {
       return Boolean(def && def.uniteIds.includes(unite.id));
     }
     const type = typeDe(det);
+    // Restrictions de composition d'un Détachement Principal Legiones
+    // Astartes (Fury of the Ancients, Armoured Spearhead…), valables pour
+    // TOUTE l'Armée — sauf le Détachement Narratif, bac à sable du site.
+    const chart = chartArmee();
+    if (chart && type.famille !== "narratif") {
+      if (
+        chart.unitesVehiculeUniquement &&
+        !uniteToujoursType(unite, "Vehicle") &&
+        !uniteARegle(unite, "Battlesmith")
+      )
+        return false;
+      if (chart.interditMouvementNul && uniteMouvementNul(unite)) return false;
+      if (
+        chart.sousTypesExigeantArtisan &&
+        chart.sousTypesExigeantArtisan.some((st) =>
+          uniteToujoursType(unite, st),
+        ) &&
+        !uniteARegle(unite, "Battlesmith")
+      )
+        return false;
+      if (
+        chart.seigneurBataillesTransportUniquement &&
+        type.id === "seigneur-batailles" &&
+        !uniteToujoursType(unite, "Transport")
+      )
+        return false;
+    }
     // Faction (champ `faction`, js/unites-data.js — Legio Astartes vs
     // Legio Titanicus etc., à ne pas confondre avec la Légion Astartes
     // ci-dessous) : une unité n'occupe une Case que dans un détachement
@@ -1929,9 +2116,26 @@ const Organigramme = (() => {
       if (traitEtabliSkitarii && traitFixeSkitarii !== traitEtabliSkitarii)
         return false;
     }
+    // Case bonus d'un Détachement Principal `casesBonus` (Pride of the
+    // Legion, Orbital Drop Assault) : l'un des Rôles listés.
+    if (caseOrga.bonus) {
+      return Boolean(
+        type.casesBonus && type.casesBonus.roles.includes(unite.categorie),
+      );
+    }
     const restriction = type.restrictions && type.restrictions[caseOrga.role];
     if (restriction && !restriction.includes(unite.id)) return false;
     if (unite.categorie === caseOrga.role) return true;
+    // Armoured Spearhead : un Véhicule pouvant recevoir le Décurion Magna
+    // occupe la Case QG, un autre Décurion une Case d'État-major (option
+    // à cocher sur la fiche — vérifié par validerArmee()).
+    if (
+      type.decurionCommandement &&
+      ((caseOrga.role === "High Command" && unitePeutDecurion(unite, true)) ||
+        (caseOrga.role === "Command" && unitePeutDecurion(unite, false)))
+    ) {
+      return true;
+    }
     // Affectation Spéciale : QG sur Case Principale d'État-major.
     if (
       unite.categorie === "High Command" &&
@@ -1962,6 +2166,14 @@ const Organigramme = (() => {
     return false;
   }
 
+  // Rôles possibles d'une Case bonus (`casesBonus`), en clair.
+  function libelleRolesBonus(det) {
+    const def = typeDe(det).casesBonus;
+    return def
+      ? def.roles.map((r) => ROLES_TACTIQUES[r].livre).join(" or ")
+      : "";
+  }
+
   // Libellé lisible d'une case (menus déroulants, messages, résumé).
   function libelleCase(det, indice) {
     const caseOrga = det.cases[indice];
@@ -1971,6 +2183,15 @@ const Organigramme = (() => {
         typeDe(det).nom +
         " — Additional Slot (" +
         caseOrga.origineRegle +
+        ") #" +
+        (indice + 1)
+      );
+    }
+    if (caseOrga.bonus) {
+      return (
+        typeDe(det).nom +
+        " — Bonus Slot (" +
+        libelleRolesBonus(det) +
         ") #" +
         (indice + 1)
       );
@@ -2005,6 +2226,13 @@ const Organigramme = (() => {
         const viaAffectationSpeciale =
           unite.categorie === "High Command" &&
           caseOrga.role === "Command";
+        // Armoured Spearhead : Véhicule logé en Case QG/État-major grâce
+        // à une amélioration de Décurion (voir caseAccepte).
+        const viaDecurion =
+          typeDe(det).decurionCommandement &&
+          unite.categorie !== caseOrga.role &&
+          (caseOrga.role === "High Command" ||
+            caseOrga.role === "Command");
         resultat.push({
           detUid: det.uid,
           indice,
@@ -2012,11 +2240,22 @@ const Organigramme = (() => {
             libelleCase(det, indice) +
             (viaAffectationSpeciale
               ? " — via Special Assignment (no detachment unlocked)"
+              : "") +
+            (viaDecurion
+              ? caseOrga.role === "High Command"
+                ? " — via Decurion Magna (tick it on the unit sheet)"
+                : " — via Decurion (tick it on the unit sheet)"
               : ""),
+          viaDecurion,
         });
       });
     }
-    return resultat;
+    // Les Cases « via Décurion » passent après les Cases du Rôle propre
+    // de l'Unité : le placement automatique (1ʳᵉ Case libre) ne doit pas
+    // loger un Predator en Case d'État-major par défaut.
+    return resultat
+      .filter((r) => !r.viaDecurion)
+      .concat(resultat.filter((r) => r.viaDecurion));
   }
 
   /* Avantage Principal appliqué à cette instance (id d'AVANTAGES_
@@ -2469,6 +2708,38 @@ const Organigramme = (() => {
       return {
         possible: false,
         raison: "Maximum reached: " + type.max + " per army (p. 283).",
+      };
+    }
+    // Détachements Principaux Legiones Astartes : seuls certains
+    // Détachements additionnels sont permis (le Détachement Narratif,
+    // bac à sable du site, reste toujours proposé).
+    const chart = chartArmee();
+    if (
+      chart &&
+      chart.detachementsAutorises &&
+      type.famille !== "narratif" &&
+      !chart.detachementsAutorises.includes(type.id)
+    ) {
+      return {
+        possible: false,
+        raison:
+          "Not allowed by the Primary Detachment “ " + chart.nom + " ».",
+      };
+    }
+    if (
+      chart &&
+      chart.maxDetachements &&
+      chart.maxDetachements[type.id] !== undefined &&
+      dejaPris >= chart.maxDetachements[type.id]
+    ) {
+      return {
+        possible: false,
+        raison:
+          "Maximum reached: " +
+          chart.maxDetachements[type.id] +
+          " with the Primary Detachment “ " +
+          chart.nom +
+          " ».",
       };
     }
     if (
@@ -3035,6 +3306,86 @@ const Organigramme = (() => {
         );
       }
     }
+
+    // 8. Restrictions des Détachements Principaux Legiones Astartes
+    //    (Pride of the Legion, Armoured Spearhead…, voir
+    //    js/organigramme-data.js).
+    const chart = chartArmee();
+    if (chart) {
+      if (
+        chart.requiertTrait &&
+        !hooks.getArmee().some((inst) => {
+          const unite = hooks.trouverUnite(inst.uniteId);
+          return unite && (unite.traits || []).includes(chart.requiertTrait);
+        })
+      ) {
+        erreurs.push(
+          "« " +
+            chart.nom +
+            " ”: the Army must include at least one Model with the Trait " +
+            chart.requiertTrait +
+            ".",
+        );
+      }
+      if (chart.detachementsAutorises) {
+        for (const det of etat.detachements) {
+          const t = typeDe(det);
+          if (
+            t.famille !== "principal" &&
+            t.famille !== "narratif" &&
+            !chart.detachementsAutorises.includes(t.id)
+          ) {
+            erreurs.push(
+              "« " +
+                t.nom +
+                " ” is not allowed with the Primary Detachment “ " +
+                chart.nom +
+                " ».",
+            );
+          }
+        }
+      }
+      if (chart.interditAvantagesAjoutCase) {
+        for (const det of etat.detachements) {
+          for (const c of det.cases) {
+            const avantage = avantageParId(c.avantage);
+            if (avantage && avantageAjoutCaseInterdit(avantage)) {
+              erreurs.push(
+                "« " +
+                  avantage.nom +
+                  " ” adds a Slot: not allowed with the Primary Detachment “ " +
+                  chart.nom +
+                  " ».",
+              );
+            }
+          }
+        }
+      }
+      if (chart.decurionCommandement) {
+        const principal = etat.detachements.find(
+          (d) => d.typeId === chart.id,
+        );
+        for (const c of principal ? principal.cases : []) {
+          const occ = occupant(c);
+          if (!occ || occ.unite.categorie === c.role) continue;
+          const magna = c.role === "High Command";
+          if (
+            (magna || c.role === "Command") &&
+            !instanceADecurion(occ.instance, magna)
+          ) {
+            erreurs.push(
+              "« " +
+                occ.unite.nom +
+                " ” fills a " +
+                (magna ? "High Command" : "Command") +
+                " Slot: tick its " +
+                (magna ? "Decurion Magna" : "Decurion") +
+                " upgrade on its unit sheet.",
+            );
+          }
+        }
+      }
+    }
     return erreurs;
   }
 
@@ -3107,6 +3458,11 @@ const Organigramme = (() => {
             .map((id) => avantageParId(id).nom)
             .join(" / ") +
           " ” may be chosen for this Detachment's Slots.";
+      } else if (avantageAjoutCaseInterdit(avantage)) {
+        raison =
+          "Not allowed by the Primary Detachment “ " +
+          chartArmee().nom +
+          " ”: this Advantage adds a Battlefield Role Slot.";
       } else if (
         occ &&
         aSousType(occ, "Unique") &&
@@ -3355,7 +3711,7 @@ const Organigramme = (() => {
       // de menu déroulant, voir construireCarteDetachement plus bas).
       // `nombreCasesAjoutees` (défaut 1) répète l'ajout, ex : Agent de
       // Clade qui ajoute 3 Cases d'Appui d'un coup.
-      const rolesPossibles = nouvelAvantage.rolesCaseAjoutee;
+      const rolesPossibles = rolesCaseAjouteePour(nouvelAvantage);
       const roleFixe =
         rolesPossibles && rolesPossibles.length === 1
           ? rolesPossibles[0]
@@ -3540,6 +3896,7 @@ const Organigramme = (() => {
               libre: c.libre || false,
               origineRegle: c.origineRegle || null,
               porteurUid: c.origineRegle ? c.porteurUid : null,
+              bonus: c.bonus || false,
             })),
           })),
         }),
@@ -3607,7 +3964,7 @@ const Organigramme = (() => {
               t.id === donnees.chartPrincipal &&
               t.famille === "principal" &&
               t.id !== "principal" &&
-              !t.faction,
+              (!t.faction || t.choixPrincipal),
           ))
       ) {
         etat.chartPrincipal = donnees.chartPrincipal;
@@ -3833,6 +4190,23 @@ const Organigramme = (() => {
           if (Number.isInteger(sauvee.uniteUid))
             caseOrga.uniteUid = sauvee.uniteUid;
         });
+        // Cases bonus d'un Détachement Principal `casesBonus` (Pride of
+        // the Legion, Orbital Drop Assault) : restaurées avec leur
+        // occupant ; synchroniserCasesBonus (appelée par reconcilier)
+        // ajuste ensuite leur nombre.
+        for (const sauvee of casesSauvees) {
+          if (!sauvee || !sauvee.bonus) continue;
+          det.cases.push({
+            role: typeof sauvee.role === "string" ? sauvee.role : null,
+            principale: false,
+            uniteUid: Number.isInteger(sauvee.uniteUid)
+              ? sauvee.uniteUid
+              : null,
+            avantage: "aucun",
+            extra: false,
+            bonus: true,
+          });
+        }
         // Cases additionnelles de Règles Spéciales (Maître des Automates…,
         // voir REGLES_CASE_ADDITIONNELLE) : restaurées après coup avec
         // leur porteur ; synchroniserCasesRegles (appelée par
@@ -3914,6 +4288,7 @@ const Organigramme = (() => {
     // Cases additionnelles de Règles Spéciales : une fois les porteurs
     // invalides écartés ci-dessus.
     synchroniserCasesRegles();
+    synchroniserCasesBonus();
     // Case supplémentaire d'un Avantage `ajouteCase` devenue orpheline
     // (données anciennes/altérées où plus aucune case du détachement
     // ne porte l'Avantage qui l'a créée) : on la retire, comme le fait
@@ -3964,7 +4339,7 @@ const Organigramme = (() => {
         ).length;
         const manquantes = attendu - existantes;
         if (manquantes <= 0) continue;
-        const rolesPossibles = avantage.rolesCaseAjoutee;
+        const rolesPossibles = rolesCaseAjouteePour(avantage);
         const roleFixe =
           rolesPossibles && rolesPossibles.length === 1
             ? rolesPossibles[0]
@@ -4647,8 +5022,14 @@ const Organigramme = (() => {
     // Un changement remplace le Détachement Principal comme un
     // changement de Légion/Rite de Guerre ci-dessus.
     if (etat.faction !== "legio-titanicus") {
+      // Charts génériques (Zone Mortalis) + Charts réservés à la Faction
+      // de l'Armée (`choixPrincipal`, ex : Détachements Principaux
+      // Legiones Astartes, proposés à la seule Faction Legio Astartes).
       const chartsPrincipaux = TYPES_DETACHEMENTS.filter(
-        (t) => t.famille === "principal" && t.id !== "principal" && !t.faction,
+        (t) =>
+          t.famille === "principal" &&
+          t.id !== "principal" &&
+          (!t.faction || (t.choixPrincipal && t.faction === etat.faction)),
       );
       if (chartsPrincipaux.length > 0) {
         const labelChart = el("label", null, "Primary Detachment Choice");
@@ -4659,7 +5040,11 @@ const Organigramme = (() => {
         for (const chart of chartsPrincipaux) {
           ajouterOption(selectChart, chart.id, chart.nom);
         }
-        selectChart.value = etat.chartPrincipal;
+        selectChart.value = chartsPrincipaux.some(
+          (c) => c.id === etat.chartPrincipal,
+        )
+          ? etat.chartPrincipal
+          : "";
         selectChart.addEventListener("change", () => {
           const nouveauChart = selectChart.value;
           if (nouveauChart !== etat.chartPrincipal) {
@@ -5590,6 +5975,49 @@ const Organigramme = (() => {
   }
 
   // Carte d'un détachement : titre, cases, bouton retirer.
+  /* Encart « Bénéfices / Restrictions » d'un Détachement Principal
+     Legiones Astartes (Pride of the Legion…) : affiché EN CLAIR sur sa
+     carte, pas seulement en info-bulle, car ces règles changent la
+     construction de toute l'Armée. Les Règles Spéciales et Avantages
+     propres au Détachement (`reglesDetachement`) suivent, repliés dans
+     un <details> quand ils sont longs (Protocoles de Largage Orbital). */
+  function construireReglesChart(type) {
+    const bloc = el("div", "orga-regles-chart");
+    const colonnes = el("div", "orga-regles-chart-colonnes");
+    for (const [titre, lignes, classe] of [
+      ["Benefits", type.benefices, "orga-regles-chart-benefices"],
+      ["Restrictions", type.contraintes, "orga-regles-chart-restrictions"],
+    ]) {
+      if (!lignes || lignes.length === 0) continue;
+      const colonne = el("div", "orga-regles-chart-colonne " + classe);
+      colonne.appendChild(el("h4", null, titre));
+      const ul = el("ul");
+      for (const ligne of lignes) ul.appendChild(el("li", null, ligne));
+      colonne.appendChild(ul);
+      colonnes.appendChild(colonne);
+    }
+    bloc.appendChild(colonnes);
+    if (type.reglesDetachement && type.reglesDetachement.length > 0) {
+      const details = document.createElement("details");
+      details.className = "orga-regles-chart-details";
+      // Une seule règle courte (Avantage Principal, Tactiques
+      // d'Escadron) : ouverte d'emblée ; plusieurs longues (Protocoles de
+      // Largage Orbital) : repliées pour ne pas noyer l'organigramme.
+      details.open = type.reglesDetachement.length === 1;
+      details.appendChild(
+        el("summary", null, "Detachment special rules"),
+      );
+      for (const regle of type.reglesDetachement) {
+        const p = el("p");
+        p.appendChild(el("strong", null, regle.nom + " — "));
+        p.appendChild(document.createTextNode(regle.texte));
+        details.appendChild(p);
+      }
+      bloc.appendChild(details);
+    }
+    return bloc;
+  }
+
   function construireDetachementDOM(det) {
     const type = typeDe(det);
     const carte = el(
@@ -5635,6 +6063,9 @@ const Organigramme = (() => {
       entete.appendChild(retirer);
     }
     carte.appendChild(entete);
+    if (type.benefices || type.contraintes || type.reglesDetachement) {
+      carte.appendChild(construireReglesChart(type));
+    }
     if (type.id === "allie") {
       carte.appendChild(construireSelectFactionAlliee(det));
       if (det.factionAlliee === "legio-astartes") {
@@ -5688,9 +6119,11 @@ const Organigramme = (() => {
                 .map((u) => u.nom)
                 .join(" or ") +
               ")"
-            : role
-              ? role.livre
-              : caseOrga.role || "Role to choose") +
+            : caseOrga.bonus
+              ? "Bonus Slot — " + libelleRolesBonus(det)
+              : role
+                ? role.livre
+                : caseOrga.role || "Role to choose") +
             (estCasePrincipale(det, caseOrga) ? " — Prime Slot" : "") +
             (caseOrga.extra
               ? " (" +
@@ -5721,10 +6154,11 @@ const Organigramme = (() => {
         const origineExtra = avantageParId(caseOrga.origineAvantage);
         const rolesPossiblesExtra = caseOrga.libre
           ? Object.keys(ROLES_TACTIQUES)
-          : (origineExtra && origineExtra.rolesCaseAjoutee) ||
-            Object.keys(ROLES_TACTIQUES).filter(
-              (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
-            );
+          : origineExtra
+            ? rolesCaseAjouteePour(origineExtra)
+            : Object.keys(ROLES_TACTIQUES).filter(
+                (cle) => !ROLES_INTERDITS_LOGISTIQUE.includes(cle),
+              );
         if (rolesPossiblesExtra.length !== 1) {
           // Rôle fixe (liste à un seul élément, ex : Bardé de Fer, Agent
           // de Clade) : rien à afficher ici, déjà visible dans la ligne
@@ -6243,6 +6677,7 @@ const Organigramme = (() => {
       sectionTutorielBlackshields.hidden = etat.faction !== "blackshields";
     }
     synchroniserCasesRegles();
+    synchroniserCasesBonus();
     construireParametres(document.getElementById("orga-parametres"));
     construireBarre(document.getElementById("orga-barre"));
     const arbre = document.getElementById("orga-arbre");

@@ -373,6 +373,14 @@ const REGLES_DIVERSES = [
       "Bonus aux Jets de Réparation d'un Véhicule : on réussit sur X ou plus, au lieu du 6 habituel.",
   },
   {
+    // Legiones Astartes Primary Detachments (novembre 2026) : accordée
+    // aux Véhicules d'une Armée au Détachement Principal Armoured
+    // Spearhead (voir js/organigramme-data.js).
+    nom: "Tactiques d'Escadron",
+    texte:
+      "Tant qu'une Figurine ayant cette Règle Spéciale est à 6 pouces ou moins d'une autre Figurine ayant cette Règle Spéciale, le Joueur en Contrôle peut ajouter 2 aux Jets de Réparation faits pour elle.",
+  },
+  {
     // Journal Tactica : Battle of Tallarn (Char de Commandement Spartan
     // Prometheus, voir js/unites-data.js).
     nom: "Commandant de Chars (X)",
