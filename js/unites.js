@@ -2472,7 +2472,33 @@ function apportsDisciplinesDe(unite, instance, regles) {
     accordees.push(...reglesD);
     armes.push(...armesD);
   }
+  accordees.push(...pouvoirsAnathemataDe(unite, instance, regles));
   return { regles: accordees, armes };
+}
+
+// Discipline Anathemata (p. 35 ; Ésotériste, Lorgar, Erebus, option
+// Tradition Ardente des Word Bearers) : Peur (1) et, selon l'Allégeance,
+// le Pouvoir Déchirer le Voile (Renégat) ou la Réaction Sceller le Voile
+// (Loyaliste). Allégeance lue sur le Trait fixe de l'Unité, à défaut
+// sur celle de l'Armée. Son Arme Psychique (Dards du Néant) est ajoutée
+// à part, voir ARMES_PSYCHIQUES_DISCIPLINES.
+function pouvoirsAnathemataDe(unite, instance, regles) {
+  const connue =
+    regles.includes("Discipline Anathemata") ||
+    Boolean(instance && instance.valeurs["tradition-ardente"]);
+  if (!connue) return [];
+  const traits = unite.traits || [];
+  let allegeance = traits.includes("Renégat")
+    ? "renegat"
+    : traits.includes("Loyaliste")
+      ? "loyaliste"
+      : null;
+  if (!allegeance && window.Organigramme)
+    allegeance = Organigramme.allegeanceActuelle();
+  const pouvoirs = ["Peur (1)"];
+  if (allegeance === "renegat") pouvoirs.push("Déchirer le Voile");
+  else if (allegeance === "loyaliste") pouvoirs.push("Sceller le Voile");
+  return pouvoirs;
 }
 
 const REGLES_TOUS_ARCANES = ["Sorcier Suprême"];

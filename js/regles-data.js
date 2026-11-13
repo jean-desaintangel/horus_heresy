@@ -929,7 +929,8 @@ const REGLES_DIVERSES = [
   },
 
   /* --- Arsenal des World Eaters (XIIe Légion) : Angron, Angron
-     Transfiguré, Khârn le Sanglant, Lotara Sarrin, Escouade Saccageuse
+     Transfiguré, Khârn le Sanglant, Lotara Sarrin, Escouade Saccageuse,
+     Bouchers Rouges
      (voir js/unites-data.js, unités réservées à cette Légion). --- */
   {
     nom: "Seigneur des Sables Écarlates",
@@ -940,6 +941,11 @@ const REGLES_DIVERSES = [
     nom: "Sire des World Eaters",
     texte:
       "Le Joueur en Contrôle peut appliquer les Règles Spéciales supplémentaires suivantes à tous les Détachements Principaux, Auxiliaires et d'Apex World Eaters de son Armée, tant qu'une Figurine ayant cette Règle Spéciale en fait partie : si au moins quatre Cases de Rôle Tactique Troupes du Détachement Principal de cette Armée sont occupées par des Unités d'Escouade d'Assaut et/ou Nettoyeuse, on les considère comme des Cases Principales. Jusqu'à la fin du premier Tour de Bataille, toutes les Figurines de Type Infanterie ou Parangon qui ont le Trait World Eaters ont la Règle Spéciale Vif (2).",
+  },
+  {
+    nom: "Fous Furieux",
+    texte:
+      "Les Bouchers Rouges n'ont plus aucun instinct de conservation, et ne songent même pas à parer ou esquiver les coups. Les Bouchers Rouges comptent comme ayant une Caractéristique de Capacité de Combat de 3 quand leur adversaire fait des Jets de Touche. Tout Jet de Touche fait à la Phase d'Assaut contre une Unité qui inclut au moins une Figurine ayant cette Règle Spéciale se fait toujours contre une Caractéristique de Capacité de Combat majoritaire de l'Unité Cible de 3, quelle que soit la véritable Caractéristique de Capacité de Combat des Figurines de l'Unité. De plus, une Unité qui inclut la moindre Figurine ayant cette Règle Spéciale ne peut être rejointe que par des Figurines ayant cette Règle Spéciale.",
   },
   {
     nom: "Calme et Posée",
@@ -2448,6 +2454,52 @@ const REGLES_DIVERSES = [
     nom: "Baies de Transport Auxiliaires",
     texte:
       "Les Transporteurs Thunderhawk sont équipés d'armatures flexibles, capables d'acheminer rapidement au combat divers véhicules Legiones Astartes, tout en participant à leur récupération et à celle d'autre matériel lourd. Un Transporteur Thunderhawk peut transporter certaines Figurines de Type Véhicule en plus de l'Infanterie. En plus de toute autre Figurine Embarquée sur une Figurine ayant cette Règle Spéciale, elle peut également avoir Embarquée sur elle l'une des Figurines suivantes : jusqu'à deux Figurines Rhino, ou une Figurine Porteur Land Raider ou Land Raider Explorator.",
+  },
+  /* --- Personnages et unités des Word Bearers (XVIIe Légion) : Kor
+     Phaeron, Erebus, Zardu Layak, Escouade du Cercle de Cendres (voir
+     js/unites-data.js). --- */
+  {
+    nom: "Sombre Éloquence",
+    texte:
+      "La maîtrise de l'art oratoire de Kor Phaeron est légendaire. Pendant la Grande Croisade, il était capable de rallier des populations entières à la cause impériale, et mit plus tard ses talents au service d'un plus noir dessein. Le Joueur en Contrôle de Kor Phaeron peut appliquer des Règles Spéciales additionnelles aux Unités amies à la Sous-phase des Effets. À sa Sous-phase des Effets, le Joueur en Contrôle de cette Figurine peut choisir une Unité amie composée uniquement de Figurines qui ont le Trait Word Bearers à 6 pouces de cette Figurine, puis choisir un des effets suivants. Cruelle Invective : jusqu'au début de la prochaine Sous-phase des Effets du Joueur en Contrôle, toutes les Figurines de l'Unité choisie gagnent la Règle Spéciale Haine (Loyalistes). Suppliques Menaçantes : jusqu'au début de la prochaine Sous-phase des Effets du Joueur en Contrôle, on modifie de +2 les Caractéristiques de Commandement et de Sang-froid de toutes les Figurines de l'Unité choisie.",
+  },
+  {
+    nom: "Commandement Jaloux",
+    texte:
+      "Kor Phaeron était réputé pour son arrogance et son orgueil sans limites. Il ne tolérait aucune autorité au-dessus de la sienne, hormis celle de son Primarque et fils adoptif Lorgar. Ce dernier était le seul homme devant lequel Kor Phaeron acceptait de ployer le genou — mais beaucoup se demandaient s'il le faisait par respect, ou pour manipuler le Primarque depuis la droite de son trône. Les Caractéristiques de Kor Phaeron s'améliorent s'il est la seule Figurine de Sous-type Unique de l'Armée. Si cette Figurine est la seule Figurine de Sous-type Unique que compte votre Armée, on modifie de +1 les Caractéristiques de Points de Vie et de Commandement de ladite Figurine.",
+  },
+  {
+    nom: "Seigneur des Bénis",
+    texte:
+      "Erebus faisait en sorte de toujours s'entourer de ceux qui avaient été bénis par le panthéon dont il cherchait la bénédiction. Erebus peut rejoindre des Unités de Sous-type Maléfique. Une Figurine ayant cette Règle Spéciale peut rejoindre des Unités de Sous-type Maléfique comme si elle était de ce Sous-type, et tant qu'elle fait partie d'une telle Unité, on la traite comme si elle était de ce Sous-type.",
+  },
+  {
+    nom: "Émissaire du Chaos",
+    texte:
+      "Architecte des ténèbres, Erebus disposait d'un pouvoir que bien peu soupçonnaient, et pouvait invoquer une véritable armée soumise à sa seule volonté. Dans une Armée dont le Détachement Principal comprend une Figurine ayant cette Règle Spéciale, on peut sélectionner des Détachements Auxiliaires de Manifestation Démoniaque quel que soit le nombre de Cases d'Organigramme de Force d'État-major occupées par des Unités d'Ésotériste.",
+  },
+  {
+    nom: "Entraveur d'Âmes",
+    texte:
+      "Digne acolyte d'Erebus, Zardu Layak jouit d'une maîtrise sans égale du malveillant art du Warp. Zardu Layak a des Pouvoirs Psychiques particuliers. Une Figurine ayant cette Règle Spéciale gagne le Pouvoir Psychique Entraves de l'Âme et le Pouvoir Psychique Déchirer le Voile (Discipline Anathemata).",
+  },
+  {
+    // Processus corrigé à la main dans le livre (photo fournie par
+    // Jean) : Test de Résistance, et non de Manifestation — la Cible
+    // est sous contrôle si ce Test est raté, sans effet s'il est réussi.
+    nom: "Entraves de l'Âme",
+    texte:
+      "Pouvoir Psychique (Malédiction) de Zardu Layak, qui maîtrise depuis longtemps l'art d'asservir la volonté d'autrui à la sienne pour transformer ses ennemis en marionnettes entièrement sous son contrôle. Déclencheur : le Joueur Actif peut Manifester le Pouvoir Psychique Entraves de l'Âme à la Phase d'Assaut, au début de l'Étape Déclarer les Armes et Définir les Rangs d'Initiative de la Sous-phase de Combat. Focus : le Focus du Pouvoir doit être une Figurine de Zardu Layak. Cible : l'Unité Cible doit être une Unité ennemie impliquée dans le même Combat que la Figurine du Focus. Durée : si on réussit à manifester ce Pouvoir Psychique, ses effets durent jusqu'à la fin de l'Étape Faire les Mises au Contact Finales de ce Combat. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Résistance ; 2) si le Test de Résistance est raté, le Joueur en Contrôle de la Figurine de Focus peut choisir une Figurine de l'Unité Cible qui a une Caractéristique de Volonté de 7 ou moins ; 3) pour la Durée de ce Pouvoir Psychique, on considère que la Figurine choisie est sous le contrôle du Joueur en Contrôle du Focus de ce Pouvoir ; 4) si le Test de Résistance est réussi, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "La Panoplie de Flammes",
+    texte:
+      "La Panoplie de Flammes est à la fois une bannière et une arme contre les ennemis de Zardu Layak, qui peut modeler à volonté la flamme impure qu'elle produit. La Panoplie de Flammes donne au Joueur en Contrôle un Point de Résolution de Combat bonus. Quand on résout un Combat à la Sous-phase de Résolution de la Phase d'Assaut, on marque 1 Point de Résolution de Combat pour l'Unité qui comprend une Figurine dotée de la Panoplie de Flammes.",
+  },
+  {
+    nom: "Annonciateurs de la Vérité",
+    texte:
+      "Les guerriers du Cercle de Cendres fondent au cœur des formations ennemies sans crier gare, pour les repousser par la force de leur conviction dans des gerbes de flammes purificatrices. La Caractéristique de Puissance de Feu des lance-flammes légers akkadiques du Cercle de Cendres s'améliore à l'Étape des Attaques de Volée. Quand une Figurine ayant cette Règle Spéciale fait des Attaques de Volée, on modifie de +1 la Caractéristique de Puissance de Feu du lance-flammes léger akkadique de ladite Figurine.",
   },
   {
     nom: "Invocation de la Tempête Ravageuse",

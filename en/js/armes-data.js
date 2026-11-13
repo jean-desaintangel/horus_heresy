@@ -4664,7 +4664,7 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Corswain, Dark Angels).
         nom: "The Blade",
-        stats: ["1", "A", "+2", "2", "2"],
+        stats: ["I", "A", "+2", "2", "2"],
         regles: "Duellist's Edge (2)",
         traits: "Power, Sword of the Order",
       },
@@ -4831,21 +4831,21 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Kor Phaeron, Word Bearers).
         nom: "Patriarch's claws",
-        stats: ["1", "A", "S", "2", "1"],
+        stats: ["I", "A", "S", "2", "1"],
         regles: "Shred (6+)",
         traits: "Power",
       },
       {
         // Arme de personnage (Erebus, Word Bearers).
         nom: "Crux Malefica",
-        stats: ["1", "A", "+3", "2", "2"],
+        stats: ["I", "A", "+3", "2", "2"],
         regles: "Phage (S)",
         traits: "Power, Psychic",
       },
       {
         // Arme de personnage (Argel Tal, Word Bearers).
         nom: "Daemonic Talons",
-        stats: ["1", "A", "S", "2", "2"],
+        stats: ["I", "A", "S", "2", "2"],
         regles: "-",
         traits: "Psychic",
       },
@@ -4860,14 +4860,14 @@ const ARMES_MELEE = [
         // Arme de personnage (Anakatis Kul, compagnon de Zardu Layak,
         // Word Bearers).
         nom: "Anakatis blade",
-        stats: ["1", "A", "S", "3", "2"],
+        stats: ["I", "A", "S", "3", "2"],
         regles: "Breaching (6+), Phage (S)",
         traits: "Psychic",
       },
       {
         // Arme de l'Unité Gal Vorbak (Word Bearers).
         nom: "Tainted Talons",
-        stats: ["1", "A", "S", "3", "1"],
+        stats: ["I", "A", "S", "3", "1"],
         regles: "Breaching (6+), Shred (6+), Phage (S)",
         traits: "Psychic",
       },
@@ -4885,14 +4885,14 @@ const ARMES_MELEE = [
       {
         // Arme du Dreadnought Mhara Gal (Word Bearers).
         nom: "Tainted Claw",
-        stats: ["1", "A", "+3", "2", "3"],
+        stats: ["I", "A", "+3", "2", "3"],
         regles: "-",
         traits: "Psychic, Power",
       },
       {
         // Arme de l'Escouade du Cercle de Cendres (Word Bearers).
         nom: "Fang-axe",
-        stats: ["1", "A", "+1", "3", "1"],
+        stats: ["I", "A", "+1", "3", "1"],
         regles: "Critical Hit (6+), Phage (M)",
         traits: "Chain",
       },
@@ -5085,7 +5085,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
         // Angels).
         nom: "The Lion Sword",
-        stats: ["1", "A", "+2", "2", "3"],
+        stats: ["I", "A", "+2", "2", "3"],
         regles: "-",
         traits: "Power, Sword of the Order",
       },
@@ -5093,21 +5093,21 @@ const ARMES_MELEE = [
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
         // Angels) : échange possible gratuit contre l'Épée du Lion.
         nom: "The Wolf Blade",
-        stats: ["1", "A", "S", "3", "1"],
+        stats: ["I", "A", "S", "3", "1"],
         regles: "Shred (4+), Breaching (4+), Reaping Blow (2)",
         traits: "Chain, Sword of the Order",
       },
       {
         // Arme de personnage (Leman Russ, Primarque des Space Wolves).
         nom: "The Sword of Nightfall",
-        stats: ["1", "A", "+1", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Critical Hit (5+)",
         traits: "-",
       },
       {
         // Arme de personnage (Leman Russ, Primarque des Space Wolves).
         nom: "The Axe of Helwinter",
-        stats: ["1", "A", "+2", "2", "2"],
+        stats: ["I", "A", "+2", "2", "2"],
         regles: "Armourbane, Reaping Blow (1)",
         traits: "-",
       },
@@ -5141,7 +5141,7 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Sanguinius, Primarque des Blood Angels).
         nom: "The Blade Encarmine",
-        stats: ["1", "A", "+1", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Critical Hit (5+), Impact (AM)",
         traits: "Power",
       },
@@ -5153,14 +5153,14 @@ const ARMES_MELEE = [
       },
       {
         nom: "Moonsilver Blade",
-        stats: ["1", "A", "S", "3", "2"],
+        stats: ["I", "A", "S", "3", "2"],
         regles: "Duellist's Edge (1)",
         traits: "Power",
       },
       {
         // Arme de personnage (Angron, Primarque des World Eaters).
         nom: "Gorefather and Gorechild",
-        stats: ["1", "+1", "S", "2", "2"],
+        stats: ["I", "+1", "S", "2", "2"],
         regles: "Critical Hit (6+), Shred (5+)",
         traits: "Chain",
       },
@@ -5168,7 +5168,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Angron Transfiguré, World Eaters) : profil
         // Éviscération, voir aussi Concassage ci-dessous.
         nom: "Blades of the Red Angel — Evisceration",
-        stats: ["1", "A", "S", "2", "2"],
+        stats: ["I", "A", "S", "2", "2"],
         regles: "Reaping Blow (2)",
         traits: "-",
       },
@@ -5183,14 +5183,14 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Vulkan, Primarque des Salamanders).
         nom: "Dawnbringer",
-        stats: ["1", "A", "+2", "2", "3"],
+        stats: ["I", "A", "+2", "2", "3"],
         regles: "Critical Hit (5+), Armourbane",
         traits: "Power",
       },
       {
         // Arme de personnage (Rogal Dorn, Primarque des Imperial Fists).
         nom: "Teeth of the Storm",
-        stats: ["1", "A", "S", "2", "2"],
+        stats: ["I", "A", "S", "2", "2"],
         regles: "Shred (4+), Reaping Blow (2)",
         traits: "Chain",
       },
@@ -5198,7 +5198,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Roboute Guilliman, Primarque des
         // Ultramarines).
         nom: "The Gladius Incandor",
-        stats: ["1", "A", "S", "3", "2"],
+        stats: ["I", "A", "S", "3", "2"],
         regles: "Breaching (5+), Duellist's Edge (1)",
         traits: "Power",
       },
@@ -5215,7 +5215,7 @@ const ARMES_MELEE = [
         // des Sons of Horus). Profil de Mêlée : possède aussi un
         // profil de Tir (voir Armes à Bolts ci-dessus).
         nom: "The Warmaster's Talon",
-        stats: ["1", "A", "S", "2", "1"],
+        stats: ["I", "A", "S", "2", "1"],
         regles: "Reaping Blow (3), Shred (6+)",
         traits: "Power",
       },
@@ -5304,7 +5304,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Konrad Curze, Primarque des Night
         // Lords).
         nom: "Mercy and Forgiveness",
-        stats: ["1", "+2", "S", "2", "1"],
+        stats: ["I", "+2", "S", "2", "1"],
         regles: "Critical Hit (5+), Shred (4+)",
         traits: "Power",
       },
@@ -5312,7 +5312,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Fulgrim, Primarque des Emperor's
         // Children).
         nom: "Laerian Blade",
-        stats: ["1", "A", "S", "2", "2"],
+        stats: ["I", "A", "S", "2", "2"],
         regles: "Duellist's Edge (1)",
         traits: "-",
       },
@@ -5374,6 +5374,25 @@ const ARMES_MELEE = [
         stats: ["+1", "A", "S", "3", "1"],
         regles: "Critical Hit (6+), Phage (S)",
         traits: "Power",
+      },
+    ],
+  },
+  {
+    // Arsenal des World Eaters (XIIe Légion) : armes des Bouchers
+    // Rouges (voir js/unites-data.js, unité réservée à cette Légion).
+    titre: "Red Butchers Weapons",
+    armes: [
+      {
+        nom: "Butcher's power axes",
+        stats: ["-1", "+1", "+1", "3", "1"],
+        regles: "Breaching (4+)",
+        traits: "Power",
+      },
+      {
+        nom: "Butcher's chainfists",
+        stats: ["-3", "A", "+4", "2", "3"],
+        regles: "Shred (6+), Armourbane",
+        traits: "Chain",
       },
     ],
   },

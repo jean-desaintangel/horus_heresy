@@ -929,7 +929,8 @@ const REGLES_DIVERSES = [
   },
 
   /* --- Arsenal des World Eaters (XIIe Légion) : Angron, Angron
-     Transfiguré, Khârn le Sanglant, Lotara Sarrin, Escouade Saccageuse
+     Transfiguré, Khârn le Sanglant, Lotara Sarrin, Escouade Saccageuse,
+     Bouchers Rouges
      (voir js/unites-data.js, unités réservées à cette Légion). --- */
   {
     nom: "Lord of the Red Sands",
@@ -940,6 +941,11 @@ const REGLES_DIVERSES = [
     nom: "Sire of the World Eaters",
     texte:
       "The Controlling Player may apply the following additional Special Rules to all World Eaters Primary, Auxiliary and Apex Detachments in their Army, while a Model with this Special Rule is part of it: if at least four Troops Battlefield Role Slots in this Army's Primary Detachment are filled by Assault Squad and/or Purge Squad Units, they are considered to be Prime Slots. Until the end of the first Battle Turn, all Models with the Infantry or Paragon Type that have the World Eaters Trait have the Fleet (2) Special Rule.",
+  },
+  {
+    nom: "Berserk Madmen",
+    texte:
+      "The Red Butchers have lost all instinct for self-preservation, and do not even think to parry or dodge blows. Red Butchers count as having a Weapon Skill Characteristic of 3 when their opponent makes Hit Tests. Any Hit Test made in the Assault Phase against a Unit that includes at least one Model with this Special Rule is always made against a majority Weapon Skill Characteristic of the Target Unit of 3, regardless of the actual Weapon Skill Characteristic of the Models in the Unit. In addition, a Unit that includes any Model with this Special Rule can only be joined by Models that have this Special Rule.",
   },
   {
     nom: "Calm and Collected",
@@ -2448,6 +2454,52 @@ const REGLES_DIVERSES = [
     nom: "Auxiliary Transport Bays",
     texte:
       "Thunderhawk Transporters are fitted with flexible frames, able to rapidly deliver various Legiones Astartes vehicles to battle, while also assisting in their recovery and that of other heavy materiel. A Thunderhawk Transporter can carry certain Models with the Vehicle Type in addition to Infantry. In addition to any other Models Embarked on a Model with this Special Rule, it may also have one of the following Embarked on it: up to two Rhino Models, or one Land Raider Carrier or Land Raider Explorator Model.",
+  },
+  /* --- Personnages et unités des Word Bearers (XVIIe Légion) : Kor
+     Phaeron, Erebus, Zardu Layak, Escouade du Cercle de Cendres (voir
+     js/unites-data.js). --- */
+  {
+    nom: "Dark Eloquence",
+    texte:
+      "Kor Phaeron's mastery of oratory is legendary. During the Great Crusade, he was able to rally entire populations to the Imperial cause, and later put his talents to the service of a darker design. Kor Phaeron's Controlling Player can apply additional Special Rules to friendly Units in the Effects Sub-phase. In their Effects Sub-phase, the Controlling Player of this Model can choose a friendly Unit composed only of Models with the Word Bearers Trait within 6 inches of this Model, then choose one of the following effects. Cruel Invective: until the start of the Controlling Player's next Effects Sub-phase, all Models in the chosen Unit gain the Hatred (Loyalists) Special Rule. Menacing Supplications: until the start of the Controlling Player's next Effects Sub-phase, the Leadership and Cool Characteristics of all Models in the chosen Unit are modified by +2.",
+  },
+  {
+    nom: "Jealous Command",
+    texte:
+      "Kor Phaeron was renowned for his boundless arrogance and pride. He tolerated no authority above his own, save that of his Primarch and adoptive son Lorgar. The latter was the only man before whom Kor Phaeron would bend the knee — but many wondered whether he did so out of respect, or to manipulate the Primarch from the right hand of his throne. Kor Phaeron's Characteristics improve if he is the only Model with the Unique Sub-type in the Army. If this Model is the only Model with the Unique Sub-type in your Army, the Wounds and Leadership Characteristics of that Model are modified by +1.",
+  },
+  {
+    nom: "Lord of the Blessed",
+    texte:
+      "Erebus always made sure to surround himself with those who had been blessed by the pantheon whose blessing he sought. Erebus can join Units with the Malefic Sub-type. A Model with this Special Rule can join Units with the Malefic Sub-type as if it had that Sub-type, and while it is part of such a Unit, it is treated as if it had that Sub-type.",
+  },
+  {
+    nom: "Emissary of Chaos",
+    texte:
+      "An architect of darkness, Erebus wielded a power few suspected, and could summon a veritable army bound to his will alone. In an Army whose Primary Detachment includes a Model with this Special Rule, Daemonic Manifestation Auxiliary Detachments can be selected regardless of the number of Command Force Organisation Slots occupied by Esoterist Units.",
+  },
+  {
+    nom: "Soulbinder",
+    texte:
+      "A worthy acolyte of Erebus, Zardu Layak enjoys unrivalled mastery of the malevolent art of the Warp. Zardu Layak has particular Psychic Powers. A Model with this Special Rule gains the Soul Shackles Psychic Power and the Tear the Veil Psychic Power (Anathemata Discipline).",
+  },
+  {
+    // Processus corrigé à la main dans le livre (photo fournie par
+    // Jean) : Test de Résistance, et non de Manifestation — la Cible
+    // est sous contrôle si ce Test est raté, sans effet s'il est réussi.
+    nom: "Soul Shackles",
+    texte:
+      "Psychic Power (Curse) of Zardu Layak, who has long mastered the art of enslaving the will of others to his own to turn his enemies into puppets entirely under his control. Trigger: the Active Player may Manifest the Soul Shackles Psychic Power in the Assault Phase, at the start of the Declare Weapons and Set Initiative Steps Step of the Fight Sub-phase. Focus: the Focus of the Power must be the Zardu Layak Model. Target: the Target Unit must be an enemy Unit involved in the same Combat as the Focus Model. Duration: if this Psychic Power is successfully manifested, its effects last until the end of the Make Final Pile-in Moves Step of that Combat. Process: 1) once the Focus and the Target Unit are decided, a Resistance Check is made; 2) if the Resistance Check is failed, the Controlling Player of the Focus Model may choose a Model in the Target Unit with a Willpower Characteristic of 7 or less; 3) for the Duration of this Psychic Power, the chosen Model is considered to be under the control of the Controlling Player of this Power's Focus; 4) if the Resistance Check is passed, there is no further effect.",
+  },
+  {
+    nom: "The Panoply of Flame",
+    texte:
+      "The Panoply of Flame is both a banner and a weapon against the enemies of Zardu Layak, who can shape at will the unholy flame it produces. The Panoply of Flame gives the Controlling Player a bonus Combat Resolution Point. When resolving a Combat in the Resolution Sub-phase of the Assault Phase, 1 Combat Resolution Point is scored for the Unit that includes a Model equipped with the Panoply of Flame.",
+  },
+  {
+    nom: "Heralds of Truth",
+    texte:
+      "The warriors of the Ashen Circle fall upon the heart of enemy formations without warning, to drive them back by the strength of their conviction in sprays of purifying flame. The Firepower Characteristic of the Ashen Circle's Akkadic hand flamers improves in the Volley Attacks Step. When a Model with this Special Rule makes Volley Attacks, the Firepower Characteristic of that Model's Akkadic hand flamer is modified by +1.",
   },
   {
     nom: "Invocation of the Razing Tempest",

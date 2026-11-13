@@ -1707,9 +1707,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Conclave Exalté",
     famille: "apex",
     texte:
-      "Des Troupes et des unités d'Élite corrompues par le Warp. Réservé aux Armées d'Allégeance Renégate ayant choisi l'Avantage Principal Vrais Croyants sur au moins une Case.",
+      "Les Word Bearers vénèrent ceux qui sont bénis des puissances du Warp, et dont les officiers supérieurs s'entourent sur le terrain. Réservé aux Armées d'Allégeance Renégate dont le Détachement Principal est Word Bearers ; le seul Avantage Principal sélectionnable pour les Cases de ce Détachement est Vrais Croyants.",
     requiertAllegeance: "renegat",
-    requiertAvantage: "vrais-croyants",
+    avantagesAutorises: ["vrais-croyants"],
     cases: [
       _caseOrga("Troupes", true),
       _caseOrga("Troupes", true),
@@ -1893,11 +1893,14 @@ const TYPES_DETACHEMENTS = [
     faction: "legio-astartes",
     factionLibre: true,
     texte:
-      "Débloqué quand un Ésotériste d'Allégeance Renégate occupe une Case d'État-major. Les Cases d'Assaut Lourd n'acceptent que des Brutes Démoniaques de la Tempête de la Ruine.",
+      "Débloqué quand un Ésotériste d'Allégeance Renégate occupe une Case d'État-major, ou sans limite si Erebus (Émissaire du Chaos) fait partie du Détachement Principal. Les Cases d'Assaut Lourd n'acceptent que des Brutes Démoniaques de la Tempête de la Ruine.",
     deblocage: {
       caseRole: "État-major",
       uniteIds: ["esoteriste"],
       allegeance: "renegat",
+      // Erebus (Word Bearers) : voir debloqueursDisponibles,
+      // js/organigramme.js.
+      sansLimiteSiRegle: "Émissaire du Chaos",
     },
     restrictions: { "Assaut Lourd": ["ruinstorm-brutes"] },
     cases: [

@@ -1707,9 +1707,9 @@ const TYPES_DETACHEMENTS = [
     nom: "Exalted Conclave",
     famille: "apex",
     texte:
-      "Troops and Elites units corrupted by the Warp. Reserved for Traitor Allegiance Armies that have chosen the True Believers Prime Advantage on at least one Slot.",
+      "The Word Bearers revere those who are blessed by the powers of the Warp, and their senior officers surround themselves with them on the battlefield. Reserved for Traitor Allegiance Armies whose Primary Detachment is Word Bearers; the only Prime Advantage that can be selected for the Slots of this Detachment is True Believers.",
     requiertAllegeance: "renegat",
-    requiertAvantage: "vrais-croyants",
+    avantagesAutorises: ["vrais-croyants"],
     cases: [
       _caseOrga("Troops", true),
       _caseOrga("Troops", true),
@@ -1893,11 +1893,14 @@ const TYPES_DETACHEMENTS = [
     faction: "legio-astartes",
     factionLibre: true,
     texte:
-      "Unlocked when an Esoterist of Traitor Allegiance occupies a Command Slot. Heavy Assault Slots only accept Ruinstorm Daemon Brutes.",
+      "Unlocked when a Traitor Allegiance Esoterist occupies a Command Slot, or without limit if Erebus (Emissary of Chaos) is part of the Primary Detachment. The Heavy Assault Slots only accept Ruinstorm Daemon Brutes.",
     deblocage: {
       caseRole: "Command",
       uniteIds: ["esoteriste"],
       allegeance: "renegat",
+      // Erebus (Word Bearers) : voir debloqueursDisponibles,
+      // js/organigramme.js.
+      sansLimiteSiRegle: "Emissary of Chaos",
     },
     restrictions: { "Heavy Assault": ["ruinstorm-brutes"] },
     cases: [

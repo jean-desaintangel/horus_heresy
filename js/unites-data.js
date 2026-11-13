@@ -18099,6 +18099,85 @@ const UNITES = [
     ],
     legion: "XII",
   },
+  /* --- Bouchers Rouges · Elite · 250 pts de base --- */
+  {
+    id: "bouchers-rouges",
+    nom: "Bouchers Rouges",
+    categorie: "Elite",
+    cout: 250,
+    composition: "1 Dévoré, 4 Bouchers Rouges",
+    effectif: { base: 5, max: 10, cout: 45 },
+    traits: ["Renégat", "World Eaters"],
+    notes:
+      "Vêtus d'armures Terminator spécialement modifiées pour servir à la fois de protection et de système de confinement, les Bouchers Rouges sont des guerriers rendus aux dernières extrémités de la rage absolue par leurs implants crâniens, les tristement célèbres Clous du Boucher. Bêtes féroces assoiffées de violence, ils se débattent dans leurs entraves et n'exercent qu'un contrôle minime sur leurs actes, si bien qu'ils ne sont bons qu'à charger l'ennemi, libérés du fardeau de toute considération tactique pour se consacrer uniquement au démembrement des guerriers ennemis dans un déchaînement de frénésie sanguinaire.",
+    equipement: ["Haches énergétiques de Boucher"],
+    variantes: [
+      {
+        nom: "Bouchers Rouges",
+        cout: 0,
+        profils: [
+          {
+            nom: "Boucher Rouge",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 12,
+              Sf: 10,
+              Vo: 6,
+              Int: 4,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Dévoré",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 12,
+              Sf: 10,
+              Vo: 6,
+              Int: 4,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+        ],
+        regles: [
+          "Massif (2)",
+          "Lent et Méthodique",
+          "Négligence",
+          "Fous Furieux",
+          "Guerrier Éternel (1)",
+        ],
+        type: "Dévoré : Infanterie (Sergent, Lourd) · Boucher Rouge : Infanterie (Lourd)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "poings-tronconneurs-devore",
+        libelle:
+          "Dévoré : poings tronçonneurs de Boucher (à la place des haches énergétiques de Boucher)",
+        cout: 10,
+        ajoute:
+          "Poings tronçonneurs de Boucher (à la place des haches énergétiques de Boucher, Dévoré seulement)",
+      },
+    ],
+    legion: "XII",
+  },
   /* --- Escouade de Destructeurs Main Rouge Mortalis · Elite · 85 pts de base --- */
   {
     id: "escouade-main-rouge-mortalis",
@@ -26184,13 +26263,13 @@ const UNITES = [
 
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA XVIIe LÉGION (WORD BEARERS)
-     Transcrit depuis photos du livre d'armée : plusieurs pages sont
-     denses en texte de fluff cultiste (Gal Vorbak, Zadu Layak,
-     Dreadnought Mhara Gal) et peu lisibles par endroits. Tous les
-     coûts en Points et profils sont donc une estimation de
-     transcription À VÉRIFIER contre le livre (voir l'en-tête du
-     fichier) : plus encore que la section Sons of Horus, ne pas
-     considérer cette section comme fiable sans relecture.
+     Transcrit depuis photos du livre d'armée. Relu le 2026-11-13
+     contre de nouvelles photos (Lorgar, Kor Phaeron, Erebus, Argel
+     Tal, Zardu Layak, Gal Vorbak, Dreadnought Mhara Gal, Escouade du
+     Cercle de Cendres) : coûts, profils, équipement, options et
+     règles conformes au livre. Les unités Legacies (Diaboliste,
+     Procurateurs…) et le Conclave des Phraetus Oints n'en font pas
+     partie.
      ---------------------------------------------------------- */
   /* --- Lorgar · Seigneur de Guerre · 445 pts de base --- */
   {
@@ -26256,8 +26335,6 @@ const UNITES = [
     equipement: [
       "Griffes du Patriarche",
       "Digi-lance-flammes",
-      "Grenades Frag",
-      "Grenades Krak",
     ],
     variantes: [
       {
@@ -26296,11 +26373,10 @@ const UNITES = [
     id: "erebus",
     nom: "Erebus",
     categorie: "Quartier Général",
-    // Coût encore À VÉRIFIER (non visible sur les captures fournies).
     cout: 165,
     composition: "1 Erebus",
     notes:
-      "Prêtre Noir, Émissaire du Maître de Guerre, Enfant de la Vérité Primordiale.",
+      "L'Apôtre Noir, Émissaire du Maître de Guerre, Enfant de la Vérité Primordiale. En tant que Premier Chapelain de la Légion des Word Bearers, quand l'Empereur punit Lorgar de l'avoir adoré comme un dieu, ce fut Erebus qui lui suggéra que si l'Empereur n'était pas digne de sa vénération, des puissances plus anciennes l'étaient. Quand le Primarque voulut épandre la bonne parole dans toute la galaxie, ce fut encore Erebus qui lui conseilla la prudence, car il avait déjà imaginé son propre plan. Erebus déclencha une série d'événements qui aboutirent à la damnation d'Horus, se révélant comme l'instrument de la destruction de tout ce pourquoi l'Empereur avait combattu, pion désigné des puissances du Warp.",
     traits: ["Renégat", "Word Bearers", "Psyker", "Anathemata"],
     equipement: [
       "Crux Malefica",
@@ -26347,7 +26423,7 @@ const UNITES = [
     cout: 240,
     composition: "1 Argel Tal",
     notes:
-      "Le Rédempteur Écarlate, Commandant du Soleil Denté. Argel Tal fut un des premiers à contempler la folie de l'Œil de la Terreur, ce qui lui valut la damnation éternelle quand l'abîme tourmenté le regarda à son tour. Considéré comme l'exemple parfait de ce que son Primarque entendait par la fusion de l'âme humaine et de la puissance du Démon, lui et ses frères des Gal Vorbak jouèrent un rôle décisif dans la tragédie galactique qui frappa le genre humain.",
+      "Le Seigneur Écarlate, Commandant du Soleil Dentelé. Argel Tal fut un des premiers à contempler la folie de l'Œil de la Terreur, ce qui lui valut la damnation éternelle quand l'abîme tourmenté le regarda à son tour. Considérés comme l'exemple parfait de ce que son Primarque entendait pour l'Humanité, soit la fusion de l'âme humaine et de la puissance du Démon, lui et ses frères des Gal Vorbak jouèrent un rôle décisif dans la tragédie galactique qui frappa le genre humain. Il aida Lorgar à améliorer sa compréhension des effets de l'Empyrée sur l'organisme d'un Légionnaire, et les Word Bearers le vénéraient pour les faveurs dont il jouissait manifestement auprès de leurs nouveaux dieux.",
     traits: ["Renégat", "Word Bearers", "Maître de la Légion"],
     equipement: ["Serres Démoniaques", "Grenades Frag", "Grenades Krak"],
     variantes: [
@@ -26387,12 +26463,14 @@ const UNITES = [
     id: "zardu-layak",
     nom: "Zardu Layak",
     categorie: "État-major",
-    // Coût encore À VÉRIFIER (non visible sur les captures fournies).
     cout: 180,
-    composition: "1 Zardu Layak, 1 Anakatis Kul",
-    // Anakatis Kul est un second profil (Champion, Maléfique) qui
-    // accompagne toujours Zardu Layak dans la même Unité — voir la
-    // liste `profils` ci-dessous.
+    composition: "1 Zardu Layak",
+    // « Peut inclure jusqu'à 2 Anakatis Kul pour +60 Points par
+    // Figurine » : chaque Figurine au-delà de la première est un
+    // Anakatis Kul (second profil ci-dessous, Champion, Maléfique).
+    effectif: { base: 1, max: 3, cout: 60 },
+    notes:
+      "L'Apôtre Écarlate, Le Tri-Né, L'Entraveur d'Âmes, La Voix des Muets. Le véritable nom de Zardu Layak est oublié de tous, mais il adopta ce nom quelque temps après le châtiment de sa Légion sur Monarchia. Il fut connu de sa Légion sous le titre d'Apôtre Écarlate en raison de son armure incandescente et du sang dont il se nourrissait. Usant de ses pouvoirs ténébreux pour détruire les esprits et les corps, Zardu Layak arpentait sa voie sanglante en compagnie de deux gardes du corps massifs, les Anakatis Kul, corrompus par les lames xénos offertes par leur sombre maître.",
     equipementLibelle: "Équipement (chaque profil)",
     traits: ["Renégat", "Word Bearers", "Psyker (Zardu Layak seulement)"],
     equipement: [
@@ -26451,6 +26529,8 @@ const UNITES = [
         regles: [
           "Zardu Layak : Haine (Loyalistes)",
           "Zardu Layak : Entraveur d'Âmes",
+          "Zardu Layak : Entraves de l'Âme",
+          "Zardu Layak : Déchirer le Voile",
           "Anakatis Kul : Massif (2)",
           "Anakatis Kul : Insensible à la Douleur (5+)",
           "Anakatis Kul : Explose (6+)",
@@ -26509,59 +26589,8 @@ const UNITES = [
         type: "Infanterie (Maléfique)",
       },
     ],
-    options: [
-      {
-        remplace: "du bolter",
-        type: "quantite",
-        id: "lance-flammes",
-        libelle: "Pour cinq Figurines : lance-flammes (à la place du bolter)",
-        cout: 5,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Lance-flammes (à la place du bolter)",
-      },
-      {
-        type: "quantite",
-        id: "fuseur",
-        libelle: "Pour cinq Figurines : fuseur (à la place du bolter)",
-        cout: 15,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Fuseur (à la place du bolter)",
-      },
-      {
-        type: "quantite",
-        id: "blaster-feu-warp",
-        libelle:
-          "Pour cinq Figurines : blaster à Feu Warp (à la place du bolter)",
-        cout: 15,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Blaster à Feu Warp (à la place du bolter)",
-      },
-      ...eclaterQuantiteArmeEnergetique({
-        remplaceIntegral: "Serres Souillées",
-        type: "quantite",
-        id: "arme-energetique",
-        libelle:
-          "Pour cinq Figurines : arme énergétique (à la place des serres souillées)",
-        cout: 0,
-        parTranche: 5,
-        groupe: "serres",
-        ajoute: "Arme énergétique (à la place des serres souillées)",
-      }),
-      {
-        remplaceIntegral: "Serres Souillées",
-        type: "quantite",
-        id: "gantelet-energetique",
-        libelle:
-          "Pour cinq Figurines : gantelet énergétique (à la place des serres souillées)",
-        cout: 10,
-        parTranche: 5,
-        groupe: "serres",
-        ajoute: "Gantelet énergétique (à la place des serres souillées)",
-      },
-    ],
+    // Aucune option sur la fiche du livre.
+    options: [],
     legion: "XVII",
   },
   /* --- Dreadnought Mhara Gal · Engins de Guerre · 210 pts de base --- */
@@ -26572,7 +26601,7 @@ const UNITES = [
     cout: 210,
     composition: "1 Dreadnought Mhara Gal",
     notes:
-      "Ces êtres impies étaient créés à partir de châssis de Dreadnoughts Contemptor corrompus, dont le blindage noirci fondait comme de la cire pour vomir des flammes noires. Certains écrits religieux les nomment « Mhara Gal », allégorie colchisienne que l'on pourrait traduire par « Ce qui fut béni, mais se trouve désormais faillu à leurs vœux envers l'Octuple Voie » et reçut « la vie par-delà la mort comme châtiment ».",
+      "Ces êtres impies étaient créés à partir de châssis de Dreadnoughts Contemptor corrompus, dont le blindage noirci fondait comme de la cire pour vomir des flammes noires. Certains écrits religieux les nomment « Mhara Gal », allégorie colchisienne complexe que l'on pourrait traduire par « … Ce qui fut béni, mais se trouve désormais par-delà la vue des dieux ». Ces tueurs déchus auraient « failli à leurs vœux envers l'Octuple Voie » et reçu « la vie par-delà la mort comme châtiment ». La seule certitude est que partout où ils vont, la réalité semble se déformer, et que leurs armes incinèrent tous ceux qui se dressent face à eux.",
     traits: ["Renégat", "Word Bearers"],
     equipement: ["Canon à Feu Warp", "Griffe Souillée", "Brasier Warp"],
     variantes: [
@@ -26585,7 +26614,7 @@ const UNITES = [
           CT: 4,
           F: 7,
           E: 7,
-          PV: 6,
+          PV: 7,
           I: 4,
           A: 4,
           Cd: 12,
@@ -26595,24 +26624,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Massif (6)", "Explose (3+)", "Avance Implacable", "Peur (1)"],
+        regles: ["Massif (6)", "Explose (5+)", "Avance Implacable", "Peur (1)"],
         type: "Marcheur (Maléfique)",
       },
     ],
-    options: [
-      {
-        type: "choix",
-        id: "arme-principale",
-        libelle: "Canon à Feu Warp peut être échangé contre :",
-        remplace: "Canon à Feu Warp",
-        choix: [
-          { nom: "Canon à bolts Gravis", cout: 0 },
-          { nom: "Canon à fusion Gravis", cout: 5 },
-          { nom: "Autocanon Gravis", cout: 0 },
-          { nom: "Canon laser jumelé", cout: 0 },
-        ],
-      },
-    ],
+    // Aucune option sur la fiche du livre.
+    options: [],
     legion: "XVII",
   },
   /* --- Escouade du Cercle de Cendres · Attaque Rapide · 125 pts de base --- */
@@ -26689,31 +26706,22 @@ const UNITES = [
     ],
     options: [
       {
+        // Pas de `remplace` : l'Équipement est commun à toute l'Unité,
+        // seuls les Incendiaires gardent leur lance-flammes.
         type: "case",
         id: "pistolet-inferno",
         libelle:
           "L'Iconoclaste peut échanger son lance-flammes léger akkadique contre un pistolet Inferno",
         cout: 15,
-        remplace: "Lance-flammes Léger Akkadique",
         ajoute:
-          "Pistolet Inferno (à la place du lance-flammes léger akkadique)",
+          "Pistolet Inferno (à la place du lance-flammes léger akkadique, Iconoclaste seulement)",
       },
       {
         type: "case",
         id: "bombes-phosphex",
         libelle: "L'Iconoclaste peut être doté de bombes à phosphex",
         cout: 10,
-        ajoute: "Bombes à phosphex",
-      },
-      {
-        type: "case",
-        id: "pistolet-a-plasma-iconoclaste",
-        libelle:
-          "L'Iconoclaste peut échanger son lance-flammes léger akkadique contre un pistolet à plasma",
-        cout: 5,
-        remplace: "Lance-flammes Léger Akkadique",
-        ajoute:
-          "Pistolet à plasma (à la place du lance-flammes léger akkadique)",
+        ajoute: "Bombes à phosphex (Iconoclaste seulement)",
       },
     ],
     legion: "XVII",

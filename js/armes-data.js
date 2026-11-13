@@ -4664,7 +4664,7 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Corswain, Dark Angels).
         nom: "La Lame",
-        stats: ["1", "A", "+2", "2", "2"],
+        stats: ["I", "A", "+2", "2", "2"],
         regles: "Atout du Duelliste (2)",
         traits: "Énergétique, Épée de l'Ordre",
       },
@@ -4831,21 +4831,21 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Kor Phaeron, Word Bearers).
         nom: "Griffes du Patriarche",
-        stats: ["1", "A", "F", "2", "1"],
+        stats: ["I", "A", "F", "2", "1"],
         regles: "Lacération (6+)",
         traits: "Énergétique",
       },
       {
         // Arme de personnage (Erebus, Word Bearers).
         nom: "Crux Malefica",
-        stats: ["1", "A", "+3", "2", "2"],
+        stats: ["I", "A", "+3", "2", "2"],
         regles: "Phage (F)",
         traits: "Énergétique, Psychique",
       },
       {
         // Arme de personnage (Argel Tal, Word Bearers).
         nom: "Serres Démoniaques",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "-",
         traits: "Psychique",
       },
@@ -4860,14 +4860,14 @@ const ARMES_MELEE = [
         // Arme de personnage (Anakatis Kul, compagnon de Zardu Layak,
         // Word Bearers).
         nom: "Épée Anakatis",
-        stats: ["1", "A", "F", "3", "2"],
+        stats: ["I", "A", "F", "3", "2"],
         regles: "Brèche (6+), Phage (F)",
         traits: "Psychique",
       },
       {
         // Arme de l'Unité Gal Vorbak (Word Bearers).
         nom: "Serres Souillées",
-        stats: ["1", "A", "F", "3", "1"],
+        stats: ["I", "A", "F", "3", "1"],
         regles: "Brèche (6+), Lacération (6+), Phage (F)",
         traits: "Psychique",
       },
@@ -4885,14 +4885,14 @@ const ARMES_MELEE = [
       {
         // Arme du Dreadnought Mhara Gal (Word Bearers).
         nom: "Griffe Souillée",
-        stats: ["1", "A", "+3", "2", "3"],
+        stats: ["I", "A", "+3", "2", "3"],
         regles: "-",
         traits: "Psychique, Énergétique",
       },
       {
         // Arme de l'Escouade du Cercle de Cendres (Word Bearers).
         nom: "Hache-croc",
-        stats: ["1", "A", "+1", "3", "1"],
+        stats: ["I", "A", "+1", "3", "1"],
         regles: "Touche Critique (6+), Phage (M)",
         traits: "Tronçonneuse",
       },
@@ -5085,7 +5085,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
         // Angels).
         nom: "L'Épée du Lion",
-        stats: ["1", "A", "+2", "2", "3"],
+        stats: ["I", "A", "+2", "2", "3"],
         regles: "-",
         traits: "Énergétique, Épée de l'Ordre",
       },
@@ -5093,21 +5093,21 @@ const ARMES_MELEE = [
         // Arme de personnage (Lion El'Jonson, Primarque des Dark
         // Angels) : échange possible gratuit contre l'Épée du Lion.
         nom: "La Lame du Loup",
-        stats: ["1", "A", "F", "3", "1"],
+        stats: ["I", "A", "F", "3", "1"],
         regles: "Lacération (4+), Brèche (4+), Fauchage (2)",
         traits: "Tronçonneuse, Épée de l'Ordre",
       },
       {
         // Arme de personnage (Leman Russ, Primarque des Space Wolves).
         nom: "L'Épée de Malenuit",
-        stats: ["1", "A", "+1", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Touche Critique (5+)",
         traits: "-",
       },
       {
         // Arme de personnage (Leman Russ, Primarque des Space Wolves).
         nom: "La Hache de l'Infernhiver",
-        stats: ["1", "A", "+2", "2", "2"],
+        stats: ["I", "A", "+2", "2", "2"],
         regles: "Fléau des Blindages, Fauchage (1)",
         traits: "-",
       },
@@ -5141,7 +5141,7 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Sanguinius, Primarque des Blood Angels).
         nom: "La Lame Carmin",
-        stats: ["1", "A", "+1", "2", "2"],
+        stats: ["I", "A", "+1", "2", "2"],
         regles: "Touche Critique (5+), Impact (MA)",
         traits: "Énergétique",
       },
@@ -5153,14 +5153,14 @@ const ARMES_MELEE = [
       },
       {
         nom: "Lame d'Argent Lunaire",
-        stats: ["1", "A", "F", "3", "2"],
+        stats: ["I", "A", "F", "3", "2"],
         regles: "Atout du Duelliste (1)",
         traits: "Énergétique",
       },
       {
         // Arme de personnage (Angron, Primarque des World Eaters).
         nom: "La Carnivore et la Carnassière",
-        stats: ["1", "+1", "F", "2", "2"],
+        stats: ["I", "+1", "F", "2", "2"],
         regles: "Touche Critique (6+), Lacération (5+)",
         traits: "Tronçonneuse",
       },
@@ -5168,7 +5168,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Angron Transfiguré, World Eaters) : profil
         // Éviscération, voir aussi Concassage ci-dessous.
         nom: "Lames de l'Ange Rouge — Éviscération",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Fauchage (2)",
         traits: "-",
       },
@@ -5183,14 +5183,14 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Vulkan, Primarque des Salamanders).
         nom: "Amène-l'Aube",
-        stats: ["1", "A", "+2", "2", "3"],
+        stats: ["I", "A", "+2", "2", "3"],
         regles: "Touche Critique (5+), Fléau des Blindages",
         traits: "Énergétique",
       },
       {
         // Arme de personnage (Rogal Dorn, Primarque des Imperial Fists).
         nom: "Dents de la Tempête",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Lacération (4+), Fauchage (2)",
         traits: "Tronçonneuse",
       },
@@ -5198,7 +5198,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Roboute Guilliman, Primarque des
         // Ultramarines).
         nom: "Le Gladius Incandor",
-        stats: ["1", "A", "F", "3", "2"],
+        stats: ["I", "A", "F", "3", "2"],
         regles: "Brèche (5+), Atout du Duelliste (1)",
         traits: "Énergétique",
       },
@@ -5215,7 +5215,7 @@ const ARMES_MELEE = [
         // des Sons of Horus). Profil de Mêlée : possède aussi un
         // profil de Tir (voir Armes à Bolts ci-dessus).
         nom: "La Serre du Maître de Guerre",
-        stats: ["1", "A", "F", "2", "1"],
+        stats: ["I", "A", "F", "2", "1"],
         regles: "Fauchage (3), Lacération (6+)",
         traits: "Énergétique",
       },
@@ -5304,7 +5304,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Konrad Curze, Primarque des Night
         // Lords).
         nom: "Miséricorde et Pardon",
-        stats: ["1", "+2", "F", "2", "1"],
+        stats: ["I", "+2", "F", "2", "1"],
         regles: "Touche Critique (5+), Lacération (4+)",
         traits: "Énergétique",
       },
@@ -5312,7 +5312,7 @@ const ARMES_MELEE = [
         // Arme de personnage (Fulgrim, Primarque des Emperor's
         // Children).
         nom: "Lame Laërienne",
-        stats: ["1", "A", "F", "2", "2"],
+        stats: ["I", "A", "F", "2", "2"],
         regles: "Atout du Duelliste (1)",
         traits: "-",
       },
@@ -5374,6 +5374,25 @@ const ARMES_MELEE = [
         stats: ["+1", "A", "F", "3", "1"],
         regles: "Touche Critique (6+), Phage (F)",
         traits: "Énergétique",
+      },
+    ],
+  },
+  {
+    // Arsenal des World Eaters (XIIe Légion) : armes des Bouchers
+    // Rouges (voir js/unites-data.js, unité réservée à cette Légion).
+    titre: "Armes des Bouchers Rouges",
+    armes: [
+      {
+        nom: "Haches énergétiques de Boucher",
+        stats: ["-1", "+1", "+1", "3", "1"],
+        regles: "Brèche (4+)",
+        traits: "Énergétique",
+      },
+      {
+        nom: "Poings tronçonneurs de Boucher",
+        stats: ["-3", "A", "+4", "2", "3"],
+        regles: "Lacération (6+), Fléau des Blindages",
+        traits: "Tronçonneuse",
       },
     ],
   },

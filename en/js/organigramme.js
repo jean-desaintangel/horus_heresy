@@ -2639,6 +2639,23 @@ const Organigramme = (() => {
       etat.allegeance !== type.deblocage.allegeance
     )
       return 0;
+    // `sansLimiteSiRegle` (ex : Émissaire du Chaos d'Erebus pour la
+    // Manifestation Démoniaque) : une Unité du Détachement Principal
+    // ayant cette Règle Spéciale lève la limite fixée par le nombre de
+    // débloqueurs.
+    const regleSansLimite = type.deblocage.sansLimiteSiRegle;
+    if (
+      regleSansLimite &&
+      etat.detachements.some(
+        (d) =>
+          estDetachementPrincipal(d) &&
+          d.cases.some((c) => {
+            const occ = occupant(c);
+            return occ && uniteARegle(occ.unite, regleSansLimite);
+          }),
+      )
+    )
+      return Infinity;
     let presentes = 0;
     const rolesAcceptes = Array.isArray(type.deblocage.caseRole)
       ? type.deblocage.caseRole

@@ -18099,6 +18099,85 @@ const UNITES = [
     ],
     legion: "XII",
   },
+  /* --- Bouchers Rouges · Elite · 250 pts de base --- */
+  {
+    id: "bouchers-rouges",
+    nom: "Red Butchers",
+    categorie: "Elites",
+    cout: 250,
+    composition: "1 Devoured, 4 Red Butchers",
+    effectif: { base: 5, max: 10, cout: 45 },
+    traits: ["Traitor", "World Eaters"],
+    notes:
+      "Clad in Terminator armour specially modified to serve as both protection and containment system, the Red Butchers are warriors driven to the very extremes of absolute rage by their cranial implants, the infamous Butcher's Nails. Savage beasts thirsting for violence, they strain against their restraints and exercise only minimal control over their actions, so that they are good for nothing but charging the enemy, freed from the burden of any tactical consideration to devote themselves solely to dismembering enemy warriors in an unleashing of bloodthirsty frenzy.",
+    equipement: ["Butcher's power axes"],
+    variantes: [
+      {
+        nom: "Red Butchers",
+        cout: 0,
+        profils: [
+          {
+            nom: "Red Butcher",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 2,
+              Cd: 12,
+              Sf: 10,
+              Vo: 6,
+              Int: 4,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+          {
+            nom: "Devoured",
+            profil: {
+              M: 6,
+              CC: 5,
+              CT: 4,
+              F: 4,
+              E: 5,
+              PV: 2,
+              I: 4,
+              A: 3,
+              Cd: 12,
+              Sf: 10,
+              Vo: 6,
+              Int: 4,
+              Sv: "2+",
+              Inv: "4+",
+            },
+          },
+        ],
+        regles: [
+          "Bulky (2)",
+          "Slow and Purposeful",
+          "Negligence",
+          "Berserk Madmen",
+          "Eternal Warrior (1)",
+        ],
+        type: "Devoured: Infantry (Sergeant, Heavy) · Red Butcher: Infantry (Heavy)",
+      },
+    ],
+    options: [
+      {
+        type: "case",
+        id: "poings-tronconneurs-devore",
+        libelle:
+          "Devoured: Butcher's chainfists (instead of Butcher's power axes)",
+        cout: 10,
+        ajoute:
+          "Butcher's chainfists (instead of Butcher's power axes, Devoured only)",
+      },
+    ],
+    legion: "XII",
+  },
   /* --- Escouade de Destructeurs Main Rouge Mortalis · Elite · 85 pts de base --- */
   {
     id: "escouade-main-rouge-mortalis",
@@ -26184,13 +26263,13 @@ const UNITES = [
 
   /* ----------------------------------------------------------
      UNITÉS RÉSERVÉES À LA XVIIe LÉGION (WORD BEARERS)
-     Transcrit depuis photos du livre d'armée : plusieurs pages sont
-     denses en texte de fluff cultiste (Gal Vorbak, Zadu Layak,
-     Dreadnought Mhara Gal) et peu lisibles par endroits. Tous les
-     coûts en Points et profils sont donc une estimation de
-     transcription À VÉRIFIER contre le livre (voir l'en-tête du
-     fichier) : plus encore que la section Sons of Horus, ne pas
-     considérer cette section comme fiable sans relecture.
+     Transcrit depuis photos du livre d'armée. Relu le 2026-11-13
+     contre de nouvelles photos (Lorgar, Kor Phaeron, Erebus, Argel
+     Tal, Zardu Layak, Gal Vorbak, Dreadnought Mhara Gal, Escouade du
+     Cercle de Cendres) : coûts, profils, équipement, options et
+     règles conformes au livre. Les unités Legacies (Diaboliste,
+     Procurateurs…) et le Conclave des Phraetus Oints n'en font pas
+     partie.
      ---------------------------------------------------------- */
   /* --- Lorgar · Seigneur de Guerre · 445 pts de base --- */
   {
@@ -26256,8 +26335,6 @@ const UNITES = [
     equipement: [
       "Patriarch's claws",
       "Digi-flamer",
-      "Frag Grenades",
-      "Krak grenades",
     ],
     variantes: [
       {
@@ -26296,11 +26373,10 @@ const UNITES = [
     id: "erebus",
     nom: "Erebus",
     categorie: "High Command",
-    // Coût encore À VÉRIFIER (non visible sur les captures fournies).
     cout: 165,
     composition: "1 Erebus",
     notes:
-      "Dark Priest, Emissary of the Warmaster, Child of the Primordial Truth.",
+      "The Dark Apostle, Emissary of the Warmaster, Child of the Primordial Truth. As First Chaplain of the Word Bearers Legion, when the Emperor punished Lorgar for worshipping him as a god, it was Erebus who suggested to him that if the Emperor was not worthy of his veneration, older powers were. When the Primarch wished to spread the good word throughout the galaxy, it was again Erebus who counselled caution, for he had already devised his own plan. Erebus set in motion a series of events that led to the damnation of Horus, revealing himself as the instrument of the destruction of all that the Emperor had fought for, the chosen pawn of the powers of the Warp.",
     traits: ["Traitor", "Word Bearers", "Psyker", "Anathemata"],
     equipement: [
       "Crux Malefica",
@@ -26347,7 +26423,7 @@ const UNITES = [
     cout: 240,
     composition: "1 Argel Tal",
     notes:
-      "The Crimson Lord, Commander of the Serrated Sun. Argel Tal was one of the first to gaze upon the madness of the Eye of Terror, and he earned eternal damnation when the tortured abyss gazed back. Held up as the perfect example of what his Primarch meant by the fusion of the human soul and the power of the Daemon, he and his brothers of the Gal Vorbak played a decisive role in the galactic tragedy that befell humanity.",
+      "The Crimson Lord, Commander of the Serrated Sun. Argel Tal was one of the first to gaze upon the madness of the Eye of Terror, which earned him eternal damnation when the tormented abyss gazed back. Considered the perfect example of what his Primarch intended for Humanity, namely the fusion of the human soul and the power of the Daemon, he and his brothers of the Gal Vorbak played a decisive role in the galactic tragedy that befell mankind. He helped Lorgar improve his understanding of the effects of the Empyrean on a Legionary's body, and the Word Bearers venerated him for the favours he plainly enjoyed with their new gods.",
     traits: ["Traitor", "Word Bearers", "Master of the Legion"],
     equipement: ["Daemonic Talons", "Frag Grenades", "Krak grenades"],
     variantes: [
@@ -26387,12 +26463,14 @@ const UNITES = [
     id: "zardu-layak",
     nom: "Zardu Layak",
     categorie: "Command",
-    // Coût encore À VÉRIFIER (non visible sur les captures fournies).
     cout: 180,
-    composition: "1 Zardu Layak, 1 Anakatis Kul",
-    // Anakatis Kul est un second profil (Champion, Maléfique) qui
-    // accompagne toujours Zardu Layak dans la même Unité — voir la
-    // liste `profils` ci-dessous.
+    composition: "1 Zardu Layak",
+    // « Peut inclure jusqu'à 2 Anakatis Kul pour +60 Points par
+    // Figurine » : chaque Figurine au-delà de la première est un
+    // Anakatis Kul (second profil ci-dessous, Champion, Maléfique).
+    effectif: { base: 1, max: 3, cout: 60 },
+    notes:
+      "The Crimson Apostle, The Thrice-Born, The Soulbinder, The Voice of the Mute. Zardu Layak's true name is forgotten by all, but he adopted this name some time after his Legion's chastisement at Monarchia. He was known to his Legion by the title of Crimson Apostle on account of his incandescent armour and the blood on which he fed. Using his dark powers to destroy minds and bodies, Zardu Layak walked his bloody path in the company of two massive bodyguards, the Anakatis Kul, corrupted by the xenos blades offered by their dark master.",
     equipementLibelle: "Wargear (each profile)",
     traits: ["Traitor", "Word Bearers", "Psyker (Zardu Layak only)"],
     equipement: [
@@ -26451,6 +26529,8 @@ const UNITES = [
         regles: [
           "Zardu Layak: Hatred (Loyalists)",
           "Zardu Layak: Soulbinder",
+          "Zardu Layak: Soul Shackles",
+          "Zardu Layak: Tear the Veil",
           "Anakatis Kul: Bulky (2)",
           "Anakatis Kul: Feel No Pain (5+)",
           "Anakatis Kul: Explodes (6+)",
@@ -26509,59 +26589,8 @@ const UNITES = [
         type: "Infantry (Malefic)",
       },
     ],
-    options: [
-      {
-        remplace: "the bolter",
-        type: "quantite",
-        id: "lance-flammes",
-        libelle: "For every five Models: flamer (instead of the bolter)",
-        cout: 5,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Flamer (instead of the bolter)",
-      },
-      {
-        type: "quantite",
-        id: "fuseur",
-        libelle: "For every five Models: meltagun (instead of the bolter)",
-        cout: 15,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Meltagun (instead of the bolter)",
-      },
-      {
-        type: "quantite",
-        id: "blaster-feu-warp",
-        libelle:
-          "For every five Models: Warpfire blaster (instead of the bolter)",
-        cout: 15,
-        parTranche: 5,
-        groupe: "arme-lourde",
-        ajoute: "Warpfire blaster (instead of the bolter)",
-      },
-      ...eclaterQuantiteArmeEnergetique({
-        remplaceIntegral: "Tainted Talons",
-        type: "quantite",
-        id: "arme-energetique",
-        libelle:
-          "For every five Models: power weapon (instead of the tainted talons)",
-        cout: 0,
-        parTranche: 5,
-        groupe: "serres",
-        ajoute: "Power weapon (instead of the tainted talons)",
-      }),
-      {
-        remplaceIntegral: "Tainted Talons",
-        type: "quantite",
-        id: "gantelet-energetique",
-        libelle:
-          "For every five Models: power fist (instead of the tainted talons)",
-        cout: 10,
-        parTranche: 5,
-        groupe: "serres",
-        ajoute: "Power fist (instead of the tainted talons)",
-      },
-    ],
+    // Aucune option sur la fiche du livre.
+    options: [],
     legion: "XVII",
   },
   /* --- Dreadnought Mhara Gal · Engins de Guerre · 210 pts de base --- */
@@ -26572,7 +26601,7 @@ const UNITES = [
     cout: 210,
     composition: "1 Mhara Gal Dreadnought",
     notes:
-      "These unholy beings were created from corrupted Contemptor Dreadnought chassis, whose blackened armour melted like wax to spew black flames. Certain religious writings name them \"Mhara Gal\", a Colchisian allegory that might be translated as \"That which was blessed, but has now failed in its vows to the Eightfold Path\" and received \"life beyond death as punishment\".",
+      "These unholy beings were created from corrupted Contemptor Dreadnought chassis, whose blackened armour melted like wax to spew black flames. Certain religious writings name them “Mhara Gal”, a complex Colchisian allegory that might be translated as “… That which was blessed, but now lies beyond the sight of the gods”. These fallen killers are said to have “failed in their vows to the Eightfold Path” and received “life beyond death as punishment”. The only certainty is that wherever they go, reality seems to warp, and their weapons incinerate all who stand against them.",
     traits: ["Traitor", "Word Bearers"],
     equipement: ["Warpfire cannon", "Tainted Claw", "Warp Brazier"],
     variantes: [
@@ -26585,7 +26614,7 @@ const UNITES = [
           CT: 4,
           F: 7,
           E: 7,
-          PV: 6,
+          PV: 7,
           I: 4,
           A: 4,
           Cd: 12,
@@ -26595,24 +26624,12 @@ const UNITES = [
           Sv: "2+",
           Inv: "5+",
         },
-        regles: ["Bulky (6)", "Explodes (3+)", "Implacable Advance", "Fear (1)"],
+        regles: ["Bulky (6)", "Explodes (5+)", "Implacable Advance", "Fear (1)"],
         type: "Walker (Malefic)",
       },
     ],
-    options: [
-      {
-        type: "choix",
-        id: "arme-principale",
-        libelle: "Warpfire cannon may be exchanged for:",
-        remplace: "Warpfire cannon",
-        choix: [
-          { nom: "Gravis bolt cannon", cout: 0 },
-          { nom: "Gravis melta cannon", cout: 5 },
-          { nom: "Gravis autocannon", cout: 0 },
-          { nom: "Twin lascannon", cout: 0 },
-        ],
-      },
-    ],
+    // Aucune option sur la fiche du livre.
+    options: [],
     legion: "XVII",
   },
   /* --- Escouade du Cercle de Cendres · Attaque Rapide · 125 pts de base --- */
@@ -26689,31 +26706,22 @@ const UNITES = [
     ],
     options: [
       {
+        // Pas de `remplace` : l'Équipement est commun à toute l'Unité,
+        // seuls les Incendiaires gardent leur lance-flammes.
         type: "case",
         id: "pistolet-inferno",
         libelle:
           "The Iconoclast may exchange its Akkadic hand flamer for an Inferno pistol",
         cout: 15,
-        remplace: "Akkadic Hand Flamer",
         ajoute:
-          "Inferno pistol (instead of the Akkadic hand flamer)",
+          "Inferno pistol (instead of the Akkadic hand flamer, Iconoclast only)",
       },
       {
         type: "case",
         id: "bombes-phosphex",
         libelle: "The Iconoclast may take phosphex bombs",
         cout: 10,
-        ajoute: "Phosphex bombs",
-      },
-      {
-        type: "case",
-        id: "pistolet-a-plasma-iconoclaste",
-        libelle:
-          "The Iconoclast may exchange its Akkadic hand flamer for a plasma pistol",
-        cout: 5,
-        remplace: "Akkadic Hand Flamer",
-        ajoute:
-          "Plasma pistol (instead of the Akkadic hand flamer)",
+        ajoute: "Phosphex bombs (Iconoclast only)",
       },
     ],
     legion: "XVII",
