@@ -2395,8 +2395,7 @@ const ARCANES_PROSPERO = [
 // Disciplines Psychiques du livre de règles (p. 341-347) : [nom de la
 // Discipline, Règles Spéciales et Pouvoirs/Réactions Psychiques
 // accordés (ligne « Règles spéciales » de la fiche), Armes Psychiques
-// (tables de profils)]. Le Pouvoir Tranquillité de la Thaumaturgie :
-// texte pas encore transcrit (page manquante).
+// (tables de profils).
 const DISCIPLINES_PSYCHIQUES = [
   ["Biomancie", ["Impact (F)", "Rage Biomantique"], ["Frappe Biomantique"]],
   ["Pyromancie", ["Explose (4+)"], ["Incendie", "Conflagration"]],
@@ -2406,7 +2405,11 @@ const DISCIPLINES_PSYCHIQUES = [
     ["Force Inébranlable"],
   ],
   ["Télépathie", ["Peur (1)", "Cassure Mentale"], ["Murmures Maudits"]],
-  ["Thaumaturgie", ["Haine (Psykers)", "Résurrection"], []],
+  [
+    "Thaumaturgie",
+    ["Haine (Psykers)", "Résurrection", "Tranquillité"],
+    [],
+  ],
   [
     "Divination",
     [

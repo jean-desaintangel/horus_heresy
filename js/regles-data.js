@@ -1749,8 +1749,7 @@ const REGLES_DIVERSES = [
      Devins de l'Orage, Tireurs de Runes, Démons de Tzeentch/Slaanesh,
      et Disciplines connues d'Ahriman/Amon. Règles et Pouvoirs ajoutés
      à la fiche par DISCIPLINES_PSYCHIQUES (js/unites.js), Armes
-     Psychiques dans js/armes-data.js. Le Pouvoir Tranquillité
-     (Thaumaturgie) : page pas encore transcrite. --- */
+     Psychiques dans js/armes-data.js. --- */
   {
     nom: "Discipline Psychique",
     texte:
@@ -1857,6 +1856,11 @@ const REGLES_DIVERSES = [
     nom: "Résurrection",
     texte:
       "Réaction Psychique (Bénédiction) de la Thaumaturgie, qui s'utilise à la Phase de Tir et peut restituer une perte à l'Unité avec tous ses Points de Vie. Déclencheur : le Joueur Réactif peut la déclarer à la Phase de Tir, au début de l'Étape 11 de toute Attaque de Tir faite par le Joueur Actif. Coût : 1 point d'Attribution de Réactions, payé dès la déclaration. Focus : une Figurine ayant le Trait Thaumaturge sous le contrôle du Joueur Réactif, faisant partie de l'Unité ciblée par l'Attaque de Tir. Cible : l'Unité ciblée par l'Attaque de Tir qui déclenche la Réaction. Durée : effets résolus immédiatement. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Manifestation ; 2) s'il est réussi, avant de Retirer comme Perte la moindre Figurine de l'Unité Cible, son Joueur en Contrôle choisit une seule des Figurines à retirer comme Perte et jette un Dé : sur 4+, cette Figurine n'est pas Retirée comme Perte et revient en jeu, en Cohésion d'Unité avec son Unité et avec sa Caractéristique de Points de Vie à sa Valeur de Base. Sans effet sur les Figurines sans Caractéristique de Points de Vie ; si le Test de Manifestation entraîne les Périls du Warp, on les résout après l'éventuelle restitution ; 3) s'il échoue, il n'y a pas d'autre effet.",
+  },
+  {
+    nom: "Tranquillité",
+    texte:
+      "Pouvoir Psychique (Malédiction) de la Thaumaturgie, qui s'utilise à la Phase de Début et rend les Pouvoirs Psychiques, Réactions Psychiques et attaques avec des Armes Psychiques plus difficiles d'emploi pour l'Unité Cible. Il faut un talent rare pour refermer les brèches donnant sur le Warp que d'autres psykers ouvrent, mais sur les champs de bataille de l'Hérésie d'Horus cela peut faire la différence entre la victoire et la défaite : si le Warp se calme, les pouvoirs des psykers ennemis s'en trouvent sapés et amoindris. Déclencheur : le Joueur Actif peut Manifester le Pouvoir Psychique Tranquillité à la Sous-phase des Effets de la Phase de Début. Focus : une Figurine avec le Trait Thaumaturge sous le contrôle du Joueur Actif. Cible : une Unité sous le contrôle du Joueur Réactif dont au moins une Figurine est à 18 pouces et en Ligne de Vue du Focus ; elle doit inclure au moins une Figurine avec le Trait Psyker. Durée : si ce Pouvoir Psychique est Manifesté avec succès, ses effets durent jusqu'au début du prochain Tour de Joueur du Joueur Actif. Processus : 1) une fois décidés le Focus et l'Unité Cible, on fait un Test de Résistance ; 2) si le Test de Résistance est échoué, toutes les Figurines de l'Unité Cible subissent un malus de -2 à leur Caractéristique de Volonté quand elles tentent de Manifester un Pouvoir Psychique ou une Réaction Psychique, et si une Figurine de l'Unité Cible fait des attaques avec une Arme ayant le Trait Psychique, on réduit de 1 la Caractéristique de Force de toutes les Touches infligées ; 3) si le Test de Résistance est réussi, il n'y a pas d'autre effet.",
   },
   {
     nom: "Thaumaturge",

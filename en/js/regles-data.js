@@ -1749,8 +1749,7 @@ const REGLES_DIVERSES = [
      Devins de l'Orage, Tireurs de Runes, Démons de Tzeentch/Slaanesh,
      et Disciplines connues d'Ahriman/Amon. Règles et Pouvoirs ajoutés
      à la fiche par DISCIPLINES_PSYCHIQUES (js/unites.js), Armes
-     Psychiques dans js/armes-data.js. Le Pouvoir Tranquillité
-     (Thaumaturgie) : page pas encore transcrite. --- */
+     Psychiques dans js/armes-data.js. --- */
   {
     nom: "Psychic Discipline",
     texte:
@@ -1857,6 +1856,11 @@ const REGLES_DIVERSES = [
     nom: "Resurrection",
     texte:
       "Psychic Reaction (Blessing) of Thaumaturgy, used in the Shooting Phase, that can restore a casualty to the Unit with all its Wounds. Trigger: the Reactive Player may declare it in the Shooting Phase, at the start of Step 11 of any Shooting Attack made by the Active Player. Cost: 1 point of Reaction Allotment, paid on declaration. Focus: a Model with the Thaumaturge Trait controlled by the Reactive Player, part of the Unit targeted by the Shooting Attack. Target: the Unit targeted by the Shooting Attack that triggers the Reaction. Duration: effects resolved immediately. Process: 1) once the Focus and the Target Unit are decided, make a Manifestation Check; 2) if it is passed, before Removing any Model of the Target Unit as a Casualty, its Controlling Player chooses a single Model to be removed as a Casualty and rolls a Dice: on a 4+, that Model is not Removed as a Casualty and returns to play, in Unit Coherency with its Unit and with its Wounds Characteristic at its Base Value. This has no effect on Models without a Wounds Characteristic; if the Manifestation Check causes Perils of the Warp, they are resolved after any restoration; 3) if it is failed, there is no further effect.",
+  },
+  {
+    nom: "Tranquillity",
+    texte:
+      "Psychic Power (Curse) of Thaumaturgy, used in the Start Phase, that makes Psychic Powers, Psychic Reactions and attacks with Psychic Weapons harder to use for the Target Unit. It takes a rare talent to close the breaches into the Warp that other psykers open, but on the battlefields of the Horus Heresy this can make the difference between victory and defeat: if the Warp is calmed, the powers of enemy psykers are sapped and diminished. Trigger: the Active Player may Manifest the Tranquillity Psychic Power during the Effects Sub-phase of the Start Phase. Focus: a Model with the Thaumaturge Trait controlled by the Active Player. Target: a Unit controlled by the Reactive Player with at least one Model within 18 inches and in Line of Sight of the Focus; it must include at least one Model with the Psyker Trait. Duration: if this Psychic Power is successfully Manifested, its effects last until the start of the Active Player's next Player Turn. Process: 1) once the Focus and Target Unit have been determined, a Resistance Check is made; 2) if the Resistance Check is failed, all Models in the Target Unit suffer a -2 modifier to their Willpower Characteristic when attempting to Manifest a Psychic Power or Psychic Reaction, and if a Model in the Target Unit makes attacks with a Weapon with the Psychic Trait, the Strength Characteristic of all Hits inflicted is reduced by 1; 3) if the Resistance Check is passed, there is no further effect.",
   },
   {
     nom: "Thaumaturge",
