@@ -7168,9 +7168,9 @@ const UNITES = [
         prefixe: "Discipline: ",
         choix: [
           { nom: "Call of the Storm", cout: 10 },
-          { nom: "Divination", cout: 10 },
-          { nom: "Thaumaturgy", cout: 20 },
-          { nom: "Telepathy", cout: 0 },
+          { nom: "Divination", cout: 20 },
+          { nom: "Thaumaturgy", cout: 0 },
+          { nom: "Telepathy", cout: 10 },
         ],
       },
     ],
@@ -27553,10 +27553,10 @@ const UNITES = [
           CT: 5,
           F: 4,
           E: 5,
-          PV: 4,
+          PV: 5,
           I: 5,
           A: 4,
-          Cd: 9,
+          Cd: 10,
           Sf: 9,
           Vo: 9,
           Int: 9,
@@ -44814,15 +44814,11 @@ const UNITES = [
      ces deux personnages ont explicitement renoncé à leur Légion
      d'origine (Death Guard pour Garro, Ultramarines pour Rubio).
      « Libertas »/« Polaris » (armes personnelles nommées) gardés tels
-     quels (noms propres) ; seule Libertas a un profil donné dans ce
-     PDF (js/armes-data.js, catégorie Armes de Parangon) — Polaris
-     (épée de force + capuche psychique de Rubio) n'a aucun profil
-     fourni sur cette fiche, laissé en texte d'équipement brut
-     conformément à la règle « ne jamais inventer un profil d'arme ».
-     « Echoes of Fate » (Règle Spéciale de Rubio, nom seul, aucun texte
-     fourni) traduit en « Échos du Destin », affiché en texte simple
-     (pas d'entrée de glossaire tant que le texte complet n'est pas
-     fourni). « Telepath »/« Diviner » (accès aux Disciplines
+     quels (noms propres), profils dans js/armes-data.js (Armes de
+     Parangon ; MI de Polaris « I », précisé par le proprio).
+     « Echoes of Fate » traduit en « Échos du Destin » : donne les
+     Disciplines Télépathie et Divination (REGLES_DISCIPLINES,
+     js/unites.js). « Telepath »/« Diviner » (accès aux Disciplines
      Télépathie/Divination, sans texte détaillé sur cette fiche)
      traduits en « Télépathe »/« Devin » sur demande explicite du
      proprio — accepté malgré la collision de nom avec « Devin de

@@ -2419,6 +2419,14 @@ const DISCIPLINES_PSYCHIQUES = [
 // Règles Spéciales de personnage qui font connaître des Disciplines :
 // [Règle, Disciplines connues entièrement, Armes Psychiques seules].
 const REGLES_DISCIPLINES = [
+  // Calas Typhon : Biomancie seulement si Mortarion est absent de
+  // l'Armée (condition rappelée dans le texte de la règle, non vérifiée).
+  ["Sorcerer's Blood", ["Biomancy"], []],
+  // Tylos Rubio (Knight-Errant).
+  ["Echoes of Fate", ["Telepathy", "Divination"], []],
+  // Navigateur d'Expédition (Solar Auxilia) : Discipline Navis
+  // Astrologis, propre au Navigateur (Arme Psychique seule).
+  ["Navigator's Arts", [], ["Lidless Stare"]],
   ["Arch-magister of the Corvidae", ["Thaumaturgy", "Divination"], []],
   ["Magister of Dust", ["Telepathy", "Divination"], []],
   [

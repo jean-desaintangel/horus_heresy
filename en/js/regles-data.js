@@ -445,6 +445,12 @@ const REGLES_DIVERSES = [
     texte: "Grants an additional Reaction.",
   },
   {
+    // Calas Typhon, Death Guard (XIVe Légion) : voir js/unites-data.js.
+    nom: "Sorcerer's Blood",
+    texte:
+      "Despite his Primarch’s hatred of “sorcery”, Calas Typhon did indeed possess psychic powers, though they were suppressed. However, it was only in the later phases of the Heresy, and under the self-serving tutelage of Erebus, that he gained enough confidence to use his powers openly. Until then, he made sure that no witness to the use of his powers survived the experience. Calas Typhon knows the Biomancy Discipline if he is included in an Army in which Mortarion is absent. When part of an Army that includes Mortarion, a Model with this Special Rule has no Psychic Discipline, although it has the Psyker Trait. When part of an Army that does not include Mortarion, a Model with this Special Rule has the Biomancy Discipline. In addition, once per Battle, while a Model with this Special Rule is engaged in a Challenge, its Controlling Player may choose this Gambit: Sorcerer’s Blood — while this Gambit is in effect, at the start of the Focus Step, the Controlling Player of this Model may make a Willpower Check for it. If the Check is passed, its Attacks and Strength Characteristics are modified by +2 for the following Strike Step. If the Check is failed, this Model suffers 1 Wound, with an AP of 2 and a Damage of 1, against which only Invulnerable Saves may be attempted. If this reduces this Model to 0 Wounds, that Model is Removed as a Casualty and the Challenge ends.",
+  },
+  {
     // Arsenal de la Death Guard (XIVe Légion) : diffuseurs alchimiques
     // empoisonnés de certaines armures (voir js/unites-data.js).
     nom: "Nephos",
@@ -554,6 +560,18 @@ const REGLES_DIVERSES = [
     nom: "Sworn Loyalty",
     texte:
       "The Atramentar had sworn fealty neither to their Legion nor to their Primarch, but to Sevatar alone. In battle, they followed his orders without question, without remorse or hesitation. It was a rare example of loyalty within a Legion renowned for its treachery and lack of honour. When included in an Army in which a Sevatar Model has been selected in the Primary Detachment and is on the battlefield, the Controlling Player of a Atramentar Flay-clade Unit may always use Sevatar's Base Leadership Characteristic instead of the Unit's for any Leadership Check made for this Unit.",
+  },
+  {
+    // Sevatar, Night Lords (VIIIe Légion) : voir js/unites-data.js.
+    nom: "Treacherous Fighter",
+    texte:
+      "Sevatar is one of the most dangerous fighters of the Legiones Astartes. Faced with a worthy opponent, he will stoop to any low blow to claim victory. This Gambit allows Sevatar to make an attack outside the normal sequence. While a Model with this Special Rule is engaged in a Challenge, its Controlling Player may choose this Gambit: Treacherous Fighter — this Gambit may only be chosen in the first Face-Off Step of a Challenge involving this Model. If this Gambit is chosen, at the start of the Focus Step, the Controlling Player of this Model may resolve steps 1 to 4 of the Strike Step once, as if this Model had an Attacks Characteristic of 1. The Focus Step is then resolved as normal.",
+  },
+  {
+    // Sevatar, Night Lords (VIIIe Légion) : voir js/unites-data.js.
+    nom: "Dark Dreams",
+    texte:
+      "Like his Primarch, Sevatar possessed a limited psychic power – the ability to glimpse scattered fragments of his future in his dreams. It was a double-edged gift, tormenting Sevatar with fleeting visions of tragedies to come. The Controlling Player may attempt to gain a Damage Mitigation Roll for Sevatar. In their Effects Sub-Phase, the Controlling Player of this Model may roll a Dice and consult the following table: 1 — until the start of the Controlling Player’s next Effects Sub-Phase, this Model loses the Command Sub-type and gains the Specialist Sub-type; 2-4 — no effect; 5+ — until the start of the Controlling Player’s next Effects Sub-Phase, this Model gains the Feel No Pain (5+) Special Rule.",
   },
   {
     // Konrad Curze, Primarque des Night Lords (VIIIe Légion) : voir
@@ -687,7 +705,7 @@ const REGLES_DIVERSES = [
     // js/unites-data.js.
     nom: "Numerologist Order",
     texte:
-      "The Numerologists of the Thousand Sons were members of the Order of Ruin, which filled a role similar to that of the Techmarines in other Legions. They were also renowned for their tactical acuity, devising strategies and influencing the course of battle. Much of their success could be attributed to the psychic abilities of the Numerologists, who employed both divination and telepathy to predict enemy movements and relay these changes to their allies. A Model with this Special Rule has the following Psychic Powers, but a Unit that includes a Model with this Special Rule cannot be assigned a Prosperine Arcana as normal. In addition, it has the Telepath and Diviner Traits: Blessing of Prescience (Divination Discipline), Mind-Burst (Telepathy Discipline).",
+      "The Numerologists of the Thousand Sons were members of the Order of Ruin, which filled a role similar to that of the Techmarines in other Legions. They were also renowned for their tactical acuity, devising strategies and influencing the course of battle. Much of their success could be attributed to the psychic abilities of the Numerologists, who employed both divination and telepathy to predict enemy movements and relay these changes to their allies. A Model with this Special Rule has the following Psychic Powers, but a Unit that includes a Model with this Special Rule cannot be assigned a Prosperine Arcana as normal. In addition, it has the Telepath and Diviner Traits: Blessing of Clairvoyance (Divination Discipline), Mind-burst (Telepathy Discipline).",
   },
   {
     // Cabale de Numérologistes (XVe Légion, Thousand Sons) : voir
@@ -870,7 +888,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Call of the Wind",
     texte:
-      "Psychic Power (Blessing), manifested in the Movement Phase: the Focus is a Model with the Stormseer Trait in the Unit that is about to Move; the Target is a friendly Unit composed entirely of Models with the White Scars Trait, within 12\" and in Line of Sight of the Focus. If successful, the Target Unit cannot Rush this turn, but the Movement Characteristic of each of its Models is modified by a value equal to its own Initiative Characteristic for its normal Move this Phase.",
+      "Psychic Power (Blessing) that allows the Target Unit to make a normal Move at the same distance as if it were Rushing. Trigger: the Active Player may Manifest it in the Movement Phase, when they choose to Move a Unit that includes at least one Model with the Stormseer Trait, before any Move is made for that Unit. Focus: a Model with the Stormseer Trait in that Unit. Target: a Unit controlled by the Active Player (including the Focus’s own Unit) with at least one Model within 12\" of the Focus and with Line of Sight to it, which includes only Models with the White Scars Trait; it cannot be Locked in Combat or otherwise ineligible to make a normal Move (for example, Routed), nor include any Model of the Vehicle Type. Duration: effects resolved immediately. If the Manifestation Check is passed, until the end of the Phase, the Target Unit cannot Rush, but the Movement Characteristic of each of its Models is modified by a value equal to that Model’s Initiative Characteristic. If it is failed, there is no effect on the Target Unit.",
   },
   {
     nom: "The Sagyar Mazan",
@@ -2409,6 +2427,12 @@ const REGLES_DIVERSES = [
     texte:
       "Psychic Power (Blessing): drawing upon the tormented depths of the Warp, the Diabolist bestows malefic blessings upon the Legionaries of the XVII, feeding them with dark energy while making them ever more monstrous in the eyes of their enemies. The Active Player may choose to Manifest it at the start of the Fight Sub-Phase of their Assault Phase; the Focus must be a Model with the Diabolist Trait under their control, and the Target Unit must be a Unit belonging to the Reactive Player with at least one Model within 12\" of and in Line of Sight of the Focus, composed entirely of Models with the Word Bearers Trait. If the Manifestation is successful, all Models in the Target Unit gain the Aflame (1) and Feel No Pain (6+) Special Rules until the end of the Assault Phase.",
   },
+  {
+    // Trait des Diabolistes (Word Bearers) : voir js/unites-data.js.
+    nom: "Diabolist",
+    texte:
+      "Trait granted by the Diabolism Discipline (Word Bearers): a Model that has it may be the Focus of the Dark Channeling Psychic Power.",
+  },
   /* --- Discipline Anathemata (Ésotériste, Lorgar, Erebus, option
      Tradition Ardente des Word Bearers — p. 35) : voir js/unites-data.js,
      et l'Arme Psychique Dards du Néant dans js/armes-data.js. --- */
@@ -2421,6 +2445,12 @@ const REGLES_DIVERSES = [
     nom: "Anathemata",
     texte:
       "Trait granted by the Anathemata Discipline: serves as the Focus for the Tear the Veil Psychic Power and the Seal the Veil Psychic Reaction.",
+  },
+  {
+    // Arsenal des Word Bearers (XVIIe Légion) : voir optionTraditionArdente, js/unites-data.js.
+    nom: "Burning Tradition",
+    texte:
+      "Word Bearers Armoury: any Model with the High Command Tactical Role and the Word Bearers Trait may, for +40 Points, gain the Psyker Trait and the Anathemata Psychic Discipline.",
   },
   {
     nom: "Tear the Veil",
@@ -2605,6 +2635,18 @@ const REGLES_DIVERSES = [
       "The powers of a Navigator are among the mightiest of all the Psyker castes, though they are rarely overtly offensive in nature. When pushed to the brink, however, Navigators are capable of channelling the tides of the Empyrean and turning them against their enemies. A Model with this Special Rule has a specific Psychic Discipline: it has the Navis Astrologis Psychic Discipline, which grants it the Lidless Stare Psychic Weapon and the \"Navis Astrologian\" Trait.",
   },
   {
+    // Discipline du Navigateur d'Expédition (Solar Auxilia, Legacies).
+    nom: "Navis Astrologis",
+    texte:
+      "Psychic Discipline unique to Navigators (Navigator's Arts rule): a Model that has it gains the Lidless Stare Psychic Weapon and the \"Navis Astrologian\" Trait.",
+  },
+  {
+    // Trait du Navigateur d'Expédition (Solar Auxilia, Legacies).
+    nom: "Navis Astrologian",
+    texte:
+      "Trait granted by the Navis Astrologis Psychic Discipline (Navigator's Arts rule) to a Model that has it.",
+  },
+  {
     nom: "Medicae Support",
     texte:
       "The Solar Auxilia maintain cadres of trained medicae, assigned to the Units that will stand closest to the fighting. Though lacking the advanced equipment of Legion Apothecaries, these healers are no less devoted to the protection of their brothers-in-arms, even in the deadliest exchanges of fire. Auxilia medicae deploy and operate individually. Although included in an Army as a Unit of several Models, each Model with this Special Rule is treated as a separate Unit for all purposes, including Deployment and the counting of Victory Points.",
@@ -2738,6 +2780,18 @@ const REGLES_DIVERSES = [
     nom: "Unattuned Practitioners",
     texte:
       "Thousand Sons Inductii Models have a fixed Prosperine Arcana. A Unit that includes Models with this Special Rule cannot have a Prosperine Arcana chosen for it: instead it has the Unattuned Prosperine Arcana, which follows all the rules for Prosperine Arcana. All Models in a Unit with the Unattuned Prosperine Arcana gain the Ætheric Guidance Psychic Power and the \"Unattuned\" Trait. Ætheric Guidance (Psychic Power, Blessing) improves the Unit's Shooting Attacks: the Active Player may Manifest it in the Shooting Phase, at the start of Step 4 of a Shooting Attack made by a Unit under their control including at least one Model with the Unattuned Trait. The Focus must be a Model with the Unattuned Trait in the shooting Unit; the Target is that same Unit, composed entirely of Models with the Thousand Sons Trait. If successful, its effects last until the end of the current Shooting Attack: all Ranged Weapons the Models in the Target Unit are equipped with, except those with the Blast (X) Special Rule, gain the Breaching (6+) Special Rule.",
+  },
+  {
+    // Inductii des Thousand Sons : voir la règle Praticiens Désaccordés.
+    nom: "Unattuned",
+    texte:
+      "Trait granted by the Unattuned Prosperine Arcana (Unattuned Practitioners rule): a Model that has it may be the Focus of the Ætheric Guidance Psychic Power.",
+  },
+  {
+    // Inductii des Thousand Sons : voir la règle Praticiens Désaccordés.
+    nom: "Ætheric Guidance",
+    texte:
+      "Psychic Power (Blessing) of the Unattuned Prosperine Arcana, which improves the Unit's Shooting Attacks: the Active Player may Manifest it in the Shooting Phase, at the start of Step 4 of a Shooting Attack made by a Unit under their control including at least one Model with the Unattuned Trait. The Focus must be a Model with the Unattuned Trait in the shooting Unit; the Target is that same Unit, composed entirely of Models with the Thousand Sons Trait. If successful, its effects last until the end of the current Shooting Attack: all Ranged Weapons the Models in the Target Unit are equipped with, except those with the Blast (X) Special Rule, gain the Breaching (6+) Special Rule.",
   },
   {
     nom: "Creed of Brutality",
@@ -3606,6 +3660,13 @@ const REGLES_DIVERSES = [
     nom: "Knights-Errant",
     texte:
       "The Knights-Errant Trait is considered a Faction Trait, in the same way as the [Legiones Astartes] Trait and the other Traits that may be substituted for it. Designer's Note: this does not override the rule that all Units in the same Detachment must share the same Faction Trait — a Unit that includes Models with the Knights-Errant Faction Trait can therefore only be included in a Detachment whose other Units have that same Trait.",
+  },
+  {
+    // Tylos Rubio, Knight-Errant (PDF « Knight-Errant ») : voir
+    // js/unites-data.js.
+    nom: "Echoes of Fate",
+    texte:
+      "Rubio listens for the ever-present ghost voices that warn of approaching betrayal, knowing that to ignore them as he did at Calth would be to invite a tragedy still greater than befell that world. A Model with this Special Rule has the Telepathy and Divination Psychic Disciplines.",
   },
 
   /* ---------- Bénéfices d'Arcane de Mechanicum (Liber Mechanicum,

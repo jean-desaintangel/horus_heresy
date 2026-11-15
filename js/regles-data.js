@@ -445,6 +445,12 @@ const REGLES_DIVERSES = [
     texte: "Donne une réaction supplémentaire.",
   },
   {
+    // Calas Typhon, Death Guard (XIVe Légion) : voir js/unites-data.js.
+    nom: "Sang de Sorcier",
+    texte:
+      "Malgré la haine de la « sorcellerie » que professait son Primarque, Calas Typhon possédait bel et bien des pouvoirs psychiques, bien qu'ils fussent réprimés. Cependant, ce ne fut que dans les dernières phases de l'Hérésie, et sous la tutelle intéressée d'Erebus, qu'il acquit suffisamment d'assurance pour utiliser ouvertement ses pouvoirs. Jusqu'à cette époque, il fit en sorte qu'aucun témoin de l'utilisation de ses pouvoirs ne survive à l'expérience. Calas Typhon connaît la Discipline Biomancie s'il est inclus dans une Armée dont Mortarion est absent. Quand elle fait partie d'une Armée qui inclut Mortarion, une Figurine ayant cette Règle Spéciale n'a aucune Discipline Psychique, bien qu'elle possède le Trait Psyker. Quand elle fait partie d'une Armée qui n'inclut pas Mortarion, une Figurine ayant cette Règle Spéciale a la Discipline Biomancie. De plus, une fois par Bataille, tant qu'une Figurine ayant cette Règle Spéciale est engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Sang de Sorcier — tant que cette Posture est adoptée, au début de l'Étape de Concentration, le Joueur en Contrôle de cette Figurine peut faire un Test de Volonté pour elle. Si le Test est réussi, on modifie de +2 ses Caractéristiques d'Attaques et de Force à l'Étape de Frappe suivante. Si le Test est raté, cette Figurine subit 1 Blessure, avec une PA de 2 et des Dégâts de 1, contre laquelle on ne peut tenter que des Sauvegardes Invulnérables. Si cela réduit cette Figurine à 0 Point de Vie, ladite Figurine est Retirée comme Perte et le Défi prend fin.",
+  },
+  {
     // Arsenal de la Death Guard (XIVe Légion) : diffuseurs alchimiques
     // empoisonnés de certaines armures (voir js/unites-data.js).
     nom: "Néfos",
@@ -554,6 +560,18 @@ const REGLES_DIVERSES = [
     nom: "Fidélité Jurée",
     texte:
       "Les Atramentar n'avaient pas juré fidélité à leur Légion ni à leur Primarque, mais à Sevatar seul. Au combat, ils suivaient ses ordres sans discussion, sans remords ni hésitation. C'était un rare exemple de loyauté au sein d'une Légion réputée pour sa traîtrise et son absence d'honneur. Quand elle est incluse dans une Armée où une Figurine de Sevatar a été sélectionnée dans le Détachement Principal et se trouve sur le champ de bataille, le Joueur en Contrôle d'une Unité Atramentar Écorchés peut toujours utiliser la Caractéristique de Commandement de Base de Sevatar à la place de celle de l'Unité pour tout Test de Commandement de cette Unité.",
+  },
+  {
+    // Sevatar, Night Lords (VIIIe Légion) : voir js/unites-data.js.
+    nom: "Combattant Déloyal",
+    texte:
+      "Sevatar est un des plus dangereux combattants des Legiones Astartes. Face à un adversaire de valeur, il ne recule devant aucun coup bas pour remporter la victoire. Cette Posture permet à Sevatar de porter une attaque en dehors de la séquence normale. Tant qu'une Figurine ayant cette Règle Spéciale est engagée en Défi, son Joueur en Contrôle peut choisir cette Posture : Combattant Déloyal — on ne peut choisir cette Posture qu'à la première Étape de Confrontation d'un Défi impliquant cette Figurine. Si cette Posture est adoptée, au début de l'Étape de Concentration, le Joueur en Contrôle de cette Figurine peut résoudre à une reprise les étapes 1 à 4 de l'Étape de Frappe comme si cette Figurine avait une Caractéristique d'Attaques de 1. On résout alors normalement l'Étape de Concentration.",
+  },
+  {
+    // Sevatar, Night Lords (VIIIe Légion) : voir js/unites-data.js.
+    nom: "Songes Ténébreux",
+    texte:
+      "À l'instar de son Primarque, Sevatar possédait un pouvoir psychique limité – la capacité de percevoir en songe des fragments épars de son avenir. C'était un don à double tranchant, qui tourmentait Sevatar en lui dévoilant des visions fugaces de tragédies à venir. Le Joueur en Contrôle peut tenter de gagner un Jet de Mitigation de Dégâts pour Sevatar. À sa Sous-phase des Effets, le Joueur en Contrôle de cette Figurine peut jeter un Dé et consulter le tableau suivant : 1 — jusqu'au début de la prochaine Sous-phase des Effets du Joueur en Contrôle, cette Figurine perd le Sous-type État-major et gagne le Sous-type Spécialiste ; 2-4 — pas d'effet ; 5+ — jusqu'au début de la prochaine Sous-phase des Effets du Joueur en Contrôle, cette Figurine gagne la Règle Spéciale Insensible à la Douleur (5+).",
   },
   {
     // Konrad Curze, Primarque des Night Lords (VIIIe Légion) : voir
@@ -687,7 +705,7 @@ const REGLES_DIVERSES = [
     // js/unites-data.js.
     nom: "Ordre des Numérologistes",
     texte:
-      "Les Numérologistes des Thousand Sons étaient membres de l'Ordre de la Ruine, qui remplissait un rôle similaire à celui des Techmarines dans les autres Légions. Ils étaient en outre réputés pour leur acuité tactique, élaborant des stratégies et influençant le cours de la bataille. Une grande part de leur succès pouvait être attribuée aux capacités psychiques des Numérologistes, qui employaient à la fois des capacités de divination et de télépathie pour prédire les mouvements ennemis et relayer ces changements à leurs alliés. Une Figurine ayant cette Règle Spéciale possède les Pouvoirs Psychiques suivants, mais une Unité qui inclut une Figurine ayant cette Règle Spéciale ne peut pas se voir attribuer d'Arcane Prosperine comme normalement. De plus, elle a les Traits Télépathe et Devin : Bénédiction de Prescience (Discipline Divination), Explosion Mentale (Discipline Télépathie).",
+      "Les Numérologistes des Thousand Sons étaient membres de l'Ordre de la Ruine, qui remplissait un rôle similaire à celui des Techmarines dans les autres Légions. Ils étaient en outre réputés pour leur acuité tactique, élaborant des stratégies et influençant le cours de la bataille. Une grande part de leur succès pouvait être attribuée aux capacités psychiques des Numérologistes, qui employaient à la fois des capacités de divination et de télépathie pour prédire les mouvements ennemis et relayer ces changements à leurs alliés. Une Figurine ayant cette Règle Spéciale possède les Pouvoirs Psychiques suivants, mais une Unité qui inclut une Figurine ayant cette Règle Spéciale ne peut pas se voir attribuer d'Arcane Prosperine comme normalement. De plus, elle a les Traits Télépathe et Devin : Bénédiction de Clairvoyance (Discipline Divination), Cassure Mentale (Discipline Télépathie).",
   },
   {
     // Cabale de Numérologistes (XVe Légion, Thousand Sons) : voir
@@ -870,7 +888,7 @@ const REGLES_DIVERSES = [
   {
     nom: "Appel du Vent",
     texte:
-      "Pouvoir Psychique (Bénédiction), manifesté à la Phase de Mouvement : le Focus est une Figurine avec le Trait Devin de l'Orage de l'Unité qui va se Déplacer ; la Cible est une Unité amie entièrement composée de Figurines ayant le Trait White Scars, à 12 pouces et en Ligne de Vue du Focus. En cas de réussite, l'Unité Cible ne peut pas Foncer ce tour-ci, mais la Caractéristique de Mouvement de chacune de ses Figurines est modifiée d'une valeur égale à sa propre Caractéristique d'Initiative pour son Déplacement normal de cette Phase.",
+      "Pouvoir Psychique (Bénédiction) qui permet à l'Unité Cible de faire un Déplacement normal à la même distance que si elle Fonçait. Déclencheur : le Joueur Actif peut le Manifester à la Phase de Mouvement, quand il choisit pour se Déplacer une Unité qui inclut au moins une Figurine avec le Trait Devin de l'Orage, avant tout Déplacement de cette Unité. Focus : une Figurine avec le Trait Devin de l'Orage de cette Unité. Cible : une Unité du Joueur Actif (y compris celle du Focus) dont au moins une Figurine est à 12 pouces du Focus et a une Ligne de Vue vers lui, n'incluant que des Figurines ayant le Trait White Scars ; elle ne peut pas être Verrouillée en Combat ou autrement inéligible à se Déplacer normalement (par exemple En Déroute), ni inclure de Figurine de Type Véhicule. Durée : effets résolus immédiatement. En cas de réussite du Test de Manifestation, jusqu'à la fin de la Phase, l'Unité Cible ne peut pas Foncer, mais la Caractéristique de Mouvement de chacune de ses Figurines est modifiée d'une valeur égale à sa Caractéristique d'Initiative. En cas d'échec, aucun effet sur l'Unité Cible.",
   },
   {
     nom: "Les Sagyar Mazan",
@@ -2409,6 +2427,12 @@ const REGLES_DIVERSES = [
     texte:
       "Pouvoir Psychique (Bénédiction) : puisant dans les profondeurs tourmentées du Warp, le Diaboliste confère des bénédictions maléfiques aux Légionnaires de la XVIIe, les nourrissant d'une énergie ténébreuse tout en les rendant toujours plus monstrueux aux yeux de leurs ennemis. Le Joueur Actif peut choisir de le Manifester au début de la Sous-Phase de Combat de sa Phase d'Assaut ; le Foyer doit être une Figurine ayant le Trait Diaboliste sous son contrôle, et l'Unité Cible doit être une Unité du Joueur Réactif comptant au moins une Figurine à 12 pouces du Foyer et en Ligne de Vue de celui-ci, entièrement composée de Figurines ayant le Trait Word Bearers. En cas de Manifestation réussie, toutes les Figurines de l'Unité Cible gagnent les Règles Spéciales En Feu (1) et Insensible à la Douleur (6+) jusqu'à la fin de la Phase d'Assaut.",
   },
+  {
+    // Trait des Diabolistes (Word Bearers) : voir js/unites-data.js.
+    nom: "Diaboliste",
+    texte:
+      "Trait accordé par la Discipline du Diabolisme (Word Bearers) : une Figurine qui l'a peut être le Focus du Pouvoir Psychique Canalisation Ténébreuse.",
+  },
   /* --- Discipline Anathemata (Ésotériste, Lorgar, Erebus, option
      Tradition Ardente des Word Bearers — p. 35) : voir js/unites-data.js,
      et l'Arme Psychique Dards du Néant dans js/armes-data.js. --- */
@@ -2421,6 +2445,12 @@ const REGLES_DIVERSES = [
     nom: "Anathemata",
     texte:
       "Trait conféré par la Discipline Anathemata : sert de Focus aux Pouvoir et Réaction Psychiques Déchirer le Voile et Sceller le Voile.",
+  },
+  {
+    // Arsenal des Word Bearers (XVIIe Légion) : voir optionTraditionArdente, js/unites-data.js.
+    nom: "Tradition Ardente",
+    texte:
+      "Arsenal des Word Bearers : toute Figurine de Rôle Tactique Quartier Général ayant le Trait Word Bearers peut, pour +40 Points, être dotée du Trait Psyker et de la Discipline Psychique Anathemata.",
   },
   {
     nom: "Déchirer le Voile",
@@ -2605,6 +2635,18 @@ const REGLES_DIVERSES = [
       "Les pouvoirs d'un Navigateur comptent parmi les plus puissants de toutes les castes de Psykers, bien qu'ils soient rarement de nature ouvertement offensive. Poussés dans leurs retranchements, les Navigateurs sont cependant capables de canaliser les marées de l'Empyréen et de les diriger contre leurs ennemis. Une Figurine ayant cette Règle Spéciale a une Discipline Psychique précise : elle a la Discipline Psychique Navis Astrologis, qui lui donne l'Arme Psychique Regard sans Paupières et le Trait « Navis Astrologien ».",
   },
   {
+    // Discipline du Navigateur d'Expédition (Solar Auxilia, Legacies).
+    nom: "Navis Astrologis",
+    texte:
+      "Discipline Psychique propre aux Navigateurs (règle Arts du Navigateur) : une Figurine qui la possède gagne l'Arme Psychique Regard sans Paupières et le Trait « Navis Astrologien ».",
+  },
+  {
+    // Trait du Navigateur d'Expédition (Solar Auxilia, Legacies).
+    nom: "Navis Astrologien",
+    texte:
+      "Trait accordé par la Discipline Psychique Navis Astrologis (règle Arts du Navigateur) à une Figurine qui la possède.",
+  },
+  {
     nom: "Soutien Médical",
     texte:
       "Les Solar Auxilia entretiennent des cadres de médicae entraînés, assignés aux Unités qui se tiendront au plus près des combats. Bien que dépourvus de l'équipement avancé des Apothicaires des Légions, ces soignants n'en sont pas moins dévoués à la protection de leurs frères d'armes, même dans les échanges de tir les plus meurtriers. Les Auxiliaires médicae se déploient et opèrent individuellement. Bien qu'incluse dans une Armée en tant qu'Unité comprenant plusieurs Figurines, chaque Figurine ayant cette Règle Spéciale est considérée comme une Unité séparée à toutes fins, y compris pour le Déploiement et le décompte des Points de Victoire.",
@@ -2738,6 +2780,18 @@ const REGLES_DIVERSES = [
     nom: "Praticiens Désaccordés",
     texte:
       "Les Figurines Inductii des Thousand Sons ont un Arcane de Prospero fixe. Une Unité qui compte des Figurines ayant cette Règle Spéciale ne peut pas se voir choisir d'Arcane de Prospero : elle a à la place l'Arcane de Prospero Désaccordée, qui suit toutes les règles des Arcanes de Prospero. Toutes les Figurines d'une Unité ayant l'Arcane de Prospero Désaccordée gagnent le Pouvoir Psychique Guidage Éthérique et le Trait « Désaccordé ». Guidage Éthérique (Pouvoir Psychique, Bénédiction) qui améliore les Attaques de Tir de l'Unité : le Joueur Actif peut le Manifester à la Phase de Tir, au début de l'Étape 4 d'une Attaque de Tir faite par une Unité incluant au moins une Figurine ayant le Trait Désaccordé sous son contrôle. Le Focus doit être une Figurine ayant le Trait Désaccordé de l'Unité qui tire ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de l'Attaque de Tir en cours : toutes les Armes de Tir dont sont dotées les Figurines de l'Unité Cible, sauf celles ayant la Règle Spéciale Explosion (X), gagnent la Règle Spéciale Brèche (6+).",
+  },
+  {
+    // Inductii des Thousand Sons : voir la règle Praticiens Désaccordés.
+    nom: "Désaccordé",
+    texte:
+      "Trait accordé par l'Arcane de Prospero Désaccordée (règle Praticiens Désaccordés) : une Figurine qui l'a peut être le Focus du Pouvoir Psychique Guidage Éthérique.",
+  },
+  {
+    // Inductii des Thousand Sons : voir la règle Praticiens Désaccordés.
+    nom: "Guidage Éthérique",
+    texte:
+      "Pouvoir Psychique (Bénédiction) de l'Arcane de Prospero Désaccordée, qui améliore les Attaques de Tir de l'Unité : le Joueur Actif peut le Manifester à la Phase de Tir, au début de l'Étape 4 d'une Attaque de Tir faite par une Unité incluant au moins une Figurine ayant le Trait Désaccordé sous son contrôle. Le Focus doit être une Figurine ayant le Trait Désaccordé de l'Unité qui tire ; la Cible est cette même Unité, entièrement composée de Figurines ayant le Trait Thousand Sons. En cas de réussite, ses effets durent jusqu'à la fin de l'Attaque de Tir en cours : toutes les Armes de Tir dont sont dotées les Figurines de l'Unité Cible, sauf celles ayant la Règle Spéciale Explosion (X), gagnent la Règle Spéciale Brèche (6+).",
   },
   {
     nom: "Credo de Brutalité",
@@ -3606,6 +3660,13 @@ const REGLES_DIVERSES = [
     nom: "Chevaliers Errants",
     texte:
       "Le Trait Chevaliers Errants est considéré comme un Trait de Faction, au même titre que le Trait [Legiones Astartes] et les autres Traits pouvant lui être substitués. Note du Concepteur : ceci ne déroge pas à la règle selon laquelle toutes les Unités d'un même Détachement doivent partager le même Trait de Faction — une Unité qui compte des Modèles ayant le Trait de Faction Chevaliers Errants ne peut donc être incluse que dans un Détachement dont les autres Unités ont ce même Trait.",
+  },
+  {
+    // Tylos Rubio, Knight-Errant (PDF « Knight-Errant ») : voir
+    // js/unites-data.js.
+    nom: "Échos du Destin",
+    texte:
+      "Rubio écoute les voix fantômes toujours présentes qui le préviennent des trahisons à venir, sachant que les ignorer comme il l'a fait sur Calth reviendrait à provoquer une tragédie plus grande encore que celle qui frappa ce monde. Une Figurine ayant cette Règle Spéciale a les Disciplines Psychiques Télépathie et Divination.",
   },
 
   /* ---------- Bénéfices d'Arcane de Mechanicum (Liber Mechanicum,

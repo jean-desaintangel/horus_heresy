@@ -4902,7 +4902,7 @@ const ARMES_MELEE = [
       {
         // Arme de personnage (Calas Typhon, Death Guard).
         nom: "Lakrimae",
-        stats: ["-1", "A", "+2", "2", "2"],
+        stats: ["-1", "A", "S", "2", "2"],
         regles: "Reaping Blow (3), Poisoned (3+)",
         traits: "Power",
       },
@@ -5341,6 +5341,14 @@ const ARMES_MELEE = [
         stats: ["1", "A", "+1", "2", "1"],
         regles: "Critical Hit (6+), Duellist's Edge (2)",
         traits: "Power",
+      },
+      {
+        // Arme de personnage (Tylos Rubio, Knight-Errant — PDF
+        // « Knight-Errant ») : épée de force. Nom propre, gardé tel quel.
+        nom: "Polaris",
+        stats: ["I", "A", "+1", "3", "1"],
+        regles: "Breaching (6+), Force (D)",
+        traits: "Psychic",
       },
     ],
   },
