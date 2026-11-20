@@ -29058,6 +29058,10 @@ const UNITES = [
     categorie: "Elite",
     cout: 135,
     composition: "1 Primat Chasseur de Têtes, 4 Chasseurs de Têtes",
+    // Effectif fixe de 5 : sans ce champ, le configurateur comptait
+    // l'unité comme UNE figurine (budget « par figurine » = 1,
+    // « par tranche de cinq » = 0).
+    effectif: { base: 5, max: 5, cout: 0 },
     equipementLibelle: "Équipement (chaque figurine)",
     traits: ["[Allégeance]", "Alpha Legion", "Écran de Fumée"],
     equipement: [

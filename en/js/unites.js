@@ -3464,7 +3464,8 @@ function construireConfig(carte, unite, instance) {
   const config = el("div", "unite-config");
 
   // --- Taille de l'unité (escouades) ---
-  if (unite.effectif) {
+  // Effectif fixe (base === max) : rien à choisir, pas de champ.
+  if (unite.effectif && unite.effectif.max > unite.effectif.base) {
     const groupe = el("fieldset", "unite-variantes");
     groupe.appendChild(el("legend", null, "Unit Size"));
     const ligne = el("div", "option-ligne");

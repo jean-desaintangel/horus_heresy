@@ -29058,6 +29058,10 @@ const UNITES = [
     categorie: "Elites",
     cout: 135,
     composition: "1 Headhunter Prime, 4 Headhunters",
+    // Effectif fixe de 5 : sans ce champ, le configurateur comptait
+    // l'unité comme UNE figurine (budget « par figurine » = 1,
+    // « par tranche de cinq » = 0).
+    effectif: { base: 5, max: 5, cout: 0 },
     equipementLibelle: "Wargear (each model)",
     traits: ["[Allegiance]", "Alpha Legion", "Smokescreen"],
     equipement: [
