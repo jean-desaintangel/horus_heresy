@@ -1216,24 +1216,21 @@ const TYPES_DETACHEMENTS = [
     // occupe une Case d'État-major (« Command Force Organisation Slot »
     // du PDF — le Maître des Signaux est catégorie "État-major" dans ce
     // fichier, pas "Quartier Général", donc caseRole aligné là-dessus
-    // plutôt que sur la traduction littérale du PDF). Restriction des
-    // Cases de Reco : le PDF vise les « Tarantula Battery Units », mais
-    // aucune Unité Legio Astartes générique de ce nom n'est encore
-    // transcrite dans ce fichier (seules des variantes Solar Auxilia/
-    // Mechanicum existent, `sa-section-tarantula`/`mech-tarantula`,
-    // toutes deux d'une autre Faction) : gap documenté, restriction
-    // laissée non câblée sur les Cases de Reco en attendant.
+    // plutôt que sur la traduction littérale du PDF). Cases de Reco :
+    // Batterie de Tarantula Legiones Astartes (`batterie-tarantula`,
+    // Journal Tactica : Istvaan III, Dropsite Massacre, p. 94-95).
     id: "maelstrom-sentry-battery",
     nom: "Maelstrom Sentry Battery",
     famille: "auxiliaire",
     texte:
-      "Débloqué quand un Maître des Signaux occupe une Case d'État-major. Cases d'Appui : Plates-formes d'Accélérateur Quadritube Araknae uniquement. Cases de Reco : Unités de Batterie Tarantula uniquement (non transcrites pour les Legiones Astartes à ce jour).",
+      "Débloqué quand un Maître des Signaux occupe une Case d'État-major. Cases d'Appui : Plates-formes d'Accélérateur Quadritube Araknae uniquement. Cases de Reco : Batteries de Tarantula uniquement.",
     deblocage: {
       caseRole: "État-major",
       uniteIds: ["maitre-signaux", "maitre-signaux-monte"],
     },
     restrictions: {
       Appui: ["araknae"],
+      Reco: ["batterie-tarantula"],
     },
     cases: [
       _caseOrga("Appui"),

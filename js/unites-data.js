@@ -14826,6 +14826,111 @@ const UNITES = [
     ],
   },
 
+  /* --- Batterie de Tarantula · Reco · 45 pts de base --- */
+  {
+    // Journal Tactica : Istvaan III, Dropsite Massacre (p. 94-95).
+    // Seule Unité autorisée dans les Cases de Reco du Détachement
+    // Auxiliaire Maelstrom Sentry Battery (js/organigramme-data.js).
+    // Chaque Sentinelle compte comme une Unité séparée pour le
+    // Déploiement et les Points de Victoire (Sentinelles Indépendantes),
+    // mais reste gérée comme une seule fiche d'Armée ici, comme la
+    // Batterie Tarantula Mechanicum (`mech-tarantula`).
+    id: "batterie-tarantula",
+    nom: "Batterie de Tarantula",
+    categorie: "Reco",
+    cout: 45,
+    composition: "2 Sentinelles Tarantula",
+    equipementLibelle: "Équipement (chaque figurine)",
+    traits: ["[Allégeance]", "[Legiones Astartes]"],
+    notes:
+      "Les Légions Space Marines considèrent les sentinelles armées Tarantula comme totalement sacrifiables, et les utilisent fréquemment dans les combats intenses pour défendre une position avancée, pour détourner l'attention des assaillants ennemis ou encore pour couvrir leur repli ou fixer une force ennemie pendant une feinte. À cette fin, les Tarantula peuvent être larguées sur le front par des servoporteurs aériens immédiatement avant un engagement probable, ou dissimulées par des forces de reconnaissance pour préparer une mauvaise surprise à un éventuel attaquant.",
+    equipement: ["Bolter lourd jumelé de Tourelle"],
+    variantes: [
+      {
+        nom: "Sentinelle Tarantula",
+        cout: 0,
+        profilVehicule: {
+          M: "—",
+          CT: 4,
+          avant: 10,
+          flanc: 10,
+          arriere: 10,
+          PC: 2,
+          transport: "—",
+        },
+        regles: [
+          "Sacrifiable (3)",
+          "Infiltration (9)",
+          "Protocoles de Tir Automatisé",
+          "Sentinelles Indépendantes",
+        ],
+        type: "Véhicule",
+      },
+    ],
+    options: [
+      {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
+        type: "quantite",
+        id: "lascannon",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un canon laser jumelé de Tourelle",
+        cout: 20,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Canon laser jumelé de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
+        type: "quantite",
+        id: "volkite",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par une couleuvrine volkite jumelée de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Couleuvrine volkite jumelée de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
+        type: "quantite",
+        id: "melta-array",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un affût à fusion de Sentinelle de Tourelle",
+        cout: 25,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Affût à fusion de Sentinelle de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
+        type: "quantite",
+        id: "hyperios",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par un lance-missiles Hyperios de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Lance-missiles Hyperios de Tourelle (à la place du bolter lourd jumelé de Tourelle)",
+      },
+      {
+        remplaceIntegral: "Bolter lourd jumelé de Tourelle",
+        type: "quantite",
+        id: "orias",
+        libelle:
+          "Figurines : bolter lourd jumelé de Tourelle par deux missiles Orias à fragmentation de Tourelle",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Deux missiles Orias à fragmentation (Tourelle) (à la place du bolter lourd jumelé de Tourelle)",
+      },
+    ],
+  },
+
   /* --- Escadron de Motards · Reco · 85 pts de base --- */
   {
     id: "escadron-motards",

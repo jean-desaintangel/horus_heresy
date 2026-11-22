@@ -14826,6 +14826,111 @@ const UNITES = [
     ],
   },
 
+  /* --- Batterie de Tarantula · Reco · 45 pts de base --- */
+  {
+    // Journal Tactica : Istvaan III, Dropsite Massacre (p. 94-95).
+    // Seule Unité autorisée dans les Cases de Reco du Détachement
+    // Auxiliaire Maelstrom Sentry Battery (js/organigramme-data.js).
+    // Chaque Sentinelle compte comme une Unité séparée pour le
+    // Déploiement et les Points de Victoire (Sentinelles Indépendantes),
+    // mais reste gérée comme une seule fiche d'Armée ici, comme la
+    // Batterie Tarantula Mechanicum (`mech-tarantula`).
+    id: "batterie-tarantula",
+    nom: "Tarantula Battery",
+    categorie: "Recon",
+    cout: 45,
+    composition: "2 Tarantula Sentries",
+    equipementLibelle: "Wargear (each model)",
+    traits: ["[Allegiance]", "[Legiones Astartes]"],
+    notes:
+      "The Space Marine Legions consider Tarantula sentry guns to be entirely expendable, and frequently use them in heavy fighting to hold a forward position, to draw the attention of enemy attackers, or to cover a withdrawal or pin an enemy force during a feint. To that end, Tarantulas may be dropped onto the front line by aerial servo-carriers immediately before a likely engagement, or concealed by reconnaissance forces to prepare a nasty surprise for a would-be attacker.",
+    equipement: ["Turret Mounted twin heavy bolter"],
+    variantes: [
+      {
+        nom: "Tarantula Sentry",
+        cout: 0,
+        profilVehicule: {
+          M: "—",
+          CT: 4,
+          avant: 10,
+          flanc: 10,
+          arriere: 10,
+          PC: 2,
+          transport: "—",
+        },
+        regles: [
+          "Expendable (3)",
+          "Infiltrate (9)",
+          "Automated Fire Protocols",
+          "Independent Sentries",
+        ],
+        type: "Vehicle",
+      },
+    ],
+    options: [
+      {
+        remplaceIntegral: "Turret Mounted twin heavy bolter",
+        type: "quantite",
+        id: "lascannon",
+        libelle:
+          "Models: Turret Mounted twin heavy bolter for a Turret Mounted twin lascannon",
+        cout: 20,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Turret Mounted twin lascannon (instead of the Turret Mounted twin heavy bolter)",
+      },
+      {
+        remplaceIntegral: "Turret Mounted twin heavy bolter",
+        type: "quantite",
+        id: "volkite",
+        libelle:
+          "Models: Turret Mounted twin heavy bolter for a Turret Mounted twin volkite culverin",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Turret Mounted twin volkite culverin (instead of the Turret Mounted twin heavy bolter)",
+      },
+      {
+        remplaceIntegral: "Turret Mounted twin heavy bolter",
+        type: "quantite",
+        id: "melta-array",
+        libelle:
+          "Models: Turret Mounted twin heavy bolter for a Turret Mounted Sentry melta array",
+        cout: 25,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Turret Mounted Sentry melta array (instead of the Turret Mounted twin heavy bolter)",
+      },
+      {
+        remplaceIntegral: "Turret Mounted twin heavy bolter",
+        type: "quantite",
+        id: "hyperios",
+        libelle:
+          "Models: Turret Mounted twin heavy bolter for a Turret Mounted Hyperios missile launcher",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Turret Mounted Hyperios missile launcher (instead of the Turret Mounted twin heavy bolter)",
+      },
+      {
+        remplaceIntegral: "Turret Mounted twin heavy bolter",
+        type: "quantite",
+        id: "orias",
+        libelle:
+          "Models: Turret Mounted twin heavy bolter for two Turret Mounted Orias frag missiles",
+        cout: 15,
+        max: 2,
+        groupe: "arme-tarantula",
+        ajoute:
+          "Two Orias frag missiles (Turret) (instead of the Turret Mounted twin heavy bolter)",
+      },
+    ],
+  },
+
   /* --- Escadron de Motards · Reco · 85 pts de base --- */
   {
     id: "escadron-motards",
